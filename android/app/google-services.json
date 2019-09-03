@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1013980258042",
+    "firebase_url": "https://likecoin-foundation.firebaseio.com",
+    "project_id": "likecoin-foundation",
+    "storage_bucket": "likecoin-foundation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013980258042:android:927b0ed16a7b7d99a1f343",
+        "android_client_info": {
+          "package_name": "co.like.LikeCoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013980258042-ii21oetva353voiqkavs3sb8ui7keavc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaJIe2e11POgBUqSEU8QOyWVX0eY_9ELA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013980258042-ii21oetva353voiqkavs3sb8ui7keavc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1013980258042-u8mtad0rsc0hkrb6fa6hegqo1raotppt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.like.LikeCoin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.5.1",
+    "@react-native-firebase/app": "^0.3.0",
     "apisauce": "1.0.3",
     "i18n-js": "^3.0.11",
     "lodash.throttle": "4.1.1",
