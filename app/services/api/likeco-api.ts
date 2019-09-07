@@ -1,12 +1,12 @@
 import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
-import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
+import { ApiConfig, LIKECO_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
 /**
- * Manages all requests to the API.
+ * like.co API.
  */
-export class Api {
+export class LikeCoAPI {
   /**
    * The underlying apisauce instance which performs the requests.
    */
@@ -22,7 +22,7 @@ export class Api {
    *
    * @param config The configuration to use.
    */
-  constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
+  constructor(config: ApiConfig = LIKECO_API_CONFIG) {
     this.config = config
   }
 
@@ -40,6 +40,7 @@ export class Api {
       timeout: this.config.timeout,
       headers: {
         Accept: "application/json",
+        "User-Agent": this.config.userAgent
       },
     })
   }
@@ -94,6 +95,25 @@ export class Api {
     try {
       const user: Types.User = response.data
       return { kind: "ok", data: user }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
+   * Fetch content info
+   */
+  async fetchContentInfo(url: string): Promise<Types.ContentResult> {
+    const response: ApiResponse<any> = await this.apisauce.get('/like/info', { url })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const data: Types.Content = response.data
+      return { kind: "ok", data }
     } catch {
       return { kind: "bad-data" }
     }

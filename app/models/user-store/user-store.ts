@@ -15,16 +15,16 @@ export const UserStoreModel = types
   .actions(self => ({
     login: flow(function * (platform: String, accessToken: String, firebaseIdToken: String) {
       const env: Environment = getEnv(self)
-      yield env.api.login(platform, accessToken, firebaseIdToken)
+      yield env.likeCoAPI.login(platform, accessToken, firebaseIdToken)
     }),
     logout: flow(function * () {
       const env: Environment = getEnv(self)
-      yield env.api.logout()
+      yield env.likeCoAPI.logout()
       self.currentUser = undefined
     }),
     fetchUserInfo: flow(function * () {
       const env: Environment = getEnv(self)
-      const result: UserResult = yield env.api.fetchCurrentUserInfo()
+      const result: UserResult = yield env.likeCoAPI.fetchCurrentUserInfo()
       switch (result.kind) {
         case "ok": {
           const {
@@ -41,7 +41,7 @@ export const UserStoreModel = types
           })
         }
       }
-    })
+    }),
   }))
 
 type UserStoreType = Instance<typeof UserStoreModel>

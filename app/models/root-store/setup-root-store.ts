@@ -53,6 +53,7 @@ export async function setupRootStore() {
     rootStore,
     ({
       navigationStore,
+      readerStore,
       ...snapshot
     }) => storage.save(ROOT_STATE_STORAGE_KEY, snapshot)
   )

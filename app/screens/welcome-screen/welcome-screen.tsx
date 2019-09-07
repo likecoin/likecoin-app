@@ -9,6 +9,9 @@ import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
 import { color, spacing } from "../../theme"
 import { UserStore } from "../../models/user-store";
+import { ReaderStore } from "../../models/reader-store";
+import { ContentListItem } from "../../components/content-list-item";
+import { Content } from "../../models/content";
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -58,19 +61,40 @@ const FOOTER_CONTENT: ViewStyle = {
 }
 
 export interface WelcomeScreenProps extends NavigationScreenProps<{}> {
-  userStore: UserStore
+  userStore: UserStore,
+  readerStore: ReaderStore,
 }
 
-@inject("userStore")
+@inject(
+  "userStore",
+  "readerStore",
+)
 @observer
 export class WelcomeScreen extends React.Component<WelcomeScreenProps, {}> {
+  componentDidMount() {
+    this.props.readerStore.fetchSuggestList()
+  }
+
   onClickLogout = async () => {
     await this.props.userStore.logout()
     this.props.navigation.navigate('Auth')
   }
 
+  _onPressContentItem = (content: Content) => {
+    this.props.navigation.navigate('contentView', { content })
+  }
+
+  _renderContent = (content: Content) => (
+    <ContentListItem
+      key={content.url}
+      content={content}
+      onPressItem={this._onPressContentItem}
+    />
+  )
+
   render() {
     const { currentUser } = this.props.userStore
+    const { suggestedList } = this.props.readerStore
     return (
       <View style={FULL}>
         <Wallpaper />
@@ -90,6 +114,7 @@ export class WelcomeScreen extends React.Component<WelcomeScreenProps, {}> {
               />
             </View>
           }
+          {suggestedList.map(this._renderContent)}
         </Screen>
         <SafeAreaView style={FOOTER}>
           <View style={FOOTER_CONTENT}>
@@ -98,7 +123,7 @@ export class WelcomeScreen extends React.Component<WelcomeScreenProps, {}> {
               textStyle={LOGOUT_TEXT}
               tx="welcomeScreen.logout"
               onPress={this.onClickLogout}
-              />
+            />
           </View>
         </SafeAreaView>
       </View>
