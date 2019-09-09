@@ -77,6 +77,7 @@ export class WelcomeScreen extends React.Component<WelcomeScreenProps, {}> {
 
   onClickLogout = async () => {
     await this.props.userStore.logout()
+    this.props.readerStore.clearAllLists()
     this.props.navigation.navigate('Auth')
   }
 

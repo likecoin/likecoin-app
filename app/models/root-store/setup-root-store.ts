@@ -53,9 +53,12 @@ export async function setupRootStore() {
     rootStore,
     ({
       navigationStore,
-      readerStore,
+      readerStore: { contents },
       ...snapshot
-    }) => storage.save(ROOT_STATE_STORAGE_KEY, snapshot)
+    }) => storage.save(ROOT_STATE_STORAGE_KEY, {
+      ...snapshot,
+      readerStore: { contents },
+    })
   )
 
   return rootStore

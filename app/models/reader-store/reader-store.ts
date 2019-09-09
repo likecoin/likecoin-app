@@ -17,6 +17,9 @@ export const ReaderStoreModel = types
     )
   })
   .actions(self => ({
+    clearAllLists() {
+      self.suggestedList.replace([])
+    },
     fetchSuggestList: flow(function*() {
       const env: Environment = getEnv(self)
       try {
