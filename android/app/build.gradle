@@ -193,8 +193,10 @@ dependencies {
 
     // Firebase dependencies
     implementation "com.google.firebase:firebase-core:17.2.0"
+    implementation "com.google.firebase:firebase-auth:19.0.0"
 
     implementation "com.google.android.gms:play-services-base:17.1.0"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";

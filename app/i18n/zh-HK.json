@@ -1,0 +1,14 @@
+{
+  "common": {
+    "ok": "好",
+    "cancel": "取消",
+    "back": "返回"
+  },
+  "signInScreen": {
+    "heading": "Liker 登入按讚\n作者獲得收入"
+  },
+  "welcomeScreen": {
+    "welcome": "歡迎！",
+    "logout": "登出"
+  }
+}

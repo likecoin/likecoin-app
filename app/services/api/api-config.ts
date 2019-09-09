@@ -1,4 +1,4 @@
-import { API_URL } from 'react-native-dotenv'
+import { LIKECO_API_URL } from 'react-native-dotenv'
 
 /**
  * The options used to configure the API.
@@ -19,6 +19,6 @@ export interface ApiConfig {
  * The default configuration for the app.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: API_URL || 'https://jsonplaceholder.typicode.com',
+  url: LIKECO_API_URL,
   timeout: 10000
 }
