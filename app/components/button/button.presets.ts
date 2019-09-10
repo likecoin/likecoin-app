@@ -25,7 +25,7 @@ export const viewPresets = {
   /**
    * A smaller piece of secondard information.
    */
-  primary: { ...BASE_VIEW, backgroundColor: color.palette.orange } as ViewStyle,
+  primary: { ...BASE_VIEW, backgroundColor: color.primary } as ViewStyle,
 
   /**
    * A button without extras.

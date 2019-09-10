@@ -48,7 +48,6 @@ const LOGOUT: ViewStyle = {
   marginTop: spacing[4],
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
-  backgroundColor: "#5D2555",
 }
 const LOGOUT_TEXT: TextStyle = {
   ...TEXT,
