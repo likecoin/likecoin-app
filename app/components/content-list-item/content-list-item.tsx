@@ -3,19 +3,30 @@ import { View, ViewStyle, TouchableOpacity, TextStyle } from "react-native"
 import { observer } from "mobx-react";
 
 import { Text } from "../text"
-import { spacing } from "../../theme"
+import { spacing, color } from "../../theme"
 import { Content } from "../../models/content";
 
 const ROOT: ViewStyle = {
-  marginVertical: spacing[4],
-  marginHorizontal: spacing[2],
+  paddingHorizontal: spacing[2],
+  paddingVertical: spacing[4],
 }
 const TITLE: TextStyle = {
   fontSize: 16,
   fontWeight: "bold",
 }
 const DESCRIPTION: TextStyle = {
+  marginTop: spacing[2],
+  color: color.palette.lighterGrey,
   fontSize: 12,
+}
+const DETAIL: TextStyle = {
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  marginTop: spacing[2],
+  fontSize: 12,
+}
+const CREATOR: TextStyle = {
+  fontWeight: "bold"
 }
 
 export interface ContentListItemProps {
@@ -73,6 +84,14 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
             style={DESCRIPTION}
             text={content.description}
           />
+          <View style={DETAIL}>
+            <Text
+              style={CREATOR}
+              text={content.creatorLikerID}
+            />
+            <Text text=" | " />
+            <Text text={`${content.likeCount} LIKE`} />
+          </View>
         </View>
       </TouchableOpacity>
     )

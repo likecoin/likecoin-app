@@ -16,6 +16,7 @@ const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
+  paddingVertical: spacing[4],
 }
 
 export interface ReaderScreenProps extends NavigationScreenProps<{}> {
