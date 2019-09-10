@@ -63,4 +63,23 @@ export class LikerLandAPI {
       return { kind: "bad-data" }
     }
   }
+
+  /**
+   * Fetch a list of content from followed authors
+   */
+  async fetchReaderFollowing(): Promise<Types.ContentListResult> {
+    const response: ApiResponse<any> = await this.apisauce.get('/reader/works/followed')
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const data: Types.Content[] = response.data.list
+      return { kind: "ok", data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
 }

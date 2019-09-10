@@ -3,11 +3,12 @@ import {
   createMaterialTopTabNavigator,
 } from "react-navigation"
 
-import { ReaderSuggestScreen } from "../screens/reader-suggest-screen"
+import { ReaderScreen } from "../screens/reader-screen"
 import { color } from "../theme"
 
 const ReaderTabs = createMaterialTopTabNavigator({
-  Featured: ReaderSuggestScreen,
+  Featured: ReaderScreen,
+  Followed: ReaderScreen,
 }, {
   tabBarOptions: {
     style: {

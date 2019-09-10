@@ -18,15 +18,23 @@ const CONTAINER: ViewStyle = {
   paddingHorizontal: spacing[4],
 }
 
-export interface ReaderSuggestScreenProps extends NavigationScreenProps<{}> {
+export interface ReaderScreenProps extends NavigationScreenProps<{}> {
   readerStore: ReaderStore,
 }
 
 @inject("readerStore")
 @observer
-export class ReaderSuggestScreen extends React.Component<ReaderSuggestScreenProps, {}> {
+export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
   componentDidMount() {
-    this.props.readerStore.fetchSuggestList()
+    switch (this.props.navigation.state.routeName) {
+      case 'Featured':
+        this.props.readerStore.fetchSuggestList()
+        break
+      
+      case 'Followed':
+        this.props.readerStore.fetchFollowedList()
+        break
+    }
   }
 
   _onPressContentItem = (content: Content) => {
@@ -42,15 +50,27 @@ export class ReaderSuggestScreen extends React.Component<ReaderSuggestScreenProp
   )
 
   render() {
-    const { suggestedList } = this.props.readerStore
+    const { readerStore } = this.props
+
+    let contentList = []
+    switch (this.props.navigation.state.routeName) {
+      case 'Featured':
+        contentList = readerStore.featuredList
+        break
+      case 'Followed':
+        contentList = readerStore.followedList
+        break
+    }
     return (
       <View style={FULL}>
         <Wallpaper />
         <Screen
           style={CONTAINER}
           preset="scroll"
-          backgroundColor={color.transparent}>
-          {suggestedList.map(this._renderContent)}
+          backgroundColor={color.transparent}
+          unsafe={true}
+        >
+          {contentList.map(this._renderContent)}
         </Screen>
       </View>
     )
