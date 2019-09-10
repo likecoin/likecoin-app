@@ -1,5 +1,5 @@
 import React from 'react';
-import { requireNativeComponent, NativeModules} from 'react-native'
+import { requireNativeComponent, NativeModules, Platform } from 'react-native'
 import { WebView, WebViewProps } from 'react-native-webview'
 
 const { LKCWebViewManager } = NativeModules
@@ -12,7 +12,7 @@ export class LikeCoinWebView extends React.Component<LikeCoinWebViewProps, {}> {
     return (
       <WebView
         {...this.props}
-        nativeConfig={{
+        nativeConfig={Platform.OS === "ios" && {
           component: LKCWebView,
           viewManager: LKCWebViewManager,
         }}
