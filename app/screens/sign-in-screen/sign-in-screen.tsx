@@ -116,14 +116,14 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
 
   _signIn = async (platform: string, accessToken: string, firebaseIdToken: string) => {
     await this.props.userStore.login(platform, accessToken, firebaseIdToken)
-    await this.props.userStore.fetchUserInfo()
+    this.props.navigation.navigate('LikerLandOAuth')
+    this.props.userStore.fetchUserInfo()
   }
 
   _onClickGoogleSignInButton = async () => {
     this.setState({ isSigningInProgress: true })
     try {
       this._signInWithGoogle()
-      this.props.navigation.navigate('App')
     } catch (error) {
       __DEV__ && console.tron.error(error, null)
       this.setState({ isSigningInProgress: false })

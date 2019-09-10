@@ -25,6 +25,8 @@
 		36D8ACD4779D0B916C1CC866 /* libPods-LikeCoinApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE7585CD68977C813A97C0C /* libPods-LikeCoinApp-tvOS.a */; };
 		3FD8F15C84AC420290AB7B58 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C888B786BEB348EBAC42E2B0 /* Montserrat-Italic.ttf */; };
 		7944379BA76742FD87DCE2BE /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4926738337C94764B24DD64B /* Montserrat-Bold.ttf */; };
+		83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7023282B3700E6998E /* LKCWebViewManager.m */; };
+		83924D7423282B3700E6998E /* LKCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7123282B3700E6998E /* LKCWebView.m */; };
 		888CA9DA68D94301A06C89DC /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA5515109D994C27A807759B /* Montserrat-BlackItalic.ttf */; };
 		91BFE70FE58C40BAA5FB805C /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744908718AA9463888C13DE9 /* Montserrat-ThinItalic.ttf */; };
 		95B8406EA302434192529C66 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09D13B708E1940918B7C13A5 /* Montserrat-Light.ttf */; };
@@ -88,6 +90,11 @@
 		75D8FC0335890CDFBF9C4CF5 /* libPods-LikeCoinApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D03959EECE0442DA120AD55 /* Montserrat-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBoldItalic.ttf"; path = "../app/theme/fonts/Montserrat-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		831D3C904A804C0DAD51F596 /* Montserrat-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.ttf"; path = "../app/theme/fonts/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		83924D6C232828C500E6998E /* RNCWebView+LikeCoin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RNCWebView+LikeCoin.h"; path = "LikeCoinApp/RNCWebView+LikeCoin.h"; sourceTree = "<group>"; };
+		83924D6F23282B3700E6998E /* LKCWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebView.h; path = LikeCoinApp/LKCWebView.h; sourceTree = "<group>"; };
+		83924D7023282B3700E6998E /* LKCWebViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebViewManager.m; path = LikeCoinApp/LKCWebViewManager.m; sourceTree = "<group>"; };
+		83924D7123282B3700E6998E /* LKCWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebView.m; path = LikeCoinApp/LKCWebView.m; sourceTree = "<group>"; };
+		83924D7223282B3700E6998E /* LKCWebViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebViewManager.h; path = LikeCoinApp/LKCWebViewManager.h; sourceTree = "<group>"; };
 		84393A9D99A91D9737F14BA4 /* libPods-LikeCoinAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D3F122B869141B78EAA2884 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../app/theme/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
 		98FB94E77D9643358DBFFA60 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../app/theme/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -171,6 +178,11 @@
 				2FB5DF0B231E0C8F0036B4EC /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				83924D6C232828C500E6998E /* RNCWebView+LikeCoin.h */,
+				83924D6F23282B3700E6998E /* LKCWebView.h */,
+				83924D7123282B3700E6998E /* LKCWebView.m */,
+				83924D7223282B3700E6998E /* LKCWebViewManager.h */,
+				83924D7023282B3700E6998E /* LKCWebViewManager.m */,
 			);
 			name = LikeCoinApp;
 			sourceTree = "<group>";
@@ -633,6 +645,8 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				83924D7423282B3700E6998E /* LKCWebView.m in Sources */,
+				83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
