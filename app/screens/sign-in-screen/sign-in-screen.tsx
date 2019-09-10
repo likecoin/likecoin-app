@@ -42,7 +42,6 @@ const GOOGLE_SIGN_IN_BUTTON: ViewStyle = {
   width: '100%',
   height: 54,
 }
-const FOOTER: ViewStyle = { backgroundColor: "#20162D" }
 const FOOTER_CONTENT: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
@@ -142,7 +141,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
             <Text style={TITLE} preset="header" tx="signInScreen.heading" />
           </Text>
         </Screen>
-        <SafeAreaView style={FOOTER}>
+        <SafeAreaView>
           <View style={FOOTER_CONTENT}>
             <GoogleSigninButton
               style={GOOGLE_SIGN_IN_BUTTON}
