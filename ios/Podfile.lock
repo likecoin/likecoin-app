@@ -177,6 +177,8 @@ PODS:
     - React
   - RNLocalize (1.1.4):
     - React
+  - RNSVG (9.9.3):
+    - React
   - yoga (0.60.4.React)
 
 DEPENDENCIES:
@@ -211,6 +213,7 @@ DEPENDENCIES:
   - RNGoogleSignin (from `../node_modules/react-native-google-signin`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -290,6 +293,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -337,6 +342,7 @@ SPEC CHECKSUMS:
   RNGoogleSignin: d030c6c6591db24c3cee649f64c7babf0a1699a0
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
+  RNSVG: 2a15d0d14d171ba610db927190604d1ab223f413
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
 PODFILE CHECKSUM: cf5f3c489b0c44d82854736d09ec95a01fe6ccdd
