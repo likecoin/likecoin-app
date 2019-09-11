@@ -80,10 +80,7 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
             style={TITLE}
             text={content.title}
           />
-          <Text
-            style={DESCRIPTION}
-            text={content.description}
-          />
+          {this._renderDescription(content.description)}
           <View style={DETAIL}>
             <Text
               style={CREATOR}
@@ -94,6 +91,16 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
           </View>
         </View>
       </TouchableOpacity>
+    )
+  }
+
+  _renderDescription = (text: string) => {
+    if (!text || text === "\"\"") return null
+    return (
+      <Text
+        style={DESCRIPTION}
+        text={text}
+      />
     )
   }
 }
