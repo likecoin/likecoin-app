@@ -1,6 +1,6 @@
 {
-  "name": "LikeCoinApp",
-  "version": "0.0.1",
+  "name": "likecoin-app",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "start": "react-native start",
@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.5.1",
+    "@react-native-firebase/app": "^0.3.0",
+    "@react-native-firebase/auth": "^0.3.0",
     "apisauce": "1.0.3",
     "i18n-js": "^3.0.11",
     "lodash.throttle": "4.1.1",
@@ -33,10 +35,13 @@
     "react": "16.8.6",
     "react-native": "0.60.4",
     "react-native-gesture-handler": "^1.3.0",
+    "react-native-google-signin": "^2.0.0",
     "react-native-keychain": "3.1.3",
     "react-native-localize": "^1.0.0",
     "react-native-splash-screen": "3.1.1",
+    "react-native-webview": "^7.0.5",
     "react-navigation": "3.11.1",
+    "react-navigation-tabs": "^2.4.1",
     "reactotron-mst": "^3.1.1",
     "reactotron-react-native": "^4.0.0-beta.1",
     "validate.js": "0.13.1"

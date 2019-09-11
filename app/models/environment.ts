@@ -1,5 +1,6 @@
 import { Reactotron } from "../services/reactotron"
-import { Api } from "../services/api"
+import { LikeCoAPI } from "../services/api"
+import { LikerLandAPI } from "../services/api";
 
 /**
  * The environment is a place where services and shared dependencies between
@@ -9,13 +10,15 @@ export class Environment {
   constructor() {
     // create each service
     this.reactotron = new Reactotron()
-    this.api = new Api()
+    this.likeCoAPI = new LikeCoAPI()
+    this.likerLandAPI = new LikerLandAPI()
   }
 
   async setup() {
     // allow each service to setup
     await this.reactotron.setup()
-    await this.api.setup()
+    await this.likeCoAPI.setup()
+    await this.likerLandAPI.setup()
   }
 
   /**
@@ -24,7 +27,12 @@ export class Environment {
   reactotron: Reactotron
 
   /**
-   * Our api.
+   * like.co API.
    */
-  api: Api
+  likeCoAPI: LikeCoAPI
+
+  /**
+   * liker.land API.
+   */
+  likerLandAPI: LikerLandAPI
 }

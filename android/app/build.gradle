@@ -128,11 +128,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.likecoinapp"
+        applicationId "co.like.LikeCoin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "0.2.0"
     }
     splits {
         abi {
@@ -157,7 +157,6 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -191,6 +190,13 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    // Firebase dependencies
+    implementation "com.google.firebase:firebase-core:17.2.0"
+    implementation "com.google.firebase:firebase-auth:19.0.0"
+
+    implementation "com.google.android.gms:play-services-base:17.1.0"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
+
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
       debugImplementation files(hermesPath + "hermes-debug.aar")
@@ -208,3 +214,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.google.gms.google-services'

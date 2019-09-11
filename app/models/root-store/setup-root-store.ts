@@ -49,7 +49,17 @@ export async function setupRootStore() {
   }
 
   // track changes & save to storage
-  onSnapshot(rootStore, snapshot => storage.save(ROOT_STATE_STORAGE_KEY, snapshot))
+  onSnapshot(
+    rootStore,
+    ({
+      navigationStore,
+      readerStore: { contents },
+      ...snapshot
+    }) => storage.save(ROOT_STATE_STORAGE_KEY, {
+      ...snapshot,
+      readerStore: { contents },
+    })
+  )
 
   return rootStore
 }

@@ -1,4 +1,11 @@
-import { API_URL } from 'react-native-dotenv'
+import { Platform } from 'react-native';
+import {
+  LIKECO_API_URL,
+  LIKERLAND_API_URL,
+} from 'react-native-dotenv'
+
+const TIMEOUT = 10000
+const USER_AGENT = `LikeCoinApp-${Platform.OS === "ios" ? 'iOS' : 'Android'}`
 
 /**
  * The options used to configure the API.
@@ -13,12 +20,27 @@ export interface ApiConfig {
    * Milliseconds before we timeout the request.
    */
   timeout: number
+
+  /**
+   * The name of the user agent for requests.
+   */
+  userAgent: string
 }
 
 /**
- * The default configuration for the app.
+ * The default configuration for like.co API.
  */
-export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: API_URL || 'https://jsonplaceholder.typicode.com',
-  timeout: 10000
+export const LIKECO_API_CONFIG: ApiConfig = {
+  url: LIKECO_API_URL,
+  timeout: TIMEOUT,
+  userAgent: USER_AGENT
+}
+
+/**
+ * The default configuration for liker.land API.
+ */
+export const LIKERLAND_API_CONFIG: ApiConfig = {
+  url: LIKERLAND_API_URL,
+  timeout: TIMEOUT,
+  userAgent: USER_AGENT
 }
