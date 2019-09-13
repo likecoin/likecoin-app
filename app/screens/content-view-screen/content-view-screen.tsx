@@ -18,12 +18,18 @@ export interface ContentViewNavigationStateParams {
 export interface ContentViewScreenProps extends NavigationScreenProps<ContentViewNavigationStateParams> {}
 
 export class ContentViewScreen extends React.Component<ContentViewScreenProps, {}> {
+  componentWillUnmount() {
+    // Update like count incase user has liked the content
+    const { content } = this.props.navigation.state.params
+    content.fetchLikeStat()
+  }
+
   _goBack = () => {
     this.props.navigation.goBack()
   }
 
   render() {
-    const content = this.props.navigation.state.params.content
+    const { content } = this.props.navigation.state.params
     return (
       <View style={FULL}>
         <Wallpaper />

@@ -18,8 +18,14 @@ export interface Content {
   ts?: number,
 }
 
+export interface LikeStat {
+  total: number,
+  totalLiker: number,
+}
+
 export type GeneralResult = { kind: "ok" } | GeneralApiProblem
 export type UserResult = { kind: "ok"; data: User } | GeneralApiProblem
 export type ContentResult = { kind: "ok"; data: Content } | GeneralApiProblem
+export type LikeStatResult = { kind: "ok"; data: LikeStat } | GeneralApiProblem
 
 export type ContentListResult = { kind: "ok"; data: Content[] } | GeneralApiProblem
