@@ -119,9 +119,20 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
   }
 
   _signIn = async (params: UserLoginParams) => {
-    await this.props.userStore.login(params)
-    this.props.navigation.navigate('LikerLandOAuth')
-    this.props.userStore.fetchUserInfo()
+    try {
+      await this.props.userStore.login(params)
+      this.props.navigation.navigate('LikerLandOAuth')
+      this.props.userStore.fetchUserInfo()
+    } catch (error) {
+      switch (error.message) {
+        case 'USER_NOT_FOUND':
+          // TODO: Show registration form
+          Alert.alert("Sign In", "User not found")
+          break
+      
+        default:
+      }
+    }
   }
 
   _onClickGoogleSignInButton = async () => {
