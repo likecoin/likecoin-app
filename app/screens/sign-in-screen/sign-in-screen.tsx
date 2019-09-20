@@ -14,6 +14,7 @@ import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
 import { color, spacing } from "../../theme"
 import { UserStore } from "../../models/user-store";
+import { UserLoginParams } from "../../services/api";
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -92,16 +93,20 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     }
 
     const credential = FirebaseAuth.GoogleAuthProvider.credential(googleIDToken, googleAccessToken)
-    let firebaseIDToken: string
+    let firebaseIdToken: string
     try {
-      firebaseIDToken = await this._signInToFirebase(credential)
+      firebaseIdToken = await this._signInToFirebase(credential)
     } catch (error) {
       Alert.alert("Firebase sign in error")
       throw error
     }
 
     try {
-      await this._signIn("google", googleAccessToken, firebaseIDToken)
+      await this._signIn({
+        platform: "google",
+        accessToken: googleAccessToken,
+        firebaseIdToken,
+      })
     } catch (error) {
       Alert.alert("like.co sign in error")
       throw error
@@ -113,8 +118,8 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     return firebaseUserCredential.user.getIdToken()
   }
 
-  _signIn = async (platform: string, accessToken: string, firebaseIdToken: string) => {
-    await this.props.userStore.login(platform, accessToken, firebaseIdToken)
+  _signIn = async (params: UserLoginParams) => {
+    await this.props.userStore.login(params)
     this.props.navigation.navigate('LikerLandOAuth')
     this.props.userStore.fetchUserInfo()
   }

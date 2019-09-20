@@ -2,7 +2,7 @@ import { Instance, SnapshotOut,flow, getEnv, types } from "mobx-state-tree"
 
 import { Environment } from "../environment";
 import { UserModel } from "../user";
-import { UserResult } from "../../services/api";
+import { UserResult, UserLoginParams } from "../../services/api";
 
 /**
  * Store user related information.
@@ -13,9 +13,9 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel)
   })
   .actions(self => ({
-    login: flow(function * (platform: String, accessToken: String, firebaseIdToken: String) {
+    login: flow(function * (params: UserLoginParams) {
       const env: Environment = getEnv(self)
-      yield env.likeCoAPI.login(platform, accessToken, firebaseIdToken)
+      yield env.likeCoAPI.login(params)
     }),
     logout: flow(function * () {
       const env: Environment = getEnv(self)

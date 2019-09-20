@@ -48,16 +48,8 @@ export class LikeCoAPI {
   /**
    * Login to LikeCoin
    */
-  async login(
-    platform: String,
-    accessToken: String,
-    firebaseIdToken: String
-  ): Promise<Types.GeneralResult> {
-    const response: ApiResponse<any> = await this.apisauce.post('/users/login', {
-      platform,
-      accessToken,
-      firebaseIdToken
-    })
+  async login(body: Types.UserLoginParams): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post('/users/login', body)
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
