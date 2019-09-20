@@ -1,12 +1,18 @@
 import { onSnapshot } from "mobx-state-tree"
 import { RootStoreModel, RootStore } from "./root-store"
 import { Environment } from "../environment"
+import * as Keychain from "../../utils/keychain"
 import * as storage from "../../utils/storage"
 
 /**
  * The key we'll be saving our state as within async storage.
  */
 const ROOT_STATE_STORAGE_KEY = "root"
+
+/**
+ * The server name of AuthCore for Keychain/Keystore 
+ */
+const AUTHCORE_CREDENTIAL_KEY = "authcore"
 
 /**
  * Setup the environment that all the models will be sharing.
@@ -27,13 +33,27 @@ export async function createEnvironment() {
 export async function setupRootStore() {
   let rootStore: RootStore
   let data: any
+  let authCoreIdToken: string
+  let authCoreAssetToken: string
 
   // prepare the environment that will be associated with the RootStore.
   const env = await createEnvironment()
   try {
     // load data from storage
-    data = (await storage.load(ROOT_STATE_STORAGE_KEY)) || {}
+    [
+      data = {},
+      {
+        username: authCoreIdToken,
+        password: authCoreAssetToken,
+      }, 
+    ] = await Promise.all([
+      await storage.load(ROOT_STATE_STORAGE_KEY),
+      await Keychain.load(AUTHCORE_CREDENTIAL_KEY),
+    ])
     rootStore = RootStoreModel.create(data, env)
+    if (rootStore.userStore.currentUser) {
+      await rootStore.userStore.authCore.init(authCoreAssetToken, authCoreIdToken)
+    }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
@@ -55,15 +75,32 @@ export async function setupRootStore() {
       navigationStore,
       readerStore: { contents },
       userStore: {
+        authCore,
         isSigningIn,
         ...userStoreRest
       },
       ...snapshot
-    }) => storage.save(ROOT_STATE_STORAGE_KEY, {
-      ...snapshot,
-      readerStore: { contents },
-      userStore: userStoreRest,
-    })
+    }) => {
+      const { accessToken, idToken, profile } = authCore
+      const promises = [
+        storage.save(ROOT_STATE_STORAGE_KEY, {
+          ...snapshot,
+          readerStore: { contents },
+          userStore: {
+            ...userStoreRest,
+            authCore: {
+              profile,
+            },
+          },
+        }),
+      ]
+      if (idToken && accessToken) {
+        promises.push(Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY))
+      } else {
+        promises.push(Keychain.reset(AUTHCORE_CREDENTIAL_KEY))
+      }
+      return Promise.all(promises)
+    }
   )
 
   return rootStore
