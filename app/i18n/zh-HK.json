@@ -7,6 +7,10 @@
   "signInScreen": {
     "heading": "Liker 登入按讚\n作者獲得收入"
   },
+  "walletDashboardScreen": {
+    "send": "轉帳",
+    "receive": "收款"
+  },
   "welcomeScreen": {
     "welcome": "歡迎！",
     "logout": "登出"

@@ -7,6 +7,10 @@
   "signInScreen": {
     "heading": "As a Liker, every Like is a reward to creators"
   },
+  "walletDashboardScreen": {
+    "send": "Send",
+    "receive": "Receive"
+  },
   "welcomeScreen": {
     "welcome": "Welcome!",
     "logout": "Logout"
