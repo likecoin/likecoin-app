@@ -1,6 +1,13 @@
-import { AUTHCORE_ROOT_URL as apiBaseURL } from "react-native-dotenv"
+import {
+  AUTHCORE_ROOT_URL as apiBaseURL,
+  COSMOS_CHAIN_ID,
+} from "react-native-dotenv"
 
-import { AuthCoreAuthClient } from "authcore-js/build/main.js"
+import {
+  AuthCoreAuthClient,
+  AuthCoreKeyVaultClient,
+  AuthCoreCosmosProvider,
+} from "authcore-js/build/main.js"
 
 /**
  * AuthCore callback functions to-be called
@@ -19,6 +26,16 @@ export class AuthCoreAPI {
   authClient: AuthCoreAuthClient
 
   /**
+   * The instance interacting between client and AuthCore KeyVaultAPI server. 
+   */
+  keyVaultClient: AuthCoreKeyVaultClient
+
+  /**
+   * The Cosmos wallet provider. 
+   */
+  cosmosProvider: AuthCoreCosmosProvider
+
+  /**
    * The set of callback functions to-be called.
    */
   callbacks: AuthCoreCallback
@@ -33,6 +50,24 @@ export class AuthCoreAPI {
       callbacks: this.callbacks,
       accessToken,
     })
+    this.keyVaultClient = await new AuthCoreKeyVaultClient({
+      apiBaseURL,
+      accessToken,
+    })
+    this.cosmosProvider = await new AuthCoreCosmosProvider({
+      authcoreClient: this.keyVaultClient,
+      chainId: COSMOS_CHAIN_ID,
+    })
+    const { length } = await this.cosmosProvider.getAddresses()
+    if (!length) {
+      await this.keyVaultClient.createSecret('HD_KEY', 16)
+    }
+  }
+
+  async getCosmosAddress() {
+    if (!this.cosmosProvider) return undefined
+    const [cosmosAddress] = await this.cosmosProvider.getAddresses()
+    return cosmosAddress
   }
 
   /**

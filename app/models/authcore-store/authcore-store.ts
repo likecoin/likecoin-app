@@ -11,6 +11,7 @@ export const AuthCoreStoreModel = types
     accessToken: types.maybe(types.string),
     idToken: types.maybe(types.string),
     profile: types.maybe(AuthCoreUserModel),
+    cosmosAddress: types.maybe(types.string),
   })
   .actions(self => ({
     init: flow(function * (
@@ -24,6 +25,8 @@ export const AuthCoreStoreModel = types
       self.accessToken = accessToken
       self.idToken = idToken
       if (profile) self.profile = profile
+
+      self.cosmosAddress = yield env.authCoreAPI.getCosmosAddress()
     }),
     signOut: flow(function * () {
       const env: Environment = getEnv(self)
