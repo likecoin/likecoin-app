@@ -6,6 +6,7 @@ import { WalletNavigator } from "./wallet-navigator"
 import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { ContentViewScreen } from "../screens/content-view-screen"
+import { ReceiveScreen } from "../screens/receive-screen"
 import { color } from "../theme"
 
 const MainTabs = createBottomTabNavigator({
@@ -51,6 +52,7 @@ const MainTabs = createBottomTabNavigator({
 export const AppNavigator = createStackNavigator({
   Main: MainTabs,
   ContentView: ContentViewScreen,
+  Receive: ReceiveScreen,
 }, {
   mode: "modal",
   headerMode: "none",

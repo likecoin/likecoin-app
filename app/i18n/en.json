@@ -1,8 +1,14 @@
 {
   "common": {
-    "ok": "OK!",
+    "back": "Back",
     "cancel": "Cancel",
-    "back": "Back"
+    "copy": "Copy",
+    "copied": "Copied",
+    "ok": "OK!"
+  },
+  "receiveScreen": {
+    "shareYourAddress": "Share your address",
+    "viewExternal": "View on Big Dipper"
   },
   "signInScreen": {
     "heading": "As a Liker, every Like is a reward to creators"
