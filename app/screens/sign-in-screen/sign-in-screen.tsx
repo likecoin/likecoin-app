@@ -21,23 +21,9 @@ const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
 }
-const TEXT: TextStyle = {
-  color: color.palette.white,
-  fontFamily: "Montserrat",
-}
-const BOLD: TextStyle = { fontWeight: "bold" }
 const TITLE_WRAPPER: TextStyle = {
-  ...TEXT,
   marginHorizontal: spacing[4],
   marginVertical: spacing[8],
-  textAlign: "center",
-}
-const TITLE: TextStyle = {
-  ...TEXT,
-  ...BOLD,
-  fontSize: 24,
-  lineHeight: 36,
-  textAlign: "center",
 }
 const GOOGLE_SIGN_IN_BUTTON: ViewStyle = {
   width: '100%',
@@ -146,7 +132,14 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
           preset="fixed"
           backgroundColor={color.transparent}>
           <Text style={TITLE_WRAPPER}>
-            <Text style={TITLE} preset="header" tx="signInScreen.heading" />
+            <Text
+              preset="header"
+              color="white"
+              size="large"
+              weight="bold"
+              align="center"
+              tx="signInScreen.heading"
+            />
           </Text>
         </Screen>
         <SafeAreaView>
