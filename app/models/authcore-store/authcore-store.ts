@@ -1,6 +1,7 @@
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { Environment } from "../environment"
+import { BigDipper } from "../../services/big-dipper"
 
 /**
  * AuthCore store
@@ -13,6 +14,11 @@ export const AuthCoreStoreModel = types
     profile: types.maybe(AuthCoreUserModel),
     cosmosAddress: types.maybe(types.string),
   })
+  .views(self => ({
+    get bigDipperAccountURL() {
+      return BigDipper.getAccountURL(self.cosmosAddress)
+    },
+  }))
   .actions(self => ({
     init: flow(function * (
       accessToken: string,
