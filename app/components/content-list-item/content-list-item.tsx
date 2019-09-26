@@ -53,9 +53,10 @@ export interface ContentListItemProps {
 export class ContentListItem extends React.Component<ContentListItemProps, {}> {
   componentDidMount() {
     const { content } = this.props;
-    if (content && !content.hasFetchedDetails) {
-      this.props.content.fetchDetails()
+    if (!content.hasFetchedDetails) {
+      content.fetchDetails()
     }
+    content.fetchLikeStat()
   }
 
   _onPress = () => {
@@ -80,20 +81,39 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
             style={TITLE}
             text={content.title}
           />
-          <Text
-            style={DESCRIPTION}
-            text={content.description}
-          />
+          {this._renderDescription(content.description)}
           <View style={DETAIL}>
             <Text
               style={CREATOR}
               text={content.creatorLikerID}
             />
-            <Text text=" | " />
-            <Text text={`${content.likeCount} LIKE`} />
+            {this._renderLikeStat()}
           </View>
         </View>
       </TouchableOpacity>
     )
+  }
+
+  _renderDescription = (text: string) => {
+    if (!text || text === "\"\"") return null
+    return (
+      <Text
+        style={DESCRIPTION}
+        text={text}
+      />
+    )
+  }
+
+  _renderLikeStat = () => {
+    const { likeCount, likerCount } = this.props.content;
+    if (likeCount === 0) return null
+    let text = `${likeCount} LIKE`
+    if (likerCount > 0) {
+      text = `${text} from ${likerCount} liker${likerCount > 1 ? "s" : ""}`
+    }
+    return [
+      <Text key="sep" text=" | " />,
+      <Text key="stat" text={text} />
+    ]
   }
 }

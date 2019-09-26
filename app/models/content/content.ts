@@ -1,7 +1,7 @@
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
 import { Environment } from "../environment";
-import { ContentResult } from "../../services/api";
+import { ContentResult, LikeStatResult } from "../../services/api";
 
 /**
  * Likeable Content
@@ -15,6 +15,7 @@ export const ContentModel = types
     imageURL: types.maybe(types.string),
     creatorLikerID: types.maybe(types.string),
     likeCount: types.optional(types.integer, 0),
+    likerCount: types.optional(types.integer, 0),
     timestamp: types.maybe(types.integer),
     isFetchingDetails: types.optional(types.boolean, false),
     hasFetchedDetails: types.optional(types.boolean, false),
@@ -39,7 +40,9 @@ export const ContentModel = types
             self.description = description
             self.title = title
             self.imageURL = image
-            self.likeCount = like
+            if (self.likeCount < like) {
+              self.likeCount = like
+            }
             self.timestamp = ts
           }
         }
@@ -48,6 +51,26 @@ export const ContentModel = types
       } finally {
         self.isFetchingDetails = false
         self.hasFetchedDetails = true
+      }
+    }),
+    fetchLikeStat: flow(function*() {
+      const env: Environment = getEnv(self)
+      try {
+        const result: LikeStatResult = yield env.likeCoAPI.fetchContentLikeStat(
+          self.creatorLikerID,
+          self.url
+        )
+        switch (result.kind) {
+          case "ok": {
+            const { total, totalLiker } = result.data
+            if (self.likeCount < total) {
+              self.likeCount = total
+            }
+            self.likerCount = totalLiker
+          }
+        }
+      } catch (error) {
+        __DEV__ && console.tron.error(error.message, null)
       }
     }),
   }))

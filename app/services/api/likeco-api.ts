@@ -118,4 +118,25 @@ export class LikeCoAPI {
       return { kind: "bad-data" }
     }
   }
+
+  /**
+   * Fetch like stat of a content
+   */
+  async fetchContentLikeStat(likerId: string, url: string): Promise<Types.LikeStatResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/like/likebutton/${likerId}/total`, {
+      referrer: url,
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const data: Types.LikeStat = response.data
+      return { kind: "ok", data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
 }

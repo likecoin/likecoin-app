@@ -5,13 +5,17 @@
 import "./i18n"
 import * as React from "react"
 import { AppRegistry, YellowBox } from "react-native"
-import { StatefulNavigator } from "./navigation"
-import { StorybookUIRoot } from "../storybook"
-import { RootStore, setupRootStore } from "./models/root-store"
+import { mapping, light as lightTheme } from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { Provider } from "mobx-react"
-import { BackButtonHandler } from "./navigation/back-button-handler"
 import { contains } from "ramda"
+
+import { StatefulNavigator } from "./navigation"
+import { BackButtonHandler } from "./navigation/back-button-handler"
 import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
+import { RootStore, setupRootStore } from "./models/root-store"
+import { StorybookUIRoot } from "../storybook"
 
 /**
  * Ignore some yellowbox warnings. Some of these are for deprecated functions
@@ -85,9 +89,12 @@ export class App extends React.Component<{}, AppState> {
 
     return (
       <Provider rootStore={rootStore} navigationStore={navigationStore} {...otherStores}>
-        <BackButtonHandler canExit={this.canExit}>
-          <StatefulNavigator />
-        </BackButtonHandler>
+        <ApplicationProvider mapping={mapping} theme={lightTheme}>
+          <IconRegistry icons={EvaIconsPack}/>
+          <BackButtonHandler canExit={this.canExit}>
+            <StatefulNavigator />
+          </BackButtonHandler>
+        </ApplicationProvider>
       </Provider>
     )
   }
