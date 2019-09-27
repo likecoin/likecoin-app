@@ -8,7 +8,7 @@ import { LikeCoinWebView } from "../../components/likecoin-webview"
 import { Wallpaper } from "../../components/wallpaper"
 import { Screen } from "../../components/screen"
 import { color } from "../../theme"
-import { UserStore } from "../../models/user-store"
+import { RootStore } from "../../models/root-store"
 import { LIKERLAND_API_CONFIG } from "../../services/api/api-config"
 
 const SIGNIN_URL = `${LIKERLAND_API_CONFIG.url}/users/login`
@@ -16,21 +16,23 @@ const SIGNIN_URL = `${LIKERLAND_API_CONFIG.url}/users/login`
 const FULL: ViewStyle = { flex: 1 }
 
 export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
-  userStore: UserStore,
+  rootStore: RootStore,
 }
 
-@inject("userStore")
+@inject("rootStore")
 export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps, {}> {
   _onLoadEnd = async (syntheticEvent: NativeSyntheticEvent<WebViewNavigation>) => {
     const { url } = syntheticEvent.nativeEvent
-    const { userStore, navigation } = this.props
+    const { rootStore } = this.props
     if (url.includes("/oauth/redirect")) {
-      userStore.setIsSigningIn(false)
-      navigation.navigate("App")
+      this.props.navigation.navigate("App")
+      
+      // Try to open the deferred deep link URL after sign in
+      rootStore.openDeepLink()
     } else if (url.includes("/in/register")) {
-      await userStore.logout()
-      userStore.setIsSigningIn(false)
-      navigation.goBack();
+      await rootStore.userStore.logout()
+      rootStore.userStore.setIsSigningIn(false)
+      this.props.navigation.goBack();
     }
   }
 
