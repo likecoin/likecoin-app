@@ -24,6 +24,15 @@ export const ReaderStoreModel = types
       self.featuredList.replace([])
       self.followedList.replace([])
     },
+    getContentByURL(url: string) {
+      // TODO: Refactor
+      let content = self.contents.get(url)
+      if (!content) {
+        content = ContentModel.create({ url })
+        self.contents.set(url, content)
+      }
+      return content
+    },
 
     fetchSuggestList: flow(function*() {
       const env: Environment = getEnv(self)
