@@ -52,17 +52,9 @@ export interface SignInScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
 }
 
-export interface SignInScreenState {
-  isSigningInProgress: boolean
-}
-
 @inject("userStore")
 @observer
-export class SignInScreen extends React.Component<SignInScreenProps, SignInScreenState> {
-  state = {
-    isSigningInProgress: false
-  }
-
+export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   componentDidMount() {
     GoogleSignin.configure({
       forceConsentPrompt: true
@@ -136,12 +128,12 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
   }
 
   _onClickGoogleSignInButton = async () => {
-    this.setState({ isSigningInProgress: true })
+    this.props.userStore.setIsSigningIn(true)
     try {
       this._signInWithGoogle()
     } catch (error) {
       __DEV__ && console.tron.error(error, null)
-      this.setState({ isSigningInProgress: false })
+      this.props.userStore.setIsSigningIn(false)
     }
   }
 
@@ -164,7 +156,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
               size={GoogleSigninButton.Size.Wide}
               color={GoogleSigninButton.Color.Light}
               onPress={this._onClickGoogleSignInButton}
-              disabled={this.state.isSigningInProgress} />
+              disabled={this.props.userStore.isSigningIn} />
           </View>
         </SafeAreaView>
       </View>
