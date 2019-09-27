@@ -14,29 +14,16 @@ import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
 import { color, spacing } from "../../theme"
 import { UserStore } from "../../models/user-store";
+import { UserLoginParams } from "../../services/api";
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
 }
-const TEXT: TextStyle = {
-  color: color.palette.white,
-  fontFamily: "Montserrat",
-}
-const BOLD: TextStyle = { fontWeight: "bold" }
 const TITLE_WRAPPER: TextStyle = {
-  ...TEXT,
   marginHorizontal: spacing[4],
   marginVertical: spacing[8],
-  textAlign: "center",
-}
-const TITLE: TextStyle = {
-  ...TEXT,
-  ...BOLD,
-  fontSize: 24,
-  lineHeight: 36,
-  textAlign: "center",
 }
 const GOOGLE_SIGN_IN_BUTTON: ViewStyle = {
   width: '100%',
@@ -51,17 +38,9 @@ export interface SignInScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
 }
 
-export interface SignInScreenState {
-  isSigningInProgress: boolean
-}
-
 @inject("userStore")
 @observer
-export class SignInScreen extends React.Component<SignInScreenProps, SignInScreenState> {
-  state = {
-    isSigningInProgress: false
-  }
-
+export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   componentDidMount() {
     GoogleSignin.configure({
       forceConsentPrompt: true
@@ -92,16 +71,20 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     }
 
     const credential = FirebaseAuth.GoogleAuthProvider.credential(googleIDToken, googleAccessToken)
-    let firebaseIDToken: string
+    let firebaseIdToken: string
     try {
-      firebaseIDToken = await this._signInToFirebase(credential)
+      firebaseIdToken = await this._signInToFirebase(credential)
     } catch (error) {
       Alert.alert("Firebase sign in error")
       throw error
     }
 
     try {
-      await this._signIn("google", googleAccessToken, firebaseIDToken)
+      await this._signIn({
+        platform: "google",
+        accessToken: googleAccessToken,
+        firebaseIdToken,
+      })
     } catch (error) {
       Alert.alert("like.co sign in error")
       throw error
@@ -113,19 +96,30 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     return firebaseUserCredential.user.getIdToken()
   }
 
-  _signIn = async (platform: string, accessToken: string, firebaseIdToken: string) => {
-    await this.props.userStore.login(platform, accessToken, firebaseIdToken)
-    this.props.navigation.navigate('LikerLandOAuth')
-    this.props.userStore.fetchUserInfo()
+  _signIn = async (params: UserLoginParams) => {
+    try {
+      await this.props.userStore.login(params)
+      this.props.navigation.navigate('LikerLandOAuth')
+      this.props.userStore.fetchUserInfo()
+    } catch (error) {
+      switch (error.message) {
+        case 'USER_NOT_FOUND':
+          // TODO: Show registration form
+          Alert.alert("Sign In", "User not found")
+          break
+      
+        default:
+      }
+    }
   }
 
   _onClickGoogleSignInButton = async () => {
-    this.setState({ isSigningInProgress: true })
+    this.props.userStore.setIsSigningIn(true)
     try {
       this._signInWithGoogle()
     } catch (error) {
       __DEV__ && console.tron.error(error, null)
-      this.setState({ isSigningInProgress: false })
+      this.props.userStore.setIsSigningIn(false)
     }
   }
 
@@ -138,7 +132,14 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
           preset="fixed"
           backgroundColor={color.transparent}>
           <Text style={TITLE_WRAPPER}>
-            <Text style={TITLE} preset="header" tx="signInScreen.heading" />
+            <Text
+              preset="header"
+              color="white"
+              size="large"
+              weight="bold"
+              align="center"
+              tx="signInScreen.heading"
+            />
           </Text>
         </Screen>
         <SafeAreaView>
@@ -148,7 +149,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
               size={GoogleSigninButton.Size.Wide}
               color={GoogleSigninButton.Color.Light}
               onPress={this._onClickGoogleSignInButton}
-              disabled={this.state.isSigningInProgress} />
+              disabled={this.props.userStore.isSigningIn} />
           </View>
         </SafeAreaView>
       </View>

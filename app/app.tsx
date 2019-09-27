@@ -4,7 +4,7 @@
 
 import "./i18n"
 import * as React from "react"
-import { AppRegistry, YellowBox } from "react-native"
+import { AppRegistry, Linking, YellowBox } from "react-native"
 import { mapping, light as lightTheme } from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
@@ -55,6 +55,19 @@ export class App extends React.Component<{}, AppState> {
     this.setState({
       rootStore: await setupRootStore(),
     })
+
+    Linking.addEventListener('url', this._onOpenURL)
+    try {
+      const url = await Linking.getInitialURL()
+      if (!url) return
+      this._handleDeepLinkURL(url)
+    } catch (err) {
+      __DEV__ && console.tron.error(err.message, null)
+    }
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this._onOpenURL);
   }
 
   /**
@@ -65,6 +78,19 @@ export class App extends React.Component<{}, AppState> {
    */
   canExit(routeName: string) {
     return contains(routeName, DEFAULT_NAVIGATION_CONFIG.exitRoutes)
+  }
+
+  _onOpenURL = (event: { url: string }) => {
+    this._handleDeepLinkURL(event.url)
+  }
+
+  _handleDeepLinkURL = (url: string) => {
+    const rootStore = this.state && this.state.rootStore
+    if (rootStore && rootStore.userStore.currentUser) {
+      rootStore.openDeepLink(url)
+    } else {
+      rootStore.deferDeepLink(url)
+    }
   }
 
   render() {

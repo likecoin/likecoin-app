@@ -1,9 +1,12 @@
 import * as React from "react"
-import { TouchableOpacity } from "react-native"
-import { Text } from "../text"
+import { TextStyle, TouchableOpacity } from "react-native"
+import { mergeAll, flatten } from "ramda"
+
 import { viewPresets, textPresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
-import { mergeAll, flatten } from "ramda"
+import { Text } from "../text"
+import { sizes } from "../text/text.sizes"
+import { color } from "../../theme"
 
 /**
  * For your text displaying needs.
@@ -16,16 +19,29 @@ export function Button(props: ButtonProps) {
     preset = "primary",
     tx,
     text,
+    size,
+    weight,
+    color: colorName,
+    textStyle: textStyleProp,
     style: styleOverride,
-    textStyle: textStyleOverride,
     children,
     ...rest
   } = props
 
   const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, styleOverride]))
-  const textStyle = mergeAll(
-    flatten([textPresets[preset] || textPresets.primary, textStyleOverride]),
-  )
+
+  const textStyleOverride: TextStyle = {}
+  if (size) textStyleOverride.fontSize = sizes[size]
+  if (weight) textStyleOverride.fontWeight = weight
+  if (colorName) textStyleOverride.color = color.palette[colorName]
+
+
+  const textStyleList = [
+    textPresets[preset] || textPresets.primary,
+    textStyleOverride,
+    textStyleProp
+  ]
+  const textStyle = mergeAll(flatten(textStyleList))
 
   const content = children || <Text tx={tx} text={text} style={textStyle} />
 

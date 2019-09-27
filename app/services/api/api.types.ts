@@ -23,6 +23,16 @@ export interface LikeStat {
   totalLiker: number,
 }
 
+export interface UserLoginParams {
+  platform: String
+  accessToken: String
+  firebaseIdToken?: String
+  idToken?: String
+  username?: String
+  email?: String
+  displayName?: String
+}
+
 export type GeneralResult = { kind: "ok" } | GeneralApiProblem
 export type UserResult = { kind: "ok"; data: User } | GeneralApiProblem
 export type ContentResult = { kind: "ok"; data: Content } | GeneralApiProblem

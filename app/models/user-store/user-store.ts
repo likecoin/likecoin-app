@@ -2,7 +2,7 @@ import { Instance, SnapshotOut,flow, getEnv, types } from "mobx-state-tree"
 
 import { Environment } from "../environment";
 import { UserModel } from "../user";
-import { UserResult } from "../../services/api";
+import { UserResult, UserLoginParams, GeneralResult } from "../../services/api";
 
 /**
  * Store user related information.
@@ -10,12 +10,20 @@ import { UserResult } from "../../services/api";
 export const UserStoreModel = types
   .model("UserStore")
   .props({
-    currentUser: types.maybe(UserModel)
+    currentUser: types.maybe(UserModel),
+    isSigningIn: types.optional(types.boolean, false),
   })
   .actions(self => ({
-    login: flow(function * (platform: String, accessToken: String, firebaseIdToken: String) {
+    setIsSigningIn(value: boolean) {
+      self.isSigningIn = value
+    },
+    login: flow(function * (params: UserLoginParams) {
       const env: Environment = getEnv(self)
-      yield env.likeCoAPI.login(platform, accessToken, firebaseIdToken)
+      const result: GeneralResult = yield env.likeCoAPI.login(params)
+      switch (result.kind) {
+        case "not-found":
+          throw new Error("USER_NOT_FOUND")
+      }
     }),
     logout: flow(function * () {
       const env: Environment = getEnv(self)

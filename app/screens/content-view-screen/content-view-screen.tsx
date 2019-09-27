@@ -18,6 +18,13 @@ export interface ContentViewNavigationStateParams {
 export interface ContentViewScreenProps extends NavigationScreenProps<ContentViewNavigationStateParams> {}
 
 export class ContentViewScreen extends React.Component<ContentViewScreenProps, {}> {
+  componentDidMount() {
+    const { content } = this.props.navigation.state.params
+    if (!content.hasFetchedDetails) {
+      content.fetchDetails()
+    }
+  }
+
   componentWillUnmount() {
     // Update like count incase user has liked the content
     const { content } = this.props.navigation.state.params

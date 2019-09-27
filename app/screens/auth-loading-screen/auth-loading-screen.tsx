@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View, ViewStyle, TextStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react";
 
@@ -11,10 +11,6 @@ import { UserStore } from "../../models/user-store";
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = { justifyContent: "center", alignItems: "center" }
-const LOADING: TextStyle = {
-  fontSize: 14,
-  textAlign: "center",
-} 
 
 export interface AuthLoadingScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -49,7 +45,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
           style={CONTAINER}
           preset="fixed"
           backgroundColor={color.transparent}>
-          <Text style={LOADING} text="Loading" />
+          <Text color="white" align="center" text="Loading" />
         </Screen>
       </View>
     )

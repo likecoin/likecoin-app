@@ -14,11 +14,6 @@ import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
 
 const FULL: ViewStyle = { flex: 1 }
-const TEXT: TextStyle = {
-  color: color.palette.white,
-  fontFamily: "Montserrat",
-}
-const BOLD: TextStyle = { fontWeight: "bold" }
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
   paddingVertical: spacing[4],
@@ -36,24 +31,10 @@ const AVATAR: ImageStyle = {
   borderRadius: 50,
   overflow: "hidden",
 }
-const DISPLAY_NAME: TextStyle = {
-  ...TEXT,
-  ...BOLD,
-  marginTop: spacing[4],
-  fontSize: 28,
-  lineHeight: 38,
-  textAlign: "center",
-}
 const LOGOUT: ViewStyle = {
   marginTop: spacing[4],
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
-}
-const LOGOUT_TEXT: TextStyle = {
-  ...TEXT,
-  ...BOLD,
-  fontSize: 13,
-  letterSpacing: 2,
 }
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
@@ -90,15 +71,18 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 source={{ uri: currentUser.avatarURL }}
               />
               <Text
-                style={DISPLAY_NAME}
+                color="white"
+                size="large"
                 text={currentUser.displayName}
               />
-              <Text text={currentUser.email} />
+              <Text
+                color="grey9b"
+                text={currentUser.email}
+              />
             </View>
           }
           <Button
             style={LOGOUT}
-            textStyle={LOGOUT_TEXT}
             tx="welcomeScreen.logout"
             onPress={this._onClickLogout}
           />

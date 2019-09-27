@@ -3,30 +3,20 @@ import { View, ViewStyle, TouchableOpacity, TextStyle } from "react-native"
 import { observer } from "mobx-react";
 
 import { Text } from "../text"
-import { spacing, color } from "../../theme"
+import { spacing } from "../../theme"
 import { Content } from "../../models/content";
 
 const ROOT: ViewStyle = {
   paddingHorizontal: spacing[2],
   paddingVertical: spacing[4],
 }
-const TITLE: TextStyle = {
-  fontSize: 16,
-  fontWeight: "bold",
-}
 const DESCRIPTION: TextStyle = {
   marginTop: spacing[2],
-  color: color.palette.lighterGrey,
-  fontSize: 12,
 }
 const DETAIL: TextStyle = {
   flexDirection: "row",
   justifyContent: "flex-start",
   marginTop: spacing[2],
-  fontSize: 12,
-}
-const CREATOR: TextStyle = {
-  fontWeight: "bold"
 }
 
 export interface ContentListItemProps {
@@ -78,13 +68,17 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
           {...rest}
         >
           <Text
-            style={TITLE}
+            color="white"
+            size="medium"
+            weight="bold"
             text={content.title}
           />
           {this._renderDescription(content.description)}
           <View style={DETAIL}>
             <Text
-              style={CREATOR}
+              color="white"
+              size="default"
+              weight="bold"
               text={content.creatorLikerID}
             />
             {this._renderLikeStat()}
@@ -99,6 +93,7 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
     return (
       <Text
         style={DESCRIPTION}
+        color="lightGrey"
         text={text}
       />
     )
@@ -112,8 +107,8 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
       text = `${text} from ${likerCount} liker${likerCount > 1 ? "s" : ""}`
     }
     return [
-      <Text key="sep" text=" | " />,
-      <Text key="stat" text={text} />
+      <Text key="sep" text=" | " color="lightGrey" />,
+      <Text key="stat" text={text} color="white" />
     ]
   }
 }
