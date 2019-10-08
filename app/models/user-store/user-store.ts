@@ -3,6 +3,7 @@ import { Instance, SnapshotOut,flow, getEnv, types } from "mobx-state-tree"
 import { Environment } from "../environment";
 import { UserModel } from "../user";
 import { UserResult, UserLoginParams, GeneralResult } from "../../services/api";
+import { AuthCoreStoreModel } from "../authcore-store";
 
 /**
  * Store user related information.
@@ -12,6 +13,7 @@ export const UserStoreModel = types
   .props({
     currentUser: types.maybe(UserModel),
     isSigningIn: types.optional(types.boolean, false),
+    authCore: types.optional(AuthCoreStoreModel, {}),
   })
   .actions(self => ({
     setIsSigningIn(value: boolean) {
@@ -29,6 +31,7 @@ export const UserStoreModel = types
       const env: Environment = getEnv(self)
       yield env.likeCoAPI.logout()
       self.currentUser = undefined
+      yield self.authCore.signOut()
     }),
     fetchUserInfo: flow(function * () {
       const env: Environment = getEnv(self)

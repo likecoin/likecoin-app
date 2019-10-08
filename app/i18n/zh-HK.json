@@ -1,11 +1,21 @@
 {
   "common": {
-    "ok": "好",
+    "back": "返回",
     "cancel": "取消",
-    "back": "返回"
+    "copy": "複製",
+    "copied": "已複製",
+    "ok": "好"
+  },
+  "receiveScreen": {
+    "shareYourAddress": "分享你的地址",
+    "viewExternal": "在 Big Dipper 上查看"
   },
   "signInScreen": {
     "heading": "Liker 登入按讚\n作者獲得收入"
+  },
+  "walletDashboardScreen": {
+    "send": "轉帳",
+    "receive": "收款"
   },
   "welcomeScreen": {
     "welcome": "歡迎！",

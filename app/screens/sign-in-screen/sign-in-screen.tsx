@@ -1,5 +1,6 @@
 import * as React from "react"
 import { View, ViewStyle, TextStyle, SafeAreaView, Alert } from "react-native"
+import { Button } from "react-native-ui-kitten";
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react";
 import {
@@ -29,12 +30,25 @@ const GOOGLE_SIGN_IN_BUTTON: ViewStyle = {
   width: '100%',
   height: 54,
 }
+const AUTHCORE_BUTTON_TEXT: TextStyle = {
+  color: color.palette.likeCyan,
+  fontSize: 12,
+}
 const FOOTER_CONTENT: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
 }
+const FOOTNOTE: TextStyle = {
+  color: color.palette.lightGrey,
+  fontSize: 10,
+  textAlign: "center",
+  marginTop: spacing[2],
+}
 
-export interface SignInScreenProps extends NavigationScreenProps<{}> {
+interface SignInScreenNavigationParams {
+  signIn: UserLoginParams
+}
+export interface SignInScreenProps extends NavigationScreenProps<SignInScreenNavigationParams> {
   userStore: UserStore
 }
 
@@ -45,6 +59,16 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     GoogleSignin.configure({
       forceConsentPrompt: true
     })
+    this._checkNavigationParams()
+  }
+
+  componentDidUpdate() {
+    this._checkNavigationParams()
+  }
+
+  _checkNavigationParams() {
+    const signInParams = this.props.navigation.getParam("signIn")
+    if (signInParams) this._signIn(signInParams)
   }
 
   _signInWithGoogle = async () => {
@@ -123,6 +147,10 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     }
   }
 
+  _onPressAuthCoreButton = () => {
+    this.props.navigation.navigate("AuthCoreAuth")
+  }
+
   render() {
     return (
       <View style={FULL}>
@@ -149,7 +177,16 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
               size={GoogleSigninButton.Size.Wide}
               color={GoogleSigninButton.Color.Light}
               onPress={this._onClickGoogleSignInButton}
-              disabled={this.props.userStore.isSigningIn} />
+              disabled={this.props.userStore.isSigningIn}
+            />
+            <Button
+              onPress={this._onPressAuthCoreButton}
+              textStyle={AUTHCORE_BUTTON_TEXT}
+              appearance="ghost"
+            >
+              Sign in with AuthCore (Testnet)
+            </Button>
+            <Text style={FOOTNOTE}>Registration is not yet implemented</Text>
           </View>
         </SafeAreaView>
       </View>
