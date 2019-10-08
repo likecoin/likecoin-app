@@ -1,11 +1,12 @@
 import * as React from "react"
 import { NavigationScreenProps } from "react-navigation"
 import { ViewStyle, View, Image, TextStyle, ImageStyle } from "react-native"
+import LinearGradient from 'react-native-linear-gradient'
 import { observer, inject } from "mobx-react"
 
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
-import { color } from "../../theme"
+import { color, gradient } from "../../theme"
 import { UserStore } from "../../models/user-store"
 import { ButtonGroup } from "../../components/button-group"
 
@@ -16,6 +17,9 @@ export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
 const FULL: ViewStyle = {
   flex: 1,
   backgroundColor: color.primary,
+}
+const SCREEN: ViewStyle = {
+  flex: 1,
 }
 const DASHBOARD_HEADER: ViewStyle = {
   padding: 24,
@@ -47,6 +51,38 @@ const DASHBOARD_HEADER_BUTTON_GROUP_WRAPPER: ViewStyle = {
   alignItems: "center",
   marginTop: 16,
 }
+const DASHBOARD_BODY: ViewStyle = {
+  flexGrow: 1,
+  backgroundColor: color.palette.white,
+  paddingHorizontal: 12,
+}
+const DASHBOARD_BODY_INNER: ViewStyle = {
+  flex: 1,
+  backgroundColor: color.palette.white,
+  marginTop: -40,
+  borderTopLeftRadius: 14,
+  borderTopRightRadius: 14,
+  shadowColor: color.palette.black,
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 4.65,
+  elevation: 6,
+}
+const WALLET_BALANCE_PANEL: ViewStyle = {
+  borderTopLeftRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
+  borderTopRightRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
+  paddingVertical: 28,
+  paddingHorizontal: 12,
+}
+const WALLET_BALANCE_VALUE: TextStyle = {
+  color: color.primary,
+  fontSize: 36,
+  fontWeight: "500",
+  textAlign: "center",
+}
 
 @inject("userStore")
 @observer
@@ -64,6 +100,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     return (
       <View style={FULL}>
         <Screen
+          style={SCREEN}
           backgroundColor={color.transparent}
           preset="scroll"
         >
@@ -101,6 +138,21 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                   },
                 ]}
               />
+            </View>
+          </View>
+          <View style={DASHBOARD_BODY}>
+            <View style={DASHBOARD_BODY_INNER}>
+              <LinearGradient
+                colors={gradient.LikeCoin}
+                start={{ x: 0.0, y: 1.0 }}
+                end={{ x: 1.0, y: 0.0 }}
+                style={WALLET_BALANCE_PANEL}
+              >
+                <Text
+                  style={WALLET_BALANCE_VALUE}
+                  text="0.0"
+                />
+              </LinearGradient>
             </View>
           </View>
         </Screen>
