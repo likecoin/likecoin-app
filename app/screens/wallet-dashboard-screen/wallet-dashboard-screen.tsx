@@ -6,12 +6,16 @@ import { observer, inject } from "mobx-react"
 
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
-import { color, gradient } from "../../theme"
-import { UserStore } from "../../models/user-store"
 import { ButtonGroup } from "../../components/button-group"
 
+import { UserStore } from "../../models/user-store"
+import { WalletStore } from "../../models/wallet-store"
+
+import { color, gradient } from "../../theme"
+
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
-  userStore: UserStore,
+  userStore: UserStore
+  walletStore: WalletStore
 }
 
 const FULL: ViewStyle = {
@@ -84,9 +88,20 @@ const WALLET_BALANCE_VALUE: TextStyle = {
   textAlign: "center",
 }
 
-@inject("userStore")
+@inject(
+  "userStore",
+  "walletStore"
+)
 @observer
 export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
+  componentDidMount() {
+    this._fetchBalance()
+  }
+
+  _fetchBalance() {
+    this.props.walletStore.fetchBalance(this.props.userStore.authCore.cosmosAddress)
+  }
+
   _onPressSendButton = () => {
     // TODO: Navigation to send screen
   }
@@ -148,15 +163,32 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                 end={{ x: 1.0, y: 0.0 }}
                 style={WALLET_BALANCE_PANEL}
               >
-                <Text
-                  style={WALLET_BALANCE_VALUE}
-                  text="0.0"
-                />
+                {this._renderBalanceValue()}
               </LinearGradient>
             </View>
           </View>
         </Screen>
       </View>
+    )
+  }
+
+  _renderBalanceValue = () => {
+    let value: string
+    const {
+      isFetchingBalance: isFetching,
+      hasFetchedBalance: hasFetch,
+      formattedBalance: balanceValue,
+    } = this.props.walletStore
+    if (hasFetch) {
+      value = balanceValue
+    } else if (isFetching) {
+      value = "..."
+    }
+    return (
+      <Text
+        style={WALLET_BALANCE_VALUE}
+        text={value}
+      />
     )
   }
 }

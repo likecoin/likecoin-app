@@ -1,7 +1,13 @@
+import {
+  COSMOS_LCD_URL,
+  COSMOS_CHAIN_ID,
+} from "react-native-dotenv"
+
 import { Reactotron } from "../services/reactotron"
 import { LikeCoAPI } from "../services/api"
 import { LikerLandAPI } from "../services/api"
 import { AuthCoreAPI } from "../services/authcore"
+import { CosmosAPI } from "../services/cosmos"
 
 /**
  * The environment is a place where services and shared dependencies between
@@ -14,6 +20,7 @@ export class Environment {
     this.likeCoAPI = new LikeCoAPI()
     this.likerLandAPI = new LikerLandAPI()
     this.authCoreAPI = new AuthCoreAPI()
+    this.cosmosAPI = new CosmosAPI(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
   }
 
   async setup() {
@@ -42,4 +49,9 @@ export class Environment {
    * AuthCore API.
    */
   authCoreAPI: AuthCoreAPI
+
+  /**
+   * Cosmos API.
+   */
+  cosmosAPI: CosmosAPI
 }

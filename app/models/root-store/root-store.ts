@@ -1,3 +1,4 @@
+import { WalletStoreModel } from "../../models/wallet-store"
 import { ReaderStoreModel } from "../../models/reader-store"
 import { UserStoreModel } from "../../models/user-store"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
@@ -7,6 +8,7 @@ import { NavigationStoreModel } from "../../navigation/navigation-store"
  * An RootStore model.
  */
 export const RootStoreModel = types.model("RootStore").props({
+  walletStore: types.optional(WalletStoreModel, {}),
   readerStore: types.optional(ReaderStoreModel, {}),
   navigationStore: types.optional(NavigationStoreModel, {}),
   userStore: types.optional(UserStoreModel, {}),
