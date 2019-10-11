@@ -1,6 +1,6 @@
 import Cosmos from "@lunie/cosmos-api"
 
-import { CosmosAccountResult } from "./cosmos.types"
+import { CosmosAccountResult, CosmosValidator } from "./cosmos.types"
 
 const DENOM = "nanolike";
 
@@ -15,6 +15,13 @@ export class CosmosAPI {
 
   constructor(restURL: string, chainId: string) {
     this.api = new Cosmos(restURL, chainId) 
+  }
+
+  /**
+   * Get the list of validators
+   */
+  async getValidators() {
+   return this.api.get.validators() as CosmosValidator[]
   }
 
   /**

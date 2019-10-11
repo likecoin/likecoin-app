@@ -7,11 +7,13 @@ import { observer, inject } from "mobx-react"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 import { ButtonGroup } from "../../components/button-group"
+import { ValidatorListItem } from "../../components/validator-list-item"
 
 import { UserStore } from "../../models/user-store"
 import { WalletStore } from "../../models/wallet-store"
 
-import { color, gradient } from "../../theme"
+import { color, gradient, spacing } from "../../theme"
+import { Validator } from "../../models/validator"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -23,7 +25,7 @@ const FULL: ViewStyle = {
   backgroundColor: color.primary,
 }
 const SCREEN: ViewStyle = {
-  flex: 1,
+  flexGrow: 1,
 }
 const DASHBOARD_HEADER: ViewStyle = {
   padding: 24,
@@ -87,6 +89,9 @@ const WALLET_BALANCE_VALUE: TextStyle = {
   fontWeight: "500",
   textAlign: "center",
 }
+const VALIDATOR_LIST: ViewStyle = {
+  padding: spacing[2],
+}
 
 @inject(
   "userStore",
@@ -96,10 +101,15 @@ const WALLET_BALANCE_VALUE: TextStyle = {
 export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
   componentDidMount() {
     this._fetchBalance()
+    this._fetchValidators()
   }
 
   _fetchBalance() {
     this.props.walletStore.fetchBalance(this.props.userStore.authCore.cosmosAddress)
+  }
+
+  _fetchValidators() {
+    this.props.walletStore.fetchValidators()
   }
 
   _onPressSendButton = () => {
@@ -165,6 +175,9 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               >
                 {this._renderBalanceValue()}
               </LinearGradient>
+              <View style={VALIDATOR_LIST}>
+                {this.props.walletStore.validatorList.map(this._renderValidator)}
+              </View>
             </View>
           </View>
         </Screen>
@@ -188,6 +201,17 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
       <Text
         style={WALLET_BALANCE_VALUE}
         text={value}
+      />
+    )
+  }
+
+  _renderValidator = (validator: Validator) => {
+    return (
+      <ValidatorListItem
+        key={validator.operatorAddress}
+        name={validator.moniker}
+        icon={validator.avatar}
+        subtitle={validator.commissionRatePercent}
       />
     )
   }
