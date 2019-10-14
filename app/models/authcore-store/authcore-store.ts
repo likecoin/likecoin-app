@@ -25,13 +25,24 @@ export const AuthCoreStoreModel = types
       idToken: string,
       profile?: AuthCoreUser
     ) {
-      const env: Environment = getEnv(self)
-      yield env.authCoreAPI.setup(accessToken)
-
       self.accessToken = accessToken
       self.idToken = idToken
       if (profile) self.profile = profile
-
+      
+      const env: Environment = getEnv(self)
+      yield env.authCoreAPI.setup(accessToken)
+      self.cosmosAddress = yield env.authCoreAPI.getCosmosAddress()
+    }),
+    signIn: flow(function * () {
+      const env: Environment = getEnv(self)
+      const {
+        accessToken,
+        idToken,
+      }: any = yield env.authCoreAPI.signIn()
+      self.accessToken = accessToken
+      self.idToken = idToken
+      
+      yield env.authCoreAPI.setup(accessToken)
       self.cosmosAddress = yield env.authCoreAPI.getCosmosAddress()
     }),
     signOut: flow(function * () {
@@ -41,6 +52,11 @@ export const AuthCoreStoreModel = types
       self.accessToken = undefined
       self.idToken = undefined
       self.profile = undefined
+    }),
+    getCurrentUser: flow(function * () {
+      const env: Environment = getEnv(self)
+      const currentUser: any = yield env.authCoreAPI.getCurrentUser()
+      self.profile = AuthCoreUserModel.create(currentUser)
     }),
   }))
 

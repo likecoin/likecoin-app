@@ -6,6 +6,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const AuthCoreUserModel = types
   .model("AuthCoreUser")
   .props({
+    id: types.identifier,
     profileName: types.maybe(types.string),
     displayName: types.maybe(types.string),
     primaryEmail: types.maybe(types.string),

@@ -120,6 +120,38 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     return firebaseUserCredential.user.getIdToken()
   }
 
+  _signInWithAuthCore = async () => {
+    try {
+      await this.props.userStore.authCore.signIn()
+      await this.props.userStore.authCore.getCurrentUser()
+    } catch (error) {
+      Alert.alert("AuthCore sign in error")
+      throw error
+    }
+
+    const {
+      accessToken,
+      idToken,
+      profile: {
+        primaryEmail: email,
+        displayName,
+      }
+    } = this.props.userStore.authCore
+
+    try {
+      await this._signIn({
+        platform: "authcore",
+        accessToken,
+        idToken,
+        email,
+        displayName,
+      })
+    } catch (error) {
+      Alert.alert("like.co sign in error")
+      throw error
+    }
+  }
+
   _signIn = async (params: UserLoginParams) => {
     try {
       await this.props.userStore.login(params)
@@ -148,7 +180,13 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   }
 
   _onPressAuthCoreButton = () => {
-    this.props.navigation.navigate("AuthCoreAuth")
+    this.props.userStore.setIsSigningIn(true)
+    try {
+      this._signInWithAuthCore()
+    } catch (error) {
+      __DEV__ && console.tron.error(`${error}`, null)
+      this.props.userStore.setIsSigningIn(false)
+    }
   }
 
   render() {

@@ -28,13 +28,15 @@ export const RootStoreModel = types.model("RootStore").props({
   openDeepLink(url: string = self.deferredDeepLink) {
     if (!url) return
 
-    self.navigationStore.dispatch({
-      type: "Navigation/PUSH",
-      routeName: "ContentView",
-      params: {
-        content: self.readerStore.getContentByURL(url),
-      },
-    })
+    if (/https?\/\//.test(url)) {
+      self.navigationStore.dispatch({
+        type: "Navigation/PUSH",
+        routeName: "ContentView",
+        params: {
+          content: self.readerStore.getContentByURL(url),
+        },
+      })
+    }
 
     if (self.deferredDeepLink) {
       self.deferredDeepLink = undefined
