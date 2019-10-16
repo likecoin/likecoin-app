@@ -45,6 +45,16 @@ export interface ButtonProps extends TouchableOpacityProps {
   preset?: ButtonPresetNames
 
   /**
+   * The children prepend to the button
+   */
+  prepend?: React.ReactElement
+
+  /**
+   * The URL that opens if it is clicked
+   */
+  link?: string
+
+  /**
    * One of the different types of text presets.
    */
   children?: React.ReactNode

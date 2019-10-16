@@ -9,7 +9,7 @@ const BASE_VIEW: ViewStyle = {
   paddingVertical: spacing[3],
   paddingHorizontal: spacing[2],
   borderRadius: 12,
-  justifyContent: "center",
+  flexDirection: "row",
   alignItems: "center",
 }
 
@@ -28,7 +28,7 @@ export const viewPresets = {
   /**
    * A plain style button
    */
-  plain:  {
+  plain: {
     ...BASE_VIEW,
   } as ViewStyle,
 
@@ -81,7 +81,7 @@ export const textPresets = {
   },
   link: {
     ...BASE_TEXT,
-    color: color.palette.likeCyan,
+    color: color.palette.lighterCyan,
     paddingHorizontal: 0,
     paddingVertical: 0,
     textDecorationLine: "underline",

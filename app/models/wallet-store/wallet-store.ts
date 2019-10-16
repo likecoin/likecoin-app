@@ -8,7 +8,7 @@ import { CosmosValidator } from "../../services/cosmos"
 
 /**
  * Parse Cosemos Validator to model
- * 
+ *
  * @param validator The Validator result from Cosmos API
  */
 function parseRawValidators(validator: CosmosValidator) {
@@ -52,6 +52,7 @@ function parseRawValidators(validator: CosmosValidator) {
 export const WalletStoreModel = types
   .model("WalletStore")
   .props({
+    annualProvision: types.optional(types.number, 0),
     validators: types.optional(types.map(ValidatorModel), {}),
     validatorList: types.optional(types.array(types.reference(ValidatorModel)), [])
   })
@@ -61,6 +62,11 @@ export const WalletStoreModel = types
     const balance = observable.box("0")
     const isFetchingBalance = observable.box(false)
     const hasFetchedBalance = observable.box(false)
+
+    const getTotalDelegatorShares = () => self.validatorList.reduce(
+      (total, validator) => total + parseFloat(validator.delegatorShares),
+      0
+    )
 
     const fetchBalance = flow(function * (address: string) {
       isFetchingBalance.set(true)
@@ -84,13 +90,30 @@ export const WalletStoreModel = types
           validator.fetchAvatarURL()
           self.validatorList.push(validator)
         })
+        self.validatorList.forEach((validator) => {
+          validator.setExpectedReturns(
+            getTotalDelegatorShares(),
+            self.annualProvision
+          )
+        })
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
       }
     })
 
+    const fetchAnnualProvision = flow(function * () {
+      try {
+        self.annualProvision = yield env.cosmosAPI.queryAnnualProvision().then(parseFloat)
+      } catch (error) {
+        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchAnnualProvision: ${error}`, null)
+      }
+    })
+
     return {
       views: {
+        get totalDelegatorShares() {
+          return getTotalDelegatorShares()
+        },
         get formattedBalance() {
           return nanolikeToLIKE(balance.get())
         },
@@ -100,14 +123,22 @@ export const WalletStoreModel = types
         get hasFetchedBalance() {
           return hasFetchedBalance.get()
         },
+        getValidatorVotingPower(address: string) {
+          const validator = self.validators.get(address)
+          if (!validator) {
+            return 0
+          }
+          return Number.parseFloat(validator.delegatorShares) / getTotalDelegatorShares() * 100
+        },
       },
       actions: {
         fetchValidators,
         fetchBalance,
+        fetchAnnualProvision,
       }
     }
   })
- 
+
 type WalletStoreType = Instance<typeof WalletStoreModel>
 export interface WalletStore extends WalletStoreType {}
 type WalletStoreSnapshotType = SnapshotOut<typeof WalletStoreModel>

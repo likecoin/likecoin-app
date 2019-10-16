@@ -7,6 +7,7 @@ import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
+import { ValidatorScreen } from "../screens/validator-screen"
 import { color } from "../theme"
 
 const MainTabs = createBottomTabNavigator({
@@ -53,6 +54,7 @@ export const AppNavigator = createStackNavigator({
   Main: MainTabs,
   ContentView: ContentViewScreen,
   Receive: ReceiveScreen,
+  Validator: ValidatorScreen,
 }, {
   mode: "modal",
   headerMode: "none",

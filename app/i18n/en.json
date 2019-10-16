@@ -4,14 +4,25 @@
     "cancel": "Cancel",
     "copy": "Copy",
     "copied": "Copied",
-    "ok": "OK!"
+    "ok": "OK!",
+    "viewOnBlockExplorer": "View on Big Dipper"
   },
   "receiveScreen": {
-    "shareYourAddress": "Share your address",
-    "viewExternal": "View on Big Dipper"
+    "shareYourAddress": "Share your address"
   },
   "signInScreen": {
     "heading": "As a Liker, every Like is a reward to creators"
+  },
+  "validator": {
+    "delegatorShare": "Delegator Share",
+    "description": "Description",
+    "rewards": "Rewards",
+    "votingPower": "Voting Power",
+    "website": "Website"
+  },
+  "validatorScreen": {
+    "validatorAddress": "Validator Address (Click to copy)",
+    "validatorAddressCopied": "Validator Address (Copied)"
   },
   "walletDashboardScreen": {
     "send": "Send",

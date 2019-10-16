@@ -11,9 +11,10 @@ import { ValidatorListItem } from "../../components/validator-list-item"
 
 import { UserStore } from "../../models/user-store"
 import { WalletStore } from "../../models/wallet-store"
-
-import { color, gradient, spacing } from "../../theme"
 import { Validator } from "../../models/validator"
+
+import { percent } from "../../utils/number"
+import { color, gradient, spacing } from "../../theme"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -108,16 +109,23 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     this.props.walletStore.fetchBalance(this.props.userStore.authCore.cosmosAddress)
   }
 
-  _fetchValidators() {
+  async _fetchValidators() {
+    await this.props.walletStore.fetchAnnualProvision()
     this.props.walletStore.fetchValidators()
   }
 
   _onPressSendButton = () => {
     // TODO: Navigation to send screen
   }
-  
+
   _onPressReceiveButton = () => {
     this.props.navigation.navigate("Receive")
+  }
+
+  _onPressValidator = (validator: Validator) => {
+    this.props.navigation.navigate("Validator", {
+      validator,
+    })
   }
 
   render () {
@@ -211,7 +219,8 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
         key={validator.operatorAddress}
         name={validator.moniker}
         icon={validator.avatar}
-        subtitle={validator.commissionRatePercent}
+        subtitle={percent(validator.expectedReturns)}
+        onPress={() => this._onPressValidator(validator)}
       />
     )
   }

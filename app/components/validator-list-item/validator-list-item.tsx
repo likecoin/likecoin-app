@@ -1,5 +1,13 @@
 import * as React from "react"
-import { View, ViewStyle, TextStyle, TouchableOpacity, Image, ImageStyle } from "react-native"
+import {
+  View,
+  ViewStyle,
+  TextStyle,
+  TouchableOpacity,
+  Image,
+  ImageStyle,
+  TouchableOpacityProps,
+} from "react-native"
 
 import { Text } from "../text"
 import { color, spacing } from "../../theme"
@@ -37,7 +45,7 @@ const SUBTITLE: TextStyle = {
   fontSize: 10,
 }
 
-export interface ValidatorListItemProps {
+export interface ValidatorListItemProps extends TouchableOpacityProps {
   /**
    * The title text
    */
@@ -52,7 +60,7 @@ export interface ValidatorListItemProps {
    * The subtitle text
    */
   subtitle?: string
-  
+
   /**
    * An optional style override useful for padding.
    */

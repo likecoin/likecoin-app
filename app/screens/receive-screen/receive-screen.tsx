@@ -138,7 +138,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
             </View>
             <Button
               preset="outlined"
-              tx="receiveScreen.viewExternal"
+              tx="common.viewOnBlockExplorer"
               onPress={this._onPressViewExternalButton}
             />
           </View>

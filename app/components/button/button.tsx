@@ -1,12 +1,21 @@
 import * as React from "react"
-import { TextStyle, TouchableOpacity } from "react-native"
+import {
+  Linking,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native"
 import { mergeAll, flatten } from "ramda"
 
 import { viewPresets, textPresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
 import { Text } from "../text"
 import { sizes } from "../text/text.sizes"
-import { color } from "../../theme"
+import { color, spacing } from "../../theme"
+
+export const PREPEND: ViewStyle = {
+  marginRight: spacing[2],
+}
 
 /**
  * For your text displaying needs.
@@ -25,6 +34,8 @@ export function Button(props: ButtonProps) {
     textStyle: textStyleProp,
     style: styleOverride,
     children,
+    prepend,
+    link,
     ...rest
   } = props
 
@@ -35,7 +46,6 @@ export function Button(props: ButtonProps) {
   if (weight) textStyleOverride.fontWeight = weight
   if (colorName) textStyleOverride.color = color.palette[colorName]
 
-
   const textStyleList = [
     textPresets[preset] || textPresets.primary,
     textStyleOverride,
@@ -45,8 +55,22 @@ export function Button(props: ButtonProps) {
 
   const content = children || <Text tx={tx} text={text} style={textStyle} />
 
+  let prependElement: React.ReactNode
+  if (prepend) {
+    prependElement = React.cloneElement(prepend, {
+      style: mergeAll(flatten([prepend.props.style, PREPEND])),
+    })
+  }
+
+  if (link && !rest.onPress) {
+    rest.onPress = () => {
+      Linking.openURL(link)
+    }
+  }
+
   return (
     <TouchableOpacity style={viewStyle} {...rest}>
+      {prependElement}
       {content}
     </TouchableOpacity>
   )
