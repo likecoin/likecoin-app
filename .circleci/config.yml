@@ -4,9 +4,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run:
-          command: sudo yarn global add react-native-cli
-          name: Add react-native-cli
       - rn/yarn_install
       - run:
           command: yarn lint
@@ -22,8 +19,8 @@ jobs:
     steps:
       - checkout
       - persist_to_workspace:
-          paths: .
           root: .
+          paths: .
 orbs:
   rn: react-native-community/react-native@1.2.1
 version: 2.1
@@ -34,15 +31,23 @@ workflows:
       - analyse_js:
           requires:
             - checkout_code
+      - hold_build_android_debug:
+          type: approval
+          requires:
+           - analyse_js
       - rn/android_build:
           build_type: debug
           name: build_android_debug
           project_path: android
           requires:
-            - analyse_js
+            - hold_build_android_debug
+      - hold_build_android_release:
+          type: approval
+          requires:
+           - analyse_js
       - rn/android_build:
           build_type: release
           name: build_android_release
           project_path: android
           requires:
-            - analyse_js
+            - hold_build_android_release
