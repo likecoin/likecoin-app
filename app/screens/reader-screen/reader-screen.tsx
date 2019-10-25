@@ -1,7 +1,7 @@
 import * as React from "react"
 import { View, ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react"
 
 import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
@@ -31,7 +31,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
       case 'Featured':
         this.props.readerStore.fetchSuggestList()
         break
-      
+
       case 'Followed':
         this.props.readerStore.fetchFollowedList()
         break

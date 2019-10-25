@@ -1,10 +1,10 @@
 import * as React from "react"
 import { View, ViewStyle, TouchableOpacity, TextStyle } from "react-native"
-import { observer } from "mobx-react";
+import { observer } from "mobx-react"
 
 import { Text } from "../text"
 import { spacing } from "../../theme"
-import { Content } from "../../models/content";
+import { Content } from "../../models/content"
 
 const ROOT: ViewStyle = {
   paddingHorizontal: spacing[2],
@@ -42,7 +42,7 @@ export interface ContentListItemProps {
 @observer
 export class ContentListItem extends React.Component<ContentListItemProps, {}> {
   componentDidMount() {
-    const { content } = this.props;
+    const { content } = this.props
     if (!content.hasFetchedDetails) {
       content.fetchDetails()
     }
@@ -100,7 +100,7 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
   }
 
   _renderLikeStat = () => {
-    const { likeCount, likerCount } = this.props.content;
+    const { likeCount, likerCount } = this.props.content
     if (likeCount === 0) return null
     let text = `${likeCount} LIKE`
     if (likerCount > 0) {

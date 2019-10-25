@@ -1,6 +1,6 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
-import { View, ViewStyle, Image, ImageStyle, TextStyle } from "react-native"
+import { View, ViewStyle, Image, ImageStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
 import { Button } from "../../components/button"

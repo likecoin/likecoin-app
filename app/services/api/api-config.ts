@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform } from 'react-native'
 import {
   LIKECO_API_URL,
   LIKERLAND_API_URL,

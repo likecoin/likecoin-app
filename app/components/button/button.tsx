@@ -35,7 +35,6 @@ export function Button(props: ButtonProps) {
   if (weight) textStyleOverride.fontWeight = weight
   if (colorName) textStyleOverride.color = color.palette[colorName]
 
-
   const textStyleList = [
     textPresets[preset] || textPresets.primary,
     textStyleOverride,

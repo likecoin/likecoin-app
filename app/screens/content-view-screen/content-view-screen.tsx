@@ -1,12 +1,12 @@
 import * as React from "react"
 import { View, ViewStyle, TextStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { WebView } from "react-native-webview";
+import { WebView } from "react-native-webview"
 
 import { Screen } from "../../components/screen"
-import { Wallpaper } from "../../components/wallpaper";
-import { Header } from "../../components/header";
-import { Content } from "../../models/content";
+import { Wallpaper } from "../../components/wallpaper"
+import { Header } from "../../components/header"
+import { Content } from "../../models/content"
 import { color, spacing } from "../../theme"
 
 const FULL: ViewStyle = { flex: 1 }

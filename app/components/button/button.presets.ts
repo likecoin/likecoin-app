@@ -28,7 +28,7 @@ export const viewPresets = {
   /**
    * A plain style button
    */
-  plain:  {
+  plain: {
     ...BASE_VIEW,
   } as ViewStyle,
 

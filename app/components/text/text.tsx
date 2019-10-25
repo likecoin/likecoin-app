@@ -43,7 +43,7 @@ export function Text(props: TextProps) {
     styleOverride,
     propStyle
   ]
- 
+
   const style = mergeAll(flatten(styleList))
 
   return (

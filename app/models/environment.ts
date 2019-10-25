@@ -1,6 +1,5 @@
 import { Reactotron } from "../services/reactotron"
-import { LikeCoAPI } from "../services/api"
-import { LikerLandAPI } from "../services/api";
+import { LikeCoAPI, LikerLandAPI } from "../services/api"
 
 /**
  * The environment is a place where services and shared dependencies between

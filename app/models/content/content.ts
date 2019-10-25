@@ -1,7 +1,7 @@
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
-import { Environment } from "../environment";
-import { ContentResult, LikeStatResult } from "../../services/api";
+import { Environment } from "../environment"
+import { ContentResult, LikeStatResult } from "../../services/api"
 
 /**
  * Likeable Content
@@ -21,7 +21,7 @@ export const ContentModel = types
     hasFetchedDetails: types.optional(types.boolean, false),
   })
   .actions(self => ({
-    fetchDetails: flow(function*() {
+    fetchDetails: flow(function * () {
       const env: Environment = getEnv(self)
       self.isFetchingDetails = true
       try {
@@ -53,7 +53,7 @@ export const ContentModel = types
         self.hasFetchedDetails = true
       }
     }),
-    fetchLikeStat: flow(function*() {
+    fetchLikeStat: flow(function * () {
       const env: Environment = getEnv(self)
       try {
         const result: LikeStatResult = yield env.likeCoAPI.fetchContentLikeStat(
