@@ -10,6 +10,7 @@ const BASE_VIEW: ViewStyle = {
   paddingHorizontal: spacing[2],
   borderRadius: 12,
   flexDirection: "row",
+  justifyContent: "center",
   alignItems: "center",
 }
 

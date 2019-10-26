@@ -4,6 +4,7 @@
     "cancel": "取消",
     "copy": "複製",
     "copied": "已複製",
+    "next": "下一步",
     "ok": "好",
     "viewOnBlockExplorer": "在 Big Dipper 上查看"
   },
@@ -12,6 +13,10 @@
   },
   "signInScreen": {
     "heading": "Liker 登入按讚\n作者獲得收入"
+  },
+  "transferTargetInputScreen": {
+    "targetInputLabel": "轉帳至",
+    "targetInputPlaceholder": "請輸入收款地址"
   },
   "validator": {
     "delegatorShare": "委托股數",

@@ -35,6 +35,11 @@ export interface ButtonGroupProps {
   buttons?: Array<ButtonGroupButtonProps>
 
   /**
+   * The children that prepends before the buttons
+   */
+  prepend?: React.ReactNode,
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle
@@ -44,10 +49,19 @@ export interface ButtonGroupProps {
  * Renders a group of Buttons.
  */
 export function ButtonGroup(props: ButtonGroupProps) {
+  const {
+    prepend: prependChildren,
+    buttons,
+    style: rootStyle,
+    ...rest
+  } = props
   const children: Array<React.ReactNode> = []
-  props.buttons.forEach((buttonProps, index) => {
+  if (prependChildren) {
+    children.push(prependChildren)
+  }
+  buttons.forEach((buttonProps, index) => {
     // Add separator
-    if (index !== 0) {
+    if (children.length > 0) {
       children.push(
         <View
           key={`${index}-sep`}
@@ -66,7 +80,10 @@ export function ButtonGroup(props: ButtonGroupProps) {
   })
 
   return (
-    <View style={ROOT}>
+    <View
+      style={[ROOT, rootStyle]}
+      {...rest}
+    >
       {children}
     </View>
   )

@@ -4,6 +4,7 @@
     "cancel": "Cancel",
     "copy": "Copy",
     "copied": "Copied",
+    "next": "Next",
     "ok": "OK!",
     "viewOnBlockExplorer": "View on Big Dipper"
   },
@@ -12,6 +13,10 @@
   },
   "signInScreen": {
     "heading": "As a Liker, every Like is a reward to creators"
+  },
+  "transferTargetInputScreen": {
+    "targetInputLabel": "Send to",
+    "targetInputPlaceholder": "Enter receiver address"
   },
   "validator": {
     "delegatorShare": "Delegator Share",

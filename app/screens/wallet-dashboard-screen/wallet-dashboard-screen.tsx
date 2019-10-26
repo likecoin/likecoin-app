@@ -115,7 +115,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   _onPressSendButton = () => {
-    // TODO: Navigation to send screen
+    this.props.navigation.navigate("Transfer")
   }
 
   _onPressReceiveButton = () => {
