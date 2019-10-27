@@ -36,10 +36,18 @@ export function Button(props: ButtonProps) {
     children,
     prepend,
     link,
+    isHidden,
     ...rest
   } = props
-
-  const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, styleOverride]))
+  const viewStyleList = [
+    viewPresets[preset] || viewPresets.primary,
+    styleOverride,
+  ]
+  if (isHidden) {
+    rest.disabled = true
+    viewStyleList.push({ opacity: 0 })
+  }
+  const viewStyle = mergeAll(flatten(viewStyleList))
 
   const textStyleOverride: TextStyle = {}
   if (size) textStyleOverride.fontSize = sizes[size]

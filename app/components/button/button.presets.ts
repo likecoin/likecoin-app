@@ -14,6 +14,10 @@ const BASE_VIEW: ViewStyle = {
   alignItems: "center",
 }
 
+const BASE_BLOCK_VIEW: ViewStyle = {
+  minHeight: 44,
+}
+
 const BASE_TEXT: TextStyle = {
   paddingHorizontal: spacing[3],
   fontSize: sizes.medium,
@@ -38,6 +42,7 @@ export const viewPresets = {
    */
   primary: {
     ...BASE_VIEW,
+    ...BASE_BLOCK_VIEW,
     backgroundColor: color.palette.lighterCyan,
   } as ViewStyle,
 
@@ -46,6 +51,7 @@ export const viewPresets = {
    */
   outlined: {
     ...BASE_VIEW,
+    ...BASE_BLOCK_VIEW,
     backgroundColor: "transparent",
     borderColor: color.palette.lighterCyan,
     borderWidth: 1,

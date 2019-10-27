@@ -1,7 +1,10 @@
+import { Buffer } from "buffer"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { Environment } from "../environment"
 import { BigDipper } from "../../services/big-dipper"
+import { CosmosSignature } from "../../services/cosmos"
 
 /**
  * AuthCore store
@@ -18,6 +21,23 @@ export const AuthCoreStoreModel = types
     get bigDipperAccountURL() {
       return BigDipper.getAccountURL(self.cosmosAddress)
     },
+    createSigner() {
+      const env: Environment = getEnv(self)
+      return async (message: string) => {
+        const signedPayload = await env.authCoreAPI.cosmosProvider.sign(
+          JSON.parse(message),
+          self.cosmosAddress,
+        )
+        const {
+          signature,
+          pub_key: publicKey,
+        } = signedPayload.signatures[signedPayload.signatures.length - 1]
+        return {
+          signature: Buffer.from(signature, 'base64'),
+          publicKey: Buffer.from(publicKey.value, 'base64'),
+        } as CosmosSignature
+      }
+    }
   }))
   .actions(self => ({
     init: flow(function * (

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Text as ReactNativeText, TextStyle } from "react-native"
+import { Text as ReactNativeText, TextStyle, ViewStyle } from "react-native"
 import { presets } from "./text.presets"
 import { TextProps } from "./text.props"
 import { translate } from "../../i18n"
@@ -24,6 +24,7 @@ export function Text(props: TextProps) {
     size,
     weight,
     align,
+    isHidden,
     style: propStyle,
     ...rest
   } = props
@@ -43,6 +44,9 @@ export function Text(props: TextProps) {
     styleOverride,
     propStyle
   ]
+  if (isHidden) {
+    styleList.push({ opacity: 0 })
+  }
  
   const style = mergeAll(flatten(styleList))
 

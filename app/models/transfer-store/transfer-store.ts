@@ -1,5 +1,27 @@
 import { observable } from "mobx"
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import BigNumber from "bignumber.js"
+import {
+  flow,
+  getEnv,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
+
+import { Environment } from "../environment"
+
+import { BigDipper } from "../../services/big-dipper"
+import {
+  CosmosMessage,
+  CosmosSendResult,
+} from "../../services/cosmos"
+import {
+  convertNanolikeToLIKE,
+  parseCosmosCoin,
+} from "../../services/cosmos/cosmos.utils"
+
+// TODO: Obtain from remote config 
+const GAS_PRICE = 0 // nanolike
 
 /**
  * Transfer store
@@ -7,34 +29,104 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const TransferStoreModel = types
   .model("TransferStore")
   .extend(self => {
-    const targetAddress = observable.box("")
-    const amount = observable.box(0)
+    const env: Environment = getEnv(self)
 
-    const setTargetAddress = (newTargetAddress: string) => {
+    const errorMessage = observable.box("")
+    const targetAddress = observable.box("")
+    const amount = observable.box("0")
+    const gas = observable.box(0)
+    const txHash = observable.box("")
+
+    let message: CosmosMessage
+
+    const setError = (error: Error) => {
+      errorMessage.set(`${error}`)
+    }
+
+    const setTargetAddress = (newTargetAddress: string = "") => {
       targetAddress.set(newTargetAddress)
     }
 
-    const setAmount = (newAmount: number) => {
+    const setAmount = (newAmount: string = "0") => {
       amount.set(newAmount)
     }
 
+    const createTransaction = flow(function * (fromAddress: string) {
+      errorMessage.set("")
+      gas.set(0)
+      txHash.set("")
+      message = env.cosmosAPI.createSendMessage(
+        fromAddress,
+        targetAddress.get(),
+        amount.get()
+      )
+
+      const estimatedGas: number = yield message.simulate({})
+      gas.set(estimatedGas)
+    })
+
+    const signTransaction = flow(function * (signer: any) {
+      errorMessage.set("")
+      try {
+        const {
+          hash,
+          included,
+        }: CosmosSendResult = yield message.send({
+          gas: gas.get().toString(),
+          gasPrices: [parseCosmosCoin(GAS_PRICE)],
+        }, signer)
+        txHash.set(hash)
+        // TODO: Store hash for history
+        yield included()
+      } catch (error) {
+        setError(error)
+      }
+    })
+
+    const calculateFee = () => {
+      return convertNanolikeToLIKE(gas.get() * GAS_PRICE)
+    }
+    
     const resetInput = () => {
-      setTargetAddress("")
-      setAmount(0)
+      message = undefined
+      errorMessage.set("")
+      setTargetAddress()
+      setAmount()
+      gas.set(0)
+      txHash.set("")
     }
 
     return {
       actions: {
+        createTransaction,
         setTargetAddress,
         setAmount,
+        signTransaction,
         resetInput,
       },
       views: {
+        get errorMessage() {
+          return errorMessage.get();
+        },
         get targetAddress() {
           return targetAddress.get();
         },
         get amount() {
           return amount.get()
+        },
+        get fee() {
+          return calculateFee()
+        },
+        get totalAmount() {
+          return new BigNumber(calculateFee())
+            .plus(new BigNumber(amount.get()))
+            .toFixed()
+        },
+        get txHash() {
+          return txHash.get()
+        },
+        get blockExplorerURL() {
+          return BigDipper.getTransactionURL(txHash.get())
         },
       }
     }

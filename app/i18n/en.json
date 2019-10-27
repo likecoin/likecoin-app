@@ -2,8 +2,10 @@
   "common": {
     "back": "Back",
     "cancel": "Cancel",
+    "confirm": "Confirm",
     "copy": "Copy",
     "copied": "Copied",
+    "done": "Done",
     "next": "Next",
     "ok": "OK!",
     "viewOnBlockExplorer": "View on Big Dipper"
@@ -14,12 +16,22 @@
   "signInScreen": {
     "heading": "As a Liker, every Like is a reward to creators"
   },
+  "transaction": {
+    "to": "To"
+  },
   "transferTargetInputScreen": {
     "targetInputLabel": "Send to",
     "targetInputPlaceholder": "Enter receiver address"
   },
   "transferAmountInputScreen": {
     "available": "Available"
+  },
+  "transferSigningScreen": {
+    "completed": "Transaction Completed",
+    "details": "Details",
+    "title": "Send",
+    "totalAmount": "Total",
+    "transactionFee": "Transaction fee"
   },
   "validator": {
     "delegatorShare": "Delegator Share",

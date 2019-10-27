@@ -41,7 +41,7 @@ export interface AmountInputPadProps {
   /**
    * The value of the input
    */
-  value?: number
+  value?: string
 
   /**
    * An optional style override useful for padding & margin.
@@ -51,7 +51,7 @@ export interface AmountInputPadProps {
   /**
    * The callback when the input is changed
    */
-  onChange?: (value: number) => void
+  onChange?: (value: string) => void
 }
 
 /**
@@ -59,16 +59,16 @@ export interface AmountInputPadProps {
  */
 export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
   state = {
-    displayValue: this.props.value.toFixed(),
+    displayValue: `${this.props.value}`,
   }
 
-  componentDidUpdate(_, prevState) {
+  componentDidUpdate(_prevProps: any, prevState: any) {
     if (this.state.displayValue !== prevState.displayValue) {
-      this._onChange(Number.parseFloat(this.state.displayValue))
+      this._onChange(this.state.displayValue)
     }
   }
 
-  _onChange = (value: number) => {
+  _onChange = (value: string) => {
     const callback = this.props.onChange
     if (callback) {
       callback(value)

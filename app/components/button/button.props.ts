@@ -55,6 +55,11 @@ export interface ButtonProps extends TouchableOpacityProps {
   link?: string
 
   /**
+   * Determine the component should hide or not
+   */
+  isHidden?: boolean
+
+  /**
    * One of the different types of text presets.
    */
   children?: React.ReactNode

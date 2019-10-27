@@ -51,6 +51,11 @@ export interface TextProps extends TextProperties {
   align?: TextStyle["textAlign"]
 
   /**
+   * Determine the component should hide or not
+   */
+  isHidden?: boolean
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: TextStyle | TextStyle[]

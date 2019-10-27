@@ -79,11 +79,11 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
     this.props.navigation.goBack()
   }
 
-  _onPressNextButton = () => {
-    // TODO: Next
+  _onPressNextButton = async () => {
+    this.props.navigation.navigate("TransferSigning")
   }
 
-  _onAmountInputChange = (amount: number) => {
+  _onAmountInputChange = (amount: string) => {
     this.props.transferStore.setAmount(amount)
   }
 
