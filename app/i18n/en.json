@@ -18,6 +18,9 @@
     "targetInputLabel": "Send to",
     "targetInputPlaceholder": "Enter receiver address"
   },
+  "transferAmountInputScreen": {
+    "available": "Available"
+  },
   "validator": {
     "delegatorShare": "Delegator Share",
     "description": "Description",

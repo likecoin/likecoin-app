@@ -82,7 +82,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   _onPressNextButton = () => {
-    // TODO: Next
+    this.props.navigation.navigate("TransferAmountInput")
   }
 
   _onTargetAddressInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {

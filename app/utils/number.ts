@@ -13,6 +13,10 @@ export function formatNumber(value: string) {
   return new BigNumber(value).toFormat()
 }
 
+export function formatLIKE(value: number | string) {
+  return `${value} LIKE`
+}
+
 export function percent(number: number | string) {
   return new BigNumber(number).toFormat(2).concat("%")
 }

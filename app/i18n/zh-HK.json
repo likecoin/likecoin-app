@@ -18,6 +18,9 @@
     "targetInputLabel": "轉帳至",
     "targetInputPlaceholder": "請輸入收款地址"
   },
+  "transferAmountInputScreen": {
+    "available": "可轉帳"
+  },
   "validator": {
     "delegatorShare": "委托股數",
     "description": "介紹",
