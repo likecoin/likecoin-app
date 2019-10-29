@@ -1,6 +1,15 @@
 jobs:
+  checkout_code:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths: .
   analyse_js:
-    executor: rn/linux_js
+    docker:
+      - image: circleci/node:10
     steps:
       - attach_workspace:
           at: .
@@ -14,15 +23,40 @@ jobs:
       - run:
           command: yarn test
           name: Jest
-  checkout_code:
-    executor: rn/linux_js
+  build_android_debug:
+    executor:
+      name: android/android
+      sdk-version: '28'
+      variant: 'node'
+    environment:
+      - BUILD_THREADS: 2
     steps:
-      - checkout
-      - persist_to_workspace:
-          root: .
-          paths: .
+      - attach_workspace:
+          at: .
+      - rn/yarn_install
+      - android/install-ndk
+      - android/restore-build-cache
+      - run:
+          name: Start gradle daemon
+          working_directory: android
+          command: ./gradlew --daemon || true
+      - run:
+          name: Install gradle dependencies
+          working_directory: android
+          command: ./gradlew dependencies
+      - run:
+          name: Set Debug keystore
+          command: echo ${DEBUG_KEYSTORE} | base64 -d > android/app/debug.keystore
+      - run:
+          name: Bundle debug
+          working_directory: android
+          command: ./gradlew assembleDebug --build-cache --max-workers 2
+      - store_artifacts:
+          path: android/app/build/outputs/apk
+      - android/save-build-cache
 orbs:
-  rn: react-native-community/react-native@1.2.1
+  android: circleci/android@0.2.0
+  rn: react-native-community/react-native@1.2.2
 version: 2.1
 workflows:
   test:
@@ -35,19 +69,7 @@ workflows:
           type: approval
           requires:
            - analyse_js
-      - rn/android_build:
-          build_type: debug
-          name: build_android_debug
-          project_path: android
+      - build_android_debug:
           requires:
             - hold_build_android_debug
-      - hold_build_android_release:
-          type: approval
-          requires:
-           - analyse_js
-      - rn/android_build:
-          build_type: release
-          name: build_android_release
-          project_path: android
-          requires:
-            - hold_build_android_release
+
