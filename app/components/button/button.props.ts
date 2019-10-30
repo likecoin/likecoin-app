@@ -60,6 +60,11 @@ export interface ButtonProps extends TouchableOpacityProps {
   isHidden?: boolean
 
   /**
+   * Show a loading animation if set to true
+   */
+  isLoading?: boolean
+
+  /**
    * One of the different types of text presets.
    */
   children?: React.ReactNode
