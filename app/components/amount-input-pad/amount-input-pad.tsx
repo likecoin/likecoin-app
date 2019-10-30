@@ -5,12 +5,14 @@ import {
   StyleSheet,
   TextStyle,
 } from "react-native"
+import { Icon } from "react-native-ui-kitten"
 import { splitEvery } from "ramda"
 
 import { AmountInputPadKey } from "./amount-input-pad.key"
 import DeleteIcon from "./delete-key.svg"
 
 import { Text } from "../../components/text"
+import { sizes } from "../../components/text/text.sizes"
 import { spacing, color } from "../../theme"
 
 const KEY_LIST = [
@@ -42,6 +44,16 @@ export interface AmountInputPadProps {
    * The value of the input
    */
   value?: string
+
+  /**
+   * The error description to display if not using `tx`.
+   */
+  errorText?: string
+
+  /**
+   * The error description which is looked up via i18n.
+   */
+  errorTx?: string
 
   /**
    * An optional style override useful for padding & margin.
@@ -91,7 +103,12 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
   }
 
   render() {
-    const { style, ...rest } = this.props
+    const {
+      errorText,
+      errorTx,
+      style,
+      ...rest
+    } = this.props
   
     return (
       <View style={style} {...rest}>
@@ -112,6 +129,20 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
             numberOfLines={1}
             adjustsFontSizeToFit
             style={STYLE.DISPLAY_VALUE}
+          />
+          <Text
+            tx={errorTx}
+            text={errorText}
+            isHidden={!(errorTx || errorText)}
+            color="angry"
+            prepend={
+              <Icon
+                name="alert-circle"
+                fill={color.error}
+                width={sizes.medium}
+                height={sizes.medium}
+              />
+            }
           />
         </View>
         <View>

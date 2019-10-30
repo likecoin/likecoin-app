@@ -3,8 +3,9 @@ import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
 import { Environment } from "../environment"
 import { ValidatorModel } from "../validator"
-import { nanolikeToLIKE } from "../../utils/number"
+import { formatNumber } from "../../utils/number"
 import { CosmosValidator } from "../../services/cosmos"
+import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 /**
  * Parse Cosemos Validator to model
@@ -63,6 +64,10 @@ export const WalletStoreModel = types
     const isFetchingBalance = observable.box(false)
     const hasFetchedBalance = observable.box(false)
 
+    const getBalanceInLIKE = () => {
+      return convertNanolikeToLIKE(balance.get())
+    }
+
     const getTotalDelegatorShares = () => self.validatorList.reduce(
       (total, validator) => total + parseFloat(validator.delegatorShares),
       0
@@ -114,8 +119,14 @@ export const WalletStoreModel = types
         get totalDelegatorShares() {
           return getTotalDelegatorShares()
         },
+        /**
+         * Return balance in LIKE
+         */
+        get balanceInLIKE() {
+          return getBalanceInLIKE()
+        },
         get formattedBalance() {
-          return nanolikeToLIKE(balance.get())
+          return formatNumber(getBalanceInLIKE(), 2)
         },
         get isFetchingBalance() {
           return isFetchingBalance.get()

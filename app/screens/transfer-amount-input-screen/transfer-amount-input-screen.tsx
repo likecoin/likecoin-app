@@ -22,6 +22,7 @@ import CloseIcon from "../../assets/cross.svg"
 import TransferGraph from "../../assets/graph/transfer.svg"
 
 import { formatLIKE } from "../../utils/number"
+import BigNumber from "bignumber.js"
 
 export interface TransferAmountInputScreenProps extends NavigationScreenProps<{}> {
   transferStore: TransferStore,
@@ -75,20 +76,56 @@ const NEXT: ViewStyle = {
 )
 @observer
 export class TransferAmountInputScreen extends React.Component<TransferAmountInputScreenProps, {}> {
+  state = {
+    /**
+     * The code of the error description which is looked up via i18n.
+     */
+    error: "",
+  }
+
+  /**
+   * Validate the amount input
+   */
+  _validate = () => {
+    let code = ""
+
+    const amount = new BigNumber(this.props.transferStore.amount)
+    const maxAmount = new BigNumber(this.props.walletStore.balanceInLIKE)
+
+    if (amount.isZero()) {
+      code = "TRANSFER_AMOUNT_LESS_THAN_ZERO"
+    } else if (amount.isGreaterThan(maxAmount)) {
+      code = "TRANSFER_AMOUNT_EXCEED_MAX"
+    }
+    
+    if (code) {
+      this.setState({ error: `error.${code}` })
+      return false
+    }
+
+    return true
+  }
+
   _onPressCloseButton = () => {
     this.props.navigation.goBack()
   }
 
   _onPressNextButton = async () => {
-    this.props.navigation.navigate("TransferSigning")
+    if (this._validate()) {
+      this.props.navigation.navigate("TransferSigning")
+    }
   }
 
   _onAmountInputChange = (amount: string) => {
     this.props.transferStore.setAmount(amount)
+    if (this.state.error) {
+      this.setState({ error: "" })
+    }
   }
 
   render () {
     const { amount } = this.props.transferStore
+    const { error } = this.state
     return (
       <Screen
         preset="fixed"
@@ -112,6 +149,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
             {this._renderHeader()}
             <AmountInputPad
               value={amount}
+              errorTx={error}
               style={AMOUNT_INPUT_PAD}
               onChange={this._onAmountInputChange}
             />

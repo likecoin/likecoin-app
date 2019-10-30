@@ -11,7 +11,9 @@
     "viewOnBlockExplorer": "View on Big Dipper"
   },
   "error": {
-    "INVALID_ACCOUNT_ADDRESS": "Invalid address"
+    "INVALID_ACCOUNT_ADDRESS": "Invalid address",
+    "TRANSFER_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero"
   },
   "receiveScreen": {
     "shareYourAddress": "Share your address"
