@@ -81,28 +81,41 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
      * The code of the error description which is looked up via i18n.
      */
     error: "",
+
+    /**
+     * True when creating transaction
+     */
+    isCreatingTransaction: false,
   }
 
   /**
-   * Validate the amount input
+   * Validate the amount and create transaction for signing
+   * 
+   * @return `true` if the success; otherwise, `false`
    */
-  _validate = () => {
+  _createTransactionForSigning = async () => {
     let code = ""
-
     const amount = new BigNumber(this.props.transferStore.amount)
-    const maxAmount = new BigNumber(this.props.walletStore.balanceInLIKE)
-
     if (amount.isZero()) {
       code = "TRANSFER_AMOUNT_LESS_THAN_ZERO"
-    } else if (amount.isGreaterThan(maxAmount)) {
-      code = "TRANSFER_AMOUNT_EXCEED_MAX"
-    }
-    
-    if (code) {
-      this.setState({ error: `error.${code}` })
-      return false
+    } else {
+      this.setState({ isCreatingTransaction: true })
+      await this.props.transferStore.createTransaction(this.props.walletStore.address)
+      this.setState({ isCreatingTransaction: false })
+      const amountWithFee = new BigNumber(this.props.transferStore.totalAmount)
+      const maxAmount = new BigNumber(this.props.walletStore.balanceInLIKE)
+      if (amountWithFee.isGreaterThan(maxAmount)) {
+        code = "TRANSFER_AMOUNT_EXCEED_MAX"
+      }
     }
 
+    if (code) {
+      this.setState({
+        error: `error.${code}`,
+        isCreatingTransaction: false
+      })
+      return false
+    }
     return true
   }
 
@@ -111,7 +124,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   }
 
   _onPressNextButton = async () => {
-    if (this._validate()) {
+    if (await this._createTransactionForSigning()) {
       this.props.navigation.navigate("TransferSigning")
     }
   }
@@ -156,6 +169,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
             <Button
               tx="common.next"
               style={NEXT}
+              isLoading={this.state.isCreatingTransaction}
               onPress={this._onPressNextButton}
             />
           </View>

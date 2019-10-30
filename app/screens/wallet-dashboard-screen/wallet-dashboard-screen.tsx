@@ -101,12 +101,13 @@ const VALIDATOR_LIST: ViewStyle = {
 @observer
 export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
   componentDidMount() {
+    this.props.walletStore.setAddress(this.props.userStore.selectedWalletAddress)
     this._fetchBalance()
     this._fetchValidators()
   }
 
   _fetchBalance() {
-    this.props.walletStore.fetchBalance(this.props.userStore.authCore.cosmosAddress)
+    this.props.walletStore.fetchBalance()
   }
 
   async _fetchValidators() {

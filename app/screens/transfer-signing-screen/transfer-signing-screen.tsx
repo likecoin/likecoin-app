@@ -1,6 +1,5 @@
 import * as React from "react"
 import {
-  ActivityIndicator,
   StyleSheet,
   TextStyle,
   View,
@@ -10,7 +9,6 @@ import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { TransferStore } from "../../models/transfer-store"
-import { UserStore } from "../../models/user-store"
 import { WalletStore } from "../../models/wallet-store"
 
 import { Button } from "../../components/button"
@@ -27,7 +25,6 @@ import { formatLIKE } from "../../utils/number"
 
 export interface TransferSigningScreenProps extends NavigationScreenProps<{}> {
   transferStore: TransferStore,
-  userStore: UserStore,
   walletStore: WalletStore,
 }
 
@@ -106,37 +103,27 @@ const TRANSACTION = StyleSheet.create({
 
 @inject(
   "transferStore",
-  "userStore",
   "walletStore",
 )
 @observer
 export class TransferSigningScreen extends React.Component<TransferSigningScreenProps, {}> {
   state = {
-    isCreatingTransaction: true,
     isSigningTransaction: false,
     isTransactionSuccess: false,
   }
 
-  componentDidMount() {
-    this._createTransaction()
-  }
-
-  _createTransaction = async () => {
-    this.setState({ isCreatingTransaction: true })
-    await this.props.transferStore.createTransaction(this.props.userStore.authCore.cosmosAddress)
-    this.setState({ isCreatingTransaction: false })
-  }
-
-  _sign = async () => {
+  _sendTransaction = async () => {
     this.setState({ isSigningTransaction: true })
-    const signer = this.props.userStore.authCore.createSigner()
-    await this.props.transferStore.signTransaction(signer)
+    await this.props.transferStore.signTransaction(this.props.walletStore.signer)
+    const isTransactionSuccess = !this.props.transferStore.errorMessage
     this.setState({
       isSigningTransaction: false,
-      isTransactionSuccess: !this.props.transferStore.errorMessage,
+      isTransactionSuccess,
     })
-    // Update balance
-    this.props.walletStore.fetchBalance(this.props.userStore.authCore.cosmosAddress)
+    if (isTransactionSuccess) {
+      // Update balance
+      this.props.walletStore.fetchBalance()
+    }
   }
 
   _onPressCloseButton = () => {
@@ -147,7 +134,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
     if (this.state.isTransactionSuccess) {
       this.props.navigation.dismiss()
     } else {
-      this._sign()
+      this._sendTransaction()
     }
   }
 
@@ -156,7 +143,6 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
       blockExplorerURL,
     } = this.props.transferStore
     const {
-      isCreatingTransaction,
       isSigningTransaction,
       isTransactionSuccess,
     } = this.state
@@ -192,14 +178,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
             isHidden={!isTransactionSuccess}
             style={COMPLETED_LABEL}
           />
-          {isCreatingTransaction ? (
-            <ActivityIndicator
-              color="white"
-              size="large" 
-            />
-          ) : (
-            this._renderSummary()
-          )}
+          {this._renderSummary()}
           <Button
             preset="outlined"
             tx="common.viewOnBlockExplorer"
@@ -213,17 +192,9 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
         <View style={BOTTOM_BAR}>
           <Button
             tx={confirmButtonTx}
-            disabled={isSigningTransaction}
-            isHidden={isCreatingTransaction}
+            isLoading={isSigningTransaction}
             onPress={this._onPressConfirmButton}
-          >
-            {isSigningTransaction &&
-              <ActivityIndicator
-                color={color.palette.likeGreen}
-                size="small" 
-              />
-            }
-          </Button>
+          />
         </View>
       </Screen>
     )
