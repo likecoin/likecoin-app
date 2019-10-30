@@ -134,6 +134,14 @@ PODS:
   - React-jsinspector (0.60.4)
   - react-native-authcore (1.0.0):
     - React
+  - react-native-camera (3.8.0):
+    - React
+    - react-native-camera/RCT (= 3.8.0)
+    - react-native-camera/RN (= 3.8.0)
+  - react-native-camera/RCT (3.8.0):
+    - React
+  - react-native-camera/RN (3.8.0):
+    - React
   - react-native-splash-screen (3.1.1):
     - React
   - react-native-webview (7.0.5):
@@ -200,6 +208,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-authcore (from `../node_modules/react-native-authcore`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -265,6 +274,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-authcore:
     :path: "../node_modules/react-native-authcore"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
@@ -335,6 +346,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-authcore: cca08325158d4979caff295a8cd064733b78264f
+  react-native-camera: 21cf4ed26cf432ceb1fae959aa6924943fd6f714
   react-native-splash-screen: 353334c5ae82d8c74501ea7cbb916cb7cb20c8bf
   react-native-webview: 174e0f8f1bf547224a134215607c75c4bb0312b7
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3

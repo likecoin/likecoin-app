@@ -9,6 +9,7 @@ import {
   ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
+import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
 import { TransferStore } from "../../models/transfer-store"
@@ -26,9 +27,12 @@ import { color, spacing } from "../../theme"
 
 import CloseIcon from "../../assets/cross.svg"
 import QRCodeIcon from "../../assets/qrcode-scan.svg"
-import { Icon } from "react-native-ui-kitten"
 
-export interface TransferTargetInputScreenProps extends NavigationScreenProps<{}> {
+export interface TransferTargetInputScreenParams {
+  address: string
+}
+
+export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
   transferStore: TransferStore,
 }
 
@@ -92,6 +96,19 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
 
   componentDidMount() {
     this.props.transferStore.resetInput()
+    this._mapParamsToProps()
+  }
+
+  componentDidUpdate(prepProps: TransferTargetInputScreenProps) {
+    this._mapParamsToProps(prepProps)
+  }
+
+  _mapParamsToProps = (prepProps?: TransferTargetInputScreenProps) => {
+    const prevAddress = prepProps && prepProps.navigation.getParam("address")
+    const address = this.props.navigation.getParam("address")
+    if (!prevAddress && address) {
+      this.props.transferStore.setTarget(address)
+    }
   }
 
   /**
@@ -121,7 +138,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   _onPressQRCodeButton = () => {
-    // TODO: Show QR code scanner
+    this.props.navigation.navigate("QRCodeScan")
   }
 
   _onPressNextButton = () => {
