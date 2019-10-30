@@ -234,7 +234,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
       amount,
       errorMessage,
       fee,
-      targetAddress,
+      target,
       totalAmount,
     } = this.props.transferStore
 
@@ -279,7 +279,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
                 tx="transaction.to"
                 style={TRANSACTION.LABEL}
               />
-              <Text text={targetAddress} />
+              <Text text={target} />
             </View>
           </View>
         </View>

@@ -10,6 +10,9 @@
     "ok": "OK!",
     "viewOnBlockExplorer": "View on Big Dipper"
   },
+  "error": {
+    "INVALID_ACCOUNT_ADDRESS": "Invalid address"
+  },
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },

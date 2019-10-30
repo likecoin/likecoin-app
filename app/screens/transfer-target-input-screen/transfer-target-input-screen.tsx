@@ -13,6 +13,8 @@ import { inject, observer } from "mobx-react"
 
 import { TransferStore } from "../../models/transfer-store"
 
+import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
+
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
 import { Screen } from "../../components/screen"
@@ -24,6 +26,7 @@ import { color, spacing } from "../../theme"
 
 import CloseIcon from "../../assets/cross.svg"
 import QRCodeIcon from "../../assets/qrcode-scan.svg"
+import { Icon } from "react-native-ui-kitten"
 
 export interface TransferTargetInputScreenProps extends NavigationScreenProps<{}> {
   transferStore: TransferStore,
@@ -59,6 +62,17 @@ const RECEIVER_TEXT_INPUT = StyleSheet.create({
     flex: 1,
   } as TextStyle,
 })
+const ERROR = StyleSheet.create({
+  VIEW: {
+    paddingHorizontal: spacing[3],
+    paddingVertical: spacing[4],
+    flexDirection: "row",
+    width: BUTTON_GROUP.width,
+  } as ViewStyle,
+  TEXT: {
+    flexGrow: 1,
+  } as TextStyle,
+})
 const BOTTOM_BAR: ViewStyle = {
   alignItems: "center",
 }
@@ -69,8 +83,37 @@ const NEXT: ViewStyle = {
 @inject("transferStore")
 @observer
 export class TransferTargetInputScreen extends React.Component<TransferTargetInputScreenProps, {}> {
+  state = {
+    /**
+     * The code of the error description which is looked up via i18n.
+     */
+    error: "",
+  }
+
   componentDidMount() {
     this.props.transferStore.resetInput()
+  }
+
+  /**
+   * Validate the target input
+   */
+  _validate = () => {
+    let error = ""
+    this.setState({ error })
+
+    let { target } = this.props.transferStore
+
+    // Check for address
+    if (!validateAccountAddress(target)) {
+      error = "INVALID_ACCOUNT_ADDRESS"
+    }
+
+    if (error) {
+      this.setState({ error })
+      return false
+    }
+
+    return true
   }
 
   _onPressCloseButton = () => {
@@ -82,19 +125,23 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   _onPressNextButton = () => {
-    this.props.navigation.navigate("TransferAmountInput")
+    // Trim before validation
+    this.props.transferStore.setTarget(this.props.transferStore.target.trim())
+    if (this._validate()) {
+      this.props.navigation.navigate("TransferAmountInput")
+    }
   }
 
-  _onTargetAddressInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    this.props.transferStore.setTargetAddress(event.nativeEvent.text)
+  _onTargetInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    this.props.transferStore.setTarget(event.nativeEvent.text)
   }
 
   render () {
-    const { targetAddress } = this.props.transferStore
+    const { target } = this.props.transferStore
     const bottomBarStyle = [
       BOTTOM_BAR,
       {
-        opacity: targetAddress ? 1 : 0,
+        opacity: target ? 1 : 0,
       } as ViewStyle,
     ]
     return (
@@ -130,14 +177,15 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                 style={RECEIVER_TEXT_INPUT.ROOT}
               >
                 <TextInput
+                  autoCapitalize="none"
                   autoCorrect={false}
                   placeholder={translate("transferTargetInputScreen.targetInputPlaceholder")}
                   placeholderTextColor={color.palette.greyBlue}
                   returnKeyType="next"
                   selectionColor={color.palette.likeCyan}
                   style={RECEIVER_TEXT_INPUT.TEXT}
-                  value={targetAddress}
-                  onChange={this._onTargetAddressInputChange}
+                  value={target}
+                  onChange={this._onTargetInputChange}
                 />
               </View>
             }
@@ -156,6 +204,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
               },
             ]}
           />
+          {this._renderError()}
         </View>
         <View style={bottomBarStyle}>
           <Button
@@ -165,6 +214,29 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
           />
         </View>
       </Screen>
+    )
+  }
+
+  _renderError = () => {
+    const { error } = this.state
+    const tx = `error.${error}`
+    return (
+      <View style={ERROR.VIEW}>
+        <Text
+          tx={tx}
+          color="angry"
+          isHidden={!error}
+          prepend={
+            <Icon
+              name="alert-circle"
+              fill={color.error}
+              width={sizes.medium}
+              height={sizes.medium}
+            />
+          }
+          style={ERROR.TEXT}
+        />
+      </View>
     )
   }
 }

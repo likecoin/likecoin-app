@@ -5,6 +5,11 @@ import { Color } from "../../theme"
 
 export interface TextProps extends TextProperties {
   /**
+   * A prepended element.
+   */
+  prepend?: React.ReactElement
+
+  /**
    * Children components.
    */
   children?: React.ReactNode

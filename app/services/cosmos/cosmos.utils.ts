@@ -40,3 +40,13 @@ export function parseCosmosCoin(value: number | string) {
 export function parseCosmosLIKE(value: number | string) {
   return parseCosmosCoin(convertLIKEToNanolike(value))
 }
+
+/**
+ * Valdiate the Cosmos account address
+ * 
+ * @param address The Cosmos account address
+ * @return Validity of the address
+ */
+export function validateAccountAddress(address: string) {
+  return /^cosmos1[ac-hj-np-z02-9]{38}$/.test(address)
+}

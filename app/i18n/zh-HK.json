@@ -10,6 +10,9 @@
     "ok": "好",
     "viewOnBlockExplorer": "在 Big Dipper 上查看"
   },
+  "error": {
+    "INVALID_ACCOUNT_ADDRESS": "錢包地址不正確"
+  },
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
   },

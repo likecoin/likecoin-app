@@ -32,7 +32,7 @@ export const TransferStoreModel = types
     const env: Environment = getEnv(self)
 
     const errorMessage = observable.box("")
-    const targetAddress = observable.box("")
+    const target = observable.box("")
     const amount = observable.box("0")
     const gas = observable.box(0)
     const txHash = observable.box("")
@@ -43,8 +43,8 @@ export const TransferStoreModel = types
       errorMessage.set(`${error}`)
     }
 
-    const setTargetAddress = (newTargetAddress: string = "") => {
-      targetAddress.set(newTargetAddress)
+    const setTarget = (newTarget: string = "") => {
+      target.set(newTarget)
     }
 
     const setAmount = (newAmount: string = "0") => {
@@ -57,7 +57,7 @@ export const TransferStoreModel = types
       txHash.set("")
       message = env.cosmosAPI.createSendMessage(
         fromAddress,
-        targetAddress.get(),
+        target.get(),
         amount.get()
       )
 
@@ -90,7 +90,7 @@ export const TransferStoreModel = types
     const resetInput = () => {
       message = undefined
       errorMessage.set("")
-      setTargetAddress()
+      setTarget()
       setAmount()
       gas.set(0)
       txHash.set("")
@@ -99,7 +99,7 @@ export const TransferStoreModel = types
     return {
       actions: {
         createTransaction,
-        setTargetAddress,
+        setTarget,
         setAmount,
         signTransaction,
         resetInput,
@@ -108,8 +108,8 @@ export const TransferStoreModel = types
         get errorMessage() {
           return errorMessage.get();
         },
-        get targetAddress() {
-          return targetAddress.get();
+        get target() {
+          return target.get();
         },
         get amount() {
           return amount.get()
