@@ -34,7 +34,7 @@ export async function setupRootStore() {
   let rootStore: RootStore
   let data: any
   let authCoreIdToken: string
-  let authCoreAssetToken: string
+  let authCoreAccessToken: string
 
   // prepare the environment that will be associated with the RootStore.
   const env = await createEnvironment()
@@ -44,7 +44,7 @@ export async function setupRootStore() {
       data = {},
       {
         username: authCoreIdToken,
-        password: authCoreAssetToken,
+        password: authCoreAccessToken,
       }, 
     ] = await Promise.all([
       await storage.load(ROOT_STATE_STORAGE_KEY),
@@ -52,7 +52,7 @@ export async function setupRootStore() {
     ])
     rootStore = RootStoreModel.create(data, env)
     if (rootStore.userStore.currentUser) {
-      await rootStore.userStore.authCore.init(authCoreAssetToken, authCoreIdToken)
+      await rootStore.userStore.authCore.init(authCoreAccessToken, authCoreIdToken)
     }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
@@ -95,7 +95,9 @@ export async function setupRootStore() {
         }),
       ]
       if (idToken && accessToken) {
-        promises.push(Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY))
+        if (!authCoreIdToken && !authCoreAccessToken) {
+          promises.push(Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY))
+        }
       } else {
         promises.push(Keychain.reset(AUTHCORE_CREDENTIAL_KEY))
       }
