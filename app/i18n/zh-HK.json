@@ -15,6 +15,10 @@
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0"
   },
+  "qrcodeScannerScreen": {
+    "hintText": "掃描二維碼",
+    "showMyQRCode": "我的二維碼"
+  },
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
   },

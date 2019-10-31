@@ -16,6 +16,8 @@ import { Validator } from "../../models/validator"
 import { percent } from "../../utils/number"
 import { color, gradient, spacing } from "../../theme"
 
+import QRCodeIcon from "../../assets/qrcode-scan.svg"
+
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
   walletStore: WalletStore
@@ -27,6 +29,7 @@ const FULL: ViewStyle = {
 }
 const SCREEN: ViewStyle = {
   flexGrow: 1,
+  alignItems: "stretch",
 }
 const DASHBOARD_HEADER: ViewStyle = {
   padding: 24,
@@ -78,6 +81,9 @@ const DASHBOARD_BODY_INNER: ViewStyle = {
   shadowRadius: 4.65,
   elevation: 6,
 }
+const QRCODE_BUTTON: ViewStyle = {
+  paddingHorizontal: spacing[3],
+}
 const WALLET_BALANCE_PANEL: ViewStyle = {
   borderTopLeftRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
   borderTopRightRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
@@ -121,6 +127,10 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
 
   _onPressReceiveButton = () => {
     this.props.navigation.navigate("Receive")
+  }
+
+  _onPressQRCodeButton = () => {
+    this.props.navigation.navigate("QRCodeScan")
   }
 
   _onPressValidator = (validator: Validator) => {
@@ -169,6 +179,19 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                     key: "receive",
                     tx: "walletDashboardScreen.receive",
                     onPress: this._onPressReceiveButton,
+                  },
+                  {
+                    key: "scan",
+                    preset: "icon",
+                    children: (
+                      <QRCodeIcon
+                        width={16}
+                        height={16}
+                        fill={color.palette.white}
+                      />
+                    ),
+                    style: QRCODE_BUTTON,
+                    onPress: this._onPressQRCodeButton,
                   },
                 ]}
               />

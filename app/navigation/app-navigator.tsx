@@ -7,6 +7,7 @@ import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { TransferNavigator } from "./transfer-navigator"
 import { ContentViewScreen } from "../screens/content-view-screen"
+import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
 import { ValidatorScreen } from "../screens/validator-screen"
 import { color } from "../theme"
@@ -54,6 +55,7 @@ const MainTabs = createBottomTabNavigator({
 export const AppNavigator = createStackNavigator({
   Main: MainTabs,
   ContentView: ContentViewScreen,
+  QRCodeScan: QrcodeScannerScreen,
   Receive: ReceiveScreen,
   Transfer: TransferNavigator,
   Validator: ValidatorScreen,

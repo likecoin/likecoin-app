@@ -15,6 +15,10 @@
     "TRANSFER_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero"
   },
+  "qrcodeScannerScreen": {
+    "hintText": "Scan QR Code",
+    "showMyQRCode": "Show my QR Code"
+  },
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },
