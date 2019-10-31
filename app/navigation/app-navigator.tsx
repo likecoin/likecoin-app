@@ -5,6 +5,7 @@ import { Icon } from "react-native-ui-kitten"
 import { WalletNavigator } from "./wallet-navigator"
 import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
+import { TransferNavigator } from "./transfer-navigator"
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
 import { ValidatorScreen } from "../screens/validator-screen"
@@ -54,6 +55,7 @@ export const AppNavigator = createStackNavigator({
   Main: MainTabs,
   ContentView: ContentViewScreen,
   Receive: ReceiveScreen,
+  Transfer: TransferNavigator,
   Validator: ValidatorScreen,
 }, {
   mode: "modal",

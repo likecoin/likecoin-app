@@ -1,3 +1,5 @@
+import { Buffer } from "buffer"
+
 export interface CosmosCoinResult {
   denom: string
   amount: string
@@ -35,4 +37,32 @@ export interface CosmosValidator {
     update_time: string
   }
   min_self_delegation: string
+}
+
+export interface CosmosSendResult {
+  hash: string
+  sequence: any
+  included: () => Promise<any>
+}
+
+export interface CosmosSignature {
+  signature: Buffer
+  publicKey: Buffer
+}
+
+export interface CosmosMessage {
+  message: any
+  simulate: ({ memo }: {
+    memo?: any
+  }) => Promise<number>
+  send: (
+    meta: {
+      gas: any
+      gasPrices?: any
+      memo?: any
+    },
+    signer: (
+      signMessage: string,
+    ) => CosmosSignature
+  ) => Promise<CosmosSendResult>
 }

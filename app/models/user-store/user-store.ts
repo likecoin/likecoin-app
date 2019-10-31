@@ -54,6 +54,11 @@ export const UserStoreModel = types
       }
     }),
   }))
+  .views(self => ({
+    get selectedWalletAddress() {
+      return self.authCore.cosmosAddresses[0]
+    },
+  }))
 
 type UserStoreType = Instance<typeof UserStoreModel>
 export interface UserStore extends UserStoreType {}

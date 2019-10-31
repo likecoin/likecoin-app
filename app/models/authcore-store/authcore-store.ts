@@ -1,7 +1,7 @@
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { Environment } from "../environment"
-import { BigDipper } from "../../services/big-dipper"
 
 /**
  * AuthCore store
@@ -12,13 +12,8 @@ export const AuthCoreStoreModel = types
     accessToken: types.maybe(types.string),
     idToken: types.maybe(types.string),
     profile: types.maybe(AuthCoreUserModel),
-    cosmosAddress: types.maybe(types.string),
+    cosmosAddresses: types.optional(types.array(types.string), []),
   })
-  .views(self => ({
-    get bigDipperAccountURL() {
-      return BigDipper.getAccountURL(self.cosmosAddress)
-    },
-  }))
   .actions(self => ({
     init: flow(function * (
       accessToken: string,
@@ -31,7 +26,7 @@ export const AuthCoreStoreModel = types
       
       const env: Environment = getEnv(self)
       yield env.authCoreAPI.setup(accessToken)
-      self.cosmosAddress = yield env.authCoreAPI.getCosmosAddress()
+      self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
     }),
     signIn: flow(function * () {
       const env: Environment = getEnv(self)
@@ -43,7 +38,7 @@ export const AuthCoreStoreModel = types
       self.idToken = idToken
       
       yield env.authCoreAPI.setup(accessToken)
-      self.cosmosAddress = yield env.authCoreAPI.getCosmosAddress()
+      self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
     }),
     signOut: flow(function * () {
       const env: Environment = getEnv(self)

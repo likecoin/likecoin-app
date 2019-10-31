@@ -16,4 +16,8 @@ export class BigDipper {
   static getValidatorURL(address: string) {
     return `${BIG_DIPPER_URL}/validator/${address}`
   }
+
+  static getTransactionURL(hash: string) {
+    return `${BIG_DIPPER_URL}/transactions/${hash}`
+  }
 }

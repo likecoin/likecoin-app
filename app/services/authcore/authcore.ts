@@ -69,10 +69,10 @@ export class AuthCoreAPI {
     }
   }
 
-  async getCosmosAddress() {
-    if (!this.cosmosProvider) return undefined
-    const [cosmosAddress] = await this.cosmosProvider.getAddresses()
-    return cosmosAddress
+  async getCosmosAddresses() {
+    if (!this.cosmosProvider) return []
+    const addresses: string[] = await this.cosmosProvider.getAddresses()
+    return addresses
   }
 
   /**

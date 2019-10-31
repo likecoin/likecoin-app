@@ -1,10 +1,16 @@
+import { Buffer } from "buffer"
 import { observable } from "mobx"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
 import { Environment } from "../environment"
 import { ValidatorModel } from "../validator"
-import { nanolikeToLIKE } from "../../utils/number"
-import { CosmosValidator } from "../../services/cosmos"
+import { formatNumber } from "../../utils/number"
+import {
+  CosmosSignature,
+  CosmosValidator,
+} from "../../services/cosmos"
+import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
+import { BigDipper } from "../../services/big-dipper"
 
 /**
  * Parse Cosemos Validator to model
@@ -59,19 +65,31 @@ export const WalletStoreModel = types
   .extend(self => {
     const env: Environment = getEnv(self)
 
+    /**
+     * The address of the wallet
+     */
+    const address = observable.box("")
     const balance = observable.box("0")
     const isFetchingBalance = observable.box(false)
     const hasFetchedBalance = observable.box(false)
+
+    const setAddress = (newAddress: string) => {
+      address.set(newAddress)
+    }
+
+    const getBalanceInLIKE = () => {
+      return convertNanolikeToLIKE(balance.get())
+    }
 
     const getTotalDelegatorShares = () => self.validatorList.reduce(
       (total, validator) => total + parseFloat(validator.delegatorShares),
       0
     )
 
-    const fetchBalance = flow(function * (address: string) {
+    const fetchBalance = flow(function * () {
       isFetchingBalance.set(true)
       try {
-        balance.set(yield env.cosmosAPI.queryBalance(address))
+        balance.set(yield env.cosmosAPI.queryBalance(address.get()))
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchBalance: ${error}`, null)
       } finally {
@@ -109,13 +127,45 @@ export const WalletStoreModel = types
       }
     })
 
+    const createSigner = () => {
+      return async (message: string) => {
+        const signedPayload = await env.authCoreAPI.cosmosProvider.sign(
+          JSON.parse(message),
+          address.get(),
+        )
+        const {
+          signature,
+          pub_key: publicKey,
+        } = signedPayload.signatures[signedPayload.signatures.length - 1]
+        return {
+          signature: Buffer.from(signature, 'base64'),
+          publicKey: Buffer.from(publicKey.value, 'base64'),
+        } as CosmosSignature
+      }
+    }
+
     return {
       views: {
+        get address() {
+          return address.get()
+        },
+        /**
+         * The URL of the account page in block explorer
+         */
+        get blockExplorerURL() {
+          return BigDipper.getAccountURL(address.get())
+        },
         get totalDelegatorShares() {
           return getTotalDelegatorShares()
         },
+        /**
+         * Return balance in LIKE
+         */
+        get balanceInLIKE() {
+          return getBalanceInLIKE()
+        },
         get formattedBalance() {
-          return nanolikeToLIKE(balance.get())
+          return formatNumber(getBalanceInLIKE(), 2)
         },
         get isFetchingBalance() {
           return isFetchingBalance.get()
@@ -130,11 +180,15 @@ export const WalletStoreModel = types
           }
           return Number.parseFloat(validator.delegatorShares) / getTotalDelegatorShares() * 100
         },
+        get signer() {
+          return createSigner()
+        },
       },
       actions: {
         fetchValidators,
         fetchBalance,
         fetchAnnualProvision,
+        setAddress,
       }
     }
   })

@@ -11,17 +11,18 @@ import {
 } from "react-native"
 import QRCode from 'react-native-qrcode-svg'
 
+import { WalletStore } from "../../models/wallet-store"
+
 import { Button } from "../../components/button"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 import { color, spacing } from "../../theme"
-import { UserStore } from "../../models/user-store"
 
 import ShareIcon from "../../assets/share.svg"
 import CloseIcon from "../../assets/cross.svg"
 
 export interface ReceiveScreenProps extends NavigationScreenProps<{}> {
-  userStore: UserStore,
+  walletStore: WalletStore,
 }
 
 const ROOT: ViewStyle = {
@@ -66,7 +67,7 @@ const BOTTOM_BAR: ViewStyle = {
   backgroundColor: color.palette.white,
 }
 
-@inject("userStore")
+@inject("walletStore")
 @observer
 export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   state = {
@@ -74,12 +75,12 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   }
 
   _onPressShareButton = () => {
-    const { cosmosAddress: message } = this.props.userStore.authCore
+    const { address: message } = this.props.walletStore
     Share.share({ message }) 
   }
   
   _onPressCopyButton = () => {
-    const { cosmosAddress: message } = this.props.userStore.authCore
+    const { address: message } = this.props.walletStore
     Clipboard.setString(message)
     this.setState({ isCopied: true })
   }
@@ -89,11 +90,11 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   }
 
   _onPressViewExternalButton = () => {
-    Linking.openURL(this.props.userStore.authCore.bigDipperAccountURL)
+    Linking.openURL(this.props.walletStore.address)
   }
 
   render () {
-    const { cosmosAddress: address } = this.props.userStore.authCore
+    const { address } = this.props.walletStore
 
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 

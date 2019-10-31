@@ -1,8 +1,7 @@
 import Cosmos from "@lunie/cosmos-api"
 
-import { CosmosAccountResult, CosmosValidator } from "./cosmos.types"
-
-const DENOM = "nanolike"
+import { CosmosAccountResult, CosmosValidator, CosmosMessage } from "./cosmos.types"
+import { DENOM, parseCosmosLIKE } from "./cosmos.utils"
 
 /**
  * Cosmos API helper for LikeCoin
@@ -43,5 +42,19 @@ export class CosmosAPI {
    */
   async queryAnnualProvision() {
     return this.api.get.annualProvisionedTokens()
+  }
+
+  /**
+   * Create the transaction object
+   */
+  createSendMessage(
+    fromAddress: string,
+    toAddress: string,
+    amount: string
+  ) {
+    return this.api.MsgSend(fromAddress, {
+      toAddress,
+      amounts: [parseCosmosLIKE(amount)],
+    }) as CosmosMessage
   }
 }

@@ -30,6 +30,7 @@
     "@ui-kitten/eva-icons": "^4.2.0-beta.1",
     "apisauce": "1.0.3",
     "authcore-js": "^1.0.1",
+    "buffer": "^5.4.3",
     "i18n-js": "^3.0.11",
     "lodash.throttle": "4.1.1",
     "mobx": "^4.13.0",
