@@ -780,12 +780,13 @@
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.10.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.like.LikeCoin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oice;
 				PRODUCT_NAME = LikeCoinApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -801,12 +802,13 @@
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.10.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.like.LikeCoin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oice;
 				PRODUCT_NAME = LikeCoinApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
