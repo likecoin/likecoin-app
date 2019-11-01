@@ -8801,7 +8801,7 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
 
 "react-native-authcore@https://gitlab.com/blocksq/react-native-authcore":
   version "1.0.0"
-  resolved "https://gitlab.com/blocksq/react-native-authcore#55b4c167afcff207bf327a72c4ed70e01b7f87e6"
+  resolved "https://gitlab.com/blocksq/react-native-authcore#363ffab2e9f342d5050376d158b6e50e4ef27efe"
   dependencies:
     url "^0.11.0"
 
