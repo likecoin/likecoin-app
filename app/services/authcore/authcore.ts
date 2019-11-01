@@ -44,7 +44,9 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback
 
-  constructor(callbacks = {}) {
+  constructor(callbacks = {
+    unauthenticated: () => {},
+  }) {
     this.callbacks = callbacks
 
     this.client = new AuthCore({
@@ -53,12 +55,14 @@ export class AuthCoreAPI {
   }
 
   async setup(accessToken: string) {
+    console.tron.log("SETUP AUTHCORE SERVICE")
     const { webAuth } = this.client
     webAuth.client.bearer = `Bearer ${accessToken}`
 
     this.keyVaultClient = await new AuthCoreKeyVaultClient({
       apiBaseURL,
       accessToken,
+      callbacks: this.callbacks,
     })
     this.cosmosProvider = await new AuthCoreCosmosProvider({
       authcoreClient: this.keyVaultClient,
@@ -85,7 +89,17 @@ export class AuthCoreAPI {
 
     // Sign in
     const redirectURI = `${NativeModules.Authcore.bundleIdentifier}://${webAuth.baseUrl.replace(/https?:\/\//, "")}`
-    const redirectURL = await webAuth.agent.show(`${webAuth.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectURI}`, false)
+    
+    let redirectURL: string
+    try {
+      redirectURL = await webAuth.agent.show(`${webAuth.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectURI}`, false)
+    } catch (error) {
+      if (error.error === "authcore.session.user_cancelled") {
+        throw new Error("USER_CANCEL_AUTH")
+      }
+      throw error
+    }
+
     const query = new Url(redirectURL, true).query
     const {
       json: {
@@ -109,7 +123,9 @@ export class AuthCoreAPI {
    */
   signOut() {
     const { webAuth } = this.client
-    return webAuth.client.delete("/api/auth/sessions")
+    return webAuth.client.delete("/api/auth/sessions").then(() => {
+      webAuth.client.bearer = ''
+    })
   }
 
   /**

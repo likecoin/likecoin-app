@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, flow, getEnv, types } from "mobx-state-tree"
+import { observable } from "mobx"
 
 import { Environment } from "../environment"
 import { UserModel } from "../user"
@@ -13,29 +14,32 @@ export const UserStoreModel = types
   .model("UserStore")
   .props({
     currentUser: types.maybe(UserModel),
-    isSigningIn: types.optional(types.boolean, false),
     authCore: types.optional(AuthCoreStoreModel, {}),
   })
-  .actions(self => ({
-    setIsSigningIn(value: boolean) {
-      self.isSigningIn = value
-    },
-    login: flow(function * (params: UserLoginParams) {
-      const env: Environment = getEnv(self)
+  .extend(self => {
+    const env: Environment = getEnv(self)
+
+    const isSigningIn = observable.box(false)
+
+    const setIsSigningIn = (value: boolean) => {
+      isSigningIn.set(value)
+    }
+
+    const login = flow(function * (params: UserLoginParams) {
       const result: GeneralResult = yield env.likeCoAPI.login(params)
       switch (result.kind) {
         case "not-found":
           throw new Error("USER_NOT_FOUND")
       }
-    }),
-    logout: flow(function * () {
-      const env: Environment = getEnv(self)
+    })
+
+    const logout = flow(function * () {
       yield env.likeCoAPI.logout()
       self.currentUser = undefined
       yield self.authCore.signOut()
-    }),
-    fetchUserInfo: flow(function * () {
-      const env: Environment = getEnv(self)
+    })
+
+    const fetchUserInfo = flow(function * () {
       const result: UserResult = yield env.likeCoAPI.fetchCurrentUserInfo()
       switch (result.kind) {
         case "ok": {
@@ -53,13 +57,25 @@ export const UserStoreModel = types
           })
         }
       }
-    }),
-  }))
-  .views(self => ({
-    get selectedWalletAddress() {
-      return self.authCore.cosmosAddresses[0]
-    },
-  }))
+    })
+
+    return {
+      actions: {
+        setIsSigningIn,
+        login,
+        logout,
+        fetchUserInfo,
+      },
+      views: {
+        get isSigningIn() {
+          return isSigningIn.get()
+        },
+        get selectedWalletAddress() {
+          return self.authCore.cosmosAddresses[0]
+        },
+      },
+    }
+  })
 
 type UserStoreType = Instance<typeof UserStoreModel>
 export interface UserStore extends UserStoreType {}

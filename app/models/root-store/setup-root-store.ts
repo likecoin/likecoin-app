@@ -77,7 +77,6 @@ export async function setupRootStore() {
       readerStore: { contents },
       userStore: {
         authCore,
-        isSigningIn,
         ...userStoreRest
       },
       ...snapshot
@@ -98,7 +97,7 @@ export async function setupRootStore() {
       ]
       if (idToken && accessToken) {
         if (!authCoreIdToken && !authCoreAccessToken) {
-          promises.push(Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY))
+          promises.push(Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY).catch())
         }
       } else {
         promises.push(Keychain.reset(AUTHCORE_CREDENTIAL_KEY))

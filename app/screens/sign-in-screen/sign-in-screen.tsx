@@ -1,21 +1,19 @@
 import * as React from "react"
 import { View, ViewStyle, TextStyle, SafeAreaView, Alert } from "react-native"
-import { Button } from "react-native-ui-kitten"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes as GOOGLE_STATUS_CODE
-} from 'react-native-google-signin'
-import FirebaseAuth, { Auth } from '@react-native-firebase/auth'
 
+import { UserLoginParams } from "../../services/api"
+
+import { UserStore } from "../../models/user-store"
+
+import { Button } from "../../components/button"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
+
 import { color, spacing } from "../../theme"
-import { UserStore } from "../../models/user-store"
-import { UserLoginParams } from "../../services/api"
+import { translate } from "../../i18n"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -26,17 +24,10 @@ const TITLE_WRAPPER: TextStyle = {
   marginHorizontal: spacing[4],
   marginVertical: spacing[8],
 }
-const GOOGLE_SIGN_IN_BUTTON: ViewStyle = {
-  width: '100%',
-  height: 54,
-}
-const AUTHCORE_BUTTON_TEXT: TextStyle = {
-  color: color.palette.likeCyan,
-  fontSize: 12,
-}
 const FOOTER_CONTENT: ViewStyle = {
   paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
+  paddingHorizontal: spacing[6],
+  alignItems: "stretch",
 }
 const FOOTNOTE: TextStyle = {
   color: color.palette.lightGrey,
@@ -56,9 +47,6 @@ export interface SignInScreenProps extends NavigationScreenProps<SignInScreenNav
 @observer
 export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   componentDidMount() {
-    GoogleSignin.configure({
-      forceConsentPrompt: true
-    })
     this._checkNavigationParams()
   }
 
@@ -71,72 +59,18 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     if (signInParams) this._signIn(signInParams)
   }
 
-  _signInWithGoogle = async () => {
-    let googleIDToken: string
-    let googleAccessToken: string
-    try {
-      await GoogleSignin.hasPlayServices()
-      await GoogleSignin.signIn();
-      ({
-        idToken: googleIDToken,
-        accessToken: googleAccessToken,
-      } = await GoogleSignin.getTokens())
-    } catch (error) {
-      if (error.code === GOOGLE_STATUS_CODE.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === GOOGLE_STATUS_CODE.IN_PROGRESS) {
-        Alert.alert("Sign-in is in progress")
-      } else if (error.code === GOOGLE_STATUS_CODE.PLAY_SERVICES_NOT_AVAILABLE) {
-        Alert.alert("Google Play service is not available")
-      } else {
-        Alert.alert("Firebase sign in error")
-      }
-      throw error
-    }
-
-    const credential = FirebaseAuth.GoogleAuthProvider.credential(googleIDToken, googleAccessToken)
-    let firebaseIdToken: string
-    try {
-      firebaseIdToken = await this._signInToFirebase(credential)
-    } catch (error) {
-      Alert.alert("Firebase sign in error")
-      throw error
-    }
-
-    try {
-      await this._signIn({
-        platform: "google",
-        accessToken: googleAccessToken,
-        firebaseIdToken,
-      })
-    } catch (error) {
-      Alert.alert("like.co sign in error")
-      throw error
-    }
-  }
-
-  _signInToFirebase = async (credential: Auth.AuthCredential) => {
-    const firebaseUserCredential = await FirebaseAuth().signInWithCredential(credential)
-    return firebaseUserCredential.user.getIdToken()
-  }
-
   _signInWithAuthCore = async () => {
-    try {
-      await this.props.userStore.authCore.signIn()
-      await this.props.userStore.authCore.getCurrentUser()
-    } catch (error) {
-      Alert.alert("AuthCore sign in error")
-      throw error
-    }
+    await this.props.userStore.authCore.signIn()
 
     const {
       accessToken,
       idToken,
-      profile: {
-        primaryEmail: email,
-        displayName,
-      }
     } = this.props.userStore.authCore
+
+    const {
+      primaryEmail: email,
+      displayName,
+    } = this.props.userStore.authCore.profile
 
     try {
       await this._signIn({
@@ -169,27 +103,27 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     }
   }
 
-  _onClickGoogleSignInButton = async () => {
+  _onPressAuthCoreButton = async () => {
     this.props.userStore.setIsSigningIn(true)
     try {
-      this._signInWithGoogle()
+      await this._signInWithAuthCore()
     } catch (error) {
-      __DEV__ && console.tron.error(error, null)
-      this.props.userStore.setIsSigningIn(false)
-    }
-  }
-
-  _onPressAuthCoreButton = () => {
-    this.props.userStore.setIsSigningIn(true)
-    try {
-      this._signInWithAuthCore()
-    } catch (error) {
-      __DEV__ && console.tron.error(`${error}`, null)
+      if (error.message === "USER_CANCEL_AUTH") {
+        // User cancelled auth, do nothing
+      } else {
+        __DEV__ && console.tron.error(`Error occurs when signing in with AuthCore: ${error}`, null)
+        Alert.alert(`${translate("signInScreen.error")}: ${error}`)
+      }
+    } finally {
       this.props.userStore.setIsSigningIn(false)
     }
   }
 
   render() {
+    const {
+      currentUser,
+      isSigningIn,
+    } = this.props.userStore
     return (
       <View style={FULL}>
         <Wallpaper />
@@ -210,20 +144,13 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
         </Screen>
         <SafeAreaView>
           <View style={FOOTER_CONTENT}>
-            <GoogleSigninButton
-              style={GOOGLE_SIGN_IN_BUTTON}
-              size={GoogleSigninButton.Size.Wide}
-              color={GoogleSigninButton.Color.Light}
-              onPress={this._onClickGoogleSignInButton}
-              disabled={this.props.userStore.isSigningIn}
-            />
             <Button
+              tx="signInScreen.signIn"
+              preset="primary"
+              isLoading={!!isSigningIn}
+              isHidden={!!currentUser}
               onPress={this._onPressAuthCoreButton}
-              textStyle={AUTHCORE_BUTTON_TEXT}
-              appearance="ghost"
-            >
-              Sign in with AuthCore (Testnet)
-            </Button>
+            />
             <Text style={FOOTNOTE}>Registration is not yet implemented</Text>
           </View>
         </SafeAreaView>

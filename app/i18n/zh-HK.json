@@ -23,7 +23,9 @@
     "shareYourAddress": "分享你的地址"
   },
   "signInScreen": {
-    "heading": "Liker 登入按讚\n作者獲得收入"
+    "error": "登入錯誤",
+    "heading": "Liker 登入按讚\n作者獲得收入",
+    "signIn": "登入"
   },
   "transfer": {
     "to": "至"

@@ -14,8 +14,19 @@ export const AuthCoreStoreModel = types
     profile: types.maybe(AuthCoreUserModel),
     cosmosAddresses: types.optional(types.array(types.string), []),
   })
-  .actions(self => ({
-    init: flow(function * (
+  .extend(self => {
+    const env: Environment = getEnv(self)
+
+    const fetchCurrentUser = flow(function * () {
+      const currentUser: any = yield env.authCoreAPI.getCurrentUser()
+      self.profile = AuthCoreUserModel.create(currentUser)
+    })
+
+    const fetchCosmosAddress = flow(function * () {
+      self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
+    })
+
+    const init = flow(function * (
       accessToken: string,
       idToken: string,
       profile?: AuthCoreUser
@@ -24,36 +35,42 @@ export const AuthCoreStoreModel = types
       self.idToken = idToken
       if (profile) self.profile = profile
 
-      const env: Environment = getEnv(self)
       yield env.authCoreAPI.setup(accessToken)
-      self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
-    }),
-    signIn: flow(function * () {
-      const env: Environment = getEnv(self)
+      yield fetchCosmosAddress()
+      yield fetchCurrentUser()
+    })
+
+    const signIn = flow(function * () {
       const {
         accessToken,
         idToken,
       }: any = yield env.authCoreAPI.signIn()
       self.accessToken = accessToken
       self.idToken = idToken
+      
 
-      yield env.authCoreAPI.setup(accessToken)
-      self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
-    }),
-    signOut: flow(function * () {
-      const env: Environment = getEnv(self)
+      yield env.authCoreAPI.setup(self.accessToken)
+      yield fetchCosmosAddress()
+      yield fetchCurrentUser()
+    })
+
+    const signOut = flow(function * () {
       yield env.authCoreAPI.signOut()
 
       self.accessToken = undefined
       self.idToken = undefined
       self.profile = undefined
-    }),
-    getCurrentUser: flow(function * () {
-      const env: Environment = getEnv(self)
-      const currentUser: any = yield env.authCoreAPI.getCurrentUser()
-      self.profile = AuthCoreUserModel.create(currentUser)
-    }),
-  }))
+    })
+
+    return {
+      actions: {
+        fetchCurrentUser,
+        init,
+        signIn,
+        signOut,
+      },
+    }
+  })
 
 type AuthcoreStoreType = Instance<typeof AuthCoreStoreModel>
 export interface AuthcoreStore extends AuthcoreStoreType {}

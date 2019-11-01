@@ -12,8 +12,6 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 
-#import <RNGoogleSignin/RNGoogleSignin.h>
-
 @import Firebase;
 
 @implementation AppDelegate
@@ -52,10 +50,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
   return [RCTLinkingManager application:application
                                 openURL:url
-                                options:options] || [RNGoogleSignin application:application
-                             openURL:url
-                   sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                          annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+                                options:options];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {

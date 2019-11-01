@@ -23,7 +23,9 @@
     "shareYourAddress": "Share your address"
   },
   "signInScreen": {
-    "heading": "As a Liker, every Like is a reward to creators"
+    "error": "Sign in error",
+    "heading": "As a Liker, every Like is a reward to creators",
+    "signIn": "Sign In"
   },
   "transaction": {
     "to": "To"
