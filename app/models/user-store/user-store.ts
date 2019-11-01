@@ -5,7 +5,12 @@ import { Environment } from "../environment"
 import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
 
-import { UserResult, UserLoginParams, GeneralResult } from "../../services/api"
+import {
+  GeneralResult,
+  UserLoginParams,
+  UserResult,
+  UserRegisterParams,
+} from "../../services/api"
 
 /**
  * Store user related information.
@@ -24,6 +29,10 @@ export const UserStoreModel = types
     const setIsSigningIn = (value: boolean) => {
       isSigningIn.set(value)
     }
+
+    const register = flow(function * (params: UserRegisterParams) {
+      yield env.likeCoAPI.register(params)
+    })
 
     const login = flow(function * (params: UserLoginParams) {
       const result: GeneralResult = yield env.likeCoAPI.login(params)
@@ -62,6 +71,7 @@ export const UserStoreModel = types
     return {
       actions: {
         setIsSigningIn,
+        register,
         login,
         logout,
         fetchUserInfo,

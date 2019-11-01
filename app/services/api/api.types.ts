@@ -33,6 +33,10 @@ export interface UserLoginParams {
   displayName?: string
 }
 
+export interface UserRegisterParams extends UserLoginParams {
+  user: string
+}
+
 export type GeneralResult = { kind: "ok" } | GeneralApiProblem
 export type UserResult = { kind: "ok"; data: User } | GeneralApiProblem
 export type ContentResult = { kind: "ok"; data: Content } | GeneralApiProblem

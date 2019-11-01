@@ -29,12 +29,6 @@ const FOOTER_CONTENT: ViewStyle = {
   paddingHorizontal: spacing[6],
   alignItems: "stretch",
 }
-const FOOTNOTE: TextStyle = {
-  color: color.palette.lightGrey,
-  fontSize: 10,
-  textAlign: "center",
-  marginTop: spacing[2],
-}
 
 interface SignInScreenNavigationParams {
   signIn: UserLoginParams
@@ -94,11 +88,11 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     } catch (error) {
       switch (error.message) {
         case 'USER_NOT_FOUND':
-          // TODO: Show registration form
-          Alert.alert("Sign In", "User not found")
+          this.props.navigation.navigate("Register", { params })
           break
 
         default:
+          throw error
       }
     }
   }
@@ -151,7 +145,6 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
               isHidden={!!currentUser}
               onPress={this._onPressAuthCoreButton}
             />
-            <Text style={FOOTNOTE}>Registration is not yet implemented</Text>
           </View>
         </SafeAreaView>
       </View>

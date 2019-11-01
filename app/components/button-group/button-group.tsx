@@ -88,3 +88,7 @@ export function ButtonGroup(props: ButtonGroupProps) {
     </View>
   )
 }
+
+ButtonGroup.defaultProps = {
+  buttons: []
+}

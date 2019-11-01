@@ -12,6 +12,7 @@
   },
   "error": {
     "INVALID_ACCOUNT_ADDRESS": "錢包地址不正確",
+    "LIKER_ID_FORMAT_INVALID": "請以最少7位英文字、數字、- 或 _ 作為你的 Liker ID",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0"
   },
@@ -21,6 +22,9 @@
   },
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
+  },
+  "registerScreen": {
+    "likerIdLabel": "請輸入你的新 Liker ID"
   },
   "signInScreen": {
     "error": "登入錯誤",
