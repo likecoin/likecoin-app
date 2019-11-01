@@ -1,25 +1,39 @@
 import * as React from "react"
-import { View, ViewStyle } from "react-native"
-import { QRScannerView } from "react-native-qrcode-scanner-view"
+import { TextStyle, View, ViewStyle } from "react-native"
+import { RNCamera } from 'react-native-camera';
 import { NavigationScreenProps } from "react-navigation"
+import throttle from "lodash.throttle"
 
-import { Screen } from "../../components/screen"
 import { Button } from "../../components/button"
+import { Screen } from "../../components/screen"
+import { Text } from "../../components/text"
 
 import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
 import { color, spacing } from "../../theme"
-import { translate } from "../../i18n"
 
 import CloseIcon from "../../assets/cross.svg"
+import ScanFrame from "./scan-frame.svg"
 
 const SCREEN: ViewStyle = {
   flex: 1,
 }
-const CORNER = {
-  height: 70,
-  width: 70,
-  borderColor: color.palette.white,
+const CAMERA: ViewStyle = {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+}
+const SCAN_FRAME: ViewStyle = {
+  position: "relative",
+  width: 244,
+  aspectRatio: 1,
+}
+const HINT_TEXT: TextStyle = {
+  position: "absolute",
+  top: "100%",
+  width: "100%",
+  marginTop: spacing[5],
+  fontSize: 18,
 }
 const BOTTOM_BAR: ViewStyle = {
   alignItems: "center",
@@ -28,6 +42,8 @@ const BOTTOM_BAR: ViewStyle = {
   backgroundColor: color.palette.white,
 }
 const FOOTER_VIEW: ViewStyle = {
+  position: "absolute",
+  bottom: 0,
   alignItems: "center",
   padding: spacing[5],
 }
@@ -39,6 +55,11 @@ export interface QrcodeScannerScreenProps extends NavigationScreenProps<{}> {
 }
 
 export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProps, {}> {
+  constructor(props: QrcodeScannerScreenProps){
+    super(props)
+    this._onRead = throttle(this._onRead, 2000)
+  }
+
   _onRead = (event: any) => {
     if (validateAccountAddress(event.data)) {
       this.props.navigation.goBack()
@@ -61,14 +82,16 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
         backgroundColor={color.palette.likeGreen}
         preset="fixed"
       >
-        <QRScannerView
-          maskColor={color.transparent}
-          cornerStyle={CORNER}
-          hintText={translate("qrcodeScannerScreen.hintText")}
-          isShowScanBar={false}
-          renderFooterView={this._renderFooterView}
-          onScanResult={this._onRead}
-        />
+        <RNCamera
+          captureAudio={false}
+          onBarCodeRead={this._onRead}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.off}
+          style={CAMERA}
+        >
+          {this._renderScanFrame()}
+          {this._renderFooterView()}
+        </RNCamera>
         <View style={BOTTOM_BAR}>
           <Button
             preset="icon"
@@ -82,6 +105,21 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
           </Button>
         </View>
       </Screen>
+    )
+  }
+
+  _renderScanFrame = () => {
+    return (
+      <View style={SCAN_FRAME}>
+        <ScanFrame />
+        <Text
+          tx="qrcodeScannerScreen.hintText"
+          color="white"
+          weight="600"
+          align="center"
+          style={HINT_TEXT}
+        />
+      </View>
     )
   }
 
