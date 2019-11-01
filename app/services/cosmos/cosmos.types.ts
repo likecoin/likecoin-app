@@ -6,14 +6,17 @@ export interface CosmosCoinResult {
 }
 
 export interface CosmosAccountResult {
+  /* eslint-disable camelcase */
   address?: string
-  coins: Array<CosmosCoinResult>
+  coins: CosmosCoinResult[]
   public_key?: string
   account_number: string
   sequence: string
+  /* eslint-enable camelcase */
 }
 
 export interface CosmosValidator {
+  /* eslint-disable camelcase */
   operator_address: string
   consensus_pubkey: string
   jailed: boolean
@@ -37,6 +40,7 @@ export interface CosmosValidator {
     update_time: string
   }
   min_self_delegation: string
+  /* eslint-enable camelcase */
 }
 
 export interface CosmosSendResult {

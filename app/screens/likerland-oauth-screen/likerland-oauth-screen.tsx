@@ -26,13 +26,13 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
     const { rootStore } = this.props
     if (url.includes("/oauth/redirect")) {
       this.props.navigation.navigate("App")
-      
+
       // Try to open the deferred deep link URL after sign in
       rootStore.openDeepLink()
     } else if (url.includes("/in/register")) {
       await rootStore.userStore.logout()
       rootStore.userStore.setIsSigningIn(false)
-      this.props.navigation.goBack();
+      this.props.navigation.goBack()
     }
   }
 

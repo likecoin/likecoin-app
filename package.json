@@ -25,8 +25,10 @@
     "@eva-design/eva": "^1.0.1",
     "@lunie/cosmos-api": "^0.2.1",
     "@react-native-community/async-storage": "^1.5.1",
-    "@react-native-firebase/app": "^0.3.0",
-    "@react-native-firebase/auth": "^0.3.0",
+    "@react-native-firebase/analytics": "^6.0.1",
+    "@react-native-firebase/app": "^6.0.1",
+    "@react-native-firebase/auth": "^6.0.1",
+    "@react-native-firebase/crashlytics": "^6.0.1",
     "@ui-kitten/eva-icons": "^4.2.0-beta.1",
     "apisauce": "1.0.3",
     "authcore-js": "^1.0.1",
@@ -56,6 +58,7 @@
     "react-navigation-tabs": "^2.4.1",
     "reactotron-mst": "^3.1.1",
     "reactotron-react-native": "^4.0.0-beta.1",
+    "url-parse": "^1.4.7",
     "validate.js": "0.13.1"
   },
   "devDependencies": {

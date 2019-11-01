@@ -10,7 +10,7 @@ import * as storage from "../../utils/storage"
 const ROOT_STATE_STORAGE_KEY = "root"
 
 /**
- * The server name of AuthCore for Keychain/Keystore 
+ * The server name of AuthCore for Keychain/Keystore
  */
 const AUTHCORE_CREDENTIAL_KEY = "authcore"
 
@@ -45,7 +45,7 @@ export async function setupRootStore() {
       {
         username: authCoreIdToken,
         password: authCoreAccessToken,
-      }, 
+      },
     ] = await Promise.all([
       await storage.load(ROOT_STATE_STORAGE_KEY),
       await Keychain.load(AUTHCORE_CREDENTIAL_KEY),
@@ -72,6 +72,7 @@ export async function setupRootStore() {
   onSnapshot(
     rootStore,
     ({
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       navigationStore,
       readerStore: { contents },
       userStore: {
@@ -80,6 +81,7 @@ export async function setupRootStore() {
         ...userStoreRest
       },
       ...snapshot
+      /* eslint-enable @typescript-eslint/no-unused-vars */
     }) => {
       const { accessToken, idToken, profile } = authCore
       const promises = [

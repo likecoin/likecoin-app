@@ -1,8 +1,8 @@
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
-import { ContentModel } from "../content";
-import { Environment } from "../environment";
-import { ContentListResult } from "../../services/api/api.types";
+import { ContentModel } from "../content"
+import { Environment } from "../environment"
+import { ContentListResult } from "../../services/api/api.types"
 
 const contentListTypes = types.optional(
   types.array(types.reference(ContentModel)),
@@ -34,7 +34,7 @@ export const ReaderStoreModel = types
       return content
     },
 
-    fetchSuggestList: flow(function*() {
+    fetchSuggestList: flow(function * () {
       const env: Environment = getEnv(self)
       try {
         const result: ContentListResult = yield env.likerLandAPI.fetchReaderSuggest()
@@ -54,7 +54,7 @@ export const ReaderStoreModel = types
         __DEV__ && console.tron.error(error.message, null)
       }
     }),
-    fetchFollowedList: flow(function*() {
+    fetchFollowedList: flow(function * () {
       const env: Environment = getEnv(self)
       try {
         const result: ContentListResult = yield env.likerLandAPI.fetchReaderFollowing()

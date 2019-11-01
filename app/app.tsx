@@ -5,9 +5,9 @@
 import "./i18n"
 import * as React from "react"
 import { AppRegistry, Linking, YellowBox } from "react-native"
-import { mapping, light as lightTheme } from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { mapping, light as lightTheme } from '@eva-design/eva'
+import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten'
+import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { Provider } from "mobx-react"
 import { contains } from "ramda"
 
@@ -67,7 +67,7 @@ export class App extends React.Component<{}, AppState> {
   }
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this._onOpenURL);
+    Linking.removeEventListener('url', this._onOpenURL)
   }
 
   /**

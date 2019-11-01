@@ -67,15 +67,15 @@ const RECEIVER_TEXT_INPUT = StyleSheet.create({
   } as TextStyle,
 })
 const ERROR = StyleSheet.create({
+  TEXT: {
+    flexGrow: 1,
+  } as TextStyle,
   VIEW: {
     paddingHorizontal: spacing[3],
     paddingVertical: spacing[4],
     flexDirection: "row",
     width: BUTTON_GROUP.width,
   } as ViewStyle,
-  TEXT: {
-    flexGrow: 1,
-  } as TextStyle,
 })
 const BOTTOM_BAR: ViewStyle = {
   alignItems: "center",
@@ -118,7 +118,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     let error = ""
     this.setState({ error })
 
-    let { target } = this.props.transferStore
+    const { target } = this.props.transferStore
 
     // Check for address
     if (!validateAccountAddress(target)) {

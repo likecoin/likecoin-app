@@ -32,7 +32,7 @@ export interface ButtonGroupProps {
   /**
    * List of buttons
    */
-  buttons?: Array<ButtonGroupButtonProps>
+  buttons?: ButtonGroupButtonProps[]
 
   /**
    * The children that prepends before the buttons
@@ -55,7 +55,7 @@ export function ButtonGroup(props: ButtonGroupProps) {
     style: rootStyle,
     ...rest
   } = props
-  const children: Array<React.ReactNode> = []
+  const children: React.ReactNode[] = []
   if (prependChildren) {
     children.push(prependChildren)
   }

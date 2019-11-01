@@ -1,21 +1,21 @@
 import * as React from "react"
 import { View, ViewStyle, TextStyle, SafeAreaView, Alert } from "react-native"
-import { Button } from "react-native-ui-kitten";
+import { Button } from "react-native-ui-kitten"
 import { NavigationScreenProps } from "react-navigation"
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react"
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes as GOOGLE_STATUS_CODE
-} from 'react-native-google-signin';
+} from 'react-native-google-signin'
 import FirebaseAuth, { Auth } from '@react-native-firebase/auth'
 
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
 import { color, spacing } from "../../theme"
-import { UserStore } from "../../models/user-store";
-import { UserLoginParams } from "../../services/api";
+import { UserStore } from "../../models/user-store"
+import { UserLoginParams } from "../../services/api"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -116,7 +116,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   }
 
   _signInToFirebase = async (credential: Auth.AuthCredential) => {
-    const firebaseUserCredential = await FirebaseAuth().signInWithCredential(credential);
+    const firebaseUserCredential = await FirebaseAuth().signInWithCredential(credential)
     return firebaseUserCredential.user.getIdToken()
   }
 
@@ -163,7 +163,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
           // TODO: Show registration form
           Alert.alert("Sign In", "User not found")
           break
-      
+
         default:
       }
     }

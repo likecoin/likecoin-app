@@ -23,7 +23,7 @@ export const AuthCoreStoreModel = types
       self.accessToken = accessToken
       self.idToken = idToken
       if (profile) self.profile = profile
-      
+
       const env: Environment = getEnv(self)
       yield env.authCoreAPI.setup(accessToken)
       self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
@@ -36,7 +36,7 @@ export const AuthCoreStoreModel = types
       }: any = yield env.authCoreAPI.signIn()
       self.accessToken = accessToken
       self.idToken = idToken
-      
+
       yield env.authCoreAPI.setup(accessToken)
       self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
     }),

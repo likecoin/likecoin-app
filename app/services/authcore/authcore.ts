@@ -5,12 +5,13 @@ import {
 } from "react-native-dotenv"
 
 import AuthCore from "react-native-authcore"
-import url from "url"
 
 import {
   AuthCoreKeyVaultClient,
   AuthCoreCosmosProvider,
 } from "authcore-js/build/main.js"
+
+import Url from "url-parse"
 
 /**
  * AuthCore callback functions to-be called
@@ -29,12 +30,12 @@ export class AuthCoreAPI {
   client: AuthCore
 
   /**
-   * The instance interacting between client and AuthCore KeyVaultAPI server. 
+   * The instance interacting between client and AuthCore KeyVaultAPI server.
    */
   keyVaultClient: AuthCoreKeyVaultClient
 
   /**
-   * The Cosmos wallet provider. 
+   * The Cosmos wallet provider.
    */
   cosmosProvider: AuthCoreCosmosProvider
 
@@ -85,13 +86,14 @@ export class AuthCoreAPI {
     // Sign in
     const redirectURI = `${NativeModules.Authcore.bundleIdentifier}://${webAuth.baseUrl.replace(/https?:\/\//, "")}`
     const redirectURL = await webAuth.agent.show(`${webAuth.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectURI}`, false)
-    const query = url.parse(redirectURL, true).query
+    const query = new Url(redirectURL, true).query
     const {
       json: {
         access_token: accessToken,
         id_token: idToken,
       },
     } = await webAuth.client.post("/api/auth/tokens", {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       grant_type: "AUTHORIZATION_TOKEN",
       token: query.code
     })

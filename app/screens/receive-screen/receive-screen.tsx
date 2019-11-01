@@ -76,9 +76,9 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
 
   _onPressShareButton = () => {
     const { address: message } = this.props.walletStore
-    Share.share({ message }) 
+    Share.share({ message })
   }
-  
+
   _onPressCopyButton = () => {
     const { address: message } = this.props.walletStore
     Clipboard.setString(message)

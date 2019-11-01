@@ -20,7 +20,7 @@ import {
   parseCosmosCoin,
 } from "../../services/cosmos/cosmos.utils"
 
-// TODO: Obtain from remote config 
+// TODO: Obtain from remote config
 const GAS_PRICE = 0 // nanolike
 
 /**
@@ -86,7 +86,7 @@ export const TransferStoreModel = types
     const calculateFee = () => {
       return convertNanolikeToLIKE(gas.get() * GAS_PRICE)
     }
-    
+
     const resetInput = () => {
       message = undefined
       errorMessage.set("")
@@ -106,10 +106,10 @@ export const TransferStoreModel = types
       },
       views: {
         get errorMessage() {
-          return errorMessage.get();
+          return errorMessage.get()
         },
         get target() {
-          return target.get();
+          return target.get()
         },
         get amount() {
           return amount.get()

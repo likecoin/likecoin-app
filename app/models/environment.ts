@@ -4,8 +4,7 @@ import {
 } from "react-native-dotenv"
 
 import { Reactotron } from "../services/reactotron"
-import { LikeCoAPI } from "../services/api"
-import { LikerLandAPI } from "../services/api"
+import { LikeCoAPI, LikerLandAPI } from "../services/api"
 import { AuthCoreAPI } from "../services/authcore"
 import { CosmosAPI } from "../services/cosmos"
 
@@ -26,8 +25,8 @@ export class Environment {
   async setup() {
     // allow each service to setup
     await this.reactotron.setup()
-    await this.likeCoAPI.setup()
-    await this.likerLandAPI.setup()
+    this.likeCoAPI.setup()
+    this.likerLandAPI.setup()
   }
 
   /**

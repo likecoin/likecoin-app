@@ -23,16 +23,16 @@ const KEY_LIST = [
 ]
 
 const STYLE = StyleSheet.create({
-  DISPLAY_VALUE_ROW: {
-    flexGrow: 1,
-    paddingTop: spacing[5],
-    paddingBottom: spacing[6]
-  } as ViewStyle,
   DISPLAY_VALUE: {
     fontSize: 32,
     height: 40,
     marginVertical: spacing[2],
   } as TextStyle,
+  DISPLAY_VALUE_ROW: {
+    flexGrow: 1,
+    paddingTop: spacing[5],
+    paddingBottom: spacing[6]
+  } as ViewStyle,
   KEY_ROW: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -94,7 +94,7 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
       displayValue: displayValue === "0" && key !== "." ? key : displayValue.concat(key),
     })
   }
-  
+
   _onPressDelete = () => {
     const { displayValue } = this.state
     this.setState({
@@ -109,7 +109,7 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
       style,
       ...rest
     } = this.props
-  
+
     return (
       <View style={style} {...rest}>
         <View style={STYLE.DISPLAY_VALUE_ROW}>

@@ -26,7 +26,7 @@ const PREPEND: ViewStyle = {
 
 /**
  * Render a prepend element
- * 
+ *
  * @param element The prepend element
  * @param size The size of the element
  */
@@ -86,7 +86,7 @@ export function Text(props: TextProps) {
   if (isHidden) {
     styleList.push({ opacity: 0 })
   }
- 
+
   const style = mergeAll(flatten(styleList))
 
   const textElement = (

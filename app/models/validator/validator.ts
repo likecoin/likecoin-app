@@ -36,12 +36,12 @@ export const ValidatorModel = types
   })
   .extend(self => {
     const fetchAvatarURL = flow(function * () {
-      if (self.identity.length == 16) {
+      if (self.identity.length === 16) {
         const response: Response = yield fetch(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${self.identity}&fields=pictures`, {
           method: 'GET',
         })
         if (response.status === 200) {
-          const { them }: any = {} = yield response.json()
+          const { them }: any = yield response.json()
           self.avatorURL = them && them.length && them[0].pictures && them[0].pictures.primary && them[0].pictures.primary.url
         }
       }
@@ -60,7 +60,7 @@ export const ValidatorModel = types
 
     /**
      * Expected rewards if delegator stakes x tokens
-     * 
+     *
      * @param totalStakedTokens The total staked tokens from all validators
      * @param annualProvision The number of annual provisioned tokens
      * @param delegatedTokens The number of delegated tokens
@@ -82,7 +82,7 @@ export const ValidatorModel = types
 
     /**
      * Get simplified expected rewards with a fixed token amount
-     * 
+     *
      * @param totalStakedTokens The total staked tokens from all validators
      * @param annualProvision The annual provision
      */

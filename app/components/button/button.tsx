@@ -88,9 +88,9 @@ export function Button(props: ButtonProps) {
     content = (
       <ActivityIndicator
         color={textStyle.color}
-        size="small" 
+        size="small"
       />
-    ) 
+    )
   }
 
   if (link && !rest.onPress) {

@@ -55,13 +55,13 @@ const HEADER: ViewStyle = {
   borderBottomWidth: StyleSheet.hairlineWidth,
 }
 const AVAILABLE = StyleSheet.create({
-  ROOT: {
-    flexGrow: 1,
-  } as ViewStyle,
   AMOUNT: {
     fontSize: 18,
     marginBottom: spacing[2],
   } as TextStyle,
+  ROOT: {
+    flexGrow: 1,
+  } as ViewStyle,
 })
 const AMOUNT_INPUT_PAD: ViewStyle = {
   flexGrow: 1,
@@ -90,7 +90,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
 
   /**
    * Validate the amount and create transaction for signing
-   * 
+   *
    * @return `true` if the success; otherwise, `false`
    */
   _createTransactionForSigning = async () => {

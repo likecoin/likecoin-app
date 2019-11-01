@@ -61,9 +61,19 @@ const COMPLETED_LABEL: TextStyle = {
   marginVertical: spacing[5],
 }
 const TRANSACTION = StyleSheet.create({
-  ROOT: {
-    paddingTop: spacing[2],
-    paddingBottom: spacing[4],
+  AMOUNT: {
+    marginTop: spacing[2],
+  },
+  BLOCK_EXPLORER_BUTTON: {
+    marginTop: spacing[4],
+    minWidth: SHEET.ROOT.width,
+  },
+  DETAILS: {
+    backgroundColor: color.palette.lightCyan,
+    paddingVertical: spacing[3],
+  },
+  DETAILS_ITEM: {
+    marginTop: spacing[2],
   },
   HEADER: {
     alignItems: "center",
@@ -77,27 +87,17 @@ const TRANSACTION = StyleSheet.create({
   HEADER_TITLE: {
     marginTop: spacing[3],
   } as TextStyle,
-  AMOUNT: {
-    marginTop: spacing[2],
-  },
-  DETAILS: {
-    backgroundColor: "#e5faf7",
-    paddingVertical: spacing[3],
-  },
-  DETAILS_ITEM: {
-    marginTop: spacing[2],
-  },
   LABEL: {
     color: color.palette.grey9b,
-    paddingVertical: spacing[1],
     fontSize: sizes.default,
+    paddingVertical: spacing[1],
+  },
+  ROOT: {
+    paddingBottom: spacing[4],
+    paddingTop: spacing[2],
   },
   TARGET: {
     marginTop: spacing[4],
-  },
-  BLOCK_EXPLORER_BUTTON: {
-    marginTop: spacing[4],
-    minWidth: SHEET.ROOT.width,
   },
 })
 
@@ -149,7 +149,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
 
     const shouldHideCloseButton = isSigningTransaction || isTransactionSuccess
     const confirmButtonTx = isTransactionSuccess ? "common.done" : "common.confirm"
-    
+
     return (
       <Screen
         preset="scroll"

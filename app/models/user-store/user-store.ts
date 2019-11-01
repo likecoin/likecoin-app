@@ -1,9 +1,10 @@
-import { Instance, SnapshotOut,flow, getEnv, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, flow, getEnv, types } from "mobx-state-tree"
 
-import { Environment } from "../environment";
-import { UserModel } from "../user";
-import { UserResult, UserLoginParams, GeneralResult } from "../../services/api";
-import { AuthCoreStoreModel } from "../authcore-store";
+import { Environment } from "../environment"
+import { UserModel } from "../user"
+import { AuthCoreStoreModel } from "../authcore-store"
+
+import { UserResult, UserLoginParams, GeneralResult } from "../../services/api"
 
 /**
  * Store user related information.

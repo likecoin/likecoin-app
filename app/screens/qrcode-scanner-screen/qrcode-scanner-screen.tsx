@@ -84,7 +84,7 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
       </Screen>
     )
   }
-  
+
   _renderFooterView = () => {
     return (
       <View style={FOOTER_VIEW}>
