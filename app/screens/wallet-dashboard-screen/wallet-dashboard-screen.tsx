@@ -1,9 +1,17 @@
 import * as React from "react"
 import { NavigationScreenProps } from "react-navigation"
-import { ViewStyle, View, Image, TextStyle, ImageStyle } from "react-native"
+import {
+  Image,
+  ImageStyle,
+  StyleSheet,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native"
 import LinearGradient from 'react-native-linear-gradient'
 import { observer, inject } from "mobx-react"
 
+import { Button } from "../../components/button"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 import { ButtonGroup } from "../../components/button-group"
@@ -59,12 +67,13 @@ const USER_INFO_DISPLAY_NAME: TextStyle = {
 }
 const DASHBOARD_HEADER_BUTTON_GROUP_WRAPPER: ViewStyle = {
   alignItems: "center",
-  marginTop: 16,
+  marginTop: spacing[4],
 }
 const DASHBOARD_BODY: ViewStyle = {
   flexGrow: 1,
   backgroundColor: color.palette.white,
-  paddingHorizontal: 12,
+  paddingHorizontal: spacing[3],
+  paddingBottom: spacing[6],
 }
 const DASHBOARD_BODY_INNER: ViewStyle = {
   flex: 1,
@@ -81,21 +90,33 @@ const DASHBOARD_BODY_INNER: ViewStyle = {
   shadowRadius: 4.65,
   elevation: 6,
 }
+const DASHBOARD_FOOTER: ViewStyle = {
+  marginTop: spacing[5],
+  paddingTop: spacing[6],
+  margin: spacing[5],
+  borderTopColor: color.palette.grey9b,
+  borderTopWidth: StyleSheet.hairlineWidth,
+}
 const QRCODE_BUTTON: ViewStyle = {
   paddingHorizontal: spacing[3],
 }
-const WALLET_BALANCE_PANEL: ViewStyle = {
-  borderTopLeftRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
-  borderTopRightRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
-  paddingVertical: 28,
-  paddingHorizontal: 12,
-}
-const WALLET_BALANCE_VALUE: TextStyle = {
-  color: color.primary,
-  fontSize: 36,
-  fontWeight: "500",
-  textAlign: "center",
-}
+const WALLET_BALANCE = StyleSheet.create({
+  ROOT: {
+    borderTopLeftRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
+    borderTopRightRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
+    paddingVertical: spacing[5],
+    paddingHorizontal: spacing[3],
+  },
+  AMOUNT: {
+    color: color.primary,
+    fontSize: 36,
+    fontWeight: "500",
+    textAlign: "center",
+  } as TextStyle,
+  UNIT: {
+    marginTop: spacing[2],
+  } as TextStyle,
+})
 const VALIDATOR_LIST: ViewStyle = {
   padding: spacing[2],
 }
@@ -203,12 +224,28 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                 colors={gradient.LikeCoin}
                 start={{ x: 0.0, y: 1.0 }}
                 end={{ x: 1.0, y: 0.0 }}
-                style={WALLET_BALANCE_PANEL}
+                style={WALLET_BALANCE.ROOT}
               >
                 {this._renderBalanceValue()}
+                <Text
+                  text="LikeCoin"
+                  color="likeGreen"
+                  size="medium"
+                  weight="600"
+                  align="center"
+                  style={WALLET_BALANCE.UNIT}
+                />
               </LinearGradient>
               <View style={VALIDATOR_LIST}>
                 {this.props.walletStore.validatorList.map(this._renderValidator)}
+              </View>
+              <View style={DASHBOARD_FOOTER}>
+                <Button
+                  preset="outlined"
+                  tx="common.viewOnBlockExplorer"
+                  color="likeCyan"
+                  link={this.props.walletStore.blockExplorerURL}
+                />
               </View>
             </View>
           </View>
@@ -231,7 +268,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     }
     return (
       <Text
-        style={WALLET_BALANCE_VALUE}
+        style={WALLET_BALANCE.AMOUNT}
         text={value}
       />
     )
