@@ -5,6 +5,8 @@ import { UserStoreModel } from "../../models/user-store"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
+const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+
 /**
  * An RootStore model.
  */
@@ -30,7 +32,7 @@ export const RootStoreModel = types.model("RootStore").props({
     openDeepLink(url: string = self.deferredDeepLink) {
       if (!url) return
 
-      if (/https?\/\//.test(url)) {
+      if (URL_REGEX.test(url)) {
         self.navigationStore.dispatch({
           type: "Navigation/PUSH",
           routeName: "ContentView",

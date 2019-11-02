@@ -79,8 +79,7 @@ const DASHBOARD_BODY_INNER: ViewStyle = {
   flex: 1,
   backgroundColor: color.palette.white,
   marginTop: -40,
-  borderTopLeftRadius: 14,
-  borderTopRightRadius: 14,
+  borderRadius: 14,
   shadowColor: color.palette.black,
   shadowOffset: {
     width: 0,
@@ -102,8 +101,8 @@ const QRCODE_BUTTON: ViewStyle = {
 }
 const WALLET_BALANCE = StyleSheet.create({
   ROOT: {
-    borderTopLeftRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
-    borderTopRightRadius: DASHBOARD_BODY_INNER.borderTopLeftRadius,
+    borderTopLeftRadius: DASHBOARD_BODY_INNER.borderRadius,
+    borderTopRightRadius: DASHBOARD_BODY_INNER.borderRadius,
     paddingVertical: spacing[5],
     paddingHorizontal: spacing[3],
   },
