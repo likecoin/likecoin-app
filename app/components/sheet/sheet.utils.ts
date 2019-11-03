@@ -10,9 +10,18 @@ import {
 import { presets } from "./sheet.presets"
 import { parseNumber, sum } from "../../utils/number"
 
+interface InjectStyleOptions {
+  isZeroPaddingTop: boolean | string
+  isZeroPaddingBottom: boolean | string
+}
+
 function injectStyleToProps(
   props: ViewProps | TextProps,
   position: "top" | "bottom" | "both",
+  options: InjectStyleOptions = {
+    isZeroPaddingTop: false,
+    isZeroPaddingBottom: false,
+  },
 ): ViewProps | TextProps {
   const {
     padding,
@@ -22,7 +31,7 @@ function injectStyleToProps(
 
   // Split padding values into top and bottom
   if (padding) {
-   style.paddingTop = style.paddingBottom = parseNumber(padding) 
+    style.paddingTop = style.paddingBottom = parseNumber(padding)
   }
   if (paddingVertical) {
     style.paddingTop = style.paddingBottom = parseNumber(paddingVertical)
@@ -31,11 +40,15 @@ function injectStyleToProps(
   // Inject style
   const radius = presets.flat.borderRadius
   if (position === "top" || position === "both") {
-    style.paddingTop = sum(style.paddingTop, radius)
+    if (!options.isZeroPaddingTop) {
+      style.paddingTop = sum(style.paddingTop, radius)
+    }
     style.borderTopLeftRadius = style.borderTopRightRadius = radius
   }
   if (position === "bottom" || position === "both") {
-    style.paddingBottom = sum(style.paddingBottom, radius)
+    if (!options.isZeroPaddingBottom) {
+      style.paddingBottom = sum(style.paddingBottom, radius)
+    }
     style.borderBottomLeftRadius = style.borderBottomRightRadius = radius
   }
 
@@ -48,25 +61,29 @@ function injectStyleToProps(
 function injectStyleToChild(
   child: ReactNode,
   position: "top" | "bottom" | "both",
+  options: InjectStyleOptions,
 ): ReactNode {
   if (!React.isValidElement(child)) return child
   return React.cloneElement(
     child,
-    injectStyleToProps(child.props, position),
+    injectStyleToProps(child.props, position, options),
   )
 }
 
-export function injectStyle(children: ReactNode): ReactNode {
+export function injectStyle(
+  children: ReactNode,
+  options: InjectStyleOptions,
+): ReactNode {
   const count = React.Children.count(children)
   if (count > 0) {
     return React.Children.map(children, (child, index) => {
       if (index === 0) {
-        return injectStyleToChild(child, "top")
+        return injectStyleToChild(child, "top", options)
       } else if (index === count - 1) {
-        return injectStyleToChild(child, "bottom")
+        return injectStyleToChild(child, "bottom", options)
       }
       return child
     })
   }
-  return injectStyleToChild(children, "both")
+  return injectStyleToChild(children, "both", options)
 }

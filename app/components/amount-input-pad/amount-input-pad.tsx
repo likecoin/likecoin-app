@@ -30,8 +30,8 @@ const STYLE = StyleSheet.create({
   } as TextStyle,
   DISPLAY_VALUE_ROW: {
     flexGrow: 1,
-    paddingTop: spacing[5],
-    paddingBottom: spacing[6]
+    paddingTop: spacing[4],
+    paddingBottom: spacing[2],
   } as ViewStyle,
   KEY_ROW: {
     flexDirection: "row",

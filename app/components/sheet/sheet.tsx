@@ -11,6 +11,8 @@ import { injectStyle } from "./sheet.utils"
 export const Sheet: FunctionComponent<SheetProps> = (props: PropsWithChildren<SheetProps>) => {
   const {
     children,
+    isZeroPaddingTop,
+    isZeroPaddingBottom,
     style,
     ...rest
   } = props
@@ -21,7 +23,10 @@ export const Sheet: FunctionComponent<SheetProps> = (props: PropsWithChildren<Sh
 
   return (
     <View style={viewStyle} {...rest}>
-      {injectStyle(children)}
+      {injectStyle(children, {
+        isZeroPaddingTop,
+        isZeroPaddingBottom,
+      })}
     </View>
   )
 }
