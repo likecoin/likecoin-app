@@ -12,9 +12,10 @@ import LinearGradient from 'react-native-linear-gradient'
 import { observer, inject } from "mobx-react"
 
 import { Button } from "../../components/button"
-import { Text } from "../../components/text"
-import { Screen } from "../../components/screen"
 import { ButtonGroup } from "../../components/button-group"
+import { Screen } from "../../components/screen"
+import { Sheet } from "../../components/sheet"
+import { Text } from "../../components/text"
 import { ValidatorListItem } from "../../components/validator-list-item"
 
 import { UserStore } from "../../models/user-store"
@@ -77,17 +78,7 @@ const DASHBOARD_BODY: ViewStyle = {
 }
 const DASHBOARD_BODY_INNER: ViewStyle = {
   flex: 1,
-  backgroundColor: color.palette.white,
   marginTop: -40,
-  borderRadius: 14,
-  shadowColor: color.palette.black,
-  shadowOffset: {
-    width: 0,
-    height: 3,
-  },
-  shadowOpacity: 0.27,
-  shadowRadius: 4.65,
-  elevation: 6,
 }
 const DASHBOARD_FOOTER: ViewStyle = {
   marginTop: spacing[5],
@@ -100,18 +91,15 @@ const QRCODE_BUTTON: ViewStyle = {
   paddingHorizontal: spacing[3],
 }
 const WALLET_BALANCE = StyleSheet.create({
-  ROOT: {
-    borderTopLeftRadius: DASHBOARD_BODY_INNER.borderRadius,
-    borderTopRightRadius: DASHBOARD_BODY_INNER.borderRadius,
-    paddingVertical: spacing[5],
-    paddingHorizontal: spacing[3],
-  },
   AMOUNT: {
     color: color.primary,
     fontSize: 36,
     fontWeight: "500",
     textAlign: "center",
   } as TextStyle,
+  ROOT: {
+    padding: spacing[3],
+  },
   UNIT: {
     marginTop: spacing[2],
   } as TextStyle,
@@ -218,7 +206,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
             </View>
           </View>
           <View style={DASHBOARD_BODY}>
-            <View style={DASHBOARD_BODY_INNER}>
+            <Sheet style={DASHBOARD_BODY_INNER}>
               <LinearGradient
                 colors={gradient.LikeCoin}
                 start={{ x: 0.0, y: 1.0 }}
@@ -246,7 +234,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                   link={this.props.walletStore.blockExplorerURL}
                 />
               </View>
-            </View>
+            </Sheet>
           </View>
         </Screen>
       </View>
