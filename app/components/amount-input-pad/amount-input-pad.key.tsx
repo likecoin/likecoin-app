@@ -17,7 +17,7 @@ const STYLE = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    aspectRatio: 56 / 44,
+    aspectRatio: 68 / 44,
     borderRadius: 14,
   } as ViewStyle,
   VALUE: {
