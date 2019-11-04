@@ -13,6 +13,7 @@ import { WalletStore } from "../../models/wallet-store"
 
 import { Button } from "../../components/button"
 import { Screen } from "../../components/screen"
+import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
 
@@ -29,7 +30,7 @@ export interface TransferSigningScreenProps extends NavigationScreenProps<{}> {
 }
 
 const ROOT: ViewStyle = {
-  flex: 1,
+  flexGrow: 1,
   paddingHorizontal: spacing[4],
 }
 const TOP_BAR: ViewStyle = {
@@ -42,19 +43,15 @@ const CONTENT: ViewStyle = {
 }
 const BOTTOM_BAR: ViewStyle = {
   alignItems: "stretch",
-  marginTop: spacing[3],
   padding: spacing[4],
 }
 const SHEET = StyleSheet.create({
   ROOT: {
-    overflow: "hidden",
     alignItems: "stretch",
-    backgroundColor: color.palette.white,
-    borderRadius: 14,
     width: 256,
   } as ViewStyle,
   SECTION: {
-    padding: spacing[5],
+    padding: spacing[2],
   } as ViewStyle,
 })
 const COMPLETED_LABEL: TextStyle = {
@@ -70,7 +67,8 @@ const TRANSACTION = StyleSheet.create({
   },
   DETAILS: {
     backgroundColor: color.palette.lightCyan,
-    paddingVertical: spacing[3],
+    paddingHorizontal: spacing[4],
+    paddingTop: spacing[3],
   },
   DETAILS_ITEM: {
     marginTop: spacing[2],
@@ -78,6 +76,7 @@ const TRANSACTION = StyleSheet.create({
   HEADER: {
     alignItems: "center",
     paddingBottom: spacing[4],
+    paddingHorizontal: spacing[4],
     borderBottomColor: color.palette.lightGrey,
     borderBottomWidth: StyleSheet.hairlineWidth,
   } as ViewStyle,
@@ -93,8 +92,9 @@ const TRANSACTION = StyleSheet.create({
     paddingVertical: spacing[1],
   },
   ROOT: {
-    paddingBottom: spacing[4],
     paddingTop: spacing[2],
+    marginHorizontal: spacing[4],
+    paddingBottom: spacing[4],
   },
   TARGET: {
     marginTop: spacing[4],
@@ -156,10 +156,9 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
         backgroundColor={color.palette.likeGreen}
         style={ROOT}
       >
-        <View style={TOP_BAR}>
+        {!shouldHideCloseButton && <View style={TOP_BAR}>
           <Button
             preset="icon"
-            isHidden={shouldHideCloseButton}
             onPress={this._onPressCloseButton}
           >
             <CloseIcon
@@ -168,26 +167,24 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
               fill={color.palette.white}
             />
           </Button>
-        </View>
+        </View>}
         <View style={CONTENT}>
-          <Text
+          {!!isTransactionSuccess && <Text
             tx="transferSigningScreen.completed"
             color="likeCyan"
             size="medium"
             weight="600"
-            isHidden={!isTransactionSuccess}
             style={COMPLETED_LABEL}
-          />
+          />}
           {this._renderSummary()}
-          <Button
+          {!!shouldHideCloseButton && <Button
             preset="outlined"
             tx="common.viewOnBlockExplorer"
             link={blockExplorerURL}
             color="likeCyan"
             size="default"
-            isHidden={!shouldHideCloseButton}
             style={TRANSACTION.BLOCK_EXPLORER_BUTTON}
-          />
+          />}
         </View>
         <View style={BOTTOM_BAR}>
           <Button
@@ -210,7 +207,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
     } = this.props.transferStore
 
     return (
-      <View style={SHEET.ROOT}>
+      <Sheet style={SHEET.ROOT}>
         <View style={SHEET.SECTION}>
           <View style={TRANSACTION.HEADER}>
             <TransferGraph
@@ -285,7 +282,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
             </View>
           </View>
         </View>
-      </View>
+      </Sheet>
     )
   }
 }
