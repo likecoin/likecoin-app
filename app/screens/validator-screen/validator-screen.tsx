@@ -42,7 +42,7 @@ const ROOT: ViewStyle = {
   backgroundColor: color.primary,
 }
 const SCREEN: ViewStyle = {
-  flex: 1,
+  flexGrow: 1,
 }
 const CONTENT_CONTAINER: ViewStyle = {
   flex: 1,
