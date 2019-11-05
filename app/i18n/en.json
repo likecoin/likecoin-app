@@ -20,6 +20,11 @@
     "hintText": "Scan QR Code",
     "showMyQRCode": "Show my QR Code"
   },
+  "readerScreen": {
+    "emptyLabel": "No content",
+    "featuredLabel": "Today",
+    "followingLabel": "Your following list"
+  },
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },
