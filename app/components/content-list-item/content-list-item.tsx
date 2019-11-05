@@ -119,7 +119,7 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
     }
     text = ` | ${text}`
     return (
-      <Text 
+      <Text
         text={text}
         color="grey9b"
       />

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
-import { RNCamera } from 'react-native-camera';
+import { RNCamera } from 'react-native-camera'
 import { NavigationScreenProps } from "react-navigation"
 import throttle from "lodash.throttle"
 
@@ -55,7 +55,7 @@ export interface QrcodeScannerScreenProps extends NavigationScreenProps<{}> {
 }
 
 export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProps, {}> {
-  constructor(props: QrcodeScannerScreenProps){
+  constructor(props: QrcodeScannerScreenProps) {
     super(props)
     this._onRead = throttle(this._onRead, 2000)
   }

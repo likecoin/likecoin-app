@@ -92,9 +92,9 @@ const TRANSACTION = StyleSheet.create({
     paddingVertical: spacing[1],
   },
   ROOT: {
-    paddingTop: spacing[2],
     marginHorizontal: spacing[4],
     paddingBottom: spacing[4],
+    paddingTop: spacing[2],
   },
   TARGET: {
     marginTop: spacing[4],

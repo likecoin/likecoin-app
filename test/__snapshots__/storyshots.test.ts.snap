@@ -116,21 +116,22 @@ exports[`Storyshots Button Style Presets 1`] = `
               style={
                 Object {
                   "alignItems": "center",
-                  "backgroundColor": "#FBA928",
-                  "borderRadius": 4,
+                  "backgroundColor": "#aaf1e7",
+                  "borderRadius": 12,
                   "justifyContent": "center",
                   "opacity": 1,
                   "paddingHorizontal": 8,
-                  "paddingVertical": 8,
+                  "paddingVertical": 12,
                 }
               }
             >
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 9,
+                    "color": "#28646e",
+                    "fontFamily": "System",
+                    "fontSize": 14,
+                    "fontWeight": "bold",
                     "paddingHorizontal": 12,
                   }
                 }
@@ -232,21 +233,22 @@ exports[`Storyshots Button Style Presets 1`] = `
               style={
                 Object {
                   "alignItems": "center",
-                  "backgroundColor": "#FBA928",
-                  "borderRadius": 4,
+                  "backgroundColor": "#aaf1e7",
+                  "borderRadius": 12,
                   "justifyContent": "center",
                   "opacity": 1,
                   "paddingHorizontal": 8,
-                  "paddingVertical": 8,
+                  "paddingVertical": 12,
                 }
               }
             >
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 9,
+                    "color": "#28646e",
+                    "fontFamily": "System",
+                    "fontSize": 14,
+                    "fontWeight": "bold",
                     "paddingHorizontal": 12,
                   }
                 }
@@ -348,7 +350,7 @@ exports[`Storyshots Button Style Presets 1`] = `
               style={
                 Object {
                   "alignItems": "center",
-                  "backgroundColor": "#FBA928",
+                  "backgroundColor": "#aaf1e7",
                   "borderRadius": 0,
                   "justifyContent": "center",
                   "opacity": 1,
@@ -361,8 +363,9 @@ exports[`Storyshots Button Style Presets 1`] = `
                 style={
                   Object {
                     "color": "#a511dc",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 20,
+                    "fontWeight": "bold",
                     "paddingHorizontal": 12,
                   }
                 }
@@ -518,9 +521,9 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
                 numberOfLines={1}
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                     "paddingLeft": 8,
                   }
                 }
@@ -645,7 +648,7 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
                 <View
                   style={
                     Object {
-                      "backgroundColor": "#FBA928",
+                      "backgroundColor": "#28646e",
                       "height": 12,
                       "width": 12,
                     }
@@ -656,9 +659,9 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
                 numberOfLines={1}
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                     "paddingLeft": 8,
                   }
                 }
@@ -784,9 +787,9 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
                 numberOfLines={1}
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                     "paddingLeft": 8,
                   }
                 }
@@ -943,9 +946,9 @@ exports[`Storyshots Checkbox Styling 1`] = `
                   numberOfLines={0}
                   style={
                     Object {
-                      "color": "#ffffff",
-                      "fontFamily": "Montserrat",
-                      "fontSize": 15,
+                      "color": "#4a4a4a",
+                      "fontFamily": "System",
+                      "fontSize": 12,
                       "paddingLeft": 8,
                     }
                   }
@@ -1076,9 +1079,9 @@ exports[`Storyshots Checkbox Styling 1`] = `
                   numberOfLines={1}
                   style={
                     Object {
-                      "color": "#ffffff",
-                      "fontFamily": "Montserrat",
-                      "fontSize": 15,
+                      "color": "#4a4a4a",
+                      "fontFamily": "System",
+                      "fontSize": 12,
                       "paddingLeft": 8,
                     }
                   }
@@ -1206,9 +1209,9 @@ exports[`Storyshots Checkbox Styling 1`] = `
                   numberOfLines={1}
                   style={
                     Object {
-                      "color": "#ffffff",
-                      "fontFamily": "Montserrat",
-                      "fontSize": 15,
+                      "color": "#4a4a4a",
+                      "fontFamily": "System",
+                      "fontSize": 12,
                       "paddingLeft": 8,
                     }
                   }
@@ -1336,9 +1339,9 @@ exports[`Storyshots Checkbox Styling 1`] = `
                   numberOfLines={1}
                   style={
                     Object {
-                      "color": "#ffffff",
-                      "fontFamily": "Montserrat",
-                      "fontSize": 15,
+                      "color": "#4a4a4a",
+                      "fontFamily": "System",
+                      "fontSize": 12,
                       "paddingLeft": 8,
                     }
                   }
@@ -1466,9 +1469,9 @@ exports[`Storyshots Checkbox Styling 1`] = `
                   numberOfLines={1}
                   style={
                     Object {
-                      "color": "#ffffff",
-                      "fontFamily": "Montserrat",
-                      "fontSize": 15,
+                      "color": "#4a4a4a",
+                      "fontFamily": "System",
+                      "fontSize": 12,
                       "paddingLeft": 8,
                     }
                   }
@@ -1603,7 +1606,7 @@ exports[`Storyshots FormRow Assembled 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -1625,8 +1628,8 @@ exports[`Storyshots FormRow Assembled 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -1647,7 +1650,7 @@ exports[`Storyshots FormRow Assembled 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 9,
                   }
                 }
@@ -1670,8 +1673,8 @@ exports[`Storyshots FormRow Assembled 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -1771,8 +1774,8 @@ exports[`Storyshots FormRow Assembled 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -1793,8 +1796,8 @@ exports[`Storyshots FormRow Assembled 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -1816,8 +1819,8 @@ exports[`Storyshots FormRow Assembled 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -1950,8 +1953,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -1961,8 +1964,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2063,8 +2066,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2166,8 +2169,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2177,8 +2180,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2279,8 +2282,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2380,8 +2383,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2481,8 +2484,8 @@ exports[`Storyshots FormRow Presets 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2612,8 +2615,8 @@ exports[`Storyshots FormRow Styling 1`] = `
                 style={
                   Object {
                     "color": "#1d1d1d",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -2766,11 +2769,12 @@ exports[`Storyshots Header Behavior 1`] = `
                   }
                 >
                   <Text
+                    numberOfLines={1}
                     style={
                       Object {
                         "color": "#ffffff",
-                        "fontFamily": "Montserrat",
-                        "fontSize": 15,
+                        "fontFamily": "System",
+                        "fontSize": 12,
                         "textAlign": "center",
                       }
                     }
@@ -2901,9 +2905,10 @@ exports[`Storyshots Header Behavior 1`] = `
                   style={
                     Object {
                       "alignItems": "flex-start",
-                      "borderRadius": 4,
+                      "borderRadius": 12,
                       "justifyContent": "center",
                       "opacity": 1,
+                      "padding": 0,
                       "paddingHorizontal": 0,
                       "paddingVertical": 0,
                     }
@@ -2929,11 +2934,12 @@ exports[`Storyshots Header Behavior 1`] = `
                   }
                 >
                   <Text
+                    numberOfLines={1}
                     style={
                       Object {
                         "color": "#ffffff",
-                        "fontFamily": "Montserrat",
-                        "fontSize": 15,
+                        "fontFamily": "System",
+                        "fontSize": 12,
                         "textAlign": "center",
                       }
                     }
@@ -3066,11 +3072,12 @@ exports[`Storyshots Header Behavior 1`] = `
                   }
                 >
                   <Text
+                    numberOfLines={1}
                     style={
                       Object {
                         "color": "#ffffff",
-                        "fontFamily": "Montserrat",
-                        "fontSize": 15,
+                        "fontFamily": "System",
+                        "fontSize": 12,
                         "textAlign": "center",
                       }
                     }
@@ -3092,9 +3099,10 @@ exports[`Storyshots Header Behavior 1`] = `
                   style={
                     Object {
                       "alignItems": "flex-start",
-                      "borderRadius": 4,
+                      "borderRadius": 12,
                       "justifyContent": "center",
                       "opacity": 1,
+                      "padding": 0,
                       "paddingHorizontal": 0,
                       "paddingVertical": 0,
                     }
@@ -3573,8 +3581,8 @@ exports[`Storyshots Switch Behaviour 1`] = `
               onStartShouldSetResponder={[Function]}
               style={
                 Object {
-                  "backgroundColor": "#FBA928",
-                  "borderColor": "#FBA928",
+                  "backgroundColor": "#28646e",
+                  "borderColor": "#28646e",
                   "borderRadius": 22.5,
                   "borderWidth": 1,
                   "height": 32,
@@ -4148,9 +4156,9 @@ exports[`Storyshots Text Passing Content 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4248,9 +4256,9 @@ exports[`Storyshots Text Passing Content 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4259,9 +4267,9 @@ exports[`Storyshots Text Passing Content 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4359,9 +4367,9 @@ exports[`Storyshots Text Passing Content 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4459,9 +4467,9 @@ exports[`Storyshots Text Passing Content 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4470,9 +4478,9 @@ exports[`Storyshots Text Passing Content 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#ffffff",
-                      "fontFamily": "Montserrat",
-                      "fontSize": 15,
+                      "color": "#4a4a4a",
+                      "fontFamily": "System",
+                      "fontSize": 12,
                       "fontWeight": "bold",
                     }
                   }
@@ -4603,9 +4611,9 @@ exports[`Storyshots Text Style Presets 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4614,9 +4622,9 @@ exports[`Storyshots Text Style Presets 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                     "paddingTop": 10,
                   }
                 }
@@ -4632,9 +4640,9 @@ exports[`Storyshots Text Style Presets 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                     "paddingTop": 10,
                   }
                 }
@@ -4644,9 +4652,9 @@ exports[`Storyshots Text Style Presets 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4744,9 +4752,9 @@ exports[`Storyshots Text Style Presets 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                     "fontWeight": "bold",
                   }
                 }
@@ -4845,8 +4853,8 @@ exports[`Storyshots Text Style Presets 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
                     "fontSize": 24,
                     "fontWeight": "bold",
                   }
@@ -4981,9 +4989,9 @@ exports[`Storyshots Text Styling 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 15,
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
+                    "fontSize": 12,
                   }
                 }
               >
@@ -4992,9 +5000,9 @@ exports[`Storyshots Text Styling 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#ffffff",
-                      "fontFamily": "Montserrat",
-                      "fontSize": 15,
+                      "color": "#4a4a4a",
+                      "fontFamily": "System",
+                      "fontSize": 12,
                       "fontWeight": "bold",
                     }
                   }
@@ -5125,7 +5133,7 @@ exports[`Storyshots TextField Labelling 1`] = `
                 style={
                   Object {
                     "color": "#939AA4",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -5140,8 +5148,8 @@ exports[`Storyshots TextField Labelling 1`] = `
                 style={
                   Object {
                     "backgroundColor": "#ffffff",
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
                     "fontSize": 18,
                     "minHeight": 44,
                   }
@@ -5241,7 +5249,7 @@ exports[`Storyshots TextField Labelling 1`] = `
                 style={
                   Object {
                     "color": "#939AA4",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -5256,8 +5264,8 @@ exports[`Storyshots TextField Labelling 1`] = `
                 style={
                   Object {
                     "backgroundColor": "#ffffff",
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
                     "fontSize": 18,
                     "minHeight": 44,
                   }
@@ -5376,7 +5384,7 @@ exports[`Storyshots TextField Ref Forwarding 1`] = `
                 style={
                   Object {
                     "color": "#939AA4",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -5395,7 +5403,7 @@ exports[`Storyshots TextField Ref Forwarding 1`] = `
                     "borderRadius": 4,
                     "borderWidth": 10,
                     "color": "white",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 18,
                     "minHeight": 44,
                     "padding": 40,
@@ -5409,7 +5417,7 @@ exports[`Storyshots TextField Ref Forwarding 1`] = `
               style={
                 Object {
                   "color": "#939AA4",
-                  "fontFamily": "Montserrat",
+                  "fontFamily": "System",
                   "fontSize": 9,
                 }
               }
@@ -5539,7 +5547,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                 style={
                   Object {
                     "color": "#939AA4",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -5553,8 +5561,8 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                 style={
                   Object {
                     "backgroundColor": "#ffffff",
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
                     "fontSize": 18,
                     "minHeight": 44,
                   }
@@ -5575,7 +5583,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                 style={
                   Object {
                     "color": "#939AA4",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -5589,8 +5597,8 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                 style={
                   Object {
                     "backgroundColor": "#ffffff",
-                    "color": "#ffffff",
-                    "fontFamily": "Montserrat",
+                    "color": "#4a4a4a",
+                    "fontFamily": "System",
                     "fontSize": 18,
                     "minHeight": 44,
                   }
@@ -5690,7 +5698,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                 style={
                   Object {
                     "color": "#939AA4",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -5708,7 +5716,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                     "borderRadius": 4,
                     "borderWidth": 10,
                     "color": "white",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 18,
                     "minHeight": 44,
                     "padding": 40,
@@ -5722,7 +5730,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
               style={
                 Object {
                   "color": "#939AA4",
-                  "fontFamily": "Montserrat",
+                  "fontFamily": "System",
                   "fontSize": 9,
                 }
               }
@@ -5822,7 +5830,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                 style={
                   Object {
                     "color": "#939AA4",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 13,
                   }
                 }
@@ -5840,7 +5848,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
                     "borderRadius": 4,
                     "borderWidth": 10,
                     "color": "white",
-                    "fontFamily": "Montserrat",
+                    "fontFamily": "System",
                     "fontSize": 18,
                     "minHeight": 44,
                     "padding": 40,
@@ -5854,7 +5862,7 @@ exports[`Storyshots TextField Style Overrides 1`] = `
               style={
                 Object {
                   "color": "#939AA4",
-                  "fontFamily": "Montserrat",
+                  "fontFamily": "System",
                   "fontSize": 9,
                 }
               }
