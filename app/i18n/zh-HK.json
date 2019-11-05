@@ -27,7 +27,9 @@
     "likerIdLabel": "請輸入你的新 Liker ID"
   },
   "signInScreen": {
-    "error": "登入錯誤",
+    "error": "登入出現錯誤",
+    "errorAuthCore": "登入 Authcore 出現錯誤",
+    "errorLikeCo": "登入 like.co 出現錯誤",
     "heading": "Liker 登入按讚\n作者獲得收入",
     "signIn": "登入"
   },

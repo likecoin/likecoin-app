@@ -27,7 +27,9 @@
     "likerIdLabel": "Enter your new Liker ID"
   },
   "signInScreen": {
-    "error": "Sign in error",
+    "error": "Error occurs when signing in",
+    "errorAuthCore": "Error occurs when signing in with Authcore",
+    "errorLikeCo": "Error occurs when signing in with like.co",
     "heading": "As a Liker, every Like is a reward to creators",
     "signIn": "Sign In"
   },

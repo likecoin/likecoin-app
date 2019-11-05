@@ -18,6 +18,7 @@ import Url from "url-parse"
  */
 export interface AuthCoreCallback {
   unauthenticated?: Function
+  unauthorized?: Function
 }
 
 /**
@@ -39,35 +40,30 @@ export class AuthCoreAPI {
    */
   cosmosProvider: AuthCoreCosmosProvider
 
-  /**
-   * The set of callback functions to-be called.
-   */
-  callbacks: AuthCoreCallback
-
-  constructor(callbacks = {
-    unauthenticated: () => {},
-  }) {
-    this.callbacks = callbacks
-
+  constructor() {
     this.client = new AuthCore({
       baseUrl: apiBaseURL
     })
   }
 
-  async setup(accessToken: string) {
-    console.tron.log("SETUP AUTHCORE SERVICE")
+  async setup(accessToken: string, callbacks: AuthCoreCallback) {
     const { webAuth } = this.client
     webAuth.client.bearer = `Bearer ${accessToken}`
 
+    __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
     this.keyVaultClient = await new AuthCoreKeyVaultClient({
       apiBaseURL,
       accessToken,
-      callbacks: this.callbacks,
+      callbacks,
     })
+
+    __DEV__ && console.tron.log("Initializing AuthCore Cosmos Provider")
     this.cosmosProvider = await new AuthCoreCosmosProvider({
       authcoreClient: this.keyVaultClient,
       chainId: COSMOS_CHAIN_ID,
+      callbacks,
     })
+
     const { length } = await this.cosmosProvider.getAddresses()
     if (!length) {
       await this.keyVaultClient.createSecret('HD_KEY', 16)
@@ -89,7 +85,7 @@ export class AuthCoreAPI {
 
     // Sign in
     const redirectURI = `${NativeModules.Authcore.bundleIdentifier}://${webAuth.baseUrl.replace(/https?:\/\//, "")}`
-    
+
     let redirectURL: string
     try {
       redirectURL = await webAuth.agent.show(`${webAuth.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectURI}`, false)

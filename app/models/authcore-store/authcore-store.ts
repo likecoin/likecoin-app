@@ -2,6 +2,7 @@ import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { Environment } from "../environment"
+import { AuthCoreCallback } from "../../services/authcore"
 
 /**
  * AuthCore store
@@ -29,29 +30,24 @@ export const AuthCoreStoreModel = types
     const init = flow(function * (
       accessToken: string,
       idToken: string,
-      profile?: AuthCoreUser
+      profile?: AuthCoreUser,
+      callbacks?: AuthCoreCallback,
     ) {
       self.accessToken = accessToken
       self.idToken = idToken
       if (profile) self.profile = profile
 
-      yield env.authCoreAPI.setup(accessToken)
+      yield env.authCoreAPI.setup(accessToken, callbacks)
       yield fetchCosmosAddress()
       yield fetchCurrentUser()
     })
 
-    const signIn = flow(function * () {
+    const signIn = flow(function * (callbacks?: AuthCoreCallback) {
       const {
         accessToken,
         idToken,
       }: any = yield env.authCoreAPI.signIn()
-      self.accessToken = accessToken
-      self.idToken = idToken
-      
-
-      yield env.authCoreAPI.setup(self.accessToken)
-      yield fetchCosmosAddress()
-      yield fetchCurrentUser()
+      yield init(accessToken, idToken, null, callbacks)
     })
 
     const signOut = flow(function * () {

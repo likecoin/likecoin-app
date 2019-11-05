@@ -52,7 +52,19 @@ export async function setupRootStore() {
     ])
     rootStore = RootStoreModel.create(data, env)
     if (rootStore.userStore.currentUser) {
-      await rootStore.userStore.authCore.init(authCoreAccessToken, authCoreIdToken)
+      if (authCoreAccessToken) {
+        await rootStore.userStore.authCore.init(
+          authCoreAccessToken,
+          authCoreIdToken,
+          undefined,
+          {
+            unauthenticated: rootStore.signOut,
+            unauthorized: rootStore.signOut,
+          },
+        )
+      } else {
+        throw new Error("ACCESS_TOKEN_NOT_FOUND")
+      }
     }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
