@@ -4,7 +4,6 @@ import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { Screen } from "../../components/screen"
-import { Wallpaper } from "../../components/wallpaper"
 import { ContentListItem } from "../../components/content-list-item"
 
 import { color, spacing } from "../../theme"
@@ -14,7 +13,7 @@ import { Content } from "../../models/content"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-  backgroundColor: color.transparent,
+  alignItems: "stretch",
   paddingHorizontal: spacing[4],
   paddingVertical: spacing[4],
 }
@@ -64,11 +63,10 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     }
     return (
       <View style={FULL}>
-        <Wallpaper />
         <Screen
           style={CONTAINER}
           preset="scroll"
-          backgroundColor={color.transparent}
+          backgroundColor={color.palette.white}
           unsafe={true}
         >
           {contentList.map(this._renderContent)}

@@ -1,22 +1,38 @@
 import * as React from "react"
-import { View, ViewStyle, TouchableOpacity, TextStyle } from "react-native"
+import {
+  Image,
+  ImageStyle,
+  Text as ReactNativeText,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native"
 import { observer } from "mobx-react"
 
 import { Text } from "../text"
 import { spacing } from "../../theme"
 import { Content } from "../../models/content"
+import { sizes } from "../text/text.sizes"
 
 const ROOT: ViewStyle = {
-  paddingHorizontal: spacing[2],
-  paddingVertical: spacing[4],
-}
-const DESCRIPTION: TextStyle = {
-  marginTop: spacing[2],
-}
-const DETAIL: TextStyle = {
+  padding: spacing[2],
   flexDirection: "row",
-  justifyContent: "flex-start",
-  marginTop: spacing[2],
+  alignItems: "center",
+}
+const DETAIL_VIEW: ViewStyle = {
+  flex: 1,
+}
+const DETAIL_TEXT: TextStyle = {
+  marginTop: spacing[1],
+  lineHeight: sizes.medium * 1.5,
+}
+const IMAGE_VIEW: ImageStyle = {
+  flex: 0,
+  width: 64,
+  marginLeft: spacing[4],
+  aspectRatio: 1,
+  resizeMode: "cover",
 }
 
 export interface ContentListItemProps {
@@ -62,40 +78,35 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
     }
 
     return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View
-          style={rootStyle}
-          {...rest}
-        >
+      <TouchableOpacity
+        onPress={this._onPress}
+        style={rootStyle}
+        {...rest}
+      >
+        <View style={DETAIL_VIEW}>
           <Text
-            color="white"
-            size="medium"
-            weight="bold"
-            text={content.title}
+            color="likeGreen"
+            size="default"
+            weight="600"
+            text={content.creatorLikerID}
           />
-          {this._renderDescription(content.description)}
-          <View style={DETAIL}>
+          <ReactNativeText style={DETAIL_TEXT}>
             <Text
-              color="white"
-              size="default"
-              weight="bold"
-              text={content.creatorLikerID}
+              color="grey4a"
+              size="medium"
+              weight="600"
+              text={content.title}
             />
             {this._renderLikeStat()}
-          </View>
+          </ReactNativeText>
         </View>
+        {!!content.imageURL &&
+          <Image
+            source={{ uri: content.imageURL }}
+            style={IMAGE_VIEW}
+          />
+        }
       </TouchableOpacity>
-    )
-  }
-
-  _renderDescription = (text: string) => {
-    if (!text || text === "\"\"") return null
-    return (
-      <Text
-        style={DESCRIPTION}
-        color="lightGrey"
-        text={text}
-      />
     )
   }
 
@@ -106,9 +117,12 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
     if (likerCount > 0) {
       text = `${text} from ${likerCount} liker${likerCount > 1 ? "s" : ""}`
     }
-    return [
-      <Text key="sep" text=" | " color="lightGrey" />,
-      <Text key="stat" text={text} color="white" />
-    ]
+    text = ` | ${text}`
+    return (
+      <Text 
+        text={text}
+        color="grey9b"
+      />
+    )
   }
 }

@@ -54,47 +54,51 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   }
 
   _signInWithAuthCore = async () => {
-    await this.props.userStore.authCore.signIn()
+    try {
+      await this.props.userStore.authCore.signIn()
+    } catch (error) {
+      __DEV__ && console.tron.error(`Error occurs when signing in with Authcore: ${error}`, null)
+      Alert.alert(translate("signInScreen.errorAuthCore"))
+      return
+    }
 
     const {
       accessToken,
       idToken,
+      profile,
     } = this.props.userStore.authCore
 
     const {
       primaryEmail: email,
       displayName,
-    } = this.props.userStore.authCore.profile
+    } = profile || {}
 
-    try {
-      await this._signIn({
-        platform: "authcore",
-        accessToken,
-        idToken,
-        email,
-        displayName,
-      })
-    } catch (error) {
-      Alert.alert("like.co sign in error")
-      throw error
-    }
+    await this._signIn({
+      platform: "authcore",
+      accessToken,
+      idToken,
+      email,
+      displayName,
+    })
   }
 
   _signIn = async (params: UserLoginParams) => {
     try {
       await this.props.userStore.login(params)
-      this.props.navigation.navigate('LikerLandOAuth')
-      this.props.userStore.fetchUserInfo()
     } catch (error) {
       switch (error.message) {
         case 'USER_NOT_FOUND':
           this.props.navigation.navigate("Register", { params })
-          break
+          return
 
         default:
-          throw error
+          __DEV__ && console.tron.error(`Error occurs when signing in with like.co: ${error}`, null)
+          Alert.alert(translate("signInScreen.errorLikeCo"))
+          return
       }
     }
+    this.props.navigation.navigate('LikerLandOAuth')
+    this.props.userStore.fetchUserInfo()
   }
 
   _onPressAuthCoreButton = async () => {
@@ -105,8 +109,8 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
       if (error.message === "USER_CANCEL_AUTH") {
         // User cancelled auth, do nothing
       } else {
-        __DEV__ && console.tron.error(`Error occurs when signing in with AuthCore: ${error}`, null)
-        Alert.alert(`${translate("signInScreen.error")}: ${error}`)
+        __DEV__ && console.tron.error(`Error occurs when signing in: ${error}`, null)
+        Alert.alert(`${translate("signInScreen.error")}: ${error.message}`)
       }
     } finally {
       this.props.userStore.setIsSigningIn(false)

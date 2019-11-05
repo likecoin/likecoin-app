@@ -54,7 +54,7 @@ const MainTabs = createBottomTabNavigator({
   Reader: ReaderNavigator,
   Settings: SettingsNavigator,
 }, {
-  initialRouteName: "Wallet",
+  initialRouteName: "Reader",
   tabBarOptions: {
     activeTintColor: color.primary,
     showLabel: false,

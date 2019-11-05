@@ -12,6 +12,8 @@ import {
   UserRegisterParams,
 } from "../../services/api"
 
+import { throwProblem } from "../../services/api/api-problem"
+
 /**
  * Store user related information.
  */
@@ -31,14 +33,26 @@ export const UserStoreModel = types
     }
 
     const register = flow(function * (params: UserRegisterParams) {
-      yield env.likeCoAPI.register(params)
+      const result: GeneralResult = yield env.likeCoAPI.register(params)
+      switch (result.kind) {
+        case "ok":
+          break
+        case "bad-data":
+          throw new Error("REGISTRATION_BAD_DATA")
+        default:
+          throwProblem(result)
+      }
     })
 
     const login = flow(function * (params: UserLoginParams) {
       const result: GeneralResult = yield env.likeCoAPI.login(params)
       switch (result.kind) {
+        case "ok":
+          break
         case "not-found":
           throw new Error("USER_NOT_FOUND")
+        default:
+          throwProblem(result)
       }
     })
 

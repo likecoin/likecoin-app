@@ -2,7 +2,7 @@ import { TransferStoreModel } from "../../models/transfer-store"
 import { WalletStoreModel } from "../../models/wallet-store"
 import { ReaderStoreModel } from "../../models/reader-store"
 import { UserStoreModel } from "../../models/user-store"
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
 const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
@@ -46,6 +46,11 @@ export const RootStoreModel = types.model("RootStore").props({
         self.deferredDeepLink = undefined
       }
     },
+
+    signOut: flow(function * () {
+      yield self.userStore.logout()
+      self.navigationStore.navigateTo("Auth")
+    }),
   }))
 
 /**

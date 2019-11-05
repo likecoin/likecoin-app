@@ -1,4 +1,6 @@
+import { AUTHCORE_CREDENTIAL_KEY } from "react-native-dotenv"
 import { onSnapshot } from "mobx-state-tree"
+
 import { RootStoreModel, RootStore } from "./root-store"
 import { Environment } from "../environment"
 import * as Keychain from "../../utils/keychain"
@@ -8,11 +10,6 @@ import * as storage from "../../utils/storage"
  * The key we'll be saving our state as within async storage.
  */
 const ROOT_STATE_STORAGE_KEY = "root"
-
-/**
- * The server name of AuthCore for Keychain/Keystore
- */
-const AUTHCORE_CREDENTIAL_KEY = "authcore"
 
 /**
  * Setup the environment that all the models will be sharing.
@@ -52,7 +49,19 @@ export async function setupRootStore() {
     ])
     rootStore = RootStoreModel.create(data, env)
     if (rootStore.userStore.currentUser) {
-      await rootStore.userStore.authCore.init(authCoreAccessToken, authCoreIdToken)
+      if (authCoreAccessToken) {
+        await rootStore.userStore.authCore.init(
+          authCoreAccessToken,
+          authCoreIdToken,
+          undefined,
+          {
+            unauthenticated: rootStore.signOut,
+            unauthorized: rootStore.signOut,
+          },
+        )
+      } else {
+        throw new Error("ACCESS_TOKEN_NOT_FOUND")
+      }
     }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
@@ -75,35 +84,12 @@ export async function setupRootStore() {
       /* eslint-disable @typescript-eslint/no-unused-vars */
       navigationStore,
       readerStore: { contents },
-      userStore: {
-        authCore,
-        ...userStoreRest
-      },
       ...snapshot
       /* eslint-enable @typescript-eslint/no-unused-vars */
-    }) => {
-      const { accessToken, idToken, profile } = authCore
-      const promises = [
-        storage.save(ROOT_STATE_STORAGE_KEY, {
-          ...snapshot,
-          readerStore: { contents },
-          userStore: {
-            ...userStoreRest,
-            authCore: {
-              profile,
-            },
-          },
-        }),
-      ]
-      if (idToken && accessToken) {
-        if (!authCoreIdToken && !authCoreAccessToken) {
-          promises.push(Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY).catch())
-        }
-      } else {
-        promises.push(Keychain.reset(AUTHCORE_CREDENTIAL_KEY))
-      }
-      return Promise.all(promises)
-    }
+    }) => storage.save(ROOT_STATE_STORAGE_KEY, {
+      ...snapshot,
+      readerStore: { contents },
+    })
   )
 
   return rootStore

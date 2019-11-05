@@ -1,7 +1,11 @@
+import { AUTHCORE_CREDENTIAL_KEY } from "react-native-dotenv"
+import { observable } from "mobx"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { Environment } from "../environment"
+import { AuthCoreCallback } from "../../services/authcore"
+import * as Keychain from "../../utils/keychain"
 
 /**
  * AuthCore store
@@ -9,13 +13,14 @@ import { Environment } from "../environment"
 export const AuthCoreStoreModel = types
   .model("AuthCoreStore")
   .props({
-    accessToken: types.maybe(types.string),
-    idToken: types.maybe(types.string),
     profile: types.maybe(AuthCoreUserModel),
     cosmosAddresses: types.optional(types.array(types.string), []),
   })
   .extend(self => {
     const env: Environment = getEnv(self)
+
+    const _accessToken = observable.box("")
+    const _idToken = observable.box("")
 
     const fetchCurrentUser = flow(function * () {
       const currentUser: any = yield env.authCoreAPI.getCurrentUser()
@@ -29,36 +34,33 @@ export const AuthCoreStoreModel = types
     const init = flow(function * (
       accessToken: string,
       idToken: string,
-      profile?: AuthCoreUser
+      profile?: AuthCoreUser,
+      callbacks?: AuthCoreCallback,
     ) {
-      self.accessToken = accessToken
-      self.idToken = idToken
+      _accessToken.set(accessToken)
+      _idToken.set(idToken)
       if (profile) self.profile = profile
 
-      yield env.authCoreAPI.setup(accessToken)
+      yield env.authCoreAPI.setup(accessToken, callbacks)
       yield fetchCosmosAddress()
       yield fetchCurrentUser()
     })
 
-    const signIn = flow(function * () {
+    const signIn = flow(function * (callbacks?: AuthCoreCallback) {
       const {
         accessToken,
         idToken,
       }: any = yield env.authCoreAPI.signIn()
-      self.accessToken = accessToken
-      self.idToken = idToken
-      
-
-      yield env.authCoreAPI.setup(self.accessToken)
-      yield fetchCosmosAddress()
-      yield fetchCurrentUser()
+      yield Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY)
+      yield init(accessToken, idToken, null, callbacks)
     })
 
     const signOut = flow(function * () {
       yield env.authCoreAPI.signOut()
+      Keychain.reset(AUTHCORE_CREDENTIAL_KEY)
 
-      self.accessToken = undefined
-      self.idToken = undefined
+      _accessToken.set("")
+      _idToken.set("")
       self.profile = undefined
     })
 
@@ -69,6 +71,14 @@ export const AuthCoreStoreModel = types
         signIn,
         signOut,
       },
+      views: {
+        get accessToken() {
+          return _accessToken.get()
+        },
+        get idToken() {
+          return _idToken.get()
+        },
+      }
     }
   })
 
