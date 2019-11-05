@@ -19,7 +19,6 @@ import { sizes } from "../../components/text/text.sizes"
 
 import { color, spacing } from "../../theme"
 
-import CloseIcon from "../../assets/cross.svg"
 import TransferGraph from "../../assets/graph/transfer.svg"
 
 import { formatLIKE } from "../../utils/number"
@@ -92,9 +91,9 @@ const TRANSACTION = StyleSheet.create({
     paddingVertical: spacing[1],
   },
   ROOT: {
-    paddingTop: spacing[2],
     marginHorizontal: spacing[4],
     paddingBottom: spacing[4],
+    paddingTop: spacing[2],
   },
   TARGET: {
     marginTop: spacing[4],
@@ -159,14 +158,9 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
         {!shouldHideCloseButton && <View style={TOP_BAR}>
           <Button
             preset="icon"
+            icon="close"
             onPress={this._onPressCloseButton}
-          >
-            <CloseIcon
-              width={24}
-              height={24}
-              fill={color.palette.white}
-            />
-          </Button>
+          />
         </View>}
         <View style={CONTENT}>
           {!!isTransactionSuccess && <Text

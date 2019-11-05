@@ -44,7 +44,7 @@ export class Header extends React.Component<HeaderProps, {}> {
       <View style={{ ...ROOT, ...this.props.style }}>
         {leftIcon ? (
           <Button preset="link" onPress={onLeftPress}>
-            <Icon icon={leftIcon} />
+            <Icon name={leftIcon} />
           </Button>
         ) : (
           <View style={LEFT} />
@@ -58,7 +58,7 @@ export class Header extends React.Component<HeaderProps, {}> {
         </View>
         {rightIcon ? (
           <Button preset="link" onPress={onRightPress}>
-            <Icon icon={rightIcon} />
+            <Icon name={rightIcon} />
           </Button>
         ) : (
           <View style={RIGHT} />

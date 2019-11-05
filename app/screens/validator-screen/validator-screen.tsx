@@ -24,7 +24,6 @@ import { UserStore } from "../../models/user-store"
 import { Validator } from "../../models/validator"
 import { WalletStore } from "../../models/wallet-store"
 
-import CloseIcon from "../../assets/cross.svg"
 import GlobeIcon from "../../assets/globe.svg"
 
 import { formatNumber, percent } from "../../utils/number"
@@ -187,14 +186,10 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
           <View style={BOTTOM_BAR}>
             <Button
               preset="icon"
+              icon="close"
+              color="likeGreen"
               onPress={this._onPressCloseButton}
-            >
-              <CloseIcon
-                width={24}
-                height={24}
-                fill={color.palette.likeGreen}
-              />
-            </Button>
+            />
           </View>
         </Screen>
       </View>

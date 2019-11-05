@@ -18,9 +18,6 @@ import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 import { color, spacing } from "../../theme"
 
-import ShareIcon from "../../assets/share.svg"
-import CloseIcon from "../../assets/cross.svg"
-
 export interface ReceiveScreenProps extends NavigationScreenProps<{}> {
   walletStore: WalletStore,
 }
@@ -106,14 +103,11 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
           preset="fixed"
         >
           <View style={HEADER_BAR}>
-            <Button preset="icon">
-              <ShareIcon
-                width={24}
-                height={24}
-                fill={color.palette.white}
-                onPress={this._onPressShareButton}
-              />
-            </Button>
+            <Button
+              preset="icon"
+              icon="share"
+              onPress={this._onPressShareButton}
+            />
           </View>
 
           <View style={INNER}>
@@ -147,14 +141,10 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
           <View style={BOTTOM_BAR}>
             <Button
               preset="icon"
+              icon="close"
+              color="likeGreen"
               onPress={this._onPressCloseButton}
-            >
-              <CloseIcon
-                width={24}
-                height={24}
-                fill={color.palette.likeGreen}
-              />
-            </Button>
+            />
           </View>
         </Screen>
       </View>

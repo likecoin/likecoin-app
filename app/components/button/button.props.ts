@@ -2,6 +2,7 @@ import { ViewStyle, TextStyle, TouchableOpacityProps } from "react-native"
 import { ButtonPresetNames } from "./button.presets"
 import { Color } from "../../theme"
 import { TextSize } from "../text/text.sizes"
+import { IconTypes } from "../icon"
 
 export interface ButtonProps extends TouchableOpacityProps {
   /**
@@ -53,6 +54,11 @@ export interface ButtonProps extends TouchableOpacityProps {
    * The URL that opens if it is clicked
    */
   link?: string
+
+  /**
+   * The name of the icon
+   */
+  icon?: IconTypes
 
   /**
    * Determine the component should hide or not

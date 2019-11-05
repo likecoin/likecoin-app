@@ -16,8 +16,6 @@ import { Text } from "../text"
 
 import { color } from "../../theme"
 
-import CloseIcon from "../../assets/cross.svg"
-
 import { formatLIKE } from "../../utils/number"
 
 export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
@@ -74,14 +72,10 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
           <View style={STYLE.TOP_NAVIGATION}>
             <Button
               preset="icon"
+              icon="close"
+              color="likeGreen"
               onPress={this.onPressCloseButton}
-            >
-              <CloseIcon
-                width={24}
-                height={24}
-                fill={color.palette.likeGreen}
-              />
-            </Button>
+            />
           </View>
           <View style={STYLE.CONTENT_VIEW}>
             {this.renderHeader()}
