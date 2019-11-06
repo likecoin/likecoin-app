@@ -1,18 +1,24 @@
 import * as React from "react"
 import {
+  StyleSheet,
   View,
   ViewStyle,
 } from "react-native"
 
-import { color } from "../../theme"
 import { Button } from "../button/button"
 import { ButtonProps } from "../button/button.props"
+
+import { color, spacing } from "../../theme"
 
 const ROOT: ViewStyle = {
   borderRadius: 12,
   borderWidth: 0,
   flexDirection: "row",
   backgroundColor: `${color.palette.likeCyan}32`,
+}
+const BUTTON: ViewStyle = {
+  paddingVertical: spacing[2],
+  minHeight: 36,
 }
 const SEPARATOR: ViewStyle = {
   width: 2,
@@ -60,6 +66,15 @@ export function ButtonGroup(props: ButtonGroupProps) {
     children.push(prependChildren)
   }
   buttons.forEach((buttonProps, index) => {
+    const { style, ...rest } = buttonProps
+    const buttonStyle = StyleSheet.flatten([
+      BUTTON,
+      {
+        minWidth: buttonProps.preset !== "icon" ? 80 : undefined,
+      },
+      style,
+    ])
+
     // Add separator
     if (children.length > 0) {
       children.push(
@@ -74,7 +89,9 @@ export function ButtonGroup(props: ButtonGroupProps) {
       <Button
         color="white"
         preset="plain"
-        {...buttonProps}
+        weight="400"
+        style={buttonStyle}
+        {...rest}
       />
     )
   })
