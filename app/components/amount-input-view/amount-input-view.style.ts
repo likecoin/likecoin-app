@@ -31,7 +31,7 @@ export default StyleSheet.create({
   } as ViewStyle,
   GRAPH: {
     width: 68,
-    height: 50,
+    height: 56,
     flexShrink: 0,
   } as ViewStyle,
   HEADER: {

@@ -24,7 +24,7 @@ export const SUMMARY = StyleSheet.create({
     paddingTop: spacing[2],
   },
   GRAPH: {
-    height: 50,
+    height: 56,
     width: 68,
   },
   HEADER: {

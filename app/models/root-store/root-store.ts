@@ -1,3 +1,4 @@
+import { StakingDelegationStoreModel } from "../staking-delegation-store"
 import { TransferStoreModel } from "../../models/transfer-store"
 import { WalletStoreModel } from "../../models/wallet-store"
 import { ReaderStoreModel } from "../../models/reader-store"
@@ -12,6 +13,7 @@ const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)
  * An RootStore model.
  */
 export const RootStoreModel = types.model("RootStore").props({
+  stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
   transferStore: types.optional(TransferStoreModel, {}),
   walletStore: types.optional(WalletStoreModel, {}),
   readerStore: types.optional(ReaderStoreModel, {}),

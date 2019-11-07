@@ -10,6 +10,7 @@ import { WalletNavigator } from "./wallet-navigator"
 import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { TransferNavigator } from "./transfer-navigator"
+import { StakingDelegationNavigator } from "./staking-delegation-navigator"
 
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
@@ -75,6 +76,7 @@ export const AppNavigator = createStackNavigator({
   ContentView: ContentViewScreen,
   QRCodeScan: QrcodeScannerScreen,
   Receive: ReceiveScreen,
+  StakingDelegation: StakingDelegationNavigator,
   Transfer: TransferNavigator,
   Validator: ValidatorScreen,
 }, {
