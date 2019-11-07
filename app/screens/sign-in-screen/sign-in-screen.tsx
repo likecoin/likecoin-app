@@ -69,8 +69,8 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     } = this.props.userStore.authCore
 
     const {
-      primaryEmail: email,
-      displayName,
+      primaryEmail: email = "",
+      displayName = "",
     } = profile || {}
 
     await this._signIn({

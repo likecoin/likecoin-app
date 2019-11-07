@@ -31,6 +31,10 @@
   "registerScreen": {
     "likerIdLabel": "請輸入你的新 Liker ID"
   },
+  "storybook": {
+    "placeholder": "Placeholder",
+    "field": "Field"
+  },
   "signInScreen": {
     "error": "登入出現錯誤",
     "errorAuthCore": "登入 Authcore 出現錯誤",

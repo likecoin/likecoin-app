@@ -71,7 +71,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
         titleLabelTx = "readerScreen.followingLabel"
         break
     }
-  
+
     return (
       <View style={FULL}>
         <Screen

@@ -1,4 +1,5 @@
 import * as React from "react"
+import ReactNativeSvg from 'react-native-svg'
 
 import { IconProps } from "./icon.props"
 import { icons } from "./icons"
@@ -13,6 +14,12 @@ export function Icon(props: IconProps) {
     ...rest
   } = props
   const Svg = icons[name]
+
+  // FIXME: SVG is not converted in test
+  if (typeof Svg !== "function") {
+    return <ReactNativeSvg {...rest} />
+  }
+
   return <Svg fill={fill || color.palette[colorName]} {...rest} />
 }
 

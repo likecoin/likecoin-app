@@ -18,13 +18,13 @@ storiesOf("Header", module)
     <Story>
       <UseCase noPad text="default" usage="The default usage">
         <View style={VIEWSTYLE}>
-          <Header headerTx="secondExampleScreen.howTo" />
+          <Header headerTx="storybook.placeholder" />
         </View>
       </UseCase>
       <UseCase noPad text="leftIcon" usage="A left nav icon">
         <View style={VIEWSTYLE}>
           <Header
-            headerTx="secondExampleScreen.howTo"
+            headerTx="storybook.placeholder"
             leftIcon="back"
             onLeftPress={() => Alert.alert("left nav")}
           />
@@ -33,8 +33,8 @@ storiesOf("Header", module)
       <UseCase noPad text="rightIcon" usage="A right nav icon">
         <View style={VIEWSTYLE}>
           <Header
-            headerTx="secondExampleScreen.howTo"
-            rightIcon="bullet"
+            headerTx="storybook.placeholder"
+            rightIcon="share"
             onRightPress={() => Alert.alert("right nav")}
           />
         </View>

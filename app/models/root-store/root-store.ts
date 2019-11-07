@@ -5,6 +5,7 @@ import { UserStoreModel } from "../../models/user-store"
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
+// eslint-disable-next-line no-useless-escape
 const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 
 /**

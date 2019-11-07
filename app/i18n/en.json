@@ -38,6 +38,10 @@
     "heading": "As a Liker, every Like is a reward to creators",
     "signIn": "Sign In"
   },
+  "storybook": {
+    "placeholder": "Placeholder",
+    "field": "Field"
+  },
   "transaction": {
     "to": "To"
   },
@@ -73,9 +77,5 @@
   "welcomeScreen": {
     "welcome": "Welcome!",
     "logout": "Logout"
-  },
-  "storybook": {
-    "placeholder": "Placeholder",
-    "field": "Field"
   }
 }
