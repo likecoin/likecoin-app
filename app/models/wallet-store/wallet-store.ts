@@ -10,7 +10,6 @@ import {
   CosmosValidator,
 } from "../../services/cosmos"
 import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
-import { BigDipper } from "../../services/big-dipper"
 
 /**
  * Parse Cosemos Validator to model
@@ -153,7 +152,7 @@ export const WalletStoreModel = types
          * The URL of the account page in block explorer
          */
         get blockExplorerURL() {
-          return BigDipper.getAccountURL(address.get())
+          return env.bigDipper.getAccountURL(address.get())
         },
         get totalDelegatorShares() {
           return getTotalDelegatorShares()
