@@ -102,7 +102,7 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
   private renderHeader = () => {
     const { maxAmount } = this.props
     const textStyle = [
-      STYLE.AVAILABLE.AMOUNT,
+      STYLE.AVAILABLE_AMOUNT,
       {
         width: this.state.maxAmountLabelWidth,
       },
@@ -110,7 +110,7 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
     return (
       <View style={STYLE.HEADER}>
         <View
-          style={STYLE.AVAILABLE.ROOT}
+          style={STYLE.AVAILABLE_ROOT}
           onLayout={this.onLayoutMaxAmountView}
         >
           <Text
