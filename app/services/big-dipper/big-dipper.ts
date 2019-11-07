@@ -18,6 +18,7 @@ export class BigDipper {
   }
 
   static getTransactionURL(hash: string) {
+    if (!hash) return ""
     return `${BIG_DIPPER_URL}/transactions/${hash}`
   }
 }
