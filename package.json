@@ -46,7 +46,6 @@
     "react-native-keychain": "3.1.3",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-localize": "^1.0.0",
-    "react-native-qrcode-scanner-view": "^2.0.0",
     "react-native-qrcode-svg": "^5.2.0",
     "react-native-splash-screen": "3.1.1",
     "react-native-svg": "^9.9.3",
