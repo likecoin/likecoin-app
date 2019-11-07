@@ -1,4 +1,3 @@
-import { AUTHCORE_CREDENTIAL_KEY } from "react-native-dotenv"
 import { onSnapshot } from "mobx-state-tree"
 
 import { RootStoreModel, RootStore } from "./root-store"
@@ -35,6 +34,7 @@ export async function setupRootStore() {
 
   // prepare the environment that will be associated with the RootStore.
   const env = await createEnvironment()
+  const AUTHCORE_CREDENTIAL_KEY = env.remoteConfig.getConfigValue('AUTHCORE_CREDENTIAL_KEY')
   try {
     // load data from storage
     [

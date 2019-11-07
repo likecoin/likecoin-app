@@ -1,4 +1,3 @@
-import { AUTHCORE_CREDENTIAL_KEY } from "react-native-dotenv"
 import { observable } from "mobx"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
@@ -18,6 +17,11 @@ export const AuthCoreStoreModel = types
   })
   .extend(self => {
     const env: Environment = getEnv(self)
+    const {
+      AUTHCORE_ROOT_URL,
+      AUTHCORE_CREDENTIAL_KEY,
+      COSMOS_CHAIN_ID
+    } = env.remoteConfig.getConfigObject()
 
     const _accessToken = observable.box("")
     const _idToken = observable.box("")
@@ -41,7 +45,12 @@ export const AuthCoreStoreModel = types
       _idToken.set(idToken)
       if (profile) self.profile = profile
 
-      yield env.authCoreAPI.setup(accessToken, callbacks)
+      yield env.authCoreAPI.setup(
+        AUTHCORE_ROOT_URL,
+        accessToken,
+        COSMOS_CHAIN_ID,
+        callbacks
+      )
       yield fetchCosmosAddress()
       yield fetchCurrentUser()
     })

@@ -1,6 +1,6 @@
 import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
-import { ApiConfig, LIKECO_API_CONFIG } from "./api-config"
+import { ApiConfig, LIKECO_COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
 /**
@@ -22,8 +22,8 @@ export class LikeCoAPI {
    *
    * @param config The configuration to use.
    */
-  constructor(config: ApiConfig = LIKECO_API_CONFIG) {
-    this.config = config
+  constructor(url: string, config: ApiConfig = LIKECO_COMMON_API_CONFIG) {
+    this.config = { ...config, url }
   }
 
   /**
