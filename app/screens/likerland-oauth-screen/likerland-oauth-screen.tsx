@@ -9,9 +9,6 @@ import { Wallpaper } from "../../components/wallpaper"
 import { Screen } from "../../components/screen"
 import { color } from "../../theme"
 import { RootStore } from "../../models/root-store"
-import { LIKERLAND_API_CONFIG } from "../../services/api/api-config"
-
-const SIGNIN_URL = `${LIKERLAND_API_CONFIG.url}/users/login`
 
 const FULL: ViewStyle = { flex: 1 }
 
@@ -35,8 +32,11 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.props.navigation.goBack()
     }
   }
-
   render () {
+    const {
+      likerLandSignInURL,
+    } = this.props.rootStore.userStore
+    const SIGNIN_URL = `${likerLandSignInURL}/users/login`
     return (
       <View style={FULL}>
         <Wallpaper />

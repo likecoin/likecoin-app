@@ -22,9 +22,11 @@ export const UserStoreModel = types
   .props({
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
+    likerLandSignInURL: types.maybe(types.string),
   })
   .extend(self => {
     const env: Environment = getEnv(self)
+    self.likerLandSignInURL = env.remoteConfig.getConfigValue('LIKERLAND_API_URL')
 
     const isSigningIn = observable.box(false)
 
