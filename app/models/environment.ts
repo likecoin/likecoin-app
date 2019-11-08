@@ -1,12 +1,9 @@
-import {
-  COSMOS_LCD_URL,
-  COSMOS_CHAIN_ID,
-} from "react-native-dotenv"
-
 import { Reactotron } from "../services/reactotron"
 import { LikeCoAPI, LikerLandAPI } from "../services/api"
 import { AuthCoreAPI } from "../services/authcore"
 import { CosmosAPI } from "../services/cosmos"
+import { BigDipper } from "../services/big-dipper"
+import { RemoteConfig } from "../services/remote-config"
 
 /**
  * The environment is a place where services and shared dependencies between
@@ -15,19 +12,35 @@ import { CosmosAPI } from "../services/cosmos"
 export class Environment {
   constructor() {
     // create each service
+    this.remoteConfig = new RemoteConfig()
     this.reactotron = new Reactotron()
     this.likeCoAPI = new LikeCoAPI()
     this.likerLandAPI = new LikerLandAPI()
-    this.authCoreAPI = new AuthCoreAPI()
-    this.cosmosAPI = new CosmosAPI(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
+    this.authCoreAPI = null
+    this.cosmosAPI = null
+    this.bigDipper = null
   }
 
   async setup() {
     // allow each service to setup
+    await this.remoteConfig.setup()
     await this.reactotron.setup()
-    this.likeCoAPI.setup()
-    this.likerLandAPI.setup()
+    const {
+      COSMOS_LCD_URL,
+      COSMOS_CHAIN_ID,
+      LIKECO_API_URL,
+      LIKERLAND_API_URL,
+      AUTHCORE_ROOT_URL,
+      BIG_DIPPER_URL,
+    } = this.remoteConfig.getConfigObject()
+    this.likeCoAPI.setup(LIKECO_API_URL)
+    this.likerLandAPI.setup(LIKERLAND_API_URL)
+    this.authCoreAPI = new AuthCoreAPI(AUTHCORE_ROOT_URL)
+    this.cosmosAPI = new CosmosAPI(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
+    this.bigDipper = new BigDipper(BIG_DIPPER_URL)
   }
+
+  remoteConfig: RemoteConfig
 
   /**
    * Reactotron is only available in dev.

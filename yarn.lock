@@ -1202,6 +1202,11 @@
   dependencies:
     stacktrace-js "^2.0.0"
 
+"@react-native-firebase/remote-config@6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-6.0.1.tgz#f42b7bbcd27bd012e7e8736f006c962e65f1676c"
+  integrity sha512-8W4Whe4vR51y6edZMNq77VAtS2CAIRSp64LECj3RQmfixNAfouFm0tt/5h5Lg1qlvdo+cFVuxp6z3qGby8+b2A==
+
 "@react-navigation/core@~3.4.1":
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.4.2.tgz#bec563e94fde40fbab3730cdc97f22afbb2a1498"

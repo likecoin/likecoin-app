@@ -1,9 +1,4 @@
 import { NativeModules } from "react-native"
-import {
-  AUTHCORE_ROOT_URL as apiBaseURL,
-  COSMOS_CHAIN_ID,
-} from "react-native-dotenv"
-
 import AuthCore from "react-native-authcore"
 
 import {
@@ -40,13 +35,18 @@ export class AuthCoreAPI {
    */
   cosmosProvider: AuthCoreCosmosProvider
 
-  constructor() {
+  constructor(apiBaseURL: string) {
     this.client = new AuthCore({
       baseUrl: apiBaseURL
     })
   }
 
-  async setup(accessToken: string, callbacks: AuthCoreCallback) {
+  async setup(
+    apiBaseURL: string,
+    accessToken: string,
+    cosmosChainId: string,
+    callbacks: AuthCoreCallback
+  ) {
     const { webAuth } = this.client
     webAuth.client.bearer = `Bearer ${accessToken}`
 
@@ -60,7 +60,7 @@ export class AuthCoreAPI {
     __DEV__ && console.tron.log("Initializing AuthCore Cosmos Provider")
     this.cosmosProvider = await new AuthCoreCosmosProvider({
       authcoreClient: this.keyVaultClient,
-      chainId: COSMOS_CHAIN_ID,
+      chainId: cosmosChainId,
       callbacks,
     })
 
