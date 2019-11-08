@@ -32,6 +32,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.props.navigation.goBack()
     }
   }
+
   render () {
     const {
       signInURL,

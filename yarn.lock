@@ -8901,13 +8901,6 @@ react-native-localize@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-1.1.4.tgz#d48aa4f75afd39a42dcd0bdf40f7f44a8ccd604c"
   integrity sha512-NHsA812yvoH9ktPl1IqIxwDDwykipyH7K4zeW/nnipZuQb2g73SQEB3ryqKHmRASWD0DZl0hIxHr9IszzG5W5w==
 
-react-native-qrcode-scanner-view@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-qrcode-scanner-view/-/react-native-qrcode-scanner-view-2.0.0.tgz#327d3106a93bc297134393f11693977809801a2f"
-  integrity sha512-HIFsdkV8CsqmO0Hdxoaq/ZdWbfzz4Si+gG1zoXZNMT2SzArsNfgJxyP4/TAnkjglkday339MitSuQNjgQSheDA==
-  dependencies:
-    prop-types "^15.7.2"
-
 react-native-qrcode-svg@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-5.2.0.tgz#013f7bb1d6e8de307fdca6141b4e815d861adf68"

@@ -1,6 +1,6 @@
 import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
-import { ApiConfig, LIKECO_COMMON_API_CONFIG } from "./api-config"
+import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
 /**
@@ -22,7 +22,7 @@ export class LikerLandAPI {
    *
    * @param config The configuration to use.
    */
-  constructor(config: ApiConfig = LIKECO_COMMON_API_CONFIG) {
+  constructor(config: ApiConfig = COMMON_API_CONFIG) {
     this.config = config
   }
 

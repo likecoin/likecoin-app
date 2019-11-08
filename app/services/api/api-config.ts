@@ -21,7 +21,7 @@ export interface ApiConfig {
 /**
  * The default configuration for like.co and liker.land API.
  */
-export const LIKECO_COMMON_API_CONFIG: ApiConfig = {
+export const COMMON_API_CONFIG: ApiConfig = {
   timeout: TIMEOUT,
   userAgent: USER_AGENT
 }
