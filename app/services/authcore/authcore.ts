@@ -35,7 +35,7 @@ export class AuthCoreAPI {
    */
   cosmosProvider: AuthCoreCosmosProvider
 
-  constructor() {
+  constructor(apiBaseURL: string) {
     this.client = new AuthCore({
       baseUrl: apiBaseURL
     })

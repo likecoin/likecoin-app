@@ -22,13 +22,12 @@ export const UserStoreModel = types
   .props({
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
-    likerLandSignInURL: types.maybe(types.string),
+    LIKERLAND_API_URL: types.maybe(types.string),
   })
   .extend(self => {
     const env: Environment = getEnv(self)
-    self.likerLandSignInURL = env.remoteConfig.getConfigValue('LIKERLAND_API_URL')
-
     const isSigningIn = observable.box(false)
+    const LIKERLAND_API_URL = observable.box(env.remoteConfig.getConfigValue('LIKERLAND_API_URL'))
 
     const setIsSigningIn = (value: boolean) => {
       isSigningIn.set(value)
@@ -95,6 +94,9 @@ export const UserStoreModel = types
       views: {
         get isSigningIn() {
           return isSigningIn.get()
+        },
+        get signInURL() {
+          return `${LIKERLAND_API_URL.get()}/users/login`
         },
         get selectedWalletAddress() {
           return self.authCore.cosmosAddresses[0]

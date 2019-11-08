@@ -25,8 +25,18 @@ export class RemoteConfig {
 
   async setup() {
     try {
-      await this.remoteConfig.fetchAndActivate()
-      const newConfig = await this.remoteConfig.getValue('api_config')
+      await this.remoteConfig.setConfigSettings({
+        isDeveloperModeEnabled: __DEV__,
+      });
+      await this.remoteConfig.fetch();
+      await this.remoteConfig.activate();
+      const { value: newJSONConfig } = await this.remoteConfig.getValue('api_config')
+      let newConfig = {}
+      try {
+        newConfig = JSON.parse(newJSONConfig);
+      } catch (err) {
+        console.error(err)
+      }
       this.config = {
         ...this.config,
         ...newConfig,

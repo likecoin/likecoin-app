@@ -34,9 +34,8 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   }
   render () {
     const {
-      likerLandSignInURL,
+      signInURL,
     } = this.props.rootStore.userStore
-    const SIGNIN_URL = `${likerLandSignInURL}/users/login`
     return (
       <View style={FULL}>
         <Wallpaper />
@@ -47,7 +46,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
           <LikeCoinWebView
             style={FULL}
             sharedCookiesEnabled={true}
-            source={{ uri: SIGNIN_URL }}
+            source={{ uri: signInURL }}
             onLoadEnd={this._onLoadEnd}
           />
         </Screen>

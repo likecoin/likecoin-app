@@ -22,8 +22,8 @@ export class LikeCoAPI {
    *
    * @param config The configuration to use.
    */
-  constructor(url: string, config: ApiConfig = LIKECO_COMMON_API_CONFIG) {
-    this.config = { ...config, url }
+  constructor(config: ApiConfig = LIKECO_COMMON_API_CONFIG) {
+    this.config = config
   }
 
   /**
@@ -33,10 +33,10 @@ export class LikeCoAPI {
    *
    * Be as quick as possible in here.
    */
-  setup() {
+  setup(url: string) {
     // construct the apisauce instance
     this.apisauce = create({
-      baseURL: this.config.url,
+      baseURL: url,
       timeout: this.config.timeout,
       headers: {
         Accept: "application/json",
