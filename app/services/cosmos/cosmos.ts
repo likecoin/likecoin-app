@@ -1,6 +1,11 @@
 import Cosmos from "@lunie/cosmos-api"
 
-import { CosmosAccountResult, CosmosValidator, CosmosMessage } from "./cosmos.types"
+import {
+  CosmosAccountResult,
+  CosmosValidator,
+  CosmosMessage,
+  CosmosDelegation,
+} from "./cosmos.types"
 import { DENOM, parseCosmosLIKE, convertLIKEToNanolike } from "./cosmos.utils"
 
 /**
@@ -35,6 +40,15 @@ export class CosmosAPI {
     }
     const [coin] = account.coins.filter(coin => coin.denom === DENOM)
     return coin.amount
+  }
+
+  /**
+   * Get all delegations from a delegator
+   *
+   * @param delegatorAddress The delegator address
+   */
+  async getDelegations(delegatorAddress: string) {
+    return this.api.get.delegations(delegatorAddress) as CosmosDelegation[]
   }
 
   /**

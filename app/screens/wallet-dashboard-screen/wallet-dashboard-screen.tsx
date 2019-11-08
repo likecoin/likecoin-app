@@ -22,10 +22,12 @@ import { UserStore } from "../../models/user-store"
 import { WalletStore } from "../../models/wallet-store"
 import { Validator } from "../../models/validator"
 
-import { percent } from "../../utils/number"
+import { percent, formatLIKE } from "../../utils/number"
 import { color, gradient, spacing } from "../../theme"
 
 import QRCodeIcon from "../../assets/qrcode-scan.svg"
+
+import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -265,9 +267,11 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     return (
       <ValidatorListItem
         key={validator.operatorAddress}
-        name={validator.moniker}
         icon={validator.avatar}
+        title={validator.moniker}
         subtitle={percent(validator.expectedReturns)}
+        rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegationShare))}
+        isDarkMode={validator.isDelegated}
         onPress={() => this._onPressValidator(validator)}
       />
     )

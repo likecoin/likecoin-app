@@ -18,12 +18,6 @@
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0"
   },
-  "delegationStakeAmountInputScreen": {
-    "available": "可押入"
-  },
-  "delegationStakeSigningScreen": {
-    "title": "押入"
-  },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
     "showMyQRCode": "我的二維碼"
@@ -38,6 +32,12 @@
   },
   "registerScreen": {
     "likerIdLabel": "請輸入你的新 Liker ID"
+  },
+  "stakingDelegationAmountInputScreen": {
+    "available": "可押入"
+  },
+  "stakingDelegationSigningScreen": {
+    "title": "押入"
   },
   "storybook": {
     "placeholder": "Placeholder",

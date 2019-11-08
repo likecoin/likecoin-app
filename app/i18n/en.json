@@ -18,12 +18,6 @@
     "TRANSFER_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero"
   },
-  "delegationStakeAmountInputScreen": {
-    "available": "Available"
-  },
-  "delegationStakeSigningScreen": {
-    "title": "Stake"
-  },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
     "showMyQRCode": "Show my QR Code"
@@ -45,6 +39,12 @@
     "errorLikeCo": "Error occurs when signing in with like.co",
     "heading": "As a Liker, every Like is a reward to creators",
     "signIn": "Sign In"
+  },
+  "stakingDelegationAmountInputScreen": {
+    "available": "Available"
+  },
+  "stakingDelegationSigningScreen": {
+    "title": "Stake"
   },
   "storybook": {
     "placeholder": "Placeholder",

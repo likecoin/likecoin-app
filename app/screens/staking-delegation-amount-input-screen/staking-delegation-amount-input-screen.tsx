@@ -110,7 +110,7 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
         amount={this.props.txStore.amount}
         maxAmount={this.props.walletStore.balanceInLIKE}
         error={this.state.error}
-        availableLabelTx="delegationStakeAmountInputScreen.available"
+        availableLabelTx="stakingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={this.state.isCreatingTransaction}
         graph={<Graph />}

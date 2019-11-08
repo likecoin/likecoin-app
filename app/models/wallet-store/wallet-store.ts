@@ -8,6 +8,7 @@ import { formatNumber } from "../../utils/number"
 import {
   CosmosSignature,
   CosmosValidator,
+  CosmosDelegation,
 } from "../../services/cosmos"
 import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 import { BigDipper } from "../../services/big-dipper"
@@ -98,6 +99,19 @@ export const WalletStoreModel = types
       }
     })
 
+    const setValidatorDelegation = (rawDelegation: CosmosDelegation) => {
+      self.validators.get(rawDelegation.validator_address).setDelegation(rawDelegation.shares)
+    }
+
+    const fetchDelegations = flow(function * () {
+      try {
+        const rawDelegations: CosmosDelegation[] = yield env.cosmosAPI.getDelegations(address.get())
+        rawDelegations.forEach(setValidatorDelegation)
+      } catch (error) {
+        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchDelegations: ${error}`, null)
+      }
+    })
+
     const fetchValidators = flow(function * () {
       try {
         const rawValidators: CosmosValidator[] = yield env.cosmosAPI.getValidators()
@@ -114,6 +128,7 @@ export const WalletStoreModel = types
             self.annualProvision
           )
         })
+        fetchDelegations()
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
       }
@@ -187,6 +202,7 @@ export const WalletStoreModel = types
       actions: {
         fetchValidators,
         fetchBalance,
+        fetchDelegations,
         fetchAnnualProvision,
         setAddress,
       }

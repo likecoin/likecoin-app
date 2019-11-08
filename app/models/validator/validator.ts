@@ -1,6 +1,7 @@
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
 
 import { BigDipper } from "../../services/big-dipper"
+import { observable } from "mobx"
 
 /**
  * A Cosmos validator.
@@ -35,6 +36,12 @@ export const ValidatorModel = types
     minSelfDelegation: types.string,
   })
   .extend(self => {
+    const delegationShare = observable.box("0")
+
+    const setDelegation = (shares: string) => {
+      delegationShare.set(shares)
+    }
+
     const fetchAvatarURL = flow(function * () {
       if (self.identity.length === 16) {
         const response: Response = yield fetch(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${self.identity}&fields=pictures`, {
@@ -105,9 +112,16 @@ export const ValidatorModel = types
         get blockExplorerURL() {
           return BigDipper.getValidatorURL(self.operatorAddress)
         },
+        get delegationShare() {
+          return delegationShare.get()
+        },
+        get isDelegated() {
+          return delegationShare.get() !== "0"
+        },
       },
       actions: {
         fetchAvatarURL,
+        setDelegation,
         setExpectedReturns,
       },
     }

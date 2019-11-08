@@ -42,6 +42,7 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
     if (state === "success") {
       // Update balance
       this.props.walletStore.fetchBalance()
+      this.props.walletStore.fetchDelegations()
     }
   }
 
@@ -70,7 +71,7 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
     return (
       <SigningView
         state={this.state.state}
-        titleTx="delegationStakeSigningScreen.title"
+        titleTx="stakingDelegationSigningScreen.title"
         amount={amount}
         txURL={blockExplorerURL}
         error={errorMessage}
