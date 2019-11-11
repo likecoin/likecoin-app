@@ -20,7 +20,6 @@ import { sizes } from "../../components/text/text.sizes"
 import { Screen } from "../../components/screen"
 import { color, spacing } from "../../theme"
 
-import { UserStore } from "../../models/user-store"
 import { Validator } from "../../models/validator"
 import { WalletStore } from "../../models/wallet-store"
 
@@ -34,7 +33,6 @@ export interface ValidatorScreenNavigationParams {
 }
 export interface ValidatorScreenProps extends NavigationScreenProps<ValidatorScreenNavigationParams> {
   walletStore: WalletStore,
-  userStore: UserStore,
 }
 
 const ROOT: ViewStyle = {
@@ -90,10 +88,7 @@ const BOTTOM_BAR: ViewStyle = {
   backgroundColor: color.palette.white,
 }
 
-@inject(
-  "walletStore",
-  "userStore"
-)
+@inject("walletStore")
 @observer
 export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   state = {

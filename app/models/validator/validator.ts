@@ -1,7 +1,14 @@
-import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotOut,
+  types,
+  flow,
+  getEnv,
+} from "mobx-state-tree"
 
-import { BigDipper } from "../../services/big-dipper"
 import { observable } from "mobx"
+
+import { Environment } from "../environment"
 
 /**
  * A Cosmos validator.
@@ -36,6 +43,8 @@ export const ValidatorModel = types
     minSelfDelegation: types.string,
   })
   .extend(self => {
+    const env: Environment = getEnv(self)
+
     const delegationShare = observable.box("0")
 
     const setDelegation = (shares: string) => {
@@ -110,7 +119,7 @@ export const ValidatorModel = types
           return self.avatorURL || `https://ui-avatars.com/api/?size=360&name=${encodeURIComponent(self.moniker)}&color=fff&background=aaa`
         },
         get blockExplorerURL() {
-          return BigDipper.getValidatorURL(self.operatorAddress)
+          return env.bigDipper.getValidatorURL(self.operatorAddress)
         },
         get delegationShare() {
           return delegationShare.get()

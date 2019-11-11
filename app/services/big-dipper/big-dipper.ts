@@ -1,24 +1,31 @@
-import { BIG_DIPPER_URL } from "react-native-dotenv"
-
 /**
  * A Big Dipper helper
  */
 export class BigDipper {
   /**
+   * The base URL of the Big Dipper
+   */
+  baseURL: string = ""
+
+  setup(baseURL: string = "") {
+    this.baseURL = baseURL
+  }
+
+  /**
    * Get the URL to account page of Big Dipper by address
    *
    * @param address The Cosmos address
    */
-  static getAccountURL(address: string) {
-    return `${BIG_DIPPER_URL}/account/${address}`
+  getAccountURL(address: string) {
+    return `${this.baseURL}/account/${address}`
   }
 
-  static getValidatorURL(address: string) {
-    return `${BIG_DIPPER_URL}/validator/${address}`
+  getValidatorURL(address: string) {
+    return `${this.baseURL}/validator/${address}`
   }
 
-  static getTransactionURL(hash: string) {
+  getTransactionURL(hash: string) {
     if (!hash) return ""
-    return `${BIG_DIPPER_URL}/transactions/${hash}`
+    return `${this.baseURL}/transactions/${hash}`
   }
 }

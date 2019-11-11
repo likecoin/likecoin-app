@@ -28,6 +28,7 @@
     "@react-native-firebase/analytics": "^6.0.1",
     "@react-native-firebase/app": "^6.0.1",
     "@react-native-firebase/crashlytics": "^6.0.1",
+    "@react-native-firebase/remote-config": "6.0.1",
     "@types/lodash.throttle": "^4.1.6",
     "@ui-kitten/eva-icons": "^4.2.0-beta.1",
     "apisauce": "1.0.3",

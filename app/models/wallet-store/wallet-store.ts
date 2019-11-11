@@ -11,14 +11,13 @@ import {
   CosmosDelegation,
 } from "../../services/cosmos"
 import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
-import { BigDipper } from "../../services/big-dipper"
 
 /**
  * Parse Cosemos Validator to model
  *
  * @param validator The Validator result from Cosmos API
  */
-function parseRawValidators(validator: CosmosValidator) {
+function parseRawValidators(validator: CosmosValidator, env: Environment) {
   const {
     operator_address: operatorAddress,
     consensus_pubkey: consensusPubkey,
@@ -50,7 +49,7 @@ function parseRawValidators(validator: CosmosValidator) {
     commissionUpdateTime,
     minSelfDelegation,
     ...rest
-  })
+  }, env)
 }
 
 /**
@@ -117,7 +116,7 @@ export const WalletStoreModel = types
         const rawValidators: CosmosValidator[] = yield env.cosmosAPI.getValidators()
         self.validatorList.replace([])
         rawValidators.forEach((rawValidator) => {
-          const validator = parseRawValidators(rawValidator)
+          const validator = parseRawValidators(rawValidator, env)
           self.validators.put(validator)
           validator.fetchAvatarURL()
           self.validatorList.push(validator)
@@ -168,7 +167,7 @@ export const WalletStoreModel = types
          * The URL of the account page in block explorer
          */
         get blockExplorerURL() {
-          return BigDipper.getAccountURL(address.get())
+          return env.bigDipper.getAccountURL(address.get())
         },
         get totalDelegatorShares() {
           return getTotalDelegatorShares()
