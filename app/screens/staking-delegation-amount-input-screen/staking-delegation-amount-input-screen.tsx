@@ -66,7 +66,7 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
     try {
       await this.props.txStore.createTransaction(this.props.walletStore.address)
       const amountWithFee = new BigNumber(this.props.txStore.totalAmount)
-      const maxAmount = new BigNumber(this.props.walletStore.balanceInLIKE)
+      const maxAmount = new BigNumber(this.props.walletStore.availableBalanceInLIKE)
       if (amountWithFee.isGreaterThan(maxAmount)) {
         return this.setError("STAKE_AMOUNT_EXCEED_MAX")
       }
@@ -108,7 +108,7 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
     return (
       <AmountInputView
         amount={this.props.txStore.amount}
-        maxAmount={this.props.walletStore.balanceInLIKE}
+        maxAmount={this.props.walletStore.availableBalanceInLIKE}
         error={this.state.error}
         availableLabelTx="stakingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"

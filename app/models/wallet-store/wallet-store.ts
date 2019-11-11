@@ -69,7 +69,7 @@ export const WalletStoreModel = types
      * The address of the wallet
      */
     const address = observable.box("")
-    const balance = observable.box("0")
+    const availableBalance = observable.box("0")
     const isFetchingBalance = observable.box(false)
     const hasFetchedBalance = observable.box(false)
 
@@ -77,8 +77,8 @@ export const WalletStoreModel = types
       address.set(newAddress)
     }
 
-    const getBalanceInLIKE = () => {
-      return convertNanolikeToLIKE(balance.get())
+    const getAvailableBalanceInLIKE = () => {
+      return convertNanolikeToLIKE(availableBalance.get())
     }
 
     const getTotalDelegatorShares = () => self.validatorList.reduce(
@@ -89,7 +89,7 @@ export const WalletStoreModel = types
     const fetchBalance = flow(function * () {
       isFetchingBalance.set(true)
       try {
-        balance.set(yield env.cosmosAPI.queryBalance(address.get()))
+        availableBalance.set(yield env.cosmosAPI.queryBalance(address.get()))
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchBalance: ${error}`, null)
       } finally {
@@ -175,11 +175,11 @@ export const WalletStoreModel = types
         /**
          * Return balance in LIKE
          */
-        get balanceInLIKE() {
-          return getBalanceInLIKE()
+        get availableBalanceInLIKE() {
+          return getAvailableBalanceInLIKE()
         },
         get formattedBalance() {
-          return formatNumber(getBalanceInLIKE(), 2)
+          return formatNumber(getAvailableBalanceInLIKE(), 2)
         },
         get isFetchingBalance() {
           return isFetchingBalance.get()
