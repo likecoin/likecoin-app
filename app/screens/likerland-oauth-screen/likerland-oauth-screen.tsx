@@ -9,9 +9,6 @@ import { Wallpaper } from "../../components/wallpaper"
 import { Screen } from "../../components/screen"
 import { color } from "../../theme"
 import { RootStore } from "../../models/root-store"
-import { LIKERLAND_API_CONFIG } from "../../services/api/api-config"
-
-const SIGNIN_URL = `${LIKERLAND_API_CONFIG.url}/users/login`
 
 const FULL: ViewStyle = { flex: 1 }
 
@@ -37,6 +34,9 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   }
 
   render () {
+    const {
+      signInURL,
+    } = this.props.rootStore.userStore
     return (
       <View style={FULL}>
         <Wallpaper />
@@ -47,7 +47,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
           <LikeCoinWebView
             style={FULL}
             sharedCookiesEnabled={true}
-            source={{ uri: SIGNIN_URL }}
+            source={{ uri: signInURL }}
             onLoadEnd={this._onLoadEnd}
           />
         </Screen>
