@@ -34,7 +34,7 @@ export async function setupRootStore() {
 
   // prepare the environment that will be associated with the RootStore.
   const env = await createEnvironment()
-  const AUTHCORE_CREDENTIAL_KEY = env.remoteConfig.getConfigValue('AUTHCORE_CREDENTIAL_KEY')
+  const AUTHCORE_CREDENTIAL_KEY = env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')
   try {
     // load data from storage
     [
@@ -50,15 +50,7 @@ export async function setupRootStore() {
     rootStore = RootStoreModel.create(data, env)
     if (rootStore.userStore.currentUser) {
       if (authCoreAccessToken) {
-        await rootStore.userStore.authCore.init(
-          authCoreAccessToken,
-          authCoreIdToken,
-          undefined,
-          {
-            unauthenticated: rootStore.signOut,
-            unauthorized: rootStore.signOut,
-          },
-        )
+        await rootStore.userStore.authCore.init(authCoreAccessToken, authCoreIdToken)
       } else {
         throw new Error("ACCESS_TOKEN_NOT_FOUND")
       }
@@ -70,6 +62,9 @@ export async function setupRootStore() {
 
     // but please inform us what happened
     __DEV__ && console.tron.error(e.message, null)
+  } finally {
+    env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
+    env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
   }
 
   // reactotron logging

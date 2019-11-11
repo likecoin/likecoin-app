@@ -16,7 +16,7 @@ import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
  *
  * @param validator The Validator result from Cosmos API
  */
-function parseRawValidators(validator: CosmosValidator) {
+function parseRawValidators(validator: CosmosValidator, env: Environment) {
   const {
     operator_address: operatorAddress,
     consensus_pubkey: consensusPubkey,
@@ -48,7 +48,7 @@ function parseRawValidators(validator: CosmosValidator) {
     commissionUpdateTime,
     minSelfDelegation,
     ...rest
-  })
+  }, env)
 }
 
 /**
@@ -102,7 +102,7 @@ export const WalletStoreModel = types
         const rawValidators: CosmosValidator[] = yield env.cosmosAPI.getValidators()
         self.validatorList.replace([])
         rawValidators.forEach((rawValidator) => {
-          const validator = parseRawValidators(rawValidator)
+          const validator = parseRawValidators(rawValidator, env)
           self.validators.put(validator)
           validator.fetchAvatarURL()
           self.validatorList.push(validator)

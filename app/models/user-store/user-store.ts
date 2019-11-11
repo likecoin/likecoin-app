@@ -27,7 +27,7 @@ export const UserStoreModel = types
   .extend(self => {
     const env: Environment = getEnv(self)
     const isSigningIn = observable.box(false)
-    const LIKERLAND_API_URL = observable.box(env.remoteConfig.getConfigValue('LIKERLAND_API_URL'))
+    const LIKERLAND_API_URL = observable.box(env.appConfig.getValue('LIKERLAND_API_URL'))
 
     const setIsSigningIn = (value: boolean) => {
       isSigningIn.set(value)

@@ -6,6 +6,8 @@ import {
   getEnv,
 } from "mobx-state-tree"
 
+import { Environment } from "../environment"
+
 /**
  * A Cosmos validator.
  */
@@ -40,6 +42,7 @@ export const ValidatorModel = types
   })
   .extend(self => {
     const env: Environment = getEnv(self)
+
     const fetchAvatarURL = flow(function * () {
       if (self.identity.length === 16) {
         const response: Response = yield fetch(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${self.identity}&fields=pictures`, {

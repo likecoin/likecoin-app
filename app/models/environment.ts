@@ -1,9 +1,9 @@
+import { AppConfig } from "../services/app-config"
+import { AuthCoreAPI } from "../services/authcore"
+import { BigDipper } from "../services/big-dipper"
+import { CosmosAPI } from "../services/cosmos"
 import { Reactotron } from "../services/reactotron"
 import { LikeCoAPI, LikerLandAPI } from "../services/api"
-import { AuthCoreAPI } from "../services/authcore"
-import { CosmosAPI } from "../services/cosmos"
-import { BigDipper } from "../services/big-dipper"
-import { RemoteConfig } from "../services/remote-config"
 
 /**
  * The environment is a place where services and shared dependencies between
@@ -12,19 +12,19 @@ import { RemoteConfig } from "../services/remote-config"
 export class Environment {
   constructor() {
     // create each service
-    this.remoteConfig = new RemoteConfig()
     this.reactotron = new Reactotron()
+    this.appConfig = new AppConfig()
+    this.authCoreAPI = new AuthCoreAPI()
     this.likeCoAPI = new LikeCoAPI()
     this.likerLandAPI = new LikerLandAPI()
-    this.authCoreAPI = null
-    this.cosmosAPI = null
-    this.bigDipper = null
+    this.cosmosAPI = new CosmosAPI()
+    this.bigDipper = new BigDipper()
   }
 
   async setup() {
     // allow each service to setup
-    await this.remoteConfig.setup()
     await this.reactotron.setup()
+    await this.appConfig.setup()
     const {
       COSMOS_LCD_URL,
       COSMOS_CHAIN_ID,
@@ -32,15 +32,18 @@ export class Environment {
       LIKERLAND_API_URL,
       AUTHCORE_ROOT_URL,
       BIG_DIPPER_URL,
-    } = this.remoteConfig.getConfigObject()
+    } = this.appConfig.getAllParams()
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likerLandAPI.setup(LIKERLAND_API_URL)
-    this.authCoreAPI = new AuthCoreAPI(AUTHCORE_ROOT_URL)
-    this.cosmosAPI = new CosmosAPI(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
-    this.bigDipper = new BigDipper(BIG_DIPPER_URL)
+    this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID)
+    this.cosmosAPI.setup(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
+    this.bigDipper.setup(BIG_DIPPER_URL)
   }
 
-  remoteConfig: RemoteConfig
+  /**
+   * The application configurations
+   */
+  appConfig: AppConfig
 
   /**
    * Reactotron is only available in dev.
@@ -66,4 +69,9 @@ export class Environment {
    * Cosmos API.
    */
   cosmosAPI: CosmosAPI
+
+  /**
+   * Big Dipper helper
+   */
+  bigDipper: BigDipper
 }
