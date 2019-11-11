@@ -1,4 +1,3 @@
-import { AUTHCORE_CREDENTIAL_KEY } from "react-native-dotenv"
 import { onSnapshot } from "mobx-state-tree"
 
 import { RootStoreModel, RootStore } from "./root-store"
@@ -45,20 +44,12 @@ export async function setupRootStore() {
       },
     ] = await Promise.all([
       await storage.load(ROOT_STATE_STORAGE_KEY),
-      await Keychain.load(AUTHCORE_CREDENTIAL_KEY),
+      await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')),
     ])
     rootStore = RootStoreModel.create(data, env)
     if (rootStore.userStore.currentUser) {
       if (authCoreAccessToken) {
-        await rootStore.userStore.authCore.init(
-          authCoreAccessToken,
-          authCoreIdToken,
-          undefined,
-          {
-            unauthenticated: rootStore.signOut,
-            unauthorized: rootStore.signOut,
-          },
-        )
+        await rootStore.userStore.authCore.init(authCoreAccessToken, authCoreIdToken)
       } else {
         throw new Error("ACCESS_TOKEN_NOT_FOUND")
       }
@@ -70,6 +61,9 @@ export async function setupRootStore() {
 
     // but please inform us what happened
     __DEV__ && console.tron.error(e.message, null)
+  } finally {
+    env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
+    env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
   }
 
   // reactotron logging

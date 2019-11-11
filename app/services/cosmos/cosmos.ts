@@ -12,7 +12,7 @@ export class CosmosAPI {
    */
   api: Cosmos
 
-  constructor(restURL: string, chainId: string) {
+  setup(restURL: string, chainId: string) {
     this.api = new Cosmos(restURL, chainId)
   }
 

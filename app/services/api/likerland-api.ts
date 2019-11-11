@@ -1,6 +1,6 @@
 import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
-import { ApiConfig, LIKERLAND_API_CONFIG } from "./api-config"
+import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
 /**
@@ -22,7 +22,7 @@ export class LikerLandAPI {
    *
    * @param config The configuration to use.
    */
-  constructor(config: ApiConfig = LIKERLAND_API_CONFIG) {
+  constructor(config: ApiConfig = COMMON_API_CONFIG) {
     this.config = config
   }
 
@@ -33,16 +33,20 @@ export class LikerLandAPI {
    *
    * Be as quick as possible in here.
    */
-  setup() {
+  setup(url: string) {
     // construct the apisauce instance
     this.apisauce = create({
-      baseURL: this.config.url,
+      baseURL: url,
       timeout: this.config.timeout,
       headers: {
         Accept: "application/json",
         "User-Agent": this.config.userAgent
       },
     })
+  }
+
+  getSignInURL() {
+    return `${this.apisauce.getBaseURL()}/users/login`
   }
 
   /**

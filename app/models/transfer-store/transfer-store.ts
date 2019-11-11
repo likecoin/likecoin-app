@@ -10,7 +10,6 @@ import {
 
 import { Environment } from "../environment"
 
-import { BigDipper } from "../../services/big-dipper"
 import {
   CosmosMessage,
   CosmosSendResult,
@@ -126,7 +125,7 @@ export const TransferStoreModel = types
           return txHash.get()
         },
         get blockExplorerURL() {
-          return BigDipper.getTransactionURL(txHash.get())
+          return env.bigDipper.getTransactionURL(txHash.get())
         },
       }
     }

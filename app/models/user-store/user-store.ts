@@ -94,6 +94,9 @@ export const UserStoreModel = types
         get isSigningIn() {
           return isSigningIn.get()
         },
+        get signInURL() {
+          return env.likerLandAPI.getSignInURL()
+        },
         get selectedWalletAddress() {
           return self.authCore.cosmosAddresses[0]
         },
