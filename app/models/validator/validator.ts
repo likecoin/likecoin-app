@@ -45,6 +45,9 @@ export const ValidatorModel = types
   .extend(self => {
     const env: Environment = getEnv(self)
 
+    /**
+     * Delegation amount of current wallet address
+     */
     const delegationShare = observable.box("0")
 
     const setDelegation = (shares: string) => {

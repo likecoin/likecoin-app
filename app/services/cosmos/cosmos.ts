@@ -86,4 +86,19 @@ export class CosmosAPI {
       denom: DENOM,
     }) as CosmosMessage
   }
+
+  /**
+   * Create the undelegate message object
+   */
+  createUnbondingDelegateMessage(
+    fromAddress: string,
+    validatorAddress: string,
+    amount: string
+  ) {
+    return this.api.MsgUndelegate(fromAddress, {
+      validatorAddress,
+      amount: convertLIKEToNanolike(amount),
+      denom: DENOM,
+    }) as CosmosMessage
+  }
 }

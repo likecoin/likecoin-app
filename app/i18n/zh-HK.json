@@ -16,7 +16,10 @@
     "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可押入的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
-    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0"
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可押入的上限",
+    "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
   },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
@@ -38,6 +41,12 @@
   },
   "stakingDelegationSigningScreen": {
     "title": "押入"
+  },
+  "stakingUnbondingDelegationAmountInputScreen": {
+    "available": "可押出"
+  },
+  "stakingUnbondingDelegationSigningScreen": {
+    "title": "押出"
   },
   "storybook": {
     "placeholder": "Placeholder",

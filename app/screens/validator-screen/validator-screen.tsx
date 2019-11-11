@@ -113,7 +113,9 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private onPressUnstakeButton = () => {
-    // TODO
+    this.props.navigation.navigate("StakingUnbondingDelegation", {
+      target: this.getValidator().operatorAddress,
+    })
   }
 
   render () {
@@ -230,6 +232,8 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private renderDelegationSection = () => {
+    const validator = this.getValidator()
+
     return (
       <ValidatorScreenGridItem
         innerStyle={DELEGATION.CONTAINER}
@@ -245,7 +249,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             {
               key: "unstake",
               tx: "validatorScreen.unstakeButtonText",
-              disabled: true,
+              disabled: !validator.isDelegated,
               onPress: this.onPressUnstakeButton,
             },
           ]}

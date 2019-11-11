@@ -11,6 +11,7 @@ import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { TransferNavigator } from "./transfer-navigator"
 import { StakingDelegationNavigator } from "./staking-delegation-navigator"
+import { StakingUnbondingDelegationNavigator } from "./staking-unbonding-delegation-navigator"
 
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
@@ -77,6 +78,7 @@ export const AppNavigator = createStackNavigator({
   QRCodeScan: QrcodeScannerScreen,
   Receive: ReceiveScreen,
   StakingDelegation: StakingDelegationNavigator,
+  StakingUnbondingDelegation: StakingUnbondingDelegationNavigator,
   Transfer: TransferNavigator,
   Validator: ValidatorScreen,
 }, {
