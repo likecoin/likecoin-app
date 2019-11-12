@@ -50,8 +50,17 @@ export const ValidatorModel = types
      */
     const delegationShare = observable.box("0")
 
+    /**
+     * Delegation reward of current wallet address
+     */
+    const rewards = observable.box("0")
+
     const setDelegation = (shares: string) => {
       delegationShare.set(shares)
+    }
+
+    const setRewards = (amount: string) => {
+      rewards.set(amount)
     }
 
     const fetchAvatarURL = flow(function * () {
@@ -130,11 +139,15 @@ export const ValidatorModel = types
         get isDelegated() {
           return delegationShare.get() !== "0"
         },
+        get rewards() {
+          return rewards.get()
+        },
       },
       actions: {
         fetchAvatarURL,
         setDelegation,
         setExpectedReturns,
+        setRewards,
       },
     }
   })

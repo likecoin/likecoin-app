@@ -6,11 +6,16 @@ import { Environment } from "../environment"
 import { ValidatorModel } from "../validator"
 import { formatNumber } from "../../utils/number"
 import {
+  CosmosDelegation,
+  CosmosRewardsResult,
   CosmosSignature,
   CosmosValidator,
-  CosmosDelegation,
+  CosmosValidatorReward,
 } from "../../services/cosmos"
-import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
+import {
+  convertNanolikeToLIKE,
+  extractNanolikeFromCosmosCoinList,
+} from "../../services/cosmos/cosmos.utils"
 
 /**
  * Parse Cosemos Validator to model
@@ -70,6 +75,7 @@ export const WalletStoreModel = types
      */
     const address = observable.box("")
     const availableBalance = observable.box("0")
+    const rewardsBalance = observable.box("0")
     const isFetchingBalance = observable.box(false)
     const hasFetchedBalance = observable.box(false)
 
@@ -85,6 +91,20 @@ export const WalletStoreModel = types
       (total, validator) => total + parseFloat(validator.delegatorShares),
       0
     )
+
+    const setValidatorRewards = ({ validator_address, reward }: CosmosValidatorReward) => {
+      self.validators.get(validator_address).setRewards(extractNanolikeFromCosmosCoinList(reward))
+    }
+
+    const fetchRewards = flow(function * () {
+      try {
+        const result: CosmosRewardsResult = yield env.cosmosAPI.queryRewards(address.get())
+        result.rewards.forEach(setValidatorRewards),
+        rewardsBalance.set(extractNanolikeFromCosmosCoinList(result.total))
+      } catch (error) {
+        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
+      }
+    })
 
     const fetchBalance = flow(function * () {
       isFetchingBalance.set(true)
@@ -128,6 +148,7 @@ export const WalletStoreModel = types
           )
         })
         fetchDelegations()
+        fetchRewards()
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
       }

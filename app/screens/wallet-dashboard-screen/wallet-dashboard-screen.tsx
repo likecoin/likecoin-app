@@ -264,6 +264,8 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   _renderValidator = (validator: Validator) => {
+    const rightSubtitle = validator.rewards !== "0" ?
+      "+".concat(convertNanolikeToLIKE(validator.rewards, 2)) : ""
     return (
       <ValidatorListItem
         key={validator.operatorAddress}
@@ -271,6 +273,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
         title={validator.moniker}
         subtitle={percent(validator.expectedReturns)}
         rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegationShare))}
+        rightSubtitle={rightSubtitle}
         isDarkMode={validator.isDelegated}
         onPress={() => this._onPressValidator(validator)}
       />

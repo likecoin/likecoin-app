@@ -22,6 +22,11 @@ export interface ValidatorListItemProps extends TouchableOpacityProps {
   rightTitle?: string
 
   /**
+   * The right subtitle text
+   */
+  rightSubtitle?: string
+
+  /**
    * Turn dark mode on if set to `true`
    */
   isDarkMode?: boolean

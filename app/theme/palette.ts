@@ -16,4 +16,7 @@ export const palette = {
   likeCyan: "#50e3c2",
   lightCyan: "#e5faf7",
   lighterCyan: "#aaf1e7",
+
+  green: "#36de00",
+  darkModeGreen: "#7aff4f",
 }

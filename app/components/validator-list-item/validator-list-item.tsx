@@ -23,6 +23,7 @@ export function ValidatorListItem(props: ValidatorListItemProps) {
     icon,
     subtitle,
     rightTitle,
+    rightSubtitle,
     isDarkMode,
     style,
     ...rest
@@ -37,6 +38,7 @@ export function ValidatorListItem(props: ValidatorListItemProps) {
   const titleColor = isDarkMode ? "white" : "grey4a"
   const subtitleColor = isDarkMode ? "likeCyan" : "grey9b"
   const rightTitleColor = isDarkMode ? titleColor : "grey9b"
+  const rightSubtitleColor = isDarkMode ? "darkModeGreen" : "green"
 
   return (
     <TouchableOpacity style={[STYLE.ROOT, style]} {...rest}>
@@ -65,6 +67,14 @@ export function ValidatorListItem(props: ValidatorListItemProps) {
               align="right"
               style={STYLE.TITLE}
             />
+            {!!rightSubtitle &&
+              <Text
+                text={rightSubtitle}
+                color={rightSubtitleColor}
+                align="right"
+                style={STYLE.SUBTITLE}
+              />
+            }
           </View>
         </View>
       </Sheet>

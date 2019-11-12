@@ -2,11 +2,17 @@ import Cosmos from "@lunie/cosmos-api"
 
 import {
   CosmosAccountResult,
-  CosmosValidator,
-  CosmosMessage,
   CosmosDelegation,
+  CosmosMessage,
+  CosmosRewardsResult,
+  CosmosValidator,
 } from "./cosmos.types"
-import { DENOM, parseCosmosLIKE, convertLIKEToNanolike } from "./cosmos.utils"
+import {
+  DENOM,
+  convertLIKEToNanolike,
+  extractNanolikeFromCosmosCoinList,
+  parseCosmosLIKE,
+} from "./cosmos.utils"
 
 /**
  * Cosmos API helper for LikeCoin
@@ -35,11 +41,16 @@ export class CosmosAPI {
    */
   async queryBalance(address: string) {
     const account = await this.api.get.account(address) as CosmosAccountResult
-    if (!account.coins.length) {
-      return "0"
-    }
-    const [coin] = account.coins.filter(coin => coin.denom === DENOM)
-    return coin.amount
+    return extractNanolikeFromCosmosCoinList(account.coins)
+  }
+
+  /**
+   * Get the total rewards balance from all delegations
+   *
+   * @param address The address of the delegator
+   */
+  async queryRewards(address: string) {
+    return this.api.get.delegatorRewards(address) as CosmosRewardsResult
   }
 
   /**
