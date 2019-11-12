@@ -15,6 +15,7 @@ import { inject, observer } from "mobx-react"
 import { ValidatorScreenGridItem } from "./validator-screen.grid-item"
 
 import { Button } from "../../components/button"
+import { ButtonGroup } from "../../components/button-group"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
 import { Screen } from "../../components/screen"
@@ -25,8 +26,11 @@ import { WalletStore } from "../../models/wallet-store"
 
 import GlobeIcon from "../../assets/globe.svg"
 
-import { formatNumber, percent } from "../../utils/number"
-import { ButtonGroup } from "../../components/button-group"
+import {
+  formatLIKE,
+  formatNumber,
+  percent,
+} from "../../utils/number"
 import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface ValidatorScreenNavigationParams {
@@ -235,26 +239,46 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   private renderDelegationSection = () => {
     const validator = this.getValidator()
 
+    const isZeroRewards = validator.delegatorRewards === "0"
+    const delegatorRewardsText = isZeroRewards ?
+      "0" : "+".concat(convertNanolikeToLIKE(validator.delegatorRewards))
+    const delegatorRewardsTextColor = isZeroRewards ? "white" : "darkModeGreen"
     return (
-      <ValidatorScreenGridItem
-        innerStyle={DELEGATION.CONTAINER}
-        isShowSeparator={false}
-      >
-        <ButtonGroup
-          buttons={[
-            {
-              key: "stake",
-              tx: "validatorScreen.stakeButtonText",
-              onPress: this.onPressStakeButton,
-            },
-            {
-              key: "unstake",
-              tx: "validatorScreen.unstakeButtonText",
-              disabled: !validator.isDelegated,
-              onPress: this.onPressUnstakeButton,
-            },
-          ]}
-        />
+      <ValidatorScreenGridItem isShowSeparator={false}>
+        {validator.isDelegated &&
+          <ValidatorScreenGridItem
+            value={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
+            labelTx="validatorScreen.delegatorShareLabel"
+            isShowSeparator={false}
+            isPaddingLess
+          />
+        }
+        {validator.isDelegated &&
+          <ValidatorScreenGridItem
+            value={delegatorRewardsText}
+            color={delegatorRewardsTextColor}
+            labelTx="validatorScreen.delegatorRewardsLabel"
+            isShowSeparator={false}
+            isPaddingLess
+          />
+        }
+        <View style={DELEGATION.CONTAINER}>
+          <ButtonGroup
+            buttons={[
+              {
+                key: "stake",
+                tx: "validatorScreen.stakeButtonText",
+                onPress: this.onPressStakeButton,
+              },
+              {
+                key: "unstake",
+                tx: "validatorScreen.unstakeButtonText",
+                disabled: !validator.isDelegated,
+                onPress: this.onPressUnstakeButton,
+              },
+            ]}
+          />
+        </View>
       </ValidatorScreenGridItem>
     )
   }

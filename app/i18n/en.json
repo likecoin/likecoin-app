@@ -84,6 +84,8 @@
     "website": "Website"
   },
   "validatorScreen": {
+    "delegatorShareLabel": "Staked",
+    "delegatorRewardsLabel": "Staking Rewards",
     "stakeButtonText": "Stake",
     "unstakeButtonText": "Unstake",
     "validatorAddress": "Validator Address (Click to copy)",

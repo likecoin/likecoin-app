@@ -13,9 +13,9 @@ import { sizes } from "../../components/text/text.sizes"
 import { color, spacing } from "../../theme"
 
 const STYLE = StyleSheet.create({
-  INNER: {
+  PADDING: {
     padding: spacing[2],
-  } as ViewStyle,
+  },
   INNER_BORDER: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: `${color.palette.likeCyan}7F`,
@@ -27,13 +27,13 @@ const STYLE = StyleSheet.create({
     marginBottom: spacing[4],
   } as TextStyle,
   ROOT: {
-    padding: spacing[2],
     flexBasis: "100%",
   } as ViewStyle,
   ROOT_HALF: {
     flexBasis: "50%",
   } as ViewStyle,
   VALUE: {
+    overflow: "hidden",
     color: color.palette.white,
     fontSize: sizes.large,
     fontWeight: "bold",
@@ -47,21 +47,24 @@ export function ValidatorScreenGridItem(props: ValidatorScreenGridItemProps) {
   const {
     children,
     value,
+    color,
     labelTx,
     isHalf = false,
     isShowSeparator = true,
     isTopLabel = false,
+    isPaddingLess = false,
     style,
     innerStyle: overrideInnerStyle,
   } = props
 
   const rootStyle = [
     STYLE.ROOT,
+    !isPaddingLess && STYLE.PADDING,
     !!isHalf && STYLE.ROOT_HALF,
     style,
   ]
   const innerStyle = [
-    STYLE.INNER,
+    !isPaddingLess && STYLE.PADDING,
     !!isShowSeparator && STYLE.INNER_BORDER,
     overrideInnerStyle,
   ]
@@ -80,6 +83,10 @@ export function ValidatorScreenGridItem(props: ValidatorScreenGridItemProps) {
         {children ||
           <Text
             text={value}
+            color={color}
+            numberOfLines={1}
+            minimumFontScale={0.5}
+            adjustsFontSizeToFit
             style={STYLE.VALUE}
           />
         }

@@ -84,6 +84,8 @@
     "website": "網站"
   },
   "validatorScreen": {
+    "delegatorShareLabel": "已押入",
+    "delegatorRewardsLabel": "已賺取",
     "stakeButtonText": "押入",
     "unstakeButtonText": "押出",
     "validatorAddress": "驗證人地址 (按下複製)",
