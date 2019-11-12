@@ -50,7 +50,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
   getValidator = () => {
     return this.props.walletStore.validators.get(this.props.txStore.target)
   }
-  
+
   getMaxAmount = () => {
     return convertNanolikeToLIKE(this.getValidator().delegatorShare)
   }

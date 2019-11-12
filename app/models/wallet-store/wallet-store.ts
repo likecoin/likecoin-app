@@ -93,8 +93,8 @@ export const WalletStoreModel = types
       0
     )
 
-    const setValidatorRewards = ({ validator_address, reward }: CosmosValidatorReward) => {
-      self.validators.get(validator_address).setDelegatorRewards(extractNanolikeFromCosmosCoinList(reward))
+    const setValidatorRewards = ({ validator_address: id, reward }: CosmosValidatorReward) => {
+      self.validators.get(id).setDelegatorRewards(extractNanolikeFromCosmosCoinList(reward))
     }
 
     function compareValidatorsInStaking(a: Validator, b: Validator) {
@@ -110,7 +110,7 @@ export const WalletStoreModel = types
     const fetchRewards = flow(function * () {
       try {
         const result: CosmosRewardsResult = yield env.cosmosAPI.queryRewards(address.get())
-        result.rewards.forEach(setValidatorRewards),
+        result.rewards.forEach(setValidatorRewards)
         rewardsBalance.set(extractNanolikeFromCosmosCoinList(result.total))
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
