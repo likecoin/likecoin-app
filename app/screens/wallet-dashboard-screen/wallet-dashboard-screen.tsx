@@ -226,7 +226,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                 />
               </LinearGradient>
               <View style={VALIDATOR_LIST}>
-                {this.props.walletStore.validatorList.map(this._renderValidator)}
+                {this.props.walletStore.sortedValidatorList.map(this._renderValidator)}
               </View>
               <View style={DASHBOARD_FOOTER}>
                 <Button

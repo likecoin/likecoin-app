@@ -1,9 +1,10 @@
 import { Buffer } from "buffer"
 import { observable } from "mobx"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import BigNumber from "bignumber.js"
 
 import { Environment } from "../environment"
-import { ValidatorModel } from "../validator"
+import { Validator, ValidatorModel } from "../validator"
 import { formatNumber } from "../../utils/number"
 import {
   CosmosDelegation,
@@ -94,6 +95,16 @@ export const WalletStoreModel = types
 
     const setValidatorRewards = ({ validator_address, reward }: CosmosValidatorReward) => {
       self.validators.get(validator_address).setDelegatorRewards(extractNanolikeFromCosmosCoinList(reward))
+    }
+
+    function compareValidatorsInStaking(a: Validator, b: Validator) {
+      if (a.isDelegated && !b.isDelegated) return -1
+      if (!a.isDelegated && b.isDelegated) return 1
+      const aRewards = new BigNumber(a.delegatorRewards)
+      const bRewards = new BigNumber(b.delegatorRewards)
+      if (aRewards.isGreaterThan(bRewards)) return -1
+      if (aRewards.isLessThan(bRewards)) return 1
+      return a.moniker.localeCompare(b.moniker)
     }
 
     const fetchRewards = flow(function * () {
@@ -217,6 +228,9 @@ export const WalletStoreModel = types
         },
         get signer() {
           return createSigner()
+        },
+        get sortedValidatorList() {
+          return self.validatorList.sort(compareValidatorsInStaking)
         },
       },
       actions: {
