@@ -26,7 +26,7 @@ function parseRawValidators(validator: CosmosValidator, env: Environment) {
   const {
     operator_address: operatorAddress,
     consensus_pubkey: consensusPubkey,
-    delegator_shares: delegatorShares,
+    delegator_shares: totalDelegatorShares,
     description,
     unbonding_height: unbondingHeight,
     unbonding_time: unbondingTime,
@@ -44,7 +44,7 @@ function parseRawValidators(validator: CosmosValidator, env: Environment) {
   return ValidatorModel.create({
     operatorAddress,
     consensusPubkey,
-    delegatorShares,
+    totalDelegatorShares,
     ...description,
     unbondingHeight,
     unbondingTime,
@@ -87,13 +87,13 @@ export const WalletStoreModel = types
       return convertNanolikeToLIKE(availableBalance.get())
     }
 
-    const getTotalDelegatorShares = () => self.validatorList.reduce(
-      (total, validator) => total + parseFloat(validator.delegatorShares),
+    const getAllTotalDelegatorShares = () => self.validatorList.reduce(
+      (total, validator) => total + parseFloat(validator.totalDelegatorShares),
       0
     )
 
     const setValidatorRewards = ({ validator_address, reward }: CosmosValidatorReward) => {
-      self.validators.get(validator_address).setRewards(extractNanolikeFromCosmosCoinList(reward))
+      self.validators.get(validator_address).setDelegatorRewards(extractNanolikeFromCosmosCoinList(reward))
     }
 
     const fetchRewards = flow(function * () {
@@ -119,7 +119,7 @@ export const WalletStoreModel = types
     })
 
     const setValidatorDelegation = (rawDelegation: CosmosDelegation) => {
-      self.validators.get(rawDelegation.validator_address).setDelegation(rawDelegation.shares)
+      self.validators.get(rawDelegation.validator_address).setDelegatorShare(rawDelegation.shares)
     }
 
     const fetchDelegations = flow(function * () {
@@ -143,7 +143,7 @@ export const WalletStoreModel = types
         })
         self.validatorList.forEach((validator) => {
           validator.setExpectedReturns(
-            getTotalDelegatorShares(),
+            getAllTotalDelegatorShares(),
             self.annualProvision
           )
         })
@@ -191,7 +191,7 @@ export const WalletStoreModel = types
           return env.bigDipper.getAccountURL(address.get())
         },
         get totalDelegatorShares() {
-          return getTotalDelegatorShares()
+          return getAllTotalDelegatorShares()
         },
         /**
          * Return balance in LIKE
@@ -213,7 +213,7 @@ export const WalletStoreModel = types
           if (!validator) {
             return 0
           }
-          return Number.parseFloat(validator.delegatorShares) / getTotalDelegatorShares() * 100
+          return Number.parseFloat(validator.totalDelegatorShares) / getAllTotalDelegatorShares() * 100
         },
         get signer() {
           return createSigner()

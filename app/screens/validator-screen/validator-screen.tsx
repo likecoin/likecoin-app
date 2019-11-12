@@ -122,7 +122,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     const validator = this.getValidator()
 
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
-    const formattedDelegateShare = formatNumber(validator.delegatorShares).concat(" LIKE")
+    const formattedDelegateShare = formatNumber(validator.totalDelegatorShares).concat(" LIKE")
     const votingPowerInPercent = percent(this.props.walletStore.getValidatorVotingPower(validator.operatorAddress))
 
     return (

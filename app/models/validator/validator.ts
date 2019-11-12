@@ -21,7 +21,7 @@ export const ValidatorModel = types
     jailed: types.boolean,
     status: types.number,
     tokens: types.string,
-    delegatorShares: types.string,
+    totalDelegatorShares: types.string,
 
     // Description
     moniker: types.string,
@@ -48,19 +48,19 @@ export const ValidatorModel = types
     /**
      * Delegation amount of current wallet address
      */
-    const delegationShare = observable.box("0")
+    const delegatorShare = observable.box("0")
 
     /**
-     * Delegation reward of current wallet address
+     * Delegation rewards of current wallet address
      */
-    const rewards = observable.box("0")
+    const delegatorRewards = observable.box("0")
 
-    const setDelegation = (shares: string) => {
-      delegationShare.set(shares)
+    const setDelegatorRewards = (amount: string) => {
+      delegatorRewards.set(amount)
     }
 
-    const setRewards = (amount: string) => {
-      rewards.set(amount)
+    const setDelegatorShare = (shares: string) => {
+      delegatorShare.set(shares)
     }
 
     const fetchAvatarURL = flow(function * () {
@@ -133,21 +133,21 @@ export const ValidatorModel = types
         get blockExplorerURL() {
           return env.bigDipper.getValidatorURL(self.operatorAddress)
         },
-        get delegationShare() {
-          return delegationShare.get()
+        get delegatorRewards() {
+          return delegatorRewards.get()
+        },
+        get delegatorShare() {
+          return delegatorShare.get()
         },
         get isDelegated() {
-          return delegationShare.get() !== "0"
-        },
-        get rewards() {
-          return rewards.get()
+          return delegatorShare.get() !== "0"
         },
       },
       actions: {
         fetchAvatarURL,
-        setDelegation,
+        setDelegatorRewards,
+        setDelegatorShare,
         setExpectedReturns,
-        setRewards,
       },
     }
   })

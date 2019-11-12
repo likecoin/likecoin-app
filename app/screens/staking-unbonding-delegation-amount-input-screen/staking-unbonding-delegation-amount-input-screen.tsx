@@ -52,7 +52,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
   }
   
   getMaxAmount = () => {
-    return convertNanolikeToLIKE(this.getValidator().delegationShare)
+    return convertNanolikeToLIKE(this.getValidator().delegatorShare)
   }
 
   private setError = (
