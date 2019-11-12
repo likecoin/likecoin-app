@@ -29,6 +29,7 @@ import GlobeIcon from "../../assets/globe.svg"
 import {
   formatLIKE,
   formatNumber,
+  formatNumberWithSign,
   percent,
 } from "../../utils/number"
 import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
@@ -239,10 +240,8 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   private renderDelegationSection = () => {
     const validator = this.getValidator()
 
-    const isZeroRewards = validator.delegatorRewards === "0"
-    const delegatorRewardsText = isZeroRewards ?
-      "0" : "+".concat(convertNanolikeToLIKE(validator.delegatorRewards))
-    const delegatorRewardsTextColor = isZeroRewards ? "white" : "darkModeGreen"
+    const delegatorRewardsText = formatNumberWithSign(validator.delegatorRewards)
+    const delegatorRewardsTextColor = validator.delegatorRewards === "0" ? "white" : "darkModeGreen"
     return (
       <ValidatorScreenGridItem isShowSeparator={false}>
         {validator.isDelegated &&

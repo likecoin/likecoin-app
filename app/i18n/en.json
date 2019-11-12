@@ -92,7 +92,10 @@
     "validatorAddressCopied": "Validator Address (Copied)"
   },
   "walletDashboardScreen": {
+    "availableBalanceLabel": "Available",
+    "allDelegatorRewardsLabel": "Rewards",
     "send": "Send",
+    "stakeLabel": "Stake",
     "receive": "Receive"
   },
   "welcomeScreen": {

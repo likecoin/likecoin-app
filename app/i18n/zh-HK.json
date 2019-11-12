@@ -84,15 +84,18 @@
     "website": "網站"
   },
   "validatorScreen": {
-    "delegatorShareLabel": "已押入",
-    "delegatorRewardsLabel": "已賺取",
+    "delegatorShareLabel": "委托中",
+    "delegatorRewardsLabel": "未取回收益",
     "stakeButtonText": "押入",
     "unstakeButtonText": "押出",
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"
   },
   "walletDashboardScreen": {
+    "availableBalanceLabel": "可用的",
+    "allDelegatorRewardsLabel": "未取回收益",
     "send": "轉帳",
+    "stakeLabel": "委托",
     "receive": "收款"
   },
   "welcomeScreen": {

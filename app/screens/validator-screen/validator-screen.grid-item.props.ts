@@ -16,7 +16,7 @@ export interface ValidatorScreenGridItemProps {
   /**
    * The text color
    */
-  color?: Color | string
+  color?: Color
 
   /**
    * The label which is looked up via i18n.

@@ -5,7 +5,12 @@ import BigNumber from "bignumber.js"
 
 import { Environment } from "../environment"
 import { Validator, ValidatorModel } from "../validator"
-import { formatNumber } from "../../utils/number"
+import {
+  compareNumber,
+  formatLIKE,
+  formatNumber,
+  formatNumberWithSign,
+} from "../../utils/number"
 import {
   CosmosDelegation,
   CosmosRewardsResult,
@@ -210,8 +215,24 @@ export const WalletStoreModel = types
         get availableBalanceInLIKE() {
           return getAvailableBalanceInLIKE()
         },
-        get formattedBalance() {
-          return formatNumber(getAvailableBalanceInLIKE(), 2)
+        get formattedAvailableBalance() {
+          return formatLIKE(formatNumber(getAvailableBalanceInLIKE(), 2))
+        },
+        get hasRewards() {
+          return compareNumber(rewardsBalance.get()) > 0
+        },
+        get formattedRewardsBalance() {
+          return formatNumberWithSign(convertNanolikeToLIKE(rewardsBalance.get()), 2)
+        },
+        get formattedTotalBalance() {
+          return formatNumber(
+            convertNanolikeToLIKE(
+              new BigNumber(availableBalance.get())
+                .plus(new BigNumber(rewardsBalance.get()))
+                .toFixed()
+            ),
+            2
+          )
         },
         get isFetchingBalance() {
           return isFetchingBalance.get()

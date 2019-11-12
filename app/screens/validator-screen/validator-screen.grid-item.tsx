@@ -13,9 +13,6 @@ import { sizes } from "../../components/text/text.sizes"
 import { color, spacing } from "../../theme"
 
 const STYLE = StyleSheet.create({
-  PADDING: {
-    padding: spacing[2],
-  },
   INNER_BORDER: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: `${color.palette.likeCyan}7F`,
@@ -26,6 +23,9 @@ const STYLE = StyleSheet.create({
     marginTop: spacing[1],
     marginBottom: spacing[4],
   } as TextStyle,
+  PADDING: {
+    padding: spacing[2],
+  },
   ROOT: {
     flexBasis: "100%",
   } as ViewStyle,

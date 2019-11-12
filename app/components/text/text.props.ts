@@ -38,7 +38,7 @@ export interface TextProps extends TextProperties {
   /**
    * An optional text color override for fast styling.
    */
-  color?: Color | string
+  color?: Color
 
   /**
    * An optional font size override for fast styling.
