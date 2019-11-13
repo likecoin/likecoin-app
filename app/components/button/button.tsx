@@ -10,6 +10,7 @@ import {
 
 import { viewPresets, textPresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
+import { Icon } from "../icon"
 import { Text } from "../text"
 import { sizes } from "../text/text.sizes"
 import { color, spacing } from "../../theme"
@@ -37,6 +38,7 @@ export function Button(props: ButtonProps) {
     color: colorName,
     isHidden,
     isLoading,
+    icon,
     link,
     prepend,
     preset = "primary",
@@ -52,6 +54,11 @@ export function Button(props: ButtonProps) {
     viewPresets[preset] || viewPresets.primary,
     styleOverride,
   ]
+
+  if (rest.disabled) {
+    viewStyleList.push({ opacity: 0.3 })
+  }
+
   if (isHidden) {
     rest.disabled = true
     viewStyleList.push({ opacity: 0 })
@@ -75,13 +82,18 @@ export function Button(props: ButtonProps) {
   ]
   const textStyle = StyleSheet.flatten(textStyleList)
 
-  let content = children || (
+  let content = children || (icon ? (
+    <Icon
+      name={icon}
+      color={colorName}
+    />
+  ) : (
     <Text
       tx={tx}
       text={text}
       style={textStyle}
     />
-  )
+  ))
 
   if (isLoading) {
     rest.disabled = true

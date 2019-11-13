@@ -1,6 +1,6 @@
 # LikeCoinApp
 
-[![CircleCI](https://circleci.com/gh/infinitered/ignite-bowser.svg?style=svg)](https://circleci.com/gh/infinitered/ignite-bowser)
+[![CircleCI](https://circleci.com/gh/likecoin/likecoin-app.svg?style=svg&circle-token=d6b30e4a24c46c83432ba393f893f295bf876b65)](https://circleci.com/gh/likecoin/likecoin-app)
 
 ## The latest and greatest boilerplate for Infinite Red opinions
 

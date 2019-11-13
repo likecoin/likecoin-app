@@ -9,26 +9,30 @@ import {
   color,
 } from "../../theme"
 
-export default {
-  SCREEN: {
-    flex: 1,
-    marginTop: spacing[4],
-    padding: spacing[4],
-  } as ViewStyle,
-  SHEET: {
+export default StyleSheet.create({
+  AMOUNT_INPUT_PAD: {
     flexGrow: 1,
   } as ViewStyle,
-  TOP_NAVIGATION: {
-    alignItems: "flex-start",
-    paddingHorizontal: spacing[2],
-    paddingTop: spacing[1],
-  } as ViewStyle,
-  CONTENT_VIEW: {
+  AVAILABLE_AMOUNT: {
+    fontSize: 18,
+    maxWidth: 150,
+  } as TextStyle,
+  AVAILABLE_ROOT: {
     flexGrow: 1,
-    paddingHorizontal: spacing[5],
   } as ViewStyle,
   BOTTOM_NAVIGATION: {
     paddingHorizontal: spacing[4],
+  } as ViewStyle,
+  CONTENT_VIEW: {
+    paddingHorizontal: spacing[5],
+  } as ViewStyle,
+  DONE_BUTTON: {
+    marginTop: spacing[3],
+  } as ViewStyle,
+  GRAPH: {
+    width: 68,
+    height: 56,
+    flexShrink: 0,
   } as ViewStyle,
   HEADER: {
     flexDirection: "row",
@@ -37,24 +41,20 @@ export default {
     borderBottomColor: color.palette.lightGrey,
     borderBottomWidth: StyleSheet.hairlineWidth,
   } as ViewStyle,
-  AVAILABLE: StyleSheet.create({
-    AMOUNT: {
-      fontSize: 18,
-      maxWidth: 150,
-    } as TextStyle,
-    ROOT: {
-      flexGrow: 1,
-    } as ViewStyle,
-  }),
-  GRAPH: {
-    width: 68,
-    height: 50,
-    flexShrink: 0,
+  SCREEN: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   } as ViewStyle,
-  AMOUNT_INPUT_PAD: {
-    flexGrow: 1,
+  SHEET: {
+    margin: spacing[4],
+    flex: 1,
+    maxWidth: 414 - spacing[4] * 2,
   } as ViewStyle,
-  DONE_BUTTON: {
-    marginTop: spacing[3],
+  TOP_NAVIGATION: {
+    alignItems: "flex-start",
+    paddingHorizontal: spacing[2],
+    paddingTop: spacing[1],
   } as ViewStyle,
-}
+})

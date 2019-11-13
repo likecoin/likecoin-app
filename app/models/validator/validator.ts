@@ -1,6 +1,14 @@
-import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotOut,
+  types,
+  flow,
+  getEnv,
+} from "mobx-state-tree"
 
-import { BigDipper } from "../../services/big-dipper"
+import { observable } from "mobx"
+
+import { Environment } from "../environment"
 
 /**
  * A Cosmos validator.
@@ -13,7 +21,7 @@ export const ValidatorModel = types
     jailed: types.boolean,
     status: types.number,
     tokens: types.string,
-    delegatorShares: types.string,
+    totalDelegatorShares: types.string,
 
     // Description
     moniker: types.string,
@@ -35,6 +43,26 @@ export const ValidatorModel = types
     minSelfDelegation: types.string,
   })
   .extend(self => {
+    const env: Environment = getEnv(self)
+
+    /**
+     * Delegation amount of current wallet address
+     */
+    const delegatorShare = observable.box("0")
+
+    /**
+     * Delegation rewards of current wallet address
+     */
+    const delegatorRewards = observable.box("0")
+
+    const setDelegatorRewards = (amount: string) => {
+      delegatorRewards.set(amount)
+    }
+
+    const setDelegatorShare = (shares: string) => {
+      delegatorShare.set(shares)
+    }
+
     const fetchAvatarURL = flow(function * () {
       if (self.identity.length === 16) {
         const response: Response = yield fetch(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${self.identity}&fields=pictures`, {
@@ -103,11 +131,22 @@ export const ValidatorModel = types
           return self.avatorURL || `https://ui-avatars.com/api/?size=360&name=${encodeURIComponent(self.moniker)}&color=fff&background=aaa`
         },
         get blockExplorerURL() {
-          return BigDipper.getValidatorURL(self.operatorAddress)
+          return env.bigDipper.getValidatorURL(self.operatorAddress)
+        },
+        get delegatorRewards() {
+          return delegatorRewards.get()
+        },
+        get delegatorShare() {
+          return delegatorShare.get()
+        },
+        get isDelegated() {
+          return delegatorShare.get() !== "0"
         },
       },
       actions: {
         fetchAvatarURL,
+        setDelegatorRewards,
+        setDelegatorShare,
         setExpectedReturns,
       },
     }

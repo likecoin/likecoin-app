@@ -15,20 +15,15 @@ import { WalletStore } from "../../models/wallet-store"
 
 import { Button } from "../../components/button"
 import { Screen } from "../../components/screen"
+import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
-import { color, spacing } from "../../theme"
 
-import ShareIcon from "../../assets/share.svg"
-import CloseIcon from "../../assets/cross.svg"
+import { color, spacing } from "../../theme"
 
 export interface ReceiveScreenProps extends NavigationScreenProps<{}> {
   walletStore: WalletStore,
 }
 
-const ROOT: ViewStyle = {
-  flex: 1,
-  backgroundColor: color.primary,
-}
 const SCREEN: ViewStyle = {
   flex: 1,
   alignItems: "center",
@@ -44,14 +39,13 @@ const INNER: ViewStyle = {
   alignItems: "stretch",
   padding: spacing[4],
 }
-const CARD: ViewStyle = {
+const SHEET: ViewStyle = {
   alignItems: "center",
   maxWidth: 208,
   marginVertical: spacing[5],
   padding: spacing[5],
-  paddingBottom: spacing[4],
+  paddingBottom: spacing[0],
   backgroundColor: color.palette.white,
-  borderRadius: 14,
 }
 const COPY_BUTTON: TextStyle = {
   marginTop: spacing[3],
@@ -99,65 +93,56 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
     return (
-      <View style={ROOT}>
-        <Screen
-          style={SCREEN}
-          backgroundColor={color.transparent}
-          preset="fixed"
-        >
-          <View style={HEADER_BAR}>
-            <Button preset="icon">
-              <ShareIcon
-                width={24}
-                height={24}
-                fill={color.palette.white}
-                onPress={this._onPressShareButton}
-              />
-            </Button>
-          </View>
+      <Screen
+        style={SCREEN}
+        backgroundColor={color.primary}
+        preset="fixed"
+      >
+        <View style={HEADER_BAR}>
+          <Button
+            preset="icon"
+            icon="share"
+            onPress={this._onPressShareButton}
+          />
+        </View>
 
-          <View style={INNER}>
-            <Text
-              color="likeCyan"
-              size="medium"
-              align="center"
-              weight="bold"
-              tx="receiveScreen.shareYourAddress"
+        <View style={INNER}>
+          <Text
+            color="likeCyan"
+            size="medium"
+            align="center"
+            weight="bold"
+            tx="receiveScreen.shareYourAddress"
+          />
+          <Sheet style={SHEET}>
+            <QRCode
+              value={address}
+              size={160}
             />
-            <View style={CARD}>
-              <QRCode
-                value={address}
-                size={160}
-              />
-              <Text style={ADDRESS} text={address} />
-              <Button
-                textStyle={COPY_BUTTON}
-                preset="link"
-                tx={copyButtonTx}
-                onPress={this._onPressCopyButton}
-              />
-            </View>
+            <Text style={ADDRESS} text={address} />
             <Button
-              preset="outlined"
-              tx="common.viewOnBlockExplorer"
-              onPress={this._onPressViewExternalButton}
+              textStyle={COPY_BUTTON}
+              preset="link"
+              tx={copyButtonTx}
+              onPress={this._onPressCopyButton}
             />
-          </View>
+          </Sheet>
+          <Button
+            preset="outlined"
+            tx="common.viewOnBlockExplorer"
+            onPress={this._onPressViewExternalButton}
+          />
+        </View>
 
-          <View style={BOTTOM_BAR}>
-            <Button
-              preset="icon"
-              onPress={this._onPressCloseButton}
-            >
-              <CloseIcon
-                width={24}
-                height={24}
-                fill={color.palette.likeGreen}
-              />
-            </Button>
-          </View>
-        </Screen>
-      </View>
+        <View style={BOTTOM_BAR}>
+          <Button
+            preset="icon"
+            icon="close"
+            color="likeGreen"
+            onPress={this._onPressCloseButton}
+          />
+        </View>
+      </Screen>
     )
   }
 }

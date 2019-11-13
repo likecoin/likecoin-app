@@ -10,6 +10,8 @@ import { WalletNavigator } from "./wallet-navigator"
 import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { TransferNavigator } from "./transfer-navigator"
+import { StakingDelegationNavigator } from "./staking-delegation-navigator"
+import { StakingUnbondingDelegationNavigator } from "./staking-unbonding-delegation-navigator"
 
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
@@ -17,6 +19,7 @@ import { ReceiveScreen } from "../screens/receive-screen"
 import { ValidatorScreen } from "../screens/validator-screen"
 
 import { color } from "../theme"
+import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
 
 export interface CustomTabBarIconProps extends TabBarIconProps {
   routeName: string
@@ -75,6 +78,9 @@ export const AppNavigator = createStackNavigator({
   ContentView: ContentViewScreen,
   QRCodeScan: QrcodeScannerScreen,
   Receive: ReceiveScreen,
+  StakingDelegation: StakingDelegationNavigator,
+  StakingUnbondingDelegation: StakingUnbondingDelegationNavigator,
+  StakingRewardsWithdraw: StakingRewardsWithdrawScreen,
   Transfer: TransferNavigator,
   Validator: ValidatorScreen,
 }, {

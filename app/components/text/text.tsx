@@ -75,13 +75,13 @@ export function Text(props: TextProps) {
   const styleOverride: TextStyle = {}
   if (size) styleOverride.fontSize = sizes[size]
   if (weight) styleOverride.fontWeight = weight
-  if (colorName) styleOverride.color = color.palette[colorName]
+  if (colorName) styleOverride.color = color.palette[colorName] || colorName
   if (align) styleOverride.textAlign = align
 
   const styleList = [
     presets[preset] || presets.default,
+    propStyle,
     styleOverride,
-    propStyle
   ]
   if (isHidden) {
     styleList.push({ opacity: 0 })

@@ -15,26 +15,30 @@ import { inject, observer } from "mobx-react"
 import { ValidatorScreenGridItem } from "./validator-screen.grid-item"
 
 import { Button } from "../../components/button"
+import { ButtonGroup } from "../../components/button-group"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
 import { Screen } from "../../components/screen"
 import { color, spacing } from "../../theme"
 
-import { UserStore } from "../../models/user-store"
 import { Validator } from "../../models/validator"
 import { WalletStore } from "../../models/wallet-store"
 
-import CloseIcon from "../../assets/cross.svg"
 import GlobeIcon from "../../assets/globe.svg"
 
-import { formatNumber, percent } from "../../utils/number"
+import {
+  formatLIKE,
+  formatNumber,
+  formatNumberWithSign,
+  percent,
+} from "../../utils/number"
+import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface ValidatorScreenNavigationParams {
   validator: Validator
 }
 export interface ValidatorScreenProps extends NavigationScreenProps<ValidatorScreenNavigationParams> {
   walletStore: WalletStore,
-  userStore: UserStore,
 }
 
 const ROOT: ViewStyle = {
@@ -60,6 +64,12 @@ const IDENTITY = StyleSheet.create({
     flexBasis: "100%",
   },
 })
+const DELEGATION = StyleSheet.create({
+  CONTAINER: {
+    alignItems: "center",
+  } as ViewStyle,
+})
+
 const VALIDATOR_ICON: ImageStyle = {
   width: 64,
   height: 64,
@@ -84,32 +94,41 @@ const BOTTOM_BAR: ViewStyle = {
   backgroundColor: color.palette.white,
 }
 
-@inject(
-  "walletStore",
-  "userStore"
-)
+@inject("walletStore")
 @observer
 export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   state = {
     hasCopiedValidatorAddress: false,
   }
 
-  _getValidator = () => this.props.navigation.getParam("validator")
+  private getValidator = () => this.props.navigation.getParam("validator")
 
-  _onPressValidatorAddress = () => {
-    Clipboard.setString(this._getValidator().operatorAddress)
+  private onPressValidatorAddress = () => {
+    Clipboard.setString(this.getValidator().operatorAddress)
     this.setState({ hasCopiedValidatorAddress: true })
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = () => {
     this.props.navigation.goBack()
   }
 
+  private onPressStakeButton = () => {
+    this.props.navigation.navigate("StakingDelegation", {
+      target: this.getValidator().operatorAddress,
+    })
+  }
+
+  private onPressUnstakeButton = () => {
+    this.props.navigation.navigate("StakingUnbondingDelegation", {
+      target: this.getValidator().operatorAddress,
+    })
+  }
+
   render () {
-    const validator = this._getValidator()
+    const validator = this.getValidator()
 
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
-    const formattedDelegateShare = formatNumber(validator.delegatorShares).concat(" LIKE")
+    const formattedDelegateShare = formatNumber(convertNanolikeToLIKE(validator.totalDelegatorShares)).concat(" LIKE")
     const votingPowerInPercent = percent(this.props.walletStore.getValidatorVotingPower(validator.operatorAddress))
 
     return (
@@ -120,8 +139,8 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
           preset="scroll"
         >
           <View style={CONTENT_CONTAINER}>
-            {this._renderIdentitySection()}
-            {this._renderStakingSection()}
+            {this.renderIdentitySection()}
+            {this.renderDelegationSection()}
             <ValidatorScreenGridItem
               labelTx="validator.description"
               isTopLabel
@@ -167,7 +186,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               labelTx={validatorAddressLabelTx}
               isTopLabel
             >
-              <TouchableOpacity onPress={this._onPressValidatorAddress}>
+              <TouchableOpacity onPress={this.onPressValidatorAddress}>
                 <Text
                   color="likeCyan"
                   text={validator.operatorAddress}
@@ -187,22 +206,18 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
           <View style={BOTTOM_BAR}>
             <Button
               preset="icon"
-              onPress={this._onPressCloseButton}
-            >
-              <CloseIcon
-                width={24}
-                height={24}
-                fill={color.palette.likeGreen}
-              />
-            </Button>
+              icon="close"
+              color="likeGreen"
+              onPress={this.onPressCloseButton}
+            />
           </View>
         </Screen>
       </View>
     )
   }
 
-  _renderIdentitySection = () => {
-    const validator = this._getValidator()
+  private renderIdentitySection = () => {
+    const validator = this.getValidator()
 
     return (
       <ValidatorScreenGridItem
@@ -222,8 +237,48 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     )
   }
 
-  _renderStakingSection = () => {
-    // TODO
-    return null
+  private renderDelegationSection = () => {
+    const validator = this.getValidator()
+
+    const delegatorRewardsText = formatNumberWithSign(validator.delegatorRewards)
+    const delegatorRewardsTextColor = validator.delegatorRewards === "0" ? "white" : "darkModeGreen"
+    return (
+      <ValidatorScreenGridItem isShowSeparator={false}>
+        {validator.isDelegated &&
+          <ValidatorScreenGridItem
+            value={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
+            labelTx="validatorScreen.delegatorShareLabel"
+            isShowSeparator={false}
+            isPaddingLess
+          />
+        }
+        {validator.isDelegated &&
+          <ValidatorScreenGridItem
+            value={delegatorRewardsText}
+            color={delegatorRewardsTextColor}
+            labelTx="validatorScreen.delegatorRewardsLabel"
+            isShowSeparator={false}
+            isPaddingLess
+          />
+        }
+        <View style={DELEGATION.CONTAINER}>
+          <ButtonGroup
+            buttons={[
+              {
+                key: "stake",
+                tx: "validatorScreen.stakeButtonText",
+                onPress: this.onPressStakeButton,
+              },
+              {
+                key: "unstake",
+                tx: "validatorScreen.unstakeButtonText",
+                disabled: !validator.isDelegated,
+                onPress: this.onPressUnstakeButton,
+              },
+            ]}
+          />
+        </View>
+      </ValidatorScreenGridItem>
+    )
   }
 }

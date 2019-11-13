@@ -1,10 +1,8 @@
-import { AUTHCORE_CREDENTIAL_KEY } from "react-native-dotenv"
 import { observable } from "mobx"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { Environment } from "../environment"
-import { AuthCoreCallback } from "../../services/authcore"
 import * as Keychain from "../../utils/keychain"
 
 /**
@@ -35,29 +33,28 @@ export const AuthCoreStoreModel = types
       accessToken: string,
       idToken: string,
       profile?: AuthCoreUser,
-      callbacks?: AuthCoreCallback,
     ) {
       _accessToken.set(accessToken)
       _idToken.set(idToken)
       if (profile) self.profile = profile
 
-      yield env.authCoreAPI.setup(accessToken, callbacks)
+      yield env.authCoreAPI.authenticate(accessToken)
       yield fetchCosmosAddress()
       yield fetchCurrentUser()
     })
 
-    const signIn = flow(function * (callbacks?: AuthCoreCallback) {
+    const signIn = flow(function * () {
       const {
         accessToken,
         idToken,
       }: any = yield env.authCoreAPI.signIn()
-      yield Keychain.save(idToken, accessToken, AUTHCORE_CREDENTIAL_KEY)
-      yield init(accessToken, idToken, null, callbacks)
+      yield Keychain.save(idToken, accessToken, env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
+      yield init(accessToken, idToken)
     })
 
     const signOut = flow(function * () {
       yield env.authCoreAPI.signOut()
-      Keychain.reset(AUTHCORE_CREDENTIAL_KEY)
+      Keychain.reset(env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
 
       _accessToken.set("")
       _idToken.set("")

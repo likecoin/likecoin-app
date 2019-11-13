@@ -23,7 +23,6 @@ import { sizes } from "../../components/text/text.sizes"
 
 import { color, spacing } from "../../theme"
 
-import CloseIcon from "../../assets/cross.svg"
 import { translate } from "../../i18n"
 
 export interface RegisterScreenParams {
@@ -162,14 +161,9 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, {}> {
         <View style={TOP_BAR}>
           <Button
             preset="icon"
+            icon="close"
             onPress={this._onPressCloseButton}
-          >
-            <CloseIcon
-              width={24}
-              height={24}
-              fill={color.palette.white}
-            />
-          </Button>
+          />
         </View>
         <View style={CONTENT_VIEW}>
           <Text

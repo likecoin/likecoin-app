@@ -1,6 +1,6 @@
 import * as React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
-import { RNCamera } from 'react-native-camera';
+import { RNCamera } from 'react-native-camera'
 import { NavigationScreenProps } from "react-navigation"
 import throttle from "lodash.throttle"
 
@@ -12,7 +12,6 @@ import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
 import { color, spacing } from "../../theme"
 
-import CloseIcon from "../../assets/cross.svg"
 import ScanFrame from "./scan-frame.svg"
 
 const SCREEN: ViewStyle = {
@@ -55,7 +54,7 @@ export interface QrcodeScannerScreenProps extends NavigationScreenProps<{}> {
 }
 
 export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProps, {}> {
-  constructor(props: QrcodeScannerScreenProps){
+  constructor(props: QrcodeScannerScreenProps) {
     super(props)
     this._onRead = throttle(this._onRead, 2000)
   }
@@ -95,14 +94,10 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
         <View style={BOTTOM_BAR}>
           <Button
             preset="icon"
+            icon="close"
+            color="likeGreen"
             onPress={this._onPressCloseButton}
-          >
-            <CloseIcon
-              width={24}
-              height={24}
-              fill={color.palette.likeGreen}
-            />
-          </Button>
+          />
         </View>
       </Screen>
     )

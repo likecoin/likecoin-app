@@ -70,3 +70,23 @@ export interface CosmosMessage {
     ) => CosmosSignature
   ) => Promise<CosmosSendResult>
 }
+
+export interface CosmosDelegation {
+  /* eslint-disable camelcase */
+  delegator_address: string
+  validator_address: string
+  shares: string
+  height: number
+  /* eslint-enable camelcase */
+}
+
+export interface CosmosValidatorReward {
+  /* eslint-disable-next-line camelcase */
+  validator_address: string
+  reward?: CosmosCoinResult[]
+}
+
+export interface CosmosRewardsResult {
+  rewards: CosmosValidatorReward[]
+  total: CosmosCoinResult[]
+}

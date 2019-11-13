@@ -56,7 +56,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
     try {
       await this.props.transferStore.createTransaction(this.props.walletStore.address)
       const amountWithFee = new BigNumber(this.props.transferStore.totalAmount)
-      const maxAmount = new BigNumber(this.props.walletStore.balanceInLIKE)
+      const maxAmount = new BigNumber(this.props.walletStore.availableBalanceInLIKE)
       if (amountWithFee.isGreaterThan(maxAmount)) {
         return this.setError("TRANSFER_AMOUNT_EXCEED_MAX")
       }
@@ -98,7 +98,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
     return (
       <AmountInputView
         amount={this.props.transferStore.amount}
-        maxAmount={this.props.walletStore.balanceInLIKE}
+        maxAmount={this.props.walletStore.availableBalanceInLIKE}
         error={this.state.error}
         availableLabelTx="transferAmountInputScreen.available"
         confirmButtonTx="common.next"

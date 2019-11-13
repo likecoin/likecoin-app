@@ -75,7 +75,7 @@ export function injectStyle(
   options: InjectStyleOptions,
 ): ReactNode {
   const count = React.Children.count(children)
-  if (count > 0) {
+  if (count > 1) {
     return React.Children.map(children, (child, index) => {
       if (index === 0) {
         return injectStyleToChild(child, "top", options)

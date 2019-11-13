@@ -11,6 +11,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient'
 import { observer, inject } from "mobx-react"
 
+import { ValidatorScreenGridItem } from "../validator-screen/validator-screen.grid-item"
+
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
 import { Screen } from "../../components/screen"
@@ -22,10 +24,16 @@ import { UserStore } from "../../models/user-store"
 import { WalletStore } from "../../models/wallet-store"
 import { Validator } from "../../models/validator"
 
-import { percent } from "../../utils/number"
+import {
+  formatLIKE,
+  formatNumberWithSign,
+  percent,
+} from "../../utils/number"
 import { color, gradient, spacing } from "../../theme"
 
 import QRCodeIcon from "../../assets/qrcode-scan.svg"
+
+import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -104,9 +112,33 @@ const WALLET_BALANCE = StyleSheet.create({
     marginTop: spacing[2],
   } as TextStyle,
 })
-const VALIDATOR_LIST: ViewStyle = {
-  padding: spacing[2],
+const BALANCE_VIEW: ViewStyle = {
+  paddingTop: spacing[4],
+  paddingHorizontal: spacing[6],
+  paddingBottom: spacing[6],
 }
+const VALIDATOR_LIST = StyleSheet.create({
+  CONTAINER: {
+    padding: spacing[2],
+  } as ViewStyle,
+  HEADER: {
+    alignItems: "center",
+  } as ViewStyle,
+  VERTICAL_LINE: {
+    width: 2,
+    height: 16,
+    marginTop: spacing[2],
+    backgroundColor: color.primary,
+  } as ViewStyle,
+})
+const WITHDRAW_REWARDS_BUTTON = StyleSheet.create({
+  INNER: {
+    paddingHorizontal: spacing[4],
+  },
+  WRAPPER: {
+    alignItems: "center"
+  } as ViewStyle,
+})
 
 @inject(
   "userStore",
@@ -116,32 +148,36 @@ const VALIDATOR_LIST: ViewStyle = {
 export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
   componentDidMount() {
     this.props.walletStore.setAddress(this.props.userStore.selectedWalletAddress)
-    this._fetchBalance()
-    this._fetchValidators()
+    this.fetchBalance()
+    this.fetchValidators()
   }
 
-  _fetchBalance() {
+  private fetchBalance() {
     this.props.walletStore.fetchBalance()
   }
 
-  async _fetchValidators() {
+  private async fetchValidators() {
     await this.props.walletStore.fetchAnnualProvision()
     this.props.walletStore.fetchValidators()
   }
 
-  _onPressSendButton = () => {
+  private onPressSendButton = () => {
     this.props.navigation.navigate("Transfer")
   }
 
-  _onPressReceiveButton = () => {
+  private onPressReceiveButton = () => {
     this.props.navigation.navigate("Receive")
   }
 
-  _onPressQRCodeButton = () => {
+  private onPressQRCodeButton = () => {
     this.props.navigation.navigate("QRCodeScan")
   }
 
-  _onPressValidator = (validator: Validator) => {
+  private onPressRewardsWithdrawButton = () => {
+    this.props.navigation.navigate("StakingRewardsWithdraw")
+  }
+
+  private onPressValidator = (validator: Validator) => {
     this.props.navigation.navigate("Validator", {
       validator,
     })
@@ -181,12 +217,12 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                   {
                     key: "send",
                     tx: "walletDashboardScreen.send",
-                    onPress: this._onPressSendButton,
+                    onPress: this.onPressSendButton,
                   },
                   {
                     key: "receive",
                     tx: "walletDashboardScreen.receive",
-                    onPress: this._onPressReceiveButton,
+                    onPress: this.onPressReceiveButton,
                   },
                   {
                     key: "scan",
@@ -199,7 +235,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                       />
                     ),
                     style: QRCODE_BUTTON,
-                    onPress: this._onPressQRCodeButton,
+                    onPress: this.onPressQRCodeButton,
                   },
                 ]}
               />
@@ -213,7 +249,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                 end={{ x: 1.0, y: 0.0 }}
                 style={WALLET_BALANCE.ROOT}
               >
-                {this._renderBalanceValue()}
+                {this.renderBalanceValue()}
                 <Text
                   text="LikeCoin"
                   color="likeGreen"
@@ -223,8 +259,19 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                   style={WALLET_BALANCE.UNIT}
                 />
               </LinearGradient>
-              <View style={VALIDATOR_LIST}>
-                {this.props.walletStore.validatorList.map(this._renderValidator)}
+              {this.renderBalanceView()}
+              <View style={VALIDATOR_LIST.HEADER}>
+                <Text
+                  tx="walletDashboardScreen.stakeLabel"
+                  color="likeGreen"
+                  size="default"
+                  weight="600"
+                  align="center"
+                />
+                <View style={VALIDATOR_LIST.VERTICAL_LINE} />
+              </View>
+              <View style={VALIDATOR_LIST.CONTAINER}>
+                {this.props.walletStore.sortedValidatorList.map(this.renderValidator)}
               </View>
               <View style={DASHBOARD_FOOTER}>
                 <Button
@@ -241,12 +288,12 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     )
   }
 
-  _renderBalanceValue = () => {
+  private renderBalanceValue = () => {
     let value: string
     const {
       isFetchingBalance: isFetching,
       hasFetchedBalance: hasFetch,
-      formattedBalance: balanceValue,
+      formattedTotalBalance: balanceValue,
     } = this.props.walletStore
     if (hasFetch) {
       value = balanceValue
@@ -261,14 +308,56 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     )
   }
 
-  _renderValidator = (validator: Validator) => {
+  private renderBalanceView = () => {
+    const {
+      formattedAvailableBalance: available,
+      formattedRewardsBalance: rewards,
+      hasRewards,
+    } = this.props.walletStore
+    const rewardsTextColor = hasRewards ? "green" : "grey4a"
+    return (
+      <View style={BALANCE_VIEW}>
+        <ValidatorScreenGridItem
+          value={available}
+          labelTx="walletDashboardScreen.availableBalanceLabel"
+          color="grey4a"
+          isPaddingLess
+          isShowSeparator={false}
+        />
+        <ValidatorScreenGridItem
+          value={rewards}
+          labelTx="walletDashboardScreen.allDelegatorRewardsLabel"
+          color={rewardsTextColor}
+          isPaddingLess
+          isShowSeparator={false}
+        />
+        {hasRewards &&
+          <View style={WITHDRAW_REWARDS_BUTTON.WRAPPER}>
+            <Button
+              preset="primary"
+              tx="walletDashboardScreen.withdrawRewardsButtonText"
+              style={WITHDRAW_REWARDS_BUTTON.INNER}
+              onPress={this.onPressRewardsWithdrawButton}
+            />
+          </View>
+        }
+      </View>
+    )
+  }
+
+  private renderValidator = (validator: Validator) => {
+    const rightSubtitle = validator.delegatorRewards === "0"
+      ? undefined : formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards), 2)
     return (
       <ValidatorListItem
         key={validator.operatorAddress}
-        name={validator.moniker}
         icon={validator.avatar}
+        title={validator.moniker}
         subtitle={percent(validator.expectedReturns)}
-        onPress={() => this._onPressValidator(validator)}
+        rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
+        rightSubtitle={rightSubtitle}
+        isDarkMode={validator.isDelegated}
+        onPress={() => this.onPressValidator(validator)}
       />
     )
   }

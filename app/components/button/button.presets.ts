@@ -6,9 +6,6 @@ import { sizes } from "../text/text.sizes"
  * All text will start off looking like this.
  */
 const BASE_VIEW: ViewStyle = {
-  paddingVertical: spacing[3],
-  paddingHorizontal: spacing[2],
-  borderRadius: 12,
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
@@ -16,10 +13,12 @@ const BASE_VIEW: ViewStyle = {
 
 const BASE_BLOCK_VIEW: ViewStyle = {
   minHeight: 44,
+  borderRadius: 12,
+  paddingVertical: spacing[3],
+  paddingHorizontal: spacing[2],
 }
 
 const BASE_TEXT: TextStyle = {
-  paddingHorizontal: spacing[3],
   fontSize: sizes.medium,
   fontWeight: "bold",
 }
@@ -35,6 +34,7 @@ export const viewPresets = {
    */
   plain: {
     ...BASE_VIEW,
+    ...BASE_BLOCK_VIEW,
   } as ViewStyle,
 
   /**
@@ -62,9 +62,6 @@ export const viewPresets = {
    */
   link: {
     ...BASE_VIEW,
-    paddingHorizontal: spacing[0],
-    padding: spacing[0],
-    paddingVertical: 0,
     alignItems: "flex-start",
   } as ViewStyle,
 
@@ -73,7 +70,7 @@ export const viewPresets = {
    */
   icon: {
     ...BASE_VIEW,
-    padding: spacing[1],
+    padding: spacing[2],
   },
 }
 

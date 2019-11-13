@@ -1,5 +1,7 @@
 import BigNumber from "bignumber.js"
 
+import { CosmosCoinResult } from "./cosmos.types"
+
 export const DENOM = "nanolike"
 
 /**
@@ -16,8 +18,8 @@ export function convertLIKEToNanolike(value: number | string) {
  *
  * @param value The amount of nanolike
  */
-export function convertNanolikeToLIKE(value: number | string) {
-  return new BigNumber(value).div(new BigNumber(1000000000)).toFixed()
+export function convertNanolikeToLIKE(value: number | string, decimalPlaces?: number) {
+  return new BigNumber(value).div(new BigNumber(1000000000)).toFixed(decimalPlaces)
 }
 
 /**
@@ -30,6 +32,17 @@ export function parseCosmosCoin(value: number | string) {
     denom: DENOM,
     amount: `${value}`,
   }
+}
+
+/**
+ * Convert the given amount of nanolike to LIKE
+ *
+ * @param coin The amount of nanolike
+ */
+export function extractNanolikeFromCosmosCoinList(coins: CosmosCoinResult[]) {
+  if (!coins || !coins.length) return "0"
+  const [coin] = coins.filter(coin => coin.denom === DENOM)
+  return coin.amount
 }
 
 /**

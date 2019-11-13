@@ -1,9 +1,4 @@
 import { NativeModules } from "react-native"
-import {
-  AUTHCORE_ROOT_URL as apiBaseURL,
-  COSMOS_CHAIN_ID,
-} from "react-native-dotenv"
-
 import AuthCore from "react-native-authcore"
 
 import {
@@ -40,34 +35,62 @@ export class AuthCoreAPI {
    */
   cosmosProvider: AuthCoreCosmosProvider
 
-  constructor() {
+  /**
+   * The chain ID for cosmos
+   */
+  cosmosChainId: string = ""
+
+  /**
+   * Callback function if error occurs
+   */
+  callbacks: AuthCoreCallback = {}
+
+  setup(baseURL: string, cosmosChainId: string) {
     this.client = new AuthCore({
-      baseUrl: apiBaseURL
+      baseUrl: baseURL
     })
+    this.cosmosChainId = cosmosChainId
   }
 
-  async setup(accessToken: string, callbacks: AuthCoreCallback) {
+  async authenticate(accessToken: string) {
     const { webAuth } = this.client
     webAuth.client.bearer = `Bearer ${accessToken}`
 
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
     this.keyVaultClient = await new AuthCoreKeyVaultClient({
-      apiBaseURL,
+      apiBaseURL: webAuth.baseUrl,
       accessToken,
-      callbacks,
+      callbacks: this.getCallbacks(),
     })
 
     __DEV__ && console.tron.log("Initializing AuthCore Cosmos Provider")
     this.cosmosProvider = await new AuthCoreCosmosProvider({
       authcoreClient: this.keyVaultClient,
-      chainId: COSMOS_CHAIN_ID,
-      callbacks,
+      chainId: this.cosmosChainId,
+      callbacks: this.getCallbacks(),
     })
 
     const { length } = await this.cosmosProvider.getAddresses()
     if (!length) {
       await this.keyVaultClient.createSecret('HD_KEY', 16)
     }
+  }
+
+  private getCallbacks() {
+    return {
+      callbacks: {
+        unauthenticated: this.onUnauthenticated,
+        unauthorized: this.onUnauthorized
+      },
+    }
+  }
+
+  onUnauthenticated = () => {
+    this.callbacks.unauthenticated && this.callbacks.unauthenticated()
+  }
+
+  onUnauthorized = () => {
+    this.callbacks.unauthorized && this.callbacks.unauthorized()
   }
 
   async getCosmosAddresses() {
