@@ -160,6 +160,7 @@ android {
     }
     buildTypes {
         debug {
+            applicationId "co.like.LikeCoin"
             signingConfig signingConfigs.debug
         }
         release {
