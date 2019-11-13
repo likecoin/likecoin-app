@@ -112,4 +112,21 @@ export class CosmosAPI {
       denom: DENOM,
     }) as CosmosMessage
   }
+
+  /**
+   * Create the rewards withdraw message object
+   */
+  createRewardsWithdrawMessage(
+    fromAddress: string,
+    validatorAddresses: string[],
+  ) {
+    return this.api.MultiMessage(
+      fromAddress,
+      validatorAddresses.map(validatorAddress =>
+        this.api.MsgWithdrawDelegationReward(fromAddress, {
+          validatorAddress,
+        }),
+      ),
+    ) as CosmosMessage
+  }
 }

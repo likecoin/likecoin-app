@@ -76,7 +76,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
             style={SHEET.ROOT}
           >
             {this.renderSummary()}
-            {this.renderDetail()}
+            {this.props.type !== "reward" && this.renderDetail()}
           </Sheet>
           <Button
             preset="outlined"
@@ -111,9 +111,11 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
 
   private renderSummary = () => {
     const {
+      type,
       titleTx,
       amount,
       target,
+      fee,
     } = this.props
     return (
       <View style={SHEET.SECTION}>
@@ -132,18 +134,36 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
               text={formatLIKE(amount)}
               size="large"
               weight="600"
+              color={type === "reward" ? "green" : "grey4a"}
               minimumFontScale={0.5}
               numberOfLines={1}
               adjustsFontSizeToFit
             />
           </View>
-          <View style={SUMMARY.TARGET}>
-            <Text
-              tx="transaction.to"
-              style={STYLE.LABEL}
-            />
-            <Text text={target} />
-          </View>
+          {type === "reward" ? (
+            <View style={SUMMARY.TARGET}>
+              <Text
+                text={fee}
+                size="large"
+                weight="600"
+                minimumFontScale={0.5}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              />
+              <Text
+                tx="transaction.fee"
+                style={STYLE.LABEL}
+              />
+            </View>
+          ) : (
+            <View style={SUMMARY.TARGET}>
+              <Text
+                tx="transaction.to"
+                style={STYLE.LABEL}
+              />
+              <Text text={target} />
+            </View>
+          )}
         </View>
       </View>
     )

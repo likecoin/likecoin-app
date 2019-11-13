@@ -70,6 +70,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
 
     return (
       <SigningView
+        type="unstake"
         state={this.state.state}
         titleTx="stakingUnbondingDelegationSigningScreen.title"
         amount={amount}

@@ -42,6 +42,9 @@
   "stakingDelegationSigningScreen": {
     "title": "押入"
   },
+  "stakingRewardsWithdrawScreen": {
+    "title": "取回收益"
+  },
   "stakingUnbondingDelegationAmountInputScreen": {
     "available": "可押出"
   },
@@ -58,6 +61,10 @@
     "errorLikeCo": "登入 like.co 出現錯誤",
     "heading": "Liker 登入按讚\n作者獲得收入",
     "signIn": "登入"
+  },
+  "transaction": {
+    "fee": "費用",
+    "to": "至"
   },
   "transfer": {
     "to": "至"
@@ -96,7 +103,8 @@
     "allDelegatorRewardsLabel": "未取回收益",
     "send": "轉帳",
     "stakeLabel": "委托",
-    "receive": "收款"
+    "receive": "收款",
+    "withdrawRewardsButtonText": "取回收益"
   },
   "welcomeScreen": {
     "welcome": "歡迎！",

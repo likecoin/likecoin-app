@@ -3,38 +3,51 @@ import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { StakingDelegationStore } from "../../models/staking-delegation-store"
+import { StakingRewardsWithdrawStore } from "../../models/staking-rewards-withdraw-store"
 import { RootStore } from "../../models/root-store"
 import { WalletStore } from "../../models/wallet-store"
 
 import { SigningView, SigningViewStateType } from "../../components/signing-view"
 
-import Graph from "../../assets/graph/staking-delegate.svg"
+import Graph from "../../assets/graph/staking-rewards-withdraw.svg"
+
+import { formatNumber } from "../../utils/number"
 
 const GRAPH: ViewStyle = {
-  marginRight: 20,
+  marginRight: -20,
 }
 
-export interface StakingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
-  txStore: StakingDelegationStore,
-  walletStore: WalletStore,
+export interface StakingRewardsWithdrawScreenProps extends NavigationScreenProps<{}> {
+  txStore: StakingRewardsWithdrawStore
+  walletStore: WalletStore
 }
 
-export interface StakingDelegationSigningScreenState {
+export interface StakingRewardsWithdrawScreenState {
   state: SigningViewStateType
 }
 
 @inject((stores: RootStore) => ({
-  txStore: stores.stakingDelegationStore,
+  txStore: stores.stakingRewardsWithdrawStore,
   walletStore: stores.walletStore,
-}) as StakingDelegationSigningScreenProps)
+}) as StakingRewardsWithdrawScreenProps)
 @observer
-export class StakingDelegationSigningScreen extends React.Component<StakingDelegationSigningScreenProps, StakingDelegationSigningScreenState> {
-  state: StakingDelegationSigningScreenState = {
-    state: "waiting"
+export class StakingRewardsWithdrawScreen extends React.Component<
+  StakingRewardsWithdrawScreenProps,
+  StakingRewardsWithdrawScreenState
+> {
+  state: StakingRewardsWithdrawScreenState = {
+    state: "waiting",
   }
 
-  _sendTransaction = async () => {
+  constructor(props: StakingRewardsWithdrawScreenProps) {
+    super(props)
+    props.txStore.createTransaction(
+      props.walletStore.address,
+      props.walletStore.validatorListWithRewards,
+    )
+  }
+
+  private sendTransaction = async () => {
     this.setState({ state: "pending" })
     await this.props.txStore.signTransaction(this.props.walletStore.signer)
     const state = this.props.txStore.errorMessage ? "waiting" : "success"
@@ -42,43 +55,36 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
     if (state === "success") {
       // Update balance
       this.props.walletStore.fetchBalance()
-      this.props.walletStore.fetchDelegations()
     }
   }
 
   private onPressCloseButton = () => {
-    this.props.navigation.goBack()
+    this.props.navigation.pop()
   }
 
   private onPressConfirmButton = () => {
     if (this.state.state === "success") {
-      this.props.navigation.dismiss()
+      this.props.navigation.pop()
     } else {
-      this._sendTransaction()
+      this.sendTransaction()
     }
   }
 
   render () {
     const {
-      amount,
       blockExplorerURL,
       errorMessage,
       fee,
-      target,
-      totalAmount,
     } = this.props.txStore
-
     return (
       <SigningView
-        type="stake"
+        type="reward"
         state={this.state.state}
-        titleTx="stakingDelegationSigningScreen.title"
-        amount={amount}
+        titleTx="stakingRewardsWithdrawScreen.title"
+        amount={formatNumber(this.props.walletStore.rewardsBalance)}
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={fee}
-        target={target}
-        totalAmount={totalAmount}
         graph={<Graph />}
         graphStyle={GRAPH}
         onClose={this.onPressCloseButton}

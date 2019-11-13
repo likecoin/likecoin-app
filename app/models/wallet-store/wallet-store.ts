@@ -93,6 +93,10 @@ export const WalletStoreModel = types
       return convertNanolikeToLIKE(availableBalance.get())
     }
 
+    function getRewardsBalance() {
+      return convertNanolikeToLIKE(rewardsBalance.get())
+    }
+
     const getAllTotalDelegatorShares = () => self.validatorList.reduce(
       (total, validator) => total + parseFloat(validator.totalDelegatorShares),
       0
@@ -221,8 +225,11 @@ export const WalletStoreModel = types
         get hasRewards() {
           return compareNumber(rewardsBalance.get()) > 0
         },
+        get rewardsBalance() {
+          return getRewardsBalance()
+        },
         get formattedRewardsBalance() {
-          return formatNumberWithSign(convertNanolikeToLIKE(rewardsBalance.get()), 2)
+          return formatNumberWithSign(getRewardsBalance(), 2)
         },
         get formattedTotalBalance() {
           return formatNumber(
@@ -252,6 +259,11 @@ export const WalletStoreModel = types
         },
         get sortedValidatorList() {
           return self.validatorList.sort(compareValidatorsInStaking)
+        },
+        get validatorListWithRewards() {
+          return self.validatorList
+            .filter(v => new BigNumber(v.delegatorRewards).isGreaterThan(0))
+            .map(v => v.operatorAddress)
         },
       },
       actions: {

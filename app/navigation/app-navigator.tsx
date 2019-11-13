@@ -19,6 +19,7 @@ import { ReceiveScreen } from "../screens/receive-screen"
 import { ValidatorScreen } from "../screens/validator-screen"
 
 import { color } from "../theme"
+import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
 
 export interface CustomTabBarIconProps extends TabBarIconProps {
   routeName: string
@@ -79,6 +80,7 @@ export const AppNavigator = createStackNavigator({
   Receive: ReceiveScreen,
   StakingDelegation: StakingDelegationNavigator,
   StakingUnbondingDelegation: StakingUnbondingDelegationNavigator,
+  StakingRewardsWithdraw: StakingRewardsWithdrawScreen,
   Transfer: TransferNavigator,
   Validator: ValidatorScreen,
 }, {

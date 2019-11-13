@@ -113,8 +113,9 @@ const WALLET_BALANCE = StyleSheet.create({
   } as TextStyle,
 })
 const BALANCE_VIEW: ViewStyle = {
-  paddingVertical: spacing[4],
+  paddingTop: spacing[4],
   paddingHorizontal: spacing[6],
+  paddingBottom: spacing[6],
 }
 const VALIDATOR_LIST = StyleSheet.create({
   CONTAINER: {
@@ -128,6 +129,14 @@ const VALIDATOR_LIST = StyleSheet.create({
     height: 16,
     marginTop: spacing[2],
     backgroundColor: color.primary,
+  } as ViewStyle,
+})
+const WITHDRAW_REWARDS_BUTTON = StyleSheet.create({
+  INNER: {
+    paddingHorizontal: spacing[4],
+  },
+  WRAPPER: {
+    alignItems: "center"
   } as ViewStyle,
 })
 
@@ -162,6 +171,10 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
 
   private onPressQRCodeButton = () => {
     this.props.navigation.navigate("QRCodeScan")
+  }
+
+  private onPressRewardsWithdrawButton = () => {
+    this.props.navigation.navigate("StakingRewardsWithdraw")
   }
 
   private onPressValidator = (validator: Validator) => {
@@ -318,6 +331,16 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           isPaddingLess
           isShowSeparator={false}
         />
+        {hasRewards &&
+          <View style={WITHDRAW_REWARDS_BUTTON.WRAPPER}>
+            <Button
+              preset="primary"
+              tx="walletDashboardScreen.withdrawRewardsButtonText"
+              style={WITHDRAW_REWARDS_BUTTON.INNER}
+              onPress={this.onPressRewardsWithdrawButton}
+            />
+          </View>
+        }
       </View>
     )
   }

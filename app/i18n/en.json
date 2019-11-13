@@ -49,6 +49,9 @@
   "stakingDelegationSigningScreen": {
     "title": "Stake"
   },
+  "stakingRewardsWithdrawScreen": {
+    "title": "Withdraw rewards"
+  },
   "stakingUnbondingDelegationAmountInputScreen": {
     "available": "Available"
   },
@@ -60,6 +63,7 @@
     "field": "Field"
   },
   "transaction": {
+    "fee": "Fee",
     "to": "To"
   },
   "transferTargetInputScreen": {
@@ -96,7 +100,8 @@
     "allDelegatorRewardsLabel": "Rewards",
     "send": "Send",
     "stakeLabel": "Stake",
-    "receive": "Receive"
+    "receive": "Receive",
+    "withdrawRewardsButtonText": "Withdraw Rewards"
   },
   "welcomeScreen": {
     "welcome": "Welcome!",

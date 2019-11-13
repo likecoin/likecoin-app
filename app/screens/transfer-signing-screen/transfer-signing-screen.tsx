@@ -68,6 +68,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
 
     return (
       <SigningView
+        type="transfer"
         state={this.state.state}
         titleTx="transferSigningScreen.title"
         amount={amount}
