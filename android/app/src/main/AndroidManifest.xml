@@ -28,6 +28,12 @@
             <data
                 android:host="likecoin-integration-test.authcore.io"
                 android:scheme="co.like.likecoin" />
+            <data
+                android:host="likecoin.page.link"
+                android:scheme="https" />
+            <data
+                android:host="likecoin.page.link"
+                android:scheme="http" />
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
