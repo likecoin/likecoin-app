@@ -54,6 +54,11 @@ export function Button(props: ButtonProps) {
     viewPresets[preset] || viewPresets.primary,
     styleOverride,
   ]
+
+  if (rest.disabled) {
+    viewStyleList.push({ opacity: 0.3 })
+  }
+
   if (isHidden) {
     rest.disabled = true
     viewStyleList.push({ opacity: 0 })

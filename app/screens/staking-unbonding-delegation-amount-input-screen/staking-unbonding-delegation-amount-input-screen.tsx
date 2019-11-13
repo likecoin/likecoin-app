@@ -5,24 +5,30 @@ import BigNumber from "bignumber.js"
 
 import { AmountInputView } from "../../components/amount-input-view"
 
-import { TransferStore } from "../../models/transfer-store"
+import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-delegation-store"
+import { RootStore } from "../../models/root-store"
 import { WalletStore } from "../../models/wallet-store"
 
-import TransferGraph from "../../assets/graph/transfer.svg"
+import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
 
 import { translate } from "../../i18n"
+import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
-export interface TransferAmountInputScreenProps extends NavigationScreenProps<{}> {
-  transferStore: TransferStore,
+export interface StakingUnbondingDelegationAmountInputScreenParams {
+  target: string
+}
+
+export interface StakingUnbondingDelegationAmountInputScreenProps extends NavigationScreenProps<StakingUnbondingDelegationAmountInputScreenParams> {
+  txStore: StakingUnbondingDelegationStore,
   walletStore: WalletStore,
 }
 
-@inject(
-  "transferStore",
-  "walletStore",
-)
+@inject((stores: RootStore) => ({
+  txStore: stores.stakingUnbondingDelegationStore,
+  walletStore: stores.walletStore,
+}) as StakingUnbondingDelegationAmountInputScreenProps)
 @observer
-export class TransferAmountInputScreen extends React.Component<TransferAmountInputScreenProps, {}> {
+export class StakingUnbondingDelegationAmountInputScreen extends React.Component<StakingUnbondingDelegationAmountInputScreenProps, {}> {
   state = {
     /**
      * The code of the error description which is looked up via i18n.
@@ -33,6 +39,20 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
      * True when creating transaction
      */
     isCreatingTransaction: false,
+  }
+
+  constructor(props: StakingUnbondingDelegationAmountInputScreenProps) {
+    super(props)
+    props.txStore.resetInput()
+    props.txStore.setTarget(props.navigation.getParam("target"))
+  }
+
+  getValidator = () => {
+    return this.props.walletStore.validators.get(this.props.txStore.target)
+  }
+
+  getMaxAmount = () => {
+    return convertNanolikeToLIKE(this.getValidator().delegatorShare)
   }
 
   private setError = (
@@ -54,11 +74,11 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   private createTransactionForSigning = async () => {
     this.setState({ isCreatingTransaction: true })
     try {
-      await this.props.transferStore.createTransaction(this.props.walletStore.address)
-      const amountWithFee = new BigNumber(this.props.transferStore.totalAmount)
-      const maxAmount = new BigNumber(this.props.walletStore.availableBalanceInLIKE)
-      if (amountWithFee.isGreaterThan(maxAmount)) {
-        return this.setError("TRANSFER_AMOUNT_EXCEED_MAX")
+      await this.props.txStore.createTransaction(this.props.walletStore.address)
+      const amount = new BigNumber(this.props.txStore.amount)
+      const fee = new BigNumber(this.props.txStore.fee)
+      if (fee.isGreaterThan(amount)) {
+        return this.setError("UNSTAKE_NOT_ENOUGH_FEE")
       }
       return true
     } catch (error) {
@@ -70,40 +90,40 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   }
 
   private onAmountInputChange = (amount: string) => {
-    this.props.transferStore.setAmount(amount)
+    this.props.txStore.setAmount(amount)
     if (this.state.error) {
       this.setState({ error: "" })
     }
   }
 
   private onPressCloseButton = () => {
-    this.props.navigation.goBack()
+    this.props.navigation.pop()
   }
 
   private onPressNextButton = async () => {
     if (await this.createTransactionForSigning()) {
-      this.props.navigation.navigate("TransferSigning")
+      this.props.navigation.navigate("StakingUnbondingDelegationSigning")
     }
   }
 
   private onAmountExceedMax = () => {
-    this.setError("TRANSFER_AMOUNT_EXCEED_MAX")
+    this.setError("UNSTAKE_AMOUNT_EXCEED_MAX")
   }
 
   private onAmountLessThanZero = () => {
-    this.setError("TRANSFER_AMOUNT_LESS_THAN_ZERO")
+    this.setError("UNSTAKE_AMOUNT_LESS_THAN_ZERO")
   }
 
   render () {
     return (
       <AmountInputView
-        amount={this.props.transferStore.amount}
-        maxAmount={this.props.walletStore.availableBalanceInLIKE}
+        amount={this.props.txStore.amount}
+        maxAmount={this.getMaxAmount()}
         error={this.state.error}
-        availableLabelTx="transferAmountInputScreen.available"
+        availableLabelTx="stakingUnbondingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={this.state.isCreatingTransaction}
-        graph={<TransferGraph />}
+        graph={<Graph />}
         onChange={this.onAmountInputChange}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}

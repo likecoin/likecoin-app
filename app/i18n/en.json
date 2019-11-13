@@ -13,8 +13,13 @@
   "error": {
     "INVALID_ACCOUNT_ADDRESS": "Invalid address",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
+    "STAKE_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "STAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
-    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero"
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
+    "UNSTAKE_NOT_ENOUGH_FEE": "Not enough amount for transaction fee"
   },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
@@ -38,11 +43,27 @@
     "heading": "As a Liker, every Like is a reward to creators",
     "signIn": "Sign In"
   },
+  "stakingDelegationAmountInputScreen": {
+    "available": "Available"
+  },
+  "stakingDelegationSigningScreen": {
+    "title": "Stake"
+  },
+  "stakingRewardsWithdrawScreen": {
+    "title": "Withdraw rewards"
+  },
+  "stakingUnbondingDelegationAmountInputScreen": {
+    "available": "Available"
+  },
+  "stakingUnbondingDelegationSigningScreen": {
+    "title": "Unstake"
+  },
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
   },
   "transaction": {
+    "fee": "Fee",
     "to": "To"
   },
   "transferTargetInputScreen": {
@@ -67,12 +88,20 @@
     "website": "Website"
   },
   "validatorScreen": {
+    "delegatorShareLabel": "Staked",
+    "delegatorRewardsLabel": "Staking Rewards",
+    "stakeButtonText": "Stake",
+    "unstakeButtonText": "Unstake",
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"
   },
   "walletDashboardScreen": {
+    "availableBalanceLabel": "Available",
+    "allDelegatorRewardsLabel": "Rewards",
     "send": "Send",
-    "receive": "Receive"
+    "stakeLabel": "Stake",
+    "receive": "Receive",
+    "withdrawRewardsButtonText": "Withdraw Rewards"
   },
   "welcomeScreen": {
     "welcome": "Welcome!",

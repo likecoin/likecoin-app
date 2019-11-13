@@ -6,6 +6,8 @@ import {
   getEnv,
 } from "mobx-state-tree"
 
+import { observable } from "mobx"
+
 import { Environment } from "../environment"
 
 /**
@@ -19,7 +21,7 @@ export const ValidatorModel = types
     jailed: types.boolean,
     status: types.number,
     tokens: types.string,
-    delegatorShares: types.string,
+    totalDelegatorShares: types.string,
 
     // Description
     moniker: types.string,
@@ -42,6 +44,24 @@ export const ValidatorModel = types
   })
   .extend(self => {
     const env: Environment = getEnv(self)
+
+    /**
+     * Delegation amount of current wallet address
+     */
+    const delegatorShare = observable.box("0")
+
+    /**
+     * Delegation rewards of current wallet address
+     */
+    const delegatorRewards = observable.box("0")
+
+    const setDelegatorRewards = (amount: string) => {
+      delegatorRewards.set(amount)
+    }
+
+    const setDelegatorShare = (shares: string) => {
+      delegatorShare.set(shares)
+    }
 
     const fetchAvatarURL = flow(function * () {
       if (self.identity.length === 16) {
@@ -113,9 +133,20 @@ export const ValidatorModel = types
         get blockExplorerURL() {
           return env.bigDipper.getValidatorURL(self.operatorAddress)
         },
+        get delegatorRewards() {
+          return delegatorRewards.get()
+        },
+        get delegatorShare() {
+          return delegatorShare.get()
+        },
+        get isDelegated() {
+          return delegatorShare.get() !== "0"
+        },
       },
       actions: {
         fetchAvatarURL,
+        setDelegatorRewards,
+        setDelegatorShare,
         setExpectedReturns,
       },
     }

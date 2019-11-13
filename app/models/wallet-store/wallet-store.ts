@@ -1,15 +1,27 @@
 import { Buffer } from "buffer"
 import { observable } from "mobx"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import BigNumber from "bignumber.js"
 
 import { Environment } from "../environment"
-import { ValidatorModel } from "../validator"
-import { formatNumber } from "../../utils/number"
+import { Validator, ValidatorModel } from "../validator"
 import {
+  compareNumber,
+  formatLIKE,
+  formatNumber,
+  formatNumberWithSign,
+} from "../../utils/number"
+import {
+  CosmosDelegation,
+  CosmosRewardsResult,
   CosmosSignature,
   CosmosValidator,
+  CosmosValidatorReward,
 } from "../../services/cosmos"
-import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
+import {
+  convertNanolikeToLIKE,
+  extractNanolikeFromCosmosCoinList,
+} from "../../services/cosmos/cosmos.utils"
 
 /**
  * Parse Cosemos Validator to model
@@ -20,7 +32,7 @@ function parseRawValidators(validator: CosmosValidator, env: Environment) {
   const {
     operator_address: operatorAddress,
     consensus_pubkey: consensusPubkey,
-    delegator_shares: delegatorShares,
+    delegator_shares: totalDelegatorShares,
     description,
     unbonding_height: unbondingHeight,
     unbonding_time: unbondingTime,
@@ -38,7 +50,7 @@ function parseRawValidators(validator: CosmosValidator, env: Environment) {
   return ValidatorModel.create({
     operatorAddress,
     consensusPubkey,
-    delegatorShares,
+    totalDelegatorShares,
     ...description,
     unbondingHeight,
     unbondingTime,
@@ -68,7 +80,8 @@ export const WalletStoreModel = types
      * The address of the wallet
      */
     const address = observable.box("")
-    const balance = observable.box("0")
+    const availableBalance = observable.box("0")
+    const rewardsBalance = observable.box("0")
     const isFetchingBalance = observable.box(false)
     const hasFetchedBalance = observable.box(false)
 
@@ -76,24 +89,65 @@ export const WalletStoreModel = types
       address.set(newAddress)
     }
 
-    const getBalanceInLIKE = () => {
-      return convertNanolikeToLIKE(balance.get())
+    const getAvailableBalanceInLIKE = () => {
+      return convertNanolikeToLIKE(availableBalance.get())
     }
 
-    const getTotalDelegatorShares = () => self.validatorList.reduce(
-      (total, validator) => total + parseFloat(validator.delegatorShares),
+    function getRewardsBalance() {
+      return convertNanolikeToLIKE(rewardsBalance.get())
+    }
+
+    const getAllTotalDelegatorShares = () => self.validatorList.reduce(
+      (total, validator) => total + parseFloat(validator.totalDelegatorShares),
       0
     )
+
+    const setValidatorRewards = ({ validator_address: id, reward }: CosmosValidatorReward) => {
+      self.validators.get(id).setDelegatorRewards(extractNanolikeFromCosmosCoinList(reward))
+    }
+
+    function compareValidatorsInStaking(a: Validator, b: Validator) {
+      if (a.isDelegated && !b.isDelegated) return -1
+      if (!a.isDelegated && b.isDelegated) return 1
+      const aRewards = new BigNumber(a.delegatorRewards)
+      const bRewards = new BigNumber(b.delegatorRewards)
+      if (aRewards.isGreaterThan(bRewards)) return -1
+      if (aRewards.isLessThan(bRewards)) return 1
+      return a.moniker.localeCompare(b.moniker)
+    }
+
+    const fetchRewards = flow(function * () {
+      try {
+        const result: CosmosRewardsResult = yield env.cosmosAPI.queryRewards(address.get())
+        result.rewards.forEach(setValidatorRewards)
+        rewardsBalance.set(extractNanolikeFromCosmosCoinList(result.total))
+      } catch (error) {
+        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
+      }
+    })
 
     const fetchBalance = flow(function * () {
       isFetchingBalance.set(true)
       try {
-        balance.set(yield env.cosmosAPI.queryBalance(address.get()))
+        availableBalance.set(yield env.cosmosAPI.queryBalance(address.get()))
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchBalance: ${error}`, null)
       } finally {
         isFetchingBalance.set(false)
         hasFetchedBalance.set(true)
+      }
+    })
+
+    const setValidatorDelegation = (rawDelegation: CosmosDelegation) => {
+      self.validators.get(rawDelegation.validator_address).setDelegatorShare(rawDelegation.shares)
+    }
+
+    const fetchDelegations = flow(function * () {
+      try {
+        const rawDelegations: CosmosDelegation[] = yield env.cosmosAPI.getDelegations(address.get())
+        rawDelegations.forEach(setValidatorDelegation)
+      } catch (error) {
+        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchDelegations: ${error}`, null)
       }
     })
 
@@ -109,10 +163,12 @@ export const WalletStoreModel = types
         })
         self.validatorList.forEach((validator) => {
           validator.setExpectedReturns(
-            getTotalDelegatorShares(),
+            getAllTotalDelegatorShares(),
             self.annualProvision
           )
         })
+        fetchDelegations()
+        fetchRewards()
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
       }
@@ -155,16 +211,35 @@ export const WalletStoreModel = types
           return env.bigDipper.getAccountURL(address.get())
         },
         get totalDelegatorShares() {
-          return getTotalDelegatorShares()
+          return getAllTotalDelegatorShares()
         },
         /**
          * Return balance in LIKE
          */
-        get balanceInLIKE() {
-          return getBalanceInLIKE()
+        get availableBalanceInLIKE() {
+          return getAvailableBalanceInLIKE()
         },
-        get formattedBalance() {
-          return formatNumber(getBalanceInLIKE(), 2)
+        get formattedAvailableBalance() {
+          return formatLIKE(formatNumber(getAvailableBalanceInLIKE(), 2))
+        },
+        get hasRewards() {
+          return compareNumber(rewardsBalance.get()) > 0
+        },
+        get rewardsBalance() {
+          return getRewardsBalance()
+        },
+        get formattedRewardsBalance() {
+          return formatNumberWithSign(getRewardsBalance(), 2)
+        },
+        get formattedTotalBalance() {
+          return formatNumber(
+            convertNanolikeToLIKE(
+              new BigNumber(availableBalance.get())
+                .plus(new BigNumber(rewardsBalance.get()))
+                .toFixed()
+            ),
+            2
+          )
         },
         get isFetchingBalance() {
           return isFetchingBalance.get()
@@ -177,15 +252,24 @@ export const WalletStoreModel = types
           if (!validator) {
             return 0
           }
-          return Number.parseFloat(validator.delegatorShares) / getTotalDelegatorShares() * 100
+          return Number.parseFloat(validator.totalDelegatorShares) / getAllTotalDelegatorShares() * 100
         },
         get signer() {
           return createSigner()
+        },
+        get sortedValidatorList() {
+          return self.validatorList.sort(compareValidatorsInStaking)
+        },
+        get validatorListWithRewards() {
+          return self.validatorList
+            .filter(v => new BigNumber(v.delegatorRewards).isGreaterThan(0))
+            .map(v => v.operatorAddress)
         },
       },
       actions: {
         fetchValidators,
         fetchBalance,
+        fetchDelegations,
         fetchAnnualProvision,
         setAddress,
       }

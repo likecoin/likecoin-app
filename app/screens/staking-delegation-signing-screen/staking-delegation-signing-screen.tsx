@@ -3,44 +3,46 @@ import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { TransferStore } from "../../models/transfer-store"
+import { StakingDelegationStore } from "../../models/staking-delegation-store"
+import { RootStore } from "../../models/root-store"
 import { WalletStore } from "../../models/wallet-store"
 
 import { SigningView, SigningViewStateType } from "../../components/signing-view"
 
-import TransferGraph from "../../assets/graph/transfer.svg"
+import Graph from "../../assets/graph/staking-delegate.svg"
 
 const GRAPH: ViewStyle = {
-  marginRight: -18,
+  marginRight: 20,
 }
 
-export interface TransferSigningScreenProps extends NavigationScreenProps<{}> {
-  transferStore: TransferStore,
+export interface StakingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
+  txStore: StakingDelegationStore,
   walletStore: WalletStore,
 }
 
-export interface TransferSigningScreenState {
+export interface StakingDelegationSigningScreenState {
   state: SigningViewStateType
 }
 
-@inject(
-  "transferStore",
-  "walletStore",
-)
+@inject((stores: RootStore) => ({
+  txStore: stores.stakingDelegationStore,
+  walletStore: stores.walletStore,
+}) as StakingDelegationSigningScreenProps)
 @observer
-export class TransferSigningScreen extends React.Component<TransferSigningScreenProps, TransferSigningScreenState> {
-  state: TransferSigningScreenState = {
+export class StakingDelegationSigningScreen extends React.Component<StakingDelegationSigningScreenProps, StakingDelegationSigningScreenState> {
+  state: StakingDelegationSigningScreenState = {
     state: "waiting"
   }
 
   _sendTransaction = async () => {
     this.setState({ state: "pending" })
-    await this.props.transferStore.signTransaction(this.props.walletStore.signer)
-    const state = this.props.transferStore.errorMessage ? "waiting" : "success"
+    await this.props.txStore.signTransaction(this.props.walletStore.signer)
+    const state = this.props.txStore.errorMessage ? "waiting" : "success"
     this.setState({ state })
     if (state === "success") {
       // Update balance
       this.props.walletStore.fetchBalance()
+      this.props.walletStore.fetchDelegations()
     }
   }
 
@@ -64,20 +66,20 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
       fee,
       target,
       totalAmount,
-    } = this.props.transferStore
+    } = this.props.txStore
 
     return (
       <SigningView
-        type="transfer"
+        type="stake"
         state={this.state.state}
-        titleTx="transferSigningScreen.title"
+        titleTx="stakingDelegationSigningScreen.title"
         amount={amount}
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={fee}
         target={target}
         totalAmount={totalAmount}
-        graph={<TransferGraph />}
+        graph={<Graph />}
         graphStyle={GRAPH}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}

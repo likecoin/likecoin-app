@@ -5,24 +5,29 @@ import BigNumber from "bignumber.js"
 
 import { AmountInputView } from "../../components/amount-input-view"
 
-import { TransferStore } from "../../models/transfer-store"
+import { StakingDelegationStore } from "../../models/staking-delegation-store"
+import { RootStore } from "../../models/root-store"
 import { WalletStore } from "../../models/wallet-store"
 
-import TransferGraph from "../../assets/graph/transfer.svg"
+import Graph from "../../assets/graph/staking-delegate.svg"
 
 import { translate } from "../../i18n"
 
-export interface TransferAmountInputScreenProps extends NavigationScreenProps<{}> {
-  transferStore: TransferStore,
+export interface StakingDelegationAmountInputScreenParams {
+  target: string
+}
+
+export interface StakingDelegationAmountInputScreenProps extends NavigationScreenProps<StakingDelegationAmountInputScreenParams> {
+  txStore: StakingDelegationStore,
   walletStore: WalletStore,
 }
 
-@inject(
-  "transferStore",
-  "walletStore",
-)
+@inject((stores: RootStore) => ({
+  txStore: stores.stakingDelegationStore,
+  walletStore: stores.walletStore,
+}) as StakingDelegationAmountInputScreenProps)
 @observer
-export class TransferAmountInputScreen extends React.Component<TransferAmountInputScreenProps, {}> {
+export class StakingDelegationAmountInputScreen extends React.Component<StakingDelegationAmountInputScreenProps, {}> {
   state = {
     /**
      * The code of the error description which is looked up via i18n.
@@ -33,6 +38,11 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
      * True when creating transaction
      */
     isCreatingTransaction: false,
+  }
+
+  componentDidMount() {
+    this.props.txStore.resetInput()
+    this.props.txStore.setTarget(this.props.navigation.getParam("target"))
   }
 
   private setError = (
@@ -54,11 +64,11 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   private createTransactionForSigning = async () => {
     this.setState({ isCreatingTransaction: true })
     try {
-      await this.props.transferStore.createTransaction(this.props.walletStore.address)
-      const amountWithFee = new BigNumber(this.props.transferStore.totalAmount)
+      await this.props.txStore.createTransaction(this.props.walletStore.address)
+      const amountWithFee = new BigNumber(this.props.txStore.totalAmount)
       const maxAmount = new BigNumber(this.props.walletStore.availableBalanceInLIKE)
       if (amountWithFee.isGreaterThan(maxAmount)) {
-        return this.setError("TRANSFER_AMOUNT_EXCEED_MAX")
+        return this.setError("STAKE_AMOUNT_EXCEED_MAX")
       }
       return true
     } catch (error) {
@@ -70,40 +80,40 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   }
 
   private onAmountInputChange = (amount: string) => {
-    this.props.transferStore.setAmount(amount)
+    this.props.txStore.setAmount(amount)
     if (this.state.error) {
       this.setState({ error: "" })
     }
   }
 
   private onPressCloseButton = () => {
-    this.props.navigation.goBack()
+    this.props.navigation.pop()
   }
 
   private onPressNextButton = async () => {
     if (await this.createTransactionForSigning()) {
-      this.props.navigation.navigate("TransferSigning")
+      this.props.navigation.navigate("StakingDelegationSigning")
     }
   }
 
   private onAmountExceedMax = () => {
-    this.setError("TRANSFER_AMOUNT_EXCEED_MAX")
+    this.setError("STAKE_AMOUNT_EXCEED_MAX")
   }
 
   private onAmountLessThanZero = () => {
-    this.setError("TRANSFER_AMOUNT_LESS_THAN_ZERO")
+    this.setError("STAKE_AMOUNT_LESS_THAN_ZERO")
   }
 
   render () {
     return (
       <AmountInputView
-        amount={this.props.transferStore.amount}
+        amount={this.props.txStore.amount}
         maxAmount={this.props.walletStore.availableBalanceInLIKE}
         error={this.state.error}
-        availableLabelTx="transferAmountInputScreen.available"
+        availableLabelTx="stakingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={this.state.isCreatingTransaction}
-        graph={<TransferGraph />}
+        graph={<Graph />}
         onChange={this.onAmountInputChange}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}
