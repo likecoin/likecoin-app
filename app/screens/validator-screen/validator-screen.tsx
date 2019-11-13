@@ -240,7 +240,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   private renderDelegationSection = () => {
     const validator = this.getValidator()
 
-    const delegatorRewardsText = formatNumberWithSign(validator.delegatorRewards)
+    const delegatorRewardsText = formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards, 4))
     const delegatorRewardsTextColor = validator.delegatorRewards === "0" ? "white" : "darkModeGreen"
     return (
       <ValidatorScreenGridItem isShowSeparator={false}>
