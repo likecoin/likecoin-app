@@ -30,13 +30,20 @@
                 android:scheme="${applicationId}" />
             <data
                 android:host="likecoin.page.link"
-                android:scheme="https" />
+                android:scheme="http" />
             <data
                 android:host="likecoin.page.link"
-                android:scheme="http" />
+                android:scheme="https" />
             <data
                 android:host="oice.com"
                 android:scheme="https" />
+        </intent-filter>
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:host="likecoin.page.link" android:scheme="http"/>
+            <data android:host="likecoin.page.link" android:scheme="https"/>
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
