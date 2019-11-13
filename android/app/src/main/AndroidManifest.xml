@@ -27,7 +27,7 @@
             <!-- android:host should be where AuthCore is hosted -->
             <data
                 android:host="likecoin-integration-test.authcore.io"
-                android:scheme="co.like.likecoin" />
+                android:scheme="${applicationId}" />
             <data
                 android:host="likecoin.page.link"
                 android:scheme="https" />
