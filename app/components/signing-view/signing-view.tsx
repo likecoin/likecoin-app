@@ -143,7 +143,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           {type === "reward" ? (
             <View style={SUMMARY.TARGET}>
               <Text
-                text={fee}
+                text={formatLIKE(fee)}
                 size="large"
                 weight="600"
                 minimumFontScale={0.5}
