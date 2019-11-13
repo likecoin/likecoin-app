@@ -239,7 +239,7 @@ exports[`Storyshots Button Style Presets 1`] = `
                   "flexDirection": "row",
                   "justifyContent": "center",
                   "minHeight": 44,
-                  "opacity": 1,
+                  "opacity": 0.3,
                   "paddingHorizontal": 8,
                   "paddingVertical": 12,
                 }
