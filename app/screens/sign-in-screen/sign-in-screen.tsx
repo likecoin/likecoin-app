@@ -57,8 +57,12 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     try {
       await this.props.userStore.authCore.signIn()
     } catch (error) {
-      __DEV__ && console.tron.error(`Error occurs when signing in with Authcore: ${error}`, null)
-      Alert.alert(translate("signInScreen.errorAuthCore"))
+      if (error.message === "USER_CANCEL_AUTH") {
+        // User cancelled auth, do nothing
+      } else {
+        __DEV__ && console.tron.error(`Error occurs when signing in with Authcore: ${error}`, null)
+        Alert.alert(translate("signInScreen.errorAuthCore"))
+      }
       return
     }
 
@@ -106,12 +110,8 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     try {
       await this._signInWithAuthCore()
     } catch (error) {
-      if (error.message === "USER_CANCEL_AUTH") {
-        // User cancelled auth, do nothing
-      } else {
-        __DEV__ && console.tron.error(`Error occurs when signing in: ${error}`, null)
-        Alert.alert(`${translate("signInScreen.error")}: ${error.message}`)
-      }
+      __DEV__ && console.tron.error(`Error occurs when signing in: ${error}`, null)
+      Alert.alert(`${translate("signInScreen.error")}: ${error.message}`)
     } finally {
       this.props.userStore.setIsSigningIn(false)
     }
