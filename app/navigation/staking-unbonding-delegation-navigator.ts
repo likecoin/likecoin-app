@@ -7,6 +7,9 @@ export const StakingUnbondingDelegationNavigator = createStackNavigator({
   StakingUnbondingDelegationAmountInput: StakingUnbondingDelegationAmountInputScreen,
   StakingUnbondingDelegationSigning: StakingUnbondingDelegationSigningScreen,
 }, {
+  defaultNavigationOptions: {
+    gesturesEnabled: false,
+  },
   headerMode: "none",
   initialRouteName: "StakingUnbondingDelegationAmountInput",
 })

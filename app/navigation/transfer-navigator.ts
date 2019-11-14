@@ -9,6 +9,9 @@ export const TransferNavigator = createStackNavigator({
   TransferTargetInput: TransferTargetInputScreen,
   TransferSigning: TransferSigningScreen,
 }, {
+  defaultNavigationOptions: {
+    gesturesEnabled: false,
+  },
   headerMode: "none",
   initialRouteName: "TransferTargetInput",
 })

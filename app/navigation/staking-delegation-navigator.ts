@@ -7,6 +7,9 @@ export const StakingDelegationNavigator = createStackNavigator({
   StakingDelegationAmountInput: StakingDelegationAmountInputScreen,
   StakingDelegationSigning: StakingDelegationSigningScreen,
 }, {
+  defaultNavigationOptions: {
+    gesturesEnabled: false,
+  },
   headerMode: "none",
   initialRouteName: "StakingDelegationAmountInput",
 })
