@@ -10,7 +10,7 @@ import {
   MIN_VERSION,
 } from "react-native-dotenv"
 
-const APP_VERSION = 5
+const APP_VERSION = 105
 
 export interface AppConfigParams {
   AUTHCORE_CREDENTIAL_KEY: string
