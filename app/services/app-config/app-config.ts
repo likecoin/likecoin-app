@@ -1,22 +1,26 @@
 import RemoteConfigModule, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import {
-  LIKECO_API_URL,
-  LIKERLAND_API_URL,
   AUTHCORE_CREDENTIAL_KEY,
   AUTHCORE_ROOT_URL,
-  COSMOS_LCD_URL,
-  COSMOS_CHAIN_ID,
   BIG_DIPPER_URL,
+  COSMOS_CHAIN_ID,
+  COSMOS_LCD_URL,
+  LIKECO_API_URL,
+  LIKERLAND_API_URL,
+  MIN_VERSION,
 } from "react-native-dotenv"
 
+const APP_VERSION = 5
+
 export interface AppConfigParams {
-  LIKECO_API_URL: string
-  LIKERLAND_API_URL: string
   AUTHCORE_CREDENTIAL_KEY: string
   AUTHCORE_ROOT_URL: string
-  COSMOS_LCD_URL: string
-  COSMOS_CHAIN_ID: string
   BIG_DIPPER_URL: string
+  COSMOS_CHAIN_ID: string
+  COSMOS_LCD_URL: string
+  LIKECO_API_URL: string
+  LIKERLAND_API_URL: string
+  MIN_VERSION: string
 }
 
 export type AppConfigParamKey = keyof AppConfigParams
@@ -34,13 +38,14 @@ export class AppConfig {
 
   constructor() {
     this.config = {
-      LIKECO_API_URL,
-      LIKERLAND_API_URL,
       AUTHCORE_CREDENTIAL_KEY,
       AUTHCORE_ROOT_URL,
-      COSMOS_LCD_URL,
-      COSMOS_CHAIN_ID,
       BIG_DIPPER_URL,
+      COSMOS_CHAIN_ID,
+      COSMOS_LCD_URL,
+      LIKECO_API_URL,
+      LIKERLAND_API_URL,
+      MIN_VERSION,
     }
     this.remoteConfig = RemoteConfigModule()
   }
@@ -74,5 +79,9 @@ export class AppConfig {
 
   getValue(key: AppConfigParamKey) {
     return this.config[key]
+  }
+
+  getIsDeprecatedAppVersion() {
+    return parseInt(this.getValue("MIN_VERSION")) > APP_VERSION
   }
 }

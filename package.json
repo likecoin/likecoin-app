@@ -45,6 +45,7 @@
     "react-native": "0.60.4",
     "react-native-authcore": "https://gitlab.com/blocksq/react-native-authcore#363ffab2e9f342d5050376d158b6e50e4ef27efe",
     "react-native-camera": "^3.8.0",
+    "react-native-exit-app": "^1.1.0",
     "react-native-gesture-handler": "^1.3.0",
     "react-native-keychain": "3.1.3",
     "react-native-linear-gradient": "^2.5.6",

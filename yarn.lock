@@ -8886,6 +8886,11 @@ react-native-eva-icons@1.1.0:
   resolved "https://registry.yarnpkg.com/react-native-eva-icons/-/react-native-eva-icons-1.1.0.tgz#323e55d759187edc216d049e7c0012a27383e0ed"
   integrity sha512-0k6sbiKoHxmmbCgAZTHj6llcdcwtbyZJ1E2AK0my7QU0WRaWwqWMep5AUlMbrIiuYE9mkMZiabEXYcfn3ir2PA==
 
+react-native-exit-app@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-exit-app/-/react-native-exit-app-1.1.0.tgz#5ec082152974240e2d6a93f1608efb49a4385f21"
+  integrity sha512-Spne19zfMfJvnUTX909EHUqWMk69rATtLJq9XMBGpNSHhx0M7v5yetx2Z87egBhLOqQm+CWfD/oxWzDG8rbIQA==
+
 react-native-gesture-handler@^1.3.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.4.1.tgz#c38d9e57637b95e221722a79f2bafac62e3aeb21"
