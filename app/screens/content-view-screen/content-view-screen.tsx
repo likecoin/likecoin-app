@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ViewStyle } from "react-native"
+import { Platform, Share, ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { WebView } from "react-native-webview"
 
@@ -31,8 +31,17 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
     content.fetchLikeStat()
   }
 
-  _goBack = () => {
+  private goBack = () => {
     this.props.navigation.goBack()
+  }
+
+  private onShare = async () => {
+    const { url } = this.props.navigation.state.params.content
+    try {
+      await Share.share(Platform.OS === "ios" ? { url } : { message: url })
+    } catch (error) {
+      __DEV__ && console.tron.error(error.message, null)
+    }
   }
 
   render() {
@@ -46,7 +55,9 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
         <Header
           headerText={content.title}
           leftIcon="back"
-          onLeftPress={this._goBack}
+          rightIcon="share"
+          onLeftPress={this.goBack}
+          onRightPress={this.onShare}
         />
         <WebView
           style={FULL}
