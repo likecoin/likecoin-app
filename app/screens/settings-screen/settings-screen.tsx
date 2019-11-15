@@ -2,6 +2,7 @@ import * as React from "react"
 import { observer, inject } from "mobx-react"
 import { View, ViewStyle, Image, ImageStyle, ActivityIndicator, TextStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
+import { APP_MARKETING_VERSION } from "react-native-dotenv"
 
 import { Button } from "../../components/button"
 import { Text } from "../../components/text"
@@ -11,8 +12,6 @@ import { color, spacing } from "../../theme"
 
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
-
-const PACKAGE_JSON = require("../../../package.json")
 
 const SCREEN: ViewStyle = {
   flex: 1,
@@ -105,7 +104,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               onPress={this.onClickLogout}
             />
             <Text
-              text={PACKAGE_JSON.version}
+              text={APP_MARKETING_VERSION}
               color="greyBlue"
               align="center"
               size="default"

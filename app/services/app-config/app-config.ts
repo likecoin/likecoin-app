@@ -1,5 +1,6 @@
 import RemoteConfigModule, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import {
+  APP_VERSION,
   AUTHCORE_CREDENTIAL_KEY,
   AUTHCORE_ROOT_URL,
   BIG_DIPPER_URL,
@@ -9,8 +10,6 @@ import {
   LIKERLAND_API_URL,
   MIN_VERSION,
 } from "react-native-dotenv"
-
-const APP_VERSION = 105
 
 export interface AppConfigParams {
   AUTHCORE_CREDENTIAL_KEY: string
@@ -82,6 +81,6 @@ export class AppConfig {
   }
 
   getIsDeprecatedAppVersion() {
-    return parseInt(this.getValue("MIN_VERSION")) > APP_VERSION
+    return parseInt(this.getValue("MIN_VERSION")) > parseInt(APP_VERSION)
   }
 }
