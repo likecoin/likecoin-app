@@ -30,7 +30,7 @@ export const NavigationStoreModel = NavigationEvents.named("NavigationStore")
     state: types.optional(types.frozen(), DEFAULT_STATE),
   })
   .preProcessSnapshot(snapshot => {
-    if (!snapshot || !Boolean(snapshot.state)) return snapshot
+    if (!snapshot || !snapshot.state) return snapshot
 
     try {
       // make sure react-navigation can handle our state

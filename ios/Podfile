@@ -28,8 +28,6 @@ target 'LikeCoinApp' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'GoogleSignIn', '~> 4.4.0'
-
   target 'LikeCoinAppTests' do
     inherit! :search_paths
     # Pods for testing

@@ -5,6 +5,11 @@ import { Color } from "../../theme"
 
 export interface TextProps extends TextProperties {
   /**
+   * A prepended element.
+   */
+  prepend?: React.ReactElement
+
+  /**
    * Children components.
    */
   children?: React.ReactNode
@@ -49,6 +54,11 @@ export interface TextProps extends TextProperties {
    * An optional text align override for fast styling.
    */
   align?: TextStyle["textAlign"]
+
+  /**
+   * Determine the component should hide or not
+   */
+  isHidden?: boolean
 
   /**
    * An optional style override useful for padding & margin.

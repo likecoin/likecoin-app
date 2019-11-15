@@ -9,9 +9,6 @@ import { Wallpaper } from "../../components/wallpaper"
 import { Screen } from "../../components/screen"
 import { color } from "../../theme"
 import { RootStore } from "../../models/root-store"
-import { LIKERLAND_API_CONFIG } from "../../services/api/api-config"
-
-const SIGNIN_URL = `${LIKERLAND_API_CONFIG.url}/users/login`
 
 const FULL: ViewStyle = { flex: 1 }
 
@@ -26,17 +23,20 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
     const { rootStore } = this.props
     if (url.includes("/oauth/redirect")) {
       this.props.navigation.navigate("App")
-      
+
       // Try to open the deferred deep link URL after sign in
       rootStore.openDeepLink()
     } else if (url.includes("/in/register")) {
       await rootStore.userStore.logout()
       rootStore.userStore.setIsSigningIn(false)
-      this.props.navigation.goBack();
+      this.props.navigation.goBack()
     }
   }
 
   render () {
+    const {
+      signInURL,
+    } = this.props.rootStore.userStore
     return (
       <View style={FULL}>
         <Wallpaper />
@@ -47,7 +47,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
           <LikeCoinWebView
             style={FULL}
             sharedCookiesEnabled={true}
-            source={{ uri: SIGNIN_URL }}
+            source={{ uri: signInURL }}
             onLoadEnd={this._onLoadEnd}
           />
         </Screen>

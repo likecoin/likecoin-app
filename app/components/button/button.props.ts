@@ -2,6 +2,7 @@ import { ViewStyle, TextStyle, TouchableOpacityProps } from "react-native"
 import { ButtonPresetNames } from "./button.presets"
 import { Color } from "../../theme"
 import { TextSize } from "../text/text.sizes"
+import { IconTypes } from "../icon"
 
 export interface ButtonProps extends TouchableOpacityProps {
   /**
@@ -43,6 +44,31 @@ export interface ButtonProps extends TouchableOpacityProps {
    * One of the different types of text presets.
    */
   preset?: ButtonPresetNames
+
+  /**
+   * The children prepend to the button
+   */
+  prepend?: React.ReactElement
+
+  /**
+   * The URL that opens if it is clicked
+   */
+  link?: string
+
+  /**
+   * The name of the icon
+   */
+  icon?: IconTypes
+
+  /**
+   * Determine the component should hide or not
+   */
+  isHidden?: boolean
+
+  /**
+   * Show a loading animation if set to true
+   */
+  isLoading?: boolean
 
   /**
    * One of the different types of text presets.

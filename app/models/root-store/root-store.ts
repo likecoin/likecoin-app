@@ -1,12 +1,28 @@
+import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+
+import { Environment } from "../environment"
+
+import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-store"
+import { StakingDelegationStoreModel } from "../staking-delegation-store"
+import { StakingUnbondingDelegationStoreModel } from "../staking-unbonding-delegation-store"
+import { TransferStoreModel } from "../../models/transfer-store"
+import { WalletStoreModel } from "../../models/wallet-store"
 import { ReaderStoreModel } from "../../models/reader-store"
 import { UserStoreModel } from "../../models/user-store"
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
+
+// eslint-disable-next-line no-useless-escape
+const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 
 /**
  * An RootStore model.
  */
 export const RootStoreModel = types.model("RootStore").props({
+  stakingRewardsWithdrawStore: types.optional(StakingRewardsWithdrawStoreModel, {}),
+  stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
+  stakingUnbondingDelegationStore: types.optional(StakingUnbondingDelegationStoreModel, {}),
+  transferStore: types.optional(TransferStoreModel, {}),
+  walletStore: types.optional(WalletStoreModel, {}),
   readerStore: types.optional(ReaderStoreModel, {}),
   navigationStore: types.optional(NavigationStoreModel, {}),
   userStore: types.optional(UserStoreModel, {}),
@@ -15,30 +31,43 @@ export const RootStoreModel = types.model("RootStore").props({
    */
   deferredDeepLink: types.maybe(types.string),
 })
-.actions(self => ({
-  deferDeepLink(url: string) {
-    self.deferredDeepLink = url
-  },
-  /**
+  .views(self => ({
+    get isDeprecatedAppVersion() {
+      const env: Environment = getEnv(self)
+      return env.appConfig.getIsDeprecatedAppVersion()
+    },
+  }))
+  .actions(self => ({
+    deferDeepLink(url: string) {
+      self.deferredDeepLink = url
+    },
+    /**
    * Try to open a deep link
    * @param url The optional URL of the deep link, if not provided, the deferred deep link is used instead
    */
-  openDeepLink(url: string = self.deferredDeepLink) {
-    if (!url) return
+    openDeepLink(url: string = self.deferredDeepLink) {
+      if (!url) return
 
-    self.navigationStore.dispatch({
-      type: "Navigation/PUSH",
-      routeName: "ContentView",
-      params: {
-        content: self.readerStore.getContentByURL(url),
-      },
-    })
+      if (URL_REGEX.test(url)) {
+        self.navigationStore.dispatch({
+          type: "Navigation/PUSH",
+          routeName: "ContentView",
+          params: {
+            content: self.readerStore.getContentByURL(url),
+          },
+        })
+      }
 
-    if (self.deferredDeepLink) {
-      self.deferredDeepLink = undefined
-    }
-  },
-}))
+      if (self.deferredDeepLink) {
+        self.deferredDeepLink = undefined
+      }
+    },
+
+    signOut: flow(function * () {
+      yield self.userStore.logout()
+      self.navigationStore.navigateTo("Auth")
+    }),
+  }))
 
 /**
  * The RootStore instance.

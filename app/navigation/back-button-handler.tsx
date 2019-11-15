@@ -9,7 +9,7 @@ interface BackButtonHandlerProps {
   /**
    * Are we allowed to exit?
    */
-  canExit(routeName: string): Boolean
+  canExit(routeName: string): boolean
 }
 
 @inject("navigationStore")

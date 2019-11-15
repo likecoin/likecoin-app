@@ -14,10 +14,36 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+        android:launchMode="singleTask">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <!-- android:host should be where AuthCore is hosted -->
+            <data
+                android:host="likecoin-integration-test.authcore.io"
+                android:scheme="${applicationId}" />
+            <data
+                android:host="likecoin.page.link"
+                android:scheme="http" />
+            <data
+                android:host="likecoin.page.link"
+                android:scheme="https" />
+            <data
+                android:host="oice.com"
+                android:scheme="https" />
+        </intent-filter>
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:host="likecoin.page.link" android:scheme="http"/>
+            <data android:host="likecoin.page.link" android:scheme="https"/>
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />

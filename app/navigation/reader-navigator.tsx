@@ -1,4 +1,5 @@
-import React from "react";
+import React from "react"
+import { ViewStyle } from "react-native"
 import {
   createStackNavigator,
   createMaterialTopTabNavigator,
@@ -6,12 +7,20 @@ import {
   NavigationRoute,
   NavigationParams,
 } from "react-navigation"
-import { Icon, TabBar, Tab } from "react-native-ui-kitten";
+import { Icon, TabBar, Tab } from "react-native-ui-kitten"
 
 import { ReaderScreen } from "../screens/reader-screen"
 import { color } from "../theme"
 
 interface ReaderTabBarProps extends NavigationScreenProps<{}> {}
+
+const TAB_BAR: ViewStyle = {
+  backgroundColor: color.primary,
+  height: 52,
+}
+const TAB_BAR_INDICATOR: ViewStyle = {
+  backgroundColor: color.palette.likeCyan
+}
 
 class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
   _onBarSelect = (selectedIndex: number) => {
@@ -24,8 +33,8 @@ class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
     return (
       <TabBar
         selectedIndex={this.props.navigation.state.index}
-        style={{ backgroundColor: color.primary, height: 52 }}
-        indicatorStyle={{ backgroundColor: color.palette.likeCyan }}
+        style={TAB_BAR}
+        indicatorStyle={TAB_BAR_INDICATOR}
         onSelect={this._onBarSelect}
       >
         {navigation.state.routes.map(this._renderTab)}

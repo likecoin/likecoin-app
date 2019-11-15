@@ -24,13 +24,17 @@ export interface LikeStat {
 }
 
 export interface UserLoginParams {
-  platform: String
-  accessToken: String
-  firebaseIdToken?: String
-  idToken?: String
-  username?: String
-  email?: String
-  displayName?: String
+  platform: string
+  accessToken: string
+  firebaseIdToken?: string
+  idToken?: string
+  username?: string
+  email?: string
+  displayName?: string
+}
+
+export interface UserRegisterParams extends UserLoginParams {
+  user: string
 }
 
 export type GeneralResult = { kind: "ok" } | GeneralApiProblem

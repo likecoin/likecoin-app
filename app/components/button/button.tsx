@@ -1,12 +1,30 @@
 import * as React from "react"
-import { TextStyle, TouchableOpacity } from "react-native"
-import { mergeAll, flatten } from "ramda"
+import {
+  ActivityIndicator,
+  Linking,
+  StyleSheet,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native"
 
 import { viewPresets, textPresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
+import { Icon } from "../icon"
 import { Text } from "../text"
 import { sizes } from "../text/text.sizes"
-import { color } from "../../theme"
+import { color, spacing } from "../../theme"
+
+export const PREPEND: ViewStyle = {
+  marginRight: spacing[2],
+}
+
+function _renderPrependElement(element: React.ReactElement) {
+  if (!element) return null
+  return React.cloneElement(element, {
+    style: StyleSheet.flatten([element.props.style, PREPEND]),
+  })
+}
 
 /**
  * For your text displaying needs.
@@ -16,37 +34,86 @@ import { color } from "../../theme"
 export function Button(props: ButtonProps) {
   // grab the props
   const {
-    preset = "primary",
-    tx,
-    text,
-    size,
-    weight,
-    color: colorName,
-    textStyle: textStyleProp,
-    style: styleOverride,
     children,
+    color: colorName,
+    isHidden,
+    isLoading,
+    icon,
+    link,
+    prepend,
+    preset = "primary",
+    size,
+    style: styleOverride,
+    text,
+    textStyle: textStyleOverride,
+    tx,
+    weight,
     ...rest
   } = props
+  const viewStyleList = [
+    viewPresets[preset] || viewPresets.primary,
+    styleOverride,
+  ]
 
-  const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, styleOverride]))
+  if (rest.disabled) {
+    viewStyleList.push({ opacity: 0.3 })
+  }
 
-  const textStyleOverride: TextStyle = {}
-  if (size) textStyleOverride.fontSize = sizes[size]
-  if (weight) textStyleOverride.fontWeight = weight
-  if (colorName) textStyleOverride.color = color.palette[colorName]
+  if (isHidden) {
+    rest.disabled = true
+    viewStyleList.push({ opacity: 0 })
+  }
+  const viewStyle = StyleSheet.flatten(viewStyleList)
 
-
+  const textStyleFromProps: TextStyle = {}
+  if (size) {
+    textStyleFromProps.fontSize = sizes[size]
+  }
+  if (weight) {
+    textStyleFromProps.fontWeight = weight
+  }
+  if (colorName) {
+    textStyleFromProps.color = color.palette[colorName]
+  }
   const textStyleList = [
     textPresets[preset] || textPresets.primary,
-    textStyleOverride,
-    textStyleProp
+    textStyleFromProps,
+    textStyleOverride
   ]
-  const textStyle = mergeAll(flatten(textStyleList))
+  const textStyle = StyleSheet.flatten(textStyleList)
 
-  const content = children || <Text tx={tx} text={text} style={textStyle} />
+  let content = children || (icon ? (
+    <Icon
+      name={icon}
+      color={colorName}
+    />
+  ) : (
+    <Text
+      tx={tx}
+      text={text}
+      style={textStyle}
+    />
+  ))
+
+  if (isLoading) {
+    rest.disabled = true
+    content = (
+      <ActivityIndicator
+        color={textStyle.color}
+        size="small"
+      />
+    )
+  }
+
+  if (link && !rest.onPress) {
+    rest.onPress = () => {
+      Linking.openURL(link)
+    }
+  }
 
   return (
     <TouchableOpacity style={viewStyle} {...rest}>
+      {_renderPrependElement(prepend)}
       {content}
     </TouchableOpacity>
   )

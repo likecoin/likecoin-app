@@ -1,16 +1,17 @@
 import * as React from "react"
-import { View, ViewStyle } from "react-native"
+import { ActivityIndicator, ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react"
 
-import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
-import { Wallpaper } from "../../components/wallpaper"
 import { color } from "../../theme"
-import { UserStore } from "../../models/user-store";
+import { UserStore } from "../../models/user-store"
 
-const FULL: ViewStyle = { flex: 1 }
-const CONTAINER: ViewStyle = { justifyContent: "center", alignItems: "center" }
+const SCREEN: ViewStyle = {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+}
 
 export interface AuthLoadingScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -24,7 +25,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
   }
 
   async checkAuthState() {
-    const { currentUser } = this.props.userStore 
+    const { currentUser } = this.props.userStore
     if (currentUser) {
       try {
         await this.props.userStore.fetchUserInfo()
@@ -39,15 +40,16 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
 
   render() {
     return (
-      <View style={FULL}>
-        <Wallpaper />
-        <Screen
-          style={CONTAINER}
-          preset="fixed"
-          backgroundColor={color.transparent}>
-          <Text color="white" align="center" text="Loading" />
-        </Screen>
-      </View>
+      <Screen
+        style={SCREEN}
+        preset="fixed"
+        backgroundColor={color.primary}
+      >
+        <ActivityIndicator
+          color={color.palette.white}
+          size="large"
+        />
+      </Screen>
     )
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { requireNativeComponent, NativeModules, Platform } from 'react-native'
 import { WebView, WebViewProps } from 'react-native-webview'
 
@@ -7,7 +7,7 @@ const LKCWebView = requireNativeComponent('LKCWebView')
 
 export interface LikeCoinWebViewProps extends WebViewProps {}
 
-export class LikeCoinWebView extends React.Component<LikeCoinWebViewProps, {}> {  
+export class LikeCoinWebView extends React.Component<LikeCoinWebViewProps, {}> {
   render() {
     return (
       <WebView

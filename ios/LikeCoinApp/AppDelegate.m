@@ -12,8 +12,6 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 
-#import <RNGoogleSignin/RNGoogleSignin.h>
-
 @import Firebase;
 
 @implementation AppDelegate
@@ -34,7 +32,17 @@
   [self.window makeKeyAndVisible];
   
   if ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
+    NSString *filePath;
+    #ifdef DEBUG
+      NSLog(@"[FIREBASE] Development mode.");
+      filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist" inDirectory:@"Debug"];
+    #else
+      NSLog(@"[FIREBASE] Production mode.");
+      filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist" inDirectory:@"Release"];
+    #endif
+      
+      FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
+      [FIRApp configureWithOptions:options];
   }
   
   return YES;
@@ -52,10 +60,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
   return [RCTLinkingManager application:application
                                 openURL:url
-                                options:options] || [RNGoogleSignin application:application
-                             openURL:url
-                   sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                          annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+                                options:options];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {

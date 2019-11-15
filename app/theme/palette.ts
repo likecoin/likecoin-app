@@ -9,9 +9,14 @@ export const palette = {
   orangeDarker: "#EB9918",
   lightGrey: "#939AA4",
   lighterGrey: "#CDD4DA",
-  angry: "#dd3333",
+  angry: "#e35050",
 
+  greyBlue: "#a9c1c5",
   likeGreen: "#28646e",
   likeCyan: "#50e3c2",
+  lightCyan: "#e5faf7",
   lighterCyan: "#aaf1e7",
+
+  green: "#36de00",
+  darkModeGreen: "#7aff4f",
 }

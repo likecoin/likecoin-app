@@ -1,19 +1,30 @@
 import * as React from "react"
-import { View, Image, ImageStyle } from "react-native"
+import ReactNativeSvg from 'react-native-svg'
+
 import { IconProps } from "./icon.props"
 import { icons } from "./icons"
 
-const ROOT: ImageStyle = {
-  resizeMode: "contain",
-}
+import { color } from "../../theme"
 
 export function Icon(props: IconProps) {
-  const { style: styleOverride, icon, containerStyle } = props
-  const style: ImageStyle = { ...ROOT, ...styleOverride }
+  const {
+    name,
+    color: colorName,
+    fill,
+    ...rest
+  } = props
+  const Svg = icons[name]
 
-  return (
-    <View style={containerStyle}>
-      <Image style={style} source={icons[icon]} />
-    </View>
-  )
+  // FIXME: SVG is not converted in test
+  if (typeof Svg !== "function") {
+    return <ReactNativeSvg {...rest} />
+  }
+
+  return <Svg fill={fill || color.palette[colorName]} {...rest} />
+}
+
+Icon.defaultProps = {
+  color: "white",
+  width: 24,
+  height: 24,
 }

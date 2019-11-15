@@ -1,21 +1,16 @@
-import { ImageStyle, ViewStyle } from "react-native"
+import { SvgProps } from "react-native-svg"
+
 import { IconTypes } from "./icons"
+import { Color } from "../../theme"
 
-export interface IconProps {
+export interface IconProps extends SvgProps {
   /**
-   * Style overrides for the icon image
+   * An optional text color override for fast styling.
    */
-  style?: ImageStyle
-
-  /**
-   * Style overrides for the icon container
-   */
-
-  containerStyle?: ViewStyle
+  color?: Color
 
   /**
    * The name of the icon
    */
-
-  icon?: IconTypes
+  name: IconTypes
 }

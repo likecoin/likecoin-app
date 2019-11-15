@@ -67,3 +67,10 @@ export const color = {
  * A list of color names.
  */
 export type Color = keyof typeof palette
+
+/**
+ * A set of gradients.
+ */
+export const gradient = {
+  LikeCoin: ["#D2F0F0", "#F0E6B4"],
+}

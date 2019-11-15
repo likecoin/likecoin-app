@@ -1,8 +1,18 @@
-import { Instance, SnapshotOut,flow, getEnv, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, flow, getEnv, types } from "mobx-state-tree"
+import { observable } from "mobx"
 
-import { Environment } from "../environment";
-import { UserModel } from "../user";
-import { UserResult, UserLoginParams, GeneralResult } from "../../services/api";
+import { Environment } from "../environment"
+import { UserModel } from "../user"
+import { AuthCoreStoreModel } from "../authcore-store"
+
+import {
+  GeneralResult,
+  UserLoginParams,
+  UserResult,
+  UserRegisterParams,
+} from "../../services/api"
+
+import { throwProblem } from "../../services/api/api-problem"
 
 /**
  * Store user related information.
@@ -11,27 +21,48 @@ export const UserStoreModel = types
   .model("UserStore")
   .props({
     currentUser: types.maybe(UserModel),
-    isSigningIn: types.optional(types.boolean, false),
+    authCore: types.optional(AuthCoreStoreModel, {}),
   })
-  .actions(self => ({
-    setIsSigningIn(value: boolean) {
-      self.isSigningIn = value
-    },
-    login: flow(function * (params: UserLoginParams) {
-      const env: Environment = getEnv(self)
+  .extend(self => {
+    const env: Environment = getEnv(self)
+
+    const isSigningIn = observable.box(false)
+
+    const setIsSigningIn = (value: boolean) => {
+      isSigningIn.set(value)
+    }
+
+    const register = flow(function * (params: UserRegisterParams) {
+      const result: GeneralResult = yield env.likeCoAPI.register(params)
+      switch (result.kind) {
+        case "ok":
+          break
+        case "bad-data":
+          throw new Error("REGISTRATION_BAD_DATA")
+        default:
+          throwProblem(result)
+      }
+    })
+
+    const login = flow(function * (params: UserLoginParams) {
       const result: GeneralResult = yield env.likeCoAPI.login(params)
       switch (result.kind) {
+        case "ok":
+          break
         case "not-found":
           throw new Error("USER_NOT_FOUND")
+        default:
+          throwProblem(result)
       }
-    }),
-    logout: flow(function * () {
-      const env: Environment = getEnv(self)
+    })
+
+    const logout = flow(function * () {
       yield env.likeCoAPI.logout()
       self.currentUser = undefined
-    }),
-    fetchUserInfo: flow(function * () {
-      const env: Environment = getEnv(self)
+      yield self.authCore.signOut()
+    })
+
+    const fetchUserInfo = flow(function * () {
       const result: UserResult = yield env.likeCoAPI.fetchCurrentUserInfo()
       switch (result.kind) {
         case "ok": {
@@ -49,8 +80,29 @@ export const UserStoreModel = types
           })
         }
       }
-    }),
-  }))
+    })
+
+    return {
+      actions: {
+        setIsSigningIn,
+        register,
+        login,
+        logout,
+        fetchUserInfo,
+      },
+      views: {
+        get isSigningIn() {
+          return isSigningIn.get()
+        },
+        get signInURL() {
+          return env.likerLandAPI.getSignInURL()
+        },
+        get selectedWalletAddress() {
+          return self.authCore.cosmosAddresses[0]
+        },
+      },
+    }
+  })
 
 type UserStoreType = Instance<typeof UserStoreModel>
 export interface UserStore extends UserStoreType {}

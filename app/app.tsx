@@ -2,12 +2,13 @@
 //
 // In this file, we'll be kicking off our app or storybook.
 
-import "./i18n"
+import { translate } from "./i18n"
 import * as React from "react"
-import { AppRegistry, Linking, YellowBox } from "react-native"
-import { mapping, light as lightTheme } from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { Alert, AppRegistry, Linking, YellowBox  } from "react-native"
+import { mapping, light as lightTheme } from '@eva-design/eva'
+import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten'
+import RNExitApp from 'react-native-exit-app';
+import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { Provider } from "mobx-react"
 import { contains } from "ramda"
 
@@ -15,6 +16,8 @@ import { StatefulNavigator } from "./navigation"
 import { BackButtonHandler } from "./navigation/back-button-handler"
 import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
 import { RootStore, setupRootStore } from "./models/root-store"
+import { Screen } from "./components/screen"
+import { color } from "./theme"
 import { StorybookUIRoot } from "../storybook"
 
 /**
@@ -56,6 +59,14 @@ export class App extends React.Component<{}, AppState> {
       rootStore: await setupRootStore(),
     })
 
+    if (this.state.rootStore.isDeprecatedAppVersion) {
+      Alert.alert("", translate("error.DEPRECATED_APP"), [{
+        text: translate("common.ok"),
+        onPress: () => RNExitApp.exitApp(),
+      }])
+      return
+    }
+
     Linking.addEventListener('url', this._onOpenURL)
     try {
       const url = await Linking.getInitialURL()
@@ -67,7 +78,7 @@ export class App extends React.Component<{}, AppState> {
   }
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this._onOpenURL);
+    Linking.removeEventListener('url', this._onOpenURL)
   }
 
   /**
@@ -104,8 +115,8 @@ export class App extends React.Component<{}, AppState> {
     //
     // You're welcome to swap in your own component to render if your boot up
     // sequence is too slow though.
-    if (!rootStore) {
-      return null
+    if (!rootStore || this.state.rootStore.isDeprecatedAppVersion) {
+      return <Screen backgroundColor={color.primary} />
     }
 
     // otherwise, we're ready to render the app

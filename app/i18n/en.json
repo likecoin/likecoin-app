@@ -1,18 +1,111 @@
 {
   "common": {
-    "ok": "OK!",
+    "back": "Back",
     "cancel": "Cancel",
-    "back": "Back"
+    "confirm": "Confirm",
+    "copy": "Copy",
+    "copied": "Copied",
+    "done": "Done",
+    "next": "Next",
+    "ok": "OK",
+    "viewOnBlockExplorer": "View on Big Dipper"
+  },
+  "error": {
+    "DEPRECATED_APP": "New version is available. Please update the App.",
+    "INVALID_ACCOUNT_ADDRESS": "Invalid address",
+    "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
+    "STAKE_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "STAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
+    "TRANSFER_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
+    "UNSTAKE_NOT_ENOUGH_FEE": "Not enough amount for transaction fee"
+  },
+  "qrcodeScannerScreen": {
+    "hintText": "Scan QR Code",
+    "showMyQRCode": "Show my QR Code"
+  },
+  "readerScreen": {
+    "emptyLabel": "No content",
+    "featuredLabel": "Today",
+    "followingLabel": "Your following list"
+  },
+  "receiveScreen": {
+    "shareYourAddress": "Share your address"
+  },
+  "registerScreen": {
+    "likerIdLabel": "Enter your new Liker ID"
   },
   "signInScreen": {
-    "heading": "As a Liker, every Like is a reward to creators"
+    "error": "Error occurs when signing in",
+    "errorAuthCore": "Error occurs when signing in with Authcore",
+    "errorLikeCo": "Error occurs when signing in with like.co",
+    "heading": "As a Liker, every Like is a reward to creators",
+    "signIn": "Sign In"
   },
-  "welcomeScreen": {
-    "welcome": "Welcome!",
-    "logout": "Logout"
+  "stakingDelegationAmountInputScreen": {
+    "available": "Available"
+  },
+  "stakingDelegationSigningScreen": {
+    "title": "Stake"
+  },
+  "stakingRewardsWithdrawScreen": {
+    "title": "Withdraw rewards"
+  },
+  "stakingUnbondingDelegationAmountInputScreen": {
+    "available": "Available"
+  },
+  "stakingUnbondingDelegationSigningScreen": {
+    "title": "Unstake"
   },
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
+  },
+  "transaction": {
+    "fee": "Fee",
+    "to": "To"
+  },
+  "transferTargetInputScreen": {
+    "targetInputLabel": "Send to",
+    "targetInputPlaceholder": "Enter receiver address"
+  },
+  "transferAmountInputScreen": {
+    "available": "Available"
+  },
+  "transferSigningScreen": {
+    "completed": "Transaction Completed",
+    "details": "Details",
+    "title": "Send",
+    "totalAmount": "Total",
+    "transactionFee": "Transaction fee"
+  },
+  "validator": {
+    "delegatorShare": "Delegator Share",
+    "description": "Description",
+    "rewards": "Rewards",
+    "votingPower": "Voting Power",
+    "website": "Website"
+  },
+  "validatorScreen": {
+    "delegatorShareLabel": "Staked",
+    "delegatorRewardsLabel": "Staking Rewards",
+    "stakeButtonText": "Stake",
+    "unstakeButtonText": "Unstake",
+    "validatorAddress": "Validator Address (Click to copy)",
+    "validatorAddressCopied": "Validator Address (Copied)"
+  },
+  "walletDashboardScreen": {
+    "availableBalanceLabel": "Available",
+    "allDelegatorRewardsLabel": "Rewards",
+    "send": "Send",
+    "stakeLabel": "Stake",
+    "receive": "Receive",
+    "withdrawRewardsButtonText": "Withdraw Rewards"
+  },
+  "welcomeScreen": {
+    "welcome": "Welcome!",
+    "logout": "Logout"
   }
 }

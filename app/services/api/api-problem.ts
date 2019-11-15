@@ -72,3 +72,7 @@ export function getGeneralApiProblem(response: ApiResponse<any>): GeneralApiProb
 
   return null
 }
+
+export function throwProblem(problem: GeneralApiProblem) {
+  throw new Error(problem.kind.replace('-', '_').toUpperCase())
+}

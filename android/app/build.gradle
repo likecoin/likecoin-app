@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+apply plugin: "io.fabric"
+apply plugin: "com.google.firebase.firebase-perf"
 
 import com.android.build.OutputFile
 
@@ -119,6 +121,10 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+crashlytics {
+  enableNdk true
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -128,11 +134,13 @@ android {
     }
 
     defaultConfig {
-        applicationId "co.like.LikeCoin"
+        applicationId "com.oice"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "0.2.1"
+        versionCode 105
+        versionName "0.11.1"
+        multiDexEnabled true
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {
@@ -187,15 +195,11 @@ android {
 }
 
 dependencies {
+    def multidex_version = "2.0.1"
+    implementation 'androidx.multidex:multidex:$multidex_version'
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
-    // Firebase dependencies
-    implementation "com.google.firebase:firebase-core:17.2.0"
-    implementation "com.google.firebase:firebase-auth:19.0.0"
-
-    implementation "com.google.android.gms:play-services-base:17.1.0"
-    implementation "com.google.android.gms:play-services-auth:17.0.0"
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
