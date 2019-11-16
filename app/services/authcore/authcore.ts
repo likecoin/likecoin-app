@@ -67,10 +67,10 @@ export class AuthCoreAPI {
     this.cosmosProvider = await new AuthCoreCosmosProvider({
       authcoreClient: this.keyVaultClient,
       chainId: this.cosmosChainId,
-      callbacks: this.getCallbacks(),
     })
 
-    const { length } = await this.cosmosProvider.getAddresses()
+    // Getting Cosmos addresses, create if without one
+    const { length } = await this.getCosmosAddresses()
     if (!length) {
       await this.keyVaultClient.createSecret('HD_KEY', 16)
     }
@@ -94,8 +94,21 @@ export class AuthCoreAPI {
   }
 
   async getCosmosAddresses() {
-    if (!this.cosmosProvider) return []
-    const addresses: string[] = await this.cosmosProvider.getAddresses()
+    let addresses: string[] = []
+    if (this.cosmosProvider) {
+      try {
+        addresses = await this.cosmosProvider.getAddresses()
+      } catch (error) {
+        switch (error.statusCode) {
+          case 401:
+            this.onUnauthorized()
+            break
+          case 403:
+            this.onUnauthenticated()
+            break
+        }
+      }
+    }
     return addresses
   }
 
@@ -140,11 +153,13 @@ export class AuthCoreAPI {
   /**
    * Sign out AuthCore
    */
-  signOut() {
+  async signOut() {
     const { webAuth } = this.client
-    return webAuth.client.delete("/api/auth/sessions").then(() => {
+    try {
+      await webAuth.client.delete("/api/auth/sessions")
+    } finally {
       webAuth.client.bearer = ''
-    })
+    }
   }
 
   /**

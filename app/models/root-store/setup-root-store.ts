@@ -23,6 +23,13 @@ export async function createEnvironment() {
   return env
 }
 
+function createRootStore(env: Environment, data = {}) {
+  const rootStore = RootStoreModel.create(data, env)
+  env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
+  env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
+  return rootStore
+}
+
 /**
  * Setup the root state.
  */
@@ -43,10 +50,11 @@ export async function setupRootStore() {
         password: authCoreAccessToken,
       },
     ] = await Promise.all([
-      await storage.load(ROOT_STATE_STORAGE_KEY),
-      await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')),
+      storage.load(ROOT_STATE_STORAGE_KEY),
+      Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')),
     ])
-    rootStore = RootStoreModel.create(data, env)
+    rootStore = createRootStore(env, data)
+
     if (rootStore.userStore.currentUser) {
       if (authCoreAccessToken) {
         await rootStore.userStore.authCore.init(authCoreAccessToken, authCoreIdToken)
@@ -57,13 +65,10 @@ export async function setupRootStore() {
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
-    rootStore = RootStoreModel.create({}, env)
+    rootStore = createRootStore(env, {})
 
     // but please inform us what happened
     __DEV__ && console.tron.error(e.message, null)
-  } finally {
-    env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
-    env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
   }
 
   // reactotron logging
