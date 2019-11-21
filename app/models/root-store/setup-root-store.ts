@@ -38,7 +38,7 @@ export async function setupRootStore() {
   let data: any
 
   // prepare the environment that will be associated with the RootStore.
-  let env = await createEnvironment()
+  const env = await createEnvironment()
   try {
     // load data from storage
     data = await storage.load(ROOT_STATE_STORAGE_KEY) || {}
@@ -54,7 +54,6 @@ export async function setupRootStore() {
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
-    env = await createEnvironment()
     await env.setupAuthCore()
     rootStore = createRootStore(env, {})
 
