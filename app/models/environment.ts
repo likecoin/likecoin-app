@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/react-native'
+
 import { AppConfig } from "../services/app-config"
 import { AuthCoreAPI } from "../services/authcore"
 import { BigDipper } from "../services/big-dipper"
@@ -31,11 +33,17 @@ export class Environment {
       LIKECO_API_URL,
       LIKERLAND_API_URL,
       BIG_DIPPER_URL,
+      SENTRY_DSN,
     } = this.appConfig.getAllParams()
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likerLandAPI.setup(LIKERLAND_API_URL)
     this.cosmosAPI.setup(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
     this.bigDipper.setup(BIG_DIPPER_URL)
+    if (SENTRY_DSN) {
+      Sentry.init({
+        dsn: SENTRY_DSN,
+      })
+    }
   }
 
   async setupAuthCore(accessToken?: string) {

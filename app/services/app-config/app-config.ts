@@ -9,6 +9,7 @@ import {
   LIKECO_API_URL,
   LIKERLAND_API_URL,
   MIN_VERSION,
+  SENTRY_DSN,
 } from "react-native-dotenv"
 
 export interface AppConfigParams {
@@ -20,6 +21,7 @@ export interface AppConfigParams {
   LIKECO_API_URL: string
   LIKERLAND_API_URL: string
   MIN_VERSION: string
+  SENTRY_DSN: string
 }
 
 export type AppConfigParamKey = keyof AppConfigParams
@@ -45,6 +47,7 @@ export class AppConfig {
       LIKECO_API_URL,
       LIKERLAND_API_URL,
       MIN_VERSION,
+      SENTRY_DSN,
     }
     this.remoteConfig = RemoteConfigModule()
   }
