@@ -36,35 +36,26 @@ function createRootStore(env: Environment, data = {}) {
 export async function setupRootStore() {
   let rootStore: RootStore
   let data: any
-  let authCoreIdToken: string
-  let authCoreAccessToken: string
 
   // prepare the environment that will be associated with the RootStore.
-  const env = await createEnvironment()
+  let env = await createEnvironment()
   try {
     // load data from storage
-    [
-      data = {},
-      {
-        username: authCoreIdToken,
-        password: authCoreAccessToken,
-      },
-    ] = await Promise.all([
-      storage.load(ROOT_STATE_STORAGE_KEY),
-      Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')),
-    ])
+    data = await storage.load(ROOT_STATE_STORAGE_KEY) || {}
     rootStore = createRootStore(env, data)
 
-    if (rootStore.userStore.currentUser) {
-      if (authCoreAccessToken) {
-        await rootStore.userStore.authCore.init(authCoreAccessToken, authCoreIdToken)
-      } else {
-        throw new Error("ACCESS_TOKEN_NOT_FOUND")
-      }
-    }
+    // Setup Authcore
+    const {
+      username: authCoreIdToken,
+      password: authCoreAccessToken,
+    } = await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY'))
+    env.setupAuthCore(authCoreAccessToken)
+    await rootStore.userStore.authCore.init(authCoreIdToken, authCoreAccessToken)
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
+    env = await createEnvironment()
+    await env.setupAuthCore()
     rootStore = createRootStore(env, {})
 
     // but please inform us what happened

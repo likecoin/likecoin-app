@@ -28,7 +28,10 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
     const { currentUser } = this.props.userStore
     if (currentUser) {
       try {
-        await this.props.userStore.fetchUserInfo()
+        await Promise.all([
+          this.props.userStore.fetchUserInfo(),
+          this.props.userStore.authCore.fetchCurrentUser(),
+        ])
         this.props.navigation.navigate('App')
         return
       } catch {

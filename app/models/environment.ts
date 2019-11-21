@@ -30,14 +30,20 @@ export class Environment {
       COSMOS_CHAIN_ID,
       LIKECO_API_URL,
       LIKERLAND_API_URL,
-      AUTHCORE_ROOT_URL,
       BIG_DIPPER_URL,
     } = this.appConfig.getAllParams()
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likerLandAPI.setup(LIKERLAND_API_URL)
-    this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID)
     this.cosmosAPI.setup(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
     this.bigDipper.setup(BIG_DIPPER_URL)
+  }
+
+  async setupAuthCore(accessToken?: string) {
+    const {
+      COSMOS_CHAIN_ID,
+      AUTHCORE_ROOT_URL,
+    } = this.appConfig.getAllParams()
+    await this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID, accessToken)
   }
 
   /**

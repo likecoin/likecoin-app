@@ -43,7 +43,7 @@
     "ramda": "0.26.1",
     "react": "16.8.6",
     "react-native": "0.60.4",
-    "react-native-authcore": "https://gitlab.com/blocksq/react-native-authcore#363ffab2e9f342d5050376d158b6e50e4ef27efe",
+    "react-native-authcore": "https://gitlab.com/blocksq/react-native-authcore#56151e8d897365cf68d5ba8e4008ef4f1f80c8f0",
     "react-native-camera": "^3.8.0",
     "react-native-exit-app": "^1.1.0",
     "react-native-gesture-handler": "^1.3.0",
@@ -59,7 +59,6 @@
     "react-navigation-tabs": "^2.4.1",
     "reactotron-mst": "^3.1.1",
     "reactotron-react-native": "^4.0.0-beta.1",
-    "url-parse": "^1.4.7",
     "validate.js": "0.13.1"
   },
   "devDependencies": {

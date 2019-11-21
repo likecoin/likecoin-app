@@ -1,12 +1,9 @@
-import { NativeModules } from "react-native"
 import AuthCore from "react-native-authcore"
 
 import {
   AuthCoreKeyVaultClient,
   AuthCoreCosmosProvider,
 } from "authcore-js/build/main.js"
-
-import Url from "url-parse"
 
 /**
  * AuthCore callback functions to-be called
@@ -16,10 +13,35 @@ export interface AuthCoreCallback {
   unauthorized?: Function
 }
 
+function parseAuthCoreUser({
+  id,
+  primary_email: primaryEmail,
+  display_name: displayName,
+  updated_at: updatedAt,
+  created_at: createdAt,
+  primary_email_verified: primaryEmailVerified,
+  primary_phone_verified: primaryPhoneVerified,
+}) {
+  return {
+    id,
+    primaryEmail,
+    displayName,
+    updatedAt,
+    createdAt,
+    primaryEmailVerified,
+    primaryPhoneVerified,
+  }
+}
+
 /**
  * AuthCore Manager
  */
 export class AuthCoreAPI {
+  /**
+   * The domain to AuthCore
+   */
+  baseURL: string
+
   /**
    * The AuthCore client
    */
@@ -45,20 +67,22 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback = {}
 
-  setup(baseURL: string, cosmosChainId: string) {
+  async setup(baseURL: string, cosmosChainId: string, token?: string) {
+    this.baseURL = baseURL
     this.client = new AuthCore({
-      baseUrl: baseURL
+      baseUrl: baseURL,
+      token,
     })
     this.cosmosChainId = cosmosChainId
+    if (token) {
+      await this.setupModules(token)
+    }
   }
 
-  async authenticate(accessToken: string) {
-    const { webAuth } = this.client
-    webAuth.client.bearer = `Bearer ${accessToken}`
-
+  async setupModules(accessToken: string) {
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
     this.keyVaultClient = await new AuthCoreKeyVaultClient({
-      apiBaseURL: webAuth.baseUrl,
+      apiBaseURL: this.baseURL,
       accessToken,
       callbacks: this.getCallbacks(),
     })
@@ -116,37 +140,15 @@ export class AuthCoreAPI {
    * Sign in AuthCore
    */
   async signIn() {
-    // XXX: Hack version of webAuth.signin()
-    const { webAuth } = this.client
-
-    // Sign in
-    const redirectURI = `${NativeModules.Authcore.bundleIdentifier}://${webAuth.baseUrl.replace(/https?:\/\//, "")}`
-
-    let redirectURL: string
-    try {
-      redirectURL = await webAuth.agent.show(`${webAuth.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectURI}`, false)
-    } catch (error) {
-      if (error.error === "authcore.session.user_cancelled") {
-        throw new Error("USER_CANCEL_AUTH")
-      }
-      throw error
-    }
-
-    const query = new Url(redirectURL, true).query
     const {
-      json: {
-        access_token: accessToken,
-        id_token: idToken,
-      },
-    } = await webAuth.client.post("/api/auth/tokens", {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      grant_type: "AUTHORIZATION_TOKEN",
-      token: query.code
-    })
-
+      accessToken,
+      idToken,
+      currentUser,
+    } = await this.client.webAuth.signin()
     return {
       accessToken,
       idToken,
+      currentUser: parseAuthCoreUser(currentUser),
     }
   }
 
@@ -165,28 +167,9 @@ export class AuthCoreAPI {
   /**
    * Get current user info
    */
-  async getCurrentUser() {
-    const { webAuth } = this.client
-    const {
-      json: {
-        id,
-        primary_email: primaryEmail,
-        display_name: displayName,
-        updated_at: updatedAt,
-        created_at: createdAt,
-        primary_email_verified: primaryEmailVerified,
-        primary_phone_verified: primaryPhoneVerified,
-      }
-    } = await webAuth.client.request('GET', webAuth.client.url('/api/auth/users/current'))
-
-    return {
-      id,
-      primaryEmail,
-      displayName,
-      updatedAt,
-      createdAt,
-      primaryEmailVerified,
-      primaryPhoneVerified,
-    }
+  async getCurrentUser(accessToken: string) {
+    console.tron.log(accessToken, this.client.auth.userInfo)
+    const json = await this.client.auth.userInfo({ token: accessToken })
+    return parseAuthCoreUser(json)
   }
 }

@@ -21,7 +21,7 @@ export const AuthCoreStoreModel = types
     const _idToken = observable.box("")
 
     const fetchCurrentUser = flow(function * () {
-      const currentUser: any = yield env.authCoreAPI.getCurrentUser()
+      const currentUser: any = yield env.authCoreAPI.getCurrentUser(_accessToken.get())
       self.profile = AuthCoreUserModel.create(currentUser)
     })
 
@@ -38,18 +38,18 @@ export const AuthCoreStoreModel = types
       _idToken.set(idToken)
       if (profile) self.profile = profile
 
-      yield env.authCoreAPI.authenticate(accessToken)
+      yield env.authCoreAPI.setupModules(accessToken)
       yield fetchCosmosAddress()
-      yield fetchCurrentUser()
     })
 
     const signIn = flow(function * () {
       const {
         accessToken,
         idToken,
+        currentUser,
       }: any = yield env.authCoreAPI.signIn()
       yield Keychain.save(idToken, accessToken, env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
-      yield init(accessToken, idToken)
+      yield init(accessToken, idToken, currentUser)
     })
 
     const signOut = flow(function * () {
