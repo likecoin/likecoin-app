@@ -1,4 +1,4 @@
-package com.likecoinapp;
+package com.oice;
 
 import com.facebook.react.ReactActivity;
 
