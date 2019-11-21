@@ -87,6 +87,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   }
 
   _signIn = async (params: UserLoginParams) => {
+    this.props.userStore.setIsSigningIn(true)
     try {
       await this.props.userStore.login(params)
     } catch (error) {
@@ -100,20 +101,19 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
           Alert.alert(translate("signInScreen.errorLikeCo"))
           return
       }
+    } finally {
+      this.props.userStore.setIsSigningIn(false)
     }
     this.props.navigation.navigate('LikerLandOAuth')
     this.props.userStore.fetchUserInfo()
   }
 
   _onPressAuthCoreButton = async () => {
-    this.props.userStore.setIsSigningIn(true)
     try {
       await this._signInWithAuthCore()
     } catch (error) {
       __DEV__ && console.tron.error(`Error occurs when signing in: ${error}`, null)
       Alert.alert(`${translate("signInScreen.error")}: ${error.message}`)
-    } finally {
-      this.props.userStore.setIsSigningIn(false)
     }
   }
 
