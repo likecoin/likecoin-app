@@ -23,7 +23,15 @@ module.exports = (async () => {
     },
     resolver: {
       assetExts: assetExts.filter(ext => ext !== "svg"),
-      sourceExts: [...sourceExts, "svg", "js", "jsx"]
-    }
+      sourceExts: [...sourceExts, "svg", "js", "jsx"],
+      extraNodeModules: {
+        buffer: require.resolve('buffer'),
+        crypto: require.resolve('react-native-crypto'),
+        process: require.resolve('process/browser'),
+        stream: require.resolve('readable-stream'),
+        util: require.resolve('util/util'),
+        vm: require.resolve('vm-browserify')
+      },
+    },
   }
 })()

@@ -1,9 +1,6 @@
 import AuthCore from "react-native-authcore"
 
-import {
-  AuthCoreKeyVaultClient,
-  AuthCoreCosmosProvider,
-} from "authcore-js/build/main.js"
+const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js')
 
 /**
  * AuthCore callback functions to-be called
@@ -50,12 +47,12 @@ export class AuthCoreAPI {
   /**
    * The instance interacting between client and AuthCore KeyVaultAPI server.
    */
-  keyVaultClient: AuthCoreKeyVaultClient
+  keyVaultClient: AuthcoreVaultClient
 
   /**
    * The Cosmos wallet provider.
    */
-  cosmosProvider: AuthCoreCosmosProvider
+  cosmosProvider: AuthcoreCosmosProvider
 
   /**
    * The chain ID for cosmos
@@ -83,23 +80,18 @@ export class AuthCoreAPI {
     this.client.auth.client.bearer = `Bearer ${accessToken}`
 
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
-    this.keyVaultClient = await new AuthCoreKeyVaultClient({
+    this.keyVaultClient = await new AuthcoreVaultClient({
       apiBaseURL: this.baseURL,
       accessToken,
-      callbacks: this.getCallbacks(),
     })
 
     __DEV__ && console.tron.log("Initializing AuthCore Cosmos Provider")
-    this.cosmosProvider = await new AuthCoreCosmosProvider({
-      authcoreClient: this.keyVaultClient,
-      chainId: this.cosmosChainId,
+    this.cosmosProvider = await new AuthcoreCosmosProvider({
+      client: this.keyVaultClient,
     })
 
-    // Getting Cosmos addresses, create if without one
+    // Getting Cosmos addresses, it will be created if not exists
     const { length } = await this.getCosmosAddresses()
-    if (!length) {
-      await this.keyVaultClient.createSecret('HD_KEY', 16)
-    }
   }
 
   private getCallbacks() {
