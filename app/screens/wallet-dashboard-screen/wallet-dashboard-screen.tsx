@@ -7,6 +7,7 @@ import {
   TextStyle,
   View,
   ViewStyle,
+  RefreshControl,
 } from "react-native"
 import LinearGradient from 'react-native-linear-gradient'
 import { observer, inject } from "mobx-react"
@@ -148,15 +149,11 @@ const WITHDRAW_REWARDS_BUTTON = StyleSheet.create({
 export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
   componentDidMount() {
     this.props.walletStore.setAddress(this.props.userStore.selectedWalletAddress)
-    this.fetchBalance()
-    this.fetchValidators()
+    this.fetchAll()
   }
 
-  private fetchBalance() {
+  private fetchAll = async () => {
     this.props.walletStore.fetchBalance()
-  }
-
-  private async fetchValidators() {
     await this.props.walletStore.fetchAnnualProvision()
     this.props.walletStore.fetchValidators()
   }
@@ -191,6 +188,14 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           style={SCREEN}
           backgroundColor={color.transparent}
           preset="scroll"
+          refreshControl={
+            <RefreshControl
+              tintColor={color.palette.lighterCyan}
+              colors={[color.primary]}
+              refreshing={this.props.walletStore.isLoading}
+              onRefresh={this.fetchAll}
+            />
+          }
         >
           <View style={DASHBOARD_HEADER}>
             {currentUser &&
