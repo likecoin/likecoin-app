@@ -119,7 +119,7 @@ export const WalletStoreModel = types
     const fetchRewards = flow(function * () {
       try {
         const result: CosmosRewardsResult = yield env.cosmosAPI.queryRewards(address.get())
-        result.rewards.forEach(setValidatorRewards)
+        if (result.rewards) result.rewards.forEach(setValidatorRewards)
         rewardsBalance.set(extractNanolikeFromCosmosCoinList(result.total))
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
