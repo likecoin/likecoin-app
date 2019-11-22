@@ -80,6 +80,8 @@ export class AuthCoreAPI {
   }
 
   async setupModules(accessToken: string) {
+    this.client.auth.client.bearer = `Bearer ${accessToken}`
+
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
     this.keyVaultClient = await new AuthCoreKeyVaultClient({
       apiBaseURL: this.baseURL,
@@ -156,11 +158,11 @@ export class AuthCoreAPI {
    * Sign out AuthCore
    */
   async signOut() {
-    const { webAuth } = this.client
+    const { auth } = this.client
     try {
-      await webAuth.client.delete("/api/auth/sessions")
+      auth.client.delete("/api/auth/sessions")
     } finally {
-      webAuth.client.bearer = ''
+      auth.client.bearer = ''
     }
   }
 

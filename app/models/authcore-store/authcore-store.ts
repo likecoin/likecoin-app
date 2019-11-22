@@ -53,8 +53,8 @@ export const AuthCoreStoreModel = types
     })
 
     const signOut = flow(function * () {
+      yield Keychain.reset(env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
       yield env.authCoreAPI.signOut()
-      Keychain.reset(env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
 
       _accessToken.set("")
       _idToken.set("")

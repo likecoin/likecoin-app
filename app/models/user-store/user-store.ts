@@ -57,9 +57,11 @@ export const UserStoreModel = types
     })
 
     const logout = flow(function * () {
-      yield env.likeCoAPI.logout()
+      yield Promise.all([
+        env.likeCoAPI.logout(),
+        self.authCore.signOut(),
+      ])
       self.currentUser = undefined
-      yield self.authCore.signOut()
     })
 
     const fetchUserInfo = flow(function * () {
