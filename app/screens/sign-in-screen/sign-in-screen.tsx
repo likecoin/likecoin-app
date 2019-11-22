@@ -119,7 +119,6 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
   render() {
     const {
-      currentUser,
       isSigningIn,
     } = this.props.userStore
     return (
@@ -146,7 +145,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
               tx="signInScreen.signIn"
               preset="primary"
               isLoading={!!isSigningIn}
-              isHidden={!!currentUser}
+              isHidden={!!this.props.userStore.authCore.profile}
               onPress={this._onPressAuthCoreButton}
             />
           </View>
