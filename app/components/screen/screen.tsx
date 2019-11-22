@@ -41,6 +41,7 @@ function ScreenWithScrolling(props: ScreenProps) {
         <ScrollView
           style={[preset.outer, backgroundStyle]}
           contentContainerStyle={[preset.inner, style]}
+          refreshControl={props.refreshControl}
         >
           {props.children}
         </ScrollView>

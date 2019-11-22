@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View, ViewStyle } from "react-native"
+import { RefreshControl, View, ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
@@ -33,6 +33,10 @@ export interface ReaderScreenProps extends NavigationScreenProps<{}> {
 @observer
 export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
   componentDidMount() {
+    this.fetchList()
+  }
+
+  private fetchList = () => {
     switch (this.props.navigation.state.routeName) {
       case 'Featured':
         this.props.readerStore.fetchSuggestList()
@@ -44,15 +48,15 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     }
   }
 
-  _onPressContentItem = (content: Content) => {
+  private onPressContentItem = (content: Content) => {
     this.props.navigation.navigate('ContentView', { content })
   }
 
-  _renderContent = (content: Content) => (
+  private renderContent = (content: Content) => (
     <ContentListItem
       key={content.url}
       content={content}
-      onPressItem={this._onPressContentItem}
+      onPressItem={this.onPressContentItem}
     />
   )
 
@@ -76,9 +80,17 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
       <View style={FULL}>
         <Screen
           style={CONTAINER}
-          preset={contentList.length ? "scroll" : "fixed"}
+          preset="scroll"
           backgroundColor={color.palette.white}
           unsafe={true}
+          refreshControl={
+            <RefreshControl
+              tintColor={color.palette.lighterCyan}
+              colors={[color.primary]}
+              refreshing={this.props.readerStore.isLoading}
+              onRefresh={this.fetchList}
+            />
+          }
         >
           <Text
             tx={titleLabelTx}
@@ -87,7 +99,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
             weight="600"
           />
           {contentList.length > 0 ? (
-            contentList.map(this._renderContent)
+            contentList.map(this.renderContent)
           ) : (
             this.renderEmpty()
           )}
