@@ -245,8 +245,14 @@ PODS:
     - React
   - RNLocalize (1.1.4):
     - React
+  - RNSentry (1.1.0):
+    - React
+    - Sentry (~> 4.4.0)
   - RNSVG (9.9.3):
     - React
+  - Sentry (4.4.2):
+    - Sentry/Core (= 4.4.2)
+  - Sentry/Core (4.4.2)
   - yoga (0.60.4.React)
 
 DEPENDENCIES:
@@ -287,6 +293,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -314,6 +321,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - Protobuf
+    - Sentry
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -390,6 +398,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   yoga:
@@ -455,7 +465,9 @@ SPEC CHECKSUMS:
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
+  RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7
   RNSVG: 2a15d0d14d171ba610db927190604d1ab223f413
+  Sentry: bba998b0fb157fdd6596aa73290a9d67ae47be79
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
 PODFILE CHECKSUM: aad709b6879bc8358ab27af4701627c2425368a0
