@@ -168,7 +168,6 @@ export class AuthCoreAPI {
    * Get current user info
    */
   async getCurrentUser(accessToken: string) {
-    console.tron.log(accessToken, this.client.auth.userInfo)
     const json = await this.client.auth.userInfo({ token: accessToken })
     return parseAuthCoreUser(json)
   }
