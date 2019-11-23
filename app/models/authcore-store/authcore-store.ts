@@ -53,12 +53,11 @@ export const AuthCoreStoreModel = types
     })
 
     const signOut = flow(function * () {
-      yield Keychain.reset(env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
-      yield env.authCoreAPI.signOut()
-
       _accessToken.set("")
       _idToken.set("")
       self.profile = undefined
+      yield Keychain.reset(env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
+      yield env.authCoreAPI.signOut()
     })
 
     return {
