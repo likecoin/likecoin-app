@@ -108,7 +108,8 @@ export class AuthCoreAPI {
       try {
         addresses = await this.cosmosProvider.getAddresses()
       } catch (error) {
-        switch (error.statusCode) {
+        const statusCode = error.response ? error.response.status : error.status
+        switch (statusCode) {
           case 401:
             this.onUnauthorized()
             break
@@ -119,6 +120,26 @@ export class AuthCoreAPI {
       }
     }
     return addresses
+  }
+
+  async cosmosSign(payload: Record<string, any>, address: string) {
+    let signed
+    try {
+      signed = await this.cosmosProvider.sign(payload, address)
+    } catch (error) {
+      const statusCode = error.response ? error.response.status : error.status
+      switch (statusCode) {
+        case 401:
+          this.onUnauthorized()
+          break
+        case 403:
+          this.onUnauthenticated()
+          break
+        default:
+          throw error
+      }
+    }
+    return signed
   }
 
   /**

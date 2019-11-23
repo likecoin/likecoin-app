@@ -192,7 +192,7 @@ export const WalletStoreModel = types
 
     const createSigner = () => {
       return async (message: string) => {
-        const signedPayload = await env.authCoreAPI.cosmosProvider.sign(
+        const signedPayload = await env.authCoreAPI.cosmosSign(
           JSON.parse(message),
           address.get(),
         )
