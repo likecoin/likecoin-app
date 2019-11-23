@@ -251,9 +251,9 @@ export const WalletStoreModel = types
         },
         get isLoading() {
           return (
-            isFetchingBalance.get()
-            || isFetchingValidators.get()
-            || isFetchingDelegation.get()
+            isFetchingBalance.get() ||
+            isFetchingValidators.get() ||
+            isFetchingDelegation.get()
           )
         },
         get isFetchingBalance() {

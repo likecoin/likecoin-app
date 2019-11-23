@@ -1,6 +1,6 @@
 import AuthCore from "react-native-authcore"
 
-const { AuthcoreVaultClient, AuthcoreCosmosProvider } = require('secretd-js')
+import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
 
 /**
  * AuthCore callback functions to-be called
@@ -91,16 +91,7 @@ export class AuthCoreAPI {
     })
 
     // Getting Cosmos addresses, it will be created if not exists
-    const { length } = await this.getCosmosAddresses()
-  }
-
-  private getCallbacks() {
-    return {
-      callbacks: {
-        unauthenticated: this.onUnauthenticated,
-        unauthorized: this.onUnauthorized
-      },
-    }
+    await this.getCosmosAddresses()
   }
 
   onUnauthenticated = () => {
