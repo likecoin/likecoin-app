@@ -52,6 +52,9 @@
   "stakingUnbondingDelegationSigningScreen": {
     "title": "委託"
   },
+  "settingsScreen": {
+    "termsOfUse": "使用條款"
+  },
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"

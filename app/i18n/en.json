@@ -59,6 +59,9 @@
   "stakingUnbondingDelegationSigningScreen": {
     "title": "Undelegate"
   },
+  "settingsScreen": {
+    "termsOfUse": "Terms of Use",
+  },
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"

@@ -1,6 +1,14 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
-import { View, ViewStyle, Image, ImageStyle, ActivityIndicator, TextStyle } from "react-native"
+import {
+  ActivityIndicator,
+  Image,
+  ImageStyle,
+  StyleSheet,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { APP_MARKETING_VERSION } from "react-native-dotenv"
 
@@ -17,9 +25,7 @@ const SCREEN: ViewStyle = {
   flex: 1,
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
-}
-const CONTENT_VIEW: ViewStyle = {
-
+  backgroundColor: "#F2F2F2",
 }
 const USER_INFO: ViewStyle = {
   justifyContent: "space-between",
@@ -47,6 +53,21 @@ const LOADING_VIEW: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
 }
+const SETTINGS_MENU = StyleSheet.create({
+  TABLE: {
+    borderRadius: 12,
+    backgroundColor: color.palette.white,
+    marginVertical: spacing[4],
+  } as ViewStyle,
+  TABLE_CELL: {
+    justifyContent: "flex-start",
+  } as ViewStyle,
+  TABLE_CELL_TEXT: {
+    padding: spacing[2],
+    paddingVertical: spacing[1],
+    textAlign: "left",
+  } as TextStyle,
+})
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore,
@@ -80,7 +101,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         backgroundColor={color.transparent}
       >
         {currentUser ? (
-          <View style={CONTENT_VIEW}>
+          <View>
             <View style={USER_INFO}>
               <Image
                 style={AVATAR}
@@ -96,6 +117,15 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 color="grey9b"
                 size="default"
                 text={currentUser.email}
+              />
+            </View>
+            <View style={SETTINGS_MENU.TABLE}>
+              <Button
+                preset="plain"
+                tx="settingsScreen.termsOfUse"
+                link="https://liker.land/eula"
+                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                style={SETTINGS_MENU.TABLE_CELL}
               />
             </View>
             <Button
