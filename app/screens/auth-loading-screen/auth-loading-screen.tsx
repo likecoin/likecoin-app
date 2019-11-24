@@ -25,8 +25,13 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
   }
 
   async checkAuthState() {
-    const { currentUser } = this.props.userStore
-    if (currentUser) {
+    const {
+      currentUser: likeCoUser,
+      authCore: {
+        profile: authcoreUser,
+      },
+    } = this.props.userStore
+    if (authcoreUser && likeCoUser) {
       try {
         await Promise.all([
           this.props.userStore.fetchUserInfo(),

@@ -145,7 +145,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
               tx="signInScreen.signIn"
               preset="primary"
               isLoading={!!isSigningIn}
-              isHidden={!!this.props.userStore.authCore.accessToken}
+              isHidden={this.props.userStore.authCore.hasSignedIn}
               onPress={this._onPressAuthCoreButton}
             />
           </View>

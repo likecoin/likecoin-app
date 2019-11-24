@@ -80,6 +80,10 @@ export const UserStoreModel = types
             email,
             avatarURL,
           })
+          break
+        }
+        case "unauthorized": {
+          yield logout()
         }
       }
     })
