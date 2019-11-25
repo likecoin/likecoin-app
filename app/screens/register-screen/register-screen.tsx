@@ -53,16 +53,15 @@ const BUTTON_GROUP: ViewStyle = {
   paddingHorizontal: spacing[1],
   width: 256,
 }
-const RECEIVER_TEXT_INPUT = StyleSheet.create({
+const LIKER_ID_INPUT = StyleSheet.create({
   ROOT: {
     flex: 1,
-    minHeight: 16,
-    margin: spacing[3],
   } as ViewStyle,
   TEXT: {
     color: color.palette.white,
     backgroundColor: color.transparent,
     fontSize: sizes.default,
+    paddingHorizontal: spacing[3],
     flex: 1,
   } as TextStyle,
 })
@@ -177,14 +176,14 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, {}> {
             prepend={
               <View
                 key="receiverInput"
-                style={RECEIVER_TEXT_INPUT.ROOT}
+                style={LIKER_ID_INPUT.ROOT}
               >
                 <TextInput
                   autoCapitalize="none"
                   autoCorrect={false}
                   returnKeyType="next"
                   selectionColor={color.palette.likeCyan}
-                  style={RECEIVER_TEXT_INPUT.TEXT}
+                  style={LIKER_ID_INPUT.TEXT}
                   value={likerId}
                   onChange={this._onLikerIdChange}
                 />

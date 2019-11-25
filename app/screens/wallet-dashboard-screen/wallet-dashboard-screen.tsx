@@ -32,8 +32,6 @@ import {
 } from "../../utils/number"
 import { color, gradient, spacing } from "../../theme"
 
-import QRCodeIcon from "../../assets/qrcode-scan.svg"
-
 import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
@@ -232,13 +230,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                   {
                     key: "scan",
                     preset: "icon",
-                    children: (
-                      <QRCodeIcon
-                        width={16}
-                        height={16}
-                        fill={color.palette.white}
-                      />
-                    ),
+                    icon: "qrcode-scan",
                     style: QRCODE_BUTTON,
                     onPress: this.onPressQRCodeButton,
                   },

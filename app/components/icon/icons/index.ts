@@ -2,6 +2,7 @@ import ArrowDownIcon from "./arrow-down.svg"
 import ArrowLeftIcon from "./arrow-left.svg"
 import ArrowUpIcon from "./arrow-up.svg"
 import CrossIcon from "./cross.svg"
+import QRCodeScan from "./qrcode-scan.svg"
 import ShareIcon from "./share.svg"
 
 export const icons = {
@@ -10,6 +11,7 @@ export const icons = {
   "arrow-up": ArrowUpIcon,
   back: ArrowLeftIcon,
   close: CrossIcon,
+  "qrcode-scan": QRCodeScan,
   share: ShareIcon,
 }
 

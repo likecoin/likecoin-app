@@ -15,10 +15,10 @@ const ROOT: ViewStyle = {
   borderWidth: 0,
   flexDirection: "row",
   backgroundColor: `${color.palette.likeCyan}32`,
+  minHeight: 44,
 }
 const BUTTON: ViewStyle = {
   paddingVertical: spacing[2],
-  minHeight: 36,
 }
 const SEPARATOR: ViewStyle = {
   width: 2,
