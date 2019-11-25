@@ -32,6 +32,14 @@ export interface RegisterScreenParams {
 export interface RegisterScreenProps extends NavigationScreenProps<RegisterScreenParams> {
   userStore: UserStore,
 }
+export interface RegisterScreenState {
+  /**
+   * The code of the error description which is looked up via i18n.
+   */
+  error: string
+
+  likerId: string
+}
 
 const LIKER_ID_REGEX = /[a-z0-9-_]{7,20}/
 
@@ -85,14 +93,15 @@ const REGISTER: ViewStyle = {
 
 @inject("userStore")
 @observer
-export class RegisterScreen extends React.Component<RegisterScreenProps, {}> {
-  state = {
-    /**
-     * The code of the error description which is looked up via i18n.
-     */
-    error: "",
+export class RegisterScreen extends React.Component<RegisterScreenProps, RegisterScreenState> {
+  constructor(props: RegisterScreenProps) {
+    super(props)
 
-    likerId: "",
+    const { email } = this.props.navigation.getParam("params")
+    this.state = {
+      error: "",
+      likerId: email ? email.split("@")[0] : "",
+    }
   }
 
   /**
