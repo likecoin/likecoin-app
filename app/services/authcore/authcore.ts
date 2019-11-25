@@ -1,5 +1,5 @@
 import AuthCore from "react-native-authcore"
-
+import "crypto"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
 
 /**
