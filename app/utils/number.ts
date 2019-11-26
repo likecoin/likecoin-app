@@ -1,4 +1,6 @@
-import BigNumber from 'bignumber.js'
+import BigNumber from "bignumber.js"
+
+export const UNIT_LIKE = "LIKE"
 
 export function compareNumber(value: string | number) {
   const bigNumber = new BigNumber(value)
@@ -35,7 +37,7 @@ export function formatNumberWithSign(value: string | number, decimalPlaces?: num
 }
 
 export function formatLIKE(value: number | string) {
-  return `${value} LIKE`
+  return `${value} ${UNIT_LIKE}`
 }
 
 export function percent(number: number | string) {

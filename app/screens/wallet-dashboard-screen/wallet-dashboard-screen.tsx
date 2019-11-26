@@ -29,6 +29,7 @@ import {
   formatLIKE,
   formatNumberWithSign,
   percent,
+  UNIT_LIKE,
 } from "../../utils/number"
 import { color, gradient, spacing } from "../../theme"
 
@@ -248,7 +249,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               >
                 {this.renderBalanceValue()}
                 <Text
-                  text="LikeCoin"
+                  text={UNIT_LIKE}
                   color="likeGreen"
                   size="medium"
                   weight="600"
