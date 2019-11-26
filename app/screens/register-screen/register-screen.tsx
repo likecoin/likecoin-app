@@ -124,7 +124,8 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
     return true
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = async () => {
+    await this.props.userStore.authCore.signOut()
     this.props.navigation.goBack()
   }
 
@@ -170,7 +171,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
           <Button
             preset="icon"
             icon="close"
-            onPress={this._onPressCloseButton}
+            onPress={this.onPressCloseButton}
           />
         </View>
         <View style={CONTENT_VIEW}>
