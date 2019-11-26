@@ -2776,7 +2776,8 @@ exports[`Storyshots Header Behavior 1`] = `
                       Object {
                         "color": "#ffffff",
                         "fontFamily": "System",
-                        "fontSize": 12,
+                        "fontSize": 14,
+                        "fontWeight": "bold",
                         "textAlign": "center",
                       }
                     }
@@ -2993,7 +2994,8 @@ exports[`Storyshots Header Behavior 1`] = `
                       Object {
                         "color": "#ffffff",
                         "fontFamily": "System",
-                        "fontSize": 12,
+                        "fontSize": 14,
+                        "fontWeight": "bold",
                         "textAlign": "center",
                       }
                     }
@@ -3130,7 +3132,8 @@ exports[`Storyshots Header Behavior 1`] = `
                       Object {
                         "color": "#ffffff",
                         "fontFamily": "System",
-                        "fontSize": 12,
+                        "fontSize": 14,
+                        "fontWeight": "bold",
                         "textAlign": "center",
                       }
                     }
