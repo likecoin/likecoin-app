@@ -12,6 +12,7 @@
   },
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
+    "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",
     "INVALID_ACCOUNT_ADDRESS": "錢包地址不正確",
     "LIKER_ID_FORMAT_INVALID": "請以最少7位英文字、數字、- 或 _ 組成你的 Liker ID",
     "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",

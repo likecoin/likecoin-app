@@ -7,8 +7,9 @@ import RNIap, {
 
 import { Instance, SnapshotOut, flow, types, getEnv } from "mobx-state-tree"
 import { observable } from "mobx"
-import { Platform } from "react-native"
+import { Platform, Alert } from "react-native"
 import { Environment } from "../environment"
+import { translate } from "../../i18n"
 
 const SKU_COM_OICE_MEMBERSHIP = "com.oice.membership"
 
@@ -37,9 +38,13 @@ export const IAPStoreModel = types
             "receipt-data": receipt,
             password: env.appConfig.getValue("IAP_IOS_SHARED_SECRET"),
           }, env.appConfig.getValue("IAP_IOS_IS_SANDBOX") === "true")
-          if (result && result.status === 0) {
-            purchasedSKUs.add(SKU_COM_OICE_MEMBERSHIP)
-            self.hasSubscription = true
+          if (result) {
+            if (result.status === 0) {
+              purchasedSKUs.add(SKU_COM_OICE_MEMBERSHIP)
+              self.hasSubscription = true
+            } else {
+              Alert.alert(translate("error.IAP_PURCHASE_RECEIPT_ERROR"), `[${result.status}]`)
+            }
           }
         }
       }
