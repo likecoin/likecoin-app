@@ -13,19 +13,17 @@ import { NavigationScreenProps } from "react-navigation"
 import { APP_MARKETING_VERSION } from "react-native-dotenv"
 
 import { Button } from "../../components/button"
-import { Text } from "../../components/text"
+import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
+import { Text } from "../../components/text"
 
 import { color, spacing } from "../../theme"
 
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
 
-const SCREEN: ViewStyle = {
-  flex: 1,
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
-  backgroundColor: "#F2F2F2",
+const CONTENT_VIEW: ViewStyle = {
+  padding: spacing[4],
 }
 const USER_INFO: ViewStyle = {
   justifyContent: "space-between",
@@ -65,7 +63,9 @@ const SETTINGS_MENU = StyleSheet.create({
   TABLE_CELL_TEXT: {
     padding: spacing[2],
     paddingVertical: spacing[1],
+    color: color.palette.grey4a,
     textAlign: "left",
+    fontWeight: "normal",
   } as TextStyle,
 })
 
@@ -80,12 +80,6 @@ export interface SettingsScreenProps extends NavigationScreenProps<{}> {
 )
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
-  static navigationOptions = {
-    headerStyle: {
-      backgroundColor: color.primary,
-    },
-  }
-
   private onClickLogout = async () => {
     await this.props.userStore.logout()
     this.props.readerStore.clearAllLists()
@@ -96,12 +90,17 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     const { currentUser } = this.props.userStore
     return (
       <Screen
-        style={SCREEN}
-        preset="scroll"
-        backgroundColor={color.transparent}
+        preset="fixed"
+        backgroundColor={color.primary}
       >
+        <Header headerTx="settingsScreen.title" />
         {currentUser ? (
-          <View>
+          <Screen
+            style={CONTENT_VIEW}
+            preset="scroll"
+            backgroundColor="#F2F2F2"
+            unsafe
+          >
             <View style={USER_INFO}>
               <Image
                 style={AVATAR}
@@ -140,7 +139,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               size="default"
               style={VERSION}
             />
-          </View>
+          </Screen>
         ) : (
           <View style={LOADING_VIEW}>
             <ActivityIndicator
