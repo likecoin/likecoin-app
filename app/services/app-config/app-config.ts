@@ -6,6 +6,8 @@ import {
   BIG_DIPPER_URL,
   COSMOS_CHAIN_ID,
   COSMOS_LCD_URL,
+  IAP_IOS_IS_SANDBOX,
+  IAP_IOS_SHARED_SECRET,
   LIKECO_API_URL,
   LIKERLAND_API_URL,
   MIN_VERSION,
@@ -18,6 +20,8 @@ export interface AppConfigParams {
   BIG_DIPPER_URL: string
   COSMOS_CHAIN_ID: string
   COSMOS_LCD_URL: string
+  IAP_IOS_IS_SANDBOX: string
+  IAP_IOS_SHARED_SECRET: string
   LIKECO_API_URL: string
   LIKERLAND_API_URL: string
   MIN_VERSION: string
@@ -44,6 +48,8 @@ export class AppConfig {
       BIG_DIPPER_URL,
       COSMOS_CHAIN_ID,
       COSMOS_LCD_URL,
+      IAP_IOS_IS_SANDBOX,
+      IAP_IOS_SHARED_SECRET,
       LIKECO_API_URL,
       LIKERLAND_API_URL,
       MIN_VERSION,

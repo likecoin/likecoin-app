@@ -243,6 +243,8 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.4.1):
     - React
+  - RNIap (4.3.0):
+    - React
   - RNKeychain (3.1.3):
     - React
   - RNLocalize (1.1.4):
@@ -294,6 +296,7 @@ DEPENDENCIES:
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNIap (from `../node_modules/react-native-iap`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -399,6 +402,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
   RNLocalize:
@@ -469,6 +474,7 @@ SPEC CHECKSUMS:
   RNFBPerf: 57050d2e6a5fa373afff618acbd4fafd16714a08
   RNFBRemoteConfig: 8292cef6683b6a1970470521dce8eae5ff80deab
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNIap: e75200c18ed318479a52db633dc2db2facce77ea
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
   RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7

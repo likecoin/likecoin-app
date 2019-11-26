@@ -60,12 +60,27 @@
     "title": "Undelegate"
   },
   "settingsScreen": {
-    "title": "Settings",
-    "termsOfUse": "Terms of Use"
+    "subscription": "Subscription",
+    "termsOfUse": "Terms of Use",
+    "title": "Settings"
   },
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
+  },
+  "subscriptionFeature": {
+    "com.oice.membership": [
+      "Unlock unlimited articles from 700 media",
+      "No free trial",
+      "Automatically renew every month on the same day of subscription"
+    ]
+  },
+  "subscriptionScreen": {
+    "footnote": "To cancel subscription: 1) open Settings on iPhone/iPad > [Your name] > iTunes & App Store 2) Tap your Apple ID at the top. 3) Tap View Apple ID and sign in if prompted. 4) Tap Subscriptions. 5) Tap oice Backer subscription. 6) Choose Cancel Subscription.",
+    "restorePurchasesButtonText": "Restore purchases",
+    "subscribeButtonText": "Subscribe",
+    "subscribedButtonText": "Subscribed",
+    "title": "Subscription"
   },
   "transaction": {
     "fee": "Fee",
