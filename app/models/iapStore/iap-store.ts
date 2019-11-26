@@ -113,6 +113,9 @@ export const IAPStoreModel = types
         get products() {
           return products.get()
         },
+        get isEnabled() {
+          return env.appConfig.getValue("IAP_ENABLE") === "true"
+        },
         get isFetchingProducts() {
           return isFetchingProducts.get()
         },
