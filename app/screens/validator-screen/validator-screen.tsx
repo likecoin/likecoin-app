@@ -9,7 +9,7 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { ValidatorScreenGridItem } from "./validator-screen.grid-item"
@@ -203,15 +203,18 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               </View>
             </ValidatorScreenGridItem>
           </View>
-          <View style={BOTTOM_BAR}>
-            <Button
-              preset="icon"
-              icon="close"
-              color="likeGreen"
-              onPress={this.onPressCloseButton}
-            />
-          </View>
         </Screen>
+        <SafeAreaView
+          forceInset={{ top: "never", bottom: "always" }}
+          style={BOTTOM_BAR}
+        >
+          <Button
+            preset="icon"
+            icon="close"
+            color="likeGreen"
+            onPress={this.onPressCloseButton}
+          />
+        </SafeAreaView>
       </View>
     )
   }

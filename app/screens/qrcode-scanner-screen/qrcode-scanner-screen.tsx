@@ -1,7 +1,7 @@
 import * as React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { RNCamera } from 'react-native-camera'
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import throttle from "lodash.throttle"
 
 import { Button } from "../../components/button"
@@ -14,8 +14,12 @@ import { color, spacing } from "../../theme"
 
 import ScanFrame from "./scan-frame.svg"
 
-const SCREEN: ViewStyle = {
+const ROOT: ViewStyle = {
   flex: 1,
+  backgroundColor: color.primary,
+}
+const SCREEN: ViewStyle = {
+  flexGrow: 1,
 }
 const CAMERA: ViewStyle = {
   flex: 1,
@@ -75,30 +79,35 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
 
   render () {
     return (
-      <Screen
-        style={SCREEN}
-        backgroundColor={color.palette.likeGreen}
-        preset="fixed"
-      >
-        <RNCamera
-          captureAudio={false}
-          onBarCodeRead={this.onRead}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.off}
-          style={CAMERA}
+      <View style={ROOT}>
+        <Screen
+          preset="fixed"
+          backgroundColor={color.transparent}
+          style={SCREEN}
         >
-          {this.renderScanFrame()}
-          {this.renderFooterView()}
-        </RNCamera>
-        <View style={BOTTOM_BAR}>
+          <RNCamera
+            captureAudio={false}
+            onBarCodeRead={this.onRead}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.off}
+            style={CAMERA}
+          >
+            {this.renderScanFrame()}
+            {this.renderFooterView()}
+          </RNCamera>
+        </Screen>
+        <SafeAreaView
+          forceInset={{ top: "never", bottom: "always" }}
+          style={BOTTOM_BAR}
+        >
           <Button
             preset="icon"
             icon="close"
             color="likeGreen"
             onPress={this.onPressCloseButton}
           />
-        </View>
-      </Screen>
+        </SafeAreaView>
+      </View>
     )
   }
 

@@ -6,6 +6,7 @@ import {
   NavigationScreenProps,
   NavigationRoute,
   NavigationParams,
+  SafeAreaView,
 } from "react-navigation"
 import { Icon, TabBar, Tab } from "react-native-ui-kitten"
 
@@ -14,9 +15,12 @@ import { color } from "../theme"
 
 interface ReaderTabBarProps extends NavigationScreenProps<{}> {}
 
-const TAB_BAR: ViewStyle = {
+const TAB_BAR_CONTAINER: ViewStyle = {
   backgroundColor: color.primary,
-  height: 52,
+}
+const TAB_BAR: ViewStyle = {
+  height: 40,
+  backgroundColor: TAB_BAR_CONTAINER.backgroundColor,
 }
 const TAB_BAR_INDICATOR: ViewStyle = {
   backgroundColor: color.palette.likeCyan
@@ -31,14 +35,16 @@ class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
   render() {
     const { navigation } = this.props
     return (
-      <TabBar
-        selectedIndex={this.props.navigation.state.index}
-        style={TAB_BAR}
-        indicatorStyle={TAB_BAR_INDICATOR}
-        onSelect={this._onBarSelect}
-      >
-        {navigation.state.routes.map(this._renderTab)}
-      </TabBar>
+      <SafeAreaView style={TAB_BAR_CONTAINER}>
+        <TabBar
+          selectedIndex={this.props.navigation.state.index}
+          style={TAB_BAR}
+          indicatorStyle={TAB_BAR_INDICATOR}
+          onSelect={this._onBarSelect}
+        >
+          {navigation.state.routes.map(this._renderTab)}
+        </TabBar>
+      </SafeAreaView>
     )
   }
 
@@ -96,12 +102,6 @@ const ReaderTabs = createMaterialTopTabNavigator({
 
 export const ReaderNavigator = createStackNavigator({
   ReaderList: ReaderTabs,
-},
-{
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: color.primary,
-      height: 0,
-    },
-  },
+}, {
+  headerMode: "none",
 })
