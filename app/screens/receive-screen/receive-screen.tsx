@@ -71,22 +71,22 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
     isCopied: false
   }
 
-  _onPressShareButton = () => {
+  private onPressShareButton = () => {
     const { address: message } = this.props.walletStore
     Share.share({ message })
   }
 
-  _onPressCopyButton = () => {
+  private onPressCopyButton = () => {
     const { address: message } = this.props.walletStore
     Clipboard.setString(message)
     this.setState({ isCopied: true })
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = () => {
     this.props.navigation.goBack()
   }
 
-  _onPressViewExternalButton = () => {
+  private onPressViewExternalButton = () => {
     Linking.openURL(this.props.walletStore.address)
   }
 
@@ -101,7 +101,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
           <Button
             preset="icon"
             icon="share"
-            onPress={this._onPressShareButton}
+            onPress={this.onPressShareButton}
           />
         </SafeAreaView>
         <Screen
@@ -127,13 +127,13 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
                 textStyle={COPY_BUTTON}
                 preset="link"
                 tx={copyButtonTx}
-                onPress={this._onPressCopyButton}
+                onPress={this.onPressCopyButton}
               />
             </Sheet>
             <Button
               preset="outlined"
               tx="common.viewOnBlockExplorer"
-              onPress={this._onPressViewExternalButton}
+              onPress={this.onPressViewExternalButton}
             />
           </View>
         </Screen>
@@ -145,7 +145,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
             preset="icon"
             icon="close"
             color="likeGreen"
-            onPress={this._onPressCloseButton}
+            onPress={this.onPressCloseButton}
           />
         </SafeAreaView>
       </View>
