@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { APP_MARKETING_VERSION } from "react-native-dotenv"
+import { APP_MARKETING_VERSION, APP_VERSION } from "react-native-dotenv"
 
 import { Button } from "../../components/button"
 import { Header } from "../../components/header"
@@ -133,7 +133,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               onPress={this.onClickLogout}
             />
             <Text
-              text={APP_MARKETING_VERSION}
+              text={`${APP_MARKETING_VERSION} (build ${APP_VERSION})`}
               color="greyBlue"
               align="center"
               size="default"
