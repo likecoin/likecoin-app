@@ -80,14 +80,23 @@ export interface SettingsScreenProps extends NavigationScreenProps<{}> {
 )
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
+  private onPressSubscription = () => {
+    this.props.navigation.navigate("Subscription")
+  }
+
   private onClickLogout = async () => {
     await this.props.userStore.logout()
     this.props.readerStore.clearAllLists()
-    this.props.navigation.navigate('Auth')
+    this.props.navigation.navigate("Auth")
   }
 
   render () {
-    const { currentUser } = this.props.userStore
+    const {
+      currentUser,
+      iapStore: {
+        isEnabled: isEnabledIAP
+      },
+    } = this.props.userStore
     return (
       <Screen
         preset="fixed"
@@ -118,6 +127,17 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 text={currentUser.email}
               />
             </View>
+            {isEnabledIAP &&
+              <View style={SETTINGS_MENU.TABLE}>
+                <Button
+                  preset="plain"
+                  tx="settingsScreen.subscription"
+                  textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                  style={SETTINGS_MENU.TABLE_CELL}
+                  onPress={this.onPressSubscription}
+                />
+              </View>
+            }
             <View style={SETTINGS_MENU.TABLE}>
               <Button
                 preset="plain"

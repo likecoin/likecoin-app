@@ -4,6 +4,7 @@ import { observable } from "mobx"
 import { Environment } from "../environment"
 import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
+import { IAPStoreModel } from "../iapStore"
 
 import {
   GeneralResult,
@@ -22,6 +23,7 @@ export const UserStoreModel = types
   .props({
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
+    iapStore: types.optional(IAPStoreModel, {}),
   })
   .extend(self => {
     const env: Environment = getEnv(self)
@@ -57,11 +59,12 @@ export const UserStoreModel = types
     })
 
     const logout = flow(function * () {
+      self.currentUser = undefined
+      self.iapStore.clear()
       yield Promise.all([
         env.likeCoAPI.logout(),
         self.authCore.signOut(),
       ])
-      self.currentUser = undefined
     })
 
     const fetchUserInfo = flow(function * () {

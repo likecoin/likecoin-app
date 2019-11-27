@@ -30,6 +30,10 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
       authCore: {
         profile: authcoreUser,
       },
+      iapStore: {
+        isEnabled: isEnabledIAP,
+        hasSubscription,
+      },
     } = this.props.userStore
     if (authcoreUser && likeCoUser) {
       try {
@@ -37,6 +41,10 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
           this.props.userStore.fetchUserInfo(),
           this.props.userStore.authCore.fetchCurrentUser(),
         ])
+        // Restore IAP if neccessary
+        if (isEnabledIAP && hasSubscription) {
+          await this.props.userStore.iapStore.restorePurchases()
+        }
         this.props.navigation.navigate('App')
         return
       } catch {
