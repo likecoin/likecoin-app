@@ -35,7 +35,7 @@
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },
-  "registerScreen": {
+  "RegistrationScreen": {
     "likerIdLabel": "Create your Liker ID (7 or more characters)"
   },
   "signInScreen": {

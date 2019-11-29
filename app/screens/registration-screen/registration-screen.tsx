@@ -25,14 +25,14 @@ import { color, spacing } from "../../theme"
 
 import { translate } from "../../i18n"
 
-export interface RegisterScreenParams {
+export interface RegistrationScreenParams {
   params: UserLoginParams,
 }
 
-export interface RegisterScreenProps extends NavigationScreenProps<RegisterScreenParams> {
+export interface RegistrationScreenProps extends NavigationScreenProps<RegistrationScreenParams> {
   userStore: UserStore,
 }
-export interface RegisterScreenState {
+export interface RegistrationScreenState {
   /**
    * The code of the error description which is looked up via i18n.
    */
@@ -93,8 +93,8 @@ const REGISTER: ViewStyle = {
 
 @inject("userStore")
 @observer
-export class RegisterScreen extends React.Component<RegisterScreenProps, RegisterScreenState> {
-  constructor(props: RegisterScreenProps) {
+export class RegistrationScreen extends React.Component<RegistrationScreenProps, RegistrationScreenState> {
+  constructor(props: RegistrationScreenProps) {
     super(props)
 
     const { email } = this.props.navigation.getParam("params")
@@ -175,7 +175,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
         </View>
         <View style={CONTENT_VIEW}>
           <Text
-            tx="registerScreen.likerIdLabel"
+            tx="RegistrationScreen.likerIdLabel"
             align="center"
             color="likeCyan"
             weight="bold"

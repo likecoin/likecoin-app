@@ -35,7 +35,7 @@
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
   },
-  "registerScreen": {
+  "RegistrationScreen": {
     "likerIdLabel": "創建 Liker ID (7位或以上英文、-、_）"
   },
   "stakingDelegationAmountInputScreen": {
