@@ -8,17 +8,18 @@
     "done": "完成",
     "next": "下一步",
     "ok": "好",
-    "viewOnBlockExplorer": "在 Big Dipper 上查看"
+    "viewOnBlockExplorer": "在 Big Dipper 查看"
   },
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
+    "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",
     "INVALID_ACCOUNT_ADDRESS": "錢包地址不正確",
-    "LIKER_ID_FORMAT_INVALID": "請以最少7位英文字、數字、- 或 _ 作為你的 Liker ID",
-    "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可押入的上限",
+    "LIKER_ID_FORMAT_INVALID": "請以最少7位英文字、數字、- 或 _ 組成你的 Liker ID",
+    "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
-    "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可押入的上限",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
   },
@@ -35,22 +36,27 @@
     "shareYourAddress": "分享你的地址"
   },
   "registerScreen": {
-    "likerIdLabel": "請輸入你的新 Liker ID"
+    "likerIdLabel": "創建 Liker ID (7位或以上英文、-、_）"
   },
   "stakingDelegationAmountInputScreen": {
-    "available": "可押入"
+    "available": "可委託"
   },
   "stakingDelegationSigningScreen": {
-    "title": "押入"
+    "title": "委託"
   },
   "stakingRewardsWithdrawScreen": {
     "title": "取回收益"
   },
   "stakingUnbondingDelegationAmountInputScreen": {
-    "available": "可押出"
+    "available": "可委託"
   },
   "stakingUnbondingDelegationSigningScreen": {
-    "title": "押出"
+    "title": "委託"
+  },
+  "settingsScreen": {
+    "subscription": "訂閱",
+    "termsOfUse": "使用條款",
+    "title": "設定"
   },
   "storybook": {
     "placeholder": "Placeholder",
@@ -58,13 +64,27 @@
   },
   "signInScreen": {
     "error": "登入出現錯誤",
-    "errorAuthCore": "登入 Authcore 出現錯誤",
-    "errorLikeCo": "登入 like.co 出現錯誤",
-    "heading": "Liker 登入按讚\n作者獲得收入",
+    "errorAuthCore": "登入 AuthCore 錯誤",
+    "errorLikeCo": "登入 like.co 錯誤",
+    "heading": "讚賞公民共和國，每個 Like 都是對創作者的實質回報",
     "signIn": "登入"
   },
+  "subscriptionFeature": {
+    "com.oice.membership": [
+      "解鎖 700 個媒體所有文章",
+      "不設免費試用",
+      "每月於訂閱當日自動續約"
+    ]
+  },
+  "subscriptionScreen": {
+    "footnote": "如需取消訂閱：1) 於 iPhone/iPad 打開 設定 >【你的名字】> iTunes 與 App Store。2) 於頂部選取你的 Apple ID。3) 選 檢視 Apple ID，然後登錄。4) 選 訂閱項目。5) 選 oice Backer 的訂閱。6) 選擇 取消訂閱。",
+    "restorePurchasesButtonText": "回復已購買項目",
+    "subscribeButtonText": "訂閱",
+    "subscribedButtonText": "已訂閱",
+    "title": "訂閱"
+  },
   "transaction": {
-    "fee": "費用",
+    "fee": "手續費",
     "to": "至"
   },
   "transfer": {
@@ -85,27 +105,27 @@
     "transactionFee": "轉帳費用"
   },
   "validator": {
-    "delegatorShare": "委托股數",
+    "delegatorShare": "Liker 分成",
     "description": "介紹",
-    "rewards": "佣金",
+    "rewards": "收益",
     "votingPower": "投票權",
     "website": "網站"
   },
   "validatorScreen": {
-    "delegatorShareLabel": "委托中",
-    "delegatorRewardsLabel": "未取回收益",
-    "stakeButtonText": "押入",
-    "unstakeButtonText": "押出",
+    "delegatorShareLabel": "委託中",
+    "delegatorRewardsLabel": "未領取收益",
+    "stakeButtonText": "委託",
+    "unstakeButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"
   },
   "walletDashboardScreen": {
-    "availableBalanceLabel": "可用的",
-    "allDelegatorRewardsLabel": "未取回收益",
+    "availableBalanceLabel": "可用",
+    "allDelegatorRewardsLabel": "未領取收益",
     "send": "轉帳",
-    "stakeLabel": "委托",
+    "stakeLabel": "委託",
     "receive": "收款",
-    "withdrawRewardsButtonText": "取回收益"
+    "withdrawRewardsButtonText": "領取收益"
   },
   "welcomeScreen": {
     "welcome": "歡迎！",

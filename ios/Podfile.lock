@@ -179,6 +179,8 @@ PODS:
     - React
   - react-native-camera/RN (3.8.0):
     - React
+  - react-native-randombytes (3.5.3):
+    - React
   - react-native-splash-screen (3.1.1):
     - React
   - react-native-webview (7.4.3):
@@ -241,12 +243,20 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.4.1):
     - React
+  - RNIap (4.3.0):
+    - React
   - RNKeychain (3.1.3):
     - React
   - RNLocalize (1.1.4):
     - React
+  - RNSentry (1.1.0):
+    - React
+    - Sentry (~> 4.4.0)
   - RNSVG (9.9.3):
     - React
+  - Sentry (4.4.2):
+    - Sentry/Core (= 4.4.2)
+  - Sentry/Core (4.4.2)
   - yoga (0.60.4.React)
 
 DEPENDENCIES:
@@ -264,6 +274,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-authcore (from `../node_modules/react-native-authcore`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -285,8 +296,10 @@ DEPENDENCIES:
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNIap (from `../node_modules/react-native-iap`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -314,6 +327,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - Protobuf
+    - Sentry
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -344,6 +358,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-authcore"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-randombytes:
+    :path: "../node_modules/react-native-randombytes"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
@@ -386,10 +402,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   yoga:
@@ -432,6 +452,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-authcore: cca08325158d4979caff295a8cd064733b78264f
   react-native-camera: 21cf4ed26cf432ceb1fae959aa6924943fd6f714
+  react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-splash-screen: 353334c5ae82d8c74501ea7cbb916cb7cb20c8bf
   react-native-webview: 82d6456dfae1b3ef70c3939135536342afc96373
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
@@ -453,9 +474,12 @@ SPEC CHECKSUMS:
   RNFBPerf: 57050d2e6a5fa373afff618acbd4fafd16714a08
   RNFBRemoteConfig: 8292cef6683b6a1970470521dce8eae5ff80deab
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNIap: e75200c18ed318479a52db633dc2db2facce77ea
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
+  RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7
   RNSVG: 2a15d0d14d171ba610db927190604d1ab223f413
+  Sentry: bba998b0fb157fdd6596aa73290a9d67ae47be79
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
 PODFILE CHECKSUM: aad709b6879bc8358ab27af4701627c2425368a0

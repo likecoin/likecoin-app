@@ -25,8 +25,6 @@ import { sizes } from "../../components/text/text.sizes"
 import { translate } from "../../i18n"
 import { color, spacing } from "../../theme"
 
-import QRCodeIcon from "../../assets/qrcode-scan.svg"
-
 export interface TransferTargetInputScreenParams {
   address: string
 }
@@ -61,7 +59,7 @@ const RECEIVER_TEXT_INPUT = StyleSheet.create({
     color: color.palette.white,
     backgroundColor: color.transparent,
     fontSize: sizes.default,
-    padding: spacing[3],
+    paddingHorizontal: spacing[3],
     flex: 1,
   } as TextStyle,
 })
@@ -204,13 +202,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
               {
                 key: "scan",
                 preset: "icon",
-                children: (
-                  <QRCodeIcon
-                    width={16}
-                    height={16}
-                    fill={color.palette.white}
-                  />
-                ),
+                icon: "qrcode-scan",
                 onPress: this._onPressQRCodeButton,
               },
             ]}

@@ -8,4 +8,5 @@
 //
 // It's easier just to leave it here.
 
+import "./app/utils/global"
 import "./app/app.tsx"

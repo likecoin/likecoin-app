@@ -32,6 +32,14 @@ export interface RegisterScreenParams {
 export interface RegisterScreenProps extends NavigationScreenProps<RegisterScreenParams> {
   userStore: UserStore,
 }
+export interface RegisterScreenState {
+  /**
+   * The code of the error description which is looked up via i18n.
+   */
+  error: string
+
+  likerId: string
+}
 
 const LIKER_ID_REGEX = /[a-z0-9-_]{7,20}/
 
@@ -53,16 +61,15 @@ const BUTTON_GROUP: ViewStyle = {
   paddingHorizontal: spacing[1],
   width: 256,
 }
-const RECEIVER_TEXT_INPUT = StyleSheet.create({
+const LIKER_ID_INPUT = StyleSheet.create({
   ROOT: {
     flex: 1,
-    minHeight: 16,
-    margin: spacing[3],
   } as ViewStyle,
   TEXT: {
     color: color.palette.white,
     backgroundColor: color.transparent,
     fontSize: sizes.default,
+    paddingHorizontal: spacing[3],
     flex: 1,
   } as TextStyle,
 })
@@ -86,14 +93,15 @@ const REGISTER: ViewStyle = {
 
 @inject("userStore")
 @observer
-export class RegisterScreen extends React.Component<RegisterScreenProps, {}> {
-  state = {
-    /**
-     * The code of the error description which is looked up via i18n.
-     */
-    error: "",
+export class RegisterScreen extends React.Component<RegisterScreenProps, RegisterScreenState> {
+  constructor(props: RegisterScreenProps) {
+    super(props)
 
-    likerId: "",
+    const { email } = this.props.navigation.getParam("params")
+    this.state = {
+      error: "",
+      likerId: email ? email.split("@")[0] : "",
+    }
   }
 
   /**
@@ -116,7 +124,8 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, {}> {
     return true
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = async () => {
+    await this.props.userStore.authCore.signOut()
     this.props.navigation.goBack()
   }
 
@@ -162,7 +171,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, {}> {
           <Button
             preset="icon"
             icon="close"
-            onPress={this._onPressCloseButton}
+            onPress={this.onPressCloseButton}
           />
         </View>
         <View style={CONTENT_VIEW}>
@@ -177,14 +186,14 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, {}> {
             prepend={
               <View
                 key="receiverInput"
-                style={RECEIVER_TEXT_INPUT.ROOT}
+                style={LIKER_ID_INPUT.ROOT}
               >
                 <TextInput
                   autoCapitalize="none"
                   autoCorrect={false}
                   returnKeyType="next"
                   selectionColor={color.palette.likeCyan}
-                  style={RECEIVER_TEXT_INPUT.TEXT}
+                  style={LIKER_ID_INPUT.TEXT}
                   value={likerId}
                   onChange={this._onLikerIdChange}
                 />

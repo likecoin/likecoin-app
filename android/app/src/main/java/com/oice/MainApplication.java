@@ -1,4 +1,4 @@
-package com.likecoinapp;
+package com.oice;
 
 import android.app.Application;
 import android.content.Context;

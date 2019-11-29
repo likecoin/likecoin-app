@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.likecoinapp">
+  package="com.oice">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -24,10 +24,12 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <!-- android:host should be where AuthCore is hosted -->
-            <data
-                android:host="likecoin-integration-test.authcore.io"
-                android:scheme="${applicationId}" />
+            <data android:scheme="${applicationId}" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
             <data
                 android:host="likecoin.page.link"
                 android:scheme="http" />

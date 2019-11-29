@@ -84,6 +84,8 @@ export const WalletStoreModel = types
     const rewardsBalance = observable.box("0")
     const isFetchingBalance = observable.box(false)
     const hasFetchedBalance = observable.box(false)
+    const isFetchingValidators = observable.box(false)
+    const isFetchingDelegation = observable.box(false)
 
     const setAddress = (newAddress: string) => {
       address.set(newAddress)
@@ -119,7 +121,7 @@ export const WalletStoreModel = types
     const fetchRewards = flow(function * () {
       try {
         const result: CosmosRewardsResult = yield env.cosmosAPI.queryRewards(address.get())
-        result.rewards.forEach(setValidatorRewards)
+        if (result.rewards) result.rewards.forEach(setValidatorRewards)
         rewardsBalance.set(extractNanolikeFromCosmosCoinList(result.total))
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
@@ -143,15 +145,19 @@ export const WalletStoreModel = types
     }
 
     const fetchDelegations = flow(function * () {
+      isFetchingDelegation.set(true)
       try {
         const rawDelegations: CosmosDelegation[] = yield env.cosmosAPI.getDelegations(address.get())
         rawDelegations.forEach(setValidatorDelegation)
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchDelegations: ${error}`, null)
+      } finally {
+        isFetchingDelegation.set(false)
       }
     })
 
     const fetchValidators = flow(function * () {
+      isFetchingValidators.set(true)
       try {
         const rawValidators: CosmosValidator[] = yield env.cosmosAPI.getValidators()
         self.validatorList.replace([])
@@ -171,6 +177,8 @@ export const WalletStoreModel = types
         fetchRewards()
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
+      } finally {
+        isFetchingValidators.set(false)
       }
     })
 
@@ -184,7 +192,7 @@ export const WalletStoreModel = types
 
     const createSigner = () => {
       return async (message: string) => {
-        const signedPayload = await env.authCoreAPI.cosmosProvider.sign(
+        const signedPayload = await env.authCoreAPI.cosmosSign(
           JSON.parse(message),
           address.get(),
         )
@@ -239,6 +247,13 @@ export const WalletStoreModel = types
                 .toFixed()
             ),
             2
+          )
+        },
+        get isLoading() {
+          return (
+            isFetchingBalance.get() ||
+            isFetchingValidators.get() ||
+            isFetchingDelegation.get()
           )
         },
         get isFetchingBalance() {

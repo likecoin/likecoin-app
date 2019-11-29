@@ -3,6 +3,7 @@ import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 import { ContentModel } from "../content"
 import { Environment } from "../environment"
 import { ContentListResult } from "../../services/api/api.types"
+import { observable } from "mobx"
 
 const contentListTypes = types.optional(
   types.array(types.reference(ContentModel)),
@@ -19,12 +20,18 @@ export const ReaderStoreModel = types
     featuredList: contentListTypes,
     followedList: contentListTypes,
   })
-  .actions(self => ({
-    clearAllLists() {
+  .extend(self => {
+    const env: Environment = getEnv(self)
+
+    const isFetchingSuggestList = observable.box(false)
+    const isFetchingFollowedList = observable.box(false)
+
+    const clearAllLists = () => {
       self.featuredList.replace([])
       self.followedList.replace([])
-    },
-    getContentByURL(url: string) {
+    }
+
+    const getContentByURL = (url: string) => {
       // TODO: Refactor
       let content = self.contents.get(url)
       if (!content) {
@@ -32,10 +39,10 @@ export const ReaderStoreModel = types
         self.contents.set(url, content)
       }
       return content
-    },
+    }
 
-    fetchSuggestList: flow(function * () {
-      const env: Environment = getEnv(self)
+    const fetchSuggestList = flow(function * () {
+      isFetchingSuggestList.set(true)
       try {
         const result: ContentListResult = yield env.likerLandAPI.fetchReaderSuggest()
         switch (result.kind) {
@@ -52,10 +59,13 @@ export const ReaderStoreModel = types
         }
       } catch (error) {
         __DEV__ && console.tron.error(error.message, null)
+      } finally {
+        isFetchingSuggestList.set(false)
       }
-    }),
-    fetchFollowedList: flow(function * () {
-      const env: Environment = getEnv(self)
+    })
+
+    const fetchFollowedList = flow(function * () {
+      isFetchingFollowedList.set(true)
       try {
         const result: ContentListResult = yield env.likerLandAPI.fetchReaderFollowing()
         switch (result.kind) {
@@ -72,9 +82,25 @@ export const ReaderStoreModel = types
         }
       } catch (error) {
         __DEV__ && console.tron.error(error.message, null)
+      } finally {
+        isFetchingFollowedList.set(false)
       }
-    }),
-  }))
+    })
+
+    return {
+      views: {
+        get isLoading() {
+          return isFetchingSuggestList.get() || isFetchingFollowedList.get()
+        },
+      },
+      actions: {
+        clearAllLists,
+        getContentByURL,
+        fetchSuggestList,
+        fetchFollowedList,
+      },
+    }
+  })
 
 type ReaderStoreType = Instance<typeof ReaderStoreModel>
 export interface ReaderStore extends ReaderStoreType {}

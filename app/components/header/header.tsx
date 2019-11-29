@@ -5,6 +5,7 @@ import { HeaderProps } from "./header.props"
 
 import { Button } from "../button"
 import { Text } from "../text"
+import { sizes } from "../text/text.sizes"
 
 import { spacing, color } from "../../theme"
 import { translate } from "../../i18n/"
@@ -19,6 +20,8 @@ const ROOT: ViewStyle = {
 const TITLE: TextStyle = {
   textAlign: "center",
   color: color.palette.white,
+  fontSize: sizes.medium,
+  fontWeight: "bold",
 }
 const TITLE_MIDDLE: ViewStyle = {
   flex: 1,

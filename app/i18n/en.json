@@ -12,15 +12,16 @@
   },
   "error": {
     "DEPRECATED_APP": "New version is available. Please update the App.",
+    "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchasing",
     "INVALID_ACCOUNT_ADDRESS": "Invalid address",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
-    "STAKE_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "STAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
-    "TRANSFER_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "TRANSFER_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
-    "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount is exceeded the maximum",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
-    "UNSTAKE_NOT_ENOUGH_FEE": "Not enough amount for transaction fee"
+    "UNSTAKE_NOT_ENOUGH_FEE": "Not enough to pay for transaction fee"
   },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
@@ -35,20 +36,20 @@
     "shareYourAddress": "Share your address"
   },
   "registerScreen": {
-    "likerIdLabel": "Enter your new Liker ID"
+    "likerIdLabel": "Create your Liker ID (7 or more characters)"
   },
   "signInScreen": {
-    "error": "Error occurs when signing in",
-    "errorAuthCore": "Error occurs when signing in with Authcore",
-    "errorLikeCo": "Error occurs when signing in with like.co",
-    "heading": "As a Liker, every Like is a reward to creators",
+    "error": "Error signing in",
+    "errorAuthCore": "Error signing in with AuthCore",
+    "errorLikeCo": "Error signing in with like.co",
+    "heading": "At Republic of Liker Land, every Like is a reward to creators",
     "signIn": "Sign In"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "Available"
   },
   "stakingDelegationSigningScreen": {
-    "title": "Stake"
+    "title": "Delegate"
   },
   "stakingRewardsWithdrawScreen": {
     "title": "Withdraw rewards"
@@ -57,11 +58,30 @@
     "available": "Available"
   },
   "stakingUnbondingDelegationSigningScreen": {
-    "title": "Unstake"
+    "title": "Undelegate"
+  },
+  "settingsScreen": {
+    "subscription": "Subscription",
+    "termsOfUse": "Terms of Use",
+    "title": "Settings"
   },
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
+  },
+  "subscriptionFeature": {
+    "com.oice.membership": [
+      "Unlock unlimited articles from 700 media",
+      "No free trial",
+      "Automatically renew every month on the same day of subscription"
+    ]
+  },
+  "subscriptionScreen": {
+    "footnote": "To cancel subscription: 1) open Settings on iPhone/iPad > [Your name] > iTunes & App Store 2) Tap your Apple ID at the top. 3) Tap View Apple ID and sign in if prompted. 4) Tap Subscriptions. 5) Tap oice Backer subscription. 6) Choose Cancel Subscription.",
+    "restorePurchasesButtonText": "Restore purchases",
+    "subscribeButtonText": "Subscribe",
+    "subscribedButtonText": "Subscribed",
+    "title": "Subscription"
   },
   "transaction": {
     "fee": "Fee",
@@ -82,17 +102,17 @@
     "transactionFee": "Transaction fee"
   },
   "validator": {
-    "delegatorShare": "Delegator Share",
+    "delegatorShare": "Liker Share",
     "description": "Description",
     "rewards": "Rewards",
     "votingPower": "Voting Power",
     "website": "Website"
   },
   "validatorScreen": {
-    "delegatorShareLabel": "Staked",
-    "delegatorRewardsLabel": "Staking Rewards",
-    "stakeButtonText": "Stake",
-    "unstakeButtonText": "Unstake",
+    "delegatorShareLabel": "Delegated",
+    "delegatorRewardsLabel": "Delegating Rewards",
+    "stakeButtonText": "Delegate",
+    "unstakeButtonText": "Undelegate",
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"
   },
@@ -100,7 +120,7 @@
     "availableBalanceLabel": "Available",
     "allDelegatorRewardsLabel": "Rewards",
     "send": "Send",
-    "stakeLabel": "Stake",
+    "stakeLabel": "Delegate",
     "receive": "Receive",
     "withdrawRewardsButtonText": "Withdraw Rewards"
   },

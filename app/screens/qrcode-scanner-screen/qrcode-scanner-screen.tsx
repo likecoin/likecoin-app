@@ -56,21 +56,20 @@ export interface QrcodeScannerScreenProps extends NavigationScreenProps<{}> {
 export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProps, {}> {
   constructor(props: QrcodeScannerScreenProps) {
     super(props)
-    this._onRead = throttle(this._onRead, 2000)
+    this.onRead = throttle(this.onRead, 2000)
   }
 
-  _onRead = (event: any) => {
+  private onRead = (event: any) => {
     if (validateAccountAddress(event.data)) {
-      this.props.navigation.goBack()
-      this.props.navigation.navigate("TransferTargetInput", { address: event.data })
+      this.props.navigation.replace("Transfer", { address: event.data })
     }
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = () => {
     this.props.navigation.goBack()
   }
 
-  _onPressFooterViewButton = () => {
+  private onPressFooterViewButton = () => {
     this.props.navigation.navigate("Receive")
   }
 
@@ -83,27 +82,27 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
       >
         <RNCamera
           captureAudio={false}
-          onBarCodeRead={this._onRead}
+          onBarCodeRead={this.onRead}
           type={RNCamera.Constants.Type.back}
           flashMode={RNCamera.Constants.FlashMode.off}
           style={CAMERA}
         >
-          {this._renderScanFrame()}
-          {this._renderFooterView()}
+          {this.renderScanFrame()}
+          {this.renderFooterView()}
         </RNCamera>
         <View style={BOTTOM_BAR}>
           <Button
             preset="icon"
             icon="close"
             color="likeGreen"
-            onPress={this._onPressCloseButton}
+            onPress={this.onPressCloseButton}
           />
         </View>
       </Screen>
     )
   }
 
-  _renderScanFrame = () => {
+  private renderScanFrame = () => {
     return (
       <View style={SCAN_FRAME}>
         <ScanFrame />
@@ -118,14 +117,14 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
     )
   }
 
-  _renderFooterView = () => {
+  private renderFooterView = () => {
     return (
       <View style={FOOTER_VIEW}>
         <Button
           preset="primary"
           tx="qrcodeScannerScreen.showMyQRCode"
           style={NEXT}
-          onPress={this._onPressFooterViewButton}
+          onPress={this.onPressFooterViewButton}
         />
       </View>
     )

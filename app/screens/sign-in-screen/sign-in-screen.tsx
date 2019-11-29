@@ -57,11 +57,11 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     try {
       await this.props.userStore.authCore.signIn()
     } catch (error) {
-      if (error.message === "USER_CANCEL_AUTH") {
+      if (error.error === "authcore.session.user_cancelled") {
         // User cancelled auth, do nothing
       } else {
         __DEV__ && console.tron.error(`Error occurs when signing in with Authcore: ${error}`, null)
-        Alert.alert(translate("signInScreen.errorAuthCore"))
+        Alert.alert(translate("signInScreen.errorAuthCore"), `${error.error_description || error}`)
       }
       return
     }
@@ -87,6 +87,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   }
 
   _signIn = async (params: UserLoginParams) => {
+    this.props.userStore.setIsSigningIn(true)
     try {
       await this.props.userStore.login(params)
     } catch (error) {
@@ -97,30 +98,31 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
         default:
           __DEV__ && console.tron.error(`Error occurs when signing in with like.co: ${error}`, null)
-          Alert.alert(translate("signInScreen.errorLikeCo"))
+          Alert.alert(translate("signInScreen.errorLikeCo"), `${error}`)
           return
       }
+    } finally {
+      this.props.userStore.setIsSigningIn(false)
     }
     this.props.navigation.navigate('LikerLandOAuth')
     this.props.userStore.fetchUserInfo()
   }
 
   _onPressAuthCoreButton = async () => {
-    this.props.userStore.setIsSigningIn(true)
     try {
       await this._signInWithAuthCore()
     } catch (error) {
       __DEV__ && console.tron.error(`Error occurs when signing in: ${error}`, null)
-      Alert.alert(`${translate("signInScreen.error")}: ${error.message}`)
-    } finally {
-      this.props.userStore.setIsSigningIn(false)
+      Alert.alert(translate("signInScreen.error"), `${error}`)
     }
   }
 
   render() {
     const {
-      currentUser,
       isSigningIn,
+      authCore: {
+        hasSignedIn: hasSignedInToAuthcore,
+      },
     } = this.props.userStore
     return (
       <View style={FULL}>
@@ -145,8 +147,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
             <Button
               tx="signInScreen.signIn"
               preset="primary"
-              isLoading={!!isSigningIn}
-              isHidden={!!currentUser}
+              isLoading={!!isSigningIn || hasSignedInToAuthcore}
               onPress={this._onPressAuthCoreButton}
             />
           </View>

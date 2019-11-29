@@ -4,10 +4,10 @@
 
 import { translate } from "./i18n"
 import * as React from "react"
-import { Alert, AppRegistry, Linking, YellowBox  } from "react-native"
+import { Alert, AppRegistry, Linking, YellowBox } from "react-native"
 import { mapping, light as lightTheme } from '@eva-design/eva'
 import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten'
-import RNExitApp from 'react-native-exit-app';
+import RNExitApp from 'react-native-exit-app'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { Provider } from "mobx-react"
 import { contains } from "ramda"

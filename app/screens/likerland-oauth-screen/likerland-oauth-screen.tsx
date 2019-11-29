@@ -21,7 +21,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   _onLoadEnd = async (syntheticEvent: NativeSyntheticEvent<WebViewNavigation>) => {
     const { url } = syntheticEvent.nativeEvent
     const { rootStore } = this.props
-    if (url.includes("/oauth/redirect")) {
+    if (url.includes("/oauth/redirect") || url.includes("/following")) {
       this.props.navigation.navigate("App")
 
       // Try to open the deferred deep link URL after sign in

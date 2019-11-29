@@ -1,25 +1,29 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
-import { View, ViewStyle, Image, ImageStyle, ActivityIndicator, TextStyle } from "react-native"
+import {
+  ActivityIndicator,
+  Image,
+  ImageStyle,
+  StyleSheet,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { APP_MARKETING_VERSION } from "react-native-dotenv"
 
 import { Button } from "../../components/button"
-import { Text } from "../../components/text"
+import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
+import { Text } from "../../components/text"
 
 import { color, spacing } from "../../theme"
 
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
 
-const SCREEN: ViewStyle = {
-  flex: 1,
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
-}
 const CONTENT_VIEW: ViewStyle = {
-
+  padding: spacing[4],
 }
 const USER_INFO: ViewStyle = {
   justifyContent: "space-between",
@@ -47,6 +51,23 @@ const LOADING_VIEW: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
 }
+const SETTINGS_MENU = StyleSheet.create({
+  TABLE: {
+    borderRadius: 12,
+    backgroundColor: color.palette.white,
+    marginVertical: spacing[4],
+  } as ViewStyle,
+  TABLE_CELL: {
+    justifyContent: "flex-start",
+  } as ViewStyle,
+  TABLE_CELL_TEXT: {
+    padding: spacing[2],
+    paddingVertical: spacing[1],
+    color: color.palette.grey4a,
+    textAlign: "left",
+    fontWeight: "normal",
+  } as TextStyle,
+})
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore,
@@ -59,28 +80,36 @@ export interface SettingsScreenProps extends NavigationScreenProps<{}> {
 )
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
-  static navigationOptions = {
-    headerStyle: {
-      backgroundColor: color.primary,
-    },
+  private onPressSubscription = () => {
+    this.props.navigation.navigate("Subscription")
   }
 
   private onClickLogout = async () => {
     await this.props.userStore.logout()
     this.props.readerStore.clearAllLists()
-    this.props.navigation.navigate('Auth')
+    this.props.navigation.navigate("Auth")
   }
 
   render () {
-    const { currentUser } = this.props.userStore
+    const {
+      currentUser,
+      iapStore: {
+        isEnabled: isEnabledIAP
+      },
+    } = this.props.userStore
     return (
       <Screen
-        style={SCREEN}
-        preset="scroll"
-        backgroundColor={color.transparent}
+        preset="fixed"
+        backgroundColor={color.primary}
       >
+        <Header headerTx="settingsScreen.title" />
         {currentUser ? (
-          <View style={CONTENT_VIEW}>
+          <Screen
+            style={CONTENT_VIEW}
+            preset="scroll"
+            backgroundColor="#F2F2F2"
+            unsafe
+          >
             <View style={USER_INFO}>
               <Image
                 style={AVATAR}
@@ -98,6 +127,26 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 text={currentUser.email}
               />
             </View>
+            {isEnabledIAP &&
+              <View style={SETTINGS_MENU.TABLE}>
+                <Button
+                  preset="plain"
+                  tx="settingsScreen.subscription"
+                  textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                  style={SETTINGS_MENU.TABLE_CELL}
+                  onPress={this.onPressSubscription}
+                />
+              </View>
+            }
+            <View style={SETTINGS_MENU.TABLE}>
+              <Button
+                preset="plain"
+                tx="settingsScreen.termsOfUse"
+                link="https://liker.land/eula"
+                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                style={SETTINGS_MENU.TABLE_CELL}
+              />
+            </View>
             <Button
               style={LOGOUT}
               tx="welcomeScreen.logout"
@@ -110,7 +159,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               size="default"
               style={VERSION}
             />
-          </View>
+          </Screen>
         ) : (
           <View style={LOADING_VIEW}>
             <ActivityIndicator

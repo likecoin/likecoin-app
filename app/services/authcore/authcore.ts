@@ -1,12 +1,6 @@
-import { NativeModules } from "react-native"
 import AuthCore from "react-native-authcore"
-
-import {
-  AuthCoreKeyVaultClient,
-  AuthCoreCosmosProvider,
-} from "authcore-js/build/main.js"
-
-import Url from "url-parse"
+import "crypto"
+import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
 
 /**
  * AuthCore callback functions to-be called
@@ -16,10 +10,35 @@ export interface AuthCoreCallback {
   unauthorized?: Function
 }
 
+function parseAuthCoreUser({
+  id,
+  primary_email: primaryEmail,
+  display_name: displayName,
+  updated_at: updatedAt,
+  created_at: createdAt,
+  primary_email_verified: primaryEmailVerified,
+  primary_phone_verified: primaryPhoneVerified,
+}) {
+  return {
+    id,
+    primaryEmail,
+    displayName,
+    updatedAt,
+    createdAt,
+    primaryEmailVerified,
+    primaryPhoneVerified,
+  }
+}
+
 /**
  * AuthCore Manager
  */
 export class AuthCoreAPI {
+  /**
+   * The domain to AuthCore
+   */
+  baseURL: string
+
   /**
    * The AuthCore client
    */
@@ -28,12 +47,12 @@ export class AuthCoreAPI {
   /**
    * The instance interacting between client and AuthCore KeyVaultAPI server.
    */
-  keyVaultClient: AuthCoreKeyVaultClient
+  keyVaultClient: AuthcoreVaultClient
 
   /**
    * The Cosmos wallet provider.
    */
-  cosmosProvider: AuthCoreCosmosProvider
+  cosmosProvider: AuthcoreCosmosProvider
 
   /**
    * The chain ID for cosmos
@@ -45,44 +64,34 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback = {}
 
-  setup(baseURL: string, cosmosChainId: string) {
+  async setup(baseURL: string, cosmosChainId: string, token?: string) {
+    this.baseURL = baseURL
     this.client = new AuthCore({
-      baseUrl: baseURL
+      baseUrl: baseURL,
+      token,
     })
     this.cosmosChainId = cosmosChainId
+    if (token) {
+      await this.setupModules(token)
+    }
   }
 
-  async authenticate(accessToken: string) {
-    const { webAuth } = this.client
-    webAuth.client.bearer = `Bearer ${accessToken}`
+  async setupModules(accessToken: string) {
+    this.client.auth.client.bearer = `Bearer ${accessToken}`
 
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
-    this.keyVaultClient = await new AuthCoreKeyVaultClient({
-      apiBaseURL: webAuth.baseUrl,
+    this.keyVaultClient = await new AuthcoreVaultClient({
+      apiBaseURL: this.baseURL,
       accessToken,
-      callbacks: this.getCallbacks(),
     })
 
     __DEV__ && console.tron.log("Initializing AuthCore Cosmos Provider")
-    this.cosmosProvider = await new AuthCoreCosmosProvider({
-      authcoreClient: this.keyVaultClient,
-      chainId: this.cosmosChainId,
-      callbacks: this.getCallbacks(),
+    this.cosmosProvider = await new AuthcoreCosmosProvider({
+      client: this.keyVaultClient,
     })
 
-    const { length } = await this.cosmosProvider.getAddresses()
-    if (!length) {
-      await this.keyVaultClient.createSecret('HD_KEY', 16)
-    }
-  }
-
-  private getCallbacks() {
-    return {
-      callbacks: {
-        unauthenticated: this.onUnauthenticated,
-        unauthorized: this.onUnauthorized
-      },
-    }
+    // Getting Cosmos addresses, it will be created if not exists
+    await this.getCosmosAddresses()
   }
 
   onUnauthenticated = () => {
@@ -94,84 +103,78 @@ export class AuthCoreAPI {
   }
 
   async getCosmosAddresses() {
-    if (!this.cosmosProvider) return []
-    const addresses: string[] = await this.cosmosProvider.getAddresses()
+    let addresses: string[] = []
+    if (this.cosmosProvider) {
+      try {
+        addresses = await this.cosmosProvider.getAddresses()
+      } catch (error) {
+        const statusCode = error.response ? error.response.status : error.status
+        switch (statusCode) {
+          case 401:
+            this.onUnauthorized()
+            break
+          case 403:
+            this.onUnauthenticated()
+            break
+        }
+      }
+    }
     return addresses
+  }
+
+  async cosmosSign(payload: Record<string, any>, address: string) {
+    let signed
+    try {
+      signed = await this.cosmosProvider.sign(payload, address)
+    } catch (error) {
+      const statusCode = error.response ? error.response.status : error.status
+      switch (statusCode) {
+        case 401:
+          this.onUnauthorized()
+          break
+        case 403:
+          this.onUnauthenticated()
+          break
+        default:
+          throw error
+      }
+    }
+    return signed
   }
 
   /**
    * Sign in AuthCore
    */
   async signIn() {
-    // XXX: Hack version of webAuth.signin()
-    const { webAuth } = this.client
-
-    // Sign in
-    const redirectURI = `${NativeModules.Authcore.bundleIdentifier}://${webAuth.baseUrl.replace(/https?:\/\//, "")}`
-
-    let redirectURL: string
-    try {
-      redirectURL = await webAuth.agent.show(`${webAuth.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectURI}`, false)
-    } catch (error) {
-      if (error.error === "authcore.session.user_cancelled") {
-        throw new Error("USER_CANCEL_AUTH")
-      }
-      throw error
-    }
-
-    const query = new Url(redirectURL, true).query
     const {
-      json: {
-        access_token: accessToken,
-        id_token: idToken,
-      },
-    } = await webAuth.client.post("/api/auth/tokens", {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      grant_type: "AUTHORIZATION_TOKEN",
-      token: query.code
-    })
-
+      accessToken,
+      idToken,
+      currentUser,
+    } = await this.client.webAuth.signin()
     return {
       accessToken,
       idToken,
+      currentUser: parseAuthCoreUser(currentUser),
     }
   }
 
   /**
    * Sign out AuthCore
    */
-  signOut() {
-    const { webAuth } = this.client
-    return webAuth.client.delete("/api/auth/sessions").then(() => {
-      webAuth.client.bearer = ''
-    })
+  async signOut() {
+    const { auth } = this.client
+    try {
+      auth.client.delete("/api/auth/sessions")
+    } finally {
+      auth.client.bearer = ''
+    }
   }
 
   /**
    * Get current user info
    */
-  async getCurrentUser() {
-    const { webAuth } = this.client
-    const {
-      json: {
-        id,
-        primary_email: primaryEmail,
-        display_name: displayName,
-        updated_at: updatedAt,
-        created_at: createdAt,
-        primary_email_verified: primaryEmailVerified,
-        primary_phone_verified: primaryPhoneVerified,
-      }
-    } = await webAuth.client.request('GET', webAuth.client.url('/api/auth/users/current'))
-
-    return {
-      id,
-      primaryEmail,
-      displayName,
-      updatedAt,
-      createdAt,
-      primaryEmailVerified,
-      primaryPhoneVerified,
-    }
+  async getCurrentUser(accessToken: string) {
+    const json = await this.client.auth.userInfo({ token: accessToken })
+    return parseAuthCoreUser(json)
   }
 }
