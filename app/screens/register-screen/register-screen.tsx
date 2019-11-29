@@ -107,7 +107,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
   /**
    * Validate the target input
    */
-  _validate = (likerId: string) => {
+  private validate = (likerId: string) => {
     let error = ""
     this.setState({ error })
 
@@ -129,10 +129,10 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
     this.props.navigation.goBack()
   }
 
-  _onPressConfirmButton = async () => {
+  private onPressConfirmButton = async () => {
     // Trim before validation
     const likerId = this.state.likerId.trim()
-    if (this._validate(likerId)) {
+    if (this.validate(likerId)) {
       const params = this.props.navigation.getParam("params")
       try {
         this.props.userStore.setIsSigningIn(true)
@@ -150,8 +150,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
     }
   }
 
-  _onLikerIdChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    console.tron.log(event.nativeEvent.text)
+  private onLikerIdChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     this.setState({
       error: "",
       likerId: event.nativeEvent.text,
@@ -195,7 +194,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
                   selectionColor={color.palette.likeCyan}
                   style={LIKER_ID_INPUT.TEXT}
                   value={likerId}
-                  onChange={this._onLikerIdChange}
+                  onChange={this.onLikerIdChange}
                 />
               </View>
             }
@@ -207,7 +206,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
             tx="common.confirm"
             isLoading={isSigningIn}
             style={REGISTER}
-            onPress={this._onPressConfirmButton}
+            onPress={this.onPressConfirmButton}
           />
         </View>
       </Screen>
