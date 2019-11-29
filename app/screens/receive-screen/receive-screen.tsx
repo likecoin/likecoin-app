@@ -87,7 +87,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   }
 
   private onPressViewExternalButton = () => {
-    Linking.openURL(this.props.walletStore.address)
+    Linking.openURL(this.props.walletStore.blockExplorerURL)
   }
 
   render () {
