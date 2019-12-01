@@ -41,7 +41,9 @@ export interface RegistrationScreenState {
   likerId: string
 }
 
-const LIKER_ID_REGEX = /[a-z0-9-_]{7,20}/
+const LIKER_ID_MIN_LENGTH = 7
+const LIKER_ID_MAX_LENGTH = 20
+const LIKER_ID_REGEX = new RegExp(`^[a-z0-9-_]{${LIKER_ID_MIN_LENGTH},${LIKER_ID_MAX_LENGTH}}$`)
 
 const ROOT: ViewStyle = {
   flex: 1,
@@ -112,7 +114,11 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
     this.setState({ error })
 
     // Check for Liker Id
-    if (!LIKER_ID_REGEX.test(likerId)) {
+    if (likerId.length < LIKER_ID_MIN_LENGTH) {
+      error = translate("error.LIKER_ID_LENGTH_LIMIT_MIN", { count: LIKER_ID_MIN_LENGTH })
+    } else if (likerId.length > LIKER_ID_MAX_LENGTH) {
+      error = translate("error.LIKER_ID_LENGTH_LIMIT_MAX", { count: LIKER_ID_MAX_LENGTH })
+    } else if (!LIKER_ID_REGEX.test(likerId)) {
       error = translate("error.LIKER_ID_FORMAT_INVALID")
     }
 

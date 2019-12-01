@@ -15,6 +15,8 @@
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchasing",
     "INVALID_ACCOUNT_ADDRESS": "Invalid address",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
+    "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be less than %{count}",
+    "LIKER_ID_LENGTH_LIMIT_MAX": "The length of the Liker ID must not be more than %{count}",
     "STAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
