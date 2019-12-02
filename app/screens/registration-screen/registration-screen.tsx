@@ -69,6 +69,14 @@ const LIKER_ID_INPUT = StyleSheet.create({
   ROOT: {
     flex: 1,
   } as ViewStyle,
+  LABEL_WRAPPER: {
+    width: BUTTON_GROUP.width,
+  } as ViewStyle,
+  LABEL: {
+    fontSize: 28,
+    fontWeight: "300",
+    marginBottom: spacing[2],
+  } as TextStyle,
   TEXT: {
     color: color.palette.white,
     backgroundColor: color.transparent,
@@ -182,12 +190,20 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
           />
         </View>
         <View style={CONTENT_VIEW}>
-          <Text
-            tx="RegistrationScreen.likerIdLabel"
-            align="center"
-            color="likeCyan"
-            weight="bold"
-          />
+          <View style={LIKER_ID_INPUT.LABEL_WRAPPER}>
+            <Text
+              tx="RegistrationScreen.likerIdLabel"
+              align="left"
+              color="likeCyan"
+              style={LIKER_ID_INPUT.LABEL}
+            />
+            <Text
+              tx="RegistrationScreen.likerIdHint"
+              color="lighterCyan"
+              size="default"
+              weight="300"
+            />
+          </View>
           <ButtonGroup
             style={BUTTON_GROUP}
             prepend={

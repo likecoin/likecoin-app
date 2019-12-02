@@ -38,7 +38,8 @@
     "shareYourAddress": "分享你的地址"
   },
   "RegistrationScreen": {
-    "likerIdLabel": "創建 Liker ID (7位或以上英文、-、_）"
+    "likerIdHint": "只允許7至20位小寫英文字母、數字、「-」及「_」字元",
+    "likerIdLabel": "創建 Liker ID"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"

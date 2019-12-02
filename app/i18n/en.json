@@ -38,7 +38,8 @@
     "shareYourAddress": "Share your address"
   },
   "RegistrationScreen": {
-    "likerIdLabel": "Create your Liker ID (7 or more characters)"
+    "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
+    "likerIdLabel": "Create your Liker ID"
   },
   "signInScreen": {
     "error": "Error signing in",
