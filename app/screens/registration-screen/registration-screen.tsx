@@ -218,7 +218,9 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
                   selectionColor={color.palette.likeCyan}
                   style={LIKER_ID_INPUT.TEXT}
                   value={likerId}
+                  autoFocus
                   onChange={this.onLikerIdChange}
+                  onSubmitEditing={this.onPressConfirmButton}
                 />
               </View>
             }
