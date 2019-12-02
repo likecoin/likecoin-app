@@ -70,36 +70,22 @@ export interface AmountInputPadProps {
  * Number pad for input LIKE amount
  */
 export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
-  state = {
-    displayValue: `${this.props.value}`,
-  }
-
-  componentDidUpdate(_prevProps: any, prevState: any) {
-    if (this.state.displayValue !== prevState.displayValue) {
-      this._onChange(this.state.displayValue)
-    }
-  }
-
-  _onChange = (value: string) => {
+  private onChange = (value: string) => {
     const callback = this.props.onChange
     if (callback) {
       callback(value)
     }
   }
 
-  _onPressKey = (key: string) => {
-    const { displayValue } = this.state
-    if (key === "." && displayValue.includes(key)) return
-    this.setState({
-      displayValue: displayValue === "0" && key !== "." ? key : displayValue.concat(key),
-    })
+  private onPressKey = (key: string) => {
+    const { value } = this.props
+    if (key === "." && value.includes(key)) return
+    this.onChange(value === "0" && key !== "." ? key : value.concat(key))
   }
 
-  _onPressDelete = () => {
-    const { displayValue } = this.state
-    this.setState({
-      displayValue: displayValue.length === 1 ? "0" : displayValue.slice(0, -1),
-    })
+  private onPressDelete = () => {
+    const { value } = this.props
+    this.onChange(value.length === 1 ? "0" : value.slice(0, -1))
   }
 
   render() {
@@ -107,6 +93,7 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
       errorText,
       errorTx,
       style,
+      value,
       ...rest
     } = this.props
 
@@ -121,7 +108,7 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
             weight="bold"
           />
           <Text
-            text={this.state.displayValue}
+            text={value}
             align="center"
             color="likeGreen"
             weight="bold"
@@ -146,23 +133,23 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
           />
         </View>
         <View>
-          {this._renderKeys()}
+          {this.renderKeys()}
         </View>
       </View>
     )
   }
 
-  _renderKeys = () => splitEvery(3, [
+  private renderKeys = () => splitEvery(3, [
     ...KEY_LIST.map(value =>
       <AmountInputPadKey
         key={value}
         value={value}
-        onPressKey={this._onPressKey}
+        onPressKey={this.onPressKey}
       />
     ),
     <AmountInputPadKey
       key="del"
-      onPress={this._onPressDelete}
+      onPress={this.onPressDelete}
     >
       <DeleteIcon
         width={24}
