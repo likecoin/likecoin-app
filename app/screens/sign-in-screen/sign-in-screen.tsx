@@ -14,6 +14,7 @@ import { Wallpaper } from "../../components/wallpaper"
 
 import { color, spacing } from "../../theme"
 import { translate } from "../../i18n"
+import { AppVersionLabel } from "../../components/app-version-label"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -28,6 +29,9 @@ const FOOTER_CONTENT: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[6],
   alignItems: "stretch",
+}
+const VERSION: ViewStyle = {
+  marginTop: spacing[2],
 }
 
 interface SignInScreenNavigationParams {
@@ -150,6 +154,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
               isLoading={!!isSigningIn || hasSignedInToAuthcore}
               onPress={this._onPressAuthCoreButton}
             />
+            <AppVersionLabel style={VERSION} />
           </View>
         </SafeAreaView>
       </View>
