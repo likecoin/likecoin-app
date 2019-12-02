@@ -23,7 +23,7 @@ import { sizes } from "../../components/text/text.sizes"
 
 import { color, spacing } from "../../theme"
 
-import { translate } from "../../i18n"
+import { translate, translateWithFallbackText } from "../../i18n"
 
 export interface RegistrationScreenParams {
   params: UserLoginParams,
@@ -159,7 +159,7 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
         this.props.navigation.navigate('LikerLandOAuth')
         this.props.userStore.fetchUserInfo()
       } catch (error) {
-        this.setState({ error: error.message })
+        this.setState({ error: translateWithFallbackText(`error.${error.message}`, error.message) })
       } finally {
         this.props.userStore.setIsSigningIn(false)
       }
