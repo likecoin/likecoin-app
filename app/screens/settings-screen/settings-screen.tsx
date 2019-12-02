@@ -10,8 +10,8 @@ import {
   ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { APP_MARKETING_VERSION, APP_VERSION } from "react-native-dotenv"
 
+import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
@@ -152,13 +152,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               tx="welcomeScreen.logout"
               onPress={this.onClickLogout}
             />
-            <Text
-              text={`${APP_MARKETING_VERSION} (build ${APP_VERSION})`}
-              color="greyBlue"
-              align="center"
-              size="default"
-              style={VERSION}
-            />
+            <AppVersionLabel style={VERSION} />
           </Screen>
         ) : (
           <View style={LOADING_VIEW}>
