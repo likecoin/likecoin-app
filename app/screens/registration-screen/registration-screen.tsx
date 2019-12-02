@@ -43,7 +43,9 @@ export interface RegistrationScreenState {
 
 const LIKER_ID_MIN_LENGTH = 7
 const LIKER_ID_MAX_LENGTH = 20
-const LIKER_ID_REGEX = new RegExp(`^[a-z0-9-_]{${LIKER_ID_MIN_LENGTH},${LIKER_ID_MAX_LENGTH}}$`)
+const LIKER_ID_VALID_CHARACTERS = 'a-z0-9-_'
+const LIKER_ID_CHARACTER_FILTER_REGEX = new RegExp(`[^${LIKER_ID_VALID_CHARACTERS}]`, "g")
+const LIKER_ID_REGEX = new RegExp(`^[${LIKER_ID_VALID_CHARACTERS}]{${LIKER_ID_MIN_LENGTH},${LIKER_ID_MAX_LENGTH}}$`)
 
 const ROOT: ViewStyle = {
   flex: 1,
@@ -102,7 +104,7 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
     const { email } = this.props.navigation.getParam("params")
     this.state = {
       error: "",
-      likerId: email ? email.split("@")[0] : "",
+      likerId: email ? email.split("@")[0].toLowerCase().replace(LIKER_ID_CHARACTER_FILTER_REGEX, "") : "",
     }
   }
 
