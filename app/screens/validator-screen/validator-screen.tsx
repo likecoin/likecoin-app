@@ -53,7 +53,7 @@ const CONTENT_CONTAINER: ViewStyle = {
   flexDirection: "row",
   flexWrap: "wrap",
   paddingHorizontal: spacing[5],
-  paddingVertical: spacing[1],
+  paddingBottom: spacing[5],
 }
 const IDENTITY = StyleSheet.create({
   INNER: {
@@ -80,9 +80,10 @@ const VALIDATOR_NAME: TextStyle = {
   color: color.palette.likeCyan,
   fontSize: sizes.large,
   fontWeight: "500",
+  flex: 1,
 }
 const LINK_WRAPPER: ViewStyle = {
-  flexDirection: "row"
+  flexDirection: "row",
 }
 const LINK: ViewStyle = {
   marginTop: spacing[4],
@@ -191,6 +192,8 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
                 <Text
                   color="likeCyan"
                   text={validator.operatorAddress}
+                  numberOfLines={1}
+                  ellipsizeMode="middle"
                 />
               </TouchableOpacity>
               <View style={LINK_WRAPPER}>
@@ -235,6 +238,9 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         />
         <Text
           text={validator.moniker}
+          numberOfLines={3}
+          adjustsFontSizeToFit
+          ellipsizeMode="middle"
           style={VALIDATOR_NAME}
         />
       </ValidatorScreenGridItem>
