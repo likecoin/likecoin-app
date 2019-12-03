@@ -69,12 +69,13 @@ function parseRawValidators(validator: CosmosValidator, env: Environment) {
 export const WalletStoreModel = types
   .model("WalletStore")
   .props({
-    annualProvision: types.optional(types.number, 0),
     validators: types.optional(types.map(ValidatorModel), {}),
     validatorList: types.optional(types.array(types.reference(ValidatorModel)), [])
   })
   .extend(self => {
     const env: Environment = getEnv(self)
+
+    const annualProvision = observable.box("0")
 
     /**
      * The address of the wallet
@@ -100,9 +101,9 @@ export const WalletStoreModel = types
     }
 
     const getAllTotalDelegatorShares = () => self.validatorList.reduce(
-      (total, validator) => total + parseFloat(validator.totalDelegatorShares),
-      0
-    )
+      (total, validator) => new BigNumber(validator.totalDelegatorShares).plus(total),
+      new BigNumber(0)
+    ).toFixed()
 
     const setValidatorRewards = ({ validator_address: id, reward }: CosmosValidatorReward) => {
       self.validators.get(id).setDelegatorRewards(extractNanolikeFromCosmosCoinList(reward))
@@ -167,14 +168,8 @@ export const WalletStoreModel = types
           validator.fetchAvatarURL()
           self.validatorList.push(validator)
         })
-        self.validatorList.forEach((validator) => {
-          validator.setExpectedReturns(
-            getAllTotalDelegatorShares(),
-            self.annualProvision
-          )
-        })
-        fetchDelegations()
         fetchRewards()
+        fetchDelegations()
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
       } finally {
@@ -184,7 +179,7 @@ export const WalletStoreModel = types
 
     const fetchAnnualProvision = flow(function * () {
       try {
-        self.annualProvision = yield env.cosmosAPI.queryAnnualProvision().then(parseFloat)
+        annualProvision.set(yield env.cosmosAPI.queryAnnualProvision())
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchAnnualProvision: ${error}`, null)
       }
@@ -220,6 +215,9 @@ export const WalletStoreModel = types
         },
         get totalDelegatorShares() {
           return getAllTotalDelegatorShares()
+        },
+        get annualProvision() {
+          return annualProvision.get()
         },
         /**
          * Return balance in LIKE
@@ -265,9 +263,12 @@ export const WalletStoreModel = types
         getValidatorVotingPower(address: string) {
           const validator = self.validators.get(address)
           if (!validator) {
-            return 0
+            return "0"
           }
-          return Number.parseFloat(validator.totalDelegatorShares) / getAllTotalDelegatorShares() * 100
+          return new BigNumber(validator.totalDelegatorShares)
+            .div(getAllTotalDelegatorShares())
+            .times(100)
+            .toFixed()
         },
         get signer() {
           return createSigner()

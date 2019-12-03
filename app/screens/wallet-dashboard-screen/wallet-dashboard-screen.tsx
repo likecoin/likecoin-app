@@ -353,6 +353,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private renderValidator = (validator: Validator) => {
+    const { totalDelegatorShares, annualProvision } = this.props.walletStore
     const rightSubtitle = validator.delegatorRewards === "0"
       ? undefined : formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards), 2)
     return (
@@ -360,7 +361,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
         key={validator.operatorAddress}
         icon={validator.avatar}
         title={validator.moniker}
-        subtitle={percent(validator.expectedReturns)}
+        subtitle={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
         rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
         rightSubtitle={rightSubtitle}
         isDarkMode={validator.isDelegated}

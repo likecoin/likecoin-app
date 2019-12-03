@@ -125,6 +125,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   render () {
+    const { totalDelegatorShares, annualProvision } = this.props.walletStore
     const validator = this.getValidator()
 
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
@@ -169,7 +170,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               }
             </ValidatorScreenGridItem>
             <ValidatorScreenGridItem
-              value={percent(validator.expectedReturns)}
+              value={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
               labelTx={"validator.rewards"}
               isHalf
             />
