@@ -42,7 +42,8 @@
   },
   "RegistrationScreen": {
     "likerIdHint": "只允許7至20位小寫英文字母、數字、「-」及「_」字元",
-    "likerIdLabel": "創建 Liker ID"
+    "likerIdLabel": "創建 Liker ID",
+    "shouldSignInOnDesktop": "請在電腦上登入 http://like.co 後再試一遍"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"

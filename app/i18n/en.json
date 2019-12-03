@@ -42,7 +42,8 @@
   },
   "RegistrationScreen": {
     "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
-    "likerIdLabel": "Create your Liker ID"
+    "likerIdLabel": "Create your Liker ID",
+    "shouldSignInOnDesktop": "Please retry after signing in to http://like.co on desktop"
   },
   "signInScreen": {
     "error": "Error signing in",

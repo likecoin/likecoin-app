@@ -7,6 +7,7 @@ import {
   TextStyle,
   View,
   ViewStyle,
+  Alert,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { Icon } from "react-native-ui-kitten"
@@ -159,7 +160,12 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
         this.props.navigation.navigate('LikerLandOAuth')
         this.props.userStore.fetchUserInfo()
       } catch (error) {
-        this.setState({ error: translateWithFallbackText(`error.${error.message}`, error.message) })
+        const errorMessage = translateWithFallbackText(`error.${error.message}`, error.message)
+        if (error.message === "REGISTRATION_EMAIL_ALREADY_USED") {
+          Alert.alert(errorMessage, translate("RegistrationScreen.shouldSignInOnDesktop"))
+        } else {
+          this.setState({ error: errorMessage })
+        }
       } finally {
         this.props.userStore.setIsSigningIn(false)
       }
