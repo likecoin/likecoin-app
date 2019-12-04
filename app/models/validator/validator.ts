@@ -69,7 +69,11 @@ export const ValidatorModel = types
         })
         if (response.status === 200) {
           const { them }: any = yield response.json()
-          self.avatorURL = them && them.length && them[0].pictures && them[0].pictures.primary && them[0].pictures.primary.url
+          console.tron.log("identity", self.identity)
+          const url = them && them.length && them[0].pictures && them[0].pictures.primary && them[0].pictures.primary.url
+          if (/^https?:\/\//.test(url)) {
+            self.avatorURL = url
+          }
         }
       }
     })
