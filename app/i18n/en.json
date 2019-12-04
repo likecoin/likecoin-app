@@ -68,6 +68,7 @@
     "title": "Undelegate"
   },
   "settingsScreen": {
+    "privacyPolicy": "Privacy Policy",
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
     "title": "Settings"
