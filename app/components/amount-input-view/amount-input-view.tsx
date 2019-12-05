@@ -16,11 +16,17 @@ import { Text } from "../text"
 
 import { color } from "../../theme"
 
-import { formatLIKE } from "../../utils/number"
-
 export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
   state = {
     maxAmountLabelWidth: 0
+  }
+
+  private formatAmount = (amount: BigNumber) => {
+    const { formatAmount } = this.props
+    if (formatAmount) {
+      return formatAmount(amount)
+    }
+    return amount.toFixed()
   }
 
   private onLayoutMaxAmountView = (event: LayoutChangeEvent) => {
@@ -39,16 +45,16 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
 
   private onPressFinishButton = () => {
     const {
+      amount,
+      maxAmount,
       onErrorExceedMax,
       onErrorLessThanZero,
     } = this.props
-    const amount = new BigNumber(this.props.amount)
     if (amount.isZero()) {
       onErrorLessThanZero && onErrorLessThanZero()
       return
     }
 
-    const maxAmount = new BigNumber(this.props.maxAmount)
     if (amount.isGreaterThan(maxAmount)) {
       onErrorExceedMax && onErrorExceedMax()
       return
@@ -58,7 +64,7 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
   }
 
   render () {
-    const { amount, error } = this.props
+    const { value, error } = this.props
     return (
       <Screen
         preset="fixed"
@@ -80,7 +86,7 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
           <View style={STYLE.CONTENT_VIEW}>
             {this.renderHeader()}
             <AmountInputPad
-              value={amount}
+              value={value}
               errorText={error}
               style={STYLE.AMOUNT_INPUT_PAD}
               onChange={this.onAmountInputChange}
@@ -114,7 +120,7 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
           onLayout={this.onLayoutMaxAmountView}
         >
           <Text
-            text={formatLIKE(maxAmount)}
+            text={this.formatAmount(maxAmount)}
             weight="600"
             minimumFontScale={0.5}
             numberOfLines={1}

@@ -7,7 +7,7 @@ import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-
 import { RootStore } from "../../models/root-store"
 import { WalletStore } from "../../models/wallet-store"
 
-import { SigningView, SigningViewStateType } from "../../components/signing-view"
+import { SigningView } from "../../components/signing-view"
 
 import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
 
@@ -20,27 +20,15 @@ export interface StakingUnbondingDelegationSigningScreenProps extends Navigation
   walletStore: WalletStore,
 }
 
-export interface StakingUnbondingDelegationSigningScreenState {
-  state: SigningViewStateType
-}
-
 @inject((stores: RootStore) => ({
   txStore: stores.stakingUnbondingDelegationStore,
   walletStore: stores.walletStore,
 }) as StakingUnbondingDelegationSigningScreenProps)
 @observer
-export class StakingUnbondingDelegationSigningScreen extends React.Component<StakingUnbondingDelegationSigningScreenProps, StakingUnbondingDelegationSigningScreenState> {
-  state: StakingUnbondingDelegationSigningScreenState = {
-    state: "waiting"
-  }
-
-  _sendTransaction = async () => {
-    this.setState({ state: "pending" })
-    await this.props.txStore.signTransaction(this.props.walletStore.signer)
-    const state = this.props.txStore.errorMessage ? "waiting" : "success"
-    this.setState({ state })
-    if (state === "success") {
-      // Update balance
+export class StakingUnbondingDelegationSigningScreen extends React.Component<StakingUnbondingDelegationSigningScreenProps, {}> {
+  private sendTransaction = async () => {
+    await this.props.txStore.signTx(this.props.walletStore.signer)
+    if (this.props.txStore.isSuccess) {
       this.props.walletStore.fetchBalance()
       this.props.walletStore.fetchDelegations()
     }
@@ -51,10 +39,10 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
   }
 
   private onPressConfirmButton = () => {
-    if (this.state.state === "success") {
+    if (this.props.txStore.isSuccess) {
       this.props.navigation.dismiss()
     } else {
-      this._sendTransaction()
+      this.sendTransaction()
     }
   }
 
@@ -64,21 +52,23 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
       blockExplorerURL,
       errorMessage,
       fee,
+      signingState: state,
       target,
       totalAmount,
     } = this.props.txStore
+    const { formatDenom } = this.props.walletStore
 
     return (
       <SigningView
         type="unstake"
-        state={this.state.state}
+        state={state}
         titleTx="stakingUnbondingDelegationSigningScreen.title"
-        amount={amount}
+        amount={formatDenom(amount)}
         txURL={blockExplorerURL}
         error={errorMessage}
-        fee={fee}
+        fee={formatDenom(fee)}
         target={target}
-        totalAmount={totalAmount}
+        totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}
         onClose={this.onPressCloseButton}

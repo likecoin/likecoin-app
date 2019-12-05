@@ -20,20 +20,11 @@ import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { ValidatorListItem } from "../../components/validator-list-item"
+import { color, gradient, spacing } from "../../theme"
 
 import { UserStore } from "../../models/user-store"
 import { WalletStore } from "../../models/wallet-store"
 import { Validator } from "../../models/validator"
-
-import {
-  formatLIKE,
-  formatNumberWithSign,
-  percent,
-  UNIT_LIKE,
-} from "../../utils/number"
-import { color, gradient, spacing } from "../../theme"
-
-import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -258,7 +249,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               >
                 {this.renderBalanceValue()}
                 <Text
-                  text={UNIT_LIKE}
+                  text={this.props.walletStore.denom}
                   color="likeGreen"
                   size="medium"
                   weight="600"
@@ -353,17 +344,14 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private renderValidator = (validator: Validator) => {
-    const { totalDelegatorShares, annualProvision } = this.props.walletStore
-    const rightSubtitle = validator.delegatorRewards === "0"
-      ? undefined : formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards), 2)
     return (
       <ValidatorListItem
         key={validator.operatorAddress}
         icon={validator.avatar}
         title={validator.moniker}
-        subtitle={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
-        rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
-        rightSubtitle={rightSubtitle}
+        subtitle={validator.formattedExpectedReturnsInPercent}
+        rightTitle={validator.formattedDelegatorShareShort}
+        rightSubtitle={validator.formattedDelegatorRewardsShort}
         isDarkMode={validator.isDelegated}
         onPress={() => this.onPressValidator(validator)}
       />

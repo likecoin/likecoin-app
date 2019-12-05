@@ -13,6 +13,7 @@ import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
 import { TransferStore } from "../../models/transfer-store"
+import { WalletStore } from "../../models/wallet-store"
 
 import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
@@ -31,6 +32,7 @@ export interface TransferTargetInputScreenParams {
 
 export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
   transferStore: TransferStore,
+  walletStore: WalletStore,
 }
 
 const ROOT: ViewStyle = {
@@ -81,7 +83,10 @@ const NEXT: ViewStyle = {
   width: BUTTON_GROUP.width,
 }
 
-@inject("transferStore")
+@inject(
+  "transferStore",
+  "walletStore",
+)
 @observer
 export class TransferTargetInputScreen extends React.Component<TransferTargetInputScreenProps, {}> {
   state = {
@@ -92,7 +97,8 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   componentDidMount() {
-    this.props.transferStore.resetInput()
+    const { fractionDenom, fractionDigits, gasPrice } = this.props.walletStore
+    this.props.transferStore.initialize(fractionDenom, fractionDigits, gasPrice)
     this._mapParamsToProps()
   }
 
@@ -111,7 +117,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   /**
    * Validate the target input
    */
-  _validate = () => {
+  private validate = () => {
     let error = ""
     this.setState({ error })
 
@@ -130,23 +136,23 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     return true
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = () => {
     this.props.navigation.pop()
   }
 
-  _onPressQRCodeButton = () => {
+  private onPressQRCodeButton = () => {
     this.props.navigation.navigate("QRCodeScan")
   }
 
-  _onPressNextButton = () => {
+  private onPressNextButton = () => {
     // Trim before validation
     this.props.transferStore.setTarget(this.props.transferStore.target.trim())
-    if (this._validate()) {
+    if (this.validate()) {
       this.props.navigation.navigate("TransferAmountInput")
     }
   }
 
-  _onTargetInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+  private onTargetInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     this.props.transferStore.setTarget(event.nativeEvent.text)
   }
 
@@ -168,7 +174,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
           <Button
             preset="icon"
             icon="close"
-            onPress={this._onPressCloseButton}
+            onPress={this.onPressCloseButton}
           />
         </View>
         <View style={CONTENT_VIEW}>
@@ -194,7 +200,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                   selectionColor={color.palette.likeCyan}
                   style={RECEIVER_TEXT_INPUT.TEXT}
                   value={target}
-                  onChange={this._onTargetInputChange}
+                  onChange={this.onTargetInputChange}
                 />
               </View>
             }
@@ -203,7 +209,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                 key: "scan",
                 preset: "icon",
                 icon: "qrcode-scan",
-                onPress: this._onPressQRCodeButton,
+                onPress: this.onPressQRCodeButton,
               },
             ]}
           />
@@ -213,7 +219,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
           <Button
             tx="common.next"
             style={NEXT}
-            onPress={this._onPressNextButton}
+            onPress={this.onPressNextButton}
           />
         </View>
       </Screen>

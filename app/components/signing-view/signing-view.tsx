@@ -12,7 +12,6 @@ import { Text } from "../../components/text"
 
 import { color } from "../../theme"
 
-import { formatLIKE } from "../../utils/number"
 import { Icon } from "../icon"
 
 export class SigningView extends React.Component<SigningViewProps, {}> {
@@ -131,7 +130,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
         <View style={SUMMARY.BODY}>
           <View style={SUMMARY.AMOUNT}>
             <Text
-              text={formatLIKE(amount)}
+              text={amount}
               size="large"
               weight="600"
               color={type === "reward" ? "green" : "grey4a"}
@@ -143,7 +142,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           {type === "reward" ? (
             <View style={SUMMARY.TARGET}>
               <Text
-                text={formatLIKE(fee)}
+                text={fee}
                 size="large"
                 weight="600"
                 minimumFontScale={0.5}
@@ -200,7 +199,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
                 style={STYLE.LABEL}
               />
               <Text
-                text={formatLIKE(fee)}
+                text={fee}
                 weight="600"
               />
             </View>
@@ -210,7 +209,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
                 style={STYLE.LABEL}
               />
               <Text
-                text={formatLIKE(totalAmount)}
+                text={totalAmount}
                 weight="600"
               />
             </View>
