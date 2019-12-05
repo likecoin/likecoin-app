@@ -15,7 +15,7 @@ export function translate(key: string, options?: object) {
  * @param key The i18n key.
  * @return Return `true` if the i18n key has translation
  */
-export function isTranslatable(key: string): Boolean {
+export function isTranslatable(key: string): boolean {
   return i18n.t(key).indexOf(i18n.missingTranslationPrefix) === -1
 }
 
