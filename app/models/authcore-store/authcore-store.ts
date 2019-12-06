@@ -42,10 +42,14 @@ export const AuthCoreStoreModel = types
       if (profile) self.profile = profile
 
       const {
-        accessToken: newAccessToken
+        accessToken: newAccessToken = ""
       } = yield env.authCoreAPI.setupModules(refreshToken, accessToken)
       _accessToken.set(newAccessToken)
-      yield fetchCosmosAddress()
+      if (newAccessToken) {
+        yield fetchCosmosAddress()
+      } else {
+        self.cosmosAddresses = undefined
+      }
     })
 
     const signIn = flow(function * () {

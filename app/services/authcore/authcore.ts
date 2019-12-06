@@ -87,7 +87,7 @@ export class AuthCoreAPI {
         console.error(err)
       }
     }
-    if (!accessToken) return
+    if (!accessToken) return {}
     this.client.auth.client.bearer = `Bearer ${accessToken}`
 
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
