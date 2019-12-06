@@ -94,13 +94,20 @@ export const UserStoreModel = types
             avatarURL,
           })
           Intercom.registerIdentifiedUser(likerID, intercomToken)
+          const factors = yield env.authCoreAPI.getOAuthFactors()
+          const services = factors.map(f => f.service)
           /* eslint-disable @typescript-eslint/camelcase */
+          const opt = services.reduce((accumOpt, service) => {
+            if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
+            return accumOpt
+          }, { binded_authcore: true })
           Intercom.updateUser({
             name: displayName,
             email,
             custom_attributes: {
               has_liker_land_app: true,
               cosmos_wallet: self.authCore.cosmosAddresses[0],
+              ...opt,
             }
           })
           /* eslint-enable @typescript-eslint/camelcase */
