@@ -8,6 +8,7 @@ import "./mock-keychain"
 import "./mock-react-native-localize"
 import "./mock-reactotron"
 import "./mock-textinput"
+import "./mock-intercom"
 
 declare global {
   var __TEST__
