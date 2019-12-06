@@ -56,7 +56,7 @@ export const AuthCoreStoreModel = types
         currentUser,
       }: any = yield env.authCoreAPI.signIn()
       _hasSignedIn.set(true)
-      yield Keychain.save(idToken, refreshToken, env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
+      yield Keychain.save('likerland_refresh_token', refreshToken, env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
       yield init(refreshToken, idToken, accessToken, currentUser)
     })
 
