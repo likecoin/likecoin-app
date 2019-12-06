@@ -18,6 +18,7 @@ export const AuthCoreStoreModel = types
     const env: Environment = getEnv(self)
 
     const _accessToken = observable.box("")
+    const _refreshToken = observable.box("")
     const _idToken = observable.box("")
     const _hasSignedIn = observable.box(false)
 
@@ -31,27 +32,36 @@ export const AuthCoreStoreModel = types
     })
 
     const init = flow(function * (
-      accessToken: string,
+      refreshToken: string,
       idToken: string,
+      accessToken?: string,
       profile?: AuthCoreUser,
     ) {
-      _accessToken.set(accessToken)
+      _refreshToken.set(refreshToken)
       _idToken.set(idToken)
       if (profile) self.profile = profile
 
-      yield env.authCoreAPI.setupModules(accessToken)
-      yield fetchCosmosAddress()
+      const {
+        accessToken: newAccessToken = ""
+      } = yield env.authCoreAPI.setupModules(refreshToken, accessToken)
+      _accessToken.set(newAccessToken)
+      if (newAccessToken) {
+        yield fetchCosmosAddress()
+      } else {
+        self.cosmosAddresses = undefined
+      }
     })
 
     const signIn = flow(function * () {
       const {
         accessToken,
+        refreshToken,
         idToken,
         currentUser,
       }: any = yield env.authCoreAPI.signIn()
       _hasSignedIn.set(true)
-      yield Keychain.save(idToken, accessToken, env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
-      yield init(accessToken, idToken, currentUser)
+      yield Keychain.save('likerland_refresh_token', refreshToken, env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
+      yield init(refreshToken, idToken, accessToken, currentUser)
     })
 
     const signOut = flow(function * () {
