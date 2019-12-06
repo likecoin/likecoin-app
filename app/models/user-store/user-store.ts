@@ -5,6 +5,7 @@ import { Environment } from "../environment"
 import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
+import * as Intercom from "../../utils/intercom"
 
 import {
   GeneralResult,
@@ -72,6 +73,7 @@ export const UserStoreModel = types
         env.likeCoAPI.logout(),
         self.authCore.signOut(),
       ])
+      Intercom.logout()
     })
 
     const fetchUserInfo = flow(function * () {
@@ -83,6 +85,7 @@ export const UserStoreModel = types
             displayName,
             email,
             avatar: avatarURL,
+            intercomToken,
           } = result.data
           self.currentUser = UserModel.create({
             likerID,
@@ -90,6 +93,17 @@ export const UserStoreModel = types
             email,
             avatarURL,
           })
+          Intercom.registerIdentifiedUser(likerID, intercomToken)
+          /* eslint-disable @typescript-eslint/camelcase */
+          Intercom.updateUser({
+            name: displayName,
+            email,
+            custom_attributes: {
+              has_liker_land_app: true,
+              cosmos_wallet: self.authCore.cosmosAddresses[0],
+            }
+          })
+          /* eslint-enable @typescript-eslint/camelcase */
           break
         }
         case "unauthorized": {
