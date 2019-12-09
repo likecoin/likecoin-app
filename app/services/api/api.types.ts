@@ -5,6 +5,7 @@ export interface User {
   displayName?: string,
   email?: string,
   avatar?: string,
+  intercomToken?: string,
 }
 
 export interface Content {

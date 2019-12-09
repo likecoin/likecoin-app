@@ -154,6 +154,20 @@ export class AuthCoreAPI {
     return signed
   }
 
+  async getOAuthFactors() {
+    const { auth } = this.client
+    const { json } = await auth.client.get("/api/auth/oauth_factors")
+    let { oauth_factors: oAuthFactors = [] } = json
+    /* handle FACEBOOK is missing due to being default */
+    oAuthFactors = oAuthFactors.map(f => {
+      if (!f.service) {
+        return { ...f, service: 'FACEBOOK' }
+      }
+      return f
+    })
+    return oAuthFactors
+  }
+
   /**
    * Sign in AuthCore
    */
