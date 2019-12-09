@@ -169,7 +169,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               <Button
                 preset="plain"
                 tx="settingsScreen.contactUs"
-                link="https://like.co/in/policies/privacy"
                 textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
                 style={SETTINGS_MENU.TABLE_CELL}
                 onPress={this.onPressContactUs}
