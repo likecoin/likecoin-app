@@ -24,8 +24,8 @@ export class BigDipper {
     return `${this.baseURL}/validator/${address}`
   }
 
-  getTransactionURL(hash: string) {
+  getTransactionURL(hash: string, isNew: boolean = true) {
     if (!hash) return ""
-    return `${this.baseURL}/transactions/${hash}`
+    return `${this.baseURL}/transactions/${hash}${isNew ? "?new" : ""}`
   }
 }

@@ -40,7 +40,14 @@ export const UserStoreModel = types
         case "ok":
           break
         case "bad-data":
-          throw new Error("REGISTRATION_BAD_DATA")
+          switch (result.data) {
+            case "EMAIL_ALREADY_USED":
+              throw new Error("REGISTRATION_EMAIL_ALREADY_USED")
+            case "USER_ALREADY_EXIST":
+              throw new Error("REGISTRATION_LIKER_ID_ALREADY_USED")
+            default:
+              throw new Error("REGISTRATION_BAD_DATA")
+          }
         default:
           throwProblem(result)
       }

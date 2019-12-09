@@ -10,8 +10,8 @@ import {
   ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { APP_MARKETING_VERSION } from "react-native-dotenv"
 
+import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
@@ -51,6 +51,9 @@ const LOADING_VIEW: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
 }
+const TABLE_CELL_BASE: ViewStyle = {
+  justifyContent: "flex-start",
+}
 const SETTINGS_MENU = StyleSheet.create({
   TABLE: {
     borderRadius: 12,
@@ -58,8 +61,12 @@ const SETTINGS_MENU = StyleSheet.create({
     marginVertical: spacing[4],
   } as ViewStyle,
   TABLE_CELL: {
-    justifyContent: "flex-start",
+    ...TABLE_CELL_BASE,
+    borderStyle: "solid",
+    borderTopColor: color.palette.lighterGrey,
+    borderTopWidth: StyleSheet.hairlineWidth,
   } as ViewStyle,
+  TABLE_CELL_FIRST_CHILD: TABLE_CELL_BASE,
   TABLE_CELL_TEXT: {
     padding: spacing[2],
     paddingVertical: spacing[1],
@@ -133,7 +140,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                   preset="plain"
                   tx="settingsScreen.subscription"
                   textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                  style={SETTINGS_MENU.TABLE_CELL}
+                  style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
                   onPress={this.onPressSubscription}
                 />
               </View>
@@ -144,6 +151,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 tx="settingsScreen.termsOfUse"
                 link="https://liker.land/eula"
                 textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+              />
+              <Button
+                preset="plain"
+                tx="settingsScreen.privacyPolicy"
+                link="https://like.co/in/policies/privacy"
+                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
                 style={SETTINGS_MENU.TABLE_CELL}
               />
             </View>
@@ -152,13 +166,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               tx="welcomeScreen.logout"
               onPress={this.onClickLogout}
             />
-            <Text
-              text={APP_MARKETING_VERSION}
-              color="greyBlue"
-              align="center"
-              size="default"
-              style={VERSION}
-            />
+            <AppVersionLabel style={VERSION} />
           </Screen>
         ) : (
           <View style={LOADING_VIEW}>

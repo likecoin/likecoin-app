@@ -1,6 +1,6 @@
 import { observer, inject } from "mobx-react"
 import * as React from "react"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import {
   Clipboard,
   Linking,
@@ -23,11 +23,14 @@ import { color, spacing } from "../../theme"
 export interface ReceiveScreenProps extends NavigationScreenProps<{}> {
   walletStore: WalletStore,
 }
-
-const SCREEN: ViewStyle = {
+const ROOT: ViewStyle = {
   flex: 1,
+  backgroundColor: color.primary,
+}
+const SCREEN: ViewStyle = {
+  flexGrow: 1,
   alignItems: "center",
-  justifyContent: "space-between",
+  justifyContent: "center",
 }
 const HEADER_BAR: ViewStyle = {
   alignItems: "flex-end",
@@ -68,23 +71,23 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
     isCopied: false
   }
 
-  _onPressShareButton = () => {
+  private onPressShareButton = () => {
     const { address: message } = this.props.walletStore
     Share.share({ message })
   }
 
-  _onPressCopyButton = () => {
+  private onPressCopyButton = () => {
     const { address: message } = this.props.walletStore
     Clipboard.setString(message)
     this.setState({ isCopied: true })
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = () => {
     this.props.navigation.goBack()
   }
 
-  _onPressViewExternalButton = () => {
-    Linking.openURL(this.props.walletStore.address)
+  private onPressViewExternalButton = () => {
+    Linking.openURL(this.props.walletStore.blockExplorerURL)
   }
 
   render () {
@@ -93,56 +96,59 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
     return (
-      <Screen
-        style={SCREEN}
-        backgroundColor={color.primary}
-        preset="fixed"
-      >
-        <View style={HEADER_BAR}>
+      <View style={ROOT}>
+        <SafeAreaView style={HEADER_BAR}>
           <Button
             preset="icon"
             icon="share"
-            onPress={this._onPressShareButton}
+            onPress={this.onPressShareButton}
           />
-        </View>
-
-        <View style={INNER}>
-          <Text
-            color="likeCyan"
-            size="medium"
-            align="center"
-            weight="bold"
-            tx="receiveScreen.shareYourAddress"
-          />
-          <Sheet style={SHEET}>
-            <QRCode
-              value={address}
-              size={160}
+        </SafeAreaView>
+        <Screen
+          preset="fixed"
+          backgroundColor={color.transparent}
+          style={SCREEN}
+        >
+          <View style={INNER}>
+            <Text
+              color="likeCyan"
+              size="medium"
+              align="center"
+              weight="bold"
+              tx="receiveScreen.shareYourAddress"
             />
-            <Text style={ADDRESS} text={address} />
+            <Sheet style={SHEET}>
+              <QRCode
+                value={address}
+                size={160}
+              />
+              <Text style={ADDRESS} text={address} />
+              <Button
+                textStyle={COPY_BUTTON}
+                preset="link"
+                tx={copyButtonTx}
+                onPress={this.onPressCopyButton}
+              />
+            </Sheet>
             <Button
-              textStyle={COPY_BUTTON}
-              preset="link"
-              tx={copyButtonTx}
-              onPress={this._onPressCopyButton}
+              preset="outlined"
+              tx="common.viewOnBlockExplorer"
+              onPress={this.onPressViewExternalButton}
             />
-          </Sheet>
-          <Button
-            preset="outlined"
-            tx="common.viewOnBlockExplorer"
-            onPress={this._onPressViewExternalButton}
-          />
-        </View>
-
-        <View style={BOTTOM_BAR}>
+          </View>
+        </Screen>
+        <SafeAreaView
+          forceInset={{ top: "never", bottom: "always" }}
+          style={BOTTOM_BAR}
+        >
           <Button
             preset="icon"
             icon="close"
             color="likeGreen"
-            onPress={this._onPressCloseButton}
+            onPress={this.onPressCloseButton}
           />
-        </View>
-      </Screen>
+        </SafeAreaView>
+      </View>
     )
   }
 }

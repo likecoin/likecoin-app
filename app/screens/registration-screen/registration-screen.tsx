@@ -7,6 +7,7 @@ import {
   TextStyle,
   View,
   ViewStyle,
+  Alert,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { Icon } from "react-native-ui-kitten"
@@ -23,16 +24,16 @@ import { sizes } from "../../components/text/text.sizes"
 
 import { color, spacing } from "../../theme"
 
-import { translate } from "../../i18n"
+import { translate, translateWithFallbackText } from "../../i18n"
 
-export interface RegisterScreenParams {
+export interface RegistrationScreenParams {
   params: UserLoginParams,
 }
 
-export interface RegisterScreenProps extends NavigationScreenProps<RegisterScreenParams> {
+export interface RegistrationScreenProps extends NavigationScreenProps<RegistrationScreenParams> {
   userStore: UserStore,
 }
-export interface RegisterScreenState {
+export interface RegistrationScreenState {
   /**
    * The code of the error description which is looked up via i18n.
    */
@@ -41,7 +42,11 @@ export interface RegisterScreenState {
   likerId: string
 }
 
-const LIKER_ID_REGEX = /[a-z0-9-_]{7,20}/
+const LIKER_ID_MIN_LENGTH = 7
+const LIKER_ID_MAX_LENGTH = 20
+const LIKER_ID_VALID_CHARACTERS = 'a-z0-9-_'
+const LIKER_ID_CHARACTER_FILTER_REGEX = new RegExp(`[^${LIKER_ID_VALID_CHARACTERS}]`, "g")
+const LIKER_ID_REGEX = new RegExp(`^[${LIKER_ID_VALID_CHARACTERS}]{${LIKER_ID_MIN_LENGTH},${LIKER_ID_MAX_LENGTH}}$`)
 
 const ROOT: ViewStyle = {
   flex: 1,
@@ -65,6 +70,14 @@ const LIKER_ID_INPUT = StyleSheet.create({
   ROOT: {
     flex: 1,
   } as ViewStyle,
+  LABEL_WRAPPER: {
+    width: BUTTON_GROUP.width,
+  } as ViewStyle,
+  LABEL: {
+    fontSize: 28,
+    fontWeight: "300",
+    marginBottom: spacing[2],
+  } as TextStyle,
   TEXT: {
     color: color.palette.white,
     backgroundColor: color.transparent,
@@ -93,26 +106,30 @@ const REGISTER: ViewStyle = {
 
 @inject("userStore")
 @observer
-export class RegisterScreen extends React.Component<RegisterScreenProps, RegisterScreenState> {
-  constructor(props: RegisterScreenProps) {
+export class RegistrationScreen extends React.Component<RegistrationScreenProps, RegistrationScreenState> {
+  constructor(props: RegistrationScreenProps) {
     super(props)
 
     const { email } = this.props.navigation.getParam("params")
     this.state = {
       error: "",
-      likerId: email ? email.split("@")[0] : "",
+      likerId: email ? email.split("@")[0].toLowerCase().replace(LIKER_ID_CHARACTER_FILTER_REGEX, "") : "",
     }
   }
 
   /**
    * Validate the target input
    */
-  _validate = (likerId: string) => {
+  private validate = (likerId: string) => {
     let error = ""
     this.setState({ error })
 
     // Check for Liker Id
-    if (!LIKER_ID_REGEX.test(likerId)) {
+    if (likerId.length < LIKER_ID_MIN_LENGTH) {
+      error = translate("error.LIKER_ID_LENGTH_LIMIT_MIN", { count: LIKER_ID_MIN_LENGTH })
+    } else if (likerId.length > LIKER_ID_MAX_LENGTH) {
+      error = translate("error.LIKER_ID_LENGTH_LIMIT_MAX", { count: LIKER_ID_MAX_LENGTH })
+    } else if (!LIKER_ID_REGEX.test(likerId)) {
       error = translate("error.LIKER_ID_FORMAT_INVALID")
     }
 
@@ -129,10 +146,10 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
     this.props.navigation.goBack()
   }
 
-  _onPressConfirmButton = async () => {
+  private onPressConfirmButton = async () => {
     // Trim before validation
     const likerId = this.state.likerId.trim()
-    if (this._validate(likerId)) {
+    if (this.validate(likerId)) {
       const params = this.props.navigation.getParam("params")
       try {
         this.props.userStore.setIsSigningIn(true)
@@ -143,15 +160,19 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
         this.props.navigation.navigate('LikerLandOAuth')
         this.props.userStore.fetchUserInfo()
       } catch (error) {
-        this.setState({ error: error.message })
+        const errorMessage = translateWithFallbackText(`error.${error.message}`, error.message)
+        if (error.message === "REGISTRATION_EMAIL_ALREADY_USED") {
+          Alert.alert(errorMessage, translate("RegistrationScreen.shouldSignInOnDesktop"))
+        } else {
+          this.setState({ error: errorMessage })
+        }
       } finally {
         this.props.userStore.setIsSigningIn(false)
       }
     }
   }
 
-  _onLikerIdChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    console.tron.log(event.nativeEvent.text)
+  private onLikerIdChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     this.setState({
       error: "",
       likerId: event.nativeEvent.text,
@@ -175,12 +196,20 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
           />
         </View>
         <View style={CONTENT_VIEW}>
-          <Text
-            tx="registerScreen.likerIdLabel"
-            align="center"
-            color="likeCyan"
-            weight="bold"
-          />
+          <View style={LIKER_ID_INPUT.LABEL_WRAPPER}>
+            <Text
+              tx="RegistrationScreen.likerIdLabel"
+              align="left"
+              color="likeCyan"
+              style={LIKER_ID_INPUT.LABEL}
+            />
+            <Text
+              tx="RegistrationScreen.likerIdHint"
+              color="lighterCyan"
+              size="default"
+              weight="300"
+            />
+          </View>
           <ButtonGroup
             style={BUTTON_GROUP}
             prepend={
@@ -195,7 +224,9 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
                   selectionColor={color.palette.likeCyan}
                   style={LIKER_ID_INPUT.TEXT}
                   value={likerId}
-                  onChange={this._onLikerIdChange}
+                  autoFocus
+                  onChange={this.onLikerIdChange}
+                  onSubmitEditing={this.onPressConfirmButton}
                 />
               </View>
             }
@@ -207,7 +238,7 @@ export class RegisterScreen extends React.Component<RegisterScreenProps, Registe
             tx="common.confirm"
             isLoading={isSigningIn}
             style={REGISTER}
-            onPress={this._onPressConfirmButton}
+            onPress={this.onPressConfirmButton}
           />
         </View>
       </Screen>

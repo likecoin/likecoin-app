@@ -9,7 +9,7 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { ValidatorScreenGridItem } from "./validator-screen.grid-item"
@@ -53,7 +53,7 @@ const CONTENT_CONTAINER: ViewStyle = {
   flexDirection: "row",
   flexWrap: "wrap",
   paddingHorizontal: spacing[5],
-  paddingVertical: spacing[1],
+  paddingBottom: spacing[5],
 }
 const IDENTITY = StyleSheet.create({
   INNER: {
@@ -80,9 +80,10 @@ const VALIDATOR_NAME: TextStyle = {
   color: color.palette.likeCyan,
   fontSize: sizes.large,
   fontWeight: "500",
+  flex: 1,
 }
 const LINK_WRAPPER: ViewStyle = {
-  flexDirection: "row"
+  flexDirection: "row",
 }
 const LINK: ViewStyle = {
   marginTop: spacing[4],
@@ -125,6 +126,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   render () {
+    const { totalDelegatorShares, annualProvision } = this.props.walletStore
     const validator = this.getValidator()
 
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
@@ -169,7 +171,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               }
             </ValidatorScreenGridItem>
             <ValidatorScreenGridItem
-              value={percent(validator.expectedReturns)}
+              value={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
               labelTx={"validator.rewards"}
               isHalf
             />
@@ -190,6 +192,8 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
                 <Text
                   color="likeCyan"
                   text={validator.operatorAddress}
+                  numberOfLines={1}
+                  ellipsizeMode="middle"
                 />
               </TouchableOpacity>
               <View style={LINK_WRAPPER}>
@@ -203,15 +207,18 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               </View>
             </ValidatorScreenGridItem>
           </View>
-          <View style={BOTTOM_BAR}>
-            <Button
-              preset="icon"
-              icon="close"
-              color="likeGreen"
-              onPress={this.onPressCloseButton}
-            />
-          </View>
         </Screen>
+        <SafeAreaView
+          forceInset={{ top: "never", bottom: "always" }}
+          style={BOTTOM_BAR}
+        >
+          <Button
+            preset="icon"
+            icon="close"
+            color="likeGreen"
+            onPress={this.onPressCloseButton}
+          />
+        </SafeAreaView>
       </View>
     )
   }
@@ -231,6 +238,9 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         />
         <Text
           text={validator.moniker}
+          numberOfLines={3}
+          adjustsFontSizeToFit
+          ellipsizeMode="middle"
           style={VALIDATOR_NAME}
         />
       </ValidatorScreenGridItem>

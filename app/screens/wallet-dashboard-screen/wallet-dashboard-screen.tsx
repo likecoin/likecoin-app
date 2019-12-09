@@ -40,8 +40,16 @@ export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   walletStore: WalletStore
 }
 
-const FULL: ViewStyle = {
+const ROOT: ViewStyle = {
   flex: 1,
+  backgroundColor: color.palette.white,
+}
+const TOP_UNDERLAY: ViewStyle = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  aspectRatio: 0.8,
   backgroundColor: color.primary,
 }
 const SCREEN: ViewStyle = {
@@ -182,7 +190,8 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   render () {
     const { currentUser } = this.props.userStore
     return (
-      <View style={FULL}>
+      <View style={ROOT}>
+        <View style={TOP_UNDERLAY} />
         <Screen
           style={SCREEN}
           backgroundColor={color.transparent}
@@ -344,6 +353,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private renderValidator = (validator: Validator) => {
+    const { totalDelegatorShares, annualProvision } = this.props.walletStore
     const rightSubtitle = validator.delegatorRewards === "0"
       ? undefined : formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards), 2)
     return (
@@ -351,7 +361,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
         key={validator.operatorAddress}
         icon={validator.avatar}
         title={validator.moniker}
-        subtitle={percent(validator.expectedReturns)}
+        subtitle={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
         rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
         rightSubtitle={rightSubtitle}
         isDarkMode={validator.isDelegated}

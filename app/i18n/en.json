@@ -15,6 +15,11 @@
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchasing",
     "INVALID_ACCOUNT_ADDRESS": "Invalid address",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
+    "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be less than %{count}",
+    "LIKER_ID_LENGTH_LIMIT_MAX": "The length of the Liker ID must not be more than %{count}",
+    "REGISTRATION_BAD_DATA": "Registration data invalid",
+    "REGISTRATION_EMAIL_ALREADY_USED": "The email is already used",
+    "REGISTRATION_LIKER_ID_ALREADY_USED": "The Liker ID is already used",
     "STAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
@@ -35,8 +40,10 @@
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },
-  "registerScreen": {
-    "likerIdLabel": "Create your Liker ID (7 or more characters)"
+  "RegistrationScreen": {
+    "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
+    "likerIdLabel": "Create your Liker ID",
+    "shouldSignInOnDesktop": "Please retry after signing in to http://like.co on desktop"
   },
   "signInScreen": {
     "error": "Error signing in",
@@ -61,6 +68,7 @@
     "title": "Undelegate"
   },
   "settingsScreen": {
+    "privacyPolicy": "Privacy Policy",
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
     "title": "Settings"

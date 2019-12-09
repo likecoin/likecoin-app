@@ -5,8 +5,8 @@ import {
   flow,
   getEnv,
 } from "mobx-state-tree"
-
 import { observable } from "mobx"
+import BigNumber from "bignumber.js"
 
 import { Environment } from "../environment"
 
@@ -38,7 +38,6 @@ export const ValidatorModel = types
     maxCommissionRate: types.string,
     maxCommissionChangeRate: types.string,
     commissionUpdateTime: types.string,
-    expectedReturns: types.optional(types.number, 0),
 
     minSelfDelegation: types.string,
   })
@@ -70,58 +69,69 @@ export const ValidatorModel = types
         })
         if (response.status === 200) {
           const { them }: any = yield response.json()
-          self.avatorURL = them && them.length && them[0].pictures && them[0].pictures.primary && them[0].pictures.primary.url
+          console.tron.log("identity", self.identity)
+          const url = them && them.length && them[0].pictures && them[0].pictures.primary && them[0].pictures.primary.url
+          if (/^https?:\/\//.test(url)) {
+            self.avatorURL = url
+          }
         }
       }
     })
 
     /**
-     * Share of all provisioned block rewards all delegators of this validator get
+     * Calculate share of all provisioned block rewards all delegators of this validator get
      *
      * @param totalStakedTokens The total staked tokens from all validators
      */
-    const getProvisionShare = (totalStakedTokens: number) => {
-      const validatorProvisionShare = Number.parseFloat(self.tokens) / totalStakedTokens
-      const delegatorProvisionShare = validatorProvisionShare * (1 - Number.parseFloat(self.commissionRate))
-      return delegatorProvisionShare
+    function calculateDelegatorProvisionShare(totalStakedTokens: BigNumber) {
+      const validatorProvisionShare = new BigNumber(self.tokens).div(totalStakedTokens)
+      return validatorProvisionShare.times(new BigNumber(1).minus(new BigNumber(self.commissionRate)))
     }
 
     /**
-     * Expected rewards if delegator stakes x tokens
+     * Calculate expected rewards if delegator stakes `x` tokens
      *
      * @param totalStakedTokens The total staked tokens from all validators
-     * @param annualProvision The number of annual provisioned tokens
-     * @param delegatedTokens The number of delegated tokens
+     * @param annualProvision The annual provision
+     * @param delegatedTokens The delegated tokens of a delegator
+     * @return The annual rewards for a delegator
      */
-    const getExpectedRewards = (
-      totalStakedTokens: number,
-      annualProvision: number,
-      delegatedTokens: number,
-    ) => {
-      if (self.status === 0 || self.jailed === true) {
-        return 0
-      }
-      const delegatorProvisionShare = getProvisionShare(totalStakedTokens)
-      const annualAllDelegatorRewards = delegatorProvisionShare * annualProvision
-      const annualDelegatorRewardsShare = delegatedTokens / Number.parseFloat(self.tokens)
-      const annualDelegatorRewards = annualDelegatorRewardsShare * annualAllDelegatorRewards
+    function calculateExpectedRewards(
+      totalStakedTokens: BigNumber,
+      annualProvision: BigNumber,
+      delegatedTokens: BigNumber,
+    ) {
+      const delegatorProvisionShare = calculateDelegatorProvisionShare(totalStakedTokens)
+      const annualAllDelegatorRewards = delegatorProvisionShare.times(annualProvision)
+      const annualDelegatorRewardsShare = delegatedTokens.div(new BigNumber(self.tokens))
+      const annualDelegatorRewards = annualDelegatorRewardsShare.times(annualAllDelegatorRewards)
       return annualDelegatorRewards
     }
 
     /**
-     * Get simplified expected rewards with a fixed token amount
+     * Get simplified expected rewards in percent
+     * Ref: https://github.com/luniehq/lunie/blob/ecf75e07c6e673434a87e9e5b2e5e5290c5b1667/src/scripts/returns.js
      *
      * @param totalStakedTokens The total staked tokens from all validators
      * @param annualProvision The annual provision
+     * @return The percentage of the returns
      */
-    const setExpectedReturns = (
-      totalStakedTokens: number,
-      annualProvision: number
-    ) => {
-      self.expectedReturns = getExpectedRewards(
-        totalStakedTokens,
-        annualProvision,
-        1
+    function calculateExpectedReturnsInPercent(
+      totalStakedTokens: string,
+      annualProvision: string,
+    ) {
+      let delegatedTokens = new BigNumber(delegatorShare.get())
+      if (delegatedTokens.isZero()) {
+        delegatedTokens = new BigNumber(10000000000)
+      }
+      return (
+        calculateExpectedRewards(
+          new BigNumber(totalStakedTokens),
+          new BigNumber(annualProvision),
+          delegatedTokens,
+        )
+          .div(delegatedTokens)
+          .times(100)
       )
     }
 
@@ -142,12 +152,14 @@ export const ValidatorModel = types
         get isDelegated() {
           return delegatorShare.get() !== "0"
         },
+        getExpectedReturnsInPercent(totalStakedTokens: string, annualProvision: string) {
+          return calculateExpectedReturnsInPercent(totalStakedTokens, annualProvision).toFixed()
+        },
       },
       actions: {
         fetchAvatarURL,
         setDelegatorRewards,
         setDelegatorShare,
-        setExpectedReturns,
       },
     }
   })

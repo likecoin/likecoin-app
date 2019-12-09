@@ -14,7 +14,12 @@
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",
     "INVALID_ACCOUNT_ADDRESS": "錢包地址不正確",
-    "LIKER_ID_FORMAT_INVALID": "請以最少7位英文字、數字、- 或 _ 組成你的 Liker ID",
+    "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
+    "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
+    "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
+    "REGISTRATION_BAD_DATA": "註冊資料錯誤",
+    "REGISTRATION_EMAIL_ALREADY_USED": "電郵已被註冊",
+    "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註冊",
     "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
@@ -35,8 +40,10 @@
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
   },
-  "registerScreen": {
-    "likerIdLabel": "創建 Liker ID (7位或以上英文、-、_）"
+  "RegistrationScreen": {
+    "likerIdHint": "只允許7至20位小寫英文字母、數字、「-」及「_」字元",
+    "likerIdLabel": "創建 Liker ID",
+    "shouldSignInOnDesktop": "請在電腦上登入 http://like.co 後再試一遍"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"
@@ -54,6 +61,7 @@
     "title": "委託"
   },
   "settingsScreen": {
+    "privacyPolicy": "隱私權政策",
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
     "title": "設定"
