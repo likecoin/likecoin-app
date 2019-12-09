@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "Intercom/intercom.h"
 
+#import <UserNotifications/UserNotifications.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -75,11 +76,18 @@
                      restorationHandler:restorationHandler];
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    UNUserNotificationCenter *notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+    [notificationCenter requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+      if (granted) {
+        [application registerForRemoteNotifications];
+      }
+    }];
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
- 
     // Intercom
     [Intercom setDeviceToken:deviceToken];
- 
 }
 
 @end
