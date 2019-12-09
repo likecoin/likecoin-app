@@ -196,11 +196,12 @@ android {
 
 dependencies {
     def multidex_version = "2.0.1"
-    implementation 'androidx.multidex:multidex:$multidex_version'
+    implementation "androidx.multidex:multidex:$multidex_version"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'io.intercom.android:intercom-sdk-base:5.+'
+    implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation 'io.intercom.android:intercom-sdk-fcm:5.+'
+    implementation 'com.google.firebase:firebase-messaging:20.+'
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
