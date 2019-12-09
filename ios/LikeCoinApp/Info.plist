@@ -62,6 +62,8 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>The app requires camera for scanning QR code</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>The app requires your permission to access your photos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>
