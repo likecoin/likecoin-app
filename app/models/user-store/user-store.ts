@@ -94,7 +94,7 @@ export const UserStoreModel = types
             avatarURL,
           })
           Intercom.registerIdentifiedUser(likerID, intercomToken)
-          const factors = yield env.authCoreAPI.getOAuthFactors()
+          const factors: any[] = yield env.authCoreAPI.getOAuthFactors()
           const services = factors.map(f => f.service)
           /* eslint-disable @typescript-eslint/camelcase */
           const opt = services.reduce((accumOpt, service) => {
