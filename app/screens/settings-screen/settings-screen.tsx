@@ -22,6 +22,8 @@ import { color, spacing } from "../../theme"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
 
+import * as Intercom from "../../utils/intercom"
+
 const CONTENT_VIEW: ViewStyle = {
   padding: spacing[4],
 }
@@ -97,6 +99,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("Auth")
   }
 
+  private onPressContactUs = () => {
+    Intercom.displayMessageComposer()
+  }
+
   render () {
     const {
       currentUser,
@@ -159,6 +165,14 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 link="https://like.co/in/policies/privacy"
                 textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
                 style={SETTINGS_MENU.TABLE_CELL}
+              />
+              <Button
+                preset="plain"
+                tx="settingsScreen.contactUs"
+                link="https://like.co/in/policies/privacy"
+                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                style={SETTINGS_MENU.TABLE_CELL}
+                onPress={this.onPressContactUs}
               />
             </View>
             <Button

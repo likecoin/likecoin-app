@@ -5,6 +5,10 @@ export function registerIdentifiedUser(userId: string, hash?: string) {
   return Intercom.registerIdentifiedUser({ userId })
 }
 
+export function displayMessageComposer() {
+  Intercom.displayMessageComposer()
+}
+
 export function logout() {
   return Intercom.logout()
 }
