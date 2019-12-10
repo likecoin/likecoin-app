@@ -1,11 +1,10 @@
-import * as Sentry from '@sentry/react-native'
-
 import { AppConfig } from "../services/app-config"
 import { AuthCoreAPI } from "../services/authcore"
 import { BigDipper } from "../services/big-dipper"
 import { CosmosAPI } from "../services/cosmos"
 import { Reactotron } from "../services/reactotron"
 import { LikeCoAPI, LikerLandAPI } from "../services/api"
+import { initSentry } from "../utils/sentry"
 
 /**
  * The environment is a place where services and shared dependencies between
@@ -40,9 +39,7 @@ export class Environment {
     this.cosmosAPI.setup(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
     this.bigDipper.setup(BIG_DIPPER_URL)
     if (SENTRY_DSN) {
-      Sentry.init({
-        dsn: SENTRY_DSN,
-      })
+      initSentry(SENTRY_DSN)
     }
   }
 

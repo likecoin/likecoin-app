@@ -6,6 +6,8 @@ import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 import * as Intercom from "../../utils/intercom"
+import { setSentryUser } from "../../utils/sentry"
+import { setCrashlyticsUserId } from "../../utils/firebase"
 
 import {
   GeneralResult,
@@ -110,6 +112,9 @@ export const UserStoreModel = types
               ...opt,
             }
           })
+          const authCoreUserId = self.authCore.profile.id
+          setSentryUser({ id: authCoreUserId })
+          yield setCrashlyticsUserId(authCoreUserId)
           /* eslint-enable @typescript-eslint/camelcase */
           break
         }
