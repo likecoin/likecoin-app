@@ -200,7 +200,8 @@ dependencies {
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'io.intercom.android:intercom-sdk-base:5.+'
+    implementation 'io.intercom.android:intercom-sdk-fcm:5.+'
+    implementation 'com.google.firebase:firebase-messaging:20.+'
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
