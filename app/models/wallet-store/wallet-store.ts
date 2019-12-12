@@ -157,12 +157,13 @@ export const WalletStoreModel = types
     formatDenom(
       value: BigNumber,
       decimalPlaces?: number,
+      showUnit: boolean = true,
       roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_CEIL,
       format?: BigNumber.Format
     ) {
-      return self.toDenom(value)
+      const formattedValue = self.toDenom(value)
         .toFormat(decimalPlaces, roundingMode, format)
-        .concat(` ${self.denom}`)
+      return showUnit ? formattedValue.concat(` ${self.denom}`) : formattedValue
     },
   }))
   .views(self => ({
@@ -170,7 +171,7 @@ export const WalletStoreModel = types
       return self.formatDenom(self.availableBalance, 4)
     },
     get formattedRewardsBalance() {
-      return (self.hasRewards ? "+" : "").concat(self.formatDenom(self.rewardsBalance, 4))
+      return (self.hasRewards ? "+" : "").concat(self.formatDenom(self.rewardsBalance, 4, false))
     },
     get formattedTotalBalance() {
       return self.formatDenom(self.availableBalance

@@ -94,7 +94,7 @@ export const ValidatorModel = types
       return annualDelegatorRewards
     },
     getFormattedDelegatorRewards(decisionPoint?: number) {
-      return (self.hasRewards ? "+" : "").concat(self.walletStore.formatDenom(self.delegatorRewards, decisionPoint))
+      return (self.hasRewards ? "+" : "").concat(self.walletStore.formatDenom(self.delegatorRewards, decisionPoint, false))
     }
   }))
   .views(self => ({
