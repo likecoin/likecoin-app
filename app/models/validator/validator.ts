@@ -11,6 +11,7 @@ import BigNumber from "bignumber.js"
 import { Environment } from "../environment"
 import { BigNumberPrimitive } from "../number"
 import { WalletStoreModel } from "../wallet-store"
+import { CosmosUnbondingDelegationEntry } from "../../services/cosmos"
 
 /**
  * A Cosmos validator.
@@ -48,6 +49,10 @@ export const ValidatorModel = types
      * Delegation amount of current wallet address
      */
     delegatorShare: types.optional(BigNumberPrimitive, "0"),
+    /**
+     * Unbonding delegation amount of current wallet address
+     */
+    delegatorUnbondingShare: types.optional(BigNumberPrimitive, "0"),
     /**
      * Delegation rewards of current wallet address
      */
@@ -166,6 +171,12 @@ export const ValidatorModel = types
     },
     setDelegatorShare: (shares: string) => {
       self.delegatorShare = new BigNumber(shares)
+    },
+    setDelegatorUnbondingShare: (entries: CosmosUnbondingDelegationEntry[]) => {
+      self.delegatorUnbondingShare = entries.reduce(
+        (total, { balance }) => new BigNumber(balance).plus(total),
+        new BigNumber(0)
+      )
     },
     fetchAvatarURL: flow(function * () {
       if (self.identity.length === 16) {

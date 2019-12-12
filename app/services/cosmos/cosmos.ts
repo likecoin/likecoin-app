@@ -5,6 +5,7 @@ import {
   CosmosDelegation,
   CosmosMessage,
   CosmosRewardsResult,
+  CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./cosmos.types"
 import {
@@ -58,6 +59,15 @@ export class CosmosAPI {
    */
   async getDelegations(delegatorAddress: string) {
     return this.api.get.delegations(delegatorAddress) as CosmosDelegation[]
+  }
+
+  /**
+   * Get all unbonding delegations from a delegator
+   *
+   * @param delegatorAddress The delegator address
+   */
+  async getUnbondingDelegations(delegatorAddress: string) {
+    return this.api.get.undelegations(delegatorAddress) as CosmosUnbondingDelegation[]
   }
 
   /**

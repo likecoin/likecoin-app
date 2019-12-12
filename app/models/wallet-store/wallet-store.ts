@@ -11,6 +11,7 @@ import {
   CosmosSignature,
   CosmosValidator,
   CosmosValidatorReward,
+  CosmosUnbondingDelegation,
 } from "../../services/cosmos"
 import { extractCoinFromCosmosCoinList } from "../../services/cosmos/cosmos.utils"
 
@@ -93,6 +94,7 @@ export const WalletStoreModel = types
     hasFetchedBalance: false,
     isFetchingValidators: false,
     isFetchingDelegation: false,
+    isFetchingUnbondingDelegation: false,
   }))
   .views(self => ({
     toDenom(value: BigNumber) {
@@ -124,7 +126,8 @@ export const WalletStoreModel = types
       return (
         self.isFetchingBalance ||
         self.isFetchingValidators ||
-        self.isFetchingDelegation
+        self.isFetchingDelegation ||
+        self.isFetchingUnbondingDelegation
       )
     },
     get sortedValidatorList() {
@@ -192,6 +195,10 @@ export const WalletStoreModel = types
       self.validators.get(id).setDelegatorShare(shares)
     }
 
+    const setValidatorUnbondingDelegation = ({ validator_address: id, entries }: CosmosUnbondingDelegation) => {
+      self.validators.get(id).setDelegatorUnbondingShare(entries)
+    }
+
     return {
       setAddress(address: string) {
         self.address = address
@@ -227,6 +234,17 @@ export const WalletStoreModel = types
           self.isFetchingDelegation = false
         }
       }),
+      fetchUnbondingDelegations: flow(function * () {
+        self.isFetchingUnbondingDelegation = true
+        try {
+          const results: CosmosUnbondingDelegation[] = yield env.cosmosAPI.getUnbondingDelegations(self.address)
+          results.forEach(setValidatorUnbondingDelegation)
+        } catch (error) {
+          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchUnbondingDelegations: ${error}`, null)
+        } finally {
+          self.isFetchingUnbondingDelegation = false
+        }
+      }),
       fetchAnnualProvision: flow(function * () {
         try {
           self.annualProvision = new BigNumber(yield env.cosmosAPI.queryAnnualProvision())
@@ -257,6 +275,7 @@ export const WalletStoreModel = types
         self.validatorList.replace(newValidatorList)
         self.fetchRewards()
         self.fetchDelegations()
+        self.fetchUnbondingDelegations()
       } catch (error) {
         __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
       } finally {

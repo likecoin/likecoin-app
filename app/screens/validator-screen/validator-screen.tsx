@@ -258,10 +258,19 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             isPaddingLess
           />
         }
+        {validator.delegatorUnbondingShare.isGreaterThan(0) &&
+          <ValidatorScreenGridItem
+            value={this.props.walletStore.formatDenom(validator.delegatorUnbondingShare, 4, false)}
+            color="greyBlue"
+            labelTx="validatorScreen.delegatorUnbondingShareLabel"
+            isShowSeparator={false}
+            isPaddingLess
+          />
+        }
         <View style={DELEGATION.CONTAINER}>
           <ButtonGroup
             buttons={[
-              {
+              { 
                 key: "stake",
                 tx: "validatorScreen.stakeButtonText",
                 onPress: this.onPressStakeButton,

@@ -122,6 +122,7 @@
   },
   "validatorScreen": {
     "delegatorShareLabel": "委託中",
+    "delegatorUnbondingShareLabel": "解綁中",
     "delegatorRewardsLabel": "未領取收益",
     "stakeButtonText": "委託",
     "unstakeButtonText": "取回委託",

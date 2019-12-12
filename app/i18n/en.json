@@ -119,6 +119,7 @@
   },
   "validatorScreen": {
     "delegatorShareLabel": "Delegated",
+    "delegatorUnbondingShareLabel": "Unbonding",
     "delegatorRewardsLabel": "Delegating Rewards",
     "stakeButtonText": "Delegate",
     "unstakeButtonText": "Undelegate",

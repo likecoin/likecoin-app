@@ -78,6 +78,23 @@ export interface CosmosDelegation {
   /* eslint-enable camelcase */
 }
 
+export interface CosmosUnbondingDelegationEntry {
+  /* eslint-disable camelcase */
+  creation_height: string
+  completion_time: string
+  initial_balance: string
+  balance: string
+  /* eslint-enable camelcase */
+}
+
+export interface CosmosUnbondingDelegation {
+  /* eslint-disable camelcase */
+  delegator_address: string
+  validator_address: string
+  entries: CosmosUnbondingDelegationEntry[]
+  /* eslint-enable camelcase */
+}
+
 export interface CosmosValidatorReward {
   /* eslint-disable-next-line camelcase */
   validator_address: string
