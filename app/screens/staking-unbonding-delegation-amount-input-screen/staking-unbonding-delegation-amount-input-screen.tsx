@@ -4,9 +4,9 @@ import { inject, observer } from "mobx-react"
 
 import { AmountInputView } from "../../components/amount-input-view"
 
-import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-delegation-store"
+import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
-import { WalletStore } from "../../models/wallet-store"
+import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-delegation-store"
 
 import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
 
@@ -16,24 +16,24 @@ export interface StakingUnbondingDelegationAmountInputScreenParams {
 
 export interface StakingUnbondingDelegationAmountInputScreenProps extends NavigationScreenProps<StakingUnbondingDelegationAmountInputScreenParams> {
   txStore: StakingUnbondingDelegationStore,
-  walletStore: WalletStore,
+  chain: ChainStore,
 }
 
-@inject((stores: RootStore) => ({
-  txStore: stores.stakingUnbondingDelegationStore,
-  walletStore: stores.walletStore,
-}) as StakingUnbondingDelegationAmountInputScreenProps)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.stakingUnbondingDelegationStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class StakingUnbondingDelegationAmountInputScreen extends React.Component<StakingUnbondingDelegationAmountInputScreenProps, {}> {
   constructor(props: StakingUnbondingDelegationAmountInputScreenProps) {
     super(props)
-    const { fractionDenom, fractionDigits, gasPrice } = props.walletStore
+    const { fractionDenom, fractionDigits, gasPrice } = props.chain
     props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
     props.txStore.setTarget(props.navigation.getParam("target"))
   }
 
   getValidator = () => {
-    return this.props.walletStore.validators.get(this.props.txStore.target)
+    return this.props.chain.validators.get(this.props.txStore.target)
   }
 
   /**
@@ -43,7 +43,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
    */
   private createTransactionForSigning = async () => {
     try {
-      const { address, availableBalance } = this.props.walletStore
+      const { address, availableBalance } = this.props.chain.wallet
       await this.props.txStore.createUnbondingDelegateTx(address)
       const { totalAmount } = this.props.txStore
       if (totalAmount.isGreaterThan(availableBalance)) {
@@ -83,18 +83,20 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
       amount,
       errorMessage,
       isCreatingTx,
+      target,
     } = this.props.txStore
+    const delegation = this.props.chain.wallet.getDelegation(target)
     return (
       <AmountInputView
         value={inputAmount}
         amount={amount}
-        maxAmount={this.getValidator().delegatorShare}
+        maxAmount={delegation.shares}
         error={errorMessage}
         availableLabelTx="stakingUnbondingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
         graph={<Graph />}
-        formatAmount={this.props.walletStore.formatDenom}
+        formatAmount={this.props.chain.formatDenom}
         onChange={this.onAmountInputChange}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}

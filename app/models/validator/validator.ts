@@ -4,14 +4,10 @@ import {
   types,
   flow,
   getEnv,
-  getParentOfType,
 } from "mobx-state-tree"
-import BigNumber from "bignumber.js"
 
 import { Environment } from "../environment"
 import { BigNumberPrimitive } from "../number"
-import { WalletStoreModel } from "../wallet-store"
-import { CosmosUnbondingDelegationEntry } from "../../services/cosmos"
 
 /**
  * A Cosmos validator.
@@ -43,101 +39,14 @@ export const ValidatorModel = types
     commissionUpdateTime: types.string,
 
     minSelfDelegation: types.string,
-
-    // Per wallet
-    /**
-     * Delegation amount of current wallet address
-     */
-    delegatorShare: types.optional(BigNumberPrimitive, "0"),
-    /**
-     * Unbonding delegation amount of current wallet address
-     */
-    delegatorUnbondingShare: types.optional(BigNumberPrimitive, "0"),
-    /**
-     * Delegation rewards of current wallet address
-     */
-    delegatorRewards: types.optional(BigNumberPrimitive, "0"),
   })
   .views(self => ({
-    get walletStore() {
-      return getParentOfType(self, WalletStoreModel)
-    },
     get avatar() {
       return self.avatorURL || `https://ui-avatars.com/api/?size=360&name=${encodeURIComponent(self.moniker)}&color=fff&background=aaa`
     },
     get blockExplorerURL() {
       const env: Environment = getEnv(self)
       return env.bigDipper.getValidatorURL(self.operatorAddress)
-    },
-    get isDelegated() {
-      return self.delegatorShare.isGreaterThan(0)
-    },
-    get hasRewards() {
-      return self.delegatorRewards.isGreaterThan(0)
-    },
-  }))
-  .views(self => ({
-    /**
-     * The share of all provisioned block rewards all delegators of this validator get
-     */
-    get delegatorProvisionShare() {
-      const validatorProvisionShare = self.tokens.div(self.walletStore.totalDelegatorSharesFromAllValidators)
-      return validatorProvisionShare.times(new BigNumber(1).minus(self.commissionRate))
-    },
-  }))
-  .views(self => ({
-    /**
-     * Calculate expected rewards if delegator stakes `x` tokens
-     *
-     * @param delegatedTokens The delegated tokens of a delegator
-     * @return The annual rewards for a delegator
-     */
-    calculateExpectedRewards(delegatedTokens: BigNumber) {
-      const annualAllDelegatorRewards = self.delegatorProvisionShare.times(self.walletStore.annualProvision)
-      const annualDelegatorRewardsShare = delegatedTokens.div(self.tokens)
-      const annualDelegatorRewards = annualDelegatorRewardsShare.times(annualAllDelegatorRewards)
-      return annualDelegatorRewards
-    },
-    getFormattedDelegatorRewards(decisionPoint?: number) {
-      return (self.hasRewards ? "+" : "").concat(self.walletStore.formatDenom(self.delegatorRewards, decisionPoint, false))
-    }
-  }))
-  .views(self => ({
-    get formattedTotalDelegatedShares(): string {
-      return self.walletStore.formatDenom(self.totalDelegatorShares, 4)
-    },
-    get formattedDelegatorShareShort(): string {
-      return self.walletStore.formatDenom(self.delegatorShare, 2)
-    },
-    get formattedDelegatorShare(): string {
-      return self.walletStore.formatDenom(self.delegatorShare, 4)
-    },
-    get formattedDelegatorRewardsShort(): string {
-      return self.isDelegated ? self.getFormattedDelegatorRewards(4) : ""
-    },
-    get formattedDelegatorRewards(): string {
-      return self.getFormattedDelegatorRewards(4)
-    },
-    get formattedVotingPowerInPercent() {
-      return self.totalDelegatorShares
-        .div(self.walletStore.totalDelegatorSharesFromAllValidators)
-        .times(100)
-        .toFixed(2)
-        .concat("%")
-    },
-    /**
-     * Get simplified expected rewards in percent
-     * Ref: https://github.com/luniehq/lunie/blob/ecf75e07c6e673434a87e9e5b2e5e5290c5b1667/src/scripts/returns.js
-     *
-     * @return The percentage of the returns
-     */
-    get formattedExpectedReturnsInPercent() {
-      const delegatedTokens = new BigNumber(1e10)
-      return self.calculateExpectedRewards(delegatedTokens)
-        .div(delegatedTokens)
-        .times(100)
-        .toFixed(2)
-        .concat("%")
     },
   }))
   .actions(self => ({
@@ -165,18 +74,6 @@ export const ValidatorModel = types
       self.maxCommissionChangeRate = v.maxCommissionChangeRate
       self.commissionUpdateTime = v.commissionUpdateTime
       self.minSelfDelegation = v.minSelfDelegation
-    },
-    setDelegatorRewards: (amount: string) => {
-      self.delegatorRewards = new BigNumber(amount)
-    },
-    setDelegatorShare: (shares: string) => {
-      self.delegatorShare = new BigNumber(shares)
-    },
-    setDelegatorUnbondingShare: (entries: CosmosUnbondingDelegationEntry[]) => {
-      self.delegatorUnbondingShare = entries.reduce(
-        (total, { balance }) => new BigNumber(balance).plus(total),
-        new BigNumber(0)
-      )
     },
     fetchAvatarURL: flow(function * () {
       if (self.identity.length === 16) {

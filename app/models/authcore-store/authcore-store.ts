@@ -43,7 +43,7 @@ export const AuthCoreStoreModel = types
 
       const {
         accessToken: newAccessToken = ""
-      } = yield env.authCoreAPI.setupModules(refreshToken, accessToken)
+      }: any = yield env.authCoreAPI.setupModules(refreshToken, accessToken)
       _accessToken.set(newAccessToken)
       if (newAccessToken) {
         yield fetchCosmosAddress()
@@ -89,6 +89,9 @@ export const AuthCoreStoreModel = types
         },
         get hasSignedIn() {
           return _hasSignedIn.get()
+        },
+        get primaryCosmosAddress() {
+          return self.cosmosAddresses[0]
         },
       }
     }

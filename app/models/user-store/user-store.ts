@@ -108,7 +108,7 @@ export const UserStoreModel = types
             email,
             custom_attributes: {
               has_liker_land_app: true,
-              cosmos_wallet: self.authCore.cosmosAddresses[0],
+              cosmos_wallet: self.authCore.primaryCosmosAddress,
               ...opt,
             }
           })
@@ -138,9 +138,6 @@ export const UserStoreModel = types
         },
         get signInURL() {
           return env.likerLandAPI.getSignInURL()
-        },
-        get selectedWalletAddress() {
-          return self.authCore.cosmosAddresses[0]
         },
       },
     }

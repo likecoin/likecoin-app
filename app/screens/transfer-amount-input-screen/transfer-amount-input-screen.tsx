@@ -4,20 +4,21 @@ import { inject, observer } from "mobx-react"
 
 import { AmountInputView } from "../../components/amount-input-view"
 
+import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { TransferStore } from "../../models/transfer-store"
-import { WalletStore } from "../../models/wallet-store"
 
 import TransferGraph from "../../assets/graph/transfer.svg"
 
 export interface TransferAmountInputScreenProps extends NavigationScreenProps<{}> {
-  transferStore: TransferStore,
-  walletStore: WalletStore,
+  txStore: TransferStore,
+  chain: ChainStore,
 }
 
-@inject(
-  "transferStore",
-  "walletStore",
-)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.transferStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class TransferAmountInputScreen extends React.Component<TransferAmountInputScreenProps, {}> {
   /**
@@ -26,21 +27,21 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
    * @return `true` if the success; otherwise, `false`
    */
   private createTransactionForSigning = async () => {
-    const { address, availableBalance } = this.props.walletStore
+    const { address, availableBalance } = this.props.chain.wallet
     try {
-      await this.props.transferStore.createTransferTx(address)
-      const { totalAmount } = this.props.transferStore
+      await this.props.txStore.createTransferTx(address)
+      const { totalAmount } = this.props.txStore
       if (totalAmount.isGreaterThan(availableBalance)) {
         throw new Error("TRANSFER_AMOUNT_EXCEED_MAX")
       }
       return true
     } catch (error) {
-      return this.props.transferStore.setError(error)
+      return this.props.txStore.setError(error)
     }
   }
 
   private onAmountInputChange = (amount: string) => {
-    this.props.transferStore.setAmount(amount)
+    this.props.txStore.setAmount(amount)
   }
 
   private onPressCloseButton = () => {
@@ -54,11 +55,11 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   }
 
   private onAmountExceedMax = () => {
-    this.props.transferStore.setError(new Error("TRANSFER_AMOUNT_EXCEED_MAX"))
+    this.props.txStore.setError(new Error("TRANSFER_AMOUNT_EXCEED_MAX"))
   }
 
   private onAmountLessThanZero = () => {
-    this.props.transferStore.setError(new Error("TRANSFER_AMOUNT_LESS_THAN_ZERO"))
+    this.props.txStore.setError(new Error("TRANSFER_AMOUNT_LESS_THAN_ZERO"))
   }
 
   render () {
@@ -67,18 +68,18 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
       amount,
       errorMessage,
       isCreatingTx,
-    } = this.props.transferStore
+    } = this.props.txStore
     return (
       <AmountInputView
         value={inputAmount}
         amount={amount}
-        maxAmount={this.props.walletStore.availableBalance}
+        maxAmount={this.props.chain.wallet.availableBalance}
         error={errorMessage}
         availableLabelTx="transferAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
         graph={<TransferGraph />}
-        formatAmount={this.props.walletStore.formatDenom}
+        formatAmount={this.props.chain.formatDenom}
         onChange={this.onAmountInputChange}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}

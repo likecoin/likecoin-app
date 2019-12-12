@@ -11,7 +11,7 @@ import {
 } from "react-native"
 import QRCode from 'react-native-qrcode-svg'
 
-import { WalletStore } from "../../models/wallet-store"
+import { Wallet } from "../../models/wallet"
 
 import { Button } from "../../components/button"
 import { Screen } from "../../components/screen"
@@ -21,7 +21,7 @@ import { Text } from "../../components/text"
 import { color, spacing } from "../../theme"
 
 export interface ReceiveScreenProps extends NavigationScreenProps<{}> {
-  walletStore: WalletStore,
+  wallet: Wallet,
 }
 const ROOT: ViewStyle = {
   flex: 1,
@@ -72,12 +72,12 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   }
 
   private onPressShareButton = () => {
-    const { address: message } = this.props.walletStore
+    const { address: message } = this.props.wallet
     Share.share({ message })
   }
 
   private onPressCopyButton = () => {
-    const { address: message } = this.props.walletStore
+    const { address: message } = this.props.wallet
     Clipboard.setString(message)
     this.setState({ isCopied: true })
   }
@@ -87,11 +87,11 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   }
 
   private onPressViewExternalButton = () => {
-    Linking.openURL(this.props.walletStore.blockExplorerURL)
+    Linking.openURL(this.props.wallet.blockExplorerURL)
   }
 
   render () {
-    const { address } = this.props.walletStore
+    const { address } = this.props.wallet
 
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
