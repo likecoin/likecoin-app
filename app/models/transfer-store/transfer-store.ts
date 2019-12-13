@@ -16,6 +16,7 @@ import { UserResult } from "../../services/api"
 export const TransferStoreModel = createTxStore("TransferStore")
   .volatile(self => ({
     liker: null as User,
+    isFetchingLiker: false,
   }))
   .views(self => ({
     get receiverAddress() {
@@ -24,7 +25,34 @@ export const TransferStoreModel = createTxStore("TransferStore")
   }))
   .actions(self => {
     const env: Environment = getEnv(self)
+
+    function handleLikerFetchingResult(result: UserResult) {
+      switch (result.kind) {
+        case "ok": {
+          const {
+            user: likerID,
+            displayName,
+            email,
+            avatar: avatarURL,
+            cosmosWallet,
+          } = result.data
+          self.liker = UserModel.create({
+            likerID,
+            displayName,
+            email,
+            avatarURL,
+            cosmosWallet,
+          })
+          break
+        }
+      }
+    }
+
     return {
+      setReceiver(receiver: string) {
+        self.setTarget(receiver)
+        self.liker = null
+      },
       createTransferTx: flow(function * (fromAddress: string) {
         yield self.createTx(env.cosmosAPI.createSendMessage(
           fromAddress,
@@ -33,28 +61,17 @@ export const TransferStoreModel = createTxStore("TransferStore")
           self.fractionDenom,
         ))
       }),
-      fetchUser: flow(function * () {
-        const result: UserResult = yield env.likeCoAPI.fetchUserInfoById(self.target)
-        switch (result.kind) {
-          case "ok": {
-            const {
-              user: likerID,
-              displayName,
-              email,
-              avatar: avatarURL,
-              cosmosWallet,
-            } = result.data
-            if (cosmosWallet) {
-              self.liker = UserModel.create({
-                likerID,
-                displayName,
-                email,
-                avatarURL,
-                cosmosWallet,
-              })
-            }            
-          }
-        }
+      fetchLikerByWalletAddress: flow(function * () {
+        self.isFetchingLiker = true
+        const result: UserResult = yield env.likeCoAPI.fetchUserInfoByWalletAddress(self.target)
+        handleLikerFetchingResult(result)
+        self.isFetchingLiker = false
+      }),
+      fetchLikerById: flow(function * () {
+        self.isFetchingLiker = true
+        const result: UserResult = yield env.likeCoAPI.fetchUserInfoById(self.target.toLowerCase())
+        handleLikerFetchingResult(result)
+        self.isFetchingLiker = false
       }),
     }
   })

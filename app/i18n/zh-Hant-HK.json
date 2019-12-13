@@ -13,7 +13,6 @@
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",
-    "INVALID_ACCOUNT_ADDRESS": "錢包地址不正確",
     "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
     "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
@@ -24,6 +23,8 @@
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "TRANSFER_INPUT_TARGET_INVALID": "輸入的 Liker ID 或錢包地址不正確",
+    "TRANSFER_TARGET_NO_WALLET": "收款人沒有錢包地址",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
@@ -104,7 +105,7 @@
   },
   "transferTargetInputScreen": {
     "targetInputLabel": "轉帳至",
-    "targetInputPlaceholder": "請輸入收款地址"
+    "targetInputPlaceholder": "收款人的 Liker ID 或錢包地址"
   },
   "transferAmountInputScreen": {
     "available": "可轉帳"

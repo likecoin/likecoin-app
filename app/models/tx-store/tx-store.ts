@@ -76,6 +76,7 @@ export function createTxStore(name: string) {
     },
     setTarget: (newTarget: string = "") => {
       self.target = newTarget
+      self.errorMessage = ""
     },
     setAmount: (value: string = "0") => {
       self.inputAmount = value

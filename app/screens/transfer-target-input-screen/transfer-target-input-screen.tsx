@@ -89,13 +89,6 @@ const NEXT: ViewStyle = {
 )
 @observer
 export class TransferTargetInputScreen extends React.Component<TransferTargetInputScreenProps, {}> {
-  state = {
-    /**
-     * The code of the error description which is looked up via i18n.
-     */
-    error: "",
-  }
-
   componentDidMount() {
     const { fractionDenom, fractionDigits, gasPrice } = this.props.walletStore
     this.props.transferStore.initialize(fractionDenom, fractionDigits, gasPrice)
@@ -118,25 +111,26 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
    * Validate the target input
    */
   private validate = async () => {
-    let error = ""
-    this.setState({ error })
-
     const { target } = this.props.transferStore
-
-    // Check for address
-    if (!validateAccountAddress(target)) {
-      await this.props.transferStore.fetchUser()
-      const { liker } = this.props.transferStore
-      if (!liker) {
-        error = "INVALID_ACCOUNT_ADDRESS"
+    try {
+      // Check for address
+      if (validateAccountAddress(target)) {
+        // Try to fetch the Liker for the wallet address
+        await this.props.transferStore.fetchLikerByWalletAddress()
+      } else {
+        // If not an address, then try to match a Liker ID
+        await this.props.transferStore.fetchLikerById()
+        const { liker } = this.props.transferStore
+        if (!liker) {
+          throw new Error("TRANSFER_INPUT_TARGET_INVALID")
+        }
+        if (!liker.cosmosWallet) {
+          throw new Error("TRANSFER_TARGET_NO_WALLET")
+        }
       }
+    } catch (error) {
+      return this.props.transferStore.setError(error)
     }
-
-    if (error) {
-      this.setState({ error })
-      return false
-    }
-
     return true
   }
 
@@ -148,20 +142,20 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     this.props.navigation.navigate("QRCodeScan")
   }
 
-  private onPressNextButton = () => {
+  private onPressNextButton = async () => {
     // Trim before validation
     this.props.transferStore.setTarget(this.props.transferStore.target.trim())
-    if (this.validate()) {
+    if (await this.validate()) {
       this.props.navigation.navigate("TransferAmountInput")
     }
   }
 
   private onTargetInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    this.props.transferStore.setTarget(event.nativeEvent.text)
+    this.props.transferStore.setReceiver(event.nativeEvent.text)
   }
 
   render () {
-    const { target } = this.props.transferStore
+    const { isFetchingLiker, target } = this.props.transferStore
     const bottomBarStyle = [
       BOTTOM_BAR,
       {
@@ -217,11 +211,12 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
               },
             ]}
           />
-          {this._renderError()}
+          {this.renderError()}
         </View>
         <View style={bottomBarStyle}>
           <Button
             tx="common.next"
+            isLoading={isFetchingLiker}
             style={NEXT}
             onPress={this.onPressNextButton}
           />
@@ -230,15 +225,14 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     )
   }
 
-  _renderError = () => {
-    const { error } = this.state
-    const tx = `error.${error}`
+  private renderError = () => {
+    const { errorMessage } = this.props.transferStore
     return (
       <View style={ERROR.VIEW}>
         <Text
-          tx={tx}
+          text={errorMessage}
           color="angry"
-          isHidden={!error}
+          isHidden={!errorMessage}
           prepend={
             <Icon
               name="alert-circle"
