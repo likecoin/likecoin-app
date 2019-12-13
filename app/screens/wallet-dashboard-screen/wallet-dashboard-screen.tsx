@@ -99,6 +99,7 @@ const QRCODE_BUTTON: ViewStyle = {
 }
 const WALLET_BALANCE = StyleSheet.create({
   AMOUNT: {
+    paddingHorizontal: spacing[4],
     color: color.primary,
     fontSize: 36,
     fontWeight: "500",
@@ -291,9 +292,10 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     const {
       isFetchingBalance: isFetching,
       hasFetchedBalance: hasFetch,
+      totalBalance,
       formattedTotalBalance: balanceValue,
     } = this.props.walletStore
-    if (hasFetch) {
+    if (hasFetch || totalBalance.isGreaterThan(0)) {
       value = balanceValue
     } else if (isFetching) {
       value = "..."
@@ -302,6 +304,8 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
       <Text
         style={WALLET_BALANCE.AMOUNT}
         text={value}
+        numberOfLines={1}
+        adjustsFontSizeToFit
       />
     )
   }

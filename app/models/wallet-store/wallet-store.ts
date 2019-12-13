@@ -174,6 +174,12 @@ export const WalletStoreModel = types
         .toFormat(decimalPlaces, roundingMode, format)
       return showUnit ? formattedValue.concat(` ${self.denom}`) : formattedValue
     },
+    get totalBalance() {
+      return self.availableBalance
+        .plus(self.delegatedBalance)
+        .plus(self.rewardsBalance)
+        .plus(self.unbondingBalance)
+    }
   }))
   .views(self => ({
     get formattedAvailableBalance() {
@@ -183,12 +189,7 @@ export const WalletStoreModel = types
       return (self.hasRewards ? "+" : "").concat(self.formatDenom(self.rewardsBalance, 4, false))
     },
     get formattedTotalBalance() {
-      return self.formatDenom(self.availableBalance
-        .plus(self.delegatedBalance)
-        .plus(self.rewardsBalance)
-        .plus(self.unbondingBalance),
-      4
-      )
+      return self.formatDenom(self.totalBalance, 4, false)
     },
   }))
   .actions(self => {
