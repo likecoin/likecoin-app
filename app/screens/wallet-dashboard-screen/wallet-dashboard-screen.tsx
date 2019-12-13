@@ -308,8 +308,10 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
 
   private renderBalanceView = () => {
     const {
+      formatDenom,
       formattedAvailableBalance: available,
       formattedRewardsBalance: rewards,
+      unbondingBalance,
       hasRewards,
     } = this.props.walletStore
     const rewardsTextColor = hasRewards ? "green" : "grey4a"
@@ -329,6 +331,15 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           isPaddingLess
           isShowSeparator={false}
         />
+        {unbondingBalance.isGreaterThan(0) &&
+          <ValidatorScreenGridItem
+            value={formatDenom(unbondingBalance, 4, false)}
+            labelTx="walletDashboardScreen.allUnbondingBalanceLabel"
+            color="greyBlue"
+            isPaddingLess
+            isShowSeparator={false}
+          />
+        }
         {hasRewards &&
           <View style={WITHDRAW_REWARDS_BUTTON.WRAPPER}>
             <Button

@@ -129,6 +129,7 @@
   "walletDashboardScreen": {
     "availableBalanceLabel": "Available",
     "allDelegatorRewardsLabel": "Rewards",
+    "allUnbondingBalanceLabel": "Unbonding",
     "send": "Send",
     "stakeLabel": "Delegate",
     "receive": "Receive",

@@ -122,6 +122,12 @@ export const WalletStoreModel = types
         new BigNumber(0)
       )
     },
+    get unbondingBalance() {
+      return self.validatorList.reduce(
+        (total, v) => total.plus(v.delegatorUnbondingShare),
+        new BigNumber(0)
+      )
+    },
     get isLoading() {
       return (
         self.isFetchingBalance ||
@@ -179,7 +185,8 @@ export const WalletStoreModel = types
     get formattedTotalBalance() {
       return self.formatDenom(self.availableBalance
         .plus(self.delegatedBalance)
-        .plus(self.rewardsBalance),
+        .plus(self.rewardsBalance)
+        .plus(self.unbondingBalance),
       4
       )
     },

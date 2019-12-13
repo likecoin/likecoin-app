@@ -132,6 +132,7 @@
   "walletDashboardScreen": {
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
+    "allUnbondingBalanceLabel": "解綁中",
     "send": "轉帳",
     "stakeLabel": "委託",
     "receive": "收款",
