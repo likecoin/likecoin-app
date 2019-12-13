@@ -1,57 +1,26 @@
-import BigNumber from "bignumber.js"
-
 import { CosmosCoinResult } from "./cosmos.types"
 
-export const DENOM = "nanolike"
-
 /**
- * Convert the given amount of LIKE to nanolike
+ * Parse the given amount of given denom in number to Cosmos coin format
  *
- * @param value The amount of LIKE
+ * @param value The amount of given denom
  */
-export function convertLIKEToNanolike(value: number | string) {
-  return new BigNumber(value).times(new BigNumber(1000000000)).toFixed()
-}
-
-/**
- * Convert the given amount of nanolike to LIKE
- *
- * @param value The amount of nanolike
- */
-export function convertNanolikeToLIKE(value: number | string, decimalPlaces?: number) {
-  return new BigNumber(value).div(new BigNumber(1000000000)).toFixed(decimalPlaces)
-}
-
-/**
- * Parse the given amount of nanolike in number to Cosmos coin format
- *
- * @param value The amount of nanolike
- */
-export function parseCosmosCoin(value: number | string) {
+export function parseCosmosCoin(value: number | string, denom: string) {
   return {
-    denom: DENOM,
+    denom,
     amount: `${value}`,
   }
 }
 
 /**
- * Convert the given amount of nanolike to LIKE
+ * Convert the given amount of given denom
  *
- * @param coin The amount of nanolike
+ * @param coin The amount of given denom
  */
-export function extractNanolikeFromCosmosCoinList(coins: CosmosCoinResult[]) {
+export function extractCoinFromCosmosCoinList(coins: CosmosCoinResult[], denom: string) {
   if (!coins || !coins.length) return "0"
-  const [coin] = coins.filter(coin => coin.denom === DENOM)
+  const [coin] = coins.filter(coin => coin.denom === denom)
   return coin.amount
-}
-
-/**
- * Parse the given amount of LIKE to Cosmos coin format
- *
- * @param value The amount of LIKE
- */
-export function parseCosmosLIKE(value: number | string) {
-  return parseCosmosCoin(convertLIKEToNanolike(value))
 }
 
 /**

@@ -20,20 +20,11 @@ import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { ValidatorListItem } from "../../components/validator-list-item"
+import { color, gradient, spacing } from "../../theme"
 
 import { UserStore } from "../../models/user-store"
 import { WalletStore } from "../../models/wallet-store"
 import { Validator } from "../../models/validator"
-
-import {
-  formatLIKE,
-  formatNumberWithSign,
-  percent,
-  UNIT_LIKE,
-} from "../../utils/number"
-import { color, gradient, spacing } from "../../theme"
-
-import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -108,6 +99,7 @@ const QRCODE_BUTTON: ViewStyle = {
 }
 const WALLET_BALANCE = StyleSheet.create({
   AMOUNT: {
+    paddingHorizontal: spacing[4],
     color: color.primary,
     fontSize: 36,
     fontWeight: "500",
@@ -258,7 +250,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               >
                 {this.renderBalanceValue()}
                 <Text
-                  text={UNIT_LIKE}
+                  text={this.props.walletStore.denom}
                   color="likeGreen"
                   size="medium"
                   weight="600"
@@ -300,9 +292,10 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     const {
       isFetchingBalance: isFetching,
       hasFetchedBalance: hasFetch,
+      totalBalance,
       formattedTotalBalance: balanceValue,
     } = this.props.walletStore
-    if (hasFetch) {
+    if (hasFetch || totalBalance.isGreaterThan(0)) {
       value = balanceValue
     } else if (isFetching) {
       value = "..."
@@ -311,14 +304,18 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
       <Text
         style={WALLET_BALANCE.AMOUNT}
         text={value}
+        numberOfLines={1}
+        adjustsFontSizeToFit
       />
     )
   }
 
   private renderBalanceView = () => {
     const {
+      formatDenom,
       formattedAvailableBalance: available,
       formattedRewardsBalance: rewards,
+      unbondingBalance,
       hasRewards,
     } = this.props.walletStore
     const rewardsTextColor = hasRewards ? "green" : "grey4a"
@@ -338,6 +335,15 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           isPaddingLess
           isShowSeparator={false}
         />
+        {unbondingBalance.isGreaterThan(0) &&
+          <ValidatorScreenGridItem
+            value={formatDenom(unbondingBalance, 4, false)}
+            labelTx="walletDashboardScreen.allUnbondingBalanceLabel"
+            color="greyBlue"
+            isPaddingLess
+            isShowSeparator={false}
+          />
+        }
         {hasRewards &&
           <View style={WITHDRAW_REWARDS_BUTTON.WRAPPER}>
             <Button
@@ -353,17 +359,14 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private renderValidator = (validator: Validator) => {
-    const { totalDelegatorShares, annualProvision } = this.props.walletStore
-    const rightSubtitle = validator.delegatorRewards === "0"
-      ? undefined : formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards), 2)
     return (
       <ValidatorListItem
         key={validator.operatorAddress}
         icon={validator.avatar}
         title={validator.moniker}
-        subtitle={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
-        rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
-        rightSubtitle={rightSubtitle}
+        subtitle={validator.formattedExpectedReturnsInPercent}
+        rightTitle={validator.formattedDelegatorShareShort}
+        rightSubtitle={validator.formattedDelegatorRewardsShort}
         isDarkMode={validator.isDelegated}
         onPress={() => this.onPressValidator(validator)}
       />

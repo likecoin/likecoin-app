@@ -1,38 +1,31 @@
 import { Buffer } from "buffer"
-import { observable } from "mobx"
 import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
 
 import { Environment } from "../environment"
+import { BigNumberPrimitive } from "../number"
 import { Validator, ValidatorModel } from "../validator"
-import {
-  compareNumber,
-  formatLIKE,
-  formatNumber,
-  formatNumberWithSign,
-} from "../../utils/number"
 import {
   CosmosDelegation,
   CosmosRewardsResult,
   CosmosSignature,
   CosmosValidator,
   CosmosValidatorReward,
+  CosmosUnbondingDelegation,
 } from "../../services/cosmos"
-import {
-  convertNanolikeToLIKE,
-  extractNanolikeFromCosmosCoinList,
-} from "../../services/cosmos/cosmos.utils"
+import { extractCoinFromCosmosCoinList } from "../../services/cosmos/cosmos.utils"
 
 /**
  * Parse Cosemos Validator to model
  *
  * @param validator The Validator result from Cosmos API
  */
-function parseRawValidators(validator: CosmosValidator, env: Environment) {
+function parseRawValidators(validator: CosmosValidator, env: Environment): Validator {
   const {
     operator_address: operatorAddress,
-    consensus_pubkey: consensusPubkey,
+    consensus_pubkey: consensusPublicKey,
     delegator_shares: totalDelegatorShares,
+    jailed: isJailed,
     description,
     unbonding_height: unbondingHeight,
     unbonding_time: unbondingTime,
@@ -49,8 +42,9 @@ function parseRawValidators(validator: CosmosValidator, env: Environment) {
   } = validator
   return ValidatorModel.create({
     operatorAddress,
-    consensusPubkey,
+    consensusPublicKey,
     totalDelegatorShares,
+    isJailed,
     ...description,
     unbondingHeight,
     unbondingTime,
@@ -63,133 +57,99 @@ function parseRawValidators(validator: CosmosValidator, env: Environment) {
   }, env)
 }
 
+function compareValidatorsInStaking(a: Validator, b: Validator) {
+  if (a.isDelegated && !b.isDelegated) return -1
+  if (!a.isDelegated && b.isDelegated) return 1
+  if (a.delegatorRewards.isGreaterThan(b.delegatorRewards)) return -1
+  if (a.delegatorRewards.isLessThan(b.delegatorRewards)) return 1
+  return a.moniker.localeCompare(b.moniker)
+}
+
 /**
  * Wallet related store
  */
 export const WalletStoreModel = types
   .model("WalletStore")
   .props({
-    validators: types.optional(types.map(ValidatorModel), {}),
-    validatorList: types.optional(types.array(types.reference(ValidatorModel)), [])
-  })
-  .extend(self => {
-    const env: Environment = getEnv(self)
-
-    const annualProvision = observable.box("0")
+    // Chain-wide
+    annualProvision: types.optional(BigNumberPrimitive, "0"),
+    validators: types.optional(types.map(types.late(() => ValidatorModel)), {}),
+    validatorList: types.optional(types.array(types.reference(types.late(() => ValidatorModel))), []),
 
     /**
      * The address of the wallet
      */
-    const address = observable.box("")
-    const availableBalance = observable.box("0")
-    const rewardsBalance = observable.box("0")
-    const isFetchingBalance = observable.box(false)
-    const hasFetchedBalance = observable.box(false)
-    const isFetchingValidators = observable.box(false)
-    const isFetchingDelegation = observable.box(false)
+    address: types.optional(types.string, ""),
+    availableBalance: types.optional(BigNumberPrimitive, "0"),
+    rewardsBalance: types.optional(BigNumberPrimitive, "0"),
+  })
+  .volatile(() => ({
+    // Chain-wide
+    denom: "LIKE",
+    fractionDenom: "nanolike",
+    fractionDigits: 9,
+    gasPrice: new BigNumber(0),
 
-    const setAddress = (newAddress: string) => {
-      address.set(newAddress)
-    }
-
-    const getAvailableBalanceInLIKE = () => {
-      return convertNanolikeToLIKE(availableBalance.get())
-    }
-
-    function getRewardsBalance() {
-      return convertNanolikeToLIKE(rewardsBalance.get())
-    }
-
-    const getAllTotalDelegatorShares = () => self.validatorList.reduce(
-      (total, validator) => new BigNumber(validator.totalDelegatorShares).plus(total),
-      new BigNumber(0)
-    ).toFixed()
-
-    const setValidatorRewards = ({ validator_address: id, reward }: CosmosValidatorReward) => {
-      self.validators.get(id).setDelegatorRewards(extractNanolikeFromCosmosCoinList(reward))
-    }
-
-    function compareValidatorsInStaking(a: Validator, b: Validator) {
-      if (a.isDelegated && !b.isDelegated) return -1
-      if (!a.isDelegated && b.isDelegated) return 1
-      const aRewards = new BigNumber(a.delegatorRewards)
-      const bRewards = new BigNumber(b.delegatorRewards)
-      if (aRewards.isGreaterThan(bRewards)) return -1
-      if (aRewards.isLessThan(bRewards)) return 1
-      return a.moniker.localeCompare(b.moniker)
-    }
-
-    const fetchRewards = flow(function * () {
-      try {
-        const result: CosmosRewardsResult = yield env.cosmosAPI.queryRewards(address.get())
-        if (result.rewards) result.rewards.forEach(setValidatorRewards)
-        rewardsBalance.set(extractNanolikeFromCosmosCoinList(result.total))
-      } catch (error) {
-        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
-      }
-    })
-
-    const fetchBalance = flow(function * () {
-      isFetchingBalance.set(true)
-      try {
-        availableBalance.set(yield env.cosmosAPI.queryBalance(address.get()))
-      } catch (error) {
-        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchBalance: ${error}`, null)
-      } finally {
-        isFetchingBalance.set(false)
-        hasFetchedBalance.set(true)
-      }
-    })
-
-    const setValidatorDelegation = (rawDelegation: CosmosDelegation) => {
-      self.validators.get(rawDelegation.validator_address).setDelegatorShare(rawDelegation.shares)
-    }
-
-    const fetchDelegations = flow(function * () {
-      isFetchingDelegation.set(true)
-      try {
-        const rawDelegations: CosmosDelegation[] = yield env.cosmosAPI.getDelegations(address.get())
-        rawDelegations.forEach(setValidatorDelegation)
-      } catch (error) {
-        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchDelegations: ${error}`, null)
-      } finally {
-        isFetchingDelegation.set(false)
-      }
-    })
-
-    const fetchValidators = flow(function * () {
-      isFetchingValidators.set(true)
-      try {
-        const rawValidators: CosmosValidator[] = yield env.cosmosAPI.getValidators()
-        self.validatorList.replace([])
-        rawValidators.forEach((rawValidator) => {
-          const validator = parseRawValidators(rawValidator, env)
-          self.validators.put(validator)
-          validator.fetchAvatarURL()
-          self.validatorList.push(validator)
-        })
-        fetchRewards()
-        fetchDelegations()
-      } catch (error) {
-        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
-      } finally {
-        isFetchingValidators.set(false)
-      }
-    })
-
-    const fetchAnnualProvision = flow(function * () {
-      try {
-        annualProvision.set(yield env.cosmosAPI.queryAnnualProvision())
-      } catch (error) {
-        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchAnnualProvision: ${error}`, null)
-      }
-    })
-
-    const createSigner = () => {
+    isFetchingBalance: false,
+    hasFetchedBalance: false,
+    isFetchingValidators: false,
+    isFetchingDelegation: false,
+    isFetchingUnbondingDelegation: false,
+  }))
+  .views(self => ({
+    toDenom(value: BigNumber) {
+      return value.shiftedBy(-self.fractionDigits)
+    },
+    /**
+     * The URL of the account page in block explorer
+     */
+    get blockExplorerURL() {
+      const env: Environment = getEnv(self)
+      return env.bigDipper.getAccountURL(self.address)
+    },
+    get hasRewards() {
+      return self.rewardsBalance.isGreaterThan(0)
+    },
+    get delegatedBalance() {
+      return self.validatorList.reduce(
+        (total, v) => total.plus(v.delegatorShare),
+        new BigNumber(0)
+      )
+    },
+    get totalDelegatorSharesFromAllValidators() {
+      return self.validatorList.reduce(
+        (total, v) => total.plus(v.totalDelegatorShares),
+        new BigNumber(0)
+      )
+    },
+    get unbondingBalance() {
+      return self.validatorList.reduce(
+        (total, v) => total.plus(v.delegatorUnbondingShare),
+        new BigNumber(0)
+      )
+    },
+    get isLoading() {
+      return (
+        self.isFetchingBalance ||
+        self.isFetchingValidators ||
+        self.isFetchingDelegation ||
+        self.isFetchingUnbondingDelegation
+      )
+    },
+    get sortedValidatorList() {
+      return self.validatorList.sort(compareValidatorsInStaking)
+    },
+    get validatorListWithRewards() {
+      return self.validatorList
+        .filter(v => v.hasRewards)
+        .map(v => v.operatorAddress)
+    },
+    get signer() {
+      const env: Environment = getEnv(self)
       return async (message: string) => {
         const signedPayload = await env.authCoreAPI.cosmosSign(
           JSON.parse(message),
-          address.get(),
+          self.address,
         )
         const {
           signature,
@@ -201,96 +161,136 @@ export const WalletStoreModel = types
         } as CosmosSignature
       }
     }
+  }))
+  .views(self => ({
+    formatDenom(
+      value: BigNumber,
+      decimalPlaces?: number,
+      showUnit: boolean = true,
+      roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_CEIL,
+      format?: BigNumber.Format
+    ) {
+      const formattedValue = self.toDenom(value)
+        .toFormat(decimalPlaces, roundingMode, format)
+      return showUnit ? formattedValue.concat(` ${self.denom}`) : formattedValue
+    },
+    get totalBalance() {
+      return self.availableBalance
+        .plus(self.delegatedBalance)
+        .plus(self.rewardsBalance)
+        .plus(self.unbondingBalance)
+    }
+  }))
+  .views(self => ({
+    get formattedAvailableBalance() {
+      return self.formatDenom(self.availableBalance, 4)
+    },
+    get formattedRewardsBalance() {
+      return (self.hasRewards ? "+" : "").concat(self.formatDenom(self.rewardsBalance, 4, false))
+    },
+    get formattedTotalBalance() {
+      return self.formatDenom(self.totalBalance, 4, false)
+    },
+  }))
+  .actions(self => {
+    const env: Environment = getEnv(self)
+
+    const setValidatorRewards = ({ validator_address: id, reward }: CosmosValidatorReward) => {
+      self.validators.get(id).setDelegatorRewards(extractCoinFromCosmosCoinList(reward, self.fractionDenom))
+    }
+
+    const setValidatorDelegation = ({ validator_address: id, shares }: CosmosDelegation) => {
+      self.validators.get(id).setDelegatorShare(shares)
+    }
+
+    const setValidatorUnbondingDelegation = ({ validator_address: id, entries }: CosmosUnbondingDelegation) => {
+      self.validators.get(id).setDelegatorUnbondingShare(entries)
+    }
 
     return {
-      views: {
-        get address() {
-          return address.get()
-        },
-        /**
-         * The URL of the account page in block explorer
-         */
-        get blockExplorerURL() {
-          return env.bigDipper.getAccountURL(address.get())
-        },
-        get totalDelegatorShares() {
-          return getAllTotalDelegatorShares()
-        },
-        get annualProvision() {
-          return annualProvision.get()
-        },
-        /**
-         * Return balance in LIKE
-         */
-        get availableBalanceInLIKE() {
-          return getAvailableBalanceInLIKE()
-        },
-        get formattedAvailableBalance() {
-          return formatLIKE(formatNumber(getAvailableBalanceInLIKE(), 2))
-        },
-        get hasRewards() {
-          return compareNumber(rewardsBalance.get()) > 0
-        },
-        get rewardsBalance() {
-          return getRewardsBalance()
-        },
-        get formattedRewardsBalance() {
-          return formatNumberWithSign(getRewardsBalance(), 2)
-        },
-        get formattedTotalBalance() {
-          return formatNumber(
-            convertNanolikeToLIKE(
-              new BigNumber(availableBalance.get())
-                .plus(new BigNumber(rewardsBalance.get()))
-                .toFixed()
-            ),
-            2
-          )
-        },
-        get isLoading() {
-          return (
-            isFetchingBalance.get() ||
-            isFetchingValidators.get() ||
-            isFetchingDelegation.get()
-          )
-        },
-        get isFetchingBalance() {
-          return isFetchingBalance.get()
-        },
-        get hasFetchedBalance() {
-          return hasFetchedBalance.get()
-        },
-        getValidatorVotingPower(address: string) {
-          const validator = self.validators.get(address)
-          if (!validator) {
-            return "0"
-          }
-          return new BigNumber(validator.totalDelegatorShares)
-            .div(getAllTotalDelegatorShares())
-            .times(100)
-            .toFixed()
-        },
-        get signer() {
-          return createSigner()
-        },
-        get sortedValidatorList() {
-          return self.validatorList.sort(compareValidatorsInStaking)
-        },
-        get validatorListWithRewards() {
-          return self.validatorList
-            .filter(v => new BigNumber(v.delegatorRewards).isGreaterThan(0))
-            .map(v => v.operatorAddress)
-        },
+      setAddress(address: string) {
+        self.address = address
       },
-      actions: {
-        fetchValidators,
-        fetchBalance,
-        fetchDelegations,
-        fetchAnnualProvision,
-        setAddress,
-      }
+      fetchBalance: flow(function * () {
+        self.isFetchingBalance = true
+        try {
+          self.availableBalance = new BigNumber(yield env.cosmosAPI.queryBalance(self.address, self.fractionDenom))
+        } catch (error) {
+          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchBalance: ${error}`, null)
+        } finally {
+          self.isFetchingBalance = false
+          self.hasFetchedBalance = true
+        }
+      }),
+      fetchRewards: flow(function * () {
+        try {
+          const result: CosmosRewardsResult = yield env.cosmosAPI.queryRewards(self.address)
+          if (result.rewards) result.rewards.forEach(setValidatorRewards)
+          self.rewardsBalance = new BigNumber(extractCoinFromCosmosCoinList(result.total, self.fractionDenom))
+        } catch (error) {
+          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
+        }
+      }),
+      fetchDelegations: flow(function * () {
+        self.isFetchingDelegation = true
+        try {
+          const rawDelegations: CosmosDelegation[] = yield env.cosmosAPI.getDelegations(self.address)
+          rawDelegations.forEach(setValidatorDelegation)
+        } catch (error) {
+          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchDelegations: ${error}`, null)
+        } finally {
+          self.isFetchingDelegation = false
+        }
+      }),
+      fetchUnbondingDelegations: flow(function * () {
+        self.isFetchingUnbondingDelegation = true
+        try {
+          const results: CosmosUnbondingDelegation[] = yield env.cosmosAPI.getUnbondingDelegations(self.address)
+          results.forEach(setValidatorUnbondingDelegation)
+        } catch (error) {
+          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchUnbondingDelegations: ${error}`, null)
+        } finally {
+          self.isFetchingUnbondingDelegation = false
+        }
+      }),
+      fetchAnnualProvision: flow(function * () {
+        try {
+          self.annualProvision = new BigNumber(yield env.cosmosAPI.queryAnnualProvision())
+        } catch (error) {
+          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchAnnualProvision: ${error}`, null)
+        }
+      }),
     }
   })
+  .actions(self => ({
+    fetchValidators: flow(function * () {
+      const env: Environment = getEnv(self)
+      self.isFetchingValidators = true
+      try {
+        const rawValidators: CosmosValidator[] = yield env.cosmosAPI.getValidators()
+        const newValidatorList = []
+        rawValidators.forEach((rawValidator) => {
+          const updatedValidator = parseRawValidators(rawValidator, env)
+          let validator = self.validators.get(updatedValidator.operatorAddress)
+          if (!validator) {
+            self.validators.put(updatedValidator)
+            validator = updatedValidator
+          }
+          validator.update(updatedValidator)
+          validator.fetchAvatarURL()
+          newValidatorList.push(validator)
+        })
+        self.validatorList.replace(newValidatorList)
+        self.fetchRewards()
+        self.fetchDelegations()
+        self.fetchUnbondingDelegations()
+      } catch (error) {
+        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
+      } finally {
+        self.isFetchingValidators = false
+      }
+    }),
+  }))
 
 type WalletStoreType = Instance<typeof WalletStoreModel>
 export interface WalletStore extends WalletStoreType {}

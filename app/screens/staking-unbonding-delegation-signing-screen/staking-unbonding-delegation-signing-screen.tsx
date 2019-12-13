@@ -7,12 +7,19 @@ import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-
 import { RootStore } from "../../models/root-store"
 import { WalletStore } from "../../models/wallet-store"
 
-import { SigningView, SigningViewStateType } from "../../components/signing-view"
+import { Button } from "../../components/button"
+import { SigningView } from "../../components/signing-view"
+import { Validator } from "../../models/validator"
+
+import { spacing } from "../../theme"
 
 import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
 
 const GRAPH: ViewStyle = {
   marginRight: -20,
+}
+const ABOUT_LINK_BUTTON: ViewStyle = {
+  marginTop: spacing[3],
 }
 
 export interface StakingUnbondingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
@@ -20,27 +27,15 @@ export interface StakingUnbondingDelegationSigningScreenProps extends Navigation
   walletStore: WalletStore,
 }
 
-export interface StakingUnbondingDelegationSigningScreenState {
-  state: SigningViewStateType
-}
-
 @inject((stores: RootStore) => ({
   txStore: stores.stakingUnbondingDelegationStore,
   walletStore: stores.walletStore,
 }) as StakingUnbondingDelegationSigningScreenProps)
 @observer
-export class StakingUnbondingDelegationSigningScreen extends React.Component<StakingUnbondingDelegationSigningScreenProps, StakingUnbondingDelegationSigningScreenState> {
-  state: StakingUnbondingDelegationSigningScreenState = {
-    state: "waiting"
-  }
-
-  _sendTransaction = async () => {
-    this.setState({ state: "pending" })
-    await this.props.txStore.signTransaction(this.props.walletStore.signer)
-    const state = this.props.txStore.errorMessage ? "waiting" : "success"
-    this.setState({ state })
-    if (state === "success") {
-      // Update balance
+export class StakingUnbondingDelegationSigningScreen extends React.Component<StakingUnbondingDelegationSigningScreenProps, {}> {
+  private sendTransaction = async () => {
+    await this.props.txStore.signTx(this.props.walletStore.signer)
+    if (this.props.txStore.isSuccess) {
       this.props.walletStore.fetchBalance()
       this.props.walletStore.fetchDelegations()
     }
@@ -51,10 +46,10 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
   }
 
   private onPressConfirmButton = () => {
-    if (this.state.state === "success") {
+    if (this.props.txStore.isSuccess) {
       this.props.navigation.dismiss()
     } else {
-      this._sendTransaction()
+      this.sendTransaction()
     }
   }
 
@@ -64,23 +59,36 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
       blockExplorerURL,
       errorMessage,
       fee,
+      signingState: state,
       target,
       totalAmount,
     } = this.props.txStore
+    const { formatDenom } = this.props.walletStore
+    const { avatar, moniker: name }: Validator = this.props.walletStore.validators.get(target)
 
     return (
       <SigningView
         type="unstake"
-        state={this.state.state}
+        state={state}
         titleTx="stakingUnbondingDelegationSigningScreen.title"
-        amount={amount}
+        amount={formatDenom(amount)}
         txURL={blockExplorerURL}
         error={errorMessage}
-        fee={fee}
-        target={target}
-        totalAmount={totalAmount}
+        fee={formatDenom(fee)}
+        target={{ avatar, name }}
+        totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}
+        bottomNavigationAppendChildren={(
+          <Button
+            preset="link"
+            tx="stakingUnbondingDelegationSigningScreen.aboutLinkText"
+            link="http://bit.ly/2LMwXyE"
+            color="greyBlue"
+            weight="400"
+            style={ABOUT_LINK_BUTTON}
+          />
+        )}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}
       />

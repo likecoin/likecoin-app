@@ -10,6 +10,7 @@ export const UserModel = types
     displayName: types.maybe(types.string),
     email: types.maybe(types.string),
     avatarURL: types.maybe(types.string),
+    cosmosWallet: types.maybe(types.string),
   })
 
 type UserType = Instance<typeof UserModel>

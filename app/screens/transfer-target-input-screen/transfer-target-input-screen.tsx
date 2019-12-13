@@ -13,6 +13,7 @@ import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
 import { TransferStore } from "../../models/transfer-store"
+import { WalletStore } from "../../models/wallet-store"
 
 import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
@@ -31,6 +32,7 @@ export interface TransferTargetInputScreenParams {
 
 export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
   transferStore: TransferStore,
+  walletStore: WalletStore,
 }
 
 const ROOT: ViewStyle = {
@@ -81,18 +83,22 @@ const NEXT: ViewStyle = {
   width: BUTTON_GROUP.width,
 }
 
-@inject("transferStore")
+@inject(
+  "transferStore",
+  "walletStore",
+)
 @observer
 export class TransferTargetInputScreen extends React.Component<TransferTargetInputScreenProps, {}> {
-  state = {
-    /**
-     * The code of the error description which is looked up via i18n.
-     */
-    error: "",
+  targetInputRef: React.RefObject<TextInput>
+
+  constructor(props: TransferTargetInputScreenProps) {
+    super(props)
+    this.targetInputRef = React.createRef()
   }
 
   componentDidMount() {
-    this.props.transferStore.resetInput()
+    const { fractionDenom, fractionDigits, gasPrice } = this.props.walletStore
+    this.props.transferStore.initialize(fractionDenom, fractionDigits, gasPrice)
     this._mapParamsToProps()
   }
 
@@ -111,47 +117,53 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   /**
    * Validate the target input
    */
-  _validate = () => {
-    let error = ""
-    this.setState({ error })
-
+  private validate = async () => {
     const { target } = this.props.transferStore
-
-    // Check for address
-    if (!validateAccountAddress(target)) {
-      error = "INVALID_ACCOUNT_ADDRESS"
+    try {
+      // Check for address
+      if (validateAccountAddress(target)) {
+        // Try to fetch the Liker for the wallet address
+        await this.props.transferStore.fetchLikerByWalletAddress()
+      } else {
+        // If not an address, then try to match a Liker ID
+        await this.props.transferStore.fetchLikerById()
+        const { liker } = this.props.transferStore
+        if (!liker) {
+          throw new Error("TRANSFER_INPUT_TARGET_INVALID")
+        }
+        if (!liker.cosmosWallet) {
+          throw new Error("TRANSFER_TARGET_NO_WALLET")
+        }
+      }
+    } catch (error) {
+      this.targetInputRef.current.focus()
+      return this.props.transferStore.setError(error)
     }
-
-    if (error) {
-      this.setState({ error })
-      return false
-    }
-
     return true
   }
 
-  _onPressCloseButton = () => {
+  private onPressCloseButton = () => {
     this.props.navigation.pop()
   }
 
-  _onPressQRCodeButton = () => {
+  private onPressQRCodeButton = () => {
     this.props.navigation.navigate("QRCodeScan")
   }
 
-  _onPressNextButton = () => {
+  private onPressNextButton = async () => {
     // Trim before validation
     this.props.transferStore.setTarget(this.props.transferStore.target.trim())
-    if (this._validate()) {
+    if (await this.validate()) {
       this.props.navigation.navigate("TransferAmountInput")
     }
   }
 
-  _onTargetInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    this.props.transferStore.setTarget(event.nativeEvent.text)
+  private onTargetInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    this.props.transferStore.setReceiver(event.nativeEvent.text)
   }
 
   render () {
-    const { target } = this.props.transferStore
+    const { isFetchingLiker, target } = this.props.transferStore
     const bottomBarStyle = [
       BOTTOM_BAR,
       {
@@ -168,7 +180,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
           <Button
             preset="icon"
             icon="close"
-            onPress={this._onPressCloseButton}
+            onPress={this.onPressCloseButton}
           />
         </View>
         <View style={CONTENT_VIEW}>
@@ -186,6 +198,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                 style={RECEIVER_TEXT_INPUT.ROOT}
               >
                 <TextInput
+                  ref={this.targetInputRef}
                   autoCapitalize="none"
                   autoCorrect={false}
                   placeholder={translate("transferTargetInputScreen.targetInputPlaceholder")}
@@ -194,7 +207,8 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                   selectionColor={color.palette.likeCyan}
                   style={RECEIVER_TEXT_INPUT.TEXT}
                   value={target}
-                  onChange={this._onTargetInputChange}
+                  onChange={this.onTargetInputChange}
+                  onSubmitEditing={this.onPressNextButton}
                 />
               </View>
             }
@@ -203,32 +217,32 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                 key: "scan",
                 preset: "icon",
                 icon: "qrcode-scan",
-                onPress: this._onPressQRCodeButton,
+                onPress: this.onPressQRCodeButton,
               },
             ]}
           />
-          {this._renderError()}
+          {this.renderError()}
         </View>
         <View style={bottomBarStyle}>
           <Button
             tx="common.next"
+            isLoading={isFetchingLiker}
             style={NEXT}
-            onPress={this._onPressNextButton}
+            onPress={this.onPressNextButton}
           />
         </View>
       </Screen>
     )
   }
 
-  _renderError = () => {
-    const { error } = this.state
-    const tx = `error.${error}`
+  private renderError = () => {
+    const { errorMessage } = this.props.transferStore
     return (
       <View style={ERROR.VIEW}>
         <Text
-          tx={tx}
+          text={errorMessage}
           color="angry"
-          isHidden={!error}
+          isHidden={!errorMessage}
           prepend={
             <Icon
               name="alert-circle"
