@@ -199,6 +199,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                   style={RECEIVER_TEXT_INPUT.TEXT}
                   value={target}
                   onChange={this.onTargetInputChange}
+                  onSubmitEditing={this.onPressNextButton}
                 />
               </View>
             }
