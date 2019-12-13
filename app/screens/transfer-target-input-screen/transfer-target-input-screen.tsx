@@ -89,6 +89,13 @@ const NEXT: ViewStyle = {
 )
 @observer
 export class TransferTargetInputScreen extends React.Component<TransferTargetInputScreenProps, {}> {
+  targetInputRef: React.RefObject<TextInput>
+
+  constructor(props: TransferTargetInputScreenProps) {
+    super(props)
+    this.targetInputRef = React.createRef()
+  }
+
   componentDidMount() {
     const { fractionDenom, fractionDigits, gasPrice } = this.props.walletStore
     this.props.transferStore.initialize(fractionDenom, fractionDigits, gasPrice)
@@ -129,6 +136,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
         }
       }
     } catch (error) {
+      this.targetInputRef.current.focus()
       return this.props.transferStore.setError(error)
     }
     return true
@@ -190,6 +198,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
                 style={RECEIVER_TEXT_INPUT.ROOT}
               >
                 <TextInput
+                  ref={this.targetInputRef}
                   autoCapitalize="none"
                   autoCorrect={false}
                   placeholder={translate("transferTargetInputScreen.targetInputPlaceholder")}
