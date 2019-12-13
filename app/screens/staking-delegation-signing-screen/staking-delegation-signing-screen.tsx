@@ -79,7 +79,6 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
         totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}
-        children
         bottomNavigationAppendChildren={(
           <Button
             preset="link"

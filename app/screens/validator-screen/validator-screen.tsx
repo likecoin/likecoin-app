@@ -270,7 +270,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         <View style={DELEGATION.CONTAINER}>
           <ButtonGroup
             buttons={[
-              { 
+              {
                 key: "stake",
                 tx: "validatorScreen.stakeButtonText",
                 onPress: this.onPressStakeButton,

@@ -83,7 +83,7 @@ export const WalletStoreModel = types
     availableBalance: types.optional(BigNumberPrimitive, "0"),
     rewardsBalance: types.optional(BigNumberPrimitive, "0"),
   })
-  .volatile(self => ({
+  .volatile(() => ({
     // Chain-wide
     denom: "LIKE",
     fractionDenom: "nanolike",

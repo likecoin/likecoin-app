@@ -56,7 +56,7 @@ export const SUMMARY = StyleSheet.create({
   },
   TARGET_WITH_AVATAR: {
     flexDirection: "row",
-    alignItems: "center", 
+    alignItems: "center",
     marginTop: spacing[1],
     paddingHorizontal: spacing[4],
     paddingVertical: spacing[2],

@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js"
 
 export interface AmountInputViewProps {
   /**
-   * The input value 
+   * The input value
    */
   value: string
 

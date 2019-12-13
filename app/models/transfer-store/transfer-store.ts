@@ -14,7 +14,7 @@ import { UserResult } from "../../services/api"
  * Transfer store
  */
 export const TransferStoreModel = createTxStore("TransferStore")
-  .volatile(self => ({
+  .volatile(() => ({
     liker: null as User,
     isFetchingLiker: false,
   }))
