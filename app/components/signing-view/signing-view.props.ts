@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import { ReactElement, ReactNode } from "react"
 import { ViewStyle } from "react-native"
 
 export type SigningViewType = "transfer" | "stake" | "unstake" | "reward"
@@ -59,6 +59,11 @@ export interface SigningViewProps {
    * The style of the graph
    */
   graphStyle?: ViewStyle
+
+  /**
+   * The children append in the bottom navigation
+   */
+  bottomNavigationAppendChildren?: ReactNode
 
   /**
    * Callback of clicking close button

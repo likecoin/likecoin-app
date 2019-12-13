@@ -49,16 +49,18 @@
     "available": "可委託"
   },
   "stakingDelegationSigningScreen": {
+    "aboutLinkText": "關於委託",
     "title": "委託"
   },
   "stakingRewardsWithdrawScreen": {
     "title": "取回收益"
   },
   "stakingUnbondingDelegationAmountInputScreen": {
-    "available": "可委託"
+    "available": "已委託"
   },
   "stakingUnbondingDelegationSigningScreen": {
-    "title": "委託"
+    "aboutLinkText": "關於取回委託",
+    "title": "取回委託"
   },
   "settingsScreen": {
     "contactUs": "聯絡我們",

@@ -7,12 +7,18 @@ import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-
 import { RootStore } from "../../models/root-store"
 import { WalletStore } from "../../models/wallet-store"
 
+import { Button } from "../../components/button"
 import { SigningView } from "../../components/signing-view"
+
+import { spacing } from "../../theme"
 
 import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
 
 const GRAPH: ViewStyle = {
   marginRight: -20,
+}
+const ABOUT_LINK_BUTTON: ViewStyle = {
+  marginTop: spacing[3],
 }
 
 export interface StakingUnbondingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
@@ -71,6 +77,16 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
         totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}
+        bottomNavigationAppendChildren={(
+          <Button
+            preset="link"
+            tx="stakingUnbondingDelegationSigningScreen.aboutLinkText"
+            link="http://bit.ly/2LMwXyE"
+            color="greyBlue"
+            weight="400"
+            style={ABOUT_LINK_BUTTON}
+          />
+        )}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}
       />

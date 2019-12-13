@@ -93,6 +93,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
             isLoading={state === "pending"}
             onPress={this.onPressConfirmButton}
           />
+          {this.props.bottomNavigationAppendChildren}
         </View>
       </Screen>
     )

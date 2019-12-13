@@ -56,15 +56,17 @@
     "available": "Available"
   },
   "stakingDelegationSigningScreen": {
+    "aboutLinkText": "Learn more about delegation",
     "title": "Delegate"
   },
   "stakingRewardsWithdrawScreen": {
     "title": "Withdraw rewards"
   },
   "stakingUnbondingDelegationAmountInputScreen": {
-    "available": "Available"
+    "available": "Delegated"
   },
   "stakingUnbondingDelegationSigningScreen": {
+    "aboutLinkText": "關於取回委託",
     "title": "Undelegate"
   },
   "settingsScreen": {
