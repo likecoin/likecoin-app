@@ -5,24 +5,59 @@ import {
   SnapshotOut,
 } from "mobx-state-tree"
 
-import { createTxStore } from "../tx-store"
 import { Environment } from "../environment"
+import { createTxStore } from "../tx-store"
+import { User, UserModel } from "../user"
+import { UserResult } from "../../services/api"
 
 /**
  * Transfer store
  */
 export const TransferStoreModel = createTxStore("TransferStore")
-  .actions(self => ({
-    createTransferTx: flow(function * (fromAddress: string) {
-      const env: Environment = getEnv(self)
-      yield self.createTx(env.cosmosAPI.createSendMessage(
-        fromAddress,
-        self.target,
-        self.amount.toFixed(),
-        self.fractionDenom,
-      ))
-    }),
+  .volatile(self => ({
+    liker: null as User,
   }))
+  .views(self => ({
+    get receiverAddress() {
+      return self.liker ? self.liker.cosmosWallet : self.target
+    },
+  }))
+  .actions(self => {
+    const env: Environment = getEnv(self)
+    return {
+      createTransferTx: flow(function * (fromAddress: string) {
+        yield self.createTx(env.cosmosAPI.createSendMessage(
+          fromAddress,
+          self.receiverAddress,
+          self.amount.toFixed(),
+          self.fractionDenom,
+        ))
+      }),
+      fetchUser: flow(function * () {
+        const result: UserResult = yield env.likeCoAPI.fetchUserInfoById(self.target)
+        switch (result.kind) {
+          case "ok": {
+            const {
+              user: likerID,
+              displayName,
+              email,
+              avatar: avatarURL,
+              cosmosWallet,
+            } = result.data
+            if (cosmosWallet) {
+              self.liker = UserModel.create({
+                likerID,
+                displayName,
+                email,
+                avatarURL,
+                cosmosWallet,
+              })
+            }            
+          }
+        }
+      }),
+    }
+  })
 
 type TransferStoreType = Instance<typeof TransferStoreModel>
 export interface TransferStore extends TransferStoreType {}

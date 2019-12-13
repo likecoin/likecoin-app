@@ -117,7 +117,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   /**
    * Validate the target input
    */
-  private validate = () => {
+  private validate = async () => {
     let error = ""
     this.setState({ error })
 
@@ -125,7 +125,11 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
 
     // Check for address
     if (!validateAccountAddress(target)) {
-      error = "INVALID_ACCOUNT_ADDRESS"
+      await this.props.transferStore.fetchUser()
+      const { liker } = this.props.transferStore
+      if (!liker) {
+        error = "INVALID_ACCOUNT_ADDRESS"
+      }
     }
 
     if (error) {

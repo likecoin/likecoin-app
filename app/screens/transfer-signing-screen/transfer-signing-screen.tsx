@@ -51,10 +51,16 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
       errorMessage,
       fee,
       signingState: state,
-      target,
+      liker,
+      receiverAddress,
       totalAmount,
     } = this.props.transferStore
     const { formatDenom } = this.props.walletStore
+
+    const target = liker ? {
+      avatar: liker.avatarURL,
+      name: liker.displayName,
+    } : receiverAddress
 
     return (
       <SigningView
