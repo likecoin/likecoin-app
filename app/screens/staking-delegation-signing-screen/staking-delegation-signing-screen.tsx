@@ -5,6 +5,7 @@ import { inject, observer } from "mobx-react"
 
 import { StakingDelegationStore } from "../../models/staking-delegation-store"
 import { RootStore } from "../../models/root-store"
+import { Validator } from "../../models/validator"
 import { WalletStore } from "../../models/wallet-store"
 
 import { Button } from "../../components/button"
@@ -63,6 +64,7 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
       totalAmount,
     } = this.props.txStore
     const { formatDenom } = this.props.walletStore
+    const { avatar, moniker: name }: Validator = this.props.walletStore.validators.get(target)
 
     return (
       <SigningView
@@ -73,7 +75,7 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}
-        target={target}
+        target={{ avatar, name }}
         totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}

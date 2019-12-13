@@ -43,7 +43,7 @@ export interface SigningViewProps {
   /**
    * The target of the transaction
    */
-  target?: string,
+  target?: string | { avatar: string, name: string },
 
   /**
    * The URL to the block explorer

@@ -9,6 +9,7 @@ import { WalletStore } from "../../models/wallet-store"
 
 import { Button } from "../../components/button"
 import { SigningView } from "../../components/signing-view"
+import { Validator } from "../../models/validator"
 
 import { spacing } from "../../theme"
 
@@ -63,6 +64,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
       totalAmount,
     } = this.props.txStore
     const { formatDenom } = this.props.walletStore
+    const { avatar, moniker: name }: Validator = this.props.walletStore.validators.get(target)
 
     return (
       <SigningView
@@ -73,7 +75,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}
-        target={target}
+        target={{ avatar, name }}
         totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}

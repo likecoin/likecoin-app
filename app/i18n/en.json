@@ -96,6 +96,7 @@
   },
   "transaction": {
     "fee": "Fee",
+    "from": "From",
     "to": "To"
   },
   "transferTargetInputScreen": {

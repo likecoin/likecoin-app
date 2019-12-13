@@ -96,6 +96,7 @@
   },
   "transaction": {
     "fee": "手續費",
+    "from": "從",
     "to": "至"
   },
   "transfer": {
