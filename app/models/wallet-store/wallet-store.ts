@@ -14,6 +14,7 @@ import {
   CosmosUnbondingDelegation,
 } from "../../services/cosmos"
 import { extractCoinFromCosmosCoinList } from "../../services/cosmos/cosmos.utils"
+import { logError } from "../../utils/error"
 
 /**
  * Parse Cosemos Validator to model
@@ -216,7 +217,7 @@ export const WalletStoreModel = types
         try {
           self.availableBalance = new BigNumber(yield env.cosmosAPI.queryBalance(self.address, self.fractionDenom))
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchBalance: ${error}`, null)
+          logError(`Error occurs in WalletStore.fetchBalance: ${error}`)
         } finally {
           self.isFetchingBalance = false
           self.hasFetchedBalance = true
@@ -228,7 +229,7 @@ export const WalletStoreModel = types
           if (result.rewards) result.rewards.forEach(setValidatorRewards)
           self.rewardsBalance = new BigNumber(extractCoinFromCosmosCoinList(result.total, self.fractionDenom))
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchRewards: ${error}`, null)
+          logError(`Error occurs in WalletStore.fetchRewards: ${error}`)
         }
       }),
       fetchDelegations: flow(function * () {
@@ -237,7 +238,7 @@ export const WalletStoreModel = types
           const rawDelegations: CosmosDelegation[] = yield env.cosmosAPI.getDelegations(self.address)
           rawDelegations.forEach(setValidatorDelegation)
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchDelegations: ${error}`, null)
+          logError(`Error occurs in WalletStore.fetchDelegations: ${error}`)
         } finally {
           self.isFetchingDelegation = false
         }
@@ -248,7 +249,7 @@ export const WalletStoreModel = types
           const results: CosmosUnbondingDelegation[] = yield env.cosmosAPI.getUnbondingDelegations(self.address)
           results.forEach(setValidatorUnbondingDelegation)
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchUnbondingDelegations: ${error}`, null)
+          logError(`Error occurs in WalletStore.fetchUnbondingDelegations: ${error}`)
         } finally {
           self.isFetchingUnbondingDelegation = false
         }
@@ -257,7 +258,7 @@ export const WalletStoreModel = types
         try {
           self.annualProvision = new BigNumber(yield env.cosmosAPI.queryAnnualProvision())
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchAnnualProvision: ${error}`, null)
+          logError(`Error occurs in WalletStore.fetchAnnualProvision: ${error}`)
         }
       }),
     }
@@ -285,7 +286,7 @@ export const WalletStoreModel = types
         self.fetchDelegations()
         self.fetchUnbondingDelegations()
       } catch (error) {
-        __DEV__ && console.tron.error(`Error occurs in WalletStore.fetchValidators: ${error}`, null)
+        logError(`Error occurs in WalletStore.fetchValidators: ${error}`)
       } finally {
         self.isFetchingValidators = false
       }

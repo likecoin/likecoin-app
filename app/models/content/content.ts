@@ -2,6 +2,7 @@ import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 
 import { Environment } from "../environment"
 import { ContentResult, LikeStatResult } from "../../services/api"
+import { logError } from "../../utils/error"
 
 /**
  * Likeable Content
@@ -47,7 +48,7 @@ export const ContentModel = types
           }
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       } finally {
         self.isFetchingDetails = false
         self.hasFetchedDetails = true
@@ -70,7 +71,7 @@ export const ContentModel = types
           }
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       }
     }),
   }))

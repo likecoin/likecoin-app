@@ -8,6 +8,10 @@ export function initSentry(dsn: string) {
   })
 }
 
+export function sentryCaptureError(err: unknown) {
+  return Sentry.captureException(err)
+}
+
 export function setSentryUser(user) {
   return Sentry.configureScope((scope) => {
     scope.setUser(user)

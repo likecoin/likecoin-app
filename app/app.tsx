@@ -16,6 +16,7 @@ import { StatefulNavigator } from "./navigation"
 import { BackButtonHandler } from "./navigation/back-button-handler"
 import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
 import { RootStore, setupRootStore } from "./models/root-store"
+import { logError } from "./utils/error"
 import { Screen } from "./components/screen"
 import { color } from "./theme"
 import { StorybookUIRoot } from "../storybook"
@@ -73,7 +74,7 @@ export class App extends React.Component<{}, AppState> {
       if (!url) return
       this._handleDeepLinkURL(url)
     } catch (err) {
-      __DEV__ && console.tron.error(err.message, null)
+      logError(err.message)
     }
   }
 

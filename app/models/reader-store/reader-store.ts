@@ -3,6 +3,7 @@ import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
 import { ContentModel } from "../content"
 import { Environment } from "../environment"
 import { ContentListResult } from "../../services/api/api.types"
+import { logError } from "../../utils/error"
 import { observable } from "mobx"
 
 const contentListTypes = types.optional(
@@ -58,7 +59,7 @@ export const ReaderStoreModel = types
             })
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       } finally {
         isFetchingSuggestList.set(false)
       }
@@ -81,7 +82,7 @@ export const ReaderStoreModel = types
             })
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       } finally {
         isFetchingFollowedList.set(false)
       }

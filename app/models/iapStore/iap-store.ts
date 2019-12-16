@@ -10,6 +10,7 @@ import { observable } from "mobx"
 import { Platform, Alert } from "react-native"
 import { Environment } from "../environment"
 import { translate } from "../../i18n"
+import { logError } from "../../utils/error"
 
 const SKU_COM_OICE_MEMBERSHIP = "com.oice.membership"
 
@@ -51,7 +52,7 @@ export const IAPStoreModel = types
     })
 
     const handlePurchaseError = flow(function * (error: PurchaseError) {
-      __DEV__ && console.tron.error(error, null)
+      logError(error)
     })
 
     const fetchProducts = flow(function * () {
@@ -59,7 +60,7 @@ export const IAPStoreModel = types
       try {
         products.set(yield RNIap.getProducts([SKU_COM_OICE_MEMBERSHIP]))
       } catch (error) {
-        __DEV__ && console.tron.error(error, null)
+        logError(error)
       } finally {
         isFetchingProducts.set(false)
       }
@@ -69,7 +70,7 @@ export const IAPStoreModel = types
       try {
         yield RNIap.requestSubscription(sku, false)
       } catch (error) {
-        __DEV__ && console.tron.error(error, null)
+        logError(error)
       }
     })
 
@@ -88,7 +89,7 @@ export const IAPStoreModel = types
         })
         self.hasSubscription = hasSubscription
       } catch (error) {
-        __DEV__ && console.tron.error(error, null)
+        logError(error)
       } finally {
         isRestoringPurchases.set(false)
       }
