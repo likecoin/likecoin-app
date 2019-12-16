@@ -4,6 +4,7 @@ import { RootStoreModel, RootStore } from "./root-store"
 import { Environment } from "../environment"
 import * as Keychain from "../../utils/keychain"
 import * as storage from "../../utils/storage"
+import { logError } from "../../utils/error"
 
 /**
  * The key we'll be saving our state as within async storage.
@@ -79,7 +80,7 @@ export async function setupRootStore() {
     rootStore = createRootStore(env)
 
     // but please inform us what happened
-    __DEV__ && console.tron.error(e.message, null)
+    logError(e.message)
   }
 
   // reactotron logging

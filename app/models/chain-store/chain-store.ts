@@ -14,6 +14,8 @@ import {
 } from "../../services/cosmos"
 import { extractCoinFromCosmosCoinList } from "../../services/cosmos/cosmos.utils"
 
+import { logError } from "../../utils/error"
+
 /**
  * Cosmos Chain Store
  */
@@ -179,7 +181,7 @@ export const ChainStoreModel = types
         try {
           self.annualProvision = new BigNumber(yield env.cosmosAPI.queryAnnualProvision())
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in ChainStore.fetchAnnualProvision: ${error}`, null)
+          logError(`Error occurs in ChainStore.fetchAnnualProvision: ${error}`)
         }
       }),
       fetchValidators: flow(function * () {
@@ -230,7 +232,7 @@ export const ChainStoreModel = types
             validator.fetchAvatarURL()
           })
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in ChainStore.fetchValidators: ${error}`, null)
+          logError(`Error occurs in ChainStore.fetchValidators: ${error}`)
         } finally {
           self.isFetchingValidators = false
         }
@@ -240,7 +242,7 @@ export const ChainStoreModel = types
         try {
           self.wallet.availableBalance = new BigNumber(yield env.cosmosAPI.queryBalance(self.wallet.address, self.fractionDenom))
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in ChainStore.fetchBalance: ${error}`, null)
+          logError(`Error occurs in ChainStore.fetchBalance: ${error}`)
         } finally {
           self.isFetchingBalance = false
         }
@@ -253,7 +255,7 @@ export const ChainStoreModel = types
             self.wallet.getDelegation(id, false).shares = new BigNumber(shares)
           })
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in ChainStore.fetchDelegations: ${error}`, null)
+          logError(`Error occurs in ChainStore.fetchDelegations: ${error}`)
         } finally {
           self.isFetchingDelegation = false
         }
@@ -269,7 +271,7 @@ export const ChainStoreModel = types
             )
           })
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in ChainStore.fetchUnbondingDelegations: ${error}`, null)
+          logError(`Error occurs in ChainStore.fetchUnbondingDelegations: ${error}`)
         } finally {
           self.isFetchingUnbondingDelegation = false
         }
@@ -284,7 +286,7 @@ export const ChainStoreModel = types
             })
           }
         } catch (error) {
-          __DEV__ && console.tron.error(`Error occurs in ChainStore.fetchRewards: ${error}`, null)
+          logError(`Error occurs in ChainStore.fetchRewards: ${error}`)
         } finally {
           self.isFetchingRewards = false
         }

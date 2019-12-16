@@ -14,6 +14,7 @@ import {
   CosmosSendResult,
 } from "../../services/cosmos"
 import { parseCosmosCoin } from "../../services/cosmos/cosmos.utils"
+import { logError } from "../../utils/error"
 
 import { translateWithFallbackText } from "../../i18n"
 
@@ -113,7 +114,7 @@ export function createTxStore(name: string) {
             const estimatedGas: number = yield message.simulate({})
             self.gas = new BigNumber(estimatedGas)
           } catch (error) {
-            __DEV__ && console.tron.error(error, null)
+            logError(error)
             self.setError(error)
           } finally {
             self.isCreatingTx = false
@@ -132,7 +133,7 @@ export function createTxStore(name: string) {
             yield included()
             self.isSuccess = true
           } catch (error) {
-            __DEV__ && console.tron.error(error, null)
+            logError(error)
             self.setError(error)
           } finally {
             self.isSigningTx = false
