@@ -28,6 +28,9 @@ export const ContentModel = types
   })
   .extend(withEnvironment)
   .actions(self => ({
+    setTimestamp(timestamp: number) {
+      if (timestamp) self.timestamp = timestamp
+    },
     fetchDetails: flow(function * () {
       self.isFetchingDetails = true
       try {
@@ -40,7 +43,6 @@ export const ContentModel = types
               title,
               image,
               like,
-              ts,
             } = result.data
             self.creatorLikerID = user
             self.description = description
@@ -49,7 +51,6 @@ export const ContentModel = types
             if (self.likeCount < like) {
               self.likeCount = like
             }
-            self.timestamp = ts
           }
         }
       } catch (error) {

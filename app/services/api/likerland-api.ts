@@ -71,8 +71,8 @@ export class LikerLandAPI {
   /**
    * Fetch a list of content from followed authors
    */
-  async fetchReaderFollowing(): Promise<Types.ContentListResult> {
-    const response: ApiResponse<any> = await this.apisauce.get('/reader/works/followed')
+  async fetchReaderFollowing({ before }: { before?: number } = {}): Promise<Types.ContentListResult> {
+    const response: ApiResponse<any> = await this.apisauce.get('/reader/works/followed', { before })
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
