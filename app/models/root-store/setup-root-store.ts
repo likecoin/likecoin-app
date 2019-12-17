@@ -68,7 +68,7 @@ export async function setupRootStore() {
       username: authCoreIdToken,
       password: authCoreRefreshToken,
     } = await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY'))
-    env.setupAuthCore(authCoreRefreshToken)
+    await env.setupAuthCore(authCoreRefreshToken)
     if (authCoreIdToken && authCoreRefreshToken) {
       await rootStore.userStore.authCore.init(authCoreRefreshToken, authCoreIdToken)
       rootStore.chainStore.setupWallet(rootStore.userStore.authCore.primaryCosmosAddress)

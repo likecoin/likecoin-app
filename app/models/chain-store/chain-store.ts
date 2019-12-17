@@ -32,7 +32,7 @@ export const ChainStoreModel = types
     validators: types.optional(types.map(types.late(() => ValidatorModel)), {}),
 
     wallets: types.map(WalletModel),
-    selectedWallet: types.maybe(types.reference(WalletModel)),
+    currentWallet: types.maybe(types.reference(WalletModel)),
   })
   .volatile(() => ({
     isFetchingValidators: false,
@@ -52,7 +52,7 @@ export const ChainStoreModel = types
         .concat("%")
     },
     get wallet() {
-      return self.selectedWallet
+      return self.currentWallet
     },
     get validatorList() {
       return [...self.validators.values()]
@@ -174,8 +174,8 @@ export const ChainStoreModel = types
         if (!wallet) {
           wallet = WalletModel.create({ address })
           self.wallets.put(wallet)
-          self.selectedWallet = wallet
         }
+        self.currentWallet = wallet
       },
       fetchAnnualProvision: flow(function * () {
         try {
