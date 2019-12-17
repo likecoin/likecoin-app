@@ -3,9 +3,9 @@ import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-delegation-store"
+import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
-import { WalletStore } from "../../models/wallet-store"
+import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-delegation-store"
 
 import { Button } from "../../components/button"
 import { SigningView } from "../../components/signing-view"
@@ -23,21 +23,21 @@ const ABOUT_LINK_BUTTON: ViewStyle = {
 }
 
 export interface StakingUnbondingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
-  txStore: StakingUnbondingDelegationStore,
-  walletStore: WalletStore,
+  txStore: StakingUnbondingDelegationStore
+  chain: ChainStore
 }
 
-@inject((stores: RootStore) => ({
-  txStore: stores.stakingUnbondingDelegationStore,
-  walletStore: stores.walletStore,
-}) as StakingUnbondingDelegationSigningScreenProps)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.stakingUnbondingDelegationStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class StakingUnbondingDelegationSigningScreen extends React.Component<StakingUnbondingDelegationSigningScreenProps, {}> {
   private sendTransaction = async () => {
-    await this.props.txStore.signTx(this.props.walletStore.signer)
+    await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
-      this.props.walletStore.fetchBalance()
-      this.props.walletStore.fetchDelegations()
+      this.props.chain.fetchBalance()
+      this.props.chain.fetchDelegations()
     }
   }
 
@@ -63,8 +63,8 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
       target,
       totalAmount,
     } = this.props.txStore
-    const { formatDenom } = this.props.walletStore
-    const { avatar, moniker: name }: Validator = this.props.walletStore.validators.get(target)
+    const { formatDenom } = this.props.chain
+    const { avatar, moniker: name }: Validator = this.props.chain.validators.get(target)
 
     return (
       <SigningView

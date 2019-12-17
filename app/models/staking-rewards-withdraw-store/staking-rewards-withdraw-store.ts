@@ -1,12 +1,10 @@
 import {
   flow,
-  getEnv,
   Instance,
   SnapshotOut,
 } from "mobx-state-tree"
 
 import { createTxStore } from "../tx-store"
-import { Environment } from "../environment"
 
 /**
  * Staking rewards withdraw store
@@ -17,8 +15,7 @@ export const StakingRewardsWithdrawStoreModel = createTxStore("StakingRewardsWit
       fromAddress: string,
       validatorAddresses: string[],
     ) {
-      const env: Environment = getEnv(self)
-      yield self.createTx(env.cosmosAPI.createRewardsWithdrawMessage(
+      yield self.createTx(self.env.cosmosAPI.createRewardsWithdrawMessage(
         fromAddress,
         validatorAddresses
       ))

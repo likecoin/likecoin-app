@@ -1,14 +1,12 @@
 import {
   flow,
-  getEnv,
   Instance,
   SnapshotOut,
   types,
 } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
 
-import { Environment } from "../environment"
-
+import { withEnvironment } from "../extensions"
 import {
   CosmosMessage,
   CosmosSendResult,
@@ -41,6 +39,7 @@ export function createTxStore(name: string) {
       isSigningTx: false,
       isSuccess: false,
     }))
+    .extend(withEnvironment)
     .views(self => ({
       get fee() {
         return self.gas.times(self.gasPrice)
@@ -49,8 +48,7 @@ export function createTxStore(name: string) {
         return new BigNumber(self.inputAmount).shiftedBy(self.fractionDigits)
       },
       get blockExplorerURL() {
-        const env: Environment = getEnv(self)
-        return env.bigDipper.getTransactionURL(self.txHash)
+        return self.env.bigDipper.getTransactionURL(self.txHash)
       },
       get signingState() {
         if (self.isSuccess) return "success"

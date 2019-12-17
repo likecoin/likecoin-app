@@ -1,11 +1,9 @@
 import {
   flow,
-  getEnv,
   Instance,
   SnapshotOut,
 } from "mobx-state-tree"
 
-import { Environment } from "../environment"
 import { createTxStore } from "../tx-store"
 import { User, UserModel } from "../user"
 import { UserResult } from "../../services/api"
@@ -24,8 +22,6 @@ export const TransferStoreModel = createTxStore("TransferStore")
     },
   }))
   .actions(self => {
-    const env: Environment = getEnv(self)
-
     function handleLikerFetchingResult(result: UserResult) {
       switch (result.kind) {
         case "ok": {
@@ -54,7 +50,7 @@ export const TransferStoreModel = createTxStore("TransferStore")
         self.liker = null
       },
       createTransferTx: flow(function * (fromAddress: string) {
-        yield self.createTx(env.cosmosAPI.createSendMessage(
+        yield self.createTx(self.env.cosmosAPI.createSendMessage(
           fromAddress,
           self.receiverAddress,
           self.amount.toFixed(),
@@ -63,13 +59,13 @@ export const TransferStoreModel = createTxStore("TransferStore")
       }),
       fetchLikerByWalletAddress: flow(function * () {
         self.isFetchingLiker = true
-        const result: UserResult = yield env.likeCoAPI.fetchUserInfoByWalletAddress(self.target)
+        const result: UserResult = yield self.env.likeCoAPI.fetchUserInfoByWalletAddress(self.target)
         handleLikerFetchingResult(result)
         self.isFetchingLiker = false
       }),
       fetchLikerById: flow(function * () {
         self.isFetchingLiker = true
-        const result: UserResult = yield env.likeCoAPI.fetchUserInfoById(self.target.toLowerCase())
+        const result: UserResult = yield self.env.likeCoAPI.fetchUserInfoById(self.target.toLowerCase())
         handleLikerFetchingResult(result)
         self.isFetchingLiker = false
       }),

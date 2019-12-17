@@ -3,8 +3,9 @@ import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
+import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { TransferStore } from "../../models/transfer-store"
-import { WalletStore } from "../../models/wallet-store"
 
 import { SigningView } from "../../components/signing-view"
 
@@ -15,20 +16,20 @@ const GRAPH: ViewStyle = {
 }
 
 export interface TransferSigningScreenProps extends NavigationScreenProps<{}> {
-  transferStore: TransferStore,
-  walletStore: WalletStore,
+  txStore: TransferStore,
+  chain: ChainStore,
 }
 
-@inject(
-  "transferStore",
-  "walletStore",
-)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.transferStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class TransferSigningScreen extends React.Component<TransferSigningScreenProps> {
   private sendTransaction = async () => {
-    await this.props.transferStore.signTx(this.props.walletStore.signer)
-    if (this.props.transferStore.isSuccess) {
-      this.props.walletStore.fetchBalance()
+    await this.props.txStore.signTx(this.props.chain.wallet.signer)
+    if (this.props.txStore.isSuccess) {
+      this.props.chain.fetchBalance()
     }
   }
 
@@ -37,7 +38,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
   }
 
   private onPressConfirmButton = () => {
-    if (this.props.transferStore.isSuccess) {
+    if (this.props.txStore.isSuccess) {
       this.props.navigation.dismiss()
     } else {
       this.sendTransaction()
@@ -54,8 +55,8 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
       liker,
       receiverAddress,
       totalAmount,
-    } = this.props.transferStore
-    const { formatDenom } = this.props.walletStore
+    } = this.props.txStore
+    const { formatDenom } = this.props.chain
 
     const target = liker ? {
       avatar: liker.avatarURL,

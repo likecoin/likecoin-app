@@ -4,9 +4,9 @@ import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { StakingDelegationStore } from "../../models/staking-delegation-store"
+import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { Validator } from "../../models/validator"
-import { WalletStore } from "../../models/wallet-store"
 
 import { Button } from "../../components/button"
 import { SigningView } from "../../components/signing-view"
@@ -24,20 +24,20 @@ const ABOUT_LINK_BUTTON: ViewStyle = {
 
 export interface StakingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
   txStore: StakingDelegationStore,
-  walletStore: WalletStore,
+  chain: ChainStore,
 }
 
-@inject((stores: RootStore) => ({
-  txStore: stores.stakingDelegationStore,
-  walletStore: stores.walletStore,
-}) as StakingDelegationSigningScreenProps)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.stakingDelegationStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class StakingDelegationSigningScreen extends React.Component<StakingDelegationSigningScreenProps, {}> {
   private sendTransaction = async () => {
-    await this.props.txStore.signTx(this.props.walletStore.signer)
+    await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
-      this.props.walletStore.fetchBalance()
-      this.props.walletStore.fetchValidators()
+      this.props.chain.fetchBalance()
+      this.props.chain.fetchValidators()
     }
   }
 
@@ -63,8 +63,8 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
       target,
       totalAmount,
     } = this.props.txStore
-    const { formatDenom } = this.props.walletStore
-    const { avatar, moniker: name }: Validator = this.props.walletStore.validators.get(target)
+    const { formatDenom } = this.props.chain
+    const { avatar, moniker: name }: Validator = this.props.chain.validators.get(target)
 
     return (
       <SigningView

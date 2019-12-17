@@ -1,12 +1,10 @@
 import {
   flow,
-  getEnv,
   Instance,
   SnapshotOut,
 } from "mobx-state-tree"
 
 import { createTxStore } from "../tx-store"
-import { Environment } from "../environment"
 
 /**
  * Staking delegation store
@@ -14,8 +12,7 @@ import { Environment } from "../environment"
 export const StakingDelegationStoreModel = createTxStore("StakingDelegationStore")
   .actions(self => ({
     createDelegateTx: flow(function * (fromAddress: string) {
-      const env: Environment = getEnv(self)
-      yield self.createTx(env.cosmosAPI.createDelegateMessage(
+      yield self.createTx(self.env.cosmosAPI.createDelegateMessage(
         fromAddress,
         self.target,
         self.amount.toFixed(),

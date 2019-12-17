@@ -3,9 +3,9 @@ import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { StakingRewardsWithdrawStore } from "../../models/staking-rewards-withdraw-store"
+import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
-import { WalletStore } from "../../models/wallet-store"
+import { StakingRewardsWithdrawStore } from "../../models/staking-rewards-withdraw-store"
 
 import { SigningView } from "../../components/signing-view"
 
@@ -16,32 +16,32 @@ const GRAPH: ViewStyle = {
 }
 
 export interface StakingRewardsWithdrawScreenProps extends NavigationScreenProps<{}> {
+  chain: ChainStore
   txStore: StakingRewardsWithdrawStore
-  walletStore: WalletStore
 }
 
 @inject((stores: RootStore) => ({
   txStore: stores.stakingRewardsWithdrawStore,
-  walletStore: stores.walletStore,
+  chain: stores.chainStore,
 }) as StakingRewardsWithdrawScreenProps)
 @observer
 export class StakingRewardsWithdrawScreen extends React.Component<StakingRewardsWithdrawScreenProps, {}> {
   constructor(props: StakingRewardsWithdrawScreenProps) {
     super(props)
-    const { fractionDenom, fractionDigits, gasPrice } = props.walletStore
+    const { fractionDenom, fractionDigits, gasPrice } = props.chain
     props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
     props.txStore.createRewardsWithdrawTx(
-      props.walletStore.address,
-      props.walletStore.validatorListWithRewards,
+      props.chain.wallet.address,
+      props.chain.wallet.validatorAddressListWithRewards,
     )
   }
 
   private sendTransaction = async () => {
-    await this.props.txStore.signTx(this.props.walletStore.signer)
+    await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
-      this.props.walletStore.fetchBalance()
-      this.props.walletStore.fetchDelegations()
-      this.props.walletStore.fetchRewards()
+      this.props.chain.fetchBalance()
+      this.props.chain.fetchDelegations()
+      this.props.chain.fetchRewards()
     }
   }
 
@@ -66,14 +66,14 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
     } = this.props.txStore
     const {
       formatDenom,
-      rewardsBalance,
-    } = this.props.walletStore
+      formattedRewardsBalance,
+    } = this.props.chain
     return (
       <SigningView
         type="reward"
         state={state}
         titleTx="stakingRewardsWithdrawScreen.title"
-        amount={formatDenom(rewardsBalance)}
+        amount={formattedRewardsBalance}
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}

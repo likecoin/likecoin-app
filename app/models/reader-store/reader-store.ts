@@ -1,15 +1,17 @@
-import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import {
+  flow,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
 
 import { ContentModel } from "../content"
-import { Environment } from "../environment"
+import { withEnvironment } from "../extensions"
+
 import { ContentListResult } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
-import { observable } from "mobx"
 
-const contentListTypes = types.optional(
-  types.array(types.reference(ContentModel)),
-  []
-)
+const contentListTypes = types.array(types.reference(ContentModel))
 
 /**
  * Store all content related information.
@@ -17,22 +19,27 @@ const contentListTypes = types.optional(
 export const ReaderStoreModel = types
   .model("ReaderStore")
   .props({
-    contents: types.optional(types.map(ContentModel), {}),
+    contents: types.map(ContentModel),
     featuredList: contentListTypes,
     followedList: contentListTypes,
   })
-  .extend(self => {
-    const env: Environment = getEnv(self)
-
-    const isFetchingSuggestList = observable.box(false)
-    const isFetchingFollowedList = observable.box(false)
-
-    const clearAllLists = () => {
+  .volatile(() => ({
+    isFetchingSuggestList: false,
+    isFetchingFollowedList: false,
+  }))
+  .extend(withEnvironment)
+  .views(self => ({
+    get isLoading() {
+      return self.isFetchingSuggestList ||
+        self.isFetchingFollowedList
+    },
+  }))
+  .actions(self => ({
+    clearAllLists: () => {
       self.featuredList.replace([])
       self.followedList.replace([])
-    }
-
-    const getContentByURL = (url: string) => {
+    },
+    getContentByURL: (url: string) => {
       // TODO: Refactor
       let content = self.contents.get(url)
       if (!content) {
@@ -40,12 +47,11 @@ export const ReaderStoreModel = types
         self.contents.set(url, content)
       }
       return content
-    }
-
-    const fetchSuggestList = flow(function * () {
-      isFetchingSuggestList.set(true)
+    },
+    fetchSuggestList: flow(function * () {
+      self.isFetchingSuggestList = true
       try {
-        const result: ContentListResult = yield env.likerLandAPI.fetchReaderSuggest()
+        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
         switch (result.kind) {
           case "ok":
             self.featuredList.replace([])
@@ -61,14 +67,13 @@ export const ReaderStoreModel = types
       } catch (error) {
         logError(error.message)
       } finally {
-        isFetchingSuggestList.set(false)
+        self.isFetchingSuggestList = false
       }
-    })
-
-    const fetchFollowedList = flow(function * () {
-      isFetchingFollowedList.set(true)
+    }),
+    fetchFollowedList: flow(function * () {
+      self.isFetchingFollowedList = true
       try {
-        const result: ContentListResult = yield env.likerLandAPI.fetchReaderFollowing()
+        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFollowing()
         switch (result.kind) {
           case "ok":
             self.followedList.replace([])
@@ -84,24 +89,10 @@ export const ReaderStoreModel = types
       } catch (error) {
         logError(error.message)
       } finally {
-        isFetchingFollowedList.set(false)
+        self.isFetchingFollowedList = false
       }
-    })
-
-    return {
-      views: {
-        get isLoading() {
-          return isFetchingSuggestList.get() || isFetchingFollowedList.get()
-        },
-      },
-      actions: {
-        clearAllLists,
-        getContentByURL,
-        fetchSuggestList,
-        fetchFollowedList,
-      },
-    }
-  })
+    }),
+  }))
 
 type ReaderStoreType = Instance<typeof ReaderStoreModel>
 export interface ReaderStore extends ReaderStoreType {}

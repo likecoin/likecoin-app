@@ -12,8 +12,9 @@ import { NavigationScreenProps } from "react-navigation"
 import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
+import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { TransferStore } from "../../models/transfer-store"
-import { WalletStore } from "../../models/wallet-store"
 
 import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
@@ -31,8 +32,8 @@ export interface TransferTargetInputScreenParams {
 }
 
 export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
-  transferStore: TransferStore,
-  walletStore: WalletStore,
+  txStore: TransferStore,
+  chain: ChainStore,
 }
 
 const ROOT: ViewStyle = {
@@ -83,10 +84,10 @@ const NEXT: ViewStyle = {
   width: BUTTON_GROUP.width,
 }
 
-@inject(
-  "transferStore",
-  "walletStore",
-)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.transferStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class TransferTargetInputScreen extends React.Component<TransferTargetInputScreenProps, {}> {
   targetInputRef: React.RefObject<TextInput>
@@ -97,8 +98,8 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   componentDidMount() {
-    const { fractionDenom, fractionDigits, gasPrice } = this.props.walletStore
-    this.props.transferStore.initialize(fractionDenom, fractionDigits, gasPrice)
+    const { fractionDenom, fractionDigits, gasPrice } = this.props.chain
+    this.props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
     this._mapParamsToProps()
   }
 
@@ -110,7 +111,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     const prevAddress = prepProps && prepProps.navigation.getParam("address")
     const address = this.props.navigation.getParam("address")
     if (!prevAddress && address) {
-      this.props.transferStore.setTarget(address)
+      this.props.txStore.setTarget(address)
     }
   }
 
@@ -118,16 +119,16 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
    * Validate the target input
    */
   private validate = async () => {
-    const { target } = this.props.transferStore
+    const { target } = this.props.txStore
     try {
       // Check for address
       if (validateAccountAddress(target)) {
         // Try to fetch the Liker for the wallet address
-        await this.props.transferStore.fetchLikerByWalletAddress()
+        await this.props.txStore.fetchLikerByWalletAddress()
       } else {
         // If not an address, then try to match a Liker ID
-        await this.props.transferStore.fetchLikerById()
-        const { liker } = this.props.transferStore
+        await this.props.txStore.fetchLikerById()
+        const { liker } = this.props.txStore
         if (!liker) {
           throw new Error("TRANSFER_INPUT_TARGET_INVALID")
         }
@@ -137,7 +138,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
       }
     } catch (error) {
       this.targetInputRef.current.focus()
-      return this.props.transferStore.setError(error)
+      return this.props.txStore.setError(error)
     }
     return true
   }
@@ -152,18 +153,18 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
 
   private onPressNextButton = async () => {
     // Trim before validation
-    this.props.transferStore.setTarget(this.props.transferStore.target.trim())
+    this.props.txStore.setTarget(this.props.txStore.target.trim())
     if (await this.validate()) {
       this.props.navigation.navigate("TransferAmountInput")
     }
   }
 
   private onTargetInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    this.props.transferStore.setReceiver(event.nativeEvent.text)
+    this.props.txStore.setReceiver(event.nativeEvent.text)
   }
 
   render () {
-    const { isFetchingLiker, target } = this.props.transferStore
+    const { isFetchingLiker, target } = this.props.txStore
     const bottomBarStyle = [
       BOTTOM_BAR,
       {
@@ -236,7 +237,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   private renderError = () => {
-    const { errorMessage } = this.props.transferStore
+    const { errorMessage } = this.props.txStore
     return (
       <View style={ERROR.VIEW}>
         <Text

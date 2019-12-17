@@ -5,8 +5,8 @@ import { inject, observer } from "mobx-react"
 import { AmountInputView } from "../../components/amount-input-view"
 
 import { StakingDelegationStore } from "../../models/staking-delegation-store"
+import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
-import { WalletStore } from "../../models/wallet-store"
 
 import Graph from "../../assets/graph/staking-delegate.svg"
 
@@ -15,19 +15,19 @@ export interface StakingDelegationAmountInputScreenParams {
 }
 
 export interface StakingDelegationAmountInputScreenProps extends NavigationScreenProps<StakingDelegationAmountInputScreenParams> {
-  txStore: StakingDelegationStore,
-  walletStore: WalletStore,
+  txStore: StakingDelegationStore
+  chain: ChainStore
 }
 
-@inject((stores: RootStore) => ({
-  txStore: stores.stakingDelegationStore,
-  walletStore: stores.walletStore,
-}) as StakingDelegationAmountInputScreenProps)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.stakingDelegationStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class StakingDelegationAmountInputScreen extends React.Component<StakingDelegationAmountInputScreenProps, {}> {
   constructor(props: StakingDelegationAmountInputScreenProps) {
     super(props)
-    const { fractionDenom, fractionDigits, gasPrice } = props.walletStore
+    const { fractionDenom, fractionDigits, gasPrice } = props.chain
     props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
     props.txStore.setTarget(props.navigation.getParam("target"))
   }
@@ -39,7 +39,7 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
    */
   private createTransactionForSigning = async () => {
     try {
-      const { address, availableBalance } = this.props.walletStore
+      const { address, availableBalance } = this.props.chain.wallet
       await this.props.txStore.createDelegateTx(address)
       const { totalAmount } = this.props.txStore
       if (totalAmount.isGreaterThan(availableBalance)) {
@@ -84,13 +84,13 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
       <AmountInputView
         value={inputAmount}
         amount={amount}
-        maxAmount={this.props.walletStore.availableBalance}
+        maxAmount={this.props.chain.wallet.availableBalance}
         error={errorMessage}
         availableLabelTx="stakingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
         graph={<Graph />}
-        formatAmount={this.props.walletStore.formatDenom}
+        formatAmount={this.props.chain.formatDenom}
         onChange={this.onAmountInputChange}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}
