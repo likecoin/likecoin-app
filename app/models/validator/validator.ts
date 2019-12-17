@@ -1,12 +1,11 @@
 import {
+  flow,
   Instance,
   SnapshotOut,
   types,
-  flow,
-  getEnv,
 } from "mobx-state-tree"
 
-import { Environment } from "../environment"
+import { withEnvironment } from "../extensions"
 import { BigNumberPrimitive } from "../number"
 
 /**
@@ -40,13 +39,13 @@ export const ValidatorModel = types
 
     minSelfDelegation: types.string,
   })
+  .extend(withEnvironment)
   .views(self => ({
     get avatar() {
       return self.avatorURL || `https://ui-avatars.com/api/?size=360&name=${encodeURIComponent(self.moniker)}&color=fff&background=aaa`
     },
     get blockExplorerURL() {
-      const env: Environment = getEnv(self)
-      return env.bigDipper.getValidatorURL(self.operatorAddress)
+      return self.env.bigDipper.getValidatorURL(self.operatorAddress)
     },
   }))
   .actions(self => ({

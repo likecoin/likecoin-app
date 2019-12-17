@@ -10,7 +10,7 @@ export const withEnvironment = (self: IStateTreeNode) => ({
     /**
      * The environment.
      */
-    get environment() {
+    get env() {
       return getEnv(self) as Environment
     },
   },

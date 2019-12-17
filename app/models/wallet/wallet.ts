@@ -1,9 +1,13 @@
 import { Buffer } from "buffer"
-import { Instance, SnapshotOut, types, getEnv } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
 import BigNumber from "bignumber.js"
 
 import { DelegationModel, Delegation } from "../delegation"
-import { Environment } from "../environment"
+import { withEnvironment } from "../extensions"
 import { BigNumberPrimitive } from "../number"
 
 import { CosmosSignature } from "../../services/cosmos"
@@ -18,6 +22,7 @@ export const WalletModel = types
     availableBalance: types.optional(BigNumberPrimitive, "0"),
     delegations: types.map(DelegationModel),
   })
+  .extend(withEnvironment)
   .actions(self => ({
     setDelegation(delegation: Delegation) {
       self.delegations.put(delegation)
@@ -34,8 +39,7 @@ export const WalletModel = types
      * The URL of the account page in block explorer
      */
     get blockExplorerURL() {
-      const env: Environment = getEnv(self)
-      return env.bigDipper.getAccountURL(self.address)
+      return self.env.bigDipper.getAccountURL(self.address)
     },
   }))
   .views(self => ({
@@ -73,9 +77,8 @@ export const WalletModel = types
         .map(d => d.validatorAddress)
     },
     get signer() {
-      const env: Environment = getEnv(self)
       return async (message: string) => {
-        const signedPayload = await env.authCoreAPI.cosmosSign(
+        const signedPayload = await self.env.authCoreAPI.cosmosSign(
           JSON.parse(message),
           self.address,
         )

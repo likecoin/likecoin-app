@@ -1,6 +1,11 @@
-import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import {
+  flow,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
 
-import { Environment } from "../environment"
+import { withEnvironment } from "../extensions"
 import { ContentResult, LikeStatResult } from "../../services/api"
 import { logError } from "../../utils/error"
 
@@ -21,12 +26,12 @@ export const ContentModel = types
     isFetchingDetails: types.optional(types.boolean, false),
     hasFetchedDetails: types.optional(types.boolean, false),
   })
+  .extend(withEnvironment)
   .actions(self => ({
     fetchDetails: flow(function * () {
-      const env: Environment = getEnv(self)
       self.isFetchingDetails = true
       try {
-        const result: ContentResult = yield env.likeCoAPI.fetchContentInfo(self.url)
+        const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(self.url)
         switch (result.kind) {
           case "ok": {
             const {
@@ -55,9 +60,8 @@ export const ContentModel = types
       }
     }),
     fetchLikeStat: flow(function * () {
-      const env: Environment = getEnv(self)
       try {
-        const result: LikeStatResult = yield env.likeCoAPI.fetchContentLikeStat(
+        const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
           self.creatorLikerID,
           self.url
         )
