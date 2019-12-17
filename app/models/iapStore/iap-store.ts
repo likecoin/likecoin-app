@@ -36,7 +36,7 @@ export const IAPStoreModel = types
   .extend(withEnvironment)
   .views(self => ({
     get isEnabled() {
-      return self.env.appConfig.getValue("IAP_ENABLE") === "true"
+      return self.getConfig("IAP_ENABLE") === "true"
     },
     getIsPurchased(sku: string) {
       return self.purchasedSKUs.has(sku)
@@ -57,8 +57,8 @@ export const IAPStoreModel = types
         if (Platform.OS === "ios") {
           const result: any = yield RNIap.validateReceiptIos({
             "receipt-data": receipt,
-            password: self.env.appConfig.getValue("IAP_IOS_SHARED_SECRET"),
-          }, self.env.appConfig.getValue("IAP_IOS_IS_SANDBOX") === "true")
+            password: self.getConfig("IAP_IOS_SHARED_SECRET"),
+          }, self.getConfig("IAP_IOS_IS_SANDBOX") === "true")
           if (result) {
             if (result.status === 0) {
               self.purchasedSKUs.add(SKU_COM_OICE_MEMBERSHIP)

@@ -44,7 +44,7 @@ export const AuthCoreStoreModel = types
       self.idToken = ""
       self.hasSignedIn = false
       self.profile = undefined
-      yield Keychain.reset(self.env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
+      yield Keychain.reset(self.getConfig("AUTHCORE_CREDENTIAL_KEY"))
       yield self.env.authCoreAPI.signOut()
     })
   }))
@@ -82,7 +82,7 @@ export const AuthCoreStoreModel = types
       yield Keychain.save(
         'likerland_refresh_token',
         refreshToken,
-        self.env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY")
+        self.getConfig("AUTHCORE_CREDENTIAL_KEY")
       )
       yield self.init(refreshToken, idToken, accessToken, currentUser)
     }),
