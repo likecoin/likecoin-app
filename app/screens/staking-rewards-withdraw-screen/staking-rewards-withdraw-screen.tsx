@@ -28,12 +28,22 @@ export interface StakingRewardsWithdrawScreenProps extends NavigationScreenProps
 export class StakingRewardsWithdrawScreen extends React.Component<StakingRewardsWithdrawScreenProps, {}> {
   constructor(props: StakingRewardsWithdrawScreenProps) {
     super(props)
-    const { fractionDenom, fractionDigits, gasPrice } = props.chain
+    const {
+      canWithdrawRewards,
+      fractionDenom,
+      fractionDigits,
+      gasPrice,
+      wallet: {
+        address,
+        validatorAddressListWithRewards: validatorAddresses,
+      },
+    } = props.chain
     props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
-    props.txStore.createRewardsWithdrawTx(
-      props.chain.wallet.address,
-      props.chain.wallet.validatorAddressListWithRewards,
-    )
+    if (canWithdrawRewards) {
+      props.txStore.createRewardsWithdrawTx(address, validatorAddresses)
+    } else {
+      props.txStore.setError(new Error("REWARDS_WITHDRAW_UNDER_MIN"))
+    }
   }
 
   private sendTransaction = async () => {
@@ -65,6 +75,7 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
       signingState: state,
     } = this.props.txStore
     const {
+      canWithdrawRewards,
       formatDenom,
       formattedRewardsBalance,
     } = this.props.chain
@@ -79,6 +90,7 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
         fee={formatDenom(fee)}
         graph={<Graph />}
         graphStyle={GRAPH}
+        isConfirmButtonDisabled={!canWithdrawRewards}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}
       />

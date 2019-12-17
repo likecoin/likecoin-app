@@ -90,6 +90,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           <Button
             tx={state === "waiting" ? "common.confirm" : "common.done"}
             isLoading={state === "pending"}
+            disabled={this.props.isConfirmButtonDisabled}
             onPress={this.onPressConfirmButton}
           />
           {this.props.bottomNavigationAppendChildren}

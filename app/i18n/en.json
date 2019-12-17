@@ -19,6 +19,7 @@
     "REGISTRATION_BAD_DATA": "Registration data invalid",
     "REGISTRATION_EMAIL_ALREADY_USED": "The email is already used",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "The Liker ID is already used",
+    "REWARDS_WITHDRAW_UNDER_MIN": "The rewards are below the minimum withdraw amount",
     "STAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",

@@ -66,6 +66,11 @@ export interface SigningViewProps {
   bottomNavigationAppendChildren?: ReactNode
 
   /**
+   * Set the confirm button to disabled
+   */
+  isConfirmButtonDisabled?: boolean
+
+  /**
    * Callback of clicking close button
    */
   onClose?: () => void
