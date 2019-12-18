@@ -19,7 +19,7 @@
     "REGISTRATION_BAD_DATA": "註冊資料錯誤",
     "REGISTRATION_EMAIL_ALREADY_USED": "電郵已被註冊",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註冊",
-    "REWARDS_WITHDRAW_UNDER_MIN": "收益少於可提取下限",
+    "REWARDS_WITHDRAW_BELOW_MIN": "收益少於可提取下限",
     "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
