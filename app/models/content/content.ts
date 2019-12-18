@@ -23,9 +23,11 @@ export const ContentModel = types
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
     timestamp: types.maybe(types.integer),
-    isFetchingDetails: types.optional(types.boolean, false),
-    hasFetchedDetails: types.optional(types.boolean, false),
   })
+  .volatile(() => ({
+    isFetchingDetails: false,
+    hasFetchedDetails: false,
+  }))
   .extend(withEnvironment)
   .actions(self => ({
     setTimestamp(timestamp: number) {
