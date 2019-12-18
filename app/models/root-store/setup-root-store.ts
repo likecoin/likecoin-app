@@ -94,12 +94,10 @@ export async function setupRootStore() {
     ({
       /* eslint-disable @typescript-eslint/no-unused-vars */
       navigationStore,
-      readerStore: { contents },
       ...snapshot
       /* eslint-enable @typescript-eslint/no-unused-vars */
     }) => storage.save(ROOT_STATE_STORAGE_KEY, {
       ...snapshot,
-      readerStore: { contents },
     })
   )
 

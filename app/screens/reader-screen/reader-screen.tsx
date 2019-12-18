@@ -65,7 +65,6 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
   }
 
   private onLoadMore = () => {
-    console.tron.log("ONLOADMORE")
     if (
       this.props.navigation.state.routeName === "Followed" &&
       this.props.readerStore.hasFetchedFollowedList &&
