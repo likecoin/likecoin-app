@@ -12,12 +12,7 @@ import { withEnvironment } from "../extensions"
 import { ContentListResult, Content as ContentResult } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
-const ContentList = types.snapshotProcessor(types.array(types.reference(ContentModel)), {
-  // Never save the list
-  preProcessor() {
-    return []
-  },
-})
+const ContentList = types.array(types.safeReference(ContentModel))
 
 function getContentId(content: Content) {
   return content.url
@@ -25,6 +20,10 @@ function getContentId(content: Content) {
 
 function uniq(list: Content[]) {
   return uniqBy(getContentId, list)
+}
+
+export function sortContentForSnapshot(a: Content, b: Content) {
+  return b.timestamp - a.timestamp
 }
 
 /**

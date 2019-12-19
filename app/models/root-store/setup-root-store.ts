@@ -1,7 +1,9 @@
 import { onSnapshot } from "mobx-state-tree"
 
-import { RootStoreModel, RootStore } from "./root-store"
 import { Environment } from "../environment"
+import { sortContentForSnapshot } from "../reader-store"
+import { RootStoreModel, RootStore } from "./root-store"
+
 import * as Keychain from "../../utils/keychain"
 import * as storage from "../../utils/storage"
 import { logError } from "../../utils/error"
@@ -94,10 +96,25 @@ export async function setupRootStore() {
     ({
       /* eslint-disable @typescript-eslint/no-unused-vars */
       navigationStore,
+      readerStore: {
+        contents,
+        featuredList, // Never cache
+        followedList, // Never cache
+      },
       ...snapshot
       /* eslint-enable @typescript-eslint/no-unused-vars */
     }) => storage.save(ROOT_STATE_STORAGE_KEY, {
       ...snapshot,
+      readerStore: {
+        contents: Object
+          .values(contents)
+          .sort(sortContentForSnapshot)
+          .slice(0, 1000) // Cache 1,000 contents at max
+          .reduce((acc, c) => {
+            acc[c.url] = c
+            return acc
+          }, {}),
+      }
     })
   )
 

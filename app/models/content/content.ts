@@ -22,7 +22,7 @@ export const ContentModel = types
     creatorLikerID: types.maybe(types.string),
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
-    timestamp: types.maybe(types.integer),
+    timestamp: types.optional(types.integer, 0),
   })
   .volatile(() => ({
     isFetchingDetails: false,
