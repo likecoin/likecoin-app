@@ -47,11 +47,11 @@ export async function setupRootStore() {
     // Setup Authcore
     const {
       username: authCoreIdToken,
-      password: authCoreAccessToken,
+      password: authCoreRefreshToken,
     } = await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY'))
-    env.setupAuthCore(authCoreAccessToken)
-    if (authCoreIdToken && authCoreAccessToken) {
-      await rootStore.userStore.authCore.init(authCoreIdToken, authCoreAccessToken)
+    env.setupAuthCore(authCoreRefreshToken)
+    if (authCoreIdToken && authCoreRefreshToken) {
+      await rootStore.userStore.authCore.init(authCoreRefreshToken, authCoreIdToken)
     }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state

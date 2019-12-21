@@ -68,7 +68,6 @@ export class AuthCoreAPI {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
-      token,
     })
     this.cosmosChainId = cosmosChainId
     if (token) {
@@ -76,7 +75,19 @@ export class AuthCoreAPI {
     }
   }
 
-  async setupModules(accessToken: string) {
+  async setupModules(refreshToken: string, accessToken?: string) {
+    if (!accessToken) {
+      try {
+        const data = await this.client.auth.client.post("/api/auth/tokens", {
+          grant_type: "REFRESH_TOKEN", // eslint-disable-line
+          token: refreshToken,
+        })
+        accessToken = data.json.access_token
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    if (!accessToken) return {}
     this.client.auth.client.bearer = `Bearer ${accessToken}`
 
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
@@ -92,6 +103,7 @@ export class AuthCoreAPI {
 
     // Getting Cosmos addresses, it will be created if not exists
     await this.getCosmosAddresses()
+    return { accessToken }
   }
 
   onUnauthenticated = () => {
@@ -142,17 +154,33 @@ export class AuthCoreAPI {
     return signed
   }
 
+  async getOAuthFactors() {
+    const { auth } = this.client
+    const { json } = await auth.client.get("/api/auth/oauth_factors")
+    let { oauth_factors: oAuthFactors = [] } = json
+    /* handle FACEBOOK is missing due to being default */
+    oAuthFactors = oAuthFactors.map(f => {
+      if (!f.service) {
+        return { ...f, service: 'FACEBOOK' }
+      }
+      return f
+    })
+    return oAuthFactors
+  }
+
   /**
    * Sign in AuthCore
    */
   async signIn() {
     const {
       accessToken,
+      refreshToken,
       idToken,
       currentUser,
     } = await this.client.webAuth.signin()
     return {
       accessToken,
+      refreshToken,
       idToken,
       currentUser: parseAuthCoreUser(currentUser),
     }
@@ -164,7 +192,7 @@ export class AuthCoreAPI {
   async signOut() {
     const { auth } = this.client
     try {
-      auth.client.delete("/api/auth/sessions")
+      await auth.client.delete("/api/auth/sessions")
     } finally {
       auth.client.bearer = ''
     }

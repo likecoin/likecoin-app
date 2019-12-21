@@ -8,40 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* LikeCoinAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* LikeCoinAppTests.m */; };
-		0212AE896DBE45D88ADB28E9 /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB0410F64EA54D098E66C652 /* Montserrat-LightItalic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		169654C8E2024A1787D17556 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB809E029472488FBA74377F /* Montserrat-BoldItalic.ttf */; };
-		26D95E36E55A458EB5DB6D0C /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98FB94E77D9643358DBFFA60 /* Montserrat-ExtraBold.ttf */; };
-		284A53FF191244FDBFA8BA62 /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D3F122B869141B78EAA2884 /* Montserrat-Black.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* LikeCoinAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* LikeCoinAppTests.m */; };
 		30C174B5155C5611506AC164 /* libPods-LikeCoinApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52304CD7A69CFA7CA3C03F2A /* libPods-LikeCoinApp-tvOSTests.a */; };
 		36D8ACD4779D0B916C1CC866 /* libPods-LikeCoinApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE7585CD68977C813A97C0C /* libPods-LikeCoinApp-tvOS.a */; };
-		3FD8F15C84AC420290AB7B58 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C888B786BEB348EBAC42E2B0 /* Montserrat-Italic.ttf */; };
-		7944379BA76742FD87DCE2BE /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4926738337C94764B24DD64B /* Montserrat-Bold.ttf */; };
 		83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7023282B3700E6998E /* LKCWebViewManager.m */; };
 		83924D7423282B3700E6998E /* LKCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7123282B3700E6998E /* LKCWebView.m */; };
-		888CA9DA68D94301A06C89DC /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA5515109D994C27A807759B /* Montserrat-BlackItalic.ttf */; };
-		91BFE70FE58C40BAA5FB805C /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744908718AA9463888C13DE9 /* Montserrat-ThinItalic.ttf */; };
-		95B8406EA302434192529C66 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09D13B708E1940918B7C13A5 /* Montserrat-Light.ttf */; };
-		9BE94A6A2E53419E84E2D982 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C83335AD0EC14A5FB5C9CE8C /* Montserrat-Regular.ttf */; };
-		9CD15E72E5DA427D8037B46C /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBBE20EE9043485AA2CFDB1D /* Montserrat-Medium.ttf */; };
-		A107E5317C7C422EA19AEFDA /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE8230DB065F427E9086994E /* Montserrat-SemiBoldItalic.ttf */; };
 		AB07D850C91B8398F5E2FB23 /* libPods-LikeCoinAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84393A9D99A91D9737F14BA4 /* libPods-LikeCoinAppTests.a */; };
-		ADC8D80BF83C40CDBE39CDC9 /* Montserrat-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 831D3C904A804C0DAD51F596 /* Montserrat-ExtraLightItalic.ttf */; };
-		B4041126BD904FF6AB11FEE3 /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59C55C3B79AF4659BEE31550 /* Montserrat-ExtraLight.ttf */; };
-		B69CB232CF014E528DA6C9B6 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC3F9040B6F141D3924C85B2 /* Montserrat-SemiBold.ttf */; };
 		C27A56C94CBEC946501048B2 /* libPods-LikeCoinApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D8FC0335890CDFBF9C4CF5 /* libPods-LikeCoinApp.a */; };
-		D1A524A882354EABB5A5C79E /* Montserrat-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2E4767DFCD243E69C118E57 /* Montserrat-MediumItalic.ttf */; };
 		DCFADF7E237C0E7600028C41 /* Release in Resources */ = {isa = PBXBuildFile; fileRef = DCFADF7C237C0E7600028C41 /* Release */; };
 		DCFADF7F237C0E7600028C41 /* Debug in Resources */ = {isa = PBXBuildFile; fileRef = DCFADF7D237C0E7600028C41 /* Debug */; };
-		EADBAB3DD7574E8DA9AC59B4 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6DE351BA48284347BF90D9F0 /* Montserrat-Thin.ttf */; };
-		F41E8ECEEF5E402BA4EDE293 /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D03959EECE0442DA120AD55 /* Montserrat-ExtraBoldItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +48,6 @@
 		00E356EE1AD99517003FC87E /* LikeCoinAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LikeCoinAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* LikeCoinAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LikeCoinAppTests.m; sourceTree = "<group>"; };
-		09D13B708E1940918B7C13A5 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../app/theme/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		0A802AED6459CC30DF37423E /* Pods-LikeCoinAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinAppTests.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinAppTests/Pods-LikeCoinAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1353A4971D00DBB6E455BFE8 /* Pods-LikeCoinAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinAppTests.release.xcconfig"; path = "Target Support Files/Pods-LikeCoinAppTests/Pods-LikeCoinAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* LikeCoinApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikeCoinApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,40 +62,23 @@
 		2D02E4901E0B4A5D006451C7 /* LikeCoinApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LikeCoinApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F796178233DC2D700306A87 /* LikeCoinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LikeCoinApp.entitlements; path = LikeCoinApp/LikeCoinApp.entitlements; sourceTree = "<group>"; };
 		318E3F4C4A6107ACD66739B3 /* Pods-LikeCoinApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp-tvOSTests/Pods-LikeCoinApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4926738337C94764B24DD64B /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../app/theme/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		52304CD7A69CFA7CA3C03F2A /* libPods-LikeCoinApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		59C55C3B79AF4659BEE31550 /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.ttf"; path = "../app/theme/fonts/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
 		612C5BA990BB7AB7622CC7A0 /* Pods-LikeCoinApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp/Pods-LikeCoinApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6CE7585CD68977C813A97C0C /* libPods-LikeCoinApp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6DE351BA48284347BF90D9F0 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.ttf"; path = "../app/theme/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
-		744908718AA9463888C13DE9 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.ttf"; path = "../app/theme/fonts/Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
 		75D8FC0335890CDFBF9C4CF5 /* libPods-LikeCoinApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7D03959EECE0442DA120AD55 /* Montserrat-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBoldItalic.ttf"; path = "../app/theme/fonts/Montserrat-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		831D3C904A804C0DAD51F596 /* Montserrat-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.ttf"; path = "../app/theme/fonts/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		83924D6C232828C500E6998E /* RNCWebView+LikeCoin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RNCWebView+LikeCoin.h"; path = "LikeCoinApp/RNCWebView+LikeCoin.h"; sourceTree = "<group>"; };
 		83924D6F23282B3700E6998E /* LKCWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebView.h; path = LikeCoinApp/LKCWebView.h; sourceTree = "<group>"; };
 		83924D7023282B3700E6998E /* LKCWebViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebViewManager.m; path = LikeCoinApp/LKCWebViewManager.m; sourceTree = "<group>"; };
 		83924D7123282B3700E6998E /* LKCWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebView.m; path = LikeCoinApp/LKCWebView.m; sourceTree = "<group>"; };
 		83924D7223282B3700E6998E /* LKCWebViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebViewManager.h; path = LikeCoinApp/LKCWebViewManager.h; sourceTree = "<group>"; };
 		84393A9D99A91D9737F14BA4 /* libPods-LikeCoinAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D3F122B869141B78EAA2884 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../app/theme/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
-		98FB94E77D9643358DBFFA60 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../app/theme/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
-		AE8230DB065F427E9086994E /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../app/theme/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		B2E4767DFCD243E69C118E57 /* Montserrat-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.ttf"; path = "../app/theme/fonts/Montserrat-MediumItalic.ttf"; sourceTree = "<group>"; };
-		BB0410F64EA54D098E66C652 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../app/theme/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		C127A3517BC23CD6386841D9 /* Pods-LikeCoinApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp-tvOS/Pods-LikeCoinApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		C83335AD0EC14A5FB5C9CE8C /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../app/theme/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		C888B786BEB348EBAC42E2B0 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.ttf"; path = "../app/theme/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
-		CA5515109D994C27A807759B /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../app/theme/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
-		DC3F9040B6F141D3924C85B2 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../app/theme/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		DC8237BDE9DEEADE020C3FAC /* Pods-LikeCoinApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp-tvOS/Pods-LikeCoinApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		DCFADF7C237C0E7600028C41 /* Release */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Release; sourceTree = "<group>"; };
 		DCFADF7D237C0E7600028C41 /* Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Debug; sourceTree = "<group>"; };
 		E51DF448958017141AC1DF89 /* Pods-LikeCoinApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp-tvOSTests/Pods-LikeCoinApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		EB809E029472488FBA74377F /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../app/theme/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		FBBE20EE9043485AA2CFDB1D /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../app/theme/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +185,6 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				EFFFE8D89D5BF8B5BA93DC85 /* Pods */,
-				D9900F1458CA48CF8AD203EC /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -237,31 +200,6 @@
 				2D02E4901E0B4A5D006451C7 /* LikeCoinApp-tvOSTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		D9900F1458CA48CF8AD203EC /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				8D3F122B869141B78EAA2884 /* Montserrat-Black.ttf */,
-				CA5515109D994C27A807759B /* Montserrat-BlackItalic.ttf */,
-				4926738337C94764B24DD64B /* Montserrat-Bold.ttf */,
-				EB809E029472488FBA74377F /* Montserrat-BoldItalic.ttf */,
-				98FB94E77D9643358DBFFA60 /* Montserrat-ExtraBold.ttf */,
-				7D03959EECE0442DA120AD55 /* Montserrat-ExtraBoldItalic.ttf */,
-				59C55C3B79AF4659BEE31550 /* Montserrat-ExtraLight.ttf */,
-				831D3C904A804C0DAD51F596 /* Montserrat-ExtraLightItalic.ttf */,
-				C888B786BEB348EBAC42E2B0 /* Montserrat-Italic.ttf */,
-				09D13B708E1940918B7C13A5 /* Montserrat-Light.ttf */,
-				BB0410F64EA54D098E66C652 /* Montserrat-LightItalic.ttf */,
-				FBBE20EE9043485AA2CFDB1D /* Montserrat-Medium.ttf */,
-				B2E4767DFCD243E69C118E57 /* Montserrat-MediumItalic.ttf */,
-				C83335AD0EC14A5FB5C9CE8C /* Montserrat-Regular.ttf */,
-				DC3F9040B6F141D3924C85B2 /* Montserrat-SemiBold.ttf */,
-				AE8230DB065F427E9086994E /* Montserrat-SemiBoldItalic.ttf */,
-				6DE351BA48284347BF90D9F0 /* Montserrat-Thin.ttf */,
-				744908718AA9463888C13DE9 /* Montserrat-ThinItalic.ttf */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		EFFFE8D89D5BF8B5BA93DC85 /* Pods */ = {
@@ -314,6 +252,7 @@
 				C76FA05B0208092CE895C07A /* [CP-User] [RNFB] Core Configuration */,
 				CA245B537CEDD94F185A0102 /* [CP-User] [RNFB] Crashlytics Configuration */,
 				DC876CE02350801E002DAF5A /* ShellScript */,
+				512FB86A807CF2F0E223B7FC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -434,24 +373,6 @@
 				DCFADF7F237C0E7600028C41 /* Debug in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				284A53FF191244FDBFA8BA62 /* Montserrat-Black.ttf in Resources */,
-				888CA9DA68D94301A06C89DC /* Montserrat-BlackItalic.ttf in Resources */,
-				7944379BA76742FD87DCE2BE /* Montserrat-Bold.ttf in Resources */,
-				169654C8E2024A1787D17556 /* Montserrat-BoldItalic.ttf in Resources */,
-				26D95E36E55A458EB5DB6D0C /* Montserrat-ExtraBold.ttf in Resources */,
-				F41E8ECEEF5E402BA4EDE293 /* Montserrat-ExtraBoldItalic.ttf in Resources */,
-				B4041126BD904FF6AB11FEE3 /* Montserrat-ExtraLight.ttf in Resources */,
-				ADC8D80BF83C40CDBE39CDC9 /* Montserrat-ExtraLightItalic.ttf in Resources */,
-				3FD8F15C84AC420290AB7B58 /* Montserrat-Italic.ttf in Resources */,
-				95B8406EA302434192529C66 /* Montserrat-Light.ttf in Resources */,
-				0212AE896DBE45D88ADB28E9 /* Montserrat-LightItalic.ttf in Resources */,
-				9CD15E72E5DA427D8037B46C /* Montserrat-Medium.ttf in Resources */,
-				D1A524A882354EABB5A5C79E /* Montserrat-MediumItalic.ttf in Resources */,
-				9BE94A6A2E53419E84E2D982 /* Montserrat-Regular.ttf in Resources */,
-				B69CB232CF014E528DA6C9B6 /* Montserrat-SemiBold.ttf in Resources */,
-				A107E5317C7C422EA19AEFDA /* Montserrat-SemiBoldItalic.ttf in Resources */,
-				EADBAB3DD7574E8DA9AC59B4 /* Montserrat-Thin.ttf in Resources */,
-				91BFE70FE58C40BAA5FB805C /* Montserrat-ThinItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +464,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		512FB86A807CF2F0E223B7FC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LikeCoinApp/Pods-LikeCoinApp-resources.sh",
+				"${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle",
+				"${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Intercom.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IntercomTranslations.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LikeCoinApp/Pods-LikeCoinApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		90D84F711D4D03283AB3B18B /* [CP] Check Pods Manifest.lock */ = {
@@ -780,12 +721,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LikeCoinApp/LikeCoinApp.entitlements;
-				CURRENT_PROJECT_VERSION = 123;
+				CURRENT_PROJECT_VERSION = 126;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.11.3;
+				MARKETING_VERSION = 0.11.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -804,11 +745,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LikeCoinApp/LikeCoinApp.entitlements;
-				CURRENT_PROJECT_VERSION = 123;
+				CURRENT_PROJECT_VERSION = 126;
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.11.3;
+				MARKETING_VERSION = 0.11.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

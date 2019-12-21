@@ -6,7 +6,9 @@
  */
 
 #import "AppDelegate.h"
+#import "Intercom/intercom.h"
 
+#import <UserNotifications/UserNotifications.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -30,7 +32,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
+
   if ([FIRApp defaultApp] == nil) {
     NSString *filePath;
     #ifdef DEBUG
@@ -40,11 +42,16 @@
       NSLog(@"[FIREBASE] Production mode.");
       filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist" inDirectory:@"Release"];
     #endif
-      
-      FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
-      [FIRApp configureWithOptions:options];
+
+    FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
+    [FIRApp configureWithOptions:options];
+
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *IntercomAPIKey = [infoDict objectForKey:@"IntercomAPIKey"];
+    NSString *InterAppID = [infoDict objectForKey:@"InterAppID"];
+    [Intercom setApiKey:IntercomAPIKey forAppId:InterAppID];
   }
-  
+
   return YES;
 }
 
@@ -67,6 +74,20 @@
   return [RCTLinkingManager application:application
                    continueUserActivity:userActivity
                      restorationHandler:restorationHandler];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    UNUserNotificationCenter *notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+    [notificationCenter requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+      if (granted) {
+        [application registerForRemoteNotifications];
+      }
+    }];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Intercom
+    [Intercom setDeviceToken:deviceToken];
 }
 
 @end
