@@ -12,10 +12,18 @@ import { withEnvironment } from "../extensions"
 import { ContentListResult, Content as ContentResult } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
-const contentListTypes = types.array(types.reference(ContentModel))
+const ContentList = types.array(types.safeReference(ContentModel))
+
+function getContentId(content: Content) {
+  return content.url
+}
 
 function uniq(list: Content[]) {
-  return uniqBy((c: Content) => c.url, list)
+  return uniqBy(getContentId, list)
+}
+
+export function sortContentForSnapshot(a: Content, b: Content) {
+  return b.timestamp - a.timestamp
 }
 
 /**
@@ -25,8 +33,8 @@ export const ReaderStoreModel = types
   .model("ReaderStore")
   .props({
     contents: types.map(ContentModel),
-    featuredList: contentListTypes,
-    followedList: contentListTypes,
+    featuredList: ContentList,
+    followedList: ContentList,
   })
   .volatile(() => ({
     isFetchingSuggestList: false,
@@ -44,41 +52,59 @@ export const ReaderStoreModel = types
     },
   }))
   .actions(self => ({
-    parseContentListResult(contents: ContentResult[]) {
-      const parsedContents: Content[] = []
-      contents.forEach(({ referrer: url, ts }) => {
-        let content = self.contents.get(url)
-        if (!content) {
-          content = ContentModel.create({ url })
-          self.contents.set(url, content)
-        }
-        content.setTimestamp(ts)
-        parsedContents.push(content)
+    clearAllLists: () => {
+      self.featuredList.replace([])
+      self.hasFetchedSuggestList = false
+      self.followedList.replace([])
+      self.hasFetchedFollowedList = false
+    },
+    createContentFromContentResult(result: ContentResult) {
+      const {
+        referrer: url,
+        image: imageURL,
+        ts: timestamp,
+        like: likeCount,
+        user: creatorLikerID,
+        ...rest
+      } = result
+      const content = ContentModel.create({
+        url,
+        imageURL,
+        timestamp,
+        likeCount,
+        creatorLikerID,
+        ...rest
       })
-      return uniq(parsedContents)
+      self.contents.put(content)
+      return content
+    },
+    parseContentResult(result: ContentResult) {
+      let content = self.contents.get(result.referrer)
+      if (!content) {
+        content = this.createContentFromContentResult(result)
+      }
+      content.setTimestamp(result.ts)
+      return content
+    },
+    parseContentResultList(results: ContentResult[]) {
+      const contents: Content[] = []
+      results.forEach((result) => {
+        contents.push(this.parseContentResult(result))
+      })
+      return uniq(contents)
+    },
+    getContentByURL(url: string) {
+      return this.parseContentResult({ url })
     },
   }))
   .actions(self => ({
-    clearAllLists: () => {
-      self.featuredList.replace([])
-      self.followedList.replace([])
-    },
-    getContentByURL: (url: string) => {
-      // TODO: Refactor
-      let content = self.contents.get(url)
-      if (!content) {
-        content = ContentModel.create({ url })
-        self.contents.set(url, content)
-      }
-      return content
-    },
     fetchSuggestList: flow(function * () {
       self.isFetchingSuggestList = true
       try {
         const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
         switch (result.kind) {
           case "ok":
-            self.featuredList.replace(self.parseContentListResult(result.data))
+            self.featuredList.replace(self.parseContentResultList(result.data))
         }
       } catch (error) {
         logError(error.message)
@@ -93,13 +119,14 @@ export const ReaderStoreModel = types
         const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFollowing()
         switch (result.kind) {
           case "ok":
-            self.followedList.replace(self.parseContentListResult(result.data))
+            self.followedList.replace(self.parseContentResultList(result.data))
         }
       } catch (error) {
         logError(error.message)
       } finally {
         self.isFetchingFollowedList = false
         self.hasFetchedFollowedList = true
+        self.hasReachedEndOfFollowedList = false
       }
     }),
     fetchMoreFollowedList: flow(function * () {
@@ -111,7 +138,7 @@ export const ReaderStoreModel = types
         })
         switch (result.kind) {
           case "ok":
-            const contents = self.parseContentListResult(result.data)
+            const contents = self.parseContentResultList(result.data)
             self.followedList.replace(uniq(self.followedList.concat(contents)))
             if (!contents.length) {
               self.hasReachedEndOfFollowedList = true

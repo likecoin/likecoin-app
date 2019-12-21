@@ -42,7 +42,7 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
     if (canWithdrawRewards) {
       props.txStore.createRewardsWithdrawTx(address, validatorAddresses)
     } else {
-      props.txStore.setError(new Error("REWARDS_WITHDRAW_UNDER_MIN"))
+      props.txStore.setError(new Error("REWARDS_WITHDRAW_BELOW_MIN"))
     }
   }
 

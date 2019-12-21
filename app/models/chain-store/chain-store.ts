@@ -90,7 +90,7 @@ export const ChainStoreModel = types
       )
     },
     get canWithdrawRewards() {
-      return self.toDenom(self.wallet.rewardsBalance).isGreaterThan(1)
+      return self.toDenom(self.wallet.rewardsBalance).isGreaterThanOrEqualTo(1)
     },
     compareValidatorsByDelegation(a: Validator, b: Validator) {
       const aDelegation = self.wallet.delegations.get(a.operatorAddress)
