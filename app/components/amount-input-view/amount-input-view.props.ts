@@ -1,15 +1,21 @@
 import { ReactElement } from "react"
+import BigNumber from "bignumber.js"
 
 export interface AmountInputViewProps {
   /**
+   * The input value
+   */
+  value: string
+
+  /**
    * The amount of the input
    */
-  amount: string
+  amount: BigNumber
 
   /**
    * The maximum amount of the input
    */
-  maxAmount?: string
+  maxAmount?: BigNumber
 
   /**
    * The text of the available label which look up via i18n
@@ -35,6 +41,11 @@ export interface AmountInputViewProps {
    * The graph for identity on the top right corner
    */
   graph?: ReactElement
+
+  /**
+   * Function for formatting the amount
+   */
+  formatAmount?: (amount: BigNumber) => string
 
   /**
    * Callback for changing amount

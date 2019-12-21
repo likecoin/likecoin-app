@@ -16,7 +16,8 @@ import { Content } from "../../models/content"
 import { sizes } from "../text/text.sizes"
 
 const ROOT: ViewStyle = {
-  padding: spacing[2],
+  paddingVertical: spacing[2],
+  paddingHorizontal: spacing[4],
   flexDirection: "row",
   alignItems: "center",
 }

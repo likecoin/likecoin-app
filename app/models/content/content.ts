@@ -1,7 +1,13 @@
-import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import {
+  flow,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
 
-import { Environment } from "../environment"
+import { withEnvironment } from "../extensions"
 import { ContentResult, LikeStatResult } from "../../services/api"
+import { logError } from "../../utils/error"
 
 /**
  * Likeable Content
@@ -20,12 +26,15 @@ export const ContentModel = types
     isFetchingDetails: types.optional(types.boolean, false),
     hasFetchedDetails: types.optional(types.boolean, false),
   })
+  .extend(withEnvironment)
   .actions(self => ({
+    setTimestamp(timestamp: number) {
+      if (timestamp) self.timestamp = timestamp
+    },
     fetchDetails: flow(function * () {
-      const env: Environment = getEnv(self)
       self.isFetchingDetails = true
       try {
-        const result: ContentResult = yield env.likeCoAPI.fetchContentInfo(self.url)
+        const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(self.url)
         switch (result.kind) {
           case "ok": {
             const {
@@ -34,7 +43,6 @@ export const ContentModel = types
               title,
               image,
               like,
-              ts,
             } = result.data
             self.creatorLikerID = user
             self.description = description
@@ -43,20 +51,18 @@ export const ContentModel = types
             if (self.likeCount < like) {
               self.likeCount = like
             }
-            self.timestamp = ts
           }
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       } finally {
         self.isFetchingDetails = false
         self.hasFetchedDetails = true
       }
     }),
     fetchLikeStat: flow(function * () {
-      const env: Environment = getEnv(self)
       try {
-        const result: LikeStatResult = yield env.likeCoAPI.fetchContentLikeStat(
+        const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
           self.creatorLikerID,
           self.url
         )
@@ -70,7 +76,7 @@ export const ContentModel = types
           }
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       }
     }),
   }))

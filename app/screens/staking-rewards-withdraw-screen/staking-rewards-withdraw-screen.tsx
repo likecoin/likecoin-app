@@ -3,58 +3,55 @@ import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { StakingRewardsWithdrawStore } from "../../models/staking-rewards-withdraw-store"
+import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
-import { WalletStore } from "../../models/wallet-store"
+import { StakingRewardsWithdrawStore } from "../../models/staking-rewards-withdraw-store"
 
-import { SigningView, SigningViewStateType } from "../../components/signing-view"
+import { SigningView } from "../../components/signing-view"
 
 import Graph from "../../assets/graph/staking-rewards-withdraw.svg"
-
-import { formatNumber } from "../../utils/number"
 
 const GRAPH: ViewStyle = {
   marginRight: -20,
 }
 
 export interface StakingRewardsWithdrawScreenProps extends NavigationScreenProps<{}> {
+  chain: ChainStore
   txStore: StakingRewardsWithdrawStore
-  walletStore: WalletStore
-}
-
-export interface StakingRewardsWithdrawScreenState {
-  state: SigningViewStateType
 }
 
 @inject((stores: RootStore) => ({
   txStore: stores.stakingRewardsWithdrawStore,
-  walletStore: stores.walletStore,
+  chain: stores.chainStore,
 }) as StakingRewardsWithdrawScreenProps)
 @observer
-export class StakingRewardsWithdrawScreen extends React.Component<
-  StakingRewardsWithdrawScreenProps,
-  StakingRewardsWithdrawScreenState
-> {
-  state: StakingRewardsWithdrawScreenState = {
-    state: "waiting",
-  }
-
+export class StakingRewardsWithdrawScreen extends React.Component<StakingRewardsWithdrawScreenProps, {}> {
   constructor(props: StakingRewardsWithdrawScreenProps) {
     super(props)
-    props.txStore.createTransaction(
-      props.walletStore.address,
-      props.walletStore.validatorListWithRewards,
-    )
+    const {
+      canWithdrawRewards,
+      fractionDenom,
+      fractionDigits,
+      gasPrice,
+      wallet: {
+        address,
+        validatorAddressListWithRewards: validatorAddresses,
+      },
+    } = props.chain
+    props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
+    if (canWithdrawRewards) {
+      props.txStore.createRewardsWithdrawTx(address, validatorAddresses)
+    } else {
+      props.txStore.setError(new Error("REWARDS_WITHDRAW_UNDER_MIN"))
+    }
   }
 
   private sendTransaction = async () => {
-    this.setState({ state: "pending" })
-    await this.props.txStore.signTransaction(this.props.walletStore.signer)
-    const state = this.props.txStore.errorMessage ? "waiting" : "success"
-    this.setState({ state })
-    if (state === "success") {
-      // Update balance
-      this.props.walletStore.fetchBalance()
+    await this.props.txStore.signTx(this.props.chain.wallet.signer)
+    if (this.props.txStore.isSuccess) {
+      this.props.chain.fetchBalance()
+      this.props.chain.fetchDelegations()
+      this.props.chain.fetchRewards()
     }
   }
 
@@ -63,7 +60,7 @@ export class StakingRewardsWithdrawScreen extends React.Component<
   }
 
   private onPressConfirmButton = () => {
-    if (this.state.state === "success") {
+    if (this.props.txStore.isSuccess) {
       this.props.navigation.pop()
     } else {
       this.sendTransaction()
@@ -75,18 +72,25 @@ export class StakingRewardsWithdrawScreen extends React.Component<
       blockExplorerURL,
       errorMessage,
       fee,
+      signingState: state,
     } = this.props.txStore
+    const {
+      canWithdrawRewards,
+      formatDenom,
+      formattedRewardsBalance,
+    } = this.props.chain
     return (
       <SigningView
         type="reward"
-        state={this.state.state}
+        state={state}
         titleTx="stakingRewardsWithdrawScreen.title"
-        amount={formatNumber(this.props.walletStore.rewardsBalance)}
+        amount={formattedRewardsBalance}
         txURL={blockExplorerURL}
         error={errorMessage}
-        fee={fee}
+        fee={formatDenom(fee)}
         graph={<Graph />}
         graphStyle={GRAPH}
+        isConfirmButtonDisabled={!canWithdrawRewards}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}
       />

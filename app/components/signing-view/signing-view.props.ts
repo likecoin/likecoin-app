@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import { ReactElement, ReactNode } from "react"
 import { ViewStyle } from "react-native"
 
 export type SigningViewType = "transfer" | "stake" | "unstake" | "reward"
@@ -43,7 +43,7 @@ export interface SigningViewProps {
   /**
    * The target of the transaction
    */
-  target?: string,
+  target?: string | { avatar: string, name: string },
 
   /**
    * The URL to the block explorer
@@ -59,6 +59,16 @@ export interface SigningViewProps {
    * The style of the graph
    */
   graphStyle?: ViewStyle
+
+  /**
+   * The children append in the bottom navigation
+   */
+  bottomNavigationAppendChildren?: ReactNode
+
+  /**
+   * Set the confirm button to disabled
+   */
+  isConfirmButtonDisabled?: boolean
 
   /**
    * Callback of clicking close button

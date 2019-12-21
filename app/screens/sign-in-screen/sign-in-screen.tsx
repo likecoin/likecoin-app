@@ -3,8 +3,12 @@ import { View, ViewStyle, TextStyle, SafeAreaView, Alert } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
+import { logError } from "../../utils/error"
+
 import { UserLoginParams } from "../../services/api"
 
+import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { UserStore } from "../../models/user-store"
 
 import { Button } from "../../components/button"
@@ -39,9 +43,13 @@ interface SignInScreenNavigationParams {
 }
 export interface SignInScreenProps extends NavigationScreenProps<SignInScreenNavigationParams> {
   userStore: UserStore
+  chain: ChainStore
 }
 
-@inject("userStore")
+@inject((rootStore: RootStore) => ({
+  userStore: rootStore.userStore,
+  chain: rootStore.chainStore,
+}))
 @observer
 export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   componentDidMount() {
@@ -60,11 +68,12 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   _signInWithAuthCore = async () => {
     try {
       await this.props.userStore.authCore.signIn()
+      this.props.chain.setupWallet(this.props.userStore.authCore.primaryCosmosAddress)
     } catch (error) {
       if (error.error === "authcore.session.user_cancelled") {
         // User cancelled auth, do nothing
       } else {
-        __DEV__ && console.tron.error(`Error occurs when signing in with Authcore: ${error}`, null)
+        logError(`Error occurs when signing in with Authcore: ${error}`)
         Alert.alert(translate("signInScreen.errorAuthCore"), `${error.error_description || error}`)
       }
       return
@@ -100,7 +109,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
           return
 
         default:
-          __DEV__ && console.tron.error(`Error occurs when signing in with like.co: ${error}`, null)
+          logError(`Error occurs when signing in with like.co: ${error}`)
           Alert.alert(translate("signInScreen.errorLikeCo"), `${error}`)
           return
       }
@@ -114,7 +123,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
       this.props.userStore.setIsSigningIn(true)
       await this._signInWithAuthCore()
     } catch (error) {
-      __DEV__ && console.tron.error(`Error occurs when signing in: ${error}`, null)
+      logError(`Error occurs when signing in: ${error}`)
       Alert.alert(translate("signInScreen.error"), `${error}`)
     } finally {
       this.props.userStore.setIsSigningIn(false)

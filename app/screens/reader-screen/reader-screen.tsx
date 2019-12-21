@@ -1,6 +1,12 @@
 import * as React from "react"
-import { RefreshControl, View, ViewStyle } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import {
+  ActivityIndicator,
+  ListRenderItem,
+  RefreshControl,
+  View,
+  ViewStyle,
+} from "react-native"
+import { NavigationScreenProps, FlatList } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { ContentListItem } from "../../components/content-list-item"
@@ -14,15 +20,21 @@ import { Content } from "../../models/content"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-  flexGrow: 1,
+  ...FULL,
   alignItems: "stretch",
-  paddingHorizontal: spacing[4],
-  paddingVertical: spacing[4],
+}
+const LIST_HEADER: ViewStyle = {
+  paddingTop: spacing[4],
 }
 const EMPTY_VIEW: ViewStyle = {
-  flexGrow: 1,
+  ...FULL,
   justifyContent: "center",
   alignItems: "center",
+}
+const FOOTER_VIEW: ViewStyle = {
+  justifyContent: "center",
+  alignItems: "center",
+  paddingVertical: spacing[4],
 }
 
 export interface ReaderScreenProps extends NavigationScreenProps<{}> {
@@ -52,72 +64,119 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     this.props.navigation.navigate('ContentView', { content })
   }
 
-  private renderContent = (content: Content) => (
-    <ContentListItem
-      key={content.url}
-      content={content}
-      onPressItem={this.onPressContentItem}
-    />
-  )
+  private onLoadMore = () => {
+    console.tron.log("ONLOADMORE")
+    if (
+      this.props.navigation.state.routeName === "Followed" &&
+      this.props.readerStore.hasFetchedFollowedList &&
+      !this.props.readerStore.hasReachedEndOfFollowedList
+    ) {
+      this.props.readerStore.fetchMoreFollowedList()
+    }
+  }
+
+  private renderContent: ListRenderItem<Content> = ({ item: content }) => {
+    return (
+      <ContentListItem
+        content={content}
+        onPressItem={this.onPressContentItem}
+      />
+    )
+  }
 
   render() {
     const { readerStore } = this.props
 
     let contentList = []
     let titleLabelTx = ""
+    let hasFetched = false
     switch (this.props.navigation.state.routeName) {
       case "Featured":
         contentList = readerStore.featuredList
         titleLabelTx = "readerScreen.featuredLabel"
+        hasFetched = readerStore.hasFetchedSuggestList
         break
       case "Followed":
         contentList = readerStore.followedList
         titleLabelTx = "readerScreen.followingLabel"
+        hasFetched = readerStore.hasFetchedFollowedList
         break
     }
 
     return (
-      <View style={FULL}>
-        <Screen
-          style={CONTAINER}
-          preset="scroll"
-          backgroundColor={color.palette.white}
-          unsafe={true}
+      <Screen
+        style={CONTAINER}
+        preset="fixed"
+        backgroundColor={color.palette.white}
+        unsafe={true}
+      >
+        <FlatList<Content>
+          data={contentList}
+          keyExtractor={({ url }) => url}
+          renderItem={this.renderContent}
           refreshControl={
             <RefreshControl
-              tintColor={color.palette.lighterCyan}
+              tintColor={color.primary}
               colors={[color.primary]}
-              refreshing={this.props.readerStore.isLoading}
+              refreshing={hasFetched && this.props.readerStore.isLoading}
               onRefresh={this.fetchList}
             />
           }
-        >
-          <Text
-            tx={titleLabelTx}
-            color="likeGreen"
-            align="center"
-            weight="600"
-          />
-          {contentList.length > 0 ? (
-            contentList.map(this.renderContent)
-          ) : (
-            this.renderEmpty()
+          ListEmptyComponent={this.renderEmpty}
+          ListHeaderComponent={(
+            <Text
+              tx={titleLabelTx}
+              color="likeGreen"
+              align="center"
+              weight="600"
+              style={LIST_HEADER}
+            />
           )}
-        </Screen>
-      </View>
+          ListFooterComponent={this.renderFooter}
+          contentContainerStyle={contentList.length > 0 ? null : FULL}
+          style={FULL}
+          onEndReached={this.onLoadMore}
+        />
+      </Screen>
     )
   }
 
   private renderEmpty = () => {
+    const hasFetched = this.props.navigation.state.routeName === "Suggest" ? (
+      this.props.readerStore.hasFetchedSuggestList
+    ) : (
+      this.props.readerStore.hasFetchedFollowedList
+    )
     return (
       <View style={EMPTY_VIEW}>
-        <Text
-          tx="readerScreen.emptyLabel"
-          color="grey9b"
-          size="large"
-          align="center"
-          weight="600"
-        />
+        {hasFetched &&
+          <Text
+            tx="readerScreen.emptyLabel"
+            color="grey9b"
+            size="large"
+            align="center"
+            weight="600"
+          />
+        }
+        {!hasFetched &&
+          <ActivityIndicator
+            color={color.primary}
+            size="large"
+          />
+        }
+      </View>
+    )
+  }
+
+  private renderFooter = () => {
+    return (
+      <View style={FOOTER_VIEW}>
+        {this.props.readerStore.isFetchingMoreFollowedList &&
+          <ActivityIndicator
+            color={color.primary}
+            size="small"
+          />
+        }
       </View>
     )
   }

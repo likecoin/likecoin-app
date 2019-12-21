@@ -157,4 +157,42 @@ export class LikeCoAPI {
       return { kind: "bad-data" }
     }
   }
+
+  /**
+   * Fetch user info by Liker ID
+   */
+  async fetchUserInfoById(likerId: string): Promise<Types.UserResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/users/id/${likerId}/min`)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const user: Types.User = response.data
+      return { kind: "ok", data: user }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
+   * Fetch user info by wallet address
+   */
+  async fetchUserInfoByWalletAddress(address: string): Promise<Types.UserResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/users/addr/${address}/min`)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const user: Types.User = response.data
+      return { kind: "ok", data: user }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
 }

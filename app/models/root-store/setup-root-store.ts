@@ -4,6 +4,7 @@ import { RootStoreModel, RootStore } from "./root-store"
 import { Environment } from "../environment"
 import * as Keychain from "../../utils/keychain"
 import * as storage from "../../utils/storage"
+import { logError } from "../../utils/error"
 
 /**
  * The key we'll be saving our state as within async storage.
@@ -23,7 +24,25 @@ export async function createEnvironment() {
   return env
 }
 
-function createRootStore(env: Environment, data = {}) {
+function createRootStore(env: Environment, data: any = {}) {
+  const {
+    COSMOS_CHAIN_ID,
+    COSMOS_DENOM,
+    COSMOS_FRACTION_DENOM,
+    COSMOS_FRACTION_DIGITS,
+    COSMOS_GAS_PRICE,
+  } = env.appConfig.getAllParams()
+  if (!data.chainStore) {
+    data.chainStore = {
+      id: COSMOS_CHAIN_ID,
+      denom: COSMOS_DENOM,
+      fractionDenom: COSMOS_FRACTION_DENOM,
+      fractionDigits: parseInt(COSMOS_FRACTION_DIGITS),
+      gasPrice: COSMOS_GAS_PRICE,
+    }
+  } else if (data.chainStore.id !== COSMOS_CHAIN_ID) {
+    throw new Error("CHAIN_HAS_CHANGED")
+  }
   const rootStore = RootStoreModel.create(data, env)
   env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
   env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
@@ -41,7 +60,7 @@ export async function setupRootStore() {
   const env = await createEnvironment()
   try {
     // load data from storage
-    data = await storage.load(ROOT_STATE_STORAGE_KEY) || {}
+    data = await storage.load(ROOT_STATE_STORAGE_KEY)
     rootStore = createRootStore(env, data)
 
     // Setup Authcore
@@ -49,18 +68,19 @@ export async function setupRootStore() {
       username: authCoreIdToken,
       password: authCoreRefreshToken,
     } = await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY'))
-    env.setupAuthCore(authCoreRefreshToken)
+    await env.setupAuthCore(authCoreRefreshToken)
     if (authCoreIdToken && authCoreRefreshToken) {
       await rootStore.userStore.authCore.init(authCoreRefreshToken, authCoreIdToken)
+      rootStore.chainStore.setupWallet(rootStore.userStore.authCore.primaryCosmosAddress)
     }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
     await env.setupAuthCore()
-    rootStore = createRootStore(env, {})
+    rootStore = createRootStore(env)
 
     // but please inform us what happened
-    __DEV__ && console.tron.error(e.message, null)
+    logError(e.message)
   }
 
   // reactotron logging

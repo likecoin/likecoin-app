@@ -1,8 +1,13 @@
-import { observable } from "mobx"
-import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import {
+  flow,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
 
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
-import { Environment } from "../environment"
+import { withEnvironment } from "../extensions"
+
 import * as Keychain from "../../utils/keychain"
 
 /**
@@ -14,85 +19,74 @@ export const AuthCoreStoreModel = types
     profile: types.maybe(AuthCoreUserModel),
     cosmosAddresses: types.optional(types.array(types.string), []),
   })
-  .extend(self => {
-    const env: Environment = getEnv(self)
-
-    const _accessToken = observable.box("")
-    const _refreshToken = observable.box("")
-    const _idToken = observable.box("")
-    const _hasSignedIn = observable.box(false)
-
-    const fetchCurrentUser = flow(function * () {
-      const currentUser: any = yield env.authCoreAPI.getCurrentUser(_accessToken.get())
+  .volatile(() => ({
+    refreshToken: "",
+    accessToken: "",
+    idToken: "",
+    hasSignedIn: false,
+  }))
+  .extend(withEnvironment)
+  .views(self => ({
+    get primaryCosmosAddress() {
+      return self.cosmosAddresses[0]
+    },
+  }))
+  .actions(self => ({
+    fetchCurrentUser: flow(function * () {
+      const currentUser: any = yield self.env.authCoreAPI.getCurrentUser(self.accessToken)
       self.profile = AuthCoreUserModel.create(currentUser)
+    }),
+    fetchCosmosAddress: flow(function * () {
+      self.cosmosAddresses = yield self.env.authCoreAPI.getCosmosAddresses()
+    }),
+    signOut: flow(function * () {
+      self.accessToken = ""
+      self.idToken = ""
+      self.hasSignedIn = false
+      self.profile = undefined
+      yield Keychain.reset(self.getConfig("AUTHCORE_CREDENTIAL_KEY"))
+      yield self.env.authCoreAPI.signOut()
     })
-
-    const fetchCosmosAddress = flow(function * () {
-      self.cosmosAddresses = yield env.authCoreAPI.getCosmosAddresses()
-    })
-
-    const init = flow(function * (
+  }))
+  .actions(self => ({
+    init: flow(function * (
       refreshToken: string,
       idToken: string,
       accessToken?: string,
       profile?: AuthCoreUser,
     ) {
-      _refreshToken.set(refreshToken)
-      _idToken.set(idToken)
+      self.refreshToken = refreshToken
+      self.idToken = idToken
       if (profile) self.profile = profile
 
       const {
         accessToken: newAccessToken = ""
-      } = yield env.authCoreAPI.setupModules(refreshToken, accessToken)
-      _accessToken.set(newAccessToken)
+      }: any = yield self.env.authCoreAPI.setupModules(refreshToken, accessToken)
+      self.accessToken = newAccessToken
       if (newAccessToken) {
-        yield fetchCosmosAddress()
+        yield self.fetchCosmosAddress()
       } else {
         self.cosmosAddresses = undefined
       }
-    })
-
-    const signIn = flow(function * () {
+    }),
+  }))
+  .actions(self => ({
+    signIn: flow(function * () {
       const {
         accessToken,
         refreshToken,
         idToken,
         currentUser,
-      }: any = yield env.authCoreAPI.signIn()
-      _hasSignedIn.set(true)
-      yield Keychain.save('likerland_refresh_token', refreshToken, env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
-      yield init(refreshToken, idToken, accessToken, currentUser)
-    })
-
-    const signOut = flow(function * () {
-      _accessToken.set("")
-      _idToken.set("")
-      _hasSignedIn.set(false)
-      self.profile = undefined
-      yield Keychain.reset(env.appConfig.getValue("AUTHCORE_CREDENTIAL_KEY"))
-      yield env.authCoreAPI.signOut()
-    })
-
-    return {
-      actions: {
-        fetchCurrentUser,
-        init,
-        signIn,
-        signOut,
-      },
-      views: {
-        get accessToken() {
-          return _accessToken.get()
-        },
-        get idToken() {
-          return _idToken.get()
-        },
-        get hasSignedIn() {
-          return _hasSignedIn.get()
-        },
-      }
-    }
-  })
+      }: any = yield self.env.authCoreAPI.signIn()
+      self.hasSignedIn = true
+      yield Keychain.save(
+        'likerland_refresh_token',
+        refreshToken,
+        self.getConfig("AUTHCORE_CREDENTIAL_KEY")
+      )
+      yield self.init(refreshToken, idToken, accessToken, currentUser)
+    }),
+  }))
 
 type AuthcoreStoreType = Instance<typeof AuthCoreStoreModel>
 export interface AuthcoreStore extends AuthcoreStoreType {}

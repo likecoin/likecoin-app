@@ -1,14 +1,22 @@
-import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import {
+  flow,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
+import { uniqBy } from "ramda"
 
-import { ContentModel } from "../content"
-import { Environment } from "../environment"
-import { ContentListResult } from "../../services/api/api.types"
-import { observable } from "mobx"
+import { Content, ContentModel } from "../content"
+import { withEnvironment } from "../extensions"
 
-const contentListTypes = types.optional(
-  types.array(types.reference(ContentModel)),
-  []
-)
+import { ContentListResult, Content as ContentResult } from "../../services/api/api.types"
+import { logError } from "../../utils/error"
+
+const contentListTypes = types.array(types.reference(ContentModel))
+
+function uniq(list: Content[]) {
+  return uniqBy((c: Content) => c.url, list)
+}
 
 /**
  * Store all content related information.
@@ -16,22 +24,46 @@ const contentListTypes = types.optional(
 export const ReaderStoreModel = types
   .model("ReaderStore")
   .props({
-    contents: types.optional(types.map(ContentModel), {}),
+    contents: types.map(ContentModel),
     featuredList: contentListTypes,
     followedList: contentListTypes,
   })
-  .extend(self => {
-    const env: Environment = getEnv(self)
-
-    const isFetchingSuggestList = observable.box(false)
-    const isFetchingFollowedList = observable.box(false)
-
-    const clearAllLists = () => {
+  .volatile(() => ({
+    isFetchingSuggestList: false,
+    hasFetchedSuggestList: false,
+    isFetchingFollowedList: false,
+    hasFetchedFollowedList: false,
+    isFetchingMoreFollowedList: false,
+    hasReachedEndOfFollowedList: false,
+  }))
+  .extend(withEnvironment)
+  .views(self => ({
+    get isLoading() {
+      return self.isFetchingSuggestList ||
+        self.isFetchingFollowedList
+    },
+  }))
+  .actions(self => ({
+    parseContentListResult(contents: ContentResult[]) {
+      const parsedContents: Content[] = []
+      contents.forEach(({ referrer: url, ts }) => {
+        let content = self.contents.get(url)
+        if (!content) {
+          content = ContentModel.create({ url })
+          self.contents.set(url, content)
+        }
+        content.setTimestamp(ts)
+        parsedContents.push(content)
+      })
+      return uniq(parsedContents)
+    },
+  }))
+  .actions(self => ({
+    clearAllLists: () => {
       self.featuredList.replace([])
       self.followedList.replace([])
-    }
-
-    const getContentByURL = (url: string) => {
+    },
+    getContentByURL: (url: string) => {
       // TODO: Refactor
       let content = self.contents.get(url)
       if (!content) {
@@ -39,68 +71,59 @@ export const ReaderStoreModel = types
         self.contents.set(url, content)
       }
       return content
-    }
-
-    const fetchSuggestList = flow(function * () {
-      isFetchingSuggestList.set(true)
+    },
+    fetchSuggestList: flow(function * () {
+      self.isFetchingSuggestList = true
       try {
-        const result: ContentListResult = yield env.likerLandAPI.fetchReaderSuggest()
+        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
         switch (result.kind) {
           case "ok":
-            self.featuredList.replace([])
-            result.data.forEach(({ referrer: url }) => {
-              let content = self.contents.get(url)
-              if (!content) {
-                content = ContentModel.create({ url })
-                self.contents.set(url, content)
-              }
-              self.featuredList.push(content)
-            })
+            self.featuredList.replace(self.parseContentListResult(result.data))
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       } finally {
-        isFetchingSuggestList.set(false)
+        self.isFetchingSuggestList = false
+        self.hasFetchedSuggestList = true
       }
-    })
-
-    const fetchFollowedList = flow(function * () {
-      isFetchingFollowedList.set(true)
+    }),
+    fetchFollowedList: flow(function * () {
+      self.isFetchingFollowedList = true
       try {
-        const result: ContentListResult = yield env.likerLandAPI.fetchReaderFollowing()
+        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFollowing()
         switch (result.kind) {
           case "ok":
-            self.followedList.replace([])
-            result.data.forEach(({ referrer: url }) => {
-              let content = self.contents.get(url)
-              if (!content) {
-                content = ContentModel.create({ url })
-                self.contents.set(url, content)
-              }
-              self.followedList.push(content)
-            })
+            self.followedList.replace(self.parseContentListResult(result.data))
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       } finally {
-        isFetchingFollowedList.set(false)
+        self.isFetchingFollowedList = false
+        self.hasFetchedFollowedList = true
       }
-    })
-
-    return {
-      views: {
-        get isLoading() {
-          return isFetchingSuggestList.get() || isFetchingFollowedList.get()
-        },
-      },
-      actions: {
-        clearAllLists,
-        getContentByURL,
-        fetchSuggestList,
-        fetchFollowedList,
-      },
-    }
-  })
+    }),
+    fetchMoreFollowedList: flow(function * () {
+      self.isFetchingMoreFollowedList = true
+      try {
+        const lastContent = self.followedList[self.followedList.length - 1]
+        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFollowing({
+          before: lastContent.timestamp,
+        })
+        switch (result.kind) {
+          case "ok":
+            const contents = self.parseContentListResult(result.data)
+            self.followedList.replace(uniq(self.followedList.concat(contents)))
+            if (!contents.length) {
+              self.hasReachedEndOfFollowedList = true
+            }
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        self.isFetchingMoreFollowedList = false
+      }
+    }),
+  }))
 
 type ReaderStoreType = Instance<typeof ReaderStoreModel>
 export interface ReaderStore extends ReaderStoreType {}

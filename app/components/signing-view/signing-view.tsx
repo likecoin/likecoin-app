@@ -1,8 +1,7 @@
 import * as React from "react"
-import { View } from "react-native"
+import { Image, View } from "react-native"
 
 import { SigningViewProps } from "./signing-view.props"
-
 import STYLE, { DETAIL, SHEET, SUMMARY } from "./signing-view.style"
 
 import { Button } from "../../components/button"
@@ -12,7 +11,6 @@ import { Text } from "../../components/text"
 
 import { color } from "../../theme"
 
-import { formatLIKE } from "../../utils/number"
 import { Icon } from "../icon"
 
 export class SigningView extends React.Component<SigningViewProps, {}> {
@@ -92,8 +90,10 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           <Button
             tx={state === "waiting" ? "common.confirm" : "common.done"}
             isLoading={state === "pending"}
+            disabled={this.props.isConfirmButtonDisabled}
             onPress={this.onPressConfirmButton}
           />
+          {this.props.bottomNavigationAppendChildren}
         </View>
       </Screen>
     )
@@ -114,7 +114,6 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
       type,
       titleTx,
       amount,
-      target,
       fee,
     } = this.props
     return (
@@ -131,7 +130,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
         <View style={SUMMARY.BODY}>
           <View style={SUMMARY.AMOUNT}>
             <Text
-              text={formatLIKE(amount)}
+              text={amount}
               size="large"
               weight="600"
               color={type === "reward" ? "green" : "grey4a"}
@@ -143,7 +142,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           {type === "reward" ? (
             <View style={SUMMARY.TARGET}>
               <Text
-                text={formatLIKE(fee)}
+                text={fee}
                 size="large"
                 weight="600"
                 minimumFontScale={0.5}
@@ -158,13 +157,42 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           ) : (
             <View style={SUMMARY.TARGET}>
               <Text
-                tx="transaction.to"
+                tx={"transaction.".concat(type === "unstake" ? "from" : "to")}
                 style={STYLE.LABEL}
               />
-              <Text text={target} />
+              {this.renderTarget()}
             </View>
           )}
         </View>
+      </View>
+    )
+  }
+
+  private renderTarget = () => {
+    const { target } = this.props
+    if (typeof target === "string") {
+      const { isShowDetail } = this.state
+      return <Text
+        text={target}
+        numberOfLines={isShowDetail ? null : 1}
+        ellipsizeMode={isShowDetail ? null : "middle"}
+      />
+    }
+    const { avatar: uri, name } = target
+    return (
+      <View style={SUMMARY.TARGET_WITH_AVATAR}>
+        <Image
+          source={{ uri }}
+          style={SUMMARY.TARGET_AVATAR}
+        />
+        <Text
+          text={name}
+          size="default"
+          weight="500"
+          numberOfLines={2}
+          ellipsizeMode="tail"
+          style={SUMMARY.TARGET_NAME}
+        />
       </View>
     )
   }
@@ -200,7 +228,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
                 style={STYLE.LABEL}
               />
               <Text
-                text={formatLIKE(fee)}
+                text={fee}
                 weight="600"
               />
             </View>
@@ -210,7 +238,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
                 style={STYLE.LABEL}
               />
               <Text
-                text={formatLIKE(totalAmount)}
+                text={totalAmount}
                 weight="600"
               />
             </View>
