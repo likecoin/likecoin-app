@@ -11,6 +11,7 @@ import {
 } from "react-native"
 import QRCode from 'react-native-qrcode-svg'
 
+import { RootStore } from "../../models/root-store"
 import { Wallet } from "../../models/wallet"
 
 import { Button } from "../../components/button"
@@ -64,7 +65,9 @@ const BOTTOM_BAR: ViewStyle = {
   backgroundColor: color.palette.white,
 }
 
-@inject("walletStore")
+@inject((rootStore: RootStore) => ({
+  wallet: rootStore.chainStore.wallet,
+}))
 @observer
 export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   state = {
