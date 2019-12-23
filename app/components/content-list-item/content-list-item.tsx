@@ -8,11 +8,11 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { observer } from "mobx-react"
+
+import { ContentListItemProps } from "./content-list-item.props"
 
 import { Text } from "../text"
 import { spacing } from "../../theme"
-import { Content } from "../../models/content"
 import { sizes } from "../text/text.sizes"
 
 const ROOT: ViewStyle = {
@@ -36,42 +36,35 @@ const IMAGE_VIEW: ImageStyle = {
   resizeMode: "cover",
 }
 
-export interface ContentListItemProps {
-  /**
-   * The Content URL.
-   */
-  content: Content
-
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: ViewStyle
-
-  /**
-   * A callback run when the item is pressed.
-   */
-  onPressItem?: Function
-}
-
-/**
- * List item for displaying content inside list
- */
-@observer
 export class ContentListItem extends React.Component<ContentListItemProps, {}> {
   componentDidMount() {
-    const { content } = this.props
-    if (!content.hasFetchedDetails) {
-      content.fetchDetails()
+    const {
+      hasFetchedDetails,
+      onFetchStat,
+      onFetchDetails,
+      url
+    } = this.props
+    if (!hasFetchedDetails) {
+      if (onFetchDetails) onFetchDetails(url)
     }
-    content.fetchLikeStat()
+    if (onFetchStat) onFetchStat(url)
   }
 
-  _onPress = () => {
-    this.props.onPressItem(this.props.content)
+  private onPress = () => {
+    const { onPress, url } = this.props
+    if (onPress) onPress(url)
   }
 
   render() {
-    const { content, style, ...rest } = this.props
+    const {
+      creatorName,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onPress,
+      style,
+      thumbnailURL,
+      title,
+      ...rest
+    } = this.props
 
     const rootStyle = {
       ...ROOT,
@@ -80,7 +73,7 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
 
     return (
       <TouchableOpacity
-        onPress={this._onPress}
+        onPress={this.onPress}
         style={rootStyle}
         {...rest}
       >
@@ -89,21 +82,21 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
             color="likeGreen"
             size="default"
             weight="600"
-            text={content.creatorLikerID}
+            text={creatorName}
           />
           <ReactNativeText style={DETAIL_TEXT}>
             <Text
               color="grey4a"
               size="medium"
               weight="600"
-              text={content.title}
+              text={title}
             />
-            {this._renderLikeStat()}
+            {this.renderLikeStat()}
           </ReactNativeText>
         </View>
-        {!!content.imageURL &&
+        {!!thumbnailURL &&
           <Image
-            source={{ uri: content.imageURL }}
+            source={{ uri: thumbnailURL }}
             style={IMAGE_VIEW}
           />
         }
@@ -111,8 +104,8 @@ export class ContentListItem extends React.Component<ContentListItemProps, {}> {
     )
   }
 
-  _renderLikeStat = () => {
-    const { likeCount, likerCount } = this.props.content
+  private renderLikeStat = () => {
+    const { likeCount, likerCount } = this.props
     if (likeCount === 0) return null
     let text = `${likeCount} LIKE`
     if (likerCount > 0) {

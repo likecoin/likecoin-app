@@ -4,23 +4,14 @@ import {
   SnapshotOut,
   types,
 } from "mobx-state-tree"
-import { uniqBy } from "ramda"
 
 import { Content, ContentModel } from "../content"
 import { withEnvironment } from "../extensions"
 
-import { ContentListResult, Content as ContentResult } from "../../services/api/api.types"
+import { ContentListResult, Content as ContentResultData } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
 const ContentList = types.array(types.safeReference(ContentModel))
-
-function getContentId(content: Content) {
-  return content.url
-}
-
-function uniq(list: Content[]) {
-  return uniqBy(getContentId, list)
-}
 
 export function sortContentForSnapshot(a: Content, b: Content) {
   return b.timestamp - a.timestamp
@@ -43,6 +34,7 @@ export const ReaderStoreModel = types
     hasFetchedFollowedList: false,
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
+    followedSet: new Set<string>(),
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -58,7 +50,7 @@ export const ReaderStoreModel = types
       self.followedList.replace([])
       self.hasFetchedFollowedList = false
     },
-    createContentFromContentResult(result: ContentResult) {
+    createContentFromContentResultData(data: ContentResultData) {
       const {
         referrer: url,
         image: imageURL,
@@ -66,7 +58,7 @@ export const ReaderStoreModel = types
         like: likeCount,
         user: creatorLikerID,
         ...rest
-      } = result
+      } = data
       const content = ContentModel.create({
         url,
         imageURL,
@@ -78,20 +70,20 @@ export const ReaderStoreModel = types
       self.contents.put(content)
       return content
     },
-    parseContentResult(result: ContentResult) {
-      let content = self.contents.get(result.referrer)
+    parseContentResult(data: ContentResultData) {
+      let content = self.contents.get(data.url || data.referrer)
       if (!content) {
-        content = this.createContentFromContentResult(result)
+        content = this.createContentFromContentResultData(data)
       }
-      content.setTimestamp(result.ts)
+      content.setTimestamp(data.ts)
       return content
     },
-    parseContentResultList(results: ContentResult[]) {
-      const contents: Content[] = []
-      results.forEach((result) => {
-        contents.push(this.parseContentResult(result))
-      })
-      return uniq(contents)
+    handleFollowedContentResultData(data: ContentResultData) {
+      const content = this.parseContentResult(data)
+      if (!self.followedSet.has(content.url)) {
+        self.followedSet.add(content.url)
+        self.followedList.push(content)
+      }
     },
     getContentByURL(url: string) {
       return this.parseContentResult({ url })
@@ -104,7 +96,10 @@ export const ReaderStoreModel = types
         const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
         switch (result.kind) {
           case "ok":
-            self.featuredList.replace(self.parseContentResultList(result.data))
+            self.featuredList.replace([])
+            result.data.forEach((data) => {
+              self.featuredList.push(self.parseContentResult(data))
+            })
         }
       } catch (error) {
         logError(error.message)
@@ -119,7 +114,9 @@ export const ReaderStoreModel = types
         const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFollowing()
         switch (result.kind) {
           case "ok":
-            self.followedList.replace(self.parseContentResultList(result.data))
+            self.followedSet = new Set()
+            self.followedList.replace([])
+            result.data.forEach(self.handleFollowedContentResultData)
         }
       } catch (error) {
         logError(error.message)
@@ -138,9 +135,8 @@ export const ReaderStoreModel = types
         })
         switch (result.kind) {
           case "ok":
-            const contents = self.parseContentResultList(result.data)
-            self.followedList.replace(uniq(self.followedList.concat(contents)))
-            if (!contents.length) {
+            result.data.forEach(self.handleFollowedContentResultData)
+            if (!result.data.length) {
               self.hasReachedEndOfFollowedList = true
             }
         }
