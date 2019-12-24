@@ -17,6 +17,7 @@ import { color, spacing } from "../../theme"
 const TEXT_WRAPPER: ViewStyle = {
   flexDirection: "row",
   justifyContent: "center",
+  alignItems: "center",
 }
 const PREPEND: ViewStyle = {
   margin: spacing[0],

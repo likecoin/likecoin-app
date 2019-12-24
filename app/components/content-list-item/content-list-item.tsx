@@ -5,47 +5,22 @@ import React, {
 } from "react"
 import {
   Image,
-  ImageStyle,
-  Text as ReactNativeText,
-  TextStyle,
   TouchableOpacity,
   View,
-  ViewStyle,
 } from "react-native"
 
 import { ContentListItemProps } from "./content-list-item.props"
+import Style from "./content-list-item.styles"
 
+import { Icon } from "../icon"
 import { Text } from "../text"
-import { sizes } from "../text/text.sizes"
-import { spacing } from "../../theme"
-
-const ROOT: ViewStyle = {
-  paddingVertical: spacing[2],
-  paddingHorizontal: spacing[4],
-  flexDirection: "row",
-  alignItems: "center",
-}
-const DETAIL_VIEW: ViewStyle = {
-  flex: 1,
-}
-const DETAIL_TEXT: TextStyle = {
-  marginTop: spacing[1],
-  lineHeight: sizes.medium * 1.5,
-}
-const IMAGE_VIEW: ImageStyle = {
-  flex: 0,
-  width: 64,
-  marginLeft: spacing[4],
-  aspectRatio: 1,
-  resizeMode: "cover",
-}
+import { translate } from "../../i18n"
 
 export function ContentListItem(props: ContentListItemProps) {
   const {
     creatorName,
     hasFetchedDetails,
     likeCount,
-    likerCount,
     onFetchStat,
     onFetchDetails,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -68,18 +43,13 @@ export function ContentListItem(props: ContentListItemProps) {
     if (onPress) onPress(url)
   }, [url])
 
-  const likeStatText = useMemo(() => {
-    if (likeCount === 0) return null
-    let text = `${likeCount} LIKE`
-    if (likerCount > 0) {
-      text = `${text} from ${likerCount} liker${likerCount > 1 ? "s" : ""}`
-    }
-    text = ` | ${text}`
-    return text
-  }, [likeCount, likerCount])
+  const likeStatText = useMemo(
+    () => translate("ContentListItem.likeStatsLabel", { count: likeCount }),
+    [likeCount]
+  )
 
   const rootStyle = {
-    ...ROOT,
+    ...Style.ROOT,
     ...style,
   }
 
@@ -89,31 +59,44 @@ export function ContentListItem(props: ContentListItemProps) {
       style={rootStyle}
       {...rest}
     >
-      <View style={DETAIL_VIEW}>
-        <Text
-          color="likeGreen"
-          size="default"
-          weight="600"
-          text={creatorName}
-        />
-        <ReactNativeText style={DETAIL_TEXT}>
+      <View style={Style.ROW}>
+        <View style={Style.DETAIL_VIEW}>
+          <Text
+            color="likeGreen"
+            size="default"
+            weight="600"
+            text={creatorName}
+          />
           <Text
             color="grey4a"
             size="medium"
             weight="600"
             text={title}
+            style={Style.DETAIL_TEXT}
           />
+        </View>
+        {!!thumbnailURL &&
+          <Image
+            source={{ uri: thumbnailURL }}
+            style={Style.IMAGE_VIEW}
+          />
+        }
+      </View>
+      {likeCount > 0 &&
+        <View style={Style.ROW}>
           <Text
             text={likeStatText}
+            size="medium"
+            prepend={(
+              <Icon
+                name="like-clap"
+                width={24}
+                color="grey9b"
+              />
+            )}
             color="grey9b"
           />
-        </ReactNativeText>
-      </View>
-      {!!thumbnailURL &&
-        <Image
-          source={{ uri: thumbnailURL }}
-          style={IMAGE_VIEW}
-        />
+        </View>
       }
     </TouchableOpacity>
   )
