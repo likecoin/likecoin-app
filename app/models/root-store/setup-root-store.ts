@@ -66,13 +66,22 @@ export async function setupRootStore() {
     rootStore = createRootStore(env, data)
 
     // Setup Authcore
-    const {
-      username: authCoreIdToken,
+    const [{
       password: authCoreRefreshToken,
-    } = await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY'))
-    await env.setupAuthCore(authCoreRefreshToken)
-    if (authCoreIdToken && authCoreRefreshToken) {
-      await rootStore.userStore.authCore.init(authCoreRefreshToken, authCoreIdToken)
+    },
+    {
+      password: authCoreAccessToken,
+    },
+    {
+      password: authCoreIdToken,
+    }] = await Promise.all([
+      Keychain.load(`${env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')}/refresh_token`),
+      Keychain.load(`${env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')}/access_token`),
+      Keychain.load(`${env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')}/id_token`),
+    ])
+    await env.setupAuthCore(authCoreRefreshToken, authCoreAccessToken)
+    if (authCoreAccessToken && authCoreRefreshToken) {
+      await rootStore.userStore.authCore.init(authCoreRefreshToken, authCoreAccessToken, authCoreIdToken)
       rootStore.chainStore.setupWallet(rootStore.userStore.authCore.primaryCosmosAddress)
     }
   } catch (e) {

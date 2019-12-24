@@ -45,14 +45,17 @@ export const AuthCoreStoreModel = types
       self.hasSignedIn = false
       self.profile = undefined
       yield Keychain.reset(self.getConfig("AUTHCORE_CREDENTIAL_KEY"))
+      yield Keychain.reset(`${self.getConfig("AUTHCORE_CREDENTIAL_KEY")}/access_token`)
+      yield Keychain.reset(`${self.getConfig("AUTHCORE_CREDENTIAL_KEY")}/refresh_token`)
+      yield Keychain.reset(`${self.getConfig("AUTHCORE_CREDENTIAL_KEY")}/id_token`)
       yield self.env.authCoreAPI.signOut()
     })
   }))
   .actions(self => ({
     init: flow(function * (
       refreshToken: string,
+      accessToken: string,
       idToken: string,
-      accessToken?: string,
       profile?: AuthCoreUser,
     ) {
       self.refreshToken = refreshToken
@@ -82,9 +85,19 @@ export const AuthCoreStoreModel = types
       yield Keychain.save(
         'likerland_refresh_token',
         refreshToken,
-        self.getConfig("AUTHCORE_CREDENTIAL_KEY")
+        `${self.getConfig('AUTHCORE_CREDENTIAL_KEY')}/refresh_token`
       )
-      yield self.init(refreshToken, idToken, accessToken, currentUser)
+      yield Keychain.save(
+        'likerland_access_token',
+        accessToken,
+        `${self.getConfig('AUTHCORE_CREDENTIAL_KEY')}/access_token`
+      )
+      yield Keychain.save(
+        'likerland_id_token',
+        idToken,
+        `${self.getConfig('AUTHCORE_CREDENTIAL_KEY')}/id_token`
+      )
+      yield self.init(refreshToken, accessToken, idToken, currentUser)
     }),
   }))
 

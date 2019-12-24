@@ -1,5 +1,6 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
+import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
 
 /**
@@ -64,19 +65,26 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback = {}
 
-  async setup(baseURL: string, cosmosChainId: string, token?: string) {
+  async setup(baseURL: string, cosmosChainId: string, refreshToken?: string, accessToken?: string) {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
     })
     this.cosmosChainId = cosmosChainId
-    if (token) {
-      await this.setupModules(token)
+    if (refreshToken) {
+      await this.setupModules(refreshToken, accessToken)
     }
   }
 
   async setupModules(refreshToken: string, accessToken?: string) {
-    if (!accessToken) {
+    let needToRefresh = true
+    if (accessToken) {
+      const token: any = jwt.decode(accessToken)
+      const tokenExpirationMs = token.exp * 1000
+      /* check expire in 1 hr */
+      needToRefresh = tokenExpirationMs - 3600000 < Date.now()
+    }
+    if (needToRefresh) {
       try {
         const data = await this.client.auth.client.post("/api/auth/tokens", {
           grant_type: "REFRESH_TOKEN", // eslint-disable-line
