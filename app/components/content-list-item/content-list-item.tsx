@@ -1,4 +1,8 @@
-import * as React from "react"
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react"
 import {
   Image,
   ImageStyle,
@@ -12,8 +16,8 @@ import {
 import { ContentListItemProps } from "./content-list-item.props"
 
 import { Text } from "../text"
-import { spacing } from "../../theme"
 import { sizes } from "../text/text.sizes"
+import { spacing } from "../../theme"
 
 const ROOT: ViewStyle = {
   paddingVertical: spacing[2],
@@ -36,87 +40,81 @@ const IMAGE_VIEW: ImageStyle = {
   resizeMode: "cover",
 }
 
-export class ContentListItem extends React.Component<ContentListItemProps, {}> {
-  componentDidMount() {
-    const {
-      hasFetchedDetails,
-      onFetchStat,
-      onFetchDetails,
-      url
-    } = this.props
+export function ContentListItem(props: ContentListItemProps) {
+  const {
+    creatorName,
+    hasFetchedDetails,
+    likeCount,
+    likerCount,
+    onFetchStat,
+    onFetchDetails,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onPress,
+    style,
+    thumbnailURL,
+    title,
+    url,
+    ...rest
+  } = props
+
+  useEffect(() => {
     if (!hasFetchedDetails) {
       if (onFetchDetails) onFetchDetails(url)
     }
     if (onFetchStat) onFetchStat(url)
-  }
+  }, [hasFetchedDetails, url])
 
-  private onPress = () => {
-    const { onPress, url } = this.props
+  const onPressCallback = useCallback(() => {
     if (onPress) onPress(url)
-  }
+  }, [url])
 
-  render() {
-    const {
-      creatorName,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      onPress,
-      style,
-      thumbnailURL,
-      title,
-      ...rest
-    } = this.props
-
-    const rootStyle = {
-      ...ROOT,
-      ...style,
-    }
-
-    return (
-      <TouchableOpacity
-        onPress={this.onPress}
-        style={rootStyle}
-        {...rest}
-      >
-        <View style={DETAIL_VIEW}>
-          <Text
-            color="likeGreen"
-            size="default"
-            weight="600"
-            text={creatorName}
-          />
-          <ReactNativeText style={DETAIL_TEXT}>
-            <Text
-              color="grey4a"
-              size="medium"
-              weight="600"
-              text={title}
-            />
-            {this.renderLikeStat()}
-          </ReactNativeText>
-        </View>
-        {!!thumbnailURL &&
-          <Image
-            source={{ uri: thumbnailURL }}
-            style={IMAGE_VIEW}
-          />
-        }
-      </TouchableOpacity>
-    )
-  }
-
-  private renderLikeStat = () => {
-    const { likeCount, likerCount } = this.props
+  const likeStatText = useMemo(() => {
     if (likeCount === 0) return null
     let text = `${likeCount} LIKE`
     if (likerCount > 0) {
       text = `${text} from ${likerCount} liker${likerCount > 1 ? "s" : ""}`
     }
     text = ` | ${text}`
-    return (
-      <Text
-        text={text}
-        color="grey9b"
-      />
-    )
+    return text
+  }, [likeCount, likerCount])
+
+  const rootStyle = {
+    ...ROOT,
+    ...style,
   }
+
+  return (
+    <TouchableOpacity
+      onPress={onPressCallback}
+      style={rootStyle}
+      {...rest}
+    >
+      <View style={DETAIL_VIEW}>
+        <Text
+          color="likeGreen"
+          size="default"
+          weight="600"
+          text={creatorName}
+        />
+        <ReactNativeText style={DETAIL_TEXT}>
+          <Text
+            color="grey4a"
+            size="medium"
+            weight="600"
+            text={title}
+          />
+          <Text
+            text={likeStatText}
+            color="grey9b"
+          />
+        </ReactNativeText>
+      </View>
+      {!!thumbnailURL &&
+        <Image
+          source={{ uri: thumbnailURL }}
+          style={IMAGE_VIEW}
+        />
+      }
+    </TouchableOpacity>
+  )
 }
