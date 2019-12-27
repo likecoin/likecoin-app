@@ -34,6 +34,11 @@ export interface ContentListItemProps {
   /**
    * Set to true if details has fetched.
    */
+  isLoading?: boolean
+
+  /**
+   * Set to true if details has fetched.
+   */
   hasFetchedDetails?: boolean
 
   /**

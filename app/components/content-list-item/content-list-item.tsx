@@ -10,6 +10,7 @@ import {
 } from "react-native"
 
 import { ContentListItemProps } from "./content-list-item.props"
+import { ContentListItemSkeleton } from "./content-list-item.skeleton"
 import Style from "./content-list-item.styles"
 
 import { Icon } from "../icon"
@@ -20,6 +21,7 @@ export function ContentListItem(props: ContentListItemProps) {
   const {
     creatorName,
     hasFetchedDetails,
+    isLoading,
     likeCount,
     onFetchStat,
     onFetchDetails,
@@ -47,6 +49,10 @@ export function ContentListItem(props: ContentListItemProps) {
     () => translate("ContentListItem.likeStatsLabel", { count: likeCount }),
     [likeCount]
   )
+
+  if (isLoading) {
+    return <ContentListItemSkeleton />
+  }
 
   const rootStyle = {
     ...Style.ROOT,
