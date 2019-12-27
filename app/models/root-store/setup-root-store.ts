@@ -4,7 +4,6 @@ import { Environment } from "../environment"
 import { sortContentForSnapshot } from "../reader-store"
 import { RootStoreModel, RootStore } from "./root-store"
 
-import * as Keychain from "../../utils/keychain"
 import * as storage from "../../utils/storage"
 import { logError } from "../../utils/error"
 
@@ -66,32 +65,16 @@ export async function setupRootStore() {
     rootStore = createRootStore(env, data)
 
     // Setup Authcore
-    const [{
-      password: authCoreRefreshToken,
-    },
-    {
-      password: authCoreAccessToken,
-    },
-    {
-      password: authCoreIdToken,
-    }] = await Promise.all([
-      Keychain.load(`${env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')}/refresh_token`),
-      Keychain.load(`${env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')}/access_token`),
-      Keychain.load(`${env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY')}/id_token`),
-    ])
-    await env.setupAuthCore(authCoreRefreshToken, authCoreAccessToken)
-    if (authCoreAccessToken && authCoreRefreshToken) {
-      await rootStore.userStore.authCore.init(authCoreRefreshToken, authCoreAccessToken, authCoreIdToken)
-      rootStore.chainStore.setupWallet(rootStore.userStore.authCore.primaryCosmosAddress)
-    }
+    await rootStore.userStore.authCore.resume()
+    rootStore.chainStore.setupWallet(rootStore.userStore.authCore.primaryCosmosAddress)
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
-    await env.setupAuthCore()
-    rootStore = createRootStore(env)
-
     // but please inform us what happened
     logError(e.message)
+
+    rootStore = createRootStore(env)
+    await env.setupAuthCore()
   }
 
   // reactotron logging
