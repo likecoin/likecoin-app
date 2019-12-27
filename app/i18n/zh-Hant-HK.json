@@ -10,6 +10,11 @@
     "ok": "好",
     "viewOnBlockExplorer": "在 Big Dipper 查看"
   },
+  "ContentListItem": {
+    "likeStatsLabel": {
+      "other": "{{count}} 個讚"
+    }
+  },
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",

@@ -1,129 +1,103 @@
-import * as React from "react"
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react"
 import {
   Image,
-  ImageStyle,
-  Text as ReactNativeText,
-  TextStyle,
   TouchableOpacity,
   View,
-  ViewStyle,
 } from "react-native"
-import { observer } from "mobx-react"
 
+import { ContentListItemProps } from "./content-list-item.props"
+import Style from "./content-list-item.styles"
+
+import { Icon } from "../icon"
 import { Text } from "../text"
-import { spacing } from "../../theme"
-import { Content } from "../../models/content"
-import { sizes } from "../text/text.sizes"
+import { translate } from "../../i18n"
 
-const ROOT: ViewStyle = {
-  paddingVertical: spacing[2],
-  paddingHorizontal: spacing[4],
-  flexDirection: "row",
-  alignItems: "center",
-}
-const DETAIL_VIEW: ViewStyle = {
-  flex: 1,
-}
-const DETAIL_TEXT: TextStyle = {
-  marginTop: spacing[1],
-  lineHeight: sizes.medium * 1.5,
-}
-const IMAGE_VIEW: ImageStyle = {
-  flex: 0,
-  width: 64,
-  marginLeft: spacing[4],
-  aspectRatio: 1,
-  resizeMode: "cover",
-}
+export function ContentListItem(props: ContentListItemProps) {
+  const {
+    creatorName,
+    hasFetchedDetails,
+    likeCount,
+    onFetchStat,
+    onFetchDetails,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onPress,
+    style,
+    thumbnailURL,
+    title,
+    url,
+    ...rest
+  } = props
 
-export interface ContentListItemProps {
-  /**
-   * The Content URL.
-   */
-  content: Content
-
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: ViewStyle
-
-  /**
-   * A callback run when the item is pressed.
-   */
-  onPressItem?: Function
-}
-
-/**
- * List item for displaying content inside list
- */
-@observer
-export class ContentListItem extends React.Component<ContentListItemProps, {}> {
-  componentDidMount() {
-    const { content } = this.props
-    if (!content.hasFetchedDetails) {
-      content.fetchDetails()
+  useEffect(() => {
+    if (!hasFetchedDetails) {
+      if (onFetchDetails) onFetchDetails(url)
     }
-    content.fetchLikeStat()
+    if (onFetchStat) onFetchStat(url)
+  }, [hasFetchedDetails, url])
+
+  const onPressCallback = useCallback(() => {
+    if (onPress) onPress(url)
+  }, [url])
+
+  const likeStatText = useMemo(
+    () => translate("ContentListItem.likeStatsLabel", { count: likeCount }),
+    [likeCount]
+  )
+
+  const rootStyle = {
+    ...Style.ROOT,
+    ...style,
   }
 
-  _onPress = () => {
-    this.props.onPressItem(this.props.content)
-  }
-
-  render() {
-    const { content, style, ...rest } = this.props
-
-    const rootStyle = {
-      ...ROOT,
-      ...style,
-    }
-
-    return (
-      <TouchableOpacity
-        onPress={this._onPress}
-        style={rootStyle}
-        {...rest}
-      >
-        <View style={DETAIL_VIEW}>
+  return (
+    <TouchableOpacity
+      onPress={onPressCallback}
+      style={rootStyle}
+      {...rest}
+    >
+      <View style={Style.ROW}>
+        <View style={Style.DETAIL_VIEW}>
           <Text
             color="likeGreen"
             size="default"
             weight="600"
-            text={content.creatorLikerID}
+            text={creatorName}
           />
-          <ReactNativeText style={DETAIL_TEXT}>
-            <Text
-              color="grey4a"
-              size="medium"
-              weight="600"
-              text={content.title}
-            />
-            {this._renderLikeStat()}
-          </ReactNativeText>
+          <Text
+            color="grey4a"
+            size="medium"
+            weight="600"
+            text={title}
+            style={Style.DETAIL_TEXT}
+          />
         </View>
-        {!!content.imageURL &&
+        {!!thumbnailURL &&
           <Image
-            source={{ uri: content.imageURL }}
-            style={IMAGE_VIEW}
+            source={{ uri: thumbnailURL }}
+            style={Style.IMAGE_VIEW}
           />
         }
-      </TouchableOpacity>
-    )
-  }
-
-  _renderLikeStat = () => {
-    const { likeCount, likerCount } = this.props.content
-    if (likeCount === 0) return null
-    let text = `${likeCount} LIKE`
-    if (likerCount > 0) {
-      text = `${text} from ${likerCount} liker${likerCount > 1 ? "s" : ""}`
-    }
-    text = ` | ${text}`
-    return (
-      <Text
-        text={text}
-        color="grey9b"
-      />
-    )
-  }
+      </View>
+      {likeCount > 0 &&
+        <View style={Style.ROW}>
+          <Text
+            text={likeStatText}
+            size="medium"
+            prepend={(
+              <Icon
+                name="like-clap"
+                width={24}
+                color="grey9b"
+              />
+            )}
+            color="grey9b"
+          />
+        </View>
+      }
+    </TouchableOpacity>
+  )
 }

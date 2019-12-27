@@ -10,6 +10,12 @@
     "ok": "OK",
     "viewOnBlockExplorer": "View on Big Dipper"
   },
+  "ContentListItem": {
+    "likeStatsLabel": {
+      "one": "1 Like",
+      "other": "{{count}} Likes"
+    }
+  },  
   "error": {
     "DEPRECATED_APP": "New version is available. Please update the App.",
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchasing",
