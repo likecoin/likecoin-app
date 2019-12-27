@@ -43,12 +43,12 @@ export class Environment {
     }
   }
 
-  async setupAuthCore(refreshToken?: string) {
+  async setupAuthCore(refreshToken?: string, accessToken?: string) {
     const {
       COSMOS_CHAIN_ID,
       AUTHCORE_ROOT_URL,
     } = this.appConfig.getAllParams()
-    await this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID, refreshToken)
+    await this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID, refreshToken, accessToken)
   }
 
   /**

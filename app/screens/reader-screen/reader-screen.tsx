@@ -60,8 +60,19 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     }
   }
 
-  private onPressContentItem = (content: Content) => {
+  private onPressContentItem = (id: string) => {
+    const content = this.props.readerStore.contents.get(id)
     this.props.navigation.navigate('ContentView', { content })
+  }
+
+  private onFetchContentDetails = (id: string) => {
+    const content = this.props.readerStore.contents.get(id)
+    if (content) content.fetchDetails()
+  }
+
+  private onFetchContentStat = (id: string) => {
+    const content = this.props.readerStore.contents.get(id)
+    if (content) content.fetchLikeStat()
   }
 
   private onLoadMore = () => {
@@ -77,11 +88,21 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
   private renderContent: ListRenderItem<Content> = ({ item: content }) => {
     return (
       <ContentListItem
-        content={content}
-        onPressItem={this.onPressContentItem}
+        url={content.url}
+        title={content.title}
+        thumbnailURL={content.imageURL}
+        creatorName={content.creatorLikerID}
+        hasFetchedDetails={content.hasFetchedDetails}
+        likeCount={content.likeCount}
+        likerCount={content.likerCount}
+        onPress={this.onPressContentItem}
+        onFetchDetails={this.onFetchContentDetails}
+        onFetchStat={this.onFetchContentStat}
       />
     )
   }
+
+  private contentListItemKeyExtractor = (c: Content) => c.url
 
   render() {
     const { readerStore } = this.props
@@ -111,7 +132,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
       >
         <FlatList<Content>
           data={contentList}
-          keyExtractor={({ url }) => url}
+          keyExtractor={this.contentListItemKeyExtractor}
           renderItem={this.renderContent}
           refreshControl={
             <RefreshControl
