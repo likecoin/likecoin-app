@@ -9,11 +9,16 @@ import {
   SafeAreaView,
 } from "react-navigation"
 import { Icon, TabBar, Tab } from "react-native-ui-kitten"
+import { inject } from "mobx-react"
+
+import { ReaderStore } from "../models/reader-store"
 
 import { ReaderScreen } from "../screens/reader-screen"
 import { color } from "../theme"
 
-interface ReaderTabBarProps extends NavigationScreenProps<{}> {}
+interface ReaderTabBarProps extends NavigationScreenProps<{}> {
+  readerStore: ReaderStore,
+}
 
 const TAB_BAR_CONTAINER: ViewStyle = {
   backgroundColor: color.primary,
@@ -26,7 +31,19 @@ const TAB_BAR_INDICATOR: ViewStyle = {
   backgroundColor: color.palette.likeCyan
 }
 
+@inject("readerStore")
 class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
+  componentDidMount() {
+    if (this.props.readerStore.getHasSeenFeaturedListToday()) {
+      const { index, routes } = this.props.navigation.state
+      if (routes[index].routeName === "Featured") {
+        setTimeout(() => {
+          this.props.navigation.navigate("Followed")
+        })
+      }
+    }
+  }
+
   _onBarSelect = (selectedIndex: number) => {
     const { navigation } = this.props
     navigation.navigate(navigation.state.routes[selectedIndex].routeName)

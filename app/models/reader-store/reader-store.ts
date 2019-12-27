@@ -25,6 +25,7 @@ export const ReaderStoreModel = types
   .props({
     contents: types.map(ContentModel),
     featuredList: ContentList,
+    featuredListLastFetchedDate: types.optional(types.Date, () => new Date()),
     followedList: ContentList,
   })
   .volatile(() => ({
@@ -42,11 +43,19 @@ export const ReaderStoreModel = types
       return self.isFetchingSuggestList ||
         self.isFetchingFollowedList
     },
+    getHasSeenFeaturedListToday() {
+      const past = self.featuredListLastFetchedDate
+      const now = new Date()
+      return past.getFullYear() === now.getFullYear() &&
+        past.getMonth() === now.getMonth() &&
+        past.getDate() === now.getDate()
+    },
   }))
   .actions(self => ({
     clearAllLists: () => {
       self.featuredList.replace([])
       self.hasFetchedSuggestList = false
+      self.featuredListLastFetchedDate = new Date(0)
       self.followedList.replace([])
       self.hasFetchedFollowedList = false
     },
@@ -106,6 +115,7 @@ export const ReaderStoreModel = types
       } finally {
         self.isFetchingSuggestList = false
         self.hasFetchedSuggestList = true
+        self.featuredListLastFetchedDate = new Date()
       }
     }),
     fetchFollowedList: flow(function * () {
