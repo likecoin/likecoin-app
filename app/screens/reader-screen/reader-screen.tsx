@@ -85,14 +85,16 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
   }
 
   private renderContent: ListRenderItem<Content> = ({ item: content }) => {
+    const isLoading = (!content.hasFetchedDetails && content.isFetchingDetails) ||
+      (!content.hasFetchedLikeStats && content.isFetchingLikeStats)
     return (
       <ContentListItem
         url={content.url}
         title={content.title}
         thumbnailURL={content.imageURL}
         creatorName={content.creatorLikerID}
-        hasFetchedDetails={content.hasFetchedDetails}
-        isLoading={!content.hasFetchedDetails || content.isFetchingDetails}
+        hasFetchedDetails={content.hasFetchedDetails || content.hasFetchedLikeStats}
+        isLoading={isLoading}
         likeCount={content.likeCount}
         likerCount={content.likerCount}
         onPress={this.onPressContentItem}
