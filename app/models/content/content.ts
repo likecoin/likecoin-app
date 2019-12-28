@@ -27,6 +27,8 @@ export const ContentModel = types
   .volatile(() => ({
     isFetchingDetails: false,
     hasFetchedDetails: false,
+    isFetchingLikeStats: false,
+    hasFetchedLikeStats: false,
   }))
   .extend(withEnvironment)
   .actions(self => ({
@@ -63,6 +65,7 @@ export const ContentModel = types
       }
     }),
     fetchLikeStat: flow(function * () {
+      self.isFetchingLikeStats = true
       try {
         const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
           self.creatorLikerID,
@@ -79,6 +82,9 @@ export const ContentModel = types
         }
       } catch (error) {
         logError(error.message)
+      } finally {
+        self.isFetchingLikeStats = false
+        self.hasFetchedLikeStats = true
       }
     }),
   }))

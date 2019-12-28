@@ -45,6 +45,7 @@
     "process": "^0.11.10",
     "ramda": "0.26.1",
     "react": "16.8.6",
+    "react-content-loader": "^4.3.4",
     "react-native": "0.60.4",
     "react-native-authcore": "https://gitlab.com/blocksq/react-native-authcore#4410f67b42f968219a1d46f1a4afca9ecf7ebd36",
     "react-native-camera": "^3.8.0",

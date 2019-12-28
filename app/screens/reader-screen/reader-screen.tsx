@@ -9,7 +9,7 @@ import {
 import { NavigationScreenProps, FlatList } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { ContentListItem } from "../../components/content-list-item"
+import { ContentListItem, ContentListItemSkeleton } from "../../components/content-list-item"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
@@ -34,7 +34,6 @@ const EMPTY_VIEW: ViewStyle = {
 const FOOTER_VIEW: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
-  paddingVertical: spacing[4],
 }
 
 export interface ReaderScreenProps extends NavigationScreenProps<{}> {
@@ -86,13 +85,16 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
   }
 
   private renderContent: ListRenderItem<Content> = ({ item: content }) => {
+    const isLoading = (!content.hasFetchedDetails && content.isFetchingDetails) ||
+      (!content.hasFetchedLikeStats && content.isFetchingLikeStats)
     return (
       <ContentListItem
         url={content.url}
         title={content.title}
         thumbnailURL={content.imageURL}
         creatorName={content.creatorLikerID}
-        hasFetchedDetails={content.hasFetchedDetails}
+        hasFetchedDetails={content.hasFetchedDetails || content.hasFetchedLikeStats}
+        isLoading={isLoading}
         likeCount={content.likeCount}
         likerCount={content.likerCount}
         onPress={this.onPressContentItem}
@@ -192,10 +194,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     return (
       <View style={FOOTER_VIEW}>
         {this.props.readerStore.isFetchingMoreFollowedList &&
-          <ActivityIndicator
-            color={color.primary}
-            size="small"
-          />
+          <ContentListItemSkeleton />
         }
       </View>
     )
