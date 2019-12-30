@@ -1,6 +1,5 @@
 import * as React from "react"
 import {
-  ActivityIndicator,
   ListRenderItem,
   RefreshControl,
   View,
@@ -170,9 +169,10 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     ) : (
       this.props.readerStore.hasFetchedFollowedList
     )
-    return (
-      <View style={EMPTY_VIEW}>
-        {hasFetched &&
+
+    if (hasFetched) {
+      return (
+        <View style={EMPTY_VIEW}>
           <Text
             tx="readerScreen.emptyLabel"
             color="grey9b"
@@ -180,13 +180,12 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
             align="center"
             weight="600"
           />
-        }
-        {!hasFetched &&
-          <ActivityIndicator
-            color={color.primary}
-            size="large"
-          />
-        }
+        </View>
+      )
+    }
+    return (
+      <View>
+        {[...Array(7)].map((_, i) => <ContentListItemSkeleton key={`${i}`} />)}
       </View>
     )
   }
