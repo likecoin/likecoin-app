@@ -23,14 +23,19 @@ export const ContentModel = types
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
     timestamp: types.optional(types.integer, 0),
+
+    hasFetchedDetails: types.optional(types.boolean, false),
   })
   .volatile(() => ({
     isFetchingDetails: false,
-    hasFetchedDetails: false,
     isFetchingLikeStats: false,
-    hasFetchedLikeStats: false,
   }))
   .extend(withEnvironment)
+  .views(self => ({
+    get isLoading() {
+      return !self.hasFetchedDetails || self.isFetchingDetails
+    },
+  }))
   .actions(self => ({
     setTimestamp(timestamp: number) {
       if (timestamp) self.timestamp = timestamp
@@ -84,7 +89,6 @@ export const ContentModel = types
         logError(error.message)
       } finally {
         self.isFetchingLikeStats = false
-        self.hasFetchedLikeStats = true
       }
     }),
   }))

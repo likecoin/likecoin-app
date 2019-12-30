@@ -25,7 +25,7 @@ export const ReaderStoreModel = types
   .props({
     contents: types.map(ContentModel),
     featuredList: ContentList,
-    featuredListLastFetchedDate: types.optional(types.Date, () => new Date()),
+    featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
   })
   .volatile(() => ({
@@ -39,10 +39,6 @@ export const ReaderStoreModel = types
   }))
   .extend(withEnvironment)
   .views(self => ({
-    get isLoading() {
-      return self.isFetchingSuggestList ||
-        self.isFetchingFollowedList
-    },
     getHasSeenFeaturedListToday() {
       const past = self.featuredListLastFetchedDate
       const now = new Date()
