@@ -1,0 +1,31 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        runs-on: [ubuntu-latest, macOS-latest]
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Install dependencies
+      run: yarn
+    - name: Run ESLint
+      run: yarn lint
+    - name: Compile
+      run: yarn compile
+    - name: Jest
+      run: yarn test
+    - name: Download gradle dependencies
+      run: ./gradlew dependencies
+      working-directory: android
+    - name: Set Debug keystore
+      run: echo ${{ secrets.DEBUG_KEYSTORE }} | base64 -d > android/app/debug.keystore
+    - name: Build Android debug
+      run: ./gradlew assembleDebug
+      working-directory: android
