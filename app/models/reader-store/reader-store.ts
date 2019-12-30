@@ -25,7 +25,7 @@ export const ReaderStoreModel = types
   .props({
     contents: types.map(ContentModel),
     featuredList: ContentList,
-    featuredListLastFetchedDate: types.optional(types.Date, () => new Date()),
+    featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
   })
   .volatile(() => ({
