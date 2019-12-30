@@ -39,10 +39,6 @@ export const ReaderStoreModel = types
   }))
   .extend(withEnvironment)
   .views(self => ({
-    get isLoading() {
-      return self.isFetchingSuggestList ||
-        self.isFetchingFollowedList
-    },
     getHasSeenFeaturedListToday() {
       const past = self.featuredListLastFetchedDate
       const now = new Date()

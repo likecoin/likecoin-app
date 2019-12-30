@@ -84,25 +84,21 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     }
   }
 
-  private renderContent: ListRenderItem<Content> = ({ item: content }) => {
-    const isLoading = (!content.hasFetchedDetails && content.isFetchingDetails) ||
-      (!content.hasFetchedLikeStats && content.isFetchingLikeStats)
-    return (
-      <ContentListItem
-        url={content.url}
-        title={content.title}
-        thumbnailURL={content.imageURL}
-        creatorName={content.creatorLikerID}
-        hasFetchedDetails={content.hasFetchedDetails || content.hasFetchedLikeStats}
-        isLoading={isLoading}
-        likeCount={content.likeCount}
-        likerCount={content.likerCount}
-        onPress={this.onPressContentItem}
-        onFetchDetails={this.onFetchContentDetails}
-        onFetchStat={this.onFetchContentStat}
-      />
-    )
-  }
+  private renderContent: ListRenderItem<Content> = ({ item: content }) => (
+    <ContentListItem
+      url={content.url}
+      title={content.title}
+      thumbnailURL={content.imageURL}
+      creatorName={content.creatorLikerID}
+      hasFetchedDetails={content.hasFetchedDetails}
+      isLoading={content.isLoading}
+      likeCount={content.likeCount}
+      likerCount={content.likerCount}
+      onPress={this.onPressContentItem}
+      onFetchDetails={this.onFetchContentDetails}
+      onFetchStat={this.onFetchContentStat}
+    />
+  )
 
   private contentListItemKeyExtractor = (c: Content) => c.url
 
@@ -112,16 +108,19 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     let contentList = []
     let titleLabelTx = ""
     let hasFetched = false
+    let isLoading = false
     switch (this.props.navigation.state.routeName) {
       case "Featured":
-        contentList = readerStore.featuredList
+        contentList = readerStore.featuredList.toJS()
         titleLabelTx = "readerScreen.featuredLabel"
         hasFetched = readerStore.hasFetchedSuggestList
+        isLoading = readerStore.isFetchingSuggestList
         break
       case "Followed":
-        contentList = readerStore.followedList
+        contentList = readerStore.followedList.toJS()
         titleLabelTx = "readerScreen.followingLabel"
         hasFetched = readerStore.hasFetchedFollowedList
+        isLoading = readerStore.isFetchingFollowedList
         break
     }
 
@@ -140,10 +139,12 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
             <RefreshControl
               tintColor={color.primary}
               colors={[color.primary]}
-              refreshing={hasFetched && this.props.readerStore.isLoading}
+              refreshing={hasFetched && isLoading}
               onRefresh={this.fetchList}
             />
           }
+          initialNumToRender={8}
+          maxToRenderPerBatch={10}
           ListEmptyComponent={this.renderEmpty}
           ListHeaderComponent={(
             <Text
