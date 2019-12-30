@@ -63,16 +63,6 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     this.props.navigation.navigate('ContentView', { content })
   }
 
-  private onFetchContentDetails = (id: string) => {
-    const content = this.props.readerStore.contents.get(id)
-    if (content) content.fetchDetails()
-  }
-
-  private onFetchContentStat = (id: string) => {
-    const content = this.props.readerStore.contents.get(id)
-    if (content) content.fetchLikeStat()
-  }
-
   private onLoadMore = () => {
     if (
       this.props.navigation.state.routeName === "Followed" &&
@@ -85,17 +75,8 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
 
   private renderContent: ListRenderItem<Content> = ({ item: content }) => (
     <ContentListItem
-      url={content.url}
-      title={content.title}
-      thumbnailURL={content.imageURL}
-      creatorName={content.creatorLikerID}
-      hasFetchedDetails={content.hasFetchedDetails}
-      isLoading={content.isLoading}
-      likeCount={content.likeCount}
-      likerCount={content.likerCount}
+      content={content}
       onPress={this.onPressContentItem}
-      onFetchDetails={this.onFetchContentDetails}
-      onFetchStat={this.onFetchContentStat}
     />
   )
 
@@ -110,13 +91,13 @@ export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
     let isLoading = false
     switch (this.props.navigation.state.routeName) {
       case "Featured":
-        contentList = readerStore.featuredList.toJS()
+        contentList = readerStore.featuredList
         titleLabelTx = "readerScreen.featuredLabel"
         hasFetched = readerStore.hasFetchedSuggestList
         isLoading = readerStore.isFetchingSuggestList
         break
       case "Followed":
-        contentList = readerStore.followedList.toJS()
+        contentList = readerStore.followedList
         titleLabelTx = "readerScreen.followingLabel"
         hasFetched = readerStore.hasFetchedFollowedList
         isLoading = readerStore.isFetchingFollowedList
