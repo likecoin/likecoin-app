@@ -33,6 +33,7 @@ export const ReaderStoreModel = types
     hasFetchedFeaturedList: false,
     isFetchingFollowedList: false,
     hasFetchedFollowedList: false,
+    followedListLastFetchedDate: new Date(),
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
@@ -131,6 +132,7 @@ export const ReaderStoreModel = types
       } finally {
         self.isFetchingFollowedList = false
         self.hasFetchedFollowedList = true
+        self.followedListLastFetchedDate = new Date()
         self.hasReachedEndOfFollowedList = false
       }
     }),

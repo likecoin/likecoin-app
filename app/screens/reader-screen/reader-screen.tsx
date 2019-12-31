@@ -23,28 +23,10 @@ export interface ReaderScreenProps extends NavigationScreenProps<{}> {
 @inject("readerStore")
 @observer
 export class ReaderScreen extends React.Component<ReaderScreenProps> {
+  list = React.createRef<ContentList>()
+
   componentDidMount() {
-    this.fetchList()
-  }
-
-  componentDidUpdate(prevProps: ReaderScreenProps) {
-    if (
-      prevProps.navigation.state.routeName !== this.props.navigation.state.routeName
-    ) {
-      this.fetchList()
-    }
-  }
-
-  private fetchList = () => {
-    switch (this.props.navigation.state.routeName) {
-      case 'Featured':
-        this.props.readerStore.fetchSuggestList()
-        break
-
-      case 'Followed':
-        this.props.readerStore.fetchFollowedList()
-        break
-    }
+    this.list.current.props.onRefresh()
   }
 
   private onPressContentItem = (id: string) => {
@@ -70,6 +52,8 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
       case "Featured":
         return (
           <ContentList
+            ref={this.list}
+            key={`${this.props.readerStore.featuredListLastFetchedDate.getTime()}`}
             data={this.props.readerStore.featuredList}
             titleLabelTx="readerScreen.featuredLabel"
             hasFetched={this.props.readerStore.hasFetchedFeaturedList}
@@ -82,6 +66,8 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
       case "Followed":
         return (
           <ContentList
+            ref={this.list}
+            key={`${this.props.readerStore.followedListLastFetchedDate.getTime()}`}
             data={this.props.readerStore.followedList}
             titleLabelTx="readerScreen.followingLabel"
             isLoading={this.props.readerStore.isFetchingFollowedList}
