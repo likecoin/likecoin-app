@@ -1,10 +1,13 @@
-name: Lint and build
+name: Release
 
-on: [push, pull_request]
+on:
+  push:
+    tags:
+    - '*'
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+  build-ios:
+    runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
@@ -21,15 +24,12 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: Install dependencies
       run: yarn
-    - name: Run ESLint
-      run: yarn lint
     - name: Compile
       run: yarn compile
-    - name: Jest
-      run: yarn test
+    - name: Build to testflight
+      run: fastlane beta
+      working-directory: ios
   build-android:
-    needs: lint
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -45,20 +45,12 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-    - name: Install dependencies
+    - name: Install
       run: yarn
-    - name: Compile
-      run: yarn compile
-    - name: Download gradle dependencies
-      run: ./gradlew dependencies
+    - name: Set Release keystore
+      run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
+    - name: Set Google Play service account key
+      run: echo ${{ secrets.ANDROID_GOOGLE_PLAY_SERVICE_ACCOUNT }} | base64 -d > android/key.json
+    - name: Build to Google Play internal test
+      run: fastlane beta
       working-directory: android
-    - name: Set Debug keystore
-      run: echo ${{ secrets.DEBUG_KEYSTORE }} | base64 -d > android/app/debug.keystore
-    - name: Build Android debug
-      run: ./gradlew assembleDebug
-      working-directory: android
-    - name: Archive APK
-      uses: actions/upload-artifact@v1
-      with:
-        name: apk
-        path: android/app/build/outputs/apk
