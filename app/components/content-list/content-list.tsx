@@ -57,7 +57,6 @@ export class ContentList extends React.Component<ContentListProps> {
         renderItem={this.renderContent}
         refreshControl={
           <RefreshControl
-            tintColor={color.primary}
             colors={[color.primary]}
             refreshing={this.props.hasFetched && this.props.isLoading}
             onRefresh={this.props.onRefresh}
