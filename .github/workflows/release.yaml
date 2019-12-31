@@ -51,6 +51,11 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: Install
       run: yarn
+    - name: Compile
+      run: yarn compile
+    - name: Install fastlane
+      run: sudo apt install ruby-dev && sudo gem install fastlane
+      working-directory: android
     - name: Set Release keystore
       run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
     - name: Set Google Play service account key
