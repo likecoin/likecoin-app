@@ -29,8 +29,8 @@ export const ReaderStoreModel = types
     followedList: ContentList,
   })
   .volatile(() => ({
-    isFetchingSuggestList: false,
-    hasFetchedSuggestList: false,
+    isFetchingFeaturedList: false,
+    hasFetchedFeaturedList: false,
     isFetchingFollowedList: false,
     hasFetchedFollowedList: false,
     isFetchingMoreFollowedList: false,
@@ -50,10 +50,12 @@ export const ReaderStoreModel = types
   .actions(self => ({
     clearAllLists: () => {
       self.featuredList.replace([])
-      self.hasFetchedSuggestList = false
+      self.hasFetchedFeaturedList = false
       self.featuredListLastFetchedDate = new Date(0)
       self.followedList.replace([])
       self.hasFetchedFollowedList = false
+      self.hasReachedEndOfFollowedList = false
+      self.followedSet = new Set<string>()
     },
     createContentFromContentResultData(data: ContentResultData) {
       const {
@@ -96,7 +98,7 @@ export const ReaderStoreModel = types
   }))
   .actions(self => ({
     fetchSuggestList: flow(function * () {
-      self.isFetchingSuggestList = true
+      self.isFetchingFeaturedList = true
       try {
         const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
         switch (result.kind) {
@@ -109,8 +111,8 @@ export const ReaderStoreModel = types
       } catch (error) {
         logError(error.message)
       } finally {
-        self.isFetchingSuggestList = false
-        self.hasFetchedSuggestList = true
+        self.isFetchingFeaturedList = false
+        self.hasFetchedFeaturedList = true
         self.featuredListLastFetchedDate = new Date()
       }
     }),

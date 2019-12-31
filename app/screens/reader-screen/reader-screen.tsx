@@ -72,8 +72,8 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
           <ContentList
             data={this.props.readerStore.featuredList}
             titleLabelTx="readerScreen.featuredLabel"
-            hasFetched={this.props.readerStore.hasFetchedSuggestList}
-            isLoading={this.props.readerStore.isFetchingSuggestList}
+            hasFetched={this.props.readerStore.hasFetchedFeaturedList}
+            isLoading={this.props.readerStore.isFetchingFeaturedList}
             onPressItem={this.onPressContentItem}
             onRefresh={this.props.readerStore.fetchSuggestList}
           />
