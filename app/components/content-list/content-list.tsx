@@ -37,7 +37,7 @@ const FOOTER: ViewStyle = {
 
 @observer
 export class ContentList extends React.Component<ContentListProps> {
-  private keyExtractor = (content: Content) => content.url
+  private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
 
   private onEndReach = () => {
     if (

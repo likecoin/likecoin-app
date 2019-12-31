@@ -53,10 +53,10 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
         return (
           <ContentList
             ref={this.list}
-            key={`${this.props.readerStore.featuredListLastFetchedDate.getTime()}`}
             data={this.props.readerStore.featuredList}
             titleLabelTx="readerScreen.featuredLabel"
             hasFetched={this.props.readerStore.hasFetchedFeaturedList}
+            lastFetched={this.props.readerStore.featuredListLastFetchedDate.getTime()}
             isLoading={this.props.readerStore.isFetchingFeaturedList}
             onPressItem={this.onPressContentItem}
             onRefresh={this.props.readerStore.fetchSuggestList}
@@ -67,13 +67,13 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
         return (
           <ContentList
             ref={this.list}
-            key={`${this.props.readerStore.followedListLastFetchedDate.getTime()}`}
             data={this.props.readerStore.followedList}
             titleLabelTx="readerScreen.followingLabel"
             isLoading={this.props.readerStore.isFetchingFollowedList}
             isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
             hasFetched={this.props.readerStore.hasFetchedFollowedList}
             hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
+            lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
             onFetchMore={this.props.readerStore.fetchMoreFollowedList}
             onPressItem={this.onPressContentItem}
             onRefresh={this.props.readerStore.fetchFollowedList}

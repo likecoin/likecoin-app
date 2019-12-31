@@ -8,6 +8,7 @@ export interface ContentListProps {
   isFetchingMore?: boolean
   hasFetched?: boolean
   hasFetchedAll?: boolean
+  lastFetched?: number
 
   onPressItem?: Function
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
