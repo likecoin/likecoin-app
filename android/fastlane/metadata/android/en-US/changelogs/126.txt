@@ -1,0 +1,2 @@
+- Resolved frequent sign in requests
+- Added contact us
