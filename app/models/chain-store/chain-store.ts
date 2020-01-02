@@ -184,6 +184,16 @@ export const ChainStoreModel = types
       }
       self.currentWallet = wallet
     },
+    setDelegations(
+      type: "shares" | "unbonding" | "rewards",
+      results: any[] = [],
+      reducer: (acc: Map<string, BigNumber>, result: any) => Map<string, BigNumber>
+    ) {
+      const balanceMap = results.reduce(reducer, new Map<string, BigNumber>())
+      self.validatorList.forEach(({ operatorAddress: id }) => {
+        self.wallet.getDelegation(id, false)[type] = balanceMap.has(id) ? balanceMap.get(id) : new BigNumber(0)
+      })
+    },
     fetchAnnualProvision: flow(function * () {
       try {
         self.annualProvision = new BigNumber(yield self.env.cosmosAPI.queryAnnualProvision())
@@ -254,13 +264,18 @@ export const ChainStoreModel = types
         self.isFetchingBalance = false
       }
     }),
+  }))
+  .actions(self => ({
     fetchDelegations: flow(function * () {
       self.isFetchingDelegation = true
       try {
-        const rawDelegations: CosmosDelegation[] = yield self.env.cosmosAPI.getDelegations(self.wallet.address)
-        rawDelegations.forEach(({ validator_address: id, shares }: CosmosDelegation) => {
-          self.wallet.getDelegation(id, false).shares = new BigNumber(shares)
-        })
+        const results: CosmosDelegation[] = yield self.env.cosmosAPI.getDelegations(self.wallet.address)
+        self.setDelegations(
+          "shares",
+          results,
+          (delegations, { validator_address: id, shares }: CosmosDelegation) =>
+            delegations.set(id, new BigNumber(shares))
+        )
       } catch (error) {
         logError(`Error occurs in ChainStore.fetchDelegations: ${error}`)
       } finally {
@@ -271,12 +286,15 @@ export const ChainStoreModel = types
       self.isFetchingUnbondingDelegation = true
       try {
         const results: CosmosUnbondingDelegation[] = yield self.env.cosmosAPI.getUnbondingDelegations(self.wallet.address)
-        results.forEach(({ validator_address: id, entries }: CosmosUnbondingDelegation) => {
-          self.wallet.getDelegation(id, false).unbonding = entries.reduce(
-            (total, { balance }) => new BigNumber(balance).plus(total),
-            new BigNumber(0)
-          )
-        })
+        self.setDelegations(
+          "unbonding",
+          results,
+          (unbondingDelegations, { validator_address: id, entries }: CosmosUnbondingDelegation) =>
+            unbondingDelegations.set(id, entries.reduce(
+              (total, { balance }) => new BigNumber(balance).plus(total),
+              new BigNumber(0)
+            ))
+        )
       } catch (error) {
         logError(`Error occurs in ChainStore.fetchUnbondingDelegations: ${error}`)
       } finally {
@@ -287,11 +305,12 @@ export const ChainStoreModel = types
       self.isFetchingRewards = true
       try {
         const result: CosmosRewardsResult = yield self.env.cosmosAPI.queryRewards(self.wallet.address)
-        if (result.rewards) {
-          result.rewards.forEach(({ validator_address: id, reward }: CosmosValidatorReward) => {
-            self.wallet.getDelegation(id, false).rewards = new BigNumber(extractCoinFromCosmosCoinList(reward, self.fractionDenom))
-          })
-        }
+        self.setDelegations(
+          "rewards",
+          result.rewards || [],
+          (rewards, { validator_address: id, reward }: CosmosValidatorReward) =>
+            rewards.set(id, new BigNumber(extractCoinFromCosmosCoinList(reward, self.fractionDenom)))
+        )
       } catch (error) {
         logError(`Error occurs in ChainStore.fetchRewards: ${error}`)
       } finally {
