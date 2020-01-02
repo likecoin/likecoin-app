@@ -26,8 +26,8 @@ jobs:
       run: yarn
     - name: Compile
       run: yarn compile
-    - name: Setup keychain
-      run: fastlane run setup_ci force:"true"
+    - name: Set Release certificate
+      run: echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/apple_dist_cert.p12
     - name: Build to testflight
       run: fastlane beta
       working-directory: ios
