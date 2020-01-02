@@ -187,9 +187,9 @@ export const ChainStoreModel = types
     setDelegations(
       type: "shares" | "unbonding" | "rewards",
       results: any[] = [],
-      reducer: (acc: Map<string, BigNumber>, result: any) => Map<string, BigNumber>
+      reducer: (acc: Map<string, BigNumber>, result: typeof results[0]) => typeof acc
     ) {
-      const balanceMap = results.reduce(reducer, new Map<string, BigNumber>())
+      const balanceMap = results.reduce<Map<string, BigNumber>>(reducer, new Map<string, BigNumber>())
       self.validatorList.forEach(({ operatorAddress: id }) => {
         self.wallet.getDelegation(id, false)[type] = balanceMap.has(id) ? balanceMap.get(id) : new BigNumber(0)
       })
