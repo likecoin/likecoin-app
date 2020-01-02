@@ -26,13 +26,16 @@ jobs:
       run: yarn
     - name: Compile
       run: yarn compile
-    - name: Setup keychain
-      run: fastlane run setup_ci force:"true"
+    - name: Update fastlane
+      run: sudo gem install fastlane
+    - name: Set Release certificate
+      run: mkdir -p ios/builds && echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/builds/apple_dist_cert.p12
     - name: Build to testflight
-      run: fastlane beta
+      run: bundle exec fastlane ci_beta
       working-directory: ios
       env:
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
+        APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
   build-android:
     runs-on: ubuntu-latest
     steps:
@@ -53,6 +56,8 @@ jobs:
       run: yarn
     - name: Compile
       run: yarn compile
+    - name: Setup kernel for react native, increase watchers
+      run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
     - name: Install fastlane
       run: sudo apt install ruby-dev && sudo gem install fastlane
       working-directory: android
