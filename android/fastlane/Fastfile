@@ -26,7 +26,7 @@ platform :android do
     releaseFilePath = File.join(Dir.pwd, "..", "app", "release.keystore")
     gradle(task: 'clean')
     gradle(
-      task: 'app:assemble',
+      task: 'app:bundle',
       build_type: 'Release',
       print_command: false,
       properties: {
