@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { ViewStyle } from "react-native"
 import {
   createStackNavigator,
@@ -8,8 +8,10 @@ import {
   NavigationParams,
   SafeAreaView,
 } from "react-navigation"
-import { Icon, TabBar, Tab } from "react-native-ui-kitten"
+import { TabBar, Tab } from "react-native-ui-kitten"
 import { inject } from "mobx-react"
+
+import { Icon, IconTypes } from "../components/icon"
 
 import { ReaderStore } from "../models/reader-store"
 
@@ -78,19 +80,16 @@ class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
     const { navigation } = this.props
     const isSelected = navigation.state.index === index
     const { routeName } = navigation.state.routes[index]
-    let name: string
+    let name: IconTypes
     switch (routeName) {
       case "Featured":
-        name = "star"
+        name = "reader-featured"
         break
       case "Followed":
-        name = "eye"
+        name = "reader-following"
         break
     }
     const fill = isSelected ? color.palette.likeCyan : color.palette.white
-    if (!isSelected) {
-      name = `${name}-outline`
-    }
     return (
       <Icon
         name={name}

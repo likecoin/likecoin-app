@@ -23,12 +23,19 @@ export const ContentModel = types
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
     timestamp: types.optional(types.integer, 0),
+
+    hasFetchedDetails: types.optional(types.boolean, false),
   })
   .volatile(() => ({
     isFetchingDetails: false,
-    hasFetchedDetails: false,
+    isFetchingLikeStats: false,
   }))
   .extend(withEnvironment)
+  .views(self => ({
+    get isLoading() {
+      return !self.hasFetchedDetails || self.isFetchingDetails
+    },
+  }))
   .actions(self => ({
     setTimestamp(timestamp: number) {
       if (timestamp) self.timestamp = timestamp
@@ -63,6 +70,7 @@ export const ContentModel = types
       }
     }),
     fetchLikeStat: flow(function * () {
+      self.isFetchingLikeStats = true
       try {
         const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
           self.creatorLikerID,
@@ -79,6 +87,8 @@ export const ContentModel = types
         }
       } catch (error) {
         logError(error.message)
+      } finally {
+        self.isFetchingLikeStats = false
       }
     }),
   }))

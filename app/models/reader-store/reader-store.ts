@@ -25,24 +25,21 @@ export const ReaderStoreModel = types
   .props({
     contents: types.map(ContentModel),
     featuredList: ContentList,
-    featuredListLastFetchedDate: types.optional(types.Date, () => new Date()),
+    featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
   })
   .volatile(() => ({
-    isFetchingSuggestList: false,
-    hasFetchedSuggestList: false,
+    isFetchingFeaturedList: false,
+    hasFetchedFeaturedList: false,
     isFetchingFollowedList: false,
     hasFetchedFollowedList: false,
+    followedListLastFetchedDate: new Date(),
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
   }))
   .extend(withEnvironment)
   .views(self => ({
-    get isLoading() {
-      return self.isFetchingSuggestList ||
-        self.isFetchingFollowedList
-    },
     getHasSeenFeaturedListToday() {
       const past = self.featuredListLastFetchedDate
       const now = new Date()
@@ -54,10 +51,12 @@ export const ReaderStoreModel = types
   .actions(self => ({
     clearAllLists: () => {
       self.featuredList.replace([])
-      self.hasFetchedSuggestList = false
+      self.hasFetchedFeaturedList = false
       self.featuredListLastFetchedDate = new Date(0)
       self.followedList.replace([])
       self.hasFetchedFollowedList = false
+      self.hasReachedEndOfFollowedList = false
+      self.followedSet = new Set<string>()
     },
     createContentFromContentResultData(data: ContentResultData) {
       const {
@@ -100,7 +99,7 @@ export const ReaderStoreModel = types
   }))
   .actions(self => ({
     fetchSuggestList: flow(function * () {
-      self.isFetchingSuggestList = true
+      self.isFetchingFeaturedList = true
       try {
         const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
         switch (result.kind) {
@@ -113,8 +112,8 @@ export const ReaderStoreModel = types
       } catch (error) {
         logError(error.message)
       } finally {
-        self.isFetchingSuggestList = false
-        self.hasFetchedSuggestList = true
+        self.isFetchingFeaturedList = false
+        self.hasFetchedFeaturedList = true
         self.featuredListLastFetchedDate = new Date()
       }
     }),
@@ -133,6 +132,7 @@ export const ReaderStoreModel = types
       } finally {
         self.isFetchingFollowedList = false
         self.hasFetchedFollowedList = true
+        self.followedListLastFetchedDate = new Date()
         self.hasReachedEndOfFollowedList = false
       }
     }),
