@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build-ios:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Get yarn cache
+      id: yarn-cache
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.yarn-cache.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: Install dependencies
+      run: yarn
+    - name: Compile
+      run: yarn compile
+    - name: Update fastlane
+      run: sudo gem install fastlane
+    - name: Set Release certificate
+      run: mkdir -p ios/builds && echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/builds/apple_dist_cert.p12
+    - name: Build to testflight
+      run: bundle exec fastlane ci_beta
+      working-directory: ios
+      env:
+        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
+        APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Get yarn cache
+      id: yarn-cache
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.yarn-cache.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: Install
+      run: yarn
+    - name: Compile
+      run: yarn compile
+    - name: Setup kernel for react native, increase watchers
+      run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+    - name: Install fastlane
+      run: sudo apt install ruby-dev && sudo gem install fastlane
+      working-directory: android
+    - name: Set Release keystore
+      run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
+    - name: Set Google Play service account key
+      run: echo ${{ secrets.ANDROID_GOOGLE_PLAY_SERVICE_ACCOUNT }} | base64 -d > android/key.json
+    - name: Build to Google Play internal test
+      run: fastlane beta
+      working-directory: android
+      env:
+        ANDROID_RELEASE_KEY_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_STORE_PASSWORD }}
+        ANDROID_RELEASE_KEY_KEY_PASSWORD: ${{  secrets.ANDROID_RELEASE_KEY_KEY_PASSWORD }}
