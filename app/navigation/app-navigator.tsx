@@ -4,7 +4,8 @@ import {
   createBottomTabNavigator,
   TabBarIconProps,
 } from "react-navigation"
-import { Icon } from "react-native-ui-kitten"
+
+import { Icon, IconTypes } from "../components/icon"
 
 import { WalletNavigator } from "./wallet-navigator"
 import { ReaderNavigator } from "./reader-navigator"
@@ -16,36 +17,35 @@ import { StakingUnbondingDelegationNavigator } from "./staking-unbonding-delegat
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
+import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
 import { ValidatorScreen } from "../screens/validator-screen"
 
 import { color } from "../theme"
-import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
 
 export interface CustomTabBarIconProps extends TabBarIconProps {
   routeName: string
 }
 export function CustomTabBarIcon(props: CustomTabBarIconProps) {
-  let name: string
+  let name: IconTypes
+  let size = 24
   switch (props.routeName) {
     case "Wallet":
-      name = "briefcase"
+      name = "tab-wallet"
       break
     case "Reader":
-      name = "book-open"
+      name = "tab-reader"
+      size = 32
       break
     case "Settings":
-      name = "settings-2"
+      name = "tab-settings"
       break
-  }
-  if (name && !props.focused) {
-    name = `${name}-outline`
   }
   const fill = props.focused ? color.palette.likeCyan : color.palette.lightGrey
   return (
     <Icon
       name={name}
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       fill={fill}
     />
   )
@@ -53,8 +53,8 @@ export function CustomTabBarIcon(props: CustomTabBarIconProps) {
 CustomTabBarIcon.displayName = 'CustomTabBarIcon'
 
 const MainTabs = createBottomTabNavigator({
-  Wallet: WalletNavigator,
   Reader: ReaderNavigator,
+  Wallet: WalletNavigator,
   Settings: SettingsNavigator,
 }, {
   initialRouteName: "Reader",
