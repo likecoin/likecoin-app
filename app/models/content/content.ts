@@ -24,16 +24,17 @@ export const ContentModel = types
     likerCount: types.optional(types.integer, 0),
     timestamp: types.optional(types.integer, 0),
 
-    hasFetchedDetails: types.optional(types.boolean, false),
+    hasCached: types.optional(types.boolean, false),
   })
   .volatile(() => ({
+    hasFetchedDetails: false,
     isFetchingDetails: false,
     isFetchingLikeStats: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
     get isLoading() {
-      return !self.hasFetchedDetails || self.isFetchingDetails
+      return !self.hasCached || self.isFetchingDetails
     },
   }))
   .actions(self => ({
@@ -67,6 +68,7 @@ export const ContentModel = types
       } finally {
         self.isFetchingDetails = false
         self.hasFetchedDetails = true
+        self.hasCached = true
       }
     }),
     fetchLikeStat: flow(function * () {

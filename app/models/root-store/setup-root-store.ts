@@ -61,7 +61,7 @@ export async function setupRootStore() {
   const env = await createEnvironment()
   try {
     // load data from storage
-    data = await storage.load(ROOT_STATE_STORAGE_KEY)
+    data = await storage.load(ROOT_STATE_STORAGE_KEY) || {}
     rootStore = createRootStore(env, data)
 
     // Setup Authcore
@@ -90,6 +90,7 @@ export async function setupRootStore() {
       navigationStore,
       readerStore: {
         contents,
+        featuredListLastFetchedDate,
         featuredList, // Never cache
         followedList, // Never cache
       },
@@ -106,6 +107,7 @@ export async function setupRootStore() {
             acc[c.url] = c
             return acc
           }, {}),
+        featuredListLastFetchedDate,
       }
     })
   )
