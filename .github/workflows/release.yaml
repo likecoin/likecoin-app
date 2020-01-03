@@ -22,6 +22,12 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
+    - uses: actions/cache@v1
+      with:
+        path: ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
     - name: Install dependencies
       run: yarn
     - name: Compile
