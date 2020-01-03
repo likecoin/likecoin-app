@@ -60,15 +60,16 @@ export const ReaderStoreModel = types
     },
     createContentFromContentResultData(data: ContentResultData) {
       const {
-        referrer: url,
         image: imageURL,
         ts: timestamp,
         like: likeCount,
+        referrer,
+        url,
         user: creatorLikerID,
         ...rest
       } = data
       const content = ContentModel.create({
-        url,
+        url: referrer || url,
         imageURL,
         timestamp,
         likeCount,
@@ -79,7 +80,7 @@ export const ReaderStoreModel = types
       return content
     },
     parseContentResult(data: ContentResultData) {
-      let content = self.contents.get(data.url || data.referrer)
+      let content = self.contents.get(data.referrer || data.url)
       if (!content) {
         content = this.createContentFromContentResultData(data)
       }
