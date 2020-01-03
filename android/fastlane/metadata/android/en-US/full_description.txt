@@ -1,6 +1,0 @@
-Personalized reader
-- Content reader included oice and other websites
-- Like and follow the reader you like
-
-Rewarding system
-- User can reward the creator of content by clicking like button
