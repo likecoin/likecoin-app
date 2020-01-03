@@ -90,6 +90,7 @@ export async function setupRootStore() {
       navigationStore,
       readerStore: {
         contents,
+        featuredListLastFetchedDate,
         featuredList, // Never cache
         followedList, // Never cache
       },
@@ -106,6 +107,7 @@ export async function setupRootStore() {
             acc[c.url] = c
             return acc
           }, {}),
+        featuredListLastFetchedDate,
       }
     })
   )
