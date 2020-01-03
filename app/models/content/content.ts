@@ -34,7 +34,7 @@ export const ContentModel = types
   .extend(withEnvironment)
   .views(self => ({
     get isLoading() {
-      return !self.hasCached || self.isFetchingDetails
+      return !(self.hasCached || self.hasFetchedDetails) || self.isFetchingDetails
     },
   }))
   .actions(self => ({
@@ -61,6 +61,7 @@ export const ContentModel = types
             if (self.likeCount < like) {
               self.likeCount = like
             }
+            self.hasCached = true
           }
         }
       } catch (error) {
@@ -68,7 +69,6 @@ export const ContentModel = types
       } finally {
         self.isFetchingDetails = false
         self.hasFetchedDetails = true
-        self.hasCached = true
       }
     }),
     fetchLikeStat: flow(function * () {
