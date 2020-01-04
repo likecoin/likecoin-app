@@ -1,4 +1,7 @@
 {
+  "BookmarkScreen": {
+    "title": "Bookmarks"
+  },
   "common": {
     "back": "Back",
     "cancel": "Cancel",

@@ -7,6 +7,7 @@ import QRCodeScan from "./qrcode-scan.svg"
 import ReaderFeatured from "./reader-featured.svg"
 import ReaderFollowing from "./reader-following.svg"
 import ShareIcon from "./share.svg"
+import TabBookmark from "./tab-bookmark.svg"
 import TabReader from "./tab-reader.svg"
 import TabSettings from "./tab-settings.svg"
 import TabWallet from "./tab-wallet.svg"
@@ -22,6 +23,7 @@ export const icons = {
   "reader-featured": ReaderFeatured,
   "reader-following": ReaderFollowing,
   share: ShareIcon,
+  "tab-bookmark": TabBookmark,
   "tab-reader": TabReader,
   "tab-settings": TabSettings,
   "tab-wallet": TabWallet,

@@ -1,3 +1,5 @@
+import { ViewStyle } from "react-native"
+
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 
@@ -5,7 +7,7 @@ export interface ContentListProps {
   data: Content[]
   creators: Map<string, Creator>
 
-  titleLabelTx: string
+  titleLabelTx?: string
   isLoading?: boolean
   isFetchingMore?: boolean
   hasFetched?: boolean
@@ -15,4 +17,6 @@ export interface ContentListProps {
   onPressItem?: Function
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
+
+  style?: ViewStyle
 }

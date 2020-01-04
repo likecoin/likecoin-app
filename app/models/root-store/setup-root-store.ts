@@ -89,9 +89,11 @@ export async function setupRootStore() {
       navigationStore,
       readerStore: {
         contents,
+        creators,
         featuredListLastFetchedDate,
         featuredList, // Never cache
         followedList, // Never cache
+        bookmarkList,
       },
       ...snapshot
       /* eslint-enable @typescript-eslint/no-unused-vars */
@@ -106,7 +108,9 @@ export async function setupRootStore() {
             acc[c.url] = c
             return acc
           }, {}),
+        creators,
         featuredListLastFetchedDate,
+        bookmarkList,
       }
     })
   )

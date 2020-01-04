@@ -9,7 +9,11 @@ import { ContentModel } from "../content"
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
 
-import { ContentListResult, Content as ContentResultData } from "../../services/api/api.types"
+import {
+  BookmarkListResult,
+  ContentListResult,
+  Content as ContentResultData,
+} from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
@@ -25,6 +29,7 @@ export const ReaderStoreModel = types
     featuredList: ContentList,
     featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
+    bookmarkList: ContentList,
   })
   .volatile(() => ({
     isFetchingFeaturedList: false,
@@ -35,6 +40,8 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
+    isFetchingBookmarkList: false,
+    hasFetchedBookmarkList: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -163,6 +170,24 @@ export const ReaderStoreModel = types
         logError(error.message)
       } finally {
         self.isFetchingMoreFollowedList = false
+      }
+    }),
+    fetchBookmarkList: flow(function * () {
+      self.isFetchingBookmarkList = true
+      try {
+        const result: BookmarkListResult = yield self.env.likerLandAPI.fetchReaderBookmark()
+        switch (result.kind) {
+          case "ok":
+            self.bookmarkList.replace([])
+            result.data.forEach(url => {
+              self.bookmarkList.push(self.parseContentResult({ url }))
+            })
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        self.isFetchingBookmarkList = false
+        self.hasFetchedBookmarkList = true
       }
     }),
   }))
