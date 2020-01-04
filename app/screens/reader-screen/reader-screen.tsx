@@ -60,7 +60,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
             lastFetched={this.props.readerStore.featuredListLastFetchedDate.getTime()}
             isLoading={this.props.readerStore.isFetchingFeaturedList}
             onPressItem={this.onPressContentItem}
-            onRefresh={this.props.readerStore.fetchSuggestList}
+            onRefresh={this.props.readerStore.fetchFeaturedList}
           />
         )
 

@@ -107,10 +107,10 @@ export const ReaderStoreModel = types
     },
   }))
   .actions(self => ({
-    fetchSuggestList: flow(function * () {
+    fetchFeaturedList: flow(function * () {
       self.isFetchingFeaturedList = true
       try {
-        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
+        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFeatured()
         switch (result.kind) {
           case "ok":
             self.featuredList.replace([])

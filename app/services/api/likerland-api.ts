@@ -52,7 +52,7 @@ export class LikerLandAPI {
   /**
    * Fetch a list of the reader suggestion
    */
-  async fetchReaderSuggest(): Promise<Types.ContentListResult> {
+  async fetchReaderFeatured(): Promise<Types.ContentListResult> {
     const response: ApiResponse<any> = await this.apisauce.get('/reader/works/suggest')
 
     if (!response.ok) {
