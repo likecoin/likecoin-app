@@ -101,20 +101,25 @@ export async function setupRootStore() {
     }) => {
       const bookmarkURLs = new Set(bookmarkList)
       const [bookmarks, restContents] = partition(c => bookmarkURLs.has(c.url), Object.values(contents))
+      const snContents = {}
+      const snCreators = {}
+      restContents
+        .sort((a, b) => b.timestamp - a.timestamp)
+        // Cache 1,000 contents at max and
+        .slice(0, 1000)
+        // cache all bookmarks
+        .concat(bookmarks)
+        .forEach(c => {
+          snContents[c.url] = c
+          if (creators[c.creator]) {
+            snCreators[c.creator] = creators[c.creator]
+          }
+        })
       return storage.save(ROOT_STATE_STORAGE_KEY, {
         ...snapshot,
         readerStore: {
-          contents: restContents
-            .sort((a, b) => b.timestamp - a.timestamp)
-            // Cache 1,000 contents at max and
-            .slice(0, 1000)
-            // cache all bookmarks
-            .concat(bookmarks)
-            .reduce((acc, c) => {
-              acc[c.url] = c
-              return acc
-            }, {}),
-          creators,
+          contents: snContents,
+          creators: snCreators,
           featuredListLastFetchedDate,
           bookmarkList,
         }
