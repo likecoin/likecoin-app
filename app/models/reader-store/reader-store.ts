@@ -13,6 +13,7 @@ import {
   BookmarkListResult,
   ContentListResult,
   Content as ContentResultData,
+  GeneralResult,
 } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
@@ -179,8 +180,10 @@ export const ReaderStoreModel = types
         switch (result.kind) {
           case "ok":
             self.bookmarkList.replace([])
-            result.data.forEach(url => {
-              self.bookmarkList.push(self.parseContentResult({ url }))
+            result.data.reverse().forEach(url => {
+              const bookmark = self.parseContentResult({ url })
+              bookmark.isBookmarked = true
+              self.bookmarkList.push(bookmark)
             })
         }
       } catch (error) {
@@ -188,6 +191,32 @@ export const ReaderStoreModel = types
       } finally {
         self.isFetchingBookmarkList = false
         self.hasFetchedBookmarkList = true
+      }
+    }),
+    toggleBookmark: flow(function * (url: string) {
+      const content = self.contents.get(url)
+      if (!content) return
+      const prevIsBookmarked = content.isBookmarked
+      const prevBookmarkList = self.bookmarkList
+      content.isBookmarked = !content.isBookmarked
+      try {
+        if (content.isBookmarked) {
+          self.bookmarkList.splice(0, 0, content)
+          const result: GeneralResult = yield self.env.likerLandAPI.addBookmark(content.url)
+          if (result.kind !== "ok") {
+            throw new Error("READER_BOOKMARK_ADD_FAILED")
+          }
+        } else {
+          self.bookmarkList.remove(content)
+          const result: GeneralResult = yield self.env.likerLandAPI.removeBookmark(content.url)
+          if (result.kind !== "ok") {
+            throw new Error("READER_BOOKMARK_REMOVE_FAILED")
+          }
+        }
+      } catch (error) {
+        logError(error.message)
+        content.isBookmarked = prevIsBookmarked
+        self.bookmarkList.replace(prevBookmarkList)
       }
     }),
   }))

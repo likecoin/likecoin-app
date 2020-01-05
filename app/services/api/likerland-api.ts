@@ -105,4 +105,32 @@ export class LikerLandAPI {
       return { kind: "bad-data" }
     }
   }
+
+  /**
+   * Bookmark a content
+   */
+  async addBookmark(url: string): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post("/reader/bookmark", null, { params: { url } })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
+
+  /**
+   * Remove a bookmarked content
+   */
+  async removeBookmark(url: string): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.delete("/reader/bookmark", null, { params: { url } })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
 }

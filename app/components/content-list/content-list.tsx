@@ -85,6 +85,7 @@ export class ContentList extends React.Component<ContentListProps> {
   private renderContent: ListRenderItem<Content> = ({ item: content }) => (
     <ContentListItem
       content={content}
+      onBookmark={this.props.onBookmarkItem}
       onPress={this.props.onPressItem}
     />
   )

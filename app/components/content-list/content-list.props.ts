@@ -14,7 +14,8 @@ export interface ContentListProps {
   hasFetchedAll?: boolean
   lastFetched?: number
 
-  onPressItem?: Function
+  onPressItem?: (url: string) => void
+  onBookmarkItem?: (url: string) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
 

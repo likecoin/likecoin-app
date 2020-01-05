@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native"
+import ReactNativeSvg from "react-native-svg"
 import { observer } from "mobx-react"
 
 import { ContentListItemProps } from "./content-list-item.props"
@@ -13,6 +14,8 @@ import Style from "./content-list-item.styles"
 import { Icon } from "../icon"
 import { Text } from "../text"
 import { translate } from "../../i18n"
+
+import BookmarkIcon from "./bookmark.svg"
 
 @observer
 export class ContentListItem extends React.Component<ContentListItemProps> {
@@ -34,6 +37,10 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
     if (this.props.content.shouldFetchCreatorDetails) {
       this.props.content.creator.fetchDetails()
     }
+  }
+
+  private onBookmark = () => {
+    if (this.props.onBookmark) this.props.onBookmark(this.props.content.url)
   }
 
   private onPress = () => {
@@ -85,30 +92,65 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
               style={Style.DETAIL_TEXT}
             />
           </View>
-          {!!thumbnailURL &&
-            <Image
-              source={{ uri: thumbnailURL }}
-              style={Style.IMAGE_VIEW}
-            />
-          }
-        </View>
-        {likeCount > 0 &&
-          <View style={Style.ROW}>
-            <Text
-              text={translate("ContentListItem.likeStatsLabel", { count: likeCount })}
-              size="medium"
-              prepend={(
-                <Icon
-                  name="like-clap"
-                  width={24}
-                  color="grey9b"
-                />
-              )}
-              color="grey9b"
-            />
+          <View style={Style.IMAGE_WRAPPER}>
+            {!!thumbnailURL &&
+              <Image
+                source={{ uri: thumbnailURL }}
+                style={Style.IMAGE_VIEW}
+              />
+            }
+            {content.isBookmarked &&
+              <TouchableOpacity onPress={this.onBookmark}>
+                {this.renderBookmarkFlag()}
+              </TouchableOpacity>
+            }
           </View>
-        }
+        </View>
+        <View style={Style.FOOTER}>
+          <View>
+            {likeCount > 0 &&
+              <Text
+                text={translate("ContentListItem.likeStatsLabel", { count: likeCount })}
+                size="medium"
+                prepend={(
+                  <Icon
+                    name="like-clap"
+                    width={24}
+                    color="grey9b"
+                  />
+                )}
+                color="grey9b"
+              />
+            }
+          </View>
+          <View>
+            <TouchableOpacity
+              disabled={content.isBookmarked}
+              onPress={this.onBookmark}
+            >
+              <Icon
+                name="bookmark-add"
+                width={24}
+                height={24}
+                color={content.isBookmarked ? "offWhite" : "grey4a"}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </TouchableOpacity>
+    )
+  }
+
+  private renderBookmarkFlag() {
+    if (typeof BookmarkIcon !== "function") {
+      return <ReactNativeSvg />
+    }
+    return (
+      <BookmarkIcon
+        width={24}
+        height={24}
+        style={Style.BOOKMARK_FLAG}
+      />
     )
   }
 }

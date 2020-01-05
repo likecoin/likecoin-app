@@ -17,6 +17,10 @@ export class BookmarkScreen extends React.Component<Props> {
     this.list.current.props.onRefresh()
   }
 
+  private onBookmarkContentItem = (url: string) => {
+    this.props.readerStore.toggleBookmark(url)
+  }
+
   private onPressContentItem = (id: string) => {
     const content = this.props.readerStore.contents.get(id)
     this.props.navigation.navigate('ContentView', { content })
@@ -36,6 +40,7 @@ export class BookmarkScreen extends React.Component<Props> {
           hasFetched={this.props.readerStore.hasFetchedBookmarkList}
           isLoading={this.props.readerStore.isFetchingBookmarkList}
           onPressItem={this.onPressContentItem}
+          onBookmarkItem={this.onBookmarkContentItem}
           onRefresh={this.props.readerStore.fetchBookmarkList}
           style={Style.List}
         />
