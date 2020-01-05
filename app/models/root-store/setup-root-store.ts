@@ -1,4 +1,5 @@
 import { onSnapshot } from "mobx-state-tree"
+import { partition } from "ramda"
 
 import { Environment } from "../environment"
 import { RootStoreModel, RootStore } from "./root-store"
@@ -97,22 +98,28 @@ export async function setupRootStore() {
       },
       ...snapshot
       /* eslint-enable @typescript-eslint/no-unused-vars */
-    }) => storage.save(ROOT_STATE_STORAGE_KEY, {
-      ...snapshot,
-      readerStore: {
-        contents: Object
-          .values(contents)
-          .sort((a, b) => b.timestamp - a.timestamp)
-          .slice(0, 1000) // Cache 1,000 contents at max
-          .reduce((acc, c) => {
-            acc[c.url] = c
-            return acc
-          }, {}),
-        creators,
-        featuredListLastFetchedDate,
-        bookmarkList,
-      }
-    })
+    }) => {
+      const bookmarkURLs = new Set(bookmarkList)
+      const [bookmarks, restContents] = partition(c => bookmarkURLs.has(c.url), Object.values(contents))
+      return storage.save(ROOT_STATE_STORAGE_KEY, {
+        ...snapshot,
+        readerStore: {
+          contents: restContents
+            .sort((a, b) => b.timestamp - a.timestamp)
+            // Cache 1,000 contents at max and
+            .slice(0, 1000)
+            // cache all bookmarks
+            .concat(bookmarks)
+            .reduce((acc, c) => {
+              acc[c.url] = c
+              return acc
+            }, {}),
+          creators,
+          featuredListLastFetchedDate,
+          bookmarkList,
+        }
+      })
+    }
   )
 
   return rootStore
