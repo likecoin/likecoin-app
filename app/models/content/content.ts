@@ -36,6 +36,7 @@ export const ContentModel = types
   .volatile(() => ({
     hasFetchedDetails: false,
     hasFetchedLikeStats: false,
+    isBookmarked: false,
     isFetchingDetails: false,
     isFetchingLikeStats: false,
   }))
