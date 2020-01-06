@@ -37,7 +37,8 @@ platform :android do
       }
     )
     upload_to_play_store(
-      track: 'internal'
+      track: 'internal',
+      skip_upload_apk: true, # buildtool 29 bundle task generates unsigned apk
     )
   end
 
