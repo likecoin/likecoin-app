@@ -100,7 +100,10 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
               />
             }
             {content.isBookmarked &&
-              <TouchableOpacity onPress={this.onBookmark}>
+              <TouchableOpacity
+                style={Style.BOOKMARK_FLAG}
+                onPress={this.onBookmark}
+              >
                 {this.renderBookmarkFlag()}
               </TouchableOpacity>
             }
@@ -149,7 +152,6 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
       <BookmarkIcon
         width={24}
         height={24}
-        style={Style.BOOKMARK_FLAG}
       />
     )
   }

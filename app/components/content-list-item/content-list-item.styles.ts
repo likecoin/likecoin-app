@@ -42,7 +42,11 @@ export default {
   } as ImageStyle,
   BOOKMARK_FLAG: {
     position: "absolute",
-    top: -68,
-    right: 0,
+    top: -spacing[1],
+    right: spacing[0],
+    width: 32,
+    height: 32,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
   } as ViewStyle,
 }
