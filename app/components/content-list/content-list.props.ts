@@ -1,7 +1,9 @@
 import { Content } from "../../models/content"
+import { Creator } from "../../models/creator"
 
 export interface ContentListProps {
   data: Content[]
+  creators: Map<string, Creator>
 
   titleLabelTx: string
   isLoading?: boolean

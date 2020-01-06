@@ -1,16 +1,21 @@
 import * as React from "react"
-import { ViewStyle, View, NativeSyntheticEvent } from "react-native"
+import {
+  NativeSyntheticEvent,
+  View,
+} from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { WebViewNavigation } from 'react-native-webview'
 import { inject } from "mobx-react"
 
-import { LikeCoinWebView } from "../../components/likecoin-webview"
-import { Wallpaper } from "../../components/wallpaper"
-import { Screen } from "../../components/screen"
-import { color } from "../../theme"
-import { RootStore } from "../../models/root-store"
+import { Style } from "./likerland-oauth-screen.style"
 
-const FULL: ViewStyle = { flex: 1 }
+import { LikeCoinWebView } from "../../components/likecoin-webview"
+import { Screen } from "../../components/screen"
+
+import { color } from "../../theme"
+
+import { RootStore } from "../../models/root-store"
+import { LoadingLikeCoin } from "../../components/loading-likecoin"
 
 export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
   rootStore: RootStore,
@@ -41,20 +46,23 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       signInURL,
     } = this.props.rootStore.userStore
     return (
-      <View style={FULL}>
-        <Wallpaper />
-        <Screen
-          preset="fixed"
-          backgroundColor={color.transparent}
-        >
+      <Screen
+        preset="fixed"
+        backgroundColor={color.primary}
+        style={Style.Screen}
+      >
+        <View style={Style.Overlay}>
           <LikeCoinWebView
-            style={FULL}
+            style={Style.Webview}
             sharedCookiesEnabled={true}
             source={{ uri: signInURL }}
             onLoadEnd={this._onLoadEnd}
           />
-        </Screen>
-      </View>
+          <View style={Style.LoadingWrapper}>
+            <LoadingLikeCoin />
+          </View>
+        </View>
+      </Screen>
     )
   }
 }

@@ -1,7 +1,6 @@
 import { onSnapshot } from "mobx-state-tree"
 
 import { Environment } from "../environment"
-import { sortContentForSnapshot } from "../reader-store"
 import { RootStoreModel, RootStore } from "./root-store"
 
 import * as storage from "../../utils/storage"
@@ -101,7 +100,7 @@ export async function setupRootStore() {
       readerStore: {
         contents: Object
           .values(contents)
-          .sort(sortContentForSnapshot)
+          .sort((a, b) => b.timestamp - a.timestamp)
           .slice(0, 1000) // Cache 1,000 contents at max
           .reduce((acc, c) => {
             acc[c.url] = c

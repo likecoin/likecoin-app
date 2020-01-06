@@ -28,7 +28,7 @@ export const AuthCoreStoreModel = types
   .extend(withEnvironment)
   .views(self => ({
     get primaryCosmosAddress() {
-      return self.cosmosAddresses[0]
+      return self.cosmosAddresses.length ? self.cosmosAddresses[0] : null
     },
     get credentialKeyPrefix() {
       return self.getConfig("AUTHCORE_CREDENTIAL_KEY")
