@@ -1,11 +1,14 @@
 import {
   flow,
+  getParentOfType,
   Instance,
   SnapshotOut,
   types,
 } from "mobx-state-tree"
 
+import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
+import { ReaderStore, ReaderStoreModel } from "../reader-store"
 import { ContentResult, LikeStatResult } from "../../services/api"
 import { logError } from "../../utils/error"
 
@@ -19,7 +22,11 @@ export const ContentModel = types
     title: types.maybe(types.string),
     description: types.maybe(types.string),
     imageURL: types.maybe(types.string),
-    creatorLikerID: types.maybe(types.string),
+    /**
+     * Deprecated. Use `creator.likerID` instead.
+     */
+    creatorLikerID: types.undefined,
+    creator: types.maybe(types.safeReference(types.late(() => CreatorModel))),
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
     timestamp: types.optional(types.integer, 0),
@@ -28,13 +35,28 @@ export const ContentModel = types
   })
   .volatile(() => ({
     hasFetchedDetails: false,
+    hasFetchedLikeStats: false,
     isFetchingDetails: false,
     isFetchingLikeStats: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
     get isLoading() {
-      return !(self.hasCached || self.hasFetchedDetails) || self.isFetchingDetails
+      return !(self.hasCached || self.hasFetchedDetails) ||
+        self.isFetchingDetails ||
+        (self.creator && self.creator.isLoading)
+    },
+    get shouldFetchDetails() {
+      return !self.hasFetchedDetails || !self.hasCached
+    },
+    get shouldFetchCreatorDetails() {
+      return self.creator && (
+        !self.creator.hasFetchedDetails ||
+        !self.creator.hasCached
+      )
+    },
+    get shouldFetchLikeStat() {
+      return self.creator && !self.hasFetchedLikeStats
     },
   }))
   .actions(self => ({
@@ -48,13 +70,16 @@ export const ContentModel = types
         switch (result.kind) {
           case "ok": {
             const {
-              user,
+              user: likerId,
               description,
               title,
               image,
               like,
             } = result.data
-            self.creatorLikerID = user
+            if (!self.creator) {
+              const readerStore: ReaderStore = getParentOfType(self, ReaderStoreModel)
+              self.creator = readerStore.createCreatorFromLikerId(likerId)
+            }
             self.description = description
             self.title = title
             self.imageURL = image
@@ -75,7 +100,7 @@ export const ContentModel = types
       self.isFetchingLikeStats = true
       try {
         const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
-          self.creatorLikerID,
+          self.creator.likerID,
           self.url
         )
         switch (result.kind) {
@@ -91,6 +116,7 @@ export const ContentModel = types
         logError(error.message)
       } finally {
         self.isFetchingLikeStats = false
+        self.hasFetchedLikeStats = true
       }
     }),
   }))

@@ -17,10 +17,23 @@ import { translate } from "../../i18n"
 @observer
 export class ContentListItem extends React.Component<ContentListItemProps> {
   componentDidMount() {
-    if (!this.props.content.hasFetchedDetails) {
+    if (this.props.content.shouldFetchDetails) {
       this.props.content.fetchDetails()
     }
-    this.props.content.fetchLikeStat()
+    this.fetchCreatorDependedDetails()
+  }
+
+  componentDidUpdate() {
+    this.fetchCreatorDependedDetails()
+  }
+
+  private fetchCreatorDependedDetails() {
+    if (this.props.content.shouldFetchLikeStat) {
+      this.props.content.fetchLikeStat()
+    }
+    if (this.props.content.shouldFetchCreatorDetails) {
+      this.props.content.creator.fetchDetails()
+    }
   }
 
   private onPress = () => {
@@ -34,7 +47,6 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
     } = this.props
 
     const {
-      creatorLikerID: creatorName,
       isLoading,
       likeCount,
       imageURL: thumbnailURL,
@@ -57,12 +69,14 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
       >
         <View style={Style.ROW}>
           <View style={Style.DETAIL_VIEW}>
-            <Text
-              color="likeGreen"
-              size="default"
-              weight="600"
-              text={creatorName}
-            />
+            {content.creator && content.creator.hasFetchedDetails &&
+              <Text
+                color="likeGreen"
+                size="default"
+                weight="600"
+                text={content.creator.displayName}
+              />
+            }
             <Text
               color="grey4a"
               size="medium"
