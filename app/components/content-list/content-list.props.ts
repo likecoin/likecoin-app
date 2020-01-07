@@ -14,6 +14,11 @@ export interface ContentListProps {
   hasFetchedAll?: boolean
   lastFetched?: number
 
+  /**
+   * Set to false to hide bookmark icons. Default is true.
+   */
+  isShowBookmarkIcon?: boolean
+
   onPressItem?: (url: string) => void
   onBookmarkItem?: (url: string) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null

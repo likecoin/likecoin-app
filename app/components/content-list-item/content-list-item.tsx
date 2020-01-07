@@ -19,6 +19,10 @@ import BookmarkIcon from "./bookmark.svg"
 
 @observer
 export class ContentListItem extends React.Component<ContentListItemProps> {
+  static defaultProps = {
+    isShowBookmarkIcon: true,
+  } as Partial<ContentListItemProps>
+
   componentDidMount() {
     if (this.props.content.shouldFetchDetails) {
       this.props.content.fetchDetails()
@@ -99,7 +103,10 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
                 style={Style.IMAGE_VIEW}
               />
             }
-            {content.isBookmarked && this.renderBookmarkFlag()}
+            {content.isBookmarked &&
+              this.props.isShowBookmarkIcon &&
+              this.renderBookmarkFlag()
+            }
           </View>
         </View>
         <View style={Style.FOOTER}>
