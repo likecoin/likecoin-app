@@ -714,7 +714,7 @@
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.12.3;
+				MARKETING_VERSION = 0.13.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -737,7 +737,7 @@
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.12.3;
+				MARKETING_VERSION = 0.13.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

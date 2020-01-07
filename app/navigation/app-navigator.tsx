@@ -14,6 +14,7 @@ import { TransferNavigator } from "./transfer-navigator"
 import { StakingDelegationNavigator } from "./staking-delegation-navigator"
 import { StakingUnbondingDelegationNavigator } from "./staking-unbonding-delegation-navigator"
 
+import { BookmarkScreen } from "../screens/bookmark-screen"
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
@@ -36,6 +37,9 @@ export function CustomTabBarIcon(props: CustomTabBarIconProps) {
       name = "tab-reader"
       size = 32
       break
+    case "Bookmark":
+      name = "tab-bookmark"
+      break
     case "Settings":
       name = "tab-settings"
       break
@@ -54,6 +58,7 @@ CustomTabBarIcon.displayName = 'CustomTabBarIcon'
 
 const MainTabs = createBottomTabNavigator({
   Reader: ReaderNavigator,
+  Bookmark: BookmarkScreen,
   Wallet: WalletNavigator,
   Settings: SettingsNavigator,
 }, {

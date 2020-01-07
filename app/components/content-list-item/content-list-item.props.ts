@@ -13,5 +13,10 @@ export interface ContentListItemProps {
   /**
    * A callback when the item is pressed.
    */
-  onPress?: Function
+  onPress?: (url: string) => void
+
+  /**
+   * A callback when the bookmark button is pressed.
+   */
+  onBookmark?: (url: string) => void
 }
