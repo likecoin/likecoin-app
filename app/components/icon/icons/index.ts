@@ -1,7 +1,8 @@
 import ArrowDownIcon from "./arrow-down.svg"
 import ArrowLeftIcon from "./arrow-left.svg"
 import ArrowUpIcon from "./arrow-up.svg"
-import BookmarkAddIcon from "./bookmark-add.svg"
+import BookmarkFilledIcon from "./bookmark-filled.svg"
+import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import CrossIcon from "./cross.svg"
 import LikeClap from "./like-clap.svg"
 import QRCodeScan from "./qrcode-scan.svg"
@@ -18,7 +19,8 @@ export const icons = {
   "arrow-left": ArrowLeftIcon,
   "arrow-up": ArrowUpIcon,
   back: ArrowLeftIcon,
-  "bookmark-add": BookmarkAddIcon,
+  "bookmark-filled": BookmarkFilledIcon,
+  "bookmark-outlined": BookmarkOutlinedIcon,
   close: CrossIcon,
   "like-clap": LikeClap,
   "qrcode-scan": QRCodeScan,

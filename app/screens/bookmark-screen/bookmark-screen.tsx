@@ -39,6 +39,7 @@ export class BookmarkScreen extends React.Component<Props> {
           creators={this.props.readerStore.creators}
           hasFetched={this.props.readerStore.hasFetchedBookmarkList}
           isLoading={this.props.readerStore.isFetchingBookmarkList}
+          isShowBookmarkIcon={false}
           onPressItem={this.onPressContentItem}
           onBookmarkItem={this.onBookmarkContentItem}
           onRefresh={this.props.readerStore.fetchBookmarkList}
