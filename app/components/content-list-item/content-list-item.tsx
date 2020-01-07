@@ -60,7 +60,7 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
     const {
       isLoading,
       likeCount,
-      imageURL: thumbnailURL,
+      coverImageURL,
       title,
     } = content
 
@@ -96,9 +96,9 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
               style={Style.DETAIL_TEXT}
             />
           </View>
-          {!!thumbnailURL &&
+          {!!coverImageURL &&
             <Image
-              source={{ uri: thumbnailURL }}
+              source={{ uri: coverImageURL }}
               style={Style.IMAGE_VIEW}
             />
           }
