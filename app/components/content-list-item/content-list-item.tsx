@@ -96,18 +96,16 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
               style={Style.DETAIL_TEXT}
             />
           </View>
-          <View style={Style.IMAGE_WRAPPER}>
-            {!!thumbnailURL &&
-              <Image
-                source={{ uri: thumbnailURL }}
-                style={Style.IMAGE_VIEW}
-              />
-            }
-            {content.isBookmarked &&
-              this.props.isShowBookmarkIcon &&
-              this.renderBookmarkFlag()
-            }
-          </View>
+          {!!thumbnailURL &&
+            <Image
+              source={{ uri: thumbnailURL }}
+              style={Style.IMAGE_VIEW}
+            />
+          }
+          {content.isBookmarked &&
+            this.props.isShowBookmarkIcon &&
+            this.renderBookmarkFlag()
+          }
         </View>
         <View style={Style.FOOTER}>
           <View>
