@@ -99,14 +99,7 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
                 style={Style.IMAGE_VIEW}
               />
             }
-            {content.isBookmarked &&
-              <TouchableOpacity
-                style={Style.BOOKMARK_FLAG}
-                onPress={this.onBookmark}
-              >
-                {this.renderBookmarkFlag()}
-              </TouchableOpacity>
-            }
+            {content.isBookmarked && this.renderBookmarkFlag()}
           </View>
         </View>
         <View style={Style.FOOTER}>
@@ -127,31 +120,37 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
             }
           </View>
           <View>
-            <TouchableOpacity
-              disabled={content.isBookmarked}
-              onPress={this.onBookmark}
-            >
-              <Icon
-                name="bookmark-add"
-                width={24}
-                height={24}
-                color={content.isBookmarked ? "offWhite" : "grey4a"}
-              />
-            </TouchableOpacity>
+            {this.renderBookmarkButton(content.isBookmarked)}
           </View>
         </View>
       </TouchableOpacity>
     )
   }
 
+  private renderBookmarkButton(isBookmarked: boolean) {
+    const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
+    const iconColor = isBookmarked ? "likeCyan" : "grey4a"
+    return (
+      <TouchableOpacity onPress={this.onBookmark}>
+        <Icon
+          name={iconName}
+          width={24}
+          height={24}
+          color={iconColor}
+        />
+      </TouchableOpacity>
+    )
+  }
+
   private renderBookmarkFlag() {
     if (typeof BookmarkIcon !== "function") {
-      return <ReactNativeSvg />
+      return <ReactNativeSvg style={Style.BOOKMARK_FLAG} />
     }
     return (
       <BookmarkIcon
         width={24}
         height={24}
+        style={Style.BOOKMARK_FLAG}
       />
     )
   }
