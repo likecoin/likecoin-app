@@ -42,6 +42,9 @@ export const ContentModel = types
   }))
   .extend(withEnvironment)
   .views(self => ({
+    get coverImageURL() {
+      return self.imageURL ? encodeURI(decodeURI(self.imageURL)) : undefined
+    },
     get isLoading() {
       return !(self.hasCached || self.hasFetchedDetails) ||
         self.isFetchingDetails ||

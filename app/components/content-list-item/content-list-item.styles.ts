@@ -9,6 +9,7 @@ import { spacing } from "../../theme"
 
 export default {
   ROOT: {
+    position: "relative",
     paddingVertical: spacing[4],
     paddingHorizontal: spacing[5],
   } as ViewStyle,
@@ -29,10 +30,6 @@ export default {
     marginTop: spacing[1],
     lineHeight: sizes.medium * 1.5,
   } as TextStyle,
-  IMAGE_WRAPPER: {
-    position: "relative",
-    minWidth: 24,
-  } as ViewStyle,
   IMAGE_VIEW: {
     flex: 0,
     width: 64,
