@@ -5,17 +5,14 @@ import {
   types,
 } from "mobx-state-tree"
 
-import { Content, ContentModel } from "../content"
+import { ContentModel } from "../content"
+import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
 
 import { ContentListResult, Content as ContentResultData } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
-const ContentList = types.array(types.safeReference(ContentModel))
-
-export function sortContentForSnapshot(a: Content, b: Content) {
-  return b.timestamp - a.timestamp
-}
+const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
 
 /**
  * Store all content related information.
@@ -23,7 +20,8 @@ export function sortContentForSnapshot(a: Content, b: Content) {
 export const ReaderStoreModel = types
   .model("ReaderStore")
   .props({
-    contents: types.map(ContentModel),
+    contents: types.map(types.late(() => ContentModel)),
+    creators: types.map(types.late(() => CreatorModel)),
     featuredList: ContentList,
     featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
@@ -58,6 +56,14 @@ export const ReaderStoreModel = types
       self.hasReachedEndOfFollowedList = false
       self.followedSet = new Set<string>()
     },
+    createCreatorFromLikerId(likerId: string) {
+      let creator = self.creators.get(likerId)
+      if (!creator) {
+        creator = CreatorModel.create({ likerID: likerId }, self.env)
+        self.creators.put(creator)
+      }
+      return creator
+    },
     createContentFromContentResultData(data: ContentResultData) {
       const {
         image: imageURL,
@@ -65,7 +71,7 @@ export const ReaderStoreModel = types
         like: likeCount,
         referrer,
         url,
-        user: creatorLikerID,
+        user: likerId,
         ...rest
       } = data
       const content = ContentModel.create({
@@ -73,10 +79,12 @@ export const ReaderStoreModel = types
         imageURL,
         timestamp,
         likeCount,
-        creatorLikerID,
         ...rest
       })
       self.contents.put(content)
+      if (likerId) {
+        content.creator = this.createCreatorFromLikerId(likerId)
+      }
       return content
     },
     parseContentResult(data: ContentResultData) {
@@ -99,10 +107,10 @@ export const ReaderStoreModel = types
     },
   }))
   .actions(self => ({
-    fetchSuggestList: flow(function * () {
+    fetchFeaturedList: flow(function * () {
       self.isFetchingFeaturedList = true
       try {
-        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderSuggest()
+        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFeatured()
         switch (result.kind) {
           case "ok":
             self.featuredList.replace([])

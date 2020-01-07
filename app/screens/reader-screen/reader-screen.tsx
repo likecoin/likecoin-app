@@ -54,12 +54,13 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
           <ContentList
             ref={this.list}
             data={this.props.readerStore.featuredList}
+            creators={this.props.readerStore.creators}
             titleLabelTx="readerScreen.featuredLabel"
             hasFetched={this.props.readerStore.hasFetchedFeaturedList}
             lastFetched={this.props.readerStore.featuredListLastFetchedDate.getTime()}
             isLoading={this.props.readerStore.isFetchingFeaturedList}
             onPressItem={this.onPressContentItem}
-            onRefresh={this.props.readerStore.fetchSuggestList}
+            onRefresh={this.props.readerStore.fetchFeaturedList}
           />
         )
 
@@ -68,6 +69,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
           <ContentList
             ref={this.list}
             data={this.props.readerStore.followedList}
+            creators={this.props.readerStore.creators}
             titleLabelTx="readerScreen.followingLabel"
             isLoading={this.props.readerStore.isFetchingFollowedList}
             isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
