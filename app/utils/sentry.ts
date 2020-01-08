@@ -17,3 +17,9 @@ export function setSentryUser(user: Sentry.User) {
     scope.setUser(user)
   })
 }
+
+export function resetSentryUser() {
+  return Sentry.configureScope((scope) => {
+    scope.setUser(null)
+  })
+}

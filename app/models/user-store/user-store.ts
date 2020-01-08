@@ -10,8 +10,10 @@ import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
-import * as Intercom from "../../utils/intercom"
-import { updateAnalyticsUserId } from '../../utils/analytics'
+import {
+  updateAnalyticsUserId,
+  logoutAnalyticsUser,
+} from '../../utils/analytics'
 
 import {
   GeneralResult,
@@ -81,7 +83,7 @@ export const UserStoreModel = types
         self.env.likeCoAPI.logout(),
         self.authCore.signOut(),
       ])
-      Intercom.logout()
+      yield logoutAnalyticsUser()
     }),
   }))
   .actions(self => ({

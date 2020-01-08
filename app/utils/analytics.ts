@@ -1,9 +1,16 @@
 import crypto from 'crypto'
+import { logError } from "./error"
 import * as Intercom from "./intercom"
-import { setSentryUser } from "./sentry"
+import {
+  setSentryUser,
+  resetSentryUser,
+} from "./sentry"
 import {
   setCrashlyticsUserId,
+  resetCrashlyticsUserId,
   setAnalyticsUserId,
+  resetAnalyticsUser,
+  getAnalyticsInstance,
 } from "./firebase"
 
 interface UserIdPayload {
@@ -56,4 +63,59 @@ export async function updateAnalyticsUserId({
     setAnalyticsUserId(hashUserId(authCoreUserId, userPIISalt)),
   ])
   /* eslint-enable @typescript-eslint/camelcase */
+}
+
+export async function logoutAnalyticsUser() {
+  Intercom.logout()
+  await Promise.all([
+    resetAnalyticsUser(),
+    resetSentryUser(),
+    resetCrashlyticsUserId(),
+  ])
+}
+
+export async function logAnalyticsEvent(event: string, payload?: any) {
+  try {
+    /* eslint-disable @typescript-eslint/camelcase */
+    const analytics = getAnalyticsInstance()
+    switch (event) {
+      case 'login':
+        await analytics.logLogin({ method: '' })
+        break
+      case 'register':
+        await analytics.logLogin({ method: '' })
+        break
+      case 'select_content': {
+        const {
+          contentType,
+          itemId,
+        } = payload
+        await analytics.logSelectContent({
+          content_type: contentType,
+          item_id: itemId,
+        })
+        break
+      }
+      case 'share': {
+        const {
+          contentType,
+          itemId,
+        } = payload
+        await analytics.logShare({
+          content_type: contentType,
+          item_id: itemId,
+        })
+        break
+      }
+      default: {
+        const [char, ...chars] = event.split('')
+        const eventCamel = `LikerLandApp${char[0]}${chars.join()}`
+        await analytics.logEvent(eventCamel, payload)
+        break
+      }
+    }
+    /* eslint-enable @typescript-eslint/camelcase */
+  } catch (err) {
+    logError(err)
+  }
 }
