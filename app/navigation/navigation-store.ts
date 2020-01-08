@@ -2,6 +2,7 @@ import { Instance, types } from "mobx-state-tree"
 import { RootNavigator } from "./root-navigator"
 import { NavigationActions, NavigationAction } from "react-navigation"
 import { NavigationEvents } from "./navigation-events"
+import { setAnalyticsCurrentScreen } from "../utils/firebase"
 
 const DEFAULT_STATE = RootNavigator.router.getStateForAction(NavigationActions.init(), null)
 
@@ -16,6 +17,16 @@ function findCurrentRoute(navState) {
     return findCurrentRoute(route)
   }
   return route
+}
+
+const logCurrentScreen = (prevState, currentState) => {
+  const currentRouteName = findCurrentRoute(currentState).routeName
+  const previousRouteName = findCurrentRoute(prevState).routeName
+  if (previousRouteName !== currentRouteName) {
+    // the line below uses the @react-native-firebase/analytics tracker
+    // change the tracker here to use other Mobile analytics SDK.
+    setAnalyticsCurrentScreen(currentRouteName)
+  }
 }
 
 /**
@@ -61,6 +72,7 @@ export const NavigationStoreModel = NavigationEvents.named("NavigationStore")
       const previousNavState = shouldPush ? self.state : null
       self.state = RootNavigator.router.getStateForAction(action, previousNavState) || self.state
       self.fireSubscribers(action, previousNavState, self.state)
+      logCurrentScreen(previousNavState, self.state)
       return true
     },
 
