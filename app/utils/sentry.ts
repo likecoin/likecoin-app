@@ -12,7 +12,7 @@ export function sentryCaptureError(err: unknown) {
   return Sentry.captureException(err)
 }
 
-export function setSentryUser(user) {
+export function setSentryUser(user: Sentry.User) {
   return Sentry.configureScope((scope) => {
     scope.setUser(user)
   })
