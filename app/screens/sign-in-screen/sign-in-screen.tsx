@@ -4,6 +4,7 @@ import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { logError } from "../../utils/error"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { UserLoginParams } from "../../services/api"
 
@@ -101,19 +102,24 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
   _signIn = async (params: UserLoginParams) => {
     try {
+      logAnalyticsEvent('AuthCoreSignInSuccess')
+      logAnalyticsEvent('OAuthSuccess')
       await this.props.userStore.login(params)
     } catch (error) {
       switch (error.message) {
         case 'USER_NOT_FOUND':
+          logAnalyticsEvent('ShowRegisterForm')
           this.props.navigation.navigate("Register", { params })
           return
 
         default:
           logError(`Error occurs when signing in with like.co: ${error}`)
           Alert.alert(translate("signInScreen.errorLikeCo"), `${error}`)
+          logAnalyticsEvent('LoginFail')
           return
       }
     }
+    logAnalyticsEvent('login')
     this.props.navigation.navigate('LikerLandOAuth')
     this.props.userStore.fetchUserInfo()
   }
@@ -121,6 +127,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   _onPressAuthCoreButton = async () => {
     try {
       this.props.userStore.setIsSigningIn(true)
+      logAnalyticsEvent('AuthCoreSignInTry')
       await this._signInWithAuthCore()
     } catch (error) {
       logError(`Error occurs when signing in: ${error}`)

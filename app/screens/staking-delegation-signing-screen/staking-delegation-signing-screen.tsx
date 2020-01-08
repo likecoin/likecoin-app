@@ -13,6 +13,8 @@ import { SigningView } from "../../components/signing-view"
 
 import { spacing } from "../../theme"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import Graph from "../../assets/graph/staking-delegate.svg"
 
 const GRAPH: ViewStyle = {
@@ -36,6 +38,7 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('DelegateBoundSuccess')
       this.props.chain.fetchBalance()
       this.props.chain.fetchValidators()
     }
@@ -46,6 +49,7 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
   }
 
   private onPressConfirmButton = () => {
+    logAnalyticsEvent('DelegateConfirmBoundTx')
     if (this.props.txStore.isSuccess) {
       this.props.navigation.dismiss()
     } else {

@@ -24,6 +24,8 @@ interface UserIdPayload {
   userPIISalt: string,
 }
 
+const VALUE_LENGTH_LIMIT = 100
+
 function hashUserId(userId: string, salt: string) {
   const hash = crypto.createHmac('sha256', salt)
   hash.update(userId)
@@ -83,7 +85,7 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         await analytics.logLogin({ method: '' })
         break
       case 'register':
-        await analytics.logLogin({ method: '' })
+        await analytics.logSignUp({ method: '' })
         break
       case 'select_content': {
         const {
@@ -92,7 +94,7 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         } = payload
         await analytics.logSelectContent({
           content_type: contentType,
-          item_id: itemId,
+          item_id: itemId.substring(0, VALUE_LENGTH_LIMIT),
         })
         break
       }
@@ -103,13 +105,13 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         } = payload
         await analytics.logShare({
           content_type: contentType,
-          item_id: itemId,
+          item_id: itemId.substring(0, VALUE_LENGTH_LIMIT),
         })
         break
       }
       default: {
         const [char, ...chars] = event.split('')
-        const eventCamel = `LikerLandApp${char[0]}${chars.join()}`
+        const eventCamel = `App${char[0]}${chars.join('')}`
         await analytics.logEvent(eventCamel, payload)
         break
       }

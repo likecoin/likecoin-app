@@ -26,6 +26,8 @@ import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
 import { Validator } from "../../models/validator"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
   chain: ChainStore
   userStore: UserStore
@@ -160,22 +162,27 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private onPressSendButton = () => {
+    logAnalyticsEvent('WalletClickTransfer')
     this.props.navigation.navigate("Transfer")
   }
 
   private onPressReceiveButton = () => {
+    logAnalyticsEvent('WalletClickReceive')
     this.props.navigation.navigate("Receive")
   }
 
   private onPressQRCodeButton = () => {
+    logAnalyticsEvent('WalletClickQRCodeScan')
     this.props.navigation.navigate("QRCodeScan")
   }
 
   private onPressRewardsWithdrawButton = () => {
+    logAnalyticsEvent('WalletClickStakingRewardsWithdraw')
     this.props.navigation.navigate("StakingRewardsWithdraw")
   }
 
   private onPressValidator = (validator: Validator) => {
+    logAnalyticsEvent('WalletClickValidator', { validator })
     this.props.navigation.navigate("Validator", {
       validator,
     })

@@ -27,6 +27,8 @@ import { sizes } from "../../components/text/text.sizes"
 import { translate } from "../../i18n"
 import { color, spacing } from "../../theme"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 export interface TransferTargetInputScreenParams {
   address: string
 }
@@ -148,6 +150,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   private onPressQRCodeButton = () => {
+    logAnalyticsEvent('TransferClickQRCodeScan')
     this.props.navigation.navigate("QRCodeScan")
   }
 

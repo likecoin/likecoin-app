@@ -10,6 +10,7 @@ import { Content } from "../../models/content"
 
 import { color } from "../../theme"
 import { logError } from "../../utils/error"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 const FULL: ViewStyle = { flex: 1 }
 
@@ -38,6 +39,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
 
   private onShare = async () => {
     const { url } = this.props.navigation.state.params.content
+    logAnalyticsEvent('share', { contentType: 'content', itemId: url })
     try {
       await Share.share(Platform.OS === "ios" ? { url } : { message: url })
     } catch (error) {

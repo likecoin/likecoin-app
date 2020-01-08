@@ -13,6 +13,8 @@ import { Validator } from "../../models/validator"
 
 import { spacing } from "../../theme"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
 
 const GRAPH: ViewStyle = {
@@ -36,6 +38,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('DelegateUnboundSuccess')
       this.props.chain.fetchBalance()
       this.props.chain.fetchDelegations()
     }
@@ -46,6 +49,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
   }
 
   private onPressConfirmButton = () => {
+    logAnalyticsEvent('DelegateConfirmUnboundTx')
     if (this.props.txStore.isSuccess) {
       this.props.navigation.dismiss()
     } else {

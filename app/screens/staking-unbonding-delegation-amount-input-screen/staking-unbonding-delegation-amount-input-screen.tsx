@@ -8,6 +8,8 @@ import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-delegation-store"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
 
 export interface StakingUnbondingDelegationAmountInputScreenParams {
@@ -64,7 +66,9 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
   }
 
   private onPressNextButton = async () => {
+    logAnalyticsEvent('DelegateClickUnbound')
     if (await this.createTransactionForSigning()) {
+      logAnalyticsEvent('DelegateCreateUnboundTx')
       this.props.navigation.navigate("StakingUnbondingDelegationSigning")
     }
   }

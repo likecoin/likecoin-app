@@ -9,6 +9,8 @@ import { StakingRewardsWithdrawStore } from "../../models/staking-rewards-withdr
 
 import { SigningView } from "../../components/signing-view"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import Graph from "../../assets/graph/staking-rewards-withdraw.svg"
 
 const GRAPH: ViewStyle = {
@@ -49,6 +51,7 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('DelegateWithdrawSuccess')
       this.props.chain.fetchBalance()
       this.props.chain.fetchDelegations()
       this.props.chain.fetchRewards()
@@ -60,6 +63,7 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
   }
 
   private onPressConfirmButton = () => {
+    logAnalyticsEvent('DelegateConfirmWithdraw')
     if (this.props.txStore.isSuccess) {
       this.props.navigation.pop()
     } else {
