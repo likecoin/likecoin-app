@@ -11,7 +11,7 @@ import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
 import {
-  updateAnalyticsUserId,
+  updateAnalyticsUser,
   logoutAnalyticsUser,
 } from '../../utils/analytics'
 
@@ -108,7 +108,7 @@ export const UserStoreModel = types
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
-          yield updateAnalyticsUserId({
+          yield updateAnalyticsUser({
             likerID,
             displayName,
             email,

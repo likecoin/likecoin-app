@@ -24,6 +24,7 @@ interface UserIdPayload {
   userPIISalt: string,
 }
 
+const KEY_LENGTH_LIMIT = 40
 const VALUE_LENGTH_LIMIT = 100
 
 function hashUserId(userId: string, salt: string) {
@@ -33,7 +34,20 @@ function hashUserId(userId: string, salt: string) {
   return value
 };
 
-export async function updateAnalyticsUserId({
+function filterKeyLimit(key) {
+  return key.substring(0, KEY_LENGTH_LIMIT)
+}
+
+function filterPayloadByLimit(payload) {
+  return Object.keys(payload).reduce((acc, k) => {
+    const key = filterKeyLimit(k)
+    const value = payload[k].substring(0, VALUE_LENGTH_LIMIT)
+    acc[key] = value
+    return acc
+  }, {})
+}
+
+export async function updateAnalyticsUser({
   likerID,
   displayName,
   email,
@@ -110,9 +124,13 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         break
       }
       default: {
-        const [char, ...chars] = event.split('')
-        const eventCamel = `App${char[0]}${chars.join('')}`
-        await analytics.logEvent(eventCamel, payload)
+        const [char, ...chars] = event.split("")
+        // cast to camel case
+        const eventCamel = `App${char.toUpperCase()}${chars.join("")}`
+        await analytics.logEvent(
+          filterKeyLimit(eventCamel),
+          filterPayloadByLimit(payload),
+        )
         break
       }
     }
