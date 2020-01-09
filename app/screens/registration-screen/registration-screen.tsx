@@ -26,6 +26,8 @@ import { color, spacing } from "../../theme"
 
 import { translate, translateWithFallbackText } from "../../i18n"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 export interface RegistrationScreenParams {
   params: UserLoginParams,
 }
@@ -157,6 +159,8 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
           ...params,
           user: likerId,
         })
+        logAnalyticsEvent('register')
+        logAnalyticsEvent('RegistrationComplete')
         this.props.navigation.navigate('LikerLandOAuth')
         this.props.userStore.fetchUserInfo()
       } catch (error) {
@@ -166,6 +170,7 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
         } else {
           this.setState({ error: errorMessage })
         }
+        logAnalyticsEvent('RegistrationFail', { message: error.message })
       } finally {
         this.props.userStore.setIsSigningIn(false)
       }

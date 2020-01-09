@@ -9,6 +9,8 @@ import { StakingRewardsWithdrawStore } from "../../models/staking-rewards-withdr
 
 import { SigningView } from "../../components/signing-view"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import Graph from "../../assets/graph/staking-rewards-withdraw.svg"
 
 const GRAPH: ViewStyle = {
@@ -29,26 +31,23 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
   constructor(props: StakingRewardsWithdrawScreenProps) {
     super(props)
     const {
-      canWithdrawRewards,
       fractionDenom,
       fractionDigits,
       gasPrice,
       wallet: {
         address,
+        rewardsBalance,
         validatorAddressListWithRewards: validatorAddresses,
       },
     } = props.chain
     props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
-    if (canWithdrawRewards) {
-      props.txStore.createRewardsWithdrawTx(address, validatorAddresses)
-    } else {
-      props.txStore.setError(new Error("REWARDS_WITHDRAW_BELOW_MIN"))
-    }
+    props.txStore.createRewardsWithdrawTx(address, validatorAddresses, rewardsBalance)
   }
 
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('StakeWithdrawRwdSuccess')
       this.props.chain.fetchBalance()
       this.props.chain.fetchDelegations()
       this.props.chain.fetchRewards()
@@ -61,8 +60,10 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
 
   private onPressConfirmButton = () => {
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('StakeWithdrawRwdTxConfirmed')
       this.props.navigation.pop()
     } else {
+      logAnalyticsEvent('StakeWithdrawRwdSign')
       this.sendTransaction()
     }
   }
@@ -70,27 +71,28 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
   render () {
     const {
       blockExplorerURL,
+      canWithdraw,
       errorMessage,
       fee,
+      rewardsBalance,
       signingState: state,
     } = this.props.txStore
     const {
-      canWithdrawRewards,
       formatDenom,
-      formattedRewardsBalance,
+      formatBalance,
     } = this.props.chain
     return (
       <SigningView
         type="reward"
         state={state}
         titleTx="stakingRewardsWithdrawScreen.title"
-        amount={formattedRewardsBalance}
+        amount={formatBalance(rewardsBalance)}
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}
         graph={<Graph />}
         graphStyle={GRAPH}
-        isConfirmButtonDisabled={!canWithdrawRewards}
+        isConfirmButtonDisabled={!canWithdraw}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}
       />

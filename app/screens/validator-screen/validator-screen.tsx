@@ -25,6 +25,8 @@ import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { Validator } from "../../models/validator"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import GlobeIcon from "../../assets/globe.svg"
 
 export interface ValidatorScreenNavigationParams {
@@ -100,6 +102,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   private getValidator = () => this.props.navigation.getParam("validator")
 
   private onPressValidatorAddress = () => {
+    logAnalyticsEvent('ValidatorCopyWalletAddr')
     Clipboard.setString(this.getValidator().operatorAddress)
     this.setState({ hasCopiedValidatorAddress: true })
   }
@@ -109,12 +112,14 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private onPressStakeButton = () => {
+    logAnalyticsEvent('ValidatorClickDelegate')
     this.props.navigation.navigate("StakingDelegation", {
       target: this.getValidator().operatorAddress,
     })
   }
 
   private onPressUnstakeButton = () => {
+    logAnalyticsEvent('ValidatorClickUndelegate')
     this.props.navigation.navigate("StakingUnbondingDelegation", {
       target: this.getValidator().operatorAddress,
     })

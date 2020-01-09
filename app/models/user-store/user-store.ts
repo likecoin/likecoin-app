@@ -10,9 +10,10 @@ import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
-import * as Intercom from "../../utils/intercom"
-import { setSentryUser } from "../../utils/sentry"
-import { setCrashlyticsUserId } from "../../utils/firebase"
+import {
+  updateAnalyticsUser,
+  logoutAnalyticsUser,
+} from '../../utils/analytics'
 
 import {
   GeneralResult,
@@ -82,7 +83,7 @@ export const UserStoreModel = types
         self.env.likeCoAPI.logout(),
         self.authCore.signOut(),
       ])
-      Intercom.logout()
+      yield logoutAnalyticsUser()
     }),
   }))
   .actions(self => ({
@@ -103,27 +104,20 @@ export const UserStoreModel = types
             email,
             avatarURL,
           })
-          Intercom.registerIdentifiedUser(likerID, intercomToken)
-          const factors: any[] = yield self.env.authCoreAPI.getOAuthFactors()
-          const services = factors.map(f => f.service)
-          /* eslint-disable @typescript-eslint/camelcase */
-          const opt = services.reduce((accumOpt, service) => {
-            if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
-            return accumOpt
-          }, { binded_authcore: true })
-          Intercom.updateUser({
-            name: displayName,
-            email,
-            custom_attributes: {
-              has_liker_land_app: true,
-              cosmos_wallet: self.authCore.primaryCosmosAddress,
-              ...opt,
-            }
-          })
+          const oAuthFactors = yield self.env.authCoreAPI.getOAuthFactors()
+          const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
+          const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
-          setSentryUser({ id: authCoreUserId })
-          yield setCrashlyticsUserId(authCoreUserId)
-          /* eslint-enable @typescript-eslint/camelcase */
+          yield updateAnalyticsUser({
+            likerID,
+            displayName,
+            email,
+            intercomToken,
+            oAuthFactors,
+            cosmosWallet,
+            authCoreUserId,
+            userPIISalt,
+          })
           break
         }
         case "unauthorized": {

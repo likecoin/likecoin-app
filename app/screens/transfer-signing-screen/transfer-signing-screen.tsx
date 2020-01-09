@@ -9,6 +9,8 @@ import { TransferStore } from "../../models/transfer-store"
 
 import { SigningView } from "../../components/signing-view"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import TransferGraph from "../../assets/graph/transfer.svg"
 
 const GRAPH: ViewStyle = {
@@ -29,6 +31,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('TransferSuccess')
       this.props.chain.fetchBalance()
     }
   }
@@ -39,8 +42,10 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
 
   private onPressConfirmButton = () => {
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('TransferTxConfirmed')
       this.props.navigation.dismiss()
     } else {
+      logAnalyticsEvent('TransferSign')
       this.sendTransaction()
     }
   }

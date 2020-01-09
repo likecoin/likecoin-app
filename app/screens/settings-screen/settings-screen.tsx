@@ -22,6 +22,8 @@ import { color, spacing } from "../../theme"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import * as Intercom from "../../utils/intercom"
 
 const CONTENT_VIEW: ViewStyle = {
@@ -96,6 +98,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onClickLogout = async () => {
     await this.props.userStore.logout()
     this.props.readerStore.clearAllLists()
+    logAnalyticsEvent('SignOut')
     this.props.navigation.navigate("Auth")
   }
 

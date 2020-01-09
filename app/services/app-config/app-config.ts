@@ -17,6 +17,7 @@ import {
   LIKERLAND_API_URL,
   MIN_VERSION,
   SENTRY_DSN,
+  USER_PII_SALT,
 } from "react-native-dotenv"
 
 export interface AppConfigParams {
@@ -36,6 +37,7 @@ export interface AppConfigParams {
   LIKERLAND_API_URL: string
   MIN_VERSION: string
   SENTRY_DSN: string
+  USER_PII_SALT: string
 }
 
 export type AppConfigParamKey = keyof AppConfigParams
@@ -69,6 +71,7 @@ export class AppConfig {
       LIKERLAND_API_URL,
       MIN_VERSION,
       SENTRY_DSN,
+      USER_PII_SALT,
     }
     this.remoteConfig = RemoteConfigModule()
   }
