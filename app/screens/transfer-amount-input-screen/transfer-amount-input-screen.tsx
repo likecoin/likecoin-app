@@ -8,6 +8,8 @@ import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { TransferStore } from "../../models/transfer-store"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import TransferGraph from "../../assets/graph/transfer.svg"
 
 export interface TransferAmountInputScreenProps extends NavigationScreenProps<{}> {
@@ -49,7 +51,9 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   }
 
   private onPressNextButton = async () => {
+    logAnalyticsEvent('TransferConfirmAmount')
     if (await this.createTransactionForSigning()) {
+      logAnalyticsEvent('TransferPrepareTx')
       this.props.navigation.navigate("TransferSigning")
     }
   }

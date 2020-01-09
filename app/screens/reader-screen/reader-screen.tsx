@@ -10,6 +10,8 @@ import { color } from "../../theme"
 import { ReaderStore } from "../../models/reader-store"
 import { ContentList } from "../../components/content-list"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
   ...FULL,
@@ -31,6 +33,8 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
 
   private onPressContentItem = (id: string) => {
     const content = this.props.readerStore.contents.get(id)
+    logAnalyticsEvent('select_content', { contentType: 'content', itemId: id })
+    logAnalyticsEvent('OpenArticle', { url: id })
     this.props.navigation.navigate('ContentView', { content })
   }
 
