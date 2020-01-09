@@ -89,9 +89,6 @@ export const ChainStoreModel = types
         new BigNumber(0)
       )
     },
-    get canWithdrawRewards() {
-      return self.toDenom(self.wallet.rewardsBalance).isGreaterThanOrEqualTo(1)
-    },
     compareValidatorsByDelegation(a: Validator, b: Validator) {
       const aDelegation = self.wallet.delegations.get(a.operatorAddress)
       const bDelegation = self.wallet.delegations.get(b.operatorAddress)
