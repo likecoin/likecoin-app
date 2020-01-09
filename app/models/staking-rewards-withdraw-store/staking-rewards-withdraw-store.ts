@@ -5,12 +5,13 @@ import {
 } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
 
-import { createTxStore } from "../tx-store"
+import { TxStoreModel } from "../tx-store"
 
 /**
  * Staking rewards withdraw store
  */
-export const StakingRewardsWithdrawStoreModel = createTxStore("StakingRewardsWithdrawStore")
+export const StakingRewardsWithdrawStoreModel = TxStoreModel
+  .named("StakingRewardsWithdrawStore")
   .volatile(() => ({
     rewardsBalance: new BigNumber(0),
   }))
