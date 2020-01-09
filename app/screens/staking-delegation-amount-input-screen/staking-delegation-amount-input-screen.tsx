@@ -62,9 +62,9 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
   }
 
   private onPressNextButton = async () => {
-    logAnalyticsEvent('DelegateClickBound')
+    logAnalyticsEvent('StakeDelegateConfirmAmount')
     if (await this.createTransactionForSigning()) {
-      logAnalyticsEvent('DelegateCreateBoundTx')
+      logAnalyticsEvent('StakeDelegatePrepareTx')
       this.props.navigation.navigate("StakingDelegationSigning")
     }
   }

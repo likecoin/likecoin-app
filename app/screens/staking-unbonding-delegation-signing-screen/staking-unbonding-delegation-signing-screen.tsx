@@ -38,7 +38,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
-      logAnalyticsEvent('DelegateUnboundSuccess')
+      logAnalyticsEvent('StakeUndelegateSuccess')
       this.props.chain.fetchBalance()
       this.props.chain.fetchDelegations()
     }
@@ -49,10 +49,11 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
   }
 
   private onPressConfirmButton = () => {
-    logAnalyticsEvent('DelegateConfirmUnboundTx')
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('StakeUndelegateConfirmAmount')
       this.props.navigation.dismiss()
     } else {
+      logAnalyticsEvent('StakeUndelegatePrepareTx')
       this.sendTransaction()
     }
   }

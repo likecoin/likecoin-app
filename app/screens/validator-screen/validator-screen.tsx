@@ -102,7 +102,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   private getValidator = () => this.props.navigation.getParam("validator")
 
   private onPressValidatorAddress = () => {
-    logAnalyticsEvent('TransferClickQRCodeScan')
+    logAnalyticsEvent('ValidatorCopyWalletAddr')
     Clipboard.setString(this.getValidator().operatorAddress)
     this.setState({ hasCopiedValidatorAddress: true })
   }
@@ -112,14 +112,14 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private onPressStakeButton = () => {
-    logAnalyticsEvent('ValidatorClickBound')
+    logAnalyticsEvent('ValidatorClickDelegate')
     this.props.navigation.navigate("StakingDelegation", {
       target: this.getValidator().operatorAddress,
     })
   }
 
   private onPressUnstakeButton = () => {
-    logAnalyticsEvent('ValidatorClickUnbound')
+    logAnalyticsEvent('ValidatorClickUndelegate')
     this.props.navigation.navigate("StakingUnbondingDelegation", {
       target: this.getValidator().operatorAddress,
     })

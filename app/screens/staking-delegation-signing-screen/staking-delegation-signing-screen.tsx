@@ -38,7 +38,7 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
     if (this.props.txStore.isSuccess) {
-      logAnalyticsEvent('DelegateBoundSuccess')
+      logAnalyticsEvent('StakeDelegateSuccess')
       this.props.chain.fetchBalance()
       this.props.chain.fetchValidators()
     }
@@ -49,10 +49,11 @@ export class StakingDelegationSigningScreen extends React.Component<StakingDeleg
   }
 
   private onPressConfirmButton = () => {
-    logAnalyticsEvent('DelegateConfirmBoundTx')
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('StakeDelegateTxConfirmed')
       this.props.navigation.dismiss()
     } else {
+      logAnalyticsEvent('StakeDelegateSign')
       this.sendTransaction()
     }
   }

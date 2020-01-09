@@ -34,7 +34,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
   private onPressContentItem = (id: string) => {
     const content = this.props.readerStore.contents.get(id)
     logAnalyticsEvent('select_content', { contentType: 'content', itemId: id })
-    // logAnalyticsEvent('OpenArticle', { url: id })
+    logAnalyticsEvent('OpenArticle', { url: id })
     this.props.navigation.navigate('ContentView', { content })
   }
 

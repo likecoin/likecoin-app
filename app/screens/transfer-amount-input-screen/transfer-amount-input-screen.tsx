@@ -51,9 +51,9 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
   }
 
   private onPressNextButton = async () => {
-    logAnalyticsEvent('TransferClick')
+    logAnalyticsEvent('TransferConfirmAmount')
     if (await this.createTransactionForSigning()) {
-      logAnalyticsEvent('TransferCreateTx')
+      logAnalyticsEvent('TransferPrepareTx')
       this.props.navigation.navigate("TransferSigning")
     }
   }

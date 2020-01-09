@@ -41,10 +41,11 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
   }
 
   private onPressConfirmButton = () => {
-    logAnalyticsEvent('TransferConfirmTx')
     if (this.props.txStore.isSuccess) {
+      logAnalyticsEvent('TransferTxConfirmed')
       this.props.navigation.dismiss()
     } else {
+      logAnalyticsEvent('TransferSign')
       this.sendTransaction()
     }
   }

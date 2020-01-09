@@ -66,9 +66,9 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
   }
 
   private onPressNextButton = async () => {
-    logAnalyticsEvent('DelegateClickUnbound')
+    logAnalyticsEvent('StakeUndelegateConfirmAmount')
     if (await this.createTransactionForSigning()) {
-      logAnalyticsEvent('DelegateCreateUnboundTx')
+      logAnalyticsEvent('StakeUndelegatePrepareTx')
       this.props.navigation.navigate("StakingUnbondingDelegationSigning")
     }
   }
