@@ -9,12 +9,19 @@ import { spacing } from "../../theme"
 
 export default {
   ROOT: {
+    position: "relative",
     paddingVertical: spacing[4],
     paddingHorizontal: spacing[5],
   } as ViewStyle,
   ROW: {
     flexDirection: "row",
     alignItems: "center",
+  } as ViewStyle,
+  FOOTER: {
+    marginTop: spacing[2],
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   } as ViewStyle,
   DETAIL_VIEW: {
     flex: 1,
@@ -30,4 +37,13 @@ export default {
     aspectRatio: 1,
     resizeMode: "cover",
   } as ImageStyle,
+  BOOKMARK_FLAG: {
+    position: "absolute",
+    top: -spacing[1],
+    right: spacing[0],
+    width: 32,
+    height: 32,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+  } as ViewStyle,
 }
