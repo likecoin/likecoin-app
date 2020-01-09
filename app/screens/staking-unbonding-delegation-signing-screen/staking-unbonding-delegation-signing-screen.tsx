@@ -38,6 +38,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
     if (this.props.txStore.isSuccess) {
       this.props.chain.fetchBalance()
       this.props.chain.fetchDelegations()
+      this.props.chain.fetchRewards()
     }
   }
 
