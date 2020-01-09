@@ -138,8 +138,8 @@ android {
         applicationId "com.oice"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 144
-        versionName "0.12.3"
+        versionCode 148
+        versionName "0.12.4"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
