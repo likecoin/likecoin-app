@@ -31,21 +31,17 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
   constructor(props: StakingRewardsWithdrawScreenProps) {
     super(props)
     const {
-      canWithdrawRewards,
       fractionDenom,
       fractionDigits,
       gasPrice,
       wallet: {
         address,
+        rewardsBalance,
         validatorAddressListWithRewards: validatorAddresses,
       },
     } = props.chain
     props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
-    if (canWithdrawRewards) {
-      props.txStore.createRewardsWithdrawTx(address, validatorAddresses)
-    } else {
-      props.txStore.setError(new Error("REWARDS_WITHDRAW_BELOW_MIN"))
-    }
+    props.txStore.createRewardsWithdrawTx(address, validatorAddresses, rewardsBalance)
   }
 
   private sendTransaction = async () => {
@@ -75,27 +71,28 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
   render () {
     const {
       blockExplorerURL,
+      canWithdraw,
       errorMessage,
       fee,
+      rewardsBalance,
       signingState: state,
     } = this.props.txStore
     const {
-      canWithdrawRewards,
       formatDenom,
-      formattedRewardsBalance,
+      formatBalance,
     } = this.props.chain
     return (
       <SigningView
         type="reward"
         state={state}
         titleTx="stakingRewardsWithdrawScreen.title"
-        amount={formattedRewardsBalance}
+        amount={formatBalance(rewardsBalance)}
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}
         graph={<Graph />}
         graphStyle={GRAPH}
-        isConfirmButtonDisabled={!canWithdrawRewards}
+        isConfirmButtonDisabled={!canWithdraw}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}
       />
