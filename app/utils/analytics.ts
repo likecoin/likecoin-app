@@ -18,7 +18,7 @@ interface UserIdPayload {
   displayName: string,
   email: string,
   intercomToken: string,
-  oAuthFactors: [{ service: string }],
+  oAuthFactors: Promise<[{ service: string }]>|[{ service: string }],
   cosmosWallet: string,
   authCoreUserId: string,
   userPIISalt: string,
@@ -62,7 +62,7 @@ export async function updateAnalyticsUser({
   userPIISalt,
 }: UserIdPayload) {
   Intercom.registerIdentifiedUser(likerID, intercomToken)
-  const services = oAuthFactors.map(f => f.service)
+  const services = (await oAuthFactors).map(f => f.service)
   /* eslint-disable @typescript-eslint/camelcase */
   const opt = services.reduce((accumOpt, service) => {
     if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
