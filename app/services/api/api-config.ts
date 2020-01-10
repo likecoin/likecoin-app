@@ -17,6 +17,11 @@ export interface ApiConfig {
    * The name of the user agent for requests.
    */
   userAgent: string
+
+  /**
+   * Handler for unauthenticated response.
+   */
+  onUnauthenticated?: () => void
 }
 
 /**
@@ -24,5 +29,6 @@ export interface ApiConfig {
  */
 export const COMMON_API_CONFIG: ApiConfig = {
   timeout: TIMEOUT,
-  userAgent: USER_AGENT
+  userAgent: USER_AGENT,
+  onUnauthenticated: () => {},
 }

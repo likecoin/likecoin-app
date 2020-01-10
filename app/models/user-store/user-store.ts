@@ -36,6 +36,7 @@ export const UserStoreModel = types
   })
   .volatile(() => ({
     isSigningIn: false,
+    isSigningOut: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -77,13 +78,18 @@ export const UserStoreModel = types
       }
     }),
     logout: flow(function * () {
+      self.isSigningOut = true
       self.currentUser = undefined
-      self.iapStore.clear()
-      yield Promise.all([
-        self.env.likeCoAPI.logout(),
-        self.authCore.signOut(),
-      ])
-      yield logoutAnalyticsUser()
+      try {
+        self.iapStore.clear()
+        yield Promise.all([
+          self.env.likeCoAPI.logout(),
+          self.authCore.signOut(),
+        ])
+        yield logoutAnalyticsUser()
+      } finally {
+        self.isSigningOut = false
+      }
     }),
   }))
   .actions(self => ({
