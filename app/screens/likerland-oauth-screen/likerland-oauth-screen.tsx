@@ -55,7 +55,8 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
             sharedCookiesEnabled={true}
             source={{ uri: signInURL }}
             onNavigationStateChange={this._onNavigationStateChange}
-            userAgent={ COMMON_API_CONFIG.userAgent }
+            // TODO: remove HACK after applicationNameForUserAgent type is fixed
+            {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
           />
           <View style={Style.LoadingWrapper}>
             <LoadingLikeCoin />

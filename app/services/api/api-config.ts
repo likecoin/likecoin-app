@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 import { APP_MARKETING_VERSION, APP_VERSION } from "react-native-dotenv"
 
 const TIMEOUT = 10000
-const USER_AGENT = `LikeCoinApp-${Platform.OS === "ios" ? 'iOS' : 'Android'} ${APP_MARKETING_VERSION} (build ${APP_VERSION})`
+const USER_AGENT = `LikeCoinApp-${Platform.OS === "ios" ? 'iOS' : 'Android'}/${APP_MARKETING_VERSION}(${APP_VERSION})`
 
 /**
  * The options used to configure the API.
