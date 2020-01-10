@@ -14,7 +14,7 @@ import { UserStore } from "../../models/user-store"
 
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
-import { LoadingLikeCoin } from "../../components/loading-likecoin"
+import { LoadingScreen } from "../../components/loading-screen"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
@@ -148,15 +148,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     } = this.props.userStore
 
     if (isSigningOut) {
-      return (
-        <Screen
-          preset="fixed"
-          backgroundColor={color.primary}
-          style={FULL}
-        >
-          <LoadingLikeCoin style={FULL} />
-        </Screen>
-      )
+      return <LoadingScreen />
     }
 
     return (
