@@ -1,7 +1,6 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
 import {
-  ActivityIndicator,
   ImageStyle,
   StyleSheet,
   TextStyle,
@@ -46,11 +45,6 @@ const LOGOUT: ViewStyle = {
 const VERSION: TextStyle = {
   marginTop: spacing[4]
 }
-const LOADING_VIEW: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-}
 const TABLE_CELL_BASE: ViewStyle = {
   justifyContent: "flex-start",
 }
@@ -92,10 +86,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onClickLogout = async () => {
-    await this.props.userStore.logout()
     this.props.readerStore.clearAllLists()
-    logAnalyticsEvent('SignOut')
+    this.props.userStore.logout()
     this.props.navigation.navigate("Auth")
+    logAnalyticsEvent('SignOut')
   }
 
   private onPressContactUs = () => {
@@ -115,7 +109,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         backgroundColor={color.primary}
       >
         <Header headerTx="settingsScreen.title" />
-        {currentUser ? (
+        {!!currentUser &&
           <Screen
             style={CONTENT_VIEW}
             preset="scroll"
@@ -181,14 +175,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             />
             <AppVersionLabel style={VERSION} />
           </Screen>
-        ) : (
-          <View style={LOADING_VIEW}>
-            <ActivityIndicator
-              color={color.primary}
-              size="large"
-            />
-          </View>
-        )}
+        }
       </Screen>
     )
   }
