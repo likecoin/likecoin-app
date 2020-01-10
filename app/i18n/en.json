@@ -140,6 +140,10 @@
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"
   },
+  "UnauthenticatedAlert": {
+    "title": "Session Expired",
+    "message": "Please sign in again."
+  },
   "walletDashboardScreen": {
     "availableBalanceLabel": "Available",
     "allDelegatorRewardsLabel": "Rewards",

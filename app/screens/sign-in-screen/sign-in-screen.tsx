@@ -12,14 +12,15 @@ import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { UserStore } from "../../models/user-store"
 
+import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
+import { LoadingScreen } from "../../components/loading-screen"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
 
 import { color, spacing } from "../../theme"
 import { translate } from "../../i18n"
-import { AppVersionLabel } from "../../components/app-version-label"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -140,10 +141,16 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   render() {
     const {
       isSigningIn,
+      isSigningOut,
       authCore: {
         hasSignedIn: hasSignedInToAuthcore,
       },
     } = this.props.userStore
+
+    if (isSigningOut) {
+      return <LoadingScreen />
+    }
+
     return (
       <View style={FULL}>
         <Wallpaper />

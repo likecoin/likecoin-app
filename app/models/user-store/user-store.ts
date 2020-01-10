@@ -36,6 +36,7 @@ export const UserStoreModel = types
   })
   .volatile(() => ({
     isSigningIn: false,
+    isSigningOut: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -77,13 +78,18 @@ export const UserStoreModel = types
       }
     }),
     logout: flow(function * () {
+      self.isSigningOut = true
       self.currentUser = undefined
-      self.iapStore.clear()
-      yield Promise.all([
-        self.env.likeCoAPI.logout(),
-        self.authCore.signOut(),
-      ])
-      yield logoutAnalyticsUser()
+      try {
+        self.iapStore.clear()
+        yield Promise.all([
+          self.env.likeCoAPI.logout(),
+          self.authCore.signOut(),
+        ])
+        yield logoutAnalyticsUser()
+      } finally {
+        self.isSigningOut = false
+      }
     }),
   }))
   .actions(self => ({
@@ -106,16 +112,16 @@ export const UserStoreModel = types
             avatarURL,
             isCivicLiker,
           })
-          const oAuthFactors = yield self.env.authCoreAPI.getOAuthFactors()
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
-          yield updateAnalyticsUser({
+          /* do not block user logic with analytics */
+          updateAnalyticsUser({
             likerID,
             displayName,
             email,
             intercomToken,
-            oAuthFactors,
+            oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
             cosmosWallet,
             authCoreUserId,
             userPIISalt,

@@ -142,6 +142,10 @@
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"
   },
+  "UnauthenticatedAlert": {
+    "title": "登入階段已失效",
+    "message": "請重新登入。"
+  },
   "walletDashboardScreen": {
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",

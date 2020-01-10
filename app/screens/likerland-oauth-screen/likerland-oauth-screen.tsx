@@ -1,6 +1,5 @@
 import * as React from "react"
 import {
-  NativeSyntheticEvent,
   View,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
@@ -25,14 +24,11 @@ export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
 
 @inject("rootStore")
 export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps, {}> {
-  _onLoadEnd = async (syntheticEvent: NativeSyntheticEvent<WebViewNavigation>) => {
-    const { url } = syntheticEvent.nativeEvent
+  _onNavigationStateChange = async (navState: WebViewNavigation) => {
+    const { url } = navState
     const { rootStore } = this.props
-    if (url.includes("/oauth/redirect")) {
-      // TODO: Should listen to window.postMessage from liker.land
-      setTimeout(() => {
-        this.props.navigation.navigate("App")
-      }, 2000)
+    if (url.includes("/following")) {
+      this.props.navigation.navigate("App")
 
       // Try to open the deferred deep link URL after sign in
       rootStore.openDeepLink()
@@ -58,8 +54,9 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
             style={Style.Webview}
             sharedCookiesEnabled={true}
             source={{ uri: signInURL }}
-            onLoadEnd={this._onLoadEnd}
-            userAgent={ COMMON_API_CONFIG.userAgent }
+            onNavigationStateChange={this._onNavigationStateChange}
+            // TODO: remove HACK after applicationNameForUserAgent type is fixed
+            {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
           />
           <View style={Style.LoadingWrapper}>
             <LoadingLikeCoin />
