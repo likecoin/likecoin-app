@@ -45,8 +45,10 @@ function createRootStore(env: Environment, data: any = {}) {
     throw new Error("CHAIN_HAS_CHANGED")
   }
   const rootStore = RootStoreModel.create(data, env)
-  env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
-  env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
+  env.authCoreAPI.callbacks.unauthenticated = rootStore.handleUnauthenticatedError
+  env.authCoreAPI.callbacks.unauthorized = rootStore.handleUnauthenticatedError
+  env.likeCoAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
+  env.likerLandAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
   return rootStore
 }
 

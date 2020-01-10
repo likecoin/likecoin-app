@@ -1,3 +1,4 @@
+import { Alert } from "react-native"
 import {
   flow,
   Instance,
@@ -14,6 +15,7 @@ import { StakingUnbondingDelegationStoreModel } from "../staking-unbonding-deleg
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
 
+import { translate } from "../../i18n"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
 // eslint-disable-next-line no-useless-escape
@@ -49,9 +51,9 @@ export const RootStoreModel = types
       self.deferredDeepLink = url
     },
     /**
-   * Try to open a deep link
-   * @param url The optional URL of the deep link, if not provided, the deferred deep link is used instead
-   */
+     * Try to open a deep link
+     * @param url The optional URL of the deep link, if not provided, the deferred deep link is used instead
+     */
     openDeepLink(url: string = self.deferredDeepLink) {
       if (!url) return
 
@@ -74,6 +76,21 @@ export const RootStoreModel = types
       yield self.userStore.logout()
       self.navigationStore.navigateTo("Auth")
     }),
+  }))
+  .actions(self => ({
+    handleUnauthenticatedError() {
+      Alert.alert(
+        translate("UnauthenticatedAlert.title"),
+        translate("UnauthenticatedAlert.message"),
+        [
+          {
+            text: translate("common.confirm"),
+            onPress: self.signOut,
+          }
+        ],
+        { cancelable: false }
+      )
+    },
   }))
 
 /**
