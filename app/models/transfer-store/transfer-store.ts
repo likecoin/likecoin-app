@@ -4,14 +4,15 @@ import {
   SnapshotOut,
 } from "mobx-state-tree"
 
-import { createTxStore } from "../tx-store"
+import { TxStoreModel } from "../tx-store"
 import { User, UserModel } from "../user"
 import { UserResult } from "../../services/api"
 
 /**
  * Transfer store
  */
-export const TransferStoreModel = createTxStore("TransferStore")
+export const TransferStoreModel = TxStoreModel
+  .named("TransferStore")
   .volatile(() => ({
     liker: null as User,
     isFetchingLiker: false,

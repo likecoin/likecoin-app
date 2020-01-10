@@ -12,6 +12,8 @@ import { color } from "../../theme"
 import { logError } from "../../utils/error"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
+import { COMMON_API_CONFIG } from "../../services/api/api-config"
+
 const FULL: ViewStyle = { flex: 1 }
 
 export interface ContentViewNavigationStateParams {
@@ -66,6 +68,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
           style={FULL}
           sharedCookiesEnabled={true}
           source={{ uri: content.url }}
+          userAgent={ COMMON_API_CONFIG.userAgent }
         />
       </Screen>
     )

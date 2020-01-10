@@ -1,8 +1,6 @@
 import * as React from "react"
 import { NavigationScreenProps } from "react-navigation"
 import {
-  Image,
-  ImageStyle,
   StyleSheet,
   TextStyle,
   View,
@@ -14,6 +12,7 @@ import { observer, inject } from "mobx-react"
 
 import { ValidatorScreenGridItem } from "../validator-screen/validator-screen.grid-item"
 
+import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
 import { Screen } from "../../components/screen"
@@ -56,11 +55,6 @@ const DASHBOARD_HEADER: ViewStyle = {
 const USER_INFO_ROOT: ViewStyle = {
   flexDirection: "row",
   alignItems: "center",
-}
-const USER_INFO_AVATAR: ImageStyle = {
-  width: 64,
-  height: 64,
-  borderRadius: 32,
 }
 const USER_INFO_IDENTITY: ViewStyle = {
   marginLeft: 12,
@@ -209,9 +203,9 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           <View style={DASHBOARD_HEADER}>
             {currentUser &&
               <View style={USER_INFO_ROOT}>
-                <Image
-                  style={USER_INFO_AVATAR}
-                  source={{ uri: currentUser.avatarURL }}
+                <Avatar
+                  src={currentUser.avatarURL}
+                  isCivicLiker={currentUser.isCivicLiker}
                 />
                 <View style={USER_INFO_IDENTITY}>
                   <Text
