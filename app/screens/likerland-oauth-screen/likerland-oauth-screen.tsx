@@ -17,6 +17,8 @@ import { color } from "../../theme"
 import { RootStore } from "../../models/root-store"
 import { LoadingLikeCoin } from "../../components/loading-likecoin"
 
+import { COMMON_API_CONFIG } from "../../services/api/api-config"
+
 export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
   rootStore: RootStore,
 }
@@ -57,6 +59,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
             sharedCookiesEnabled={true}
             source={{ uri: signInURL }}
             onLoadEnd={this._onLoadEnd}
+            userAgent={ COMMON_API_CONFIG.userAgent }
           />
           <View style={Style.LoadingWrapper}>
             <LoadingLikeCoin />
