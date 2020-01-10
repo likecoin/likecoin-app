@@ -112,16 +112,16 @@ export const UserStoreModel = types
             avatarURL,
             isCivicLiker,
           })
-          const oAuthFactors = yield self.env.authCoreAPI.getOAuthFactors()
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
-          yield updateAnalyticsUser({
+          /* do not block user logic with analytics */
+          updateAnalyticsUser({
             likerID,
             displayName,
             email,
             intercomToken,
-            oAuthFactors,
+            oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
             cosmosWallet,
             authCoreUserId,
             userPIISalt,
