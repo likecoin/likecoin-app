@@ -2,7 +2,6 @@ import * as React from "react"
 import { observer, inject } from "mobx-react"
 import {
   ActivityIndicator,
-  Image,
   ImageStyle,
   StyleSheet,
   TextStyle,
@@ -12,6 +11,7 @@ import {
 import { NavigationScreenProps } from "react-navigation"
 
 import { AppVersionLabel } from "../../components/app-version-label"
+import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
@@ -36,10 +36,6 @@ const USER_INFO: ViewStyle = {
   padding: spacing[2],
 }
 const AVATAR: ImageStyle = {
-  overflow: "hidden",
-  width: 64,
-  height: 64,
-  borderRadius: 32,
   marginBottom: spacing[3],
 }
 const LOGOUT: ViewStyle = {
@@ -127,9 +123,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             unsafe
           >
             <View style={USER_INFO}>
-              <Image
+              <Avatar
+                src={currentUser.avatarURL}
+                isCivicLiker={currentUser.isCivicLiker}
                 style={AVATAR}
-                source={{ uri: currentUser.avatarURL }}
               />
               <Text
                 color="likeGreen"

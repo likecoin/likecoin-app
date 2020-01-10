@@ -7,6 +7,7 @@ export interface User {
   avatar?: string
   intercomToken?: string
   cosmosWallet?: string
+  isSubscribedCivicLiker?: boolean
 }
 
 export interface Content {
