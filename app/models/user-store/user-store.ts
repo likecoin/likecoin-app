@@ -97,12 +97,14 @@ export const UserStoreModel = types
             email,
             avatar: avatarURL,
             intercomToken,
+            isSubscribedCivicLiker: isCivicLiker,
           } = result.data
           self.currentUser = UserModel.create({
             likerID,
             displayName,
             email,
             avatarURL,
+            isCivicLiker,
           })
           const oAuthFactors = yield self.env.authCoreAPI.getOAuthFactors()
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
