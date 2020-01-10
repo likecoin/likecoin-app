@@ -35,13 +35,17 @@ function hashUserId(userId: string, salt: string) {
 };
 
 function filterKeyLimit(key) {
-  return key.substring(0, KEY_LENGTH_LIMIT)
+  return key.toString().substring(0, KEY_LENGTH_LIMIT)
 }
 
 function filterPayloadByLimit(payload) {
+  if (!payload || typeof payload !== 'object') return payload
   return Object.keys(payload).reduce((acc, k) => {
     const key = filterKeyLimit(k)
-    const value = payload[k].substring(0, VALUE_LENGTH_LIMIT)
+    let value = payload[k]
+    if (typeof value === 'string') {
+      value = value.substring(0, VALUE_LENGTH_LIMIT)
+    }
     acc[key] = value
     return acc
   }, {})
@@ -108,7 +112,7 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         } = payload
         await analytics.logSelectContent({
           content_type: contentType,
-          item_id: itemId.substring(0, VALUE_LENGTH_LIMIT),
+          item_id: itemId.toString().substring(0, VALUE_LENGTH_LIMIT),
         })
         break
       }
@@ -119,7 +123,7 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         } = payload
         await analytics.logShare({
           content_type: contentType,
-          item_id: itemId.substring(0, VALUE_LENGTH_LIMIT),
+          item_id: itemId.toString().substring(0, VALUE_LENGTH_LIMIT),
         })
         break
       }

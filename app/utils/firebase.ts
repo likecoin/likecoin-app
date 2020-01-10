@@ -22,5 +22,5 @@ export async function setCrashlyticsUserId(userId: string) {
 }
 
 export async function resetCrashlyticsUserId() {
-  return crashlytics().setUserId(null)
+  return crashlytics().setUserId("")
 }
