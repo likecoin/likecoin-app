@@ -176,7 +176,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private onPressValidator = (validator: Validator) => {
-    logAnalyticsEvent('WalletClickValidator', { validator })
+    logAnalyticsEvent('WalletClickValidator', { validator: validator.moniker })
     this.props.navigation.navigate("Validator", {
       validator,
     })

@@ -76,9 +76,9 @@ export const RootStoreModel = types
     },
 
     signOut: flow(function * () {
-      self.userStore.logout()
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")
+      yield self.userStore.logout()
     }),
   }))
   .actions(self => ({
