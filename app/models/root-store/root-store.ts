@@ -40,6 +40,9 @@ export const RootStoreModel = types
      */
     deferredDeepLink: types.maybe(types.string),
   })
+  .volatile(() => ({
+    isShowUnauthenticatedAlert: false,
+  }))
   .extend(withEnvironment)
   .views(self => ({
     get isDeprecatedAppVersion() {
@@ -73,12 +76,15 @@ export const RootStoreModel = types
     },
 
     signOut: flow(function * () {
-      yield self.userStore.logout()
+      self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")
+      yield self.userStore.logout()
     }),
   }))
   .actions(self => ({
     handleUnauthenticatedError() {
+      if (self.isShowUnauthenticatedAlert) return
+      self.isShowUnauthenticatedAlert = true
       Alert.alert(
         translate("UnauthenticatedAlert.title"),
         translate("UnauthenticatedAlert.message"),
