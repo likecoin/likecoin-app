@@ -31,6 +31,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
       try {
         await Promise.all([
           this.props.userStore.fetchUserInfo(),
+          this.props.userStore.fetchLikerLandUserInfo(),
           this.props.userStore.authCore.fetchCurrentUser(),
         ])
         // Restore IAP if neccessary
