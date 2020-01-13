@@ -28,6 +28,10 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
     const { url } = navState
     const { rootStore } = this.props
     if (url.includes("/following")) {
+      await Promise.all([
+        this.props.rootStore.userStore.fetchUserInfo(),
+        this.props.rootStore.userStore.fetchLikerLandUserInfo(),
+      ])
       this.props.navigation.navigate("App")
 
       // Try to open the deferred deep link URL after sign in

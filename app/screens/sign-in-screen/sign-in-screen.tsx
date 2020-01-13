@@ -122,7 +122,6 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     }
     logAnalyticsEvent('login')
     this.props.navigation.navigate('LikerLandOAuth')
-    this.props.userStore.fetchUserInfo()
   }
 
   _onPressAuthCoreButton = async () => {
