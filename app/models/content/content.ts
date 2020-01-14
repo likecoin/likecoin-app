@@ -47,7 +47,7 @@ export const ContentModel = types
     },
     get isLoading() {
       return !(self.hasCached || self.hasFetchedDetails) ||
-        self.isFetchingDetails ||
+        (!self.hasCached && self.isFetchingDetails) ||
         (self.creator && self.creator.isLoading)
     },
     get shouldFetchDetails() {
