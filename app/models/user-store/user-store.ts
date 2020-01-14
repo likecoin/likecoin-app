@@ -133,6 +133,18 @@ export const UserStoreModel = types
         }
       }
     }),
+    fetchLikerLandUserInfo: flow(function * () {
+      const result: UserResult = yield self.env.likerLandAPI.fetchCurrentUserInfo()
+      switch (result.kind) {
+        case "ok": {
+          // Refresh session only, no user update for now
+          break
+        }
+        case "unauthorized": {
+          yield self.logout()
+        }
+      }
+    }),
   }))
 
 type UserStoreType = Instance<typeof UserStoreModel>

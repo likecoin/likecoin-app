@@ -50,6 +50,33 @@ export class LikerLandAPI {
   }
 
   /**
+   * Fetch the current user info
+   */
+  async fetchCurrentUserInfo(): Promise<Types.UserResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/users/self")
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        switch (problem.kind) {
+          case "forbidden":
+          case "not-found":
+            this.config.onUnauthenticated()
+            break
+        }
+        return problem
+      }
+    }
+
+    try {
+      const data: Types.User = response.data
+      return { kind: "ok", data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
    * Fetch a list of the reader suggestion
    */
   async fetchReaderFeatured(): Promise<Types.ContentListResult> {
