@@ -174,6 +174,7 @@ export const ReaderStoreModel = types
       }
     }),
     fetchBookmarkList: flow(function * () {
+      if (self.isFetchingBookmarkList) return
       self.isFetchingBookmarkList = true
       try {
         const result: BookmarkListResult = yield self.env.likerLandAPI.fetchReaderBookmark()

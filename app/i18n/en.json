@@ -57,9 +57,10 @@
     "shouldSignInOnDesktop": "Please retry after signing in to http://like.co on desktop"
   },
   "signInScreen": {
-    "error": "Error signing in",
-    "errorAuthCore": "Error signing in with AuthCore",
-    "errorLikeCo": "Error signing in with like.co",
+    "error": "Sign In Error",
+    "errorAuthCore": "Error occurs when signing in to AuthCore",
+    "errorLikeCo": "Error occurs when signing in to like.co",
+    "errorLikerLand": "Error occurs when signing in to liker.land",
     "heading": "At Republic of Liker Land, every Like is a reward to creators",
     "signIn": "Sign In"
   },
