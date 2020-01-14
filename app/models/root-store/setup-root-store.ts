@@ -88,7 +88,7 @@ export async function setupRootStore() {
   onSnapshot(
     rootStore,
     ({
-      /* eslint-disable @typescript-eslint/no-unused-vars */
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       navigationStore,
       readerStore: {
         contents,
@@ -99,18 +99,24 @@ export async function setupRootStore() {
         bookmarkList,
       },
       ...snapshot
-      /* eslint-enable @typescript-eslint/no-unused-vars */
     }) => {
-      const bookmarkURLs = new Set(bookmarkList)
-      const [bookmarks, restContents] = partition(c => bookmarkURLs.has(c.url), Object.values(contents))
+      const toBePersistedContentURLs = new Set([
+        ...bookmarkList,
+        ...featuredList,
+        ...followedList.slice(0, 20),
+      ])
+      const [toBePersistedContents, restContents] = partition(
+        c => toBePersistedContentURLs.has(c.url),
+        Object.values(contents)
+      )
       const snContents = {}
       const snCreators = {}
       restContents
         .sort((a, b) => b.timestamp - a.timestamp)
         // Cache 1,000 contents at max and
         .slice(0, 1000)
-        // cache all bookmarks
-        .concat(bookmarks)
+        // Cache preferred contents
+        .concat(toBePersistedContents)
         .forEach(c => {
           snContents[c.url] = c
           if (creators[c.creator]) {
