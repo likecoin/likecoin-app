@@ -1,5 +1,6 @@
 import * as React from "react"
 import {
+  Alert,
   View,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
@@ -9,13 +10,14 @@ import { inject } from "mobx-react"
 import { Style } from "./likerland-oauth-screen.style"
 
 import { LikeCoinWebView } from "../../components/likecoin-webview"
+import { LoadingLikeCoin } from "../../components/loading-likecoin"
 import { Screen } from "../../components/screen"
 
 import { color } from "../../theme"
 
 import { RootStore } from "../../models/root-store"
-import { LoadingLikeCoin } from "../../components/loading-likecoin"
 
+import { translate } from "../../i18n"
 import { COMMON_API_CONFIG } from "../../services/api/api-config"
 
 export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
@@ -24,7 +26,7 @@ export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
 
 @inject("rootStore")
 export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps, {}> {
-  _onNavigationStateChange = async (navState: WebViewNavigation) => {
+  private onNavigationStateChange = async (navState: WebViewNavigation) => {
     const { url } = navState
     const { rootStore } = this.props
     if (url.includes("/following")) {
@@ -37,10 +39,27 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       // Try to open the deferred deep link URL after sign in
       rootStore.openDeepLink()
     } else if (url.includes("/in/register")) {
-      await rootStore.userStore.logout()
-      rootStore.userStore.setIsSigningIn(false)
-      this.props.navigation.goBack()
+      this.handleError()
     }
+  }
+
+  private handleError = async () => {
+    await this.props.rootStore.userStore.logout()
+    this.props.rootStore.userStore.setIsSigningIn(false)
+    this.props.navigation.goBack()
+  }
+
+  private onWebviewError = () => {
+    Alert.alert(
+      translate("signInScreen.error"),
+      translate("signInScreen.errorLikerLand"),
+      [
+        {
+          text: translate("common.back"),
+          onPress: this.handleError,
+        },
+      ]
+    )
   }
 
   render () {
@@ -58,15 +77,24 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
             style={Style.Webview}
             sharedCookiesEnabled={true}
             source={{ uri: signInURL }}
-            onNavigationStateChange={this._onNavigationStateChange}
             // TODO: remove HACK after applicationNameForUserAgent type is fixed
             {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
+            renderError={this.renderLoadingOverlay}
+            onNavigationStateChange={this.onNavigationStateChange}
+            onError={this.onWebviewError}
+            onHttpError={this.onWebviewError}
           />
-          <View style={Style.LoadingWrapper}>
-            <LoadingLikeCoin />
-          </View>
+          {this.renderLoadingOverlay()}
         </View>
       </Screen>
+    )
+  }
+
+  private renderLoadingOverlay = () => {
+    return (
+      <View style={Style.LoadingWrapper}>
+        <LoadingLikeCoin />
+      </View>
     )
   }
 }
