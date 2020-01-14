@@ -58,8 +58,11 @@ export class LikerLandAPI {
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) {
-        if (problem.kind === "forbidden") {
-          this.config.onUnauthenticated()
+        switch (problem.kind) {
+          case "forbidden":
+          case "not-found":
+            this.config.onUnauthenticated()
+            break
         }
         return problem
       }
