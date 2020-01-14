@@ -11,10 +11,10 @@ import { Screen } from "../../components/screen"
 @inject("readerStore")
 @observer
 export class BookmarkScreen extends React.Component<Props> {
-  list = React.createRef<ContentList>()
-
   componentDidMount() {
-    this.list.current.props.onRefresh()
+    if (!this.props.readerStore.hasFetchedBookmarkList) {
+      this.props.readerStore.fetchBookmarkList()
+    }
   }
 
   private onBookmarkContentItem = (url: string) => {
@@ -34,7 +34,6 @@ export class BookmarkScreen extends React.Component<Props> {
       >
         <Header headerTx="BookmarkScreen.title" />
         <ContentList
-          ref={this.list}
           data={this.props.readerStore.bookmarkList}
           creators={this.props.readerStore.creators}
           hasFetched={this.props.readerStore.hasFetchedBookmarkList}
