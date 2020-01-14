@@ -80,14 +80,12 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
       >
         <View style={Style.ROW}>
           <View style={Style.DETAIL_VIEW}>
-            {content.creator && content.creator.hasFetchedDetails &&
-              <Text
-                color="likeGreen"
-                size="default"
-                weight="600"
-                text={content.creator.displayName}
-              />
-            }
+            <Text
+              color="likeGreen"
+              size="default"
+              weight="600"
+              text={content.creator.displayName || content.creator.likerID}
+            />
             <Text
               color="grey4a"
               size="medium"
