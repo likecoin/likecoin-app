@@ -22,14 +22,11 @@
     if (self.sharedCookiesEnabled) {
       [webView.configuration.websiteDataStore.httpCookieStore getAllCookies: ^(NSArray<NSHTTPCookie *> *cookies) {
         for (NSHTTPCookie *cookie in cookies) {
-          NSLog(@"COOKIE SET %@ %@ %@ %@", cookie.domain, cookie.name, cookie.expiresDate, webView.URL.absoluteString);
-          NSLog(@"COOKIE CHECK %d %d %d", [cookie.domain isEqualToString:@"liker.land"], [cookie.name isEqualToString:@"__session"], [webView.URL.absoluteString containsString:@"/oauth/redirect"]);
           if (
             [cookie.domain isEqualToString:@"liker.land"] &&
             [cookie.name isEqualToString:@"__session"] &&
             [webView.URL.absoluteString containsString:@"/oauth/redirect"]
           ) {
-            NSLog(@"COOKIE CHANGE %@ %@ %@ %@", cookie.domain, cookie.name, cookie.expiresDate, webView.URL.absoluteString);
             NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
             [cookieProperties setObject:cookie.name forKey:NSHTTPCookieName];
             [cookieProperties setObject:cookie.value forKey:NSHTTPCookieValue];
