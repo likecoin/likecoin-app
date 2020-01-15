@@ -1,6 +1,7 @@
 import * as React from "react"
 import {
   Alert,
+  Platform,
   View,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
@@ -25,28 +26,36 @@ export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
 }
 
 @inject("rootStore")
-export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps, {}> {
-  private onNavigationStateChange = async (navState: WebViewNavigation) => {
-    const { url } = navState
-    const { rootStore } = this.props
-    if (url.includes("/following")) {
-      await Promise.all([
-        this.props.rootStore.userStore.fetchUserInfo(),
-        this.props.rootStore.userStore.fetchLikerLandUserInfo(),
-      ])
-      this.props.navigation.navigate("App")
+export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps> {
+  private handleError = async () => {
+    await this.props.rootStore.userStore.logout()
+    this.props.rootStore.userStore.setIsSigningIn(false)
+    this.props.navigation.goBack()
+  }
 
-      // Try to open the deferred deep link URL after sign in
-      rootStore.openDeepLink()
+  private handlePostSignIn = async () => {
+    await Promise.all([
+      this.props.rootStore.userStore.fetchUserInfo(),
+      this.props.rootStore.userStore.fetchLikerLandUserInfo(),
+    ])
+    this.props.navigation.navigate("App")
+
+    // Try to open the deferred deep link URL after sign in
+    this.props.rootStore.openDeepLink()
+  }
+
+  private handleURLChange = (url: string) => {
+    if (url.includes("/following")) {
+      this.handlePostSignIn()
+    } else if (Platform.OS === "android" && url.includes("/oauth/redirect")) {
+      setTimeout(this.handlePostSignIn, 2000)
     } else if (url.includes("/in/register")) {
       this.handleError()
     }
   }
 
-  private handleError = async () => {
-    await this.props.rootStore.userStore.logout()
-    this.props.rootStore.userStore.setIsSigningIn(false)
-    this.props.navigation.goBack()
+  private onNavigationStateChange = ({ url }: WebViewNavigation) => {
+    this.handleURLChange(url)
   }
 
   private onWebviewError = () => {
