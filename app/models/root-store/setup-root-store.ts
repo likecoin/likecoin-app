@@ -100,11 +100,11 @@ export async function setupRootStore() {
       },
       ...snapshot
     }) => {
-      const toBePersistedContentURLs = new Set([
-        ...bookmarkList,
-        ...featuredList,
-        ...followedList.slice(0, 20),
-      ])
+      const toBePersistedContentURLs = new Set([].concat(
+        bookmarkList,
+        featuredList,
+        followedList.slice(0, 20)
+      ))
       const [toBePersistedContents, restContents] = partition(
         c => toBePersistedContentURLs.has(c.url),
         Object.values(contents)
