@@ -59,7 +59,7 @@ const IDENTITY = StyleSheet.create({
     flexBasis: "100%",
   },
 })
-const DELEGATION = StyleSheet.create({
+const STAKING = StyleSheet.create({
   CONTAINER: {
     alignItems: "center",
   } as ViewStyle,
@@ -111,14 +111,14 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     this.props.navigation.goBack()
   }
 
-  private onPressStakeButton = () => {
+  private onPressDelegateButton = () => {
     logAnalyticsEvent('ValidatorClickDelegate')
     this.props.navigation.navigate("StakingDelegation", {
       target: this.getValidator().operatorAddress,
     })
   }
 
-  private onPressUnstakeButton = () => {
+  private onPressUndelegateButton = () => {
     logAnalyticsEvent('ValidatorClickUndelegate')
     this.props.navigation.navigate("StakingUnbondingDelegation", {
       target: this.getValidator().operatorAddress,
@@ -278,19 +278,19 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             isPaddingLess
           />
         }
-        <View style={DELEGATION.CONTAINER}>
+        <View style={STAKING.CONTAINER}>
           <ButtonGroup
             buttons={[
               {
-                key: "stake",
-                tx: "validatorScreen.stakeButtonText",
-                onPress: this.onPressStakeButton,
+                key: "delegate",
+                tx: "validatorScreen.delegateButtonText",
+                onPress: this.onPressDelegateButton,
               },
               {
-                key: "unstake",
-                tx: "validatorScreen.unstakeButtonText",
+                key: "undelegate",
+                tx: "validatorScreen.undelegateButtonText",
                 disabled: !delegation.hasDelegated,
-                onPress: this.onPressUnstakeButton,
+                onPress: this.onPressUndelegateButton,
               },
             ]}
           />

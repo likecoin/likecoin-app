@@ -136,8 +136,8 @@
     "delegatorShareLabel": "Delegated",
     "delegatorUnbondingShareLabel": "Unbonding",
     "delegatorRewardsLabel": "Delegating Rewards",
-    "stakeButtonText": "Delegate",
-    "unstakeButtonText": "Undelegate",
+    "delegateButtonText": "Delegate",
+    "undelegateButtonText": "Undelegate",
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"
   },

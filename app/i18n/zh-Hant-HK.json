@@ -138,8 +138,8 @@
     "delegatorShareLabel": "委託中",
     "delegatorUnbondingShareLabel": "解綁中",
     "delegatorRewardsLabel": "未領取收益",
-    "stakeButtonText": "委託",
-    "unstakeButtonText": "取回委託",
+    "delegateButtonText": "委託",
+    "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"
   },
