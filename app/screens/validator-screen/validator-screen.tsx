@@ -8,6 +8,7 @@ import {
   View,
   ViewStyle,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native"
 import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import { inject, observer } from "mobx-react"
@@ -137,6 +138,14 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
           style={SCREEN}
           backgroundColor={color.transparent}
           preset="scroll"
+          refreshControl={
+            <RefreshControl
+              tintColor={color.palette.lighterCyan}
+              colors={[color.primary]}
+              refreshing={validator.isFetchingInfo}
+              onRefresh={validator.fetchInfo}
+            />
+          }
         >
           <View style={CONTENT_CONTAINER}>
             {this.renderIdentitySection()}

@@ -34,6 +34,13 @@ export class CosmosAPI {
   }
 
   /**
+   * Get a validator by address
+   */
+  async queryValidator(address: string) {
+    return this.api.get.validator(address) as CosmosValidator
+  }
+
+  /**
    * Get the account balance for LikeCoin
    *
    * @param address The account address

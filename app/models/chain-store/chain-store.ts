@@ -8,7 +8,11 @@ import BigNumber from "bignumber.js"
 
 import { withEnvironment } from "../extensions"
 import { BigNumberPrimitive } from "../number"
-import { ValidatorModel, Validator } from "../validator"
+import {
+  parseValidatorResult,
+  ValidatorModel,
+  Validator,
+} from "../validator"
 import { WalletModel } from "../wallet"
 import {
   CosmosDelegation,
@@ -203,46 +207,13 @@ export const ChainStoreModel = types
       try {
         const rawValidators: CosmosValidator[] = yield self.env.cosmosAPI.getValidators()
         rawValidators.forEach((rawValidator) => {
-          const {
-            operator_address: operatorAddress,
-            consensus_pubkey: consensusPublicKey,
-            delegator_shares: totalDelegatorShares,
-            jailed: isJailed,
-            description,
-            unbonding_height: unbondingHeight,
-            unbonding_time: unbondingTime,
-            commission: {
-              commission_rates: {
-                rate: commissionRate,
-                max_rate: maxCommissionRate,
-                max_change_rate: maxCommissionChangeRate,
-              },
-              update_time: commissionUpdateTime,
-            },
-            min_self_delegation: minSelfDelegation,
-            ...rest
-          } = rawValidator
-          const updatedValidator = ValidatorModel.create({
-            operatorAddress,
-            consensusPublicKey,
-            totalDelegatorShares,
-            isJailed,
-            ...description,
-            unbondingHeight,
-            unbondingTime,
-            commissionRate,
-            maxCommissionRate,
-            maxCommissionChangeRate,
-            commissionUpdateTime,
-            minSelfDelegation,
-            ...rest
-          }, self.env)
-          let validator = self.validators.get(updatedValidator.operatorAddress)
+          let validator = self.validators.get(rawValidator.operator_address)
           if (!validator) {
-            self.validators.put(updatedValidator)
-            validator = updatedValidator
+            validator = ValidatorModel.create(parseValidatorResult(rawValidator), self.env)
+            self.validators.put(validator)
+          } else {
+            validator.update(rawValidator)
           }
-          validator.update(updatedValidator)
           validator.fetchAvatarURL()
         })
       } catch (error) {
