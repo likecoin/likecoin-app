@@ -6,6 +6,10 @@ import {
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { WebViewNavigation } from 'react-native-webview'
+import {
+  WebViewErrorEvent,
+  WebViewHttpErrorEvent,
+} from "react-native-webview/lib/WebViewTypes"
 import { inject } from "mobx-react"
 
 import { Style } from "./likerland-oauth-screen.style"
@@ -20,6 +24,7 @@ import { RootStore } from "../../models/root-store"
 
 import { translate } from "../../i18n"
 import { COMMON_API_CONFIG } from "../../services/api/api-config"
+import { logError } from "../../utils/error"
 
 export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
   rootStore: RootStore,
@@ -51,6 +56,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       setTimeout(this.handlePostSignIn, 2000)
     } else if (url.includes("/in/register")) {
       this.handleError()
+      logError("Error when signing in to liker.land, like.co shows register page")
     }
   }
 
@@ -69,6 +75,18 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
         },
       ]
     )
+  }
+
+  private onError = (event: WebViewErrorEvent) => {
+    this.onWebviewError()
+    const { code, description, url } = event.nativeEvent
+    logError(`Error occurs inside webview when signing in to liker.land ${JSON.stringify({ code, description, url })}`)
+  }
+
+  private onHttpError = (event: WebViewHttpErrorEvent) => {
+    this.onWebviewError()
+    const { description, statusCode, url } = event.nativeEvent
+    logError(`HTTP error occurs inside webview when signing in to liker.land ${JSON.stringify({ description, statusCode, url })}`)
   }
 
   render () {
@@ -90,8 +108,8 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
             {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
             renderError={this.renderLoadingOverlay}
             onNavigationStateChange={this.onNavigationStateChange}
-            onError={this.onWebviewError}
-            onHttpError={this.onWebviewError}
+            onError={this.onError}
+            onHttpError={this.onHttpError}
           />
           {this.renderLoadingOverlay()}
         </View>
