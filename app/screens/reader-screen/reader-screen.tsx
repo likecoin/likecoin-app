@@ -10,6 +10,8 @@ import { color } from "../../theme"
 import { ReaderStore } from "../../models/reader-store"
 import { ContentList } from "../../components/content-list"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
   ...FULL,
@@ -27,11 +29,18 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
 
   componentDidMount() {
     this.list.current.props.onRefresh()
+    this.props.readerStore.fetchBookmarkList()
   }
 
-  private onPressContentItem = (id: string) => {
-    const content = this.props.readerStore.contents.get(id)
+  private onPressContentItem = (url: string) => {
+    const content = this.props.readerStore.contents.get(url)
+    logAnalyticsEvent('select_content', { contentType: 'content', itemId: url })
+    logAnalyticsEvent('OpenArticle', { url })
     this.props.navigation.navigate('ContentView', { content })
+  }
+
+  private onBookmarkContentItem = (url: string) => {
+    this.props.readerStore.toggleBookmark(url)
   }
 
   render() {
@@ -59,6 +68,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
             hasFetched={this.props.readerStore.hasFetchedFeaturedList}
             lastFetched={this.props.readerStore.featuredListLastFetchedDate.getTime()}
             isLoading={this.props.readerStore.isFetchingFeaturedList}
+            onBookmarkItem={this.onBookmarkContentItem}
             onPressItem={this.onPressContentItem}
             onRefresh={this.props.readerStore.fetchFeaturedList}
           />
@@ -77,6 +87,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
             hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
             lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
             onFetchMore={this.props.readerStore.fetchMoreFollowedList}
+            onBookmarkItem={this.onBookmarkContentItem}
             onPressItem={this.onPressContentItem}
             onRefresh={this.props.readerStore.fetchFollowedList}
           />

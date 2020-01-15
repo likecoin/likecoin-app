@@ -1,8 +1,6 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
 import {
-  ActivityIndicator,
-  Image,
   ImageStyle,
   StyleSheet,
   TextStyle,
@@ -12,6 +10,7 @@ import {
 import { NavigationScreenProps } from "react-navigation"
 
 import { AppVersionLabel } from "../../components/app-version-label"
+import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
@@ -21,6 +20,8 @@ import { color, spacing } from "../../theme"
 
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
+
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 import * as Intercom from "../../utils/intercom"
 
@@ -34,10 +35,6 @@ const USER_INFO: ViewStyle = {
   padding: spacing[2],
 }
 const AVATAR: ImageStyle = {
-  overflow: "hidden",
-  width: 64,
-  height: 64,
-  borderRadius: 32,
   marginBottom: spacing[3],
 }
 const LOGOUT: ViewStyle = {
@@ -47,11 +44,6 @@ const LOGOUT: ViewStyle = {
 }
 const VERSION: TextStyle = {
   marginTop: spacing[4]
-}
-const LOADING_VIEW: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
 }
 const TABLE_CELL_BASE: ViewStyle = {
   justifyContent: "flex-start",
@@ -94,9 +86,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onClickLogout = async () => {
-    await this.props.userStore.logout()
     this.props.readerStore.clearAllLists()
+    this.props.userStore.logout()
     this.props.navigation.navigate("Auth")
+    logAnalyticsEvent('SignOut')
   }
 
   private onPressContactUs = () => {
@@ -116,7 +109,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         backgroundColor={color.primary}
       >
         <Header headerTx="settingsScreen.title" />
-        {currentUser ? (
+        {!!currentUser &&
           <Screen
             style={CONTENT_VIEW}
             preset="scroll"
@@ -124,9 +117,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             unsafe
           >
             <View style={USER_INFO}>
-              <Image
+              <Avatar
+                src={currentUser.avatarURL}
+                isCivicLiker={currentUser.isCivicLiker}
                 style={AVATAR}
-                source={{ uri: currentUser.avatarURL }}
               />
               <Text
                 color="likeGreen"
@@ -181,14 +175,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             />
             <AppVersionLabel style={VERSION} />
           </Screen>
-        ) : (
-          <View style={LOADING_VIEW}>
-            <ActivityIndicator
-              color={color.primary}
-              size="large"
-            />
-          </View>
-        )}
+        }
       </Screen>
     )
   }

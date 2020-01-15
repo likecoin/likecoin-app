@@ -50,10 +50,37 @@ export class LikerLandAPI {
   }
 
   /**
+   * Fetch the current user info
+   */
+  async fetchCurrentUserInfo(): Promise<Types.UserResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/users/self")
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        switch (problem.kind) {
+          case "forbidden":
+          case "not-found":
+            this.config.onUnauthenticated()
+            break
+        }
+        return problem
+      }
+    }
+
+    try {
+      const data: Types.User = response.data
+      return { kind: "ok", data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
    * Fetch a list of the reader suggestion
    */
   async fetchReaderFeatured(): Promise<Types.ContentListResult> {
-    const response: ApiResponse<any> = await this.apisauce.get('/reader/works/suggest')
+    const response: ApiResponse<any> = await this.apisauce.get("/reader/works/suggest")
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -72,11 +99,16 @@ export class LikerLandAPI {
    * Fetch a list of content from followed authors
    */
   async fetchReaderFollowing({ before }: { before?: number } = {}): Promise<Types.ContentListResult> {
-    const response: ApiResponse<any> = await this.apisauce.get('/reader/works/followed', { before })
+    const response: ApiResponse<any> = await this.apisauce.get("/reader/works/followed", { before })
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
-      if (problem) return problem
+      if (problem) {
+        if (problem.kind === "forbidden") {
+          this.config.onUnauthenticated()
+        }
+        return problem
+      }
     }
 
     try {
@@ -85,5 +117,57 @@ export class LikerLandAPI {
     } catch {
       return { kind: "bad-data" }
     }
+  }
+
+  /**
+   * Fetch a list of bookmarked content
+   */
+  async fetchReaderBookmark(): Promise<Types.BookmarkListResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/reader/bookmark")
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        if (problem.kind === "forbidden") {
+          this.config.onUnauthenticated()
+        }
+        return problem
+      }
+    }
+
+    try {
+      const data: string[] = response.data.bookmarks
+      return { kind: "ok", data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
+   * Bookmark a content
+   */
+  async addBookmark(url: string): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post("/reader/bookmark", null, { params: { url } })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
+
+  /**
+   * Remove a bookmarked content
+   */
+  async removeBookmark(url: string): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.delete("/reader/bookmark", null, { params: { url } })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
   }
 }

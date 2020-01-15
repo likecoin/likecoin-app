@@ -8,6 +8,8 @@ import { StakingDelegationStore } from "../../models/staking-delegation-store"
 import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import Graph from "../../assets/graph/staking-delegate.svg"
 
 export interface StakingDelegationAmountInputScreenParams {
@@ -60,7 +62,9 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
   }
 
   private onPressNextButton = async () => {
+    logAnalyticsEvent('StakeDelegateConfirmAmount')
     if (await this.createTransactionForSigning()) {
+      logAnalyticsEvent('StakeDelegatePrepareTx')
       this.props.navigation.navigate("StakingDelegationSigning")
     }
   }

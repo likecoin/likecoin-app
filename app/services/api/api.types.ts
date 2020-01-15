@@ -7,6 +7,7 @@ export interface User {
   avatar?: string
   intercomToken?: string
   cosmosWallet?: string
+  isSubscribedCivicLiker?: boolean
 }
 
 export interface Content {
@@ -45,3 +46,4 @@ export type ContentResult = { kind: "ok"; data: Content } | GeneralApiProblem
 export type LikeStatResult = { kind: "ok"; data: LikeStat } | GeneralApiProblem
 
 export type ContentListResult = { kind: "ok"; data: Content[] } | GeneralApiProblem
+export type BookmarkListResult = { kind: "ok"; data: string[] } | GeneralApiProblem

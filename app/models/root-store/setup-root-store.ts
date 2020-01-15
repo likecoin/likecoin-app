@@ -1,4 +1,5 @@
 import { onSnapshot } from "mobx-state-tree"
+import { partition } from "ramda"
 
 import { Environment } from "../environment"
 import { RootStoreModel, RootStore } from "./root-store"
@@ -44,8 +45,10 @@ function createRootStore(env: Environment, data: any = {}) {
     throw new Error("CHAIN_HAS_CHANGED")
   }
   const rootStore = RootStoreModel.create(data, env)
-  env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
-  env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
+  env.authCoreAPI.callbacks.unauthenticated = rootStore.handleUnauthenticatedError
+  env.authCoreAPI.callbacks.unauthorized = rootStore.handleUnauthenticatedError
+  env.likeCoAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
+  env.likerLandAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
   return rootStore
 }
 
@@ -85,30 +88,51 @@ export async function setupRootStore() {
   onSnapshot(
     rootStore,
     ({
-      /* eslint-disable @typescript-eslint/no-unused-vars */
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       navigationStore,
       readerStore: {
         contents,
+        creators,
         featuredListLastFetchedDate,
         featuredList, // Never cache
         followedList, // Never cache
+        bookmarkList,
       },
       ...snapshot
-      /* eslint-enable @typescript-eslint/no-unused-vars */
-    }) => storage.save(ROOT_STATE_STORAGE_KEY, {
-      ...snapshot,
-      readerStore: {
-        contents: Object
-          .values(contents)
-          .sort((a, b) => b.timestamp - a.timestamp)
-          .slice(0, 1000) // Cache 1,000 contents at max
-          .reduce((acc, c) => {
-            acc[c.url] = c
-            return acc
-          }, {}),
-        featuredListLastFetchedDate,
-      }
-    })
+    }) => {
+      const toBePersistedContentURLs = new Set([
+        ...bookmarkList,
+        ...featuredList,
+        ...followedList.slice(0, 20),
+      ])
+      const [toBePersistedContents, restContents] = partition(
+        c => toBePersistedContentURLs.has(c.url),
+        Object.values(contents)
+      )
+      const snContents = {}
+      const snCreators = {}
+      restContents
+        .sort((a, b) => b.timestamp - a.timestamp)
+        // Cache 1,000 contents at max and
+        .slice(0, 1000)
+        // Cache preferred contents
+        .concat(toBePersistedContents)
+        .forEach(c => {
+          snContents[c.url] = c
+          if (creators[c.creator]) {
+            snCreators[c.creator] = creators[c.creator]
+          }
+        })
+      return storage.save(ROOT_STATE_STORAGE_KEY, {
+        ...snapshot,
+        readerStore: {
+          contents: snContents,
+          creators: snCreators,
+          featuredListLastFetchedDate,
+          bookmarkList,
+        }
+      })
+    }
   )
 
   return rootStore

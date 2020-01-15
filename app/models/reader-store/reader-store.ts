@@ -9,7 +9,12 @@ import { ContentModel } from "../content"
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
 
-import { ContentListResult, Content as ContentResultData } from "../../services/api/api.types"
+import {
+  BookmarkListResult,
+  ContentListResult,
+  Content as ContentResultData,
+  GeneralResult,
+} from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
@@ -25,6 +30,7 @@ export const ReaderStoreModel = types
     featuredList: ContentList,
     featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
+    bookmarkList: ContentList,
   })
   .volatile(() => ({
     isFetchingFeaturedList: false,
@@ -35,6 +41,8 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
+    isFetchingBookmarkList: false,
+    hasFetchedBookmarkList: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -163,6 +171,53 @@ export const ReaderStoreModel = types
         logError(error.message)
       } finally {
         self.isFetchingMoreFollowedList = false
+      }
+    }),
+    fetchBookmarkList: flow(function * () {
+      if (self.isFetchingBookmarkList) return
+      self.isFetchingBookmarkList = true
+      try {
+        const result: BookmarkListResult = yield self.env.likerLandAPI.fetchReaderBookmark()
+        switch (result.kind) {
+          case "ok":
+            self.bookmarkList.replace([])
+            result.data.reverse().forEach(url => {
+              const bookmark = self.parseContentResult({ url })
+              bookmark.isBookmarked = true
+              self.bookmarkList.push(bookmark)
+            })
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        self.isFetchingBookmarkList = false
+        self.hasFetchedBookmarkList = true
+      }
+    }),
+    toggleBookmark: flow(function * (url: string) {
+      const content = self.contents.get(url)
+      if (!content) return
+      const prevIsBookmarked = content.isBookmarked
+      const prevBookmarkList = self.bookmarkList
+      content.isBookmarked = !content.isBookmarked
+      try {
+        if (content.isBookmarked) {
+          self.bookmarkList.splice(0, 0, content)
+          const result: GeneralResult = yield self.env.likerLandAPI.addBookmark(content.url)
+          if (result.kind !== "ok") {
+            throw new Error("READER_BOOKMARK_ADD_FAILED")
+          }
+        } else {
+          self.bookmarkList.remove(content)
+          const result: GeneralResult = yield self.env.likerLandAPI.removeBookmark(content.url)
+          if (result.kind !== "ok") {
+            throw new Error("READER_BOOKMARK_REMOVE_FAILED")
+          }
+        }
+      } catch (error) {
+        logError(error.message)
+        content.isBookmarked = prevIsBookmarked
+        self.bookmarkList.replace(prevBookmarkList)
       }
     }),
   }))

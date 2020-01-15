@@ -21,6 +21,8 @@ import { Text } from "../../components/text"
 
 import { color, spacing } from "../../theme"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 export interface ReceiveScreenProps extends NavigationScreenProps<{}> {
   wallet: Wallet,
 }
@@ -76,12 +78,14 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
 
   private onPressShareButton = () => {
     const { address: message } = this.props.wallet
+    logAnalyticsEvent('share', { contentType: 'wallet', itemId: message })
     Share.share({ message })
   }
 
   private onPressCopyButton = () => {
     const { address: message } = this.props.wallet
     Clipboard.setString(message)
+    logAnalyticsEvent('share', { contentType: 'wallet_copy', itemId: message })
     this.setState({ isCopied: true })
   }
 

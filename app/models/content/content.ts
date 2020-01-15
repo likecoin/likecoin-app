@@ -36,14 +36,18 @@ export const ContentModel = types
   .volatile(() => ({
     hasFetchedDetails: false,
     hasFetchedLikeStats: false,
+    isBookmarked: false,
     isFetchingDetails: false,
     isFetchingLikeStats: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
+    get coverImageURL() {
+      return self.imageURL ? encodeURI(decodeURI(self.imageURL)) : undefined
+    },
     get isLoading() {
       return !(self.hasCached || self.hasFetchedDetails) ||
-        self.isFetchingDetails ||
+        (!self.hasCached && self.isFetchingDetails) ||
         (self.creator && self.creator.isLoading)
     },
     get shouldFetchDetails() {

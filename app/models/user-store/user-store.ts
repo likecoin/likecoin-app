@@ -10,9 +10,10 @@ import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
-import * as Intercom from "../../utils/intercom"
-import { setSentryUser } from "../../utils/sentry"
-import { setCrashlyticsUserId } from "../../utils/firebase"
+import {
+  updateAnalyticsUser,
+  logoutAnalyticsUser,
+} from '../../utils/analytics'
 
 import {
   GeneralResult,
@@ -35,6 +36,7 @@ export const UserStoreModel = types
   })
   .volatile(() => ({
     isSigningIn: false,
+    isSigningOut: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -76,13 +78,18 @@ export const UserStoreModel = types
       }
     }),
     logout: flow(function * () {
+      self.isSigningOut = true
       self.currentUser = undefined
-      self.iapStore.clear()
-      yield Promise.all([
-        self.env.likeCoAPI.logout(),
-        self.authCore.signOut(),
-      ])
-      Intercom.logout()
+      try {
+        self.iapStore.clear()
+        yield Promise.all([
+          self.env.likeCoAPI.logout(),
+          self.authCore.signOut(),
+        ])
+        yield logoutAnalyticsUser()
+      } finally {
+        self.isSigningOut = false
+      }
     }),
   }))
   .actions(self => ({
@@ -96,34 +103,41 @@ export const UserStoreModel = types
             email,
             avatar: avatarURL,
             intercomToken,
+            isSubscribedCivicLiker: isCivicLiker,
           } = result.data
           self.currentUser = UserModel.create({
             likerID,
             displayName,
             email,
             avatarURL,
+            isCivicLiker,
           })
-          Intercom.registerIdentifiedUser(likerID, intercomToken)
-          const factors: any[] = yield self.env.authCoreAPI.getOAuthFactors()
-          const services = factors.map(f => f.service)
-          /* eslint-disable @typescript-eslint/camelcase */
-          const opt = services.reduce((accumOpt, service) => {
-            if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
-            return accumOpt
-          }, { binded_authcore: true })
-          Intercom.updateUser({
-            name: displayName,
-            email,
-            custom_attributes: {
-              has_liker_land_app: true,
-              cosmos_wallet: self.authCore.primaryCosmosAddress,
-              ...opt,
-            }
-          })
+          const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
+          const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
-          setSentryUser({ id: authCoreUserId })
-          yield setCrashlyticsUserId(authCoreUserId)
-          /* eslint-enable @typescript-eslint/camelcase */
+          /* do not block user logic with analytics */
+          updateAnalyticsUser({
+            likerID,
+            displayName,
+            email,
+            intercomToken,
+            oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
+            cosmosWallet,
+            authCoreUserId,
+            userPIISalt,
+          })
+          break
+        }
+        case "unauthorized": {
+          yield self.logout()
+        }
+      }
+    }),
+    fetchLikerLandUserInfo: flow(function * () {
+      const result: UserResult = yield self.env.likerLandAPI.fetchCurrentUserInfo()
+      switch (result.kind) {
+        case "ok": {
+          // Refresh session only, no user update for now
           break
         }
         case "unauthorized": {

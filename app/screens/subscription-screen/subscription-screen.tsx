@@ -24,6 +24,8 @@ import { sizes } from "../../components/text/text.sizes"
 
 import { color, spacing, gradient } from "../../theme"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 import { UserStore } from "../../models/user-store"
 import { translate } from "../../i18n"
 import { Icon } from "react-native-ui-kitten"
@@ -122,6 +124,7 @@ export class SubscriptionScreen extends React.Component<SubscriptionScreenProps,
   }
 
   private onPressRestorePurchasesButton = () => {
+    logAnalyticsEvent('SubscriptionRestoreClick')
     this.props.userStore.iapStore.restorePurchases()
   }
 

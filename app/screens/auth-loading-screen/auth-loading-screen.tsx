@@ -1,17 +1,9 @@
 import * as React from "react"
-import { ActivityIndicator, ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { Screen } from "../../components/screen"
-import { color } from "../../theme"
+import { LoadingScreen } from "../../components/loading-screen"
 import { UserStore } from "../../models/user-store"
-
-const SCREEN: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-}
 
 export interface AuthLoadingScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -39,6 +31,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
       try {
         await Promise.all([
           this.props.userStore.fetchUserInfo(),
+          this.props.userStore.fetchLikerLandUserInfo(),
           this.props.userStore.authCore.fetchCurrentUser(),
         ])
         // Restore IAP if neccessary
@@ -56,16 +49,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
 
   render() {
     return (
-      <Screen
-        style={SCREEN}
-        preset="fixed"
-        backgroundColor={color.primary}
-      >
-        <ActivityIndicator
-          color={color.palette.white}
-          size="large"
-        />
-      </Screen>
+      <LoadingScreen />
     )
   }
 }

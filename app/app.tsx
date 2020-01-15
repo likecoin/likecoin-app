@@ -17,8 +17,7 @@ import { BackButtonHandler } from "./navigation/back-button-handler"
 import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
 import { RootStore, setupRootStore } from "./models/root-store"
 import { logError } from "./utils/error"
-import { Screen } from "./components/screen"
-import { color } from "./theme"
+import { LoadingScreen } from "./components/loading-screen"
 import { StorybookUIRoot } from "../storybook"
 
 /**
@@ -117,7 +116,7 @@ export class App extends React.Component<{}, AppState> {
     // You're welcome to swap in your own component to render if your boot up
     // sequence is too slow though.
     if (!rootStore || this.state.rootStore.isDeprecatedAppVersion) {
-      return <Screen backgroundColor={color.primary} />
+      return <LoadingScreen />
     }
 
     // otherwise, we're ready to render the app

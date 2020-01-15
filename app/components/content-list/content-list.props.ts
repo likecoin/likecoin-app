@@ -1,3 +1,5 @@
+import { ViewStyle } from "react-native"
+
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 
@@ -5,14 +7,22 @@ export interface ContentListProps {
   data: Content[]
   creators: Map<string, Creator>
 
-  titleLabelTx: string
+  titleLabelTx?: string
   isLoading?: boolean
   isFetchingMore?: boolean
   hasFetched?: boolean
   hasFetchedAll?: boolean
   lastFetched?: number
 
-  onPressItem?: Function
+  /**
+   * Set to false to hide bookmark icons. Default is true.
+   */
+  isShowBookmarkIcon?: boolean
+
+  onPressItem?: (url: string) => void
+  onBookmarkItem?: (url: string) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
+
+  style?: ViewStyle
 }

@@ -4,12 +4,13 @@ import {
   SnapshotOut,
 } from "mobx-state-tree"
 
-import { createTxStore } from "../tx-store"
+import { TxStoreModel } from "../tx-store"
 
 /**
  * Staking unbonding delegation store
  */
-export const StakingUnbondingDelegationStoreModel = createTxStore("StakingUnbondingDelegationStore")
+export const StakingUnbondingDelegationStoreModel = TxStoreModel
+  .named("StakingUnbondingDelegationStore")
   .actions(self => ({
     createUnbondingDelegateTx: flow(function * (fromAddress: string) {
       yield self.createTx(self.env.cosmosAPI.createUnbondingDelegateMessage(

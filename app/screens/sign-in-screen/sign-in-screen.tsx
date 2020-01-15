@@ -4,6 +4,7 @@ import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { logError } from "../../utils/error"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { UserLoginParams } from "../../services/api"
 
@@ -11,14 +12,15 @@ import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { UserStore } from "../../models/user-store"
 
+import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
+import { LoadingScreen } from "../../components/loading-screen"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 import { Wallpaper } from "../../components/wallpaper"
 
 import { color, spacing } from "../../theme"
 import { translate } from "../../i18n"
-import { AppVersionLabel } from "../../components/app-version-label"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -101,26 +103,31 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
   _signIn = async (params: UserLoginParams) => {
     try {
+      logAnalyticsEvent('AuthCoreSignInSuccess')
+      logAnalyticsEvent('OAuthSuccess')
       await this.props.userStore.login(params)
     } catch (error) {
       switch (error.message) {
         case 'USER_NOT_FOUND':
+          logAnalyticsEvent('ShowRegisterForm')
           this.props.navigation.navigate("Register", { params })
           return
 
         default:
           logError(`Error occurs when signing in with like.co: ${error}`)
           Alert.alert(translate("signInScreen.errorLikeCo"), `${error}`)
+          logAnalyticsEvent('LoginFail')
           return
       }
     }
+    logAnalyticsEvent('login')
     this.props.navigation.navigate('LikerLandOAuth')
-    this.props.userStore.fetchUserInfo()
   }
 
   _onPressAuthCoreButton = async () => {
     try {
       this.props.userStore.setIsSigningIn(true)
+      logAnalyticsEvent('AuthCoreSignInTry')
       await this._signInWithAuthCore()
     } catch (error) {
       logError(`Error occurs when signing in: ${error}`)
@@ -133,10 +140,16 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
   render() {
     const {
       isSigningIn,
+      isSigningOut,
       authCore: {
         hasSignedIn: hasSignedInToAuthcore,
       },
     } = this.props.userStore
+
+    if (isSigningOut) {
+      return <LoadingScreen />
+    }
+
     return (
       <View style={FULL}>
         <Wallpaper />

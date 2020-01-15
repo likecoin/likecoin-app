@@ -59,6 +59,9 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
 
+# react-native-keychain
+-keep class com.facebook.crypto.** { *; }
+
 # react-native-config
 -keep class com.mypackage.BuildConfig { *; }
 

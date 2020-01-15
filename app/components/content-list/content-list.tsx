@@ -65,7 +65,7 @@ export class ContentList extends React.Component<ContentListProps> {
         initialNumToRender={8}
         maxToRenderPerBatch={10}
         ListEmptyComponent={this.renderEmpty}
-        ListHeaderComponent={(
+        ListHeaderComponent={this.props.titleLabelTx ? (
           <Text
             tx={this.props.titleLabelTx}
             color="likeGreen"
@@ -73,10 +73,10 @@ export class ContentList extends React.Component<ContentListProps> {
             weight="600"
             style={HEADER}
           />
-        )}
+        ) : null}
         ListFooterComponent={this.renderFooter}
         contentContainerStyle={this.props.data.length > 0 ? null : FULL}
-        style={FULL}
+        style={[FULL, this.props.style]}
         onEndReached={this.onEndReach}
       />
     )
@@ -85,6 +85,8 @@ export class ContentList extends React.Component<ContentListProps> {
   private renderContent: ListRenderItem<Content> = ({ item: content }) => (
     <ContentListItem
       content={content}
+      isShowBookmarkIcon={this.props.isShowBookmarkIcon}
+      onBookmark={this.props.onBookmarkItem}
       onPress={this.props.onPressItem}
     />
   )
