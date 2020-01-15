@@ -1,10 +1,18 @@
-import { Instance, SnapshotOut, flow, getEnv, types } from "mobx-state-tree"
-import { observable } from "mobx"
+import {
+  flow,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
 
-import { Environment } from "../environment"
+import { withEnvironment } from "../extensions"
 import { UserModel } from "../user"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
+
+import * as Intercom from "../../utils/intercom"
+import { setSentryUser } from "../../utils/sentry"
+import { setCrashlyticsUserId } from "../../utils/firebase"
 
 import {
   GeneralResult,
@@ -25,17 +33,21 @@ export const UserStoreModel = types
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
   })
-  .extend(self => {
-    const env: Environment = getEnv(self)
-
-    const isSigningIn = observable.box(false)
-
-    const setIsSigningIn = (value: boolean) => {
-      isSigningIn.set(value)
-    }
-
-    const register = flow(function * (params: UserRegisterParams) {
-      const result: GeneralResult = yield env.likeCoAPI.register(params)
+  .volatile(() => ({
+    isSigningIn: false,
+  }))
+  .extend(withEnvironment)
+  .views(self => ({
+    get signInURL() {
+      return self.env.likerLandAPI.getSignInURL()
+    },
+  }))
+  .actions(self => ({
+    setIsSigningIn(value: boolean) {
+      self.isSigningIn = value
+    },
+    register: flow(function * (params: UserRegisterParams) {
+      const result: GeneralResult = yield self.env.likeCoAPI.register(params)
       switch (result.kind) {
         case "ok":
           break
@@ -51,10 +63,9 @@ export const UserStoreModel = types
         default:
           throwProblem(result)
       }
-    })
-
-    const login = flow(function * (params: UserLoginParams) {
-      const result: GeneralResult = yield env.likeCoAPI.login(params)
+    }),
+    login: flow(function * (params: UserLoginParams) {
+      const result: GeneralResult = yield self.env.likeCoAPI.login(params)
       switch (result.kind) {
         case "ok":
           break
@@ -63,19 +74,20 @@ export const UserStoreModel = types
         default:
           throwProblem(result)
       }
-    })
-
-    const logout = flow(function * () {
+    }),
+    logout: flow(function * () {
       self.currentUser = undefined
       self.iapStore.clear()
       yield Promise.all([
-        env.likeCoAPI.logout(),
+        self.env.likeCoAPI.logout(),
         self.authCore.signOut(),
       ])
-    })
-
-    const fetchUserInfo = flow(function * () {
-      const result: UserResult = yield env.likeCoAPI.fetchCurrentUserInfo()
+      Intercom.logout()
+    }),
+  }))
+  .actions(self => ({
+    fetchUserInfo: flow(function * () {
+      const result: UserResult = yield self.env.likeCoAPI.fetchCurrentUserInfo()
       switch (result.kind) {
         case "ok": {
           const {
@@ -83,6 +95,7 @@ export const UserStoreModel = types
             displayName,
             email,
             avatar: avatarURL,
+            intercomToken,
           } = result.data
           self.currentUser = UserModel.create({
             likerID,
@@ -90,35 +103,35 @@ export const UserStoreModel = types
             email,
             avatarURL,
           })
+          Intercom.registerIdentifiedUser(likerID, intercomToken)
+          const factors: any[] = yield self.env.authCoreAPI.getOAuthFactors()
+          const services = factors.map(f => f.service)
+          /* eslint-disable @typescript-eslint/camelcase */
+          const opt = services.reduce((accumOpt, service) => {
+            if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
+            return accumOpt
+          }, { binded_authcore: true })
+          Intercom.updateUser({
+            name: displayName,
+            email,
+            custom_attributes: {
+              has_liker_land_app: true,
+              cosmos_wallet: self.authCore.primaryCosmosAddress,
+              ...opt,
+            }
+          })
+          const authCoreUserId = self.authCore.profile.id
+          setSentryUser({ id: authCoreUserId })
+          yield setCrashlyticsUserId(authCoreUserId)
+          /* eslint-enable @typescript-eslint/camelcase */
           break
         }
         case "unauthorized": {
-          yield logout()
+          yield self.logout()
         }
       }
-    })
-
-    return {
-      actions: {
-        setIsSigningIn,
-        register,
-        login,
-        logout,
-        fetchUserInfo,
-      },
-      views: {
-        get isSigningIn() {
-          return isSigningIn.get()
-        },
-        get signInURL() {
-          return env.likerLandAPI.getSignInURL()
-        },
-        get selectedWalletAddress() {
-          return self.authCore.cosmosAddresses[0]
-        },
-      },
-    }
-  })
+    }),
+  }))
 
 type UserStoreType = Instance<typeof UserStoreModel>
 export interface UserStore extends UserStoreType {}

@@ -1,10 +1,12 @@
 import { GeneralApiProblem } from "./api-problem"
 
 export interface User {
-  user: string,
-  displayName?: string,
-  email?: string,
-  avatar?: string,
+  user: string
+  displayName?: string
+  email?: string
+  avatar?: string
+  intercomToken?: string
+  cosmosWallet?: string
 }
 
 export interface Content {

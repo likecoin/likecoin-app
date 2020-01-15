@@ -1,28 +1,19 @@
 import * as React from "react"
-import { RefreshControl, View, ViewStyle } from "react-native"
+import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { ContentListItem } from "../../components/content-list-item"
 import { Screen } from "../../components/screen"
-import { Text } from "../../components/text"
 
-import { color, spacing } from "../../theme"
+import { color } from "../../theme"
 
 import { ReaderStore } from "../../models/reader-store"
-import { Content } from "../../models/content"
+import { ContentList } from "../../components/content-list"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-  flexGrow: 1,
+  ...FULL,
   alignItems: "stretch",
-  paddingHorizontal: spacing[4],
-  paddingVertical: spacing[4],
-}
-const EMPTY_VIEW: ViewStyle = {
-  flexGrow: 1,
-  justifyContent: "center",
-  alignItems: "center",
 }
 
 export interface ReaderScreenProps extends NavigationScreenProps<{}> {
@@ -31,94 +22,66 @@ export interface ReaderScreenProps extends NavigationScreenProps<{}> {
 
 @inject("readerStore")
 @observer
-export class ReaderScreen extends React.Component<ReaderScreenProps, {}> {
+export class ReaderScreen extends React.Component<ReaderScreenProps> {
+  list = React.createRef<ContentList>()
+
   componentDidMount() {
-    this.fetchList()
+    this.list.current.props.onRefresh()
   }
 
-  private fetchList = () => {
-    switch (this.props.navigation.state.routeName) {
-      case 'Featured':
-        this.props.readerStore.fetchSuggestList()
-        break
-
-      case 'Followed':
-        this.props.readerStore.fetchFollowedList()
-        break
-    }
-  }
-
-  private onPressContentItem = (content: Content) => {
+  private onPressContentItem = (id: string) => {
+    const content = this.props.readerStore.contents.get(id)
     this.props.navigation.navigate('ContentView', { content })
   }
 
-  private renderContent = (content: Content) => (
-    <ContentListItem
-      key={content.url}
-      content={content}
-      onPressItem={this.onPressContentItem}
-    />
-  )
-
   render() {
-    const { readerStore } = this.props
-
-    let contentList = []
-    let titleLabelTx = ""
-    switch (this.props.navigation.state.routeName) {
-      case "Featured":
-        contentList = readerStore.featuredList
-        titleLabelTx = "readerScreen.featuredLabel"
-        break
-      case "Followed":
-        contentList = readerStore.followedList
-        titleLabelTx = "readerScreen.followingLabel"
-        break
-    }
-
     return (
-      <View style={FULL}>
-        <Screen
-          style={CONTAINER}
-          preset="scroll"
-          backgroundColor={color.palette.white}
-          unsafe={true}
-          refreshControl={
-            <RefreshControl
-              tintColor={color.palette.lighterCyan}
-              colors={[color.primary]}
-              refreshing={this.props.readerStore.isLoading}
-              onRefresh={this.fetchList}
-            />
-          }
-        >
-          <Text
-            tx={titleLabelTx}
-            color="likeGreen"
-            align="center"
-            weight="600"
-          />
-          {contentList.length > 0 ? (
-            contentList.map(this.renderContent)
-          ) : (
-            this.renderEmpty()
-          )}
-        </Screen>
-      </View>
+      <Screen
+        style={CONTAINER}
+        preset="fixed"
+        backgroundColor={color.palette.white}
+        unsafe={true}
+      >
+        {this.renderList()}
+      </Screen>
     )
   }
 
-  private renderEmpty = () => {
-    return (
-      <View style={EMPTY_VIEW}>
-        <Text
-          tx="readerScreen.emptyLabel"
-          color="grey9b"
-          size="large"
-          align="center"
-          weight="600"
-        />
-      </View>
-    )
+  private renderList = () => {
+    switch (this.props.navigation.state.routeName) {
+      case "Featured":
+        return (
+          <ContentList
+            ref={this.list}
+            data={this.props.readerStore.featuredList}
+            creators={this.props.readerStore.creators}
+            titleLabelTx="readerScreen.featuredLabel"
+            hasFetched={this.props.readerStore.hasFetchedFeaturedList}
+            lastFetched={this.props.readerStore.featuredListLastFetchedDate.getTime()}
+            isLoading={this.props.readerStore.isFetchingFeaturedList}
+            onPressItem={this.onPressContentItem}
+            onRefresh={this.props.readerStore.fetchFeaturedList}
+          />
+        )
+
+      case "Followed":
+        return (
+          <ContentList
+            ref={this.list}
+            data={this.props.readerStore.followedList}
+            creators={this.props.readerStore.creators}
+            titleLabelTx="readerScreen.followingLabel"
+            isLoading={this.props.readerStore.isFetchingFollowedList}
+            isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
+            hasFetched={this.props.readerStore.hasFetchedFollowedList}
+            hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
+            lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
+            onFetchMore={this.props.readerStore.fetchMoreFollowedList}
+            onPressItem={this.onPressContentItem}
+            onRefresh={this.props.readerStore.fetchFollowedList}
+          />
+        )
+    }
+    return null
   }
 }

@@ -10,20 +10,27 @@
     "ok": "好",
     "viewOnBlockExplorer": "在 Big Dipper 查看"
   },
+  "ContentListItem": {
+    "likeStatsLabel": {
+      "other": "{{count}} 個讚"
+    }
+  },
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",
-    "INVALID_ACCOUNT_ADDRESS": "錢包地址不正確",
     "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
     "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
     "REGISTRATION_BAD_DATA": "註冊資料錯誤",
     "REGISTRATION_EMAIL_ALREADY_USED": "電郵已被註冊",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註冊",
+    "REWARDS_WITHDRAW_BELOW_MIN": "收益少於可提取下限",
     "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "TRANSFER_INPUT_TARGET_INVALID": "輸入的 Liker ID 或錢包地址不正確",
+    "TRANSFER_TARGET_NO_WALLET": "收款人沒有錢包地址",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
@@ -49,18 +56,21 @@
     "available": "可委託"
   },
   "stakingDelegationSigningScreen": {
+    "aboutLinkText": "關於委託",
     "title": "委託"
   },
   "stakingRewardsWithdrawScreen": {
     "title": "取回收益"
   },
   "stakingUnbondingDelegationAmountInputScreen": {
-    "available": "可委託"
+    "available": "已委託"
   },
   "stakingUnbondingDelegationSigningScreen": {
-    "title": "委託"
+    "aboutLinkText": "關於取回委託",
+    "title": "取回委託"
   },
   "settingsScreen": {
+    "contactUs": "聯絡我們",
     "privacyPolicy": "隱私權政策",
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
@@ -93,6 +103,7 @@
   },
   "transaction": {
     "fee": "手續費",
+    "from": "從",
     "to": "至"
   },
   "transfer": {
@@ -100,7 +111,7 @@
   },
   "transferTargetInputScreen": {
     "targetInputLabel": "轉帳至",
-    "targetInputPlaceholder": "請輸入收款地址"
+    "targetInputPlaceholder": "收款人的 Liker ID 或錢包地址"
   },
   "transferAmountInputScreen": {
     "available": "可轉帳"
@@ -121,6 +132,7 @@
   },
   "validatorScreen": {
     "delegatorShareLabel": "委託中",
+    "delegatorUnbondingShareLabel": "解綁中",
     "delegatorRewardsLabel": "未領取收益",
     "stakeButtonText": "委託",
     "unstakeButtonText": "取回委託",
@@ -130,6 +142,7 @@
   "walletDashboardScreen": {
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
+    "allUnbondingBalanceLabel": "解綁中",
     "send": "轉帳",
     "stakeLabel": "委託",
     "receive": "收款",

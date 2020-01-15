@@ -1,4 +1,9 @@
-import { ViewStyle, StyleSheet, TextStyle } from "react-native"
+import {
+  ImageStyle,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+} from "react-native"
 
 import { sizes } from "../text/text.sizes"
 
@@ -39,7 +44,26 @@ export const SUMMARY = StyleSheet.create({
   } as TextStyle,
   TARGET: {
     marginTop: spacing[4],
+  } as ViewStyle,
+  TARGET_AVATAR: {
+    width: 32,
+    aspectRatio: 1,
+    borderRadius: 6,
+    marginRight: spacing[2],
+  } as ImageStyle,
+  TARGET_NAME: {
+    flex: 1,
   },
+  TARGET_WITH_AVATAR: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: spacing[1],
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[2],
+    borderRadius: 12,
+    borderColor: color.palette.grey9b,
+    borderWidth: StyleSheet.hairlineWidth,
+  } as ViewStyle,
 })
 
 export const DETAIL = StyleSheet.create({

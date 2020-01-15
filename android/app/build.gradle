@@ -97,7 +97,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -127,6 +127,7 @@ crashlytics {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -137,9 +138,8 @@ android {
         applicationId "com.oice"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 123
-        versionName "0.11.3"
-        multiDexEnabled true
+        versionCode 148
+        versionName "0.12.4"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
@@ -163,8 +163,6 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -195,11 +193,10 @@ android {
 }
 
 dependencies {
-    def multidex_version = "2.0.1"
-    implementation 'androidx.multidex:multidex:$multidex_version'
-
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'io.intercom.android:intercom-sdk:6.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";

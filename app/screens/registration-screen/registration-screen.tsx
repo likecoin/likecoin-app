@@ -67,17 +67,17 @@ const BUTTON_GROUP: ViewStyle = {
   width: 256,
 }
 const LIKER_ID_INPUT = StyleSheet.create({
-  ROOT: {
-    flex: 1,
-  } as ViewStyle,
-  LABEL_WRAPPER: {
-    width: BUTTON_GROUP.width,
-  } as ViewStyle,
   LABEL: {
     fontSize: 28,
     fontWeight: "300",
     marginBottom: spacing[2],
   } as TextStyle,
+  LABEL_WRAPPER: {
+    width: BUTTON_GROUP.width,
+  } as ViewStyle,
+  ROOT: {
+    flex: 1,
+  } as ViewStyle,
   TEXT: {
     color: color.palette.white,
     backgroundColor: color.transparent,

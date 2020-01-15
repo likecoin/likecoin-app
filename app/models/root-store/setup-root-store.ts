@@ -1,9 +1,10 @@
 import { onSnapshot } from "mobx-state-tree"
 
-import { RootStoreModel, RootStore } from "./root-store"
 import { Environment } from "../environment"
-import * as Keychain from "../../utils/keychain"
+import { RootStoreModel, RootStore } from "./root-store"
+
 import * as storage from "../../utils/storage"
+import { logError } from "../../utils/error"
 
 /**
  * The key we'll be saving our state as within async storage.
@@ -23,7 +24,25 @@ export async function createEnvironment() {
   return env
 }
 
-function createRootStore(env: Environment, data = {}) {
+function createRootStore(env: Environment, data: any = {}) {
+  const {
+    COSMOS_CHAIN_ID,
+    COSMOS_DENOM,
+    COSMOS_FRACTION_DENOM,
+    COSMOS_FRACTION_DIGITS,
+    COSMOS_GAS_PRICE,
+  } = env.appConfig.getAllParams()
+  if (!data.chainStore) {
+    data.chainStore = {
+      id: COSMOS_CHAIN_ID,
+      denom: COSMOS_DENOM,
+      fractionDenom: COSMOS_FRACTION_DENOM,
+      fractionDigits: parseInt(COSMOS_FRACTION_DIGITS),
+      gasPrice: COSMOS_GAS_PRICE,
+    }
+  } else if (data.chainStore.id !== COSMOS_CHAIN_ID) {
+    throw new Error("CHAIN_HAS_CHANGED")
+  }
   const rootStore = RootStoreModel.create(data, env)
   env.authCoreAPI.callbacks.unauthenticated = rootStore.signOut
   env.authCoreAPI.callbacks.unauthorized = rootStore.signOut
@@ -45,22 +64,16 @@ export async function setupRootStore() {
     rootStore = createRootStore(env, data)
 
     // Setup Authcore
-    const {
-      username: authCoreIdToken,
-      password: authCoreAccessToken,
-    } = await Keychain.load(env.appConfig.getValue('AUTHCORE_CREDENTIAL_KEY'))
-    env.setupAuthCore(authCoreAccessToken)
-    if (authCoreIdToken && authCoreAccessToken) {
-      await rootStore.userStore.authCore.init(authCoreIdToken, authCoreAccessToken)
-    }
+    await rootStore.userStore.authCore.resume()
+    rootStore.chainStore.setupWallet(rootStore.userStore.authCore.primaryCosmosAddress)
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
-    await env.setupAuthCore()
-    rootStore = createRootStore(env, {})
-
     // but please inform us what happened
-    __DEV__ && console.tron.error(e.message, null)
+    logError(e.message)
+
+    rootStore = createRootStore(env)
+    await env.setupAuthCore()
   }
 
   // reactotron logging
@@ -74,12 +87,27 @@ export async function setupRootStore() {
     ({
       /* eslint-disable @typescript-eslint/no-unused-vars */
       navigationStore,
-      readerStore: { contents },
+      readerStore: {
+        contents,
+        featuredListLastFetchedDate,
+        featuredList, // Never cache
+        followedList, // Never cache
+      },
       ...snapshot
       /* eslint-enable @typescript-eslint/no-unused-vars */
     }) => storage.save(ROOT_STATE_STORAGE_KEY, {
       ...snapshot,
-      readerStore: { contents },
+      readerStore: {
+        contents: Object
+          .values(contents)
+          .sort((a, b) => b.timestamp - a.timestamp)
+          .slice(0, 1000) // Cache 1,000 contents at max
+          .reduce((acc, c) => {
+            acc[c.url] = c
+            return acc
+          }, {}),
+        featuredListLastFetchedDate,
+      }
     })
   )
 

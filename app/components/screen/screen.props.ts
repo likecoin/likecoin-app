@@ -1,4 +1,7 @@
-import { RefreshControlProps, ViewStyle } from "react-native"
+import {
+  RefreshControlProps,
+  ViewStyle,
+} from "react-native"
 import { KeyboardOffsets, ScreenPresets } from "./screen.presets"
 
 export interface ScreenProps {
@@ -41,5 +44,5 @@ export interface ScreenProps {
    * A RefreshControl component, used to provide pull-to-refresh
    * functionality for the ScrollView.
    */
-  refreshControl?: React.ReactElement<RefreshControlProps>;
+  refreshControl?: React.ReactElement<RefreshControlProps>
 }

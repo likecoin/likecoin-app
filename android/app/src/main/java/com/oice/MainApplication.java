@@ -3,13 +3,13 @@ package com.oice;
 import android.app.Application;
 import android.content.Context;
 
-import androidx.multidex.MultiDex;
-
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+
+import io.intercom.android.sdk.Intercom;
 
 import java.util.List;
 
@@ -44,12 +44,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Intercom.initialize(this, getResources().getString(R.string.intercom_api_key), getResources().getString(R.string.intercom_app_id));
     SoLoader.init(this, /* native exopackage */ false);
-  }
-
-  @Override
-  protected void attachBaseContext(Context base) {
-    super.attachBaseContext(base);
-    MultiDex.install(this);
   }
 }

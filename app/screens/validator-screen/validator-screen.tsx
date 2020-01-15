@@ -21,24 +21,17 @@ import { sizes } from "../../components/text/text.sizes"
 import { Screen } from "../../components/screen"
 import { color, spacing } from "../../theme"
 
+import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { Validator } from "../../models/validator"
-import { WalletStore } from "../../models/wallet-store"
 
 import GlobeIcon from "../../assets/globe.svg"
-
-import {
-  formatLIKE,
-  formatNumber,
-  formatNumberWithSign,
-  percent,
-} from "../../utils/number"
-import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
 
 export interface ValidatorScreenNavigationParams {
   validator: Validator
 }
 export interface ValidatorScreenProps extends NavigationScreenProps<ValidatorScreenNavigationParams> {
-  walletStore: WalletStore,
+  chain: ChainStore,
 }
 
 const ROOT: ViewStyle = {
@@ -95,7 +88,9 @@ const BOTTOM_BAR: ViewStyle = {
   backgroundColor: color.palette.white,
 }
 
-@inject("walletStore")
+@inject((rootStore: RootStore) => ({
+  chain: rootStore.chainStore,
+}))
 @observer
 export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   state = {
@@ -126,12 +121,10 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   render () {
-    const { totalDelegatorShares, annualProvision } = this.props.walletStore
+    const { formatBalance } = this.props.chain
     const validator = this.getValidator()
 
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
-    const formattedDelegateShare = formatNumber(convertNanolikeToLIKE(validator.totalDelegatorShares)).concat(" LIKE")
-    const votingPowerInPercent = percent(this.props.walletStore.getValidatorVotingPower(validator.operatorAddress))
 
     return (
       <View style={ROOT}>
@@ -171,17 +164,17 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               }
             </ValidatorScreenGridItem>
             <ValidatorScreenGridItem
-              value={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
+              value={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
               labelTx={"validator.rewards"}
               isHalf
             />
             <ValidatorScreenGridItem
-              value={votingPowerInPercent}
+              value={this.props.chain.getValidatorVotingPowerPercentage(validator)}
               labelTx={"validator.votingPower"}
               isHalf
             />
             <ValidatorScreenGridItem
-              value={formattedDelegateShare}
+              value={formatBalance(validator.totalDelegatorShares)}
               labelTx="validator.delegatorShare"
             />
             <ValidatorScreenGridItem
@@ -249,24 +242,33 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
 
   private renderDelegationSection = () => {
     const validator = this.getValidator()
-
-    const delegatorRewardsText = formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards, 4))
-    const delegatorRewardsTextColor = validator.delegatorRewards === "0" ? "white" : "darkModeGreen"
+    const { formatBalance, formatRewards } = this.props.chain
+    const delegation = this.props.chain.wallet.getDelegation(validator.operatorAddress)
+    const delegatorRewardsTextColor = delegation.hasRewards ? "darkModeGreen" : "white"
     return (
       <ValidatorScreenGridItem isShowSeparator={false}>
-        {validator.isDelegated &&
-          <ValidatorScreenGridItem
-            value={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
-            labelTx="validatorScreen.delegatorShareLabel"
-            isShowSeparator={false}
-            isPaddingLess
-          />
+        {delegation.hasDelegated &&
+          <React.Fragment>
+            <ValidatorScreenGridItem
+              value={formatBalance(delegation.shares)}
+              labelTx="validatorScreen.delegatorShareLabel"
+              isShowSeparator={false}
+              isPaddingLess
+            />
+            <ValidatorScreenGridItem
+              value={formatRewards(delegation.rewards)}
+              color={delegatorRewardsTextColor}
+              labelTx="validatorScreen.delegatorRewardsLabel"
+              isShowSeparator={false}
+              isPaddingLess
+            />
+          </React.Fragment>
         }
-        {validator.isDelegated &&
+        {delegation.unbonding.isGreaterThan(0) &&
           <ValidatorScreenGridItem
-            value={delegatorRewardsText}
-            color={delegatorRewardsTextColor}
-            labelTx="validatorScreen.delegatorRewardsLabel"
+            value={formatBalance(delegation.unbonding, false)}
+            color="greyBlue"
+            labelTx="validatorScreen.delegatorUnbondingShareLabel"
             isShowSeparator={false}
             isPaddingLess
           />
@@ -282,7 +284,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               {
                 key: "unstake",
                 tx: "validatorScreen.unstakeButtonText",
-                disabled: !validator.isDelegated,
+                disabled: !delegation.hasDelegated,
                 onPress: this.onPressUnstakeButton,
               },
             ]}

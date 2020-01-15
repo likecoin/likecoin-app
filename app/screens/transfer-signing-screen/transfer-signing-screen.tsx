@@ -3,10 +3,11 @@ import { ViewStyle } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
+import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { TransferStore } from "../../models/transfer-store"
-import { WalletStore } from "../../models/wallet-store"
 
-import { SigningView, SigningViewStateType } from "../../components/signing-view"
+import { SigningView } from "../../components/signing-view"
 
 import TransferGraph from "../../assets/graph/transfer.svg"
 
@@ -15,32 +16,20 @@ const GRAPH: ViewStyle = {
 }
 
 export interface TransferSigningScreenProps extends NavigationScreenProps<{}> {
-  transferStore: TransferStore,
-  walletStore: WalletStore,
+  txStore: TransferStore,
+  chain: ChainStore,
 }
 
-export interface TransferSigningScreenState {
-  state: SigningViewStateType
-}
-
-@inject(
-  "transferStore",
-  "walletStore",
-)
+@inject((rootStore: RootStore) => ({
+  txStore: rootStore.transferStore,
+  chain: rootStore.chainStore,
+}))
 @observer
-export class TransferSigningScreen extends React.Component<TransferSigningScreenProps, TransferSigningScreenState> {
-  state: TransferSigningScreenState = {
-    state: "waiting"
-  }
-
-  _sendTransaction = async () => {
-    this.setState({ state: "pending" })
-    await this.props.transferStore.signTransaction(this.props.walletStore.signer)
-    const state = this.props.transferStore.errorMessage ? "waiting" : "success"
-    this.setState({ state })
-    if (state === "success") {
-      // Update balance
-      this.props.walletStore.fetchBalance()
+export class TransferSigningScreen extends React.Component<TransferSigningScreenProps> {
+  private sendTransaction = async () => {
+    await this.props.txStore.signTx(this.props.chain.wallet.signer)
+    if (this.props.txStore.isSuccess) {
+      this.props.chain.fetchBalance()
     }
   }
 
@@ -49,10 +38,10 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
   }
 
   private onPressConfirmButton = () => {
-    if (this.state.state === "success") {
+    if (this.props.txStore.isSuccess) {
       this.props.navigation.dismiss()
     } else {
-      this._sendTransaction()
+      this.sendTransaction()
     }
   }
 
@@ -62,21 +51,29 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
       blockExplorerURL,
       errorMessage,
       fee,
-      target,
+      signingState: state,
+      liker,
+      receiverAddress,
       totalAmount,
-    } = this.props.transferStore
+    } = this.props.txStore
+    const { formatDenom } = this.props.chain
+
+    const target = liker ? {
+      avatar: liker.avatarURL,
+      name: liker.displayName,
+    } : receiverAddress
 
     return (
       <SigningView
         type="transfer"
-        state={this.state.state}
+        state={state}
         titleTx="transferSigningScreen.title"
-        amount={amount}
+        amount={formatDenom(amount)}
         txURL={blockExplorerURL}
         error={errorMessage}
-        fee={fee}
+        fee={formatDenom(fee)}
         target={target}
-        totalAmount={totalAmount}
+        totalAmount={formatDenom(totalAmount)}
         graph={<TransferGraph />}
         graphStyle={GRAPH}
         onClose={this.onPressCloseButton}

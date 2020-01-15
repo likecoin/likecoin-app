@@ -9,6 +9,7 @@ import { Screen } from "../../components/screen"
 import { Content } from "../../models/content"
 
 import { color } from "../../theme"
+import { logError } from "../../utils/error"
 
 const FULL: ViewStyle = { flex: 1 }
 
@@ -40,7 +41,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
     try {
       await Share.share(Platform.OS === "ios" ? { url } : { message: url })
     } catch (error) {
-      __DEV__ && console.tron.error(error.message, null)
+      logError(error.message)
     }
   }
 
@@ -54,7 +55,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
       >
         <Header
           headerText={content.title}
-          leftIcon="back"
+          leftIcon="close"
           rightIcon="share"
           onLeftPress={this.goBack}
           onRightPress={this.onShare}

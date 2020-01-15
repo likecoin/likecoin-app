@@ -5,13 +5,12 @@ import {
   CosmosDelegation,
   CosmosMessage,
   CosmosRewardsResult,
+  CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./cosmos.types"
 import {
-  DENOM,
-  convertLIKEToNanolike,
-  extractNanolikeFromCosmosCoinList,
-  parseCosmosLIKE,
+  extractCoinFromCosmosCoinList,
+  parseCosmosCoin,
 } from "./cosmos.utils"
 
 /**
@@ -39,9 +38,9 @@ export class CosmosAPI {
    *
    * @param address The account address
    */
-  async queryBalance(address: string) {
+  async queryBalance(address: string, denom: string) {
     const account = await this.api.get.account(address) as CosmosAccountResult
-    return extractNanolikeFromCosmosCoinList(account.coins)
+    return extractCoinFromCosmosCoinList(account.coins, denom)
   }
 
   /**
@@ -63,9 +62,18 @@ export class CosmosAPI {
   }
 
   /**
+   * Get all unbonding delegations from a delegator
+   *
+   * @param delegatorAddress The delegator address
+   */
+  async getUnbondingDelegations(delegatorAddress: string) {
+    return this.api.get.undelegations(delegatorAddress) as CosmosUnbondingDelegation[]
+  }
+
+  /**
    * Query the annual provisioned tokens
    */
-  async queryAnnualProvision() {
+  async queryAnnualProvision(): Promise<string> {
     return this.api.get.annualProvisionedTokens()
   }
 
@@ -75,11 +83,12 @@ export class CosmosAPI {
   createSendMessage(
     fromAddress: string,
     toAddress: string,
-    amount: string
+    amount: string,
+    denom: string
   ) {
     return this.api.MsgSend(fromAddress, {
       toAddress,
-      amounts: [parseCosmosLIKE(amount)],
+      amounts: [parseCosmosCoin(amount, denom)],
     }) as CosmosMessage
   }
 
@@ -89,12 +98,13 @@ export class CosmosAPI {
   createDelegateMessage(
     fromAddress: string,
     validatorAddress: string,
-    amount: string
+    amount: string,
+    denom: string,
   ) {
     return this.api.MsgDelegate(fromAddress, {
       validatorAddress,
-      amount: convertLIKEToNanolike(amount),
-      denom: DENOM,
+      amount,
+      denom,
     }) as CosmosMessage
   }
 
@@ -104,12 +114,13 @@ export class CosmosAPI {
   createUnbondingDelegateMessage(
     fromAddress: string,
     validatorAddress: string,
-    amount: string
+    amount: string,
+    denom: string
   ) {
     return this.api.MsgUndelegate(fromAddress, {
       validatorAddress,
-      amount: convertLIKEToNanolike(amount),
-      denom: DENOM,
+      amount,
+      denom,
     }) as CosmosMessage
   }
 

@@ -1,7 +1,16 @@
-import { Instance, SnapshotOut, types, flow, getEnv } from "mobx-state-tree"
+import {
+  flow,
+  getParentOfType,
+  Instance,
+  SnapshotOut,
+  types,
+} from "mobx-state-tree"
 
-import { Environment } from "../environment"
+import { CreatorModel } from "../creator"
+import { withEnvironment } from "../extensions"
+import { ReaderStore, ReaderStoreModel } from "../reader-store"
 import { ContentResult, LikeStatResult } from "../../services/api"
+import { logError } from "../../utils/error"
 
 /**
  * Likeable Content
@@ -13,51 +22,85 @@ export const ContentModel = types
     title: types.maybe(types.string),
     description: types.maybe(types.string),
     imageURL: types.maybe(types.string),
-    creatorLikerID: types.maybe(types.string),
+    /**
+     * Deprecated. Use `creator.likerID` instead.
+     */
+    creatorLikerID: types.undefined,
+    creator: types.maybe(types.safeReference(types.late(() => CreatorModel))),
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
-    timestamp: types.maybe(types.integer),
-    isFetchingDetails: types.optional(types.boolean, false),
-    hasFetchedDetails: types.optional(types.boolean, false),
+    timestamp: types.optional(types.integer, 0),
+
+    hasCached: types.optional(types.boolean, false),
   })
+  .volatile(() => ({
+    hasFetchedDetails: false,
+    hasFetchedLikeStats: false,
+    isFetchingDetails: false,
+    isFetchingLikeStats: false,
+  }))
+  .extend(withEnvironment)
+  .views(self => ({
+    get isLoading() {
+      return !(self.hasCached || self.hasFetchedDetails) ||
+        self.isFetchingDetails ||
+        (self.creator && self.creator.isLoading)
+    },
+    get shouldFetchDetails() {
+      return !self.hasFetchedDetails || !self.hasCached
+    },
+    get shouldFetchCreatorDetails() {
+      return self.creator && (
+        !self.creator.hasFetchedDetails ||
+        !self.creator.hasCached
+      )
+    },
+    get shouldFetchLikeStat() {
+      return self.creator && !self.hasFetchedLikeStats
+    },
+  }))
   .actions(self => ({
+    setTimestamp(timestamp: number) {
+      if (timestamp) self.timestamp = timestamp
+    },
     fetchDetails: flow(function * () {
-      const env: Environment = getEnv(self)
       self.isFetchingDetails = true
       try {
-        const result: ContentResult = yield env.likeCoAPI.fetchContentInfo(self.url)
+        const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(self.url)
         switch (result.kind) {
           case "ok": {
             const {
-              user,
+              user: likerId,
               description,
               title,
               image,
               like,
-              ts,
             } = result.data
-            self.creatorLikerID = user
+            if (!self.creator) {
+              const readerStore: ReaderStore = getParentOfType(self, ReaderStoreModel)
+              self.creator = readerStore.createCreatorFromLikerId(likerId)
+            }
             self.description = description
             self.title = title
             self.imageURL = image
             if (self.likeCount < like) {
               self.likeCount = like
             }
-            self.timestamp = ts
+            self.hasCached = true
           }
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
       } finally {
         self.isFetchingDetails = false
         self.hasFetchedDetails = true
       }
     }),
     fetchLikeStat: flow(function * () {
-      const env: Environment = getEnv(self)
+      self.isFetchingLikeStats = true
       try {
-        const result: LikeStatResult = yield env.likeCoAPI.fetchContentLikeStat(
-          self.creatorLikerID,
+        const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
+          self.creator.likerID,
           self.url
         )
         switch (result.kind) {
@@ -70,7 +113,10 @@ export const ContentModel = types
           }
         }
       } catch (error) {
-        __DEV__ && console.tron.error(error.message, null)
+        logError(error.message)
+      } finally {
+        self.isFetchingLikeStats = false
+        self.hasFetchedLikeStats = true
       }
     }),
   }))

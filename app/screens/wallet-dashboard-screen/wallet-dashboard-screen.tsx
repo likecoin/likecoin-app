@@ -20,24 +20,15 @@ import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { ValidatorListItem } from "../../components/validator-list-item"
-
-import { UserStore } from "../../models/user-store"
-import { WalletStore } from "../../models/wallet-store"
-import { Validator } from "../../models/validator"
-
-import {
-  formatLIKE,
-  formatNumberWithSign,
-  percent,
-  UNIT_LIKE,
-} from "../../utils/number"
 import { color, gradient, spacing } from "../../theme"
 
-import { convertNanolikeToLIKE } from "../../services/cosmos/cosmos.utils"
+import { ChainStore } from "../../models/chain-store"
+import { UserStore } from "../../models/user-store"
+import { Validator } from "../../models/validator"
 
 export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
+  chain: ChainStore
   userStore: UserStore
-  walletStore: WalletStore
 }
 
 const ROOT: ViewStyle = {
@@ -108,6 +99,7 @@ const QRCODE_BUTTON: ViewStyle = {
 }
 const WALLET_BALANCE = StyleSheet.create({
   AMOUNT: {
+    paddingHorizontal: spacing[4],
     color: color.primary,
     fontSize: 36,
     fontWeight: "500",
@@ -148,21 +140,23 @@ const WITHDRAW_REWARDS_BUTTON = StyleSheet.create({
   } as ViewStyle,
 })
 
-@inject(
-  "userStore",
-  "walletStore"
-)
+@inject((store: any) => ({
+  chain: store.chainStore as ChainStore,
+  userStore: store.userStore as UserStore,
+}))
 @observer
 export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
   componentDidMount() {
-    this.props.walletStore.setAddress(this.props.userStore.selectedWalletAddress)
     this.fetchAll()
   }
 
   private fetchAll = async () => {
-    this.props.walletStore.fetchBalance()
-    await this.props.walletStore.fetchAnnualProvision()
-    this.props.walletStore.fetchValidators()
+    this.props.chain.fetchBalance()
+    await this.props.chain.fetchAnnualProvision()
+    await this.props.chain.fetchValidators()
+    this.props.chain.fetchDelegations()
+    this.props.chain.fetchUnbondingDelegations()
+    this.props.chain.fetchRewards()
   }
 
   private onPressSendButton = () => {
@@ -200,7 +194,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
             <RefreshControl
               tintColor={color.palette.lighterCyan}
               colors={[color.primary]}
-              refreshing={this.props.walletStore.isLoading}
+              refreshing={this.props.chain.isLoading}
               onRefresh={this.fetchAll}
             />
           }
@@ -258,7 +252,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               >
                 {this.renderBalanceValue()}
                 <Text
-                  text={UNIT_LIKE}
+                  text={this.props.chain.denom}
                   color="likeGreen"
                   size="medium"
                   weight="600"
@@ -278,14 +272,14 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                 <View style={VALIDATOR_LIST.VERTICAL_LINE} />
               </View>
               <View style={VALIDATOR_LIST.CONTAINER}>
-                {this.props.walletStore.sortedValidatorList.map(this.renderValidator)}
+                {this.props.chain.sortedValidatorList.map(this.renderValidator)}
               </View>
               <View style={DASHBOARD_FOOTER}>
                 <Button
                   preset="outlined"
                   tx="common.viewOnBlockExplorer"
                   color="likeCyan"
-                  link={this.props.walletStore.blockExplorerURL}
+                  link={this.props.chain.wallet.blockExplorerURL}
                 />
               </View>
             </Sheet>
@@ -296,21 +290,12 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private renderBalanceValue = () => {
-    let value: string
-    const {
-      isFetchingBalance: isFetching,
-      hasFetchedBalance: hasFetch,
-      formattedTotalBalance: balanceValue,
-    } = this.props.walletStore
-    if (hasFetch) {
-      value = balanceValue
-    } else if (isFetching) {
-      value = "..."
-    }
     return (
       <Text
         style={WALLET_BALANCE.AMOUNT}
-        text={value}
+        text={this.props.chain.formattedTotalBalance}
+        numberOfLines={1}
+        adjustsFontSizeToFit
       />
     )
   }
@@ -319,8 +304,12 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     const {
       formattedAvailableBalance: available,
       formattedRewardsBalance: rewards,
+      formattedUnbondingBalance: unbonding,
+    } = this.props.chain
+    const {
+      hasUnbonding,
       hasRewards,
-    } = this.props.walletStore
+    } = this.props.chain.wallet
     const rewardsTextColor = hasRewards ? "green" : "grey4a"
     return (
       <View style={BALANCE_VIEW}>
@@ -338,6 +327,15 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           isPaddingLess
           isShowSeparator={false}
         />
+        {hasUnbonding &&
+          <ValidatorScreenGridItem
+            value={unbonding}
+            labelTx="walletDashboardScreen.allUnbondingBalanceLabel"
+            color="greyBlue"
+            isPaddingLess
+            isShowSeparator={false}
+          />
+        }
         {hasRewards &&
           <View style={WITHDRAW_REWARDS_BUTTON.WRAPPER}>
             <Button
@@ -353,18 +351,20 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   }
 
   private renderValidator = (validator: Validator) => {
-    const { totalDelegatorShares, annualProvision } = this.props.walletStore
-    const rightSubtitle = validator.delegatorRewards === "0"
-      ? undefined : formatNumberWithSign(convertNanolikeToLIKE(validator.delegatorRewards), 2)
+    const { formatBalance, formatRewards } = this.props.chain
+    const delegation = this.props.chain.wallet.delegations.get(validator.operatorAddress)
+    const delegatedAmount = formatBalance(delegation ? delegation.shares : undefined)
+    const rewards = delegation && delegation.hasRewards ? formatRewards(delegation.rewards) : ""
+    const hasDelegated = !!delegation && delegation.hasDelegated
     return (
       <ValidatorListItem
         key={validator.operatorAddress}
         icon={validator.avatar}
         title={validator.moniker}
-        subtitle={percent(validator.getExpectedReturnsInPercent(totalDelegatorShares, annualProvision))}
-        rightTitle={formatLIKE(convertNanolikeToLIKE(validator.delegatorShare))}
-        rightSubtitle={rightSubtitle}
-        isDarkMode={validator.isDelegated}
+        subtitle={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
+        rightTitle={delegatedAmount}
+        rightSubtitle={rewards}
+        isDarkMode={hasDelegated}
         onPress={() => this.onPressValidator(validator)}
       />
     )
