@@ -65,7 +65,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.handlePostSignIn()
     } else if (url.includes("/oauth/redirect")) {
       // Fallback to use timer if the above case not working
-      this.redirectTimer = setTimeout(this.handlePostSignIn, 2000)
+      this.redirectTimer = setTimeout(this.handlePostSignIn, 4000)
     } else if (url.includes("/in/register")) {
       this.handleError()
       logError("Error when signing in to liker.land, like.co shows register page")
