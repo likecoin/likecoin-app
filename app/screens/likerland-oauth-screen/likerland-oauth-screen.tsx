@@ -1,7 +1,6 @@
 import * as React from "react"
 import {
   Alert,
-  Platform,
   View,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
@@ -32,6 +31,12 @@ export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
 
 @inject("rootStore")
 export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps> {
+  redirectTimer?: NodeJS.Timeout
+
+  state = {
+    hasHandledRedirect: false,
+  }
+
   private handleError = async () => {
     await this.props.rootStore.userStore.logout()
     this.props.rootStore.userStore.setIsSigningIn(false)
@@ -39,6 +44,12 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   }
 
   private handlePostSignIn = async () => {
+    if (this.state.hasHandledRedirect) return
+    this.setState({ hasHandledRedirect: true })
+    if (this.redirectTimer) {
+      clearTimeout(this.redirectTimer)
+      this.redirectTimer = undefined
+    }
     await Promise.all([
       this.props.rootStore.userStore.fetchUserInfo(),
       this.props.rootStore.userStore.fetchLikerLandUserInfo(),
@@ -52,8 +63,9 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   private handleURLChange = (url: string) => {
     if (url.includes("/following")) {
       this.handlePostSignIn()
-    } else if (Platform.OS === "android" && url.includes("/oauth/redirect")) {
-      setTimeout(this.handlePostSignIn, 2000)
+    } else if (url.includes("/oauth/redirect")) {
+      // Fallback to use timer if the above case not working
+      this.redirectTimer = setTimeout(this.handlePostSignIn, 2000)
     } else if (url.includes("/in/register")) {
       this.handleError()
       logError("Error when signing in to liker.land, like.co shows register page")
