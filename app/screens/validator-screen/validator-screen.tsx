@@ -130,6 +130,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     const validator = this.getValidator()
     validator.fetchInfo()
     this.props.chain.fetchDelegation(validator.operatorAddress)
+    this.props.chain.fetchRewardsFromValidator(validator.operatorAddress)
   }
 
   render () {

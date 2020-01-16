@@ -2,6 +2,7 @@ import Cosmos from "@lunie/cosmos-api"
 
 import {
   CosmosAccountResult,
+  CosmosCoinResult,
   CosmosDelegation,
   CosmosMessage,
   CosmosRewardsResult,
@@ -57,6 +58,16 @@ export class CosmosAPI {
    */
   async queryRewards(address: string) {
     return this.api.get.delegatorRewards(address) as CosmosRewardsResult
+  }
+
+  /**
+   * Query a single delegation reward by a delegator
+   *
+   * @param delegatorAddress The delegator address
+   * @param validatorAddress The validator address
+   */
+  async queryRewardsFromValidator(delegatorAddress: string, validatorAddress: string) {
+    return this.api.get.delegatorRewardsFromValidator(delegatorAddress, validatorAddress) as CosmosCoinResult[]
   }
 
   /**

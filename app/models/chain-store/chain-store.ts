@@ -15,6 +15,7 @@ import {
 } from "../validator"
 import { WalletModel } from "../wallet"
 import {
+  CosmosCoinResult,
   CosmosDelegation,
   CosmosRewardsResult,
   CosmosUnbondingDelegation,
@@ -304,6 +305,21 @@ export const ChainStoreModel = types
         logError(`Error occurs in ChainStore.fetchRewards: ${error}`)
       } finally {
         self.isFetchingRewards = false
+      }
+    }),
+    fetchRewardsFromValidator: flow(function * (validatorAddress: string) {
+      const validator = self.validators.get(validatorAddress)
+      if (!validator) return
+
+      validator.isFetchingRewards = true
+      try {
+        const results: CosmosCoinResult[] = yield self.env.cosmosAPI.queryRewardsFromValidator(self.wallet.address, validatorAddress)
+        const rewards = new BigNumber(extractCoinFromCosmosCoinList(results, self.fractionDenom))
+        self.setDelegation("rewards", validator.operatorAddress, rewards)
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchRewardsFromValidator: ${error}`)
+      } finally {
+        validator.isFetchingRewards = false
       }
     }),
   }))
