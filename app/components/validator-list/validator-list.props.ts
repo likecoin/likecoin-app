@@ -10,6 +10,11 @@ export interface ValidatorListProps {
   chain: ChainStore
 
   /**
+   * The validator addresses that exclude from the list
+   */
+  excluded?: string[]
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle

@@ -71,6 +71,9 @@
     "aboutLinkText": "Learn more about delegation",
     "title": "Delegate"
   },
+  "StakingRedelegationValidatorInputScreen": {
+    "title": "Redelegate to"
+  },
   "stakingRewardsWithdrawScreen": {
     "title": "Withdraw rewards"
   },
@@ -137,6 +140,7 @@
     "delegatorUnbondingShareLabel": "Unbonding",
     "delegatorRewardsLabel": "Delegating Rewards",
     "delegateButtonText": "Delegate",
+    "redelegateButtonText": "Redelegate",
     "undelegateButtonText": "Undelegate",
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"

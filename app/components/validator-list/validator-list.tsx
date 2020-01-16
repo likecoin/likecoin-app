@@ -12,14 +12,20 @@ import { Validator } from "../../models/validator"
  */
 @observer
 export class ValidatorList extends React.Component<Props> {
+  static defaultProps = {
+    excluded: [],
+  } as Partial<Props>
+
   private onPressItem = (validator: Validator) => {
     this.props.onPressItem && this.props.onPressItem(validator)
   }
 
+  private filterList = (validator: Validator) => !this.props.excluded.includes(validator.operatorAddress)
+
   render() {
     return (
       <View style={this.props.style}>
-        {this.props.chain.sortedValidatorList.map(this.renderItem)}
+        {this.props.chain.sortedValidatorList.filter(this.filterList).map(this.renderItem)}
       </View>
     )
   }

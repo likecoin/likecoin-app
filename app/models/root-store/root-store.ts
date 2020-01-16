@@ -11,6 +11,7 @@ import { ChainStoreModel } from "../chain-store"
 import { ReaderStoreModel } from "../reader-store"
 import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-store"
 import { StakingDelegationStoreModel } from "../staking-delegation-store"
+import { StakingRedelegationStoreModel } from "../staking-redelegation-store"
 import { StakingUnbondingDelegationStoreModel } from "../staking-unbonding-delegation-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
@@ -30,6 +31,7 @@ export const RootStoreModel = types
     chainStore: types.maybe(ChainStoreModel),
     stakingRewardsWithdrawStore: types.optional(StakingRewardsWithdrawStoreModel, {}),
     stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
+    stakingRedelegationStore: types.optional(StakingRedelegationStoreModel, {}),
     stakingUnbondingDelegationStore: types.optional(StakingUnbondingDelegationStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
     readerStore: types.optional(ReaderStoreModel, {}),
