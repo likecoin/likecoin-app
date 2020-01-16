@@ -81,6 +81,7 @@ export const ValidatorModel = types
   })
   .volatile(() => ({
     isFetchingInfo: false,
+    isFetchingDelegation: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -89,6 +90,9 @@ export const ValidatorModel = types
     },
     get blockExplorerURL() {
       return self.env.bigDipper.getValidatorURL(self.operatorAddress)
+    },
+    get isLoading() {
+      return self.isFetchingInfo || self.isFetchingDelegation
     },
   }))
   .actions(self => ({

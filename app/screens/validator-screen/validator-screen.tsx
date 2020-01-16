@@ -126,6 +126,12 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     })
   }
 
+  private onRefresh = () => {
+    const validator = this.getValidator()
+    validator.fetchInfo()
+    this.props.chain.fetchDelegation(validator.operatorAddress)
+  }
+
   render () {
     const { formatBalance } = this.props.chain
     const validator = this.getValidator()
@@ -142,8 +148,8 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             <RefreshControl
               tintColor={color.palette.lighterCyan}
               colors={[color.primary]}
-              refreshing={validator.isFetchingInfo}
-              onRefresh={validator.fetchInfo}
+              refreshing={validator.isLoading}
+              onRefresh={this.onRefresh}
             />
           }
         >

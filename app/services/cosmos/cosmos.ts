@@ -69,6 +69,16 @@ export class CosmosAPI {
   }
 
   /**
+   *  Query a delegation between a delegator and a validator
+   *
+   * @param delegatorAddress The delegator address
+   * @param validatorAddress The validator address
+   */
+  async getDelegation(delegatorAddress: string, validatorAddress: string) {
+    return this.api.get.delegation(delegatorAddress, validatorAddress) as CosmosDelegation
+  }
+
+  /**
    * Get all unbonding delegations from a delegator
    *
    * @param delegatorAddress The delegator address
