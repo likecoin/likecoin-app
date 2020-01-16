@@ -78,7 +78,7 @@
     "available": "Delegated"
   },
   "stakingUnbondingDelegationSigningScreen": {
-    "aboutLinkText": "關於取回委託",
+    "aboutLinkText": "About undelegation",
     "title": "Undelegate"
   },
   "settingsScreen": {
