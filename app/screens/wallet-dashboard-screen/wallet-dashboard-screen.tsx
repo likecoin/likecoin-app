@@ -18,7 +18,7 @@ import { ButtonGroup } from "../../components/button-group"
 import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
-import { ValidatorListItem } from "../../components/validator-list-item"
+import { ValidatorList } from "../../components/validator-list"
 import { color, gradient, spacing } from "../../theme"
 
 import { ChainStore } from "../../models/chain-store"
@@ -272,9 +272,11 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                 />
                 <View style={VALIDATOR_LIST.VERTICAL_LINE} />
               </View>
-              <View style={VALIDATOR_LIST.CONTAINER}>
-                {this.props.chain.sortedValidatorList.map(this.renderValidator)}
-              </View>
+              <ValidatorList
+                chain={this.props.chain}
+                style={VALIDATOR_LIST.CONTAINER}
+                onPressItem={this.onPressValidator}
+              />
               <View style={DASHBOARD_FOOTER}>
                 <Button
                   preset="outlined"
@@ -348,26 +350,6 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           </View>
         }
       </View>
-    )
-  }
-
-  private renderValidator = (validator: Validator) => {
-    const { formatBalance, formatRewards } = this.props.chain
-    const delegation = this.props.chain.wallet.delegations.get(validator.operatorAddress)
-    const delegatedAmount = formatBalance(delegation ? delegation.shares : undefined)
-    const rewards = delegation && delegation.hasRewards ? formatRewards(delegation.rewards) : ""
-    const hasDelegated = !!delegation && delegation.hasDelegated
-    return (
-      <ValidatorListItem
-        key={validator.operatorAddress}
-        icon={validator.avatar}
-        title={validator.moniker}
-        subtitle={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
-        rightTitle={delegatedAmount}
-        rightSubtitle={rewards}
-        isDarkMode={hasDelegated}
-        onPress={() => this.onPressValidator(validator)}
-      />
     )
   }
 }
