@@ -99,6 +99,16 @@ export class CosmosAPI {
   }
 
   /**
+   * Query all unbonding delegations between a delegator and a validator
+   *
+   * @param delegatorAddress The delegator address
+   * @param validatorAddress The validator address
+   */
+  async getUnbondingDelegation(delegatorAddress: string, validatorAddress: string) {
+    return this.api.get.unbondingDelegation(delegatorAddress, validatorAddress) as CosmosUnbondingDelegation
+  }
+
+  /**
    * Query the annual provisioned tokens
    */
   async queryAnnualProvision(): Promise<string> {

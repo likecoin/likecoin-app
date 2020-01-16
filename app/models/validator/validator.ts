@@ -83,6 +83,7 @@ export const ValidatorModel = types
     isFetchingInfo: false,
     isFetchingDelegation: false,
     isFetchingRewards: false,
+    isFetchingUnbondingDelegation: false,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -96,7 +97,8 @@ export const ValidatorModel = types
       return (
         self.isFetchingInfo ||
         self.isFetchingDelegation ||
-        self.isFetchingRewards
+        self.isFetchingRewards ||
+        self.isFetchingUnbondingDelegation
       )
     },
   }))

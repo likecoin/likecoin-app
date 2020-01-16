@@ -22,7 +22,10 @@ import {
   CosmosValidator,
   CosmosValidatorReward,
 } from "../../services/cosmos"
-import { extractCoinFromCosmosCoinList } from "../../services/cosmos/cosmos.utils"
+import {
+  calculateUnbondingDelegationBalanceFromResultEntries,
+  extractCoinFromCosmosCoinList,
+} from "../../services/cosmos/cosmos.utils"
 
 import { logError } from "../../utils/error"
 
@@ -280,15 +283,29 @@ export const ChainStoreModel = types
           "unbonding",
           results,
           (unbondingDelegations, { validator_address: id, entries }: CosmosUnbondingDelegation) =>
-            unbondingDelegations.set(id, entries.reduce(
-              (total, { balance }) => new BigNumber(balance).plus(total),
-              new BigNumber(0)
-            ))
+            unbondingDelegations.set(id, calculateUnbondingDelegationBalanceFromResultEntries(entries))
         )
       } catch (error) {
         logError(`Error occurs in ChainStore.fetchUnbondingDelegations: ${error}`)
       } finally {
         self.isFetchingUnbondingDelegation = false
+      }
+    }),
+    fetchUnbondingDelegation: flow(function * (validatorAddress: string) {
+      const validator = self.validators.get(validatorAddress)
+      if (!validator) return
+
+      validator.isFetchingUnbondingDelegation = true
+      try {
+        const results: CosmosUnbondingDelegation = yield self.env.cosmosAPI.getUnbondingDelegation(self.wallet.address, validatorAddress)
+        if (results) {
+          const balance = calculateUnbondingDelegationBalanceFromResultEntries(results.entries)
+          self.setDelegation("unbonding", validator.operatorAddress, balance)
+        }
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchUnbondingDelegation: ${error}`)
+      } finally {
+        validator.isFetchingUnbondingDelegation = false
       }
     }),
     fetchRewards: flow(function * () {
