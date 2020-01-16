@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 80 56">
+  <defs>
+    <mask id="a" x="15.95" y="0.5" width="48.03" height="27.11" maskUnits="userSpaceOnUse">
+      <path d="M16,.5H64V27.61H16Z" style="fill: #fff;fill-rule: evenodd"/>
+    </mask>
+    <mask id="b" x="0" y="27.46" width="18.85" height="2.07" maskUnits="userSpaceOnUse">
+      <path d="M0,27.46H18.85v2.07H0Z" style="fill: #fff;fill-rule: evenodd"/>
+    </mask>
+    <mask id="c" x="61.26" y="27.46" width="18.68" height="2.07" maskUnits="userSpaceOnUse">
+      <path d="M61.26,27.46H79.94v2.07H61.26Z" style="fill: #fff;fill-rule: evenodd"/>
+    </mask>
+  </defs>
+  <g style="mask: url(#a)">
+    <path d="M64,14.8s0,0,0,0a1.23,1.23,0,0,0,0-.19s0,0,0-.06a.85.85,0,0,0-.09-.22.7.7,0,0,0-.15-.19l0,0-.15-.11,0,0L40.48.64a1,1,0,0,0-1,0l-23,13.27,0,0-.15.11,0,0a.75.75,0,0,0-.15.2.85.85,0,0,0-.09.22s0,0,0,.06a1.23,1.23,0,0,0,0,.19s0,0,0,0v3.89a1,1,0,1,0,2,0V16.56L36.88,27.47a1,1,0,0,0,1.4-.37,1,1,0,0,0-.38-1.4L19,14.8,40,2.7l21,12.1L42,25.7a1,1,0,0,0-.38,1.4,1,1,0,0,0,1.4.37L62,16.56v5.13a1,1,0,0,0,2,0Z" style="fill: #28646e;fill-rule: evenodd"/>
+  </g>
+  <path d="M64,41.35a1,1,0,0,1-.51.89l-23,13.27,0,0-.17.07-.06,0a1,1,0,0,1-.48,0l-.06,0-.17-.07,0,0-23-13.27a1,1,0,0,1-.51-.89v-5.2a1,1,0,0,1,2,0v4.61L39,52.87V31.05a1,1,0,0,1,2,0V52.87L62,40.76V35.65a1,1,0,0,1,2,0Z" style="fill: #28646e;fill-rule: evenodd"/>
+  <path d="M39.08,7.75a.89.89,0,1,1,.89.88.89.89,0,0,1-.89-.88m3,0A2.09,2.09,0,1,0,40,9.84a2.1,2.1,0,0,0,2.09-2.09" style="fill: #28646e;fill-rule: evenodd"/>
+  <path d="M57.7,37.07a.89.89,0,1,1-.89.89.89.89,0,0,1,.89-.89M55.61,38a2.09,2.09,0,1,0,2.09-2.09A2.1,2.1,0,0,0,55.61,38" style="fill: #28646e;fill-rule: evenodd"/>
+  <path d="M22.42,37.32a.89.89,0,1,1-.89.89.88.88,0,0,1,.89-.89m-2.09.89a2.09,2.09,0,1,0,2.09-2.09,2.1,2.1,0,0,0-2.09,2.09" style="fill: #28646e;fill-rule: evenodd"/>
+  <circle cx="27.33" cy="41.06" r="1" style="fill: #28646e"/>
+  <circle cx="31.54" cy="43.51" r="1" style="fill: #28646e"/>
+  <circle cx="35.76" cy="45.96" r="1" style="fill: #28646e"/>
+  <circle cx="52.62" cy="41.06" r="1" style="fill: #28646e"/>
+  <circle cx="48.41" cy="43.51" r="1" style="fill: #28646e"/>
+  <circle cx="44.19" cy="45.96" r="1" style="fill: #28646e"/>
+  <circle cx="52.62" cy="15.06" r="1" style="fill: #28646e"/>
+  <circle cx="48.41" cy="12.61" r="1" style="fill: #28646e"/>
+  <circle cx="44.19" cy="10.17" r="1" style="fill: #28646e"/>
+  <circle cx="27.33" cy="15.06" r="1" style="fill: #28646e"/>
+  <circle cx="31.54" cy="12.61" r="1" style="fill: #28646e"/>
+  <circle cx="35.76" cy="10.17" r="1" style="fill: #28646e"/>
+  <circle cx="22.42" cy="22.77" r="1" style="fill: #28646e"/>
+  <circle cx="57.7" cy="32.52" r="1" style="fill: #28646e"/>
+  <circle cx="22.42" cy="32.52" r="1" style="fill: #28646e"/>
+  <circle cx="57.7" cy="27.64" r="1" style="fill: #28646e"/>
+  <circle cx="22.42" cy="27.64" r="1" style="fill: #28646e"/>
+  <circle cx="57.7" cy="22.77" r="1" style="fill: #28646e"/>
+  <g style="mask: url(#b)">
+    <path d="M17.81,27.46H1a1,1,0,0,0,0,2.07H17.81a1,1,0,1,0,0-2.07" style="fill: #28646e;fill-rule: evenodd"/>
+  </g>
+  <path d="M16.39,22.22h-6a1,1,0,0,0,0,2.07h6a1,1,0,0,0,0-2.07" style="fill: #28646e;fill-rule: evenodd"/>
+  <path d="M11.81,33H5.93a1,1,0,1,0,0,2.07h5.88a1,1,0,1,0,0-2.07" style="fill: #28646e;fill-rule: evenodd"/>
+  <g style="mask: url(#c)">
+    <path d="M78.91,27.46H62.29a1,1,0,0,0,0,2.07H78.91a1,1,0,0,0,0-2.07" style="fill: #28646e;fill-rule: evenodd"/>
+  </g>
+  <path d="M72.51,22.22H68.34a1,1,0,1,0,0,2.07h4.17a1,1,0,0,0,0-2.07" style="fill: #28646e;fill-rule: evenodd"/>
+  <path d="M74.87,33H69.81a1,1,0,1,0,0,2.07h5.06a1,1,0,1,0,0-2.07" style="fill: #28646e;fill-rule: evenodd"/>
+</svg>

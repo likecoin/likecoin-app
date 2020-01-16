@@ -39,6 +39,7 @@ export class StakingRedelegationValidatorInputScreen extends React.Component<Pro
 
   private onPressValidator = (validator: Validator) => {
     this.props.txStore.setTarget(validator.operatorAddress)
+    this.props.navigation.navigate("StakingRedelegationAmountInput")
     logAnalyticsEvent("StakeRedelegatePickValidator", { validator: validator.operatorAddress })
   }
 

@@ -147,6 +147,24 @@ export class CosmosAPI {
   }
 
   /**
+   * Create the redelegate message object
+   */
+  createRedelegateMessage(
+    senderAddress: string,
+    validatorSourceAddress: string,
+    validatorDestinationAddress: string,
+    amount: string,
+    denom: string,
+  ) {
+    return this.api.MsgRedelegate(senderAddress, {
+      validatorSourceAddress,
+      validatorDestinationAddress,
+      amount,
+      denom,
+    }) as CosmosMessage
+  }
+
+  /**
    * Create the undelegate message object
    */
   createUnbondingDelegateMessage(
