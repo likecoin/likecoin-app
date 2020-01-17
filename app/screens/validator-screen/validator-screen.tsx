@@ -8,6 +8,7 @@ import {
   View,
   ViewStyle,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native"
 import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import { inject, observer } from "mobx-react"
@@ -59,7 +60,7 @@ const IDENTITY = StyleSheet.create({
     flexBasis: "100%",
   },
 })
-const DELEGATION = StyleSheet.create({
+const STAKING = StyleSheet.create({
   CONTAINER: {
     alignItems: "center",
   } as ViewStyle,
@@ -111,18 +112,26 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     this.props.navigation.goBack()
   }
 
-  private onPressStakeButton = () => {
+  private onPressDelegateButton = () => {
     logAnalyticsEvent('ValidatorClickDelegate')
     this.props.navigation.navigate("StakingDelegation", {
       target: this.getValidator().operatorAddress,
     })
   }
 
-  private onPressUnstakeButton = () => {
+  private onPressUndelegateButton = () => {
     logAnalyticsEvent('ValidatorClickUndelegate')
     this.props.navigation.navigate("StakingUnbondingDelegation", {
       target: this.getValidator().operatorAddress,
     })
+  }
+
+  private onRefresh = () => {
+    const validator = this.getValidator()
+    validator.fetchInfo()
+    this.props.chain.fetchDelegation(validator.operatorAddress)
+    this.props.chain.fetchRewardsFromValidator(validator.operatorAddress)
+    this.props.chain.fetchUnbondingDelegation(validator.operatorAddress)
   }
 
   render () {
@@ -137,6 +146,14 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
           style={SCREEN}
           backgroundColor={color.transparent}
           preset="scroll"
+          refreshControl={
+            <RefreshControl
+              tintColor={color.palette.lighterCyan}
+              colors={[color.primary]}
+              refreshing={validator.isLoading}
+              onRefresh={this.onRefresh}
+            />
+          }
         >
           <View style={CONTENT_CONTAINER}>
             {this.renderIdentitySection()}
@@ -278,19 +295,19 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             isPaddingLess
           />
         }
-        <View style={DELEGATION.CONTAINER}>
+        <View style={STAKING.CONTAINER}>
           <ButtonGroup
             buttons={[
               {
-                key: "stake",
-                tx: "validatorScreen.stakeButtonText",
-                onPress: this.onPressStakeButton,
+                key: "delegate",
+                tx: "validatorScreen.delegateButtonText",
+                onPress: this.onPressDelegateButton,
               },
               {
-                key: "unstake",
-                tx: "validatorScreen.unstakeButtonText",
+                key: "undelegate",
+                tx: "validatorScreen.undelegateButtonText",
                 disabled: !delegation.hasDelegated,
-                onPress: this.onPressUnstakeButton,
+                onPress: this.onPressUndelegateButton,
               },
             ]}
           />
