@@ -115,6 +115,8 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
       titleTx,
       amount,
       fee,
+      from,
+      target,
     } = this.props
     return (
       <View style={SHEET.SECTION}>
@@ -154,28 +156,28 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
                 style={STYLE.LABEL}
               />
             </View>
-          ) : (
-            <React.Fragment>
-              {!!this.props.from &&
+          ) : (from || target ? (
+            <View style={SUMMARY.ENTITY_CONTAINER}>
+              {!!from &&
                 <View style={SUMMARY.ENTITY}>
                   <Text
                     tx={"transaction.from"}
                     style={STYLE.LABEL}
                   />
-                  {this.renderEntity(this.props.from)}
+                  {this.renderEntity(from)}
                 </View>
               }
-              {!!this.props.target &&
+              {!!target &&
                 <View style={SUMMARY.ENTITY}>
                   <Text
                     tx={"transaction.to"}
                     style={STYLE.LABEL}
                   />
-                  {this.renderEntity(this.props.target)}
+                  {this.renderEntity(target)}
                 </View>
               }
-            </React.Fragment>
-          )}
+            </View>
+          ) : null)}
         </View>
       </View>
     )

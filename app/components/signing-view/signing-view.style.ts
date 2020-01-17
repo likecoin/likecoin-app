@@ -29,7 +29,7 @@ export const SUMMARY = StyleSheet.create({
     paddingTop: spacing[2],
   },
   ENTITY: {
-    marginTop: spacing[4],
+    marginTop: spacing[2],
   } as ViewStyle,
   ENTITY_AVATAR: {
     width: 32,
@@ -37,6 +37,9 @@ export const SUMMARY = StyleSheet.create({
     borderRadius: 6,
     marginRight: spacing[2],
   } as ImageStyle,
+  ENTITY_CONTAINER: {
+    marginTop: spacing[4],
+  } as ViewStyle,
   ENTITY_NAME: {
     flex: 1,
   },
