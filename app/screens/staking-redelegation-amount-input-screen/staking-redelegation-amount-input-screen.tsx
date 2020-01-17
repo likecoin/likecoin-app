@@ -49,7 +49,7 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
     logAnalyticsEvent('StakeRedelegateConfirmAmount')
     if (await this.createTransactionForSigning()) {
       logAnalyticsEvent('StakeRedelegatePrepareTx')
-      // TODO: Signing
+      this.props.navigation.navigate("StakingRedelegationSigning")
     }
   }
 

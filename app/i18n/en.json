@@ -76,6 +76,10 @@
   "StakingRedelegationAmountInputScreen": {
     "availableLabelText": "Available for redelegation"
   },
+  "StakingRedelegationSigningScreen": {
+    "aboutLinkText": "Learn more about redelegation",
+    "title": "Redelegate"
+  },
   "StakingRedelegationValidatorInputScreen": {
     "title": "Redelegate to"
   },

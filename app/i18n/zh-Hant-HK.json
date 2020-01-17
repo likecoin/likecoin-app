@@ -67,6 +67,10 @@
   "StakingRedelegationAmountInputScreen": {
     "availableLabelText": "可重新委託"
   },
+  "StakingRedelegationSigningScreen": {
+    "aboutLinkText": "更多關於重新委託",
+    "title": "重新委託"
+  },
   "StakingRedelegationValidatorInputScreen": {
     "title": "重新委託至"
   },
