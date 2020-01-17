@@ -81,7 +81,7 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}
-        target={{ avatar, name }}
+        from={{ avatar, name }}
         totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}

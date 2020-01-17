@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from "react"
 import { ViewStyle } from "react-native"
 
+export type SigningViewEntity = string | { avatar: string, name: string }
 export type SigningViewType = "transfer" | "stake" | "unstake" | "reward"
 export type SigningViewStateType = "waiting" | "pending" | "success"
 
@@ -43,7 +44,12 @@ export interface SigningViewProps {
   /**
    * The target of the transaction
    */
-  target?: string | { avatar: string, name: string },
+  target?: SigningViewEntity
+
+  /**
+   * The from of the transaction
+   */
+  from?: SigningViewEntity
 
   /**
    * The URL to the block explorer
