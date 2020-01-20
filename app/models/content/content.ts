@@ -62,6 +62,10 @@ export const ContentModel = types
     get shouldFetchLikeStat() {
       return self.creator && !self.hasFetchedLikeStats
     },
+    get creatorDisplayName() {
+      if (!self.creator) return ""
+      return self.creator.displayName || self.creator.likerID
+    },
   }))
   .actions(self => ({
     setTimestamp(timestamp: number) {
