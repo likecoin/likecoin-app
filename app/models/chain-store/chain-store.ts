@@ -97,25 +97,8 @@ export const ChainStoreModel = types
         new BigNumber(0)
       )
     },
-    compareValidatorsByDelegation(a: Validator, b: Validator) {
-      const aDelegation = self.wallet.delegations.get(a.operatorAddress)
-      const bDelegation = self.wallet.delegations.get(b.operatorAddress)
-      if (aDelegation) {
-        if (!bDelegation) return -1
-        if (aDelegation.hasDelegated && !bDelegation.hasDelegated) return -1
-        if (!aDelegation.hasDelegated && aDelegation.hasDelegated) return 1
-        if (aDelegation.rewards.isGreaterThan(bDelegation.rewards)) return -1
-        if (aDelegation.rewards.isLessThan(bDelegation.rewards)) return 1
-      } else {
-        return 1
-      }
-      return a.moniker.localeCompare(b.moniker)
-    },
   }))
   .views(self => ({
-    get sortedValidatorList() {
-      return self.validatorList.sort(self.compareValidatorsByDelegation)
-    },
     formatBalance(balance: BigNumber, showUnit?: boolean) {
       return self.formatDenom(balance, 4, showUnit)
     },
@@ -155,7 +138,7 @@ export const ChainStoreModel = types
      * @param delegatedTokens The delegated tokens of a delegator
      * @return The annual rewards for a delegator
      */
-    calculateExpectedRewards(validator: Validator, delegatedTokens: BigNumber) {
+    calculateExpectedRewards(validator: Validator, delegatedTokens: BigNumber = new BigNumber(1)) {
       const annualAllDelegatorRewards = self.delegatorProvisionShare(validator).times(self.annualProvision)
       const annualDelegatorRewardsShare = delegatedTokens.div(validator.tokens)
       const annualDelegatorRewards = annualDelegatorRewardsShare.times(annualAllDelegatorRewards)
@@ -172,12 +155,45 @@ export const ChainStoreModel = types
      *
      * @return The percentage of the returns
      */
-    getValidatorExpectedReturnsPercentage(validator: Validator) {
+    getValidatorExpectedReturnsRate(validator: Validator) {
       const delegatedTokens = new BigNumber(1e10)
-      return self.formatPercent(
-        self.calculateExpectedRewards(validator, delegatedTokens)
-          .div(delegatedTokens)
-      )
+      return self.calculateExpectedRewards(validator, delegatedTokens).div(delegatedTokens)
+    },
+    getValidatorExpectedReturnsPercentage(validator: Validator) {
+      return self.formatPercent(this.getValidatorExpectedReturnsRate(validator))
+    },
+  }))
+  .views(self => ({
+    compareValidatorsByDelegation(a: Validator, b: Validator) {
+      // Sort by delegated amount
+      const aDelegation = self.wallet.getDelegation(a.operatorAddress)
+      const bDelegation = self.wallet.getDelegation(b.operatorAddress)
+      if (aDelegation.hasDelegated) {
+        if (bDelegation.hasDelegated) {
+          if (aDelegation.shares.isGreaterThan(bDelegation.shares)) return -1
+          if (aDelegation.shares.isLessThan(bDelegation.shares)) return 1
+        } else {
+          return -1
+        }
+      } else if (bDelegation.hasDelegated) {
+        return 1
+      }
+
+      // Sort by expected returns
+      const aExpectedReturns = self.calculateExpectedRewards(a)
+      const bExpectedReturns = self.calculateExpectedRewards(b)
+      if (aExpectedReturns.isGreaterThan(bExpectedReturns)) return -1
+      if (aExpectedReturns.isLessThan(bExpectedReturns)) return 1
+
+      // Sort by voting power
+      if (a.totalDelegatorShares.isLessThan(b.totalDelegatorShares)) return -1
+      if (a.totalDelegatorShares.isGreaterThan(b.totalDelegatorShares)) return 1
+
+      // Sort by name
+      return a.moniker.localeCompare(b.moniker)
+    },
+    get sortedValidatorList() {
+      return self.validatorList.sort(this.compareValidatorsByDelegation)
     },
   }))
   .actions(self => ({

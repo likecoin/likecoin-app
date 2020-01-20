@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Image, View } from "react-native"
 
-import { SigningViewProps } from "./signing-view.props"
+import { SigningViewProps, SigningViewEntity } from "./signing-view.props"
 import STYLE, { DETAIL, SHEET, SUMMARY } from "./signing-view.style"
 
 import { Button } from "../../components/button"
@@ -115,6 +115,8 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
       titleTx,
       amount,
       fee,
+      from,
+      target,
     } = this.props
     return (
       <View style={SHEET.SECTION}>
@@ -140,7 +142,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
             />
           </View>
           {type === "reward" ? (
-            <View style={SUMMARY.TARGET}>
+            <View style={SUMMARY.ENTITY}>
               <Text
                 text={fee}
                 size="large"
@@ -154,36 +156,48 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
                 style={STYLE.LABEL}
               />
             </View>
-          ) : (
-            <View style={SUMMARY.TARGET}>
-              <Text
-                tx={"transaction.".concat(type === "unstake" ? "from" : "to")}
-                style={STYLE.LABEL}
-              />
-              {this.renderTarget()}
+          ) : (from || target ? (
+            <View style={SUMMARY.ENTITY_CONTAINER}>
+              {!!from &&
+                <View style={SUMMARY.ENTITY}>
+                  <Text
+                    tx={"transaction.from"}
+                    style={STYLE.LABEL}
+                  />
+                  {this.renderEntity(from)}
+                </View>
+              }
+              {!!target &&
+                <View style={SUMMARY.ENTITY}>
+                  <Text
+                    tx={"transaction.to"}
+                    style={STYLE.LABEL}
+                  />
+                  {this.renderEntity(target)}
+                </View>
+              }
             </View>
-          )}
+          ) : null)}
         </View>
       </View>
     )
   }
 
-  private renderTarget = () => {
-    const { target } = this.props
-    if (typeof target === "string") {
+  private renderEntity = (entity: SigningViewEntity) => {
+    if (typeof entity === "string") {
       const { isShowDetail } = this.state
       return <Text
-        text={target}
+        text={entity}
         numberOfLines={isShowDetail ? null : 1}
         ellipsizeMode={isShowDetail ? null : "middle"}
       />
     }
-    const { avatar: uri, name } = target
+    const { avatar: uri, name } = entity
     return (
-      <View style={SUMMARY.TARGET_WITH_AVATAR}>
+      <View style={SUMMARY.ENTITY_WITH_AVATAR}>
         <Image
           source={{ uri }}
-          style={SUMMARY.TARGET_AVATAR}
+          style={SUMMARY.ENTITY_AVATAR}
         />
         <Text
           text={name}
@@ -191,7 +205,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           weight="500"
           numberOfLines={2}
           ellipsizeMode="tail"
-          style={SUMMARY.TARGET_NAME}
+          style={SUMMARY.ENTITY_NAME}
         />
       </View>
     )

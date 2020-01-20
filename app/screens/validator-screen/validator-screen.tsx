@@ -119,6 +119,13 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     })
   }
 
+  private onPressRedelegateButton = () => {
+    logAnalyticsEvent('ValidatorClickRedelegate')
+    this.props.navigation.navigate("StakingRedelegation", {
+      from: this.getValidator().operatorAddress,
+    })
+  }
+
   private onPressUndelegateButton = () => {
     logAnalyticsEvent('ValidatorClickUndelegate')
     this.props.navigation.navigate("StakingUnbondingDelegation", {
@@ -308,6 +315,12 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
                 tx: "validatorScreen.undelegateButtonText",
                 disabled: !delegation.hasDelegated,
                 onPress: this.onPressUndelegateButton,
+              },
+              {
+                key: "redelegate",
+                tx: "validatorScreen.redelegateButtonText",
+                disabled: !delegation.hasDelegated,
+                onPress: this.onPressRedelegateButton,
               },
             ]}
           />

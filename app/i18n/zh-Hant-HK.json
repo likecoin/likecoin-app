@@ -24,6 +24,8 @@
     "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
     "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
+    "REDELEGATE_AMOUNT_EXCEED_MAX": "數目已超出可重新委託的上限",
+    "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "REGISTRATION_BAD_DATA": "註冊資料錯誤",
     "REGISTRATION_EMAIL_ALREADY_USED": "電郵已被註冊",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註冊",
@@ -34,7 +36,7 @@
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "TRANSFER_INPUT_TARGET_INVALID": "輸入的 Liker ID 或錢包地址不正確",
     "TRANSFER_TARGET_NO_WALLET": "收款人沒有錢包地址",
-    "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
   },
@@ -61,6 +63,16 @@
   "stakingDelegationSigningScreen": {
     "aboutLinkText": "關於委託",
     "title": "委託"
+  },
+  "StakingRedelegationAmountInputScreen": {
+    "availableLabelText": "可重新委託"
+  },
+  "StakingRedelegationSigningScreen": {
+    "aboutLinkText": "更多關於重新委託",
+    "title": "重新委託"
+  },
+  "StakingRedelegationValidatorInputScreen": {
+    "title": "重新委託至"
   },
   "stakingRewardsWithdrawScreen": {
     "title": "取回收益"
@@ -139,6 +151,7 @@
     "delegatorUnbondingShareLabel": "解綁中",
     "delegatorRewardsLabel": "未領取收益",
     "delegateButtonText": "委託",
+    "redelegateButtonText": "重新委託",
     "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"

@@ -28,6 +28,31 @@ export const SUMMARY = StyleSheet.create({
     paddingBottom: spacing[4],
     paddingTop: spacing[2],
   },
+  ENTITY: {
+    marginTop: spacing[2],
+  } as ViewStyle,
+  ENTITY_AVATAR: {
+    width: 32,
+    aspectRatio: 1,
+    borderRadius: 6,
+    marginRight: spacing[2],
+  } as ImageStyle,
+  ENTITY_CONTAINER: {
+    marginTop: spacing[4],
+  } as ViewStyle,
+  ENTITY_NAME: {
+    flex: 1,
+  },
+  ENTITY_WITH_AVATAR: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: spacing[1],
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[2],
+    borderRadius: 12,
+    borderColor: color.palette.grey9b,
+    borderWidth: StyleSheet.hairlineWidth,
+  } as ViewStyle,
   GRAPH: {
     height: 56,
     width: 68,
@@ -42,28 +67,6 @@ export const SUMMARY = StyleSheet.create({
   HEADER_TITLE: {
     marginTop: spacing[3],
   } as TextStyle,
-  TARGET: {
-    marginTop: spacing[4],
-  } as ViewStyle,
-  TARGET_AVATAR: {
-    width: 32,
-    aspectRatio: 1,
-    borderRadius: 6,
-    marginRight: spacing[2],
-  } as ImageStyle,
-  TARGET_NAME: {
-    flex: 1,
-  },
-  TARGET_WITH_AVATAR: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: spacing[1],
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[2],
-    borderRadius: 12,
-    borderColor: color.palette.grey9b,
-    borderWidth: StyleSheet.hairlineWidth,
-  } as ViewStyle,
 })
 
 export const DETAIL = StyleSheet.create({

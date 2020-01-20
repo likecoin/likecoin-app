@@ -1,46 +1,34 @@
 import * as React from "react"
-import { ViewStyle } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
-import { ChainStore } from "../../models/chain-store"
+import {
+  StakingRedelegationSigningScreenProps as Props,
+  StakingRedelegationSigningScreenStyle as Style,
+} from "."
+
 import { RootStore } from "../../models/root-store"
-import { StakingUnbondingDelegationStore } from "../../models/staking-unbonding-delegation-store"
 
 import { Button } from "../../components/button"
 import { SigningView } from "../../components/signing-view"
-import { Validator } from "../../models/validator"
-
-import { spacing } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-import Graph from "../../assets/graph/staking-unbonding-delegate.svg"
-
-const GRAPH: ViewStyle = {
-  marginRight: -20,
-}
-const ABOUT_LINK_BUTTON: ViewStyle = {
-  marginTop: spacing[3],
-}
-
-export interface StakingUnbondingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
-  txStore: StakingUnbondingDelegationStore
-  chain: ChainStore
-}
+import Graph from "../../assets/graph/staking-redelegate.svg"
 
 @inject((rootStore: RootStore) => ({
-  txStore: rootStore.stakingUnbondingDelegationStore,
+  txStore: rootStore.stakingRedelegationStore,
   chain: rootStore.chainStore,
 }))
 @observer
-export class StakingUnbondingDelegationSigningScreen extends React.Component<StakingUnbondingDelegationSigningScreenProps, {}> {
+export class StakingRedelegationSigningScreen extends React.Component<Props> {
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
-    if (this.props.txStore.isSuccess) {
-      logAnalyticsEvent('StakeUndelegateSuccess')
+    const { from, isSuccess, target } = this.props.txStore
+    if (isSuccess) {
+      logAnalyticsEvent('StakeRedelegateSuccess')
       this.props.chain.fetchBalance()
-      this.props.chain.fetchDelegations()
+      this.props.chain.fetchDelegation(from)
+      this.props.chain.fetchDelegation(target)
       this.props.chain.fetchRewards()
     }
   }
@@ -51,10 +39,10 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
 
   private onPressConfirmButton = () => {
     if (this.props.txStore.isSuccess) {
-      logAnalyticsEvent('StakeUndelegateConfirmAmount')
+      logAnalyticsEvent('StakeRedelegateTxConfirmed')
       this.props.navigation.dismiss()
     } else {
-      logAnalyticsEvent('StakeUndelegatePrepareTx')
+      logAnalyticsEvent('StakeRedelegateSign')
       this.sendTransaction()
     }
   }
@@ -65,34 +53,36 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
       blockExplorerURL,
       errorMessage,
       fee,
+      from,
       signingState: state,
       target,
       totalAmount,
     } = this.props.txStore
     const { formatDenom } = this.props.chain
-    const { avatar, moniker: name }: Validator = this.props.chain.validators.get(target)
+    const { avatar: fromAvatar, moniker: fromName } = this.props.chain.validators.get(from)
+    const { avatar: targetAvatar, moniker: targetName } = this.props.chain.validators.get(target)
 
     return (
       <SigningView
-        type="unstake"
+        type="stake"
         state={state}
-        titleTx="stakingUnbondingDelegationSigningScreen.title"
+        titleTx="StakingRedelegationSigningScreen.title"
         amount={formatDenom(amount)}
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}
-        from={{ avatar, name }}
+        from={{ avatar: fromAvatar, name: fromName }}
+        target={{ avatar: targetAvatar, name: targetName }}
         totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
-        graphStyle={GRAPH}
         bottomNavigationAppendChildren={(
           <Button
             preset="link"
-            tx="stakingUnbondingDelegationSigningScreen.aboutLinkText"
-            link="http://bit.ly/2LMwXyE"
+            tx="StakingRedelegationSigningScreen.aboutLinkText"
+            link="http://bit.ly/34h2KhF"
             color="greyBlue"
             weight="400"
-            style={ABOUT_LINK_BUTTON}
+            style={Style.LearnMoreLink}
           />
         )}
         onClose={this.onPressCloseButton}
