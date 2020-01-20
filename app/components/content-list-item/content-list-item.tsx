@@ -84,7 +84,7 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
               color="likeGreen"
               size="default"
               weight="600"
-              text={content.creator.displayName || content.creator.likerID}
+              text={content.creatorDisplayName}
             />
             <Text
               color="grey4a"
