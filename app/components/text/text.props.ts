@@ -56,6 +56,11 @@ export interface TextProps extends TextProperties {
   align?: TextStyle["textAlign"]
 
   /**
+   * Set to `true` to display in disabled style.
+   */
+  disabled?: boolean
+
+  /**
    * Determine the component should hide or not
    */
   isHidden?: boolean

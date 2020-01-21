@@ -151,6 +151,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     await this.props.chain.fetchAnnualProvision()
     await this.props.chain.fetchValidators()
     this.props.chain.fetchDelegations()
+    this.props.chain.fetchRedelegations()
     this.props.chain.fetchUnbondingDelegations()
     this.props.chain.fetchRewards()
   }

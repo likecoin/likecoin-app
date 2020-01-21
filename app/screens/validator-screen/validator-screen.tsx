@@ -1,5 +1,6 @@
 import * as React from "react"
 import {
+  Alert,
   Clipboard,
   Image,
   ImageStyle,
@@ -16,7 +17,9 @@ import { inject, observer } from "mobx-react"
 import { ValidatorScreenGridItem } from "./validator-screen.grid-item"
 
 import { Button } from "../../components/button"
+import { textPresets as ButtonTextPresets } from "../../components/button/button.presets"
 import { ButtonGroup } from "../../components/button-group"
+import { Icon } from "../../components/icon"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
 import { Screen } from "../../components/screen"
@@ -29,6 +32,7 @@ import { Validator } from "../../models/validator"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import GlobeIcon from "../../assets/globe.svg"
+import { translate } from "../../i18n"
 
 export interface ValidatorScreenNavigationParams {
   validator: Validator
@@ -90,6 +94,15 @@ const BOTTOM_BAR: ViewStyle = {
   padding: spacing[3],
   backgroundColor: color.palette.white,
 }
+const RedelegateButton = StyleSheet.create({
+  Lock: {
+    position: "absolute",
+    margin: spacing[2],
+  } as ViewStyle,
+  Self: {
+    position: "relative",
+  } as ViewStyle,
+})
 
 @inject((rootStore: RootStore) => ({
   chain: rootStore.chainStore,
@@ -124,6 +137,15 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     this.props.navigation.navigate("StakingRedelegation", {
       from: this.getValidator().operatorAddress,
     })
+  }
+
+  private onPressLockedRedelegateButton = () => {
+    logAnalyticsEvent("ValidatorClickRedelegateLock")
+    Alert.alert(
+      translate("validatorScreen.RedelegationLockAlert.title"),
+      translate("validatorScreen.RedelegationLockAlert.message"),
+      [{ text: translate("common.confirm") }]
+    )
   }
 
   private onPressUndelegateButton = () => {
@@ -270,10 +292,11 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private renderDelegationSection = () => {
-    const validator = this.getValidator()
+    const { operatorAddress: validatorAddress } = this.getValidator()
     const { formatBalance, formatRewards } = this.props.chain
-    const delegation = this.props.chain.wallet.getDelegation(validator.operatorAddress)
+    const delegation = this.props.chain.wallet.getDelegation(validatorAddress)
     const delegatorRewardsTextColor = delegation.hasRewards ? "darkModeGreen" : "white"
+    const canRedelegate = this.props.chain.wallet.canRedelegateFromValidator(validatorAddress)
     return (
       <ValidatorScreenGridItem isShowSeparator={false}>
         {delegation.hasDelegated &&
@@ -318,9 +341,24 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               },
               {
                 key: "redelegate",
-                tx: "validatorScreen.redelegateButtonText",
+                children: (
+                  <React.Fragment>
+                    <Text
+                      style={ButtonTextPresets["button-group"]}
+                      disabled={!canRedelegate}
+                      tx="validatorScreen.redelegateButtonText"
+                    />
+                    {delegation.hasDelegated && !canRedelegate &&
+                      <Icon
+                        name="lock"
+                        style={RedelegateButton.Lock}
+                      />
+                    }
+                  </React.Fragment>
+                ),
+                style: RedelegateButton.Self,
                 disabled: !delegation.hasDelegated,
-                onPress: this.onPressRedelegateButton,
+                onPress: canRedelegate ? this.onPressRedelegateButton : this.onPressLockedRedelegateButton,
               },
             ]}
           />

@@ -17,6 +17,7 @@ import { WalletModel } from "../wallet"
 import {
   CosmosCoinResult,
   CosmosDelegation,
+  CosmosRedelegation,
   CosmosRewardsResult,
   CosmosUnbondingDelegation,
   CosmosValidator,
@@ -51,6 +52,7 @@ export const ChainStoreModel = types
     isFetchingValidators: false,
     isFetchingBalance: false,
     isFetchingDelegation: false,
+    isFetchingRedelegation: false,
     isFetchingUnbondingDelegation: false,
     isFetchingRewards: false,
   }))
@@ -75,6 +77,7 @@ export const ChainStoreModel = types
       return self.isFetchingValidators ||
         self.isFetchingBalance ||
         self.isFetchingDelegation ||
+        self.isFetchingRedelegation ||
         self.isFetchingUnbondingDelegation ||
         self.isFetchingRewards
     },
@@ -289,6 +292,20 @@ export const ChainStoreModel = types
         logError(`Error occurs in ChainStore.fetchDelegation: ${error}`)
       } finally {
         validator.isFetchingDelegation = false
+      }
+    }),
+    fetchRedelegations: flow(function * () {
+      self.isFetchingRedelegation = true
+      try {
+        const results: CosmosRedelegation[] = yield self.env.cosmosAPI.getRedelegations(self.wallet.address)
+        const destinationValidators = new Set(results.map(r => r.validator_dst_address))
+        self.validatorList.forEach(({ operatorAddress: address }) => {
+          self.wallet.redelegationTargets.set(address, destinationValidators.has(address))
+        })
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchRedelegations: ${error}`)
+      } finally {
+        self.isFetchingRedelegation = false
       }
     }),
     fetchUnbondingDelegations: flow(function * () {

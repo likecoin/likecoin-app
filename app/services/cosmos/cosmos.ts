@@ -90,6 +90,15 @@ export class CosmosAPI {
   }
 
   /**
+   * Get all redelegations
+   *
+   * @param delegatorAddress The delegator address
+   */
+  async getRedelegations(delegatorAddress: string) {
+    return this.api.get.redelegations(delegatorAddress) as CosmosDelegation[]
+  }
+
+  /**
    * Get all unbonding delegations from a delegator
    *
    * @param delegatorAddress The delegator address
