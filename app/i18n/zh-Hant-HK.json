@@ -152,6 +152,10 @@
     "delegatorRewardsLabel": "未領取收益",
     "delegateButtonText": "委託",
     "redelegateButtonText": "重新委託",
+    "RedelegationLockAlert": {
+      "title": "重新委託已鎖上",
+      "message": "你最近曾重新委託至這驗證人，重新委託後21天將會被解鎖。"
+    },
     "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"

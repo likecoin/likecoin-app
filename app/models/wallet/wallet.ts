@@ -21,6 +21,7 @@ export const WalletModel = types
     address: types.identifier,
     availableBalance: types.optional(BigNumberPrimitive, "0"),
     delegations: types.map(DelegationModel),
+    redelegationTargets: types.map(types.boolean),
   })
   .extend(withEnvironment)
   .actions(self => ({
@@ -34,6 +35,9 @@ export const WalletModel = types
     },
     hasDelegation(validatorAddress: string) {
       return self.delegations.has(validatorAddress)
+    },
+    canRedelegateFromValidator(validatorAddress: string) {
+      return !self.redelegationTargets.get(validatorAddress)
     },
     /**
      * The URL of the account page in block explorer
