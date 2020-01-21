@@ -1,6 +1,7 @@
 # LikeCoinApp
 
-[![CircleCI](https://circleci.com/gh/likecoin/likecoin-app.svg?style=svg&circle-token=d6b30e4a24c46c83432ba393f893f295bf876b65)](https://circleci.com/gh/likecoin/likecoin-app)
+![](https://github.com/likecoin/likecoin-app/workflows/Lint%20and%20build/badge.svg)
+![](https://github.com/likecoin/likecoin-app/workflows/Release/badge.svg)
 
 ## The latest and greatest boilerplate for Infinite Red opinions
 
