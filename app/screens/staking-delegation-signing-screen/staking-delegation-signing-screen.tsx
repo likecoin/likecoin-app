@@ -37,10 +37,12 @@ export interface StakingDelegationSigningScreenProps extends NavigationScreenPro
 export class StakingDelegationSigningScreen extends React.Component<StakingDelegationSigningScreenProps, {}> {
   private sendTransaction = async () => {
     await this.props.txStore.signTx(this.props.chain.wallet.signer)
-    if (this.props.txStore.isSuccess) {
+    const { target, isSuccess } = this.props.txStore
+    if (isSuccess) {
       logAnalyticsEvent('StakeDelegateSuccess')
       this.props.chain.fetchBalance()
-      this.props.chain.fetchValidators()
+      this.props.chain.fetchDelegation(target)
+      this.props.chain.validators.get(target).fetchInfo()
     }
   }
 
