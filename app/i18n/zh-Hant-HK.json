@@ -65,14 +65,14 @@
     "title": "委託"
   },
   "StakingRedelegationAmountInputScreen": {
-    "availableLabelText": "可重新委託"
+    "availableLabelText": "可轉移"
   },
   "StakingRedelegationSigningScreen": {
-    "aboutLinkText": "更多關於重新委託",
-    "title": "重新委託"
+    "aboutLinkText": "關於轉移委託",
+    "title": "轉移委託"
   },
   "StakingRedelegationValidatorInputScreen": {
-    "title": "重新委託至"
+    "title": "轉移委託至"
   },
   "stakingRewardsWithdrawScreen": {
     "title": "取回收益"
@@ -151,10 +151,10 @@
     "delegatorUnbondingShareLabel": "解綁中",
     "delegatorRewardsLabel": "未領取收益",
     "delegateButtonText": "委託",
-    "redelegateButtonText": "重新委託",
+    "redelegateButtonText": "轉移委託",
     "RedelegationLockAlert": {
-      "title": "重新委託已鎖上",
-      "message": "你最近曾重新委託至這驗證人，重新委託後21天將會被解鎖。"
+      "title": "轉移委託已被鎖上",
+      "message": "你最近曾轉移委託至這驗證人，轉移委託後21天將會被解鎖。"
     },
     "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
