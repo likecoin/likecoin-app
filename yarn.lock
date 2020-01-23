@@ -9642,9 +9642,9 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-"react-native-authcore@https://gitlab.com/blocksq/react-native-authcore#78b1ff063af86ed2a1a5235ee52ecc6c342b2531":
+"react-native-authcore@https://gitlab.com/blocksq/react-native-authcore#02d5c1960be257848248b4a10b01abfb761488a4":
   version "1.0.0"
-  resolved "https://gitlab.com/blocksq/react-native-authcore#78b1ff063af86ed2a1a5235ee52ecc6c342b2531"
+  resolved "https://gitlab.com/blocksq/react-native-authcore#02d5c1960be257848248b4a10b01abfb761488a4"
   dependencies:
     color "^3.1.2"
     url "^0.11.0"
