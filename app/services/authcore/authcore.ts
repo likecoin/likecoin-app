@@ -69,6 +69,7 @@ export class AuthCoreAPI {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
+      socialLoginPaneStyle: "top",
     })
     this.cosmosChainId = cosmosChainId
     if (refreshToken) {
