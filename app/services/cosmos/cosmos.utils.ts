@@ -1,4 +1,8 @@
-import { CosmosCoinResult } from "./cosmos.types"
+import BigNumber from "bignumber.js"
+import {
+  CosmosCoinResult,
+  CosmosUnbondingDelegationEntry,
+} from "./cosmos.types"
 
 /**
  * Parse the given amount of given denom in number to Cosmos coin format
@@ -21,6 +25,20 @@ export function extractCoinFromCosmosCoinList(coins: CosmosCoinResult[], denom: 
   if (!coins || !coins.length) return "0"
   const [coin] = coins.filter(coin => coin.denom === denom)
   return coin.amount
+}
+
+/**
+ * Calculate the total balance of unbonding delegation
+ * from CosmosUnbondingDelegationEntry[]
+ *
+ * @param entries The unbonding delegation entries
+ * @return The total balance of unbonding delegation
+ */
+export function calculateUnbondingDelegationBalanceFromResultEntries(entries: CosmosUnbondingDelegationEntry[]) {
+  return entries.reduce(
+    (total, { balance }) => new BigNumber(balance).plus(total),
+    new BigNumber(0)
+  )
 }
 
 /**

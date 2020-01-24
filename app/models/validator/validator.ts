@@ -4,9 +4,49 @@ import {
   SnapshotOut,
   types,
 } from "mobx-state-tree"
+import BigNumber from "bignumber.js"
 
 import { withEnvironment } from "../extensions"
 import { BigNumberPrimitive } from "../number"
+import { CosmosValidator as ValidatorResult } from "../../services/cosmos"
+import { logError } from "../../utils/error"
+
+export function parseValidatorResult(result: ValidatorResult) {
+  const {
+    operator_address: operatorAddress,
+    consensus_pubkey: consensusPublicKey,
+    delegator_shares: totalDelegatorShares,
+    jailed: isJailed,
+    description,
+    unbonding_height: unbondingHeight,
+    unbonding_time: unbondingTime,
+    commission: {
+      commission_rates: {
+        rate: commissionRate,
+        max_rate: maxCommissionRate,
+        max_change_rate: maxCommissionChangeRate,
+      },
+      update_time: commissionUpdateTime,
+    },
+    min_self_delegation: minSelfDelegation,
+    ...rest
+  } = result
+  return {
+    operatorAddress,
+    consensusPublicKey,
+    totalDelegatorShares,
+    isJailed,
+    ...description,
+    unbondingHeight,
+    unbondingTime,
+    commissionRate,
+    maxCommissionRate,
+    maxCommissionChangeRate,
+    commissionUpdateTime,
+    minSelfDelegation,
+    ...rest
+  }
+}
 
 /**
  * A Cosmos validator.
@@ -39,6 +79,12 @@ export const ValidatorModel = types
 
     minSelfDelegation: types.string,
   })
+  .volatile(() => ({
+    isFetchingInfo: false,
+    isFetchingDelegation: false,
+    isFetchingRewards: false,
+    isFetchingUnbondingDelegation: false,
+  }))
   .extend(withEnvironment)
   .views(self => ({
     get avatar() {
@@ -47,32 +93,38 @@ export const ValidatorModel = types
     get blockExplorerURL() {
       return self.env.bigDipper.getValidatorURL(self.operatorAddress)
     },
+    get isLoading() {
+      return (
+        self.isFetchingInfo ||
+        self.isFetchingDelegation ||
+        self.isFetchingRewards ||
+        self.isFetchingUnbondingDelegation
+      )
+    },
   }))
   .actions(self => ({
-    update(v: Validator) {
-      self.operatorAddress = v.operatorAddress
-      self.consensusPublicKey = v.consensusPublicKey
-      self.isJailed = v.isJailed
-      self.status = v.status
-      self.tokens = v.tokens
-      self.totalDelegatorShares = v.totalDelegatorShares
+    update(result: ValidatorResult) {
+      const parsed = parseValidatorResult(result)
+      self.operatorAddress = parsed.operatorAddress
+      self.consensusPublicKey = parsed.consensusPublicKey
+      self.isJailed = parsed.isJailed
+      self.status = parsed.status
+      self.tokens = new BigNumber(parsed.tokens)
+      self.totalDelegatorShares = new BigNumber(parsed.totalDelegatorShares)
 
-      self.moniker = v.moniker
-      self.identity = v.identity
-      self.website = v.website
-      self.details = v.details
+      self.moniker = parsed.moniker
+      self.identity = parsed.identity
+      self.website = parsed.website
+      self.details = parsed.details
 
-      if (v.avatorURL) {
-        self.avatorURL = v.avatorURL
-      }
-      self.unbondingHeight = v.unbondingHeight
-      self.unbondingTime = v.unbondingTime
+      self.unbondingHeight = parsed.unbondingHeight
+      self.unbondingTime = parsed.unbondingTime
 
-      self.commissionRate = v.commissionRate
-      self.maxCommissionRate = v.maxCommissionRate
-      self.maxCommissionChangeRate = v.maxCommissionChangeRate
-      self.commissionUpdateTime = v.commissionUpdateTime
-      self.minSelfDelegation = v.minSelfDelegation
+      self.commissionRate = parsed.commissionRate
+      self.maxCommissionRate = new BigNumber(parsed.maxCommissionRate)
+      self.maxCommissionChangeRate = parsed.maxCommissionChangeRate
+      self.commissionUpdateTime = parsed.commissionUpdateTime
+      self.minSelfDelegation = parsed.minSelfDelegation
     },
     fetchAvatarURL: flow(function * () {
       if (self.identity.length === 16) {
@@ -86,6 +138,19 @@ export const ValidatorModel = types
             self.avatorURL = url
           }
         }
+      }
+    }),
+  }))
+  .actions(self => ({
+    fetchInfo: flow(function * () {
+      try {
+        self.isFetchingInfo = true
+        const rawValidator: ValidatorResult = yield self.env.cosmosAPI.queryValidator(self.operatorAddress)
+        self.update(rawValidator)
+      } catch (error) {
+        logError(`Error occurs in Validator.fetchInfo: ${error}`)
+      } finally {
+        self.isFetchingInfo = false
       }
     }),
   }))

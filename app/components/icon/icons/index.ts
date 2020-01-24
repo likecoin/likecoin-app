@@ -5,6 +5,7 @@ import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import CrossIcon from "./cross.svg"
 import LikeClap from "./like-clap.svg"
+import Lock from "./lock.svg"
 import QRCodeScan from "./qrcode-scan.svg"
 import ReaderFeatured from "./reader-featured.svg"
 import ReaderFollowing from "./reader-following.svg"
@@ -23,6 +24,7 @@ export const icons = {
   "bookmark-outlined": BookmarkOutlinedIcon,
   close: CrossIcon,
   "like-clap": LikeClap,
+  lock: Lock,
   "qrcode-scan": QRCodeScan,
   "reader-featured": ReaderFeatured,
   "reader-following": ReaderFollowing,

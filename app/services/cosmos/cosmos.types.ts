@@ -87,6 +87,14 @@ export interface CosmosUnbondingDelegationEntry {
   /* eslint-enable camelcase */
 }
 
+export interface CosmosRedelegation {
+  /* eslint-disable camelcase */
+  delegator_address: string
+  validator_src_address: string
+  validator_dst_address: string
+  /* eslint-enable camelcase */
+}
+
 export interface CosmosUnbondingDelegation {
   /* eslint-disable camelcase */
   delegator_address: string

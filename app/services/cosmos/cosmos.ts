@@ -2,6 +2,7 @@ import Cosmos from "@lunie/cosmos-api"
 
 import {
   CosmosAccountResult,
+  CosmosCoinResult,
   CosmosDelegation,
   CosmosMessage,
   CosmosRewardsResult,
@@ -34,6 +35,13 @@ export class CosmosAPI {
   }
 
   /**
+   * Get a validator by address
+   */
+  async queryValidator(address: string) {
+    return this.api.get.validator(address) as CosmosValidator
+  }
+
+  /**
    * Get the account balance for LikeCoin
    *
    * @param address The account address
@@ -53,6 +61,16 @@ export class CosmosAPI {
   }
 
   /**
+   * Query a single delegation reward by a delegator
+   *
+   * @param delegatorAddress The delegator address
+   * @param validatorAddress The validator address
+   */
+  async queryRewardsFromValidator(delegatorAddress: string, validatorAddress: string) {
+    return this.api.get.delegatorRewardsFromValidator(delegatorAddress, validatorAddress) as CosmosCoinResult[]
+  }
+
+  /**
    * Get all delegations from a delegator
    *
    * @param delegatorAddress The delegator address
@@ -62,12 +80,41 @@ export class CosmosAPI {
   }
 
   /**
+   *  Query a delegation between a delegator and a validator
+   *
+   * @param delegatorAddress The delegator address
+   * @param validatorAddress The validator address
+   */
+  async getDelegation(delegatorAddress: string, validatorAddress: string) {
+    return this.api.get.delegation(delegatorAddress, validatorAddress) as CosmosDelegation
+  }
+
+  /**
+   * Get all redelegations
+   *
+   * @param delegatorAddress The delegator address
+   */
+  async getRedelegations(delegatorAddress: string) {
+    return this.api.get.redelegations(delegatorAddress) as CosmosDelegation[]
+  }
+
+  /**
    * Get all unbonding delegations from a delegator
    *
    * @param delegatorAddress The delegator address
    */
   async getUnbondingDelegations(delegatorAddress: string) {
     return this.api.get.undelegations(delegatorAddress) as CosmosUnbondingDelegation[]
+  }
+
+  /**
+   * Query all unbonding delegations between a delegator and a validator
+   *
+   * @param delegatorAddress The delegator address
+   * @param validatorAddress The validator address
+   */
+  async getUnbondingDelegation(delegatorAddress: string, validatorAddress: string) {
+    return this.api.get.unbondingDelegation(delegatorAddress, validatorAddress) as CosmosUnbondingDelegation
   }
 
   /**
@@ -103,6 +150,24 @@ export class CosmosAPI {
   ) {
     return this.api.MsgDelegate(fromAddress, {
       validatorAddress,
+      amount,
+      denom,
+    }) as CosmosMessage
+  }
+
+  /**
+   * Create the redelegate message object
+   */
+  createRedelegateMessage(
+    senderAddress: string,
+    validatorSourceAddress: string,
+    validatorDestinationAddress: string,
+    amount: string,
+    denom: string,
+  ) {
+    return this.api.MsgRedelegate(senderAddress, {
+      validatorSourceAddress,
+      validatorDestinationAddress,
       amount,
       denom,
     }) as CosmosMessage

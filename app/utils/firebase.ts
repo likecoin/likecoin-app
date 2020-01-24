@@ -1,5 +1,10 @@
 import analytics from '@react-native-firebase/analytics'
 import crashlytics from '@react-native-firebase/crashlytics'
+import firebase from '@react-native-firebase/app'
+
+if (firebase.app().utils().isRunningInTestLab) {
+  analytics().setAnalyticsCollectionEnabled(false)
+}
 
 export function getAnalyticsInstance() {
   return analytics()

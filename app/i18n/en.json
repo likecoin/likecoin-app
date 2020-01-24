@@ -25,6 +25,8 @@
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
     "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be less than %{count}",
     "LIKER_ID_LENGTH_LIMIT_MAX": "The length of the Liker ID must not be more than %{count}",
+    "REDELEGATE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
+    "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "REGISTRATION_BAD_DATA": "Registration data invalid",
     "REGISTRATION_EMAIL_ALREADY_USED": "The email is already used",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "The Liker ID is already used",
@@ -35,7 +37,7 @@
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_INPUT_TARGET_INVALID": "The Liker ID or address is invalid",
     "TRANSFER_TARGET_NO_WALLET": "Receiver does not have a address",
-    "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum undelegation amount",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough to pay for transaction fee"
   },
@@ -71,6 +73,16 @@
     "aboutLinkText": "Learn more about delegation",
     "title": "Delegate"
   },
+  "StakingRedelegationAmountInputScreen": {
+    "availableLabelText": "Available for redelegation"
+  },
+  "StakingRedelegationSigningScreen": {
+    "aboutLinkText": "Learn more about redelegation",
+    "title": "Redelegate"
+  },
+  "StakingRedelegationValidatorInputScreen": {
+    "title": "Redelegate to"
+  },
   "stakingRewardsWithdrawScreen": {
     "title": "Withdraw rewards"
   },
@@ -78,7 +90,7 @@
     "available": "Delegated"
   },
   "stakingUnbondingDelegationSigningScreen": {
-    "aboutLinkText": "關於取回委託",
+    "aboutLinkText": "About undelegation",
     "title": "Undelegate"
   },
   "settingsScreen": {
@@ -136,8 +148,13 @@
     "delegatorShareLabel": "Delegated",
     "delegatorUnbondingShareLabel": "Unbonding",
     "delegatorRewardsLabel": "Delegating Rewards",
-    "stakeButtonText": "Delegate",
-    "unstakeButtonText": "Undelegate",
+    "delegateButtonText": "Delegate",
+    "redelegateButtonText": "Redelegate",
+    "RedelegationLockAlert": {
+      "title": "Redelegation is Locked",
+      "message": "You have redelegated to this validator recently, please wait for 21 days after redelegation to unlock."
+    },
+    "undelegateButtonText": "Undelegate",
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"
   },

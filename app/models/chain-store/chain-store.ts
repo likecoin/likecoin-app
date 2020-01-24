@@ -8,16 +8,25 @@ import BigNumber from "bignumber.js"
 
 import { withEnvironment } from "../extensions"
 import { BigNumberPrimitive } from "../number"
-import { ValidatorModel, Validator } from "../validator"
+import {
+  parseValidatorResult,
+  ValidatorModel,
+  Validator,
+} from "../validator"
 import { WalletModel } from "../wallet"
 import {
+  CosmosCoinResult,
   CosmosDelegation,
+  CosmosRedelegation,
   CosmosRewardsResult,
   CosmosUnbondingDelegation,
   CosmosValidator,
   CosmosValidatorReward,
 } from "../../services/cosmos"
-import { extractCoinFromCosmosCoinList } from "../../services/cosmos/cosmos.utils"
+import {
+  calculateUnbondingDelegationBalanceFromResultEntries,
+  extractCoinFromCosmosCoinList,
+} from "../../services/cosmos/cosmos.utils"
 
 import { logError } from "../../utils/error"
 
@@ -43,6 +52,7 @@ export const ChainStoreModel = types
     isFetchingValidators: false,
     isFetchingBalance: false,
     isFetchingDelegation: false,
+    isFetchingRedelegation: false,
     isFetchingUnbondingDelegation: false,
     isFetchingRewards: false,
   }))
@@ -67,6 +77,7 @@ export const ChainStoreModel = types
       return self.isFetchingValidators ||
         self.isFetchingBalance ||
         self.isFetchingDelegation ||
+        self.isFetchingRedelegation ||
         self.isFetchingUnbondingDelegation ||
         self.isFetchingRewards
     },
@@ -89,25 +100,8 @@ export const ChainStoreModel = types
         new BigNumber(0)
       )
     },
-    compareValidatorsByDelegation(a: Validator, b: Validator) {
-      const aDelegation = self.wallet.delegations.get(a.operatorAddress)
-      const bDelegation = self.wallet.delegations.get(b.operatorAddress)
-      if (aDelegation) {
-        if (!bDelegation) return -1
-        if (aDelegation.hasDelegated && !bDelegation.hasDelegated) return -1
-        if (!aDelegation.hasDelegated && aDelegation.hasDelegated) return 1
-        if (aDelegation.rewards.isGreaterThan(bDelegation.rewards)) return -1
-        if (aDelegation.rewards.isLessThan(bDelegation.rewards)) return 1
-      } else {
-        return 1
-      }
-      return a.moniker.localeCompare(b.moniker)
-    },
   }))
   .views(self => ({
-    get sortedValidatorList() {
-      return self.validatorList.sort(self.compareValidatorsByDelegation)
-    },
     formatBalance(balance: BigNumber, showUnit?: boolean) {
       return self.formatDenom(balance, 4, showUnit)
     },
@@ -147,7 +141,7 @@ export const ChainStoreModel = types
      * @param delegatedTokens The delegated tokens of a delegator
      * @return The annual rewards for a delegator
      */
-    calculateExpectedRewards(validator: Validator, delegatedTokens: BigNumber) {
+    calculateExpectedRewards(validator: Validator, delegatedTokens: BigNumber = new BigNumber(1)) {
       const annualAllDelegatorRewards = self.delegatorProvisionShare(validator).times(self.annualProvision)
       const annualDelegatorRewardsShare = delegatedTokens.div(validator.tokens)
       const annualDelegatorRewards = annualDelegatorRewardsShare.times(annualAllDelegatorRewards)
@@ -164,12 +158,45 @@ export const ChainStoreModel = types
      *
      * @return The percentage of the returns
      */
-    getValidatorExpectedReturnsPercentage(validator: Validator) {
+    getValidatorExpectedReturnsRate(validator: Validator) {
       const delegatedTokens = new BigNumber(1e10)
-      return self.formatPercent(
-        self.calculateExpectedRewards(validator, delegatedTokens)
-          .div(delegatedTokens)
-      )
+      return self.calculateExpectedRewards(validator, delegatedTokens).div(delegatedTokens)
+    },
+    getValidatorExpectedReturnsPercentage(validator: Validator) {
+      return self.formatPercent(this.getValidatorExpectedReturnsRate(validator))
+    },
+  }))
+  .views(self => ({
+    compareValidatorsByDelegation(a: Validator, b: Validator) {
+      // Sort by delegated amount
+      const aDelegation = self.wallet.getDelegation(a.operatorAddress)
+      const bDelegation = self.wallet.getDelegation(b.operatorAddress)
+      if (aDelegation.hasDelegated) {
+        if (bDelegation.hasDelegated) {
+          if (aDelegation.shares.isGreaterThan(bDelegation.shares)) return -1
+          if (aDelegation.shares.isLessThan(bDelegation.shares)) return 1
+        } else {
+          return -1
+        }
+      } else if (bDelegation.hasDelegated) {
+        return 1
+      }
+
+      // Sort by expected returns
+      const aExpectedReturns = self.calculateExpectedRewards(a)
+      const bExpectedReturns = self.calculateExpectedRewards(b)
+      if (aExpectedReturns.isGreaterThan(bExpectedReturns)) return -1
+      if (aExpectedReturns.isLessThan(bExpectedReturns)) return 1
+
+      // Sort by voting power
+      if (a.totalDelegatorShares.isLessThan(b.totalDelegatorShares)) return -1
+      if (a.totalDelegatorShares.isGreaterThan(b.totalDelegatorShares)) return 1
+
+      // Sort by name
+      return a.moniker.localeCompare(b.moniker)
+    },
+    get sortedValidatorList() {
+      return self.validatorList.sort(this.compareValidatorsByDelegation)
     },
   }))
   .actions(self => ({
@@ -181,6 +208,13 @@ export const ChainStoreModel = types
       }
       self.currentWallet = wallet
     },
+    setDelegation(
+      type: "shares" | "unbonding" | "rewards",
+      validatorAddress: string,
+      value: BigNumber
+    ) {
+      self.wallet.getDelegation(validatorAddress, false)[type] = value
+    },
     setDelegations(
       type: "shares" | "unbonding" | "rewards",
       results: any[] = [],
@@ -188,7 +222,7 @@ export const ChainStoreModel = types
     ) {
       const balanceMap = results.reduce<Map<string, BigNumber>>(reducer, new Map<string, BigNumber>())
       self.validatorList.forEach(({ operatorAddress: id }) => {
-        self.wallet.getDelegation(id, false)[type] = balanceMap.has(id) ? balanceMap.get(id) : new BigNumber(0)
+        this.setDelegation(type, id, balanceMap.has(id) ? balanceMap.get(id) : new BigNumber(0))
       })
     },
     fetchAnnualProvision: flow(function * () {
@@ -203,46 +237,13 @@ export const ChainStoreModel = types
       try {
         const rawValidators: CosmosValidator[] = yield self.env.cosmosAPI.getValidators()
         rawValidators.forEach((rawValidator) => {
-          const {
-            operator_address: operatorAddress,
-            consensus_pubkey: consensusPublicKey,
-            delegator_shares: totalDelegatorShares,
-            jailed: isJailed,
-            description,
-            unbonding_height: unbondingHeight,
-            unbonding_time: unbondingTime,
-            commission: {
-              commission_rates: {
-                rate: commissionRate,
-                max_rate: maxCommissionRate,
-                max_change_rate: maxCommissionChangeRate,
-              },
-              update_time: commissionUpdateTime,
-            },
-            min_self_delegation: minSelfDelegation,
-            ...rest
-          } = rawValidator
-          const updatedValidator = ValidatorModel.create({
-            operatorAddress,
-            consensusPublicKey,
-            totalDelegatorShares,
-            isJailed,
-            ...description,
-            unbondingHeight,
-            unbondingTime,
-            commissionRate,
-            maxCommissionRate,
-            maxCommissionChangeRate,
-            commissionUpdateTime,
-            minSelfDelegation,
-            ...rest
-          }, self.env)
-          let validator = self.validators.get(updatedValidator.operatorAddress)
+          let validator = self.validators.get(rawValidator.operator_address)
           if (!validator) {
-            self.validators.put(updatedValidator)
-            validator = updatedValidator
+            validator = ValidatorModel.create(parseValidatorResult(rawValidator), self.env)
+            self.validators.put(validator)
+          } else {
+            validator.update(rawValidator)
           }
-          validator.update(updatedValidator)
           validator.fetchAvatarURL()
         })
       } catch (error) {
@@ -279,6 +280,34 @@ export const ChainStoreModel = types
         self.isFetchingDelegation = false
       }
     }),
+    fetchDelegation: flow(function * (validatorAddress: string) {
+      const validator = self.validators.get(validatorAddress)
+      if (!validator) return
+
+      validator.isFetchingDelegation = true
+      try {
+        const result: CosmosDelegation = yield self.env.cosmosAPI.getDelegation(self.wallet.address, validator.operatorAddress)
+        self.setDelegation("shares", validator.operatorAddress, new BigNumber(result.shares))
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchDelegation: ${error}`)
+      } finally {
+        validator.isFetchingDelegation = false
+      }
+    }),
+    fetchRedelegations: flow(function * () {
+      self.isFetchingRedelegation = true
+      try {
+        const results: CosmosRedelegation[] = yield self.env.cosmosAPI.getRedelegations(self.wallet.address)
+        const destinationValidators = new Set(results.map(r => r.validator_dst_address))
+        self.validatorList.forEach(({ operatorAddress: address }) => {
+          self.wallet.redelegationTargets.set(address, destinationValidators.has(address))
+        })
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchRedelegations: ${error}`)
+      } finally {
+        self.isFetchingRedelegation = false
+      }
+    }),
     fetchUnbondingDelegations: flow(function * () {
       self.isFetchingUnbondingDelegation = true
       try {
@@ -287,15 +316,29 @@ export const ChainStoreModel = types
           "unbonding",
           results,
           (unbondingDelegations, { validator_address: id, entries }: CosmosUnbondingDelegation) =>
-            unbondingDelegations.set(id, entries.reduce(
-              (total, { balance }) => new BigNumber(balance).plus(total),
-              new BigNumber(0)
-            ))
+            unbondingDelegations.set(id, calculateUnbondingDelegationBalanceFromResultEntries(entries))
         )
       } catch (error) {
         logError(`Error occurs in ChainStore.fetchUnbondingDelegations: ${error}`)
       } finally {
         self.isFetchingUnbondingDelegation = false
+      }
+    }),
+    fetchUnbondingDelegation: flow(function * (validatorAddress: string) {
+      const validator = self.validators.get(validatorAddress)
+      if (!validator) return
+
+      validator.isFetchingUnbondingDelegation = true
+      try {
+        const results: CosmosUnbondingDelegation = yield self.env.cosmosAPI.getUnbondingDelegation(self.wallet.address, validatorAddress)
+        if (results) {
+          const balance = calculateUnbondingDelegationBalanceFromResultEntries(results.entries)
+          self.setDelegation("unbonding", validator.operatorAddress, balance)
+        }
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchUnbondingDelegation: ${error}`)
+      } finally {
+        validator.isFetchingUnbondingDelegation = false
       }
     }),
     fetchRewards: flow(function * () {
@@ -312,6 +355,21 @@ export const ChainStoreModel = types
         logError(`Error occurs in ChainStore.fetchRewards: ${error}`)
       } finally {
         self.isFetchingRewards = false
+      }
+    }),
+    fetchRewardsFromValidator: flow(function * (validatorAddress: string) {
+      const validator = self.validators.get(validatorAddress)
+      if (!validator) return
+
+      validator.isFetchingRewards = true
+      try {
+        const results: CosmosCoinResult[] = yield self.env.cosmosAPI.queryRewardsFromValidator(self.wallet.address, validatorAddress)
+        const rewards = new BigNumber(extractCoinFromCosmosCoinList(results, self.fractionDenom))
+        self.setDelegation("rewards", validator.operatorAddress, rewards)
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchRewardsFromValidator: ${error}`)
+      } finally {
+        validator.isFetchingRewards = false
       }
     }),
   }))

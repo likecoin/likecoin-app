@@ -64,6 +64,7 @@ export function Text(props: TextProps) {
     size,
     weight,
     align,
+    disabled,
     isHidden,
     style: propStyle,
     ...rest
@@ -84,8 +85,11 @@ export function Text(props: TextProps) {
     propStyle,
     styleOverride,
   ]
+
   if (isHidden) {
     styleList.push({ opacity: 0 })
+  } else if (disabled) {
+    styleList.push({ opacity: 0.3 })
   }
 
   const style = mergeAll(flatten(styleList))

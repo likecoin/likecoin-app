@@ -87,9 +87,7 @@ export function ButtonGroup(props: ButtonGroupProps) {
 
     children.push(
       <Button
-        color="white"
-        preset="plain"
-        weight="400"
+        preset="button-group"
         style={buttonStyle}
         {...rest}
       />

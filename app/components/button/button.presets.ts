@@ -72,6 +72,14 @@ export const viewPresets = {
     ...BASE_VIEW,
     padding: spacing[2],
   },
+
+  /**
+   * A button group preset.
+   */
+  "button-group": {
+    ...BASE_VIEW,
+    paddingHorizontal: spacing[2],
+  },
 }
 
 export const textPresets = {
@@ -89,6 +97,13 @@ export const textPresets = {
     paddingHorizontal: 0,
     paddingVertical: 0,
     textDecorationLine: "underline",
+  } as TextStyle,
+  "button-group": {
+    ...BASE_TEXT,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    color: color.palette.white,
+    fontWeight: "400",
   } as TextStyle,
 }
 
