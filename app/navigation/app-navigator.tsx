@@ -2,10 +2,7 @@ import * as React from "react"
 import {
   createStackNavigator,
   createBottomTabNavigator,
-  TabBarIconProps,
 } from "react-navigation"
-
-import { Icon, IconTypes } from "../components/icon"
 
 import { WalletNavigator } from "./wallet-navigator"
 import { ReaderNavigator } from "./reader-navigator"
@@ -15,6 +12,8 @@ import { StakingDelegationNavigator } from "./staking-delegation-navigator"
 import { StakingRedelegationNavigator } from "./staking-redelegation-navigator"
 import { StakingUnbondingDelegationNavigator } from "./staking-unbonding-delegation-navigator"
 
+import { MainTabBarIcon } from "../components/main-tab-bar"
+
 import { BookmarkScreen } from "../screens/bookmark-screen"
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
@@ -23,39 +22,6 @@ import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdra
 import { ValidatorScreen } from "../screens/validator-screen"
 
 import { color } from "../theme"
-
-export interface CustomTabBarIconProps extends TabBarIconProps {
-  routeName: string
-}
-export function CustomTabBarIcon(props: CustomTabBarIconProps) {
-  let name: IconTypes
-  let size = 24
-  switch (props.routeName) {
-    case "Wallet":
-      name = "tab-wallet"
-      break
-    case "Reader":
-      name = "tab-reader"
-      size = 32
-      break
-    case "Bookmark":
-      name = "tab-bookmark"
-      break
-    case "Settings":
-      name = "tab-settings"
-      break
-  }
-  const fill = props.focused ? color.palette.likeCyan : color.palette.lightGrey
-  return (
-    <Icon
-      name={name}
-      width={size}
-      height={size}
-      fill={fill}
-    />
-  )
-}
-CustomTabBarIcon.displayName = 'CustomTabBarIcon'
 
 const MainTabs = createBottomTabNavigator({
   Reader: ReaderNavigator,
@@ -71,7 +37,7 @@ const MainTabs = createBottomTabNavigator({
   defaultNavigationOptions: ({ navigation }) => ({
     // eslint-disable-next-line react/display-name
     tabBarIcon: (props) => (
-      <CustomTabBarIcon
+      <MainTabBarIcon
         routeName={navigation.state.routeName}
         {...props}
       />
