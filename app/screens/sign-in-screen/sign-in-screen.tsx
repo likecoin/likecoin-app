@@ -134,6 +134,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
       Alert.alert(translate("signInScreen.error"), `${error}`)
     } finally {
       this.props.userStore.setIsSigningIn(false)
+      this.props.userStore.authCore.setHasSignedIn(false)
     }
   }
 
