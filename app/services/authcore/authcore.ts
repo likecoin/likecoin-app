@@ -137,6 +137,8 @@ export class AuthCoreAPI {
           case 403:
             this.onUnauthenticated()
             break
+          default:
+            throw error
         }
       }
     }
