@@ -38,6 +38,9 @@ export const AuthCoreStoreModel = types
     },
   }))
   .actions(self => ({
+    setHasSignedIn(value: boolean) {
+      self.hasSignedIn = value
+    },
     fetchCurrentUser: flow(function * () {
       const currentUser: any = yield self.env.authCoreAPI.getCurrentUser(self.accessToken)
       self.profile = AuthCoreUserModel.create(currentUser)

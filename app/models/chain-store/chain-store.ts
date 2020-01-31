@@ -46,7 +46,7 @@ export const ChainStoreModel = types
     validators: types.optional(types.map(types.late(() => ValidatorModel)), {}),
 
     wallets: types.map(WalletModel),
-    currentWallet: types.maybe(types.reference(WalletModel)),
+    currentWallet: types.maybe(types.safeReference(WalletModel)),
   })
   .volatile(() => ({
     isFetchingValidators: false,

@@ -72,7 +72,10 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
       await this.props.userStore.authCore.signIn()
       this.props.chain.setupWallet(this.props.userStore.authCore.primaryCosmosAddress)
     } catch (error) {
-      if (error.error === "authcore.session.user_cancelled") {
+      if (
+        error.error === "authcore.session.user_cancelled" || // iOS
+        error.error === "a0.session.user_cancelled" // Android
+      ) {
         // User cancelled auth, do nothing
       } else {
         logError(`Error occurs when signing in with Authcore: ${JSON.stringify(error)}`)
@@ -132,6 +135,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     } catch (error) {
       logError(`Error occurs when signing in: ${error}`)
       Alert.alert(translate("signInScreen.error"), `${error}`)
+      this.props.userStore.authCore.setHasSignedIn(false)
     } finally {
       this.props.userStore.setIsSigningIn(false)
     }
