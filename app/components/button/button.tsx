@@ -7,13 +7,18 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from "react-native"
+import LinearGradient from "react-native-linear-gradient"
 
 import { viewPresets, textPresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
 import { Icon } from "../icon"
 import { Text } from "../text"
 import { sizes } from "../text/text.sizes"
-import { color, spacing } from "../../theme"
+import {
+  color,
+  gradient,
+  spacing,
+} from "../../theme"
 
 export const PREPEND: ViewStyle = {
   marginRight: spacing[2],
@@ -109,6 +114,22 @@ export function Button(props: ButtonProps) {
     rest.onPress = () => {
       Linking.openURL(link)
     }
+  }
+
+  if (preset === "gradient") {
+    return (
+      <TouchableOpacity {...rest}>
+        <LinearGradient
+          colors={gradient.LikeCoin}
+          start={{ x: 0.0, y: 1.0 }}
+          end={{ x: 1.0, y: 0.0 }}
+          style={viewStyle}
+        >
+          {_renderPrependElement(prepend)}
+          {content}
+        </LinearGradient>
+      </TouchableOpacity>
+    )
   }
 
   return (

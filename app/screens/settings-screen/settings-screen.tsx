@@ -17,6 +17,7 @@ import { AppVersionLabel } from "../../components/app-version-label"
 import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
+import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
@@ -94,6 +95,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressQRCodeButton = () => {
     logAnalyticsEvent('SettingsClickQRCodeScan')
     this.props.navigation.navigate("QRCodeScan")
+  }
+
+  private onPressWalletButton = () => {
+    logAnalyticsEvent('SettingsClickWallet')
+    this.props.navigation.navigate("Wallet")
   }
 
   render () {
@@ -177,6 +183,21 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 onPress: this.onPressQRCodeButton,
               },
             ]}
+            style={HeaderStyle.QRCodeButtonGroup}
+          />
+          <Button
+            preset="gradient"
+            text="Wallet"
+            prepend={(
+              <Icon
+                name="tab-wallet"
+                fill={color.primary}
+                width={20}
+                style={HeaderStyle.WalletButtonIcon}
+              />
+            )}
+            style={HeaderStyle.WalletButton}
+            onPress={this.onPressWalletButton}
           />
         </View>
       </View>

@@ -2,24 +2,22 @@ import * as React from "react"
 import { NavigationScreenProps } from "react-navigation"
 import {
   StyleSheet,
-  TextStyle,
   View,
   ViewStyle,
   RefreshControl,
 } from "react-native"
-import LinearGradient from 'react-native-linear-gradient'
 import { observer, inject } from "mobx-react"
 
+import { WalletDashboardScreenStyle as Style } from "./wallet-dashboard-screen.style"
 import { ValidatorScreenGridItem } from "../validator-screen/validator-screen.grid-item"
 
-import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
 import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { ValidatorList } from "../../components/validator-list"
-import { color, gradient, spacing } from "../../theme"
+import { color, spacing } from "../../theme"
 
 import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
@@ -49,29 +47,11 @@ const SCREEN: ViewStyle = {
   alignItems: "stretch",
 }
 const DASHBOARD_HEADER: ViewStyle = {
-  padding: 24,
+  padding: spacing[3],
   paddingBottom: 64,
-}
-const USER_INFO_ROOT: ViewStyle = {
-  flexDirection: "row",
-  alignItems: "center",
-}
-const USER_INFO_IDENTITY: ViewStyle = {
-  marginLeft: 12,
-}
-const USER_INFO_USER_ID: TextStyle = {
-  color: color.palette.white,
-  opacity: 0.6,
-  fontSize: 12,
-}
-const USER_INFO_DISPLAY_NAME: TextStyle = {
-  color: color.palette.white,
-  fontSize: 28,
-  fontWeight: "500",
 }
 const DASHBOARD_HEADER_BUTTON_GROUP_WRAPPER: ViewStyle = {
   alignItems: "center",
-  marginTop: spacing[4],
 }
 const DASHBOARD_BODY: ViewStyle = {
   flexGrow: 1,
@@ -93,21 +73,6 @@ const DASHBOARD_FOOTER: ViewStyle = {
 const QRCODE_BUTTON: ViewStyle = {
   paddingHorizontal: spacing[3],
 }
-const WALLET_BALANCE = StyleSheet.create({
-  AMOUNT: {
-    paddingHorizontal: spacing[4],
-    color: color.primary,
-    fontSize: 36,
-    fontWeight: "500",
-    textAlign: "center",
-  } as TextStyle,
-  ROOT: {
-    padding: spacing[3],
-  },
-  UNIT: {
-    marginTop: spacing[2],
-  } as TextStyle,
-})
 const BALANCE_VIEW: ViewStyle = {
   paddingTop: spacing[4],
   paddingHorizontal: spacing[6],
@@ -156,6 +121,11 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     this.props.chain.fetchRewards()
   }
 
+  private onPressCloseButton = () => {
+    logAnalyticsEvent('WalletClickClose')
+    this.props.navigation.popToTop()
+  }
+
   private onPressSendButton = () => {
     logAnalyticsEvent('WalletClickTransfer')
     this.props.navigation.navigate("Transfer")
@@ -201,25 +171,33 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
             />
           }
         >
-          <View style={DASHBOARD_HEADER}>
+          <View style={Style.TopNavigation}>
+            <Button
+              preset="icon"
+              icon="close"
+              color="white"
+              onPress={this.onPressCloseButton}
+            />
             {currentUser &&
-              <View style={USER_INFO_ROOT}>
-                <Avatar
-                  src={currentUser.avatarURL}
-                  isCivicLiker={currentUser.isCivicLiker}
-                />
-                <View style={USER_INFO_IDENTITY}>
-                  <Text
-                    style={USER_INFO_USER_ID}
-                    text={`ID: ${currentUser.likerID}`}
-                  />
-                  <Text
-                    style={USER_INFO_DISPLAY_NAME}
-                    text={currentUser.displayName}
-                  />
-                </View>
-              </View>
+              <Text
+                style={Style.UserIDLabel}
+                align="center"
+                text={`ID: ${currentUser.likerID}`}
+              />
             }
+          </View>
+          <View style={Style.BalanceContainer}>
+            {this.renderBalanceValue()}
+            <Text
+              text={this.props.chain.denom}
+              color="white"
+              size="medium"
+              weight="600"
+              align="center"
+              style={Style.BalanceUnitLabel}
+            />
+          </View>
+          <View style={DASHBOARD_HEADER}>
             <View style={DASHBOARD_HEADER_BUTTON_GROUP_WRAPPER}>
               <ButtonGroup
                 buttons={[
@@ -246,22 +224,6 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           </View>
           <View style={DASHBOARD_BODY}>
             <Sheet style={DASHBOARD_BODY_INNER}>
-              <LinearGradient
-                colors={gradient.LikeCoin}
-                start={{ x: 0.0, y: 1.0 }}
-                end={{ x: 1.0, y: 0.0 }}
-                style={WALLET_BALANCE.ROOT}
-              >
-                {this.renderBalanceValue()}
-                <Text
-                  text={this.props.chain.denom}
-                  color="likeGreen"
-                  size="medium"
-                  weight="600"
-                  align="center"
-                  style={WALLET_BALANCE.UNIT}
-                />
-              </LinearGradient>
               {this.renderBalanceView()}
               <View style={VALIDATOR_LIST.HEADER}>
                 <Text
@@ -296,7 +258,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
   private renderBalanceValue = () => {
     return (
       <Text
-        style={WALLET_BALANCE.AMOUNT}
+        style={Style.BalanceValueText}
         text={this.props.chain.formattedTotalBalance}
         numberOfLines={1}
         adjustsFontSizeToFit

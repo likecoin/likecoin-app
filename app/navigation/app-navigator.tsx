@@ -4,7 +4,6 @@ import {
   createBottomTabNavigator,
 } from "react-navigation"
 
-import { WalletNavigator } from "./wallet-navigator"
 import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { TransferNavigator } from "./transfer-navigator"
@@ -26,7 +25,6 @@ import { color } from "../theme"
 const MainTabs = createBottomTabNavigator({
   Reader: ReaderNavigator,
   Bookmark: BookmarkScreen,
-  Wallet: WalletNavigator,
   Settings: SettingsNavigator,
 }, {
   initialRouteName: "Reader",

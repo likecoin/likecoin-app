@@ -4,7 +4,8 @@ import { spacing, color } from "../../theme"
 
 export const SettingScreenHeaderStyle = StyleSheet.create({
   ButtonsContainer: {
-    alignItems: "flex-end",
+    position: "relative",
+    alignItems: "center",
     marginTop: spacing[4],
   } as ViewStyle,
   QRCodeButton: {
@@ -12,8 +13,20 @@ export const SettingScreenHeaderStyle = StyleSheet.create({
     paddingHorizontal: spacing[2],
     width: 44,
   } as ViewStyle,
+  QRCodeButtonGroup: {
+    position: "absolute",
+    right: 0,
+  } as ViewStyle,
   Root: {
     padding: 24,
+  } as ViewStyle,
+  WalletButton: {
+    position: "relative",
+    minWidth: 180,
+  } as ViewStyle,
+  WalletButtonIcon: {
+    position: "absolute",
+    left: spacing[3],
   } as ViewStyle,
 })
 

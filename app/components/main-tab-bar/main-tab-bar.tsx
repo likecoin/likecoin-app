@@ -41,9 +41,6 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
         name = "tab-settings"
         break
       }
-      case "Wallet":
-        name = "tab-wallet"
-        break
     }
     const fill = focused ? color.palette.likeCyan : color.palette.lightGrey
     return (
