@@ -1,7 +1,6 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
 import {
-  ImageStyle,
   StyleSheet,
   TextStyle,
   View,
@@ -9,10 +8,16 @@ import {
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
+import {
+  SettingScreenHeaderStyle as HeaderStyle,
+  SettingScreenUserInfoStyle as UserInfoStyle,
+} from "./settings-screen.style"
+
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
-import { Header } from "../../components/header"
+import { ButtonGroup } from "../../components/button-group"
+import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
@@ -27,15 +32,6 @@ import * as Intercom from "../../utils/intercom"
 
 const CONTENT_VIEW: ViewStyle = {
   padding: spacing[4],
-}
-const USER_INFO: ViewStyle = {
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: spacing[2],
-  padding: spacing[2],
-}
-const AVATAR: ImageStyle = {
-  marginBottom: spacing[3],
 }
 const LOGOUT: ViewStyle = {
   marginTop: spacing[4],
@@ -96,6 +92,16 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     Intercom.displayMessageComposer()
   }
 
+  private onPressQRCodeButton = () => {
+    logAnalyticsEvent('SettingsClickQRCodeScan')
+    this.props.navigation.navigate("QRCodeScan")
+  }
+
+  private onPressWalletButton = () => {
+    logAnalyticsEvent('SettingsClickWallet')
+    this.props.navigation.navigate("Wallet")
+  }
+
   render () {
     const {
       currentUser,
@@ -108,7 +114,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         preset="fixed"
         backgroundColor={color.primary}
       >
-        <Header headerTx="settingsScreen.title" />
+        {this.renderHeader()}
         {!!currentUser &&
           <Screen
             style={CONTENT_VIEW}
@@ -116,24 +122,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             backgroundColor="#F2F2F2"
             unsafe
           >
-            <View style={USER_INFO}>
-              <Avatar
-                src={currentUser.avatarURL}
-                isCivicLiker={currentUser.isCivicLiker}
-                style={AVATAR}
-              />
-              <Text
-                color="likeGreen"
-                weight="600"
-                size="medium"
-                text={currentUser.displayName}
-              />
-              <Text
-                color="grey9b"
-                size="default"
-                text={currentUser.email}
-              />
-            </View>
             {isEnabledIAP &&
               <View style={SETTINGS_MENU.TABLE}>
                 <Button
@@ -177,6 +165,65 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           </Screen>
         }
       </Screen>
+    )
+  }
+
+  renderHeader() {
+    return (
+      <View style={HeaderStyle.Root}>
+        {this.renderUserInfo()}
+        <View style={HeaderStyle.ButtonsContainer}>
+          <ButtonGroup
+            buttons={[
+              {
+                key: "scan",
+                preset: "icon",
+                icon: "qrcode-scan",
+                style: HeaderStyle.QRCodeButton,
+                onPress: this.onPressQRCodeButton,
+              },
+            ]}
+            style={HeaderStyle.QRCodeButtonGroup}
+          />
+          <Button
+            preset="gradient"
+            text="Wallet"
+            prepend={(
+              <Icon
+                name="tab-wallet"
+                fill={color.primary}
+                width={20}
+                style={HeaderStyle.WalletButtonIcon}
+              />
+            )}
+            style={HeaderStyle.WalletButton}
+            onPress={this.onPressWalletButton}
+          />
+        </View>
+      </View>
+    )
+  }
+
+  renderUserInfo() {
+    const { currentUser: user } = this.props.userStore
+    if (!user) return null
+    return (
+      <View style={UserInfoStyle.Root}>
+        <Avatar
+          src={user.avatarURL}
+          isCivicLiker={user.isCivicLiker}
+        />
+        <View style={UserInfoStyle.Identity}>
+          <Text
+            style={UserInfoStyle.UserID}
+            text={`ID: ${user.likerID}`}
+          />
+          <Text
+            style={UserInfoStyle.DisplayName}
+            text={user.displayName}
+          />
+        </View>
+      </View>
     )
   }
 }

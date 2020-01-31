@@ -6,10 +6,16 @@ import {
 import { color, spacing } from "../../theme"
 
 export const AvatarStyle = StyleSheet.create({
-  Gradient: {
-    borderWidth: spacing[1],
+  GradientBase: {
     borderColor: color.transparent,
+  } as ViewStyle,
+  GradientLarge: {
+    borderWidth: spacing[1],
     margin: spacing[1],
+  } as ViewStyle,
+  GradientSmall: {
+    borderWidth: 2,
+    margin: 2,
   } as ViewStyle,
   Halo: {
     position: "absolute",
