@@ -2,6 +2,16 @@ import { StyleSheet, ViewStyle, TextStyle } from "react-native"
 
 import { spacing, color } from "../../theme"
 
+export const SettingScreenStyle = StyleSheet.create({
+  Body: {
+    flexGrow: 1,
+    padding: spacing[4],
+  } as ViewStyle,
+  Root: {
+    flexGrow: 1,
+  } as ViewStyle,
+})
+
 export const SettingScreenHeaderStyle = StyleSheet.create({
   ButtonsContainer: {
     position: "relative",
