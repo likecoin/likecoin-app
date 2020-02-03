@@ -66,6 +66,9 @@ export const ContentModel = types
       if (!self.creator) return ""
       return self.creator.displayName || self.creator.likerID
     },
+    get normalizedTitle() {
+      return self.title || decodeURI(self.url).split("?")[0]
+    },
   }))
   .actions(self => ({
     setTimestamp(timestamp: number) {
