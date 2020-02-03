@@ -86,6 +86,7 @@
   },
   "settingsScreen": {
     "contactUs": "聯絡我們",
+    "openSourceLicense": "開源授權",
     "privacyPolicy": "隱私權政策",
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
