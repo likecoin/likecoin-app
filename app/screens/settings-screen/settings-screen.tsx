@@ -162,6 +162,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               />
               <Button
                 preset="plain"
+                tx="settingsScreen.openSourceLicense"
+                link="https://github.com/likecoin/likecoin-app/wiki/libraries-we-use"
+                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                style={SETTINGS_MENU.TABLE_CELL}
+              />
+              <Button
+                preset="plain"
                 tx="settingsScreen.contactUs"
                 textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
                 style={SETTINGS_MENU.TABLE_CELL}
