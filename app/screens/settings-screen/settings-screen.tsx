@@ -9,30 +9,29 @@ import {
 import { NavigationScreenProps } from "react-navigation"
 
 import {
-  SettingScreenHeaderStyle as HeaderStyle,
+  SettingScreenStyle as Style,
   SettingScreenUserInfoStyle as UserInfoStyle,
 } from "./settings-screen.style"
 
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
-import { ButtonGroup } from "../../components/button-group"
-import { Icon } from "../../components/icon"
+import { ExtendedView } from "../../components/extended-view"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
 import { color, spacing } from "../../theme"
 
+import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
+import { RootStore } from "../../models/root-store"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import * as Intercom from "../../utils/intercom"
+import { SettingsScreenWalletActionsView } from "./settings-screen.wallet-actions-view"
 
-const CONTENT_VIEW: ViewStyle = {
-  padding: spacing[4],
-}
 const LOGOUT: ViewStyle = {
   marginTop: spacing[4],
   paddingVertical: spacing[4],
@@ -67,16 +66,22 @@ const SETTINGS_MENU = StyleSheet.create({
 })
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
+  chain: ChainStore
   userStore: UserStore,
   readerStore: ReaderStore,
 }
 
-@inject(
-  "userStore",
-  "readerStore",
-)
+@inject((rootStore: RootStore) => ({
+  chain: rootStore.chainStore,
+  userStore: rootStore.userStore,
+  readerStore: rootStore.readerStore,
+}))
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
+  componentDidMount() {
+    this.props.chain.fetchAll()
+  }
+
   private onPressSubscription = () => {
     this.props.navigation.navigate("Subscription")
   }
@@ -103,104 +108,32 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   render () {
-    const {
-      currentUser,
-      iapStore: {
-        isEnabled: isEnabledIAP
-      },
-    } = this.props.userStore
     return (
       <Screen
-        preset="fixed"
-        backgroundColor={color.primary}
+        preset="scroll"
+        backgroundColor={color.palette.greyf2}
+        wrapperBackgroundColor={color.primary}
+        style={Style.Root}
       >
         {this.renderHeader()}
-        {!!currentUser &&
-          <Screen
-            style={CONTENT_VIEW}
-            preset="scroll"
-            backgroundColor="#F2F2F2"
-            unsafe
-          >
-            {isEnabledIAP &&
-              <View style={SETTINGS_MENU.TABLE}>
-                <Button
-                  preset="plain"
-                  tx="settingsScreen.subscription"
-                  textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                  style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-                  onPress={this.onPressSubscription}
-                />
-              </View>
-            }
-            <View style={SETTINGS_MENU.TABLE}>
-              <Button
-                preset="plain"
-                tx="settingsScreen.termsOfUse"
-                link="https://liker.land/eula"
-                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-              />
-              <Button
-                preset="plain"
-                tx="settingsScreen.privacyPolicy"
-                link="https://like.co/in/policies/privacy"
-                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL}
-              />
-              <Button
-                preset="plain"
-                tx="settingsScreen.contactUs"
-                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL}
-                onPress={this.onPressContactUs}
-              />
-            </View>
-            <Button
-              style={LOGOUT}
-              tx="welcomeScreen.logout"
-              onPress={this.onClickLogout}
-            />
-            <AppVersionLabel style={VERSION} />
-          </Screen>
-        }
+        {this.renderBody()}
       </Screen>
     )
   }
 
   renderHeader() {
     return (
-      <View style={HeaderStyle.Root}>
+      <ExtendedView
+        backgroundColor={color.primary}
+        style={Style.Header}
+      >
         {this.renderUserInfo()}
-        <View style={HeaderStyle.ButtonsContainer}>
-          <ButtonGroup
-            buttons={[
-              {
-                key: "scan",
-                preset: "icon",
-                icon: "qrcode-scan",
-                style: HeaderStyle.QRCodeButton,
-                onPress: this.onPressQRCodeButton,
-              },
-            ]}
-            style={HeaderStyle.QRCodeButtonGroup}
-          />
-          <Button
-            preset="gradient"
-            text="Wallet"
-            prepend={(
-              <Icon
-                name="tab-wallet"
-                fill={color.primary}
-                width={20}
-                style={HeaderStyle.WalletButtonIcon}
-              />
-            )}
-            style={HeaderStyle.WalletButton}
-            onPress={this.onPressWalletButton}
-          />
-        </View>
-      </View>
+        <SettingsScreenWalletActionsView
+          walletButtonText={this.props.chain.formattedConciseTotalBalance}
+          onPressWalletButton={this.onPressWalletButton}
+          onPressQRCodeButton={this.onPressQRCodeButton}
+        />
+      </ExtendedView>
     )
   }
 
@@ -223,6 +156,56 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             text={user.displayName}
           />
         </View>
+      </View>
+    )
+  }
+
+  renderBody() {
+    const {
+      isEnabled: isIAPEnabled
+    } = this.props.userStore.iapStore
+    return (
+      <View style={Style.Body}>
+        {isIAPEnabled &&
+          <View style={SETTINGS_MENU.TABLE}>
+            <Button
+              preset="plain"
+              tx="settingsScreen.subscription"
+              textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+              style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+              onPress={this.onPressSubscription}
+            />
+          </View>
+        }
+        <View style={SETTINGS_MENU.TABLE}>
+          <Button
+            preset="plain"
+            tx="settingsScreen.termsOfUse"
+            link="https://liker.land/eula"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.privacyPolicy"
+            link="https://like.co/in/policies/privacy"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.contactUs"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+            onPress={this.onPressContactUs}
+          />
+        </View>
+        <Button
+          style={LOGOUT}
+          tx="welcomeScreen.logout"
+          onPress={this.onClickLogout}
+        />
+        <AppVersionLabel style={VERSION} />
       </View>
     )
   }

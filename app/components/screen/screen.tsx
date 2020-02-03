@@ -28,6 +28,9 @@ function ScreenWithScrolling(props: ScreenProps) {
   const preset = presets["scroll"]
   const style = props.style || {}
   const backgroundStyle = props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
+  const wrapperBackgroundStyle = props.wrapperBackgroundColor
+    ? { backgroundColor: props.wrapperBackgroundColor }
+    : {}
   const Wrapper = props.unsafe ? View : SafeAreaView
 
   return (
@@ -37,7 +40,7 @@ function ScreenWithScrolling(props: ScreenProps) {
       keyboardVerticalOffset={offsets[props.keyboardOffset || "none"]}
     >
       <StatusBar barStyle={props.statusBar || "light-content"} />
-      <Wrapper style={[preset.outer, backgroundStyle]}>
+      <Wrapper style={[preset.outer, backgroundStyle, wrapperBackgroundStyle]}>
         <ScrollView
           style={[preset.outer, backgroundStyle]}
           contentContainerStyle={[preset.inner, style]}

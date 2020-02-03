@@ -107,20 +107,6 @@ const WITHDRAW_REWARDS_BUTTON = StyleSheet.create({
 }))
 @observer
 export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
-  componentDidMount() {
-    this.fetchAll()
-  }
-
-  private fetchAll = async () => {
-    this.props.chain.fetchBalance()
-    await this.props.chain.fetchAnnualProvision()
-    await this.props.chain.fetchValidators()
-    this.props.chain.fetchDelegations()
-    this.props.chain.fetchRedelegations()
-    this.props.chain.fetchUnbondingDelegations()
-    this.props.chain.fetchRewards()
-  }
-
   private onPressCloseButton = () => {
     logAnalyticsEvent('WalletClickClose')
     this.props.navigation.popToTop()
@@ -167,7 +153,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               tintColor={color.palette.lighterCyan}
               colors={[color.primary]}
               refreshing={this.props.chain.isLoading}
-              onRefresh={this.fetchAll}
+              onRefresh={this.props.chain.fetchAll}
             />
           }
         >
