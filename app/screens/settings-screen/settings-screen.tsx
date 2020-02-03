@@ -10,16 +10,13 @@ import { NavigationScreenProps } from "react-navigation"
 
 import {
   SettingScreenStyle as Style,
-  SettingScreenHeaderStyle as HeaderStyle,
   SettingScreenUserInfoStyle as UserInfoStyle,
 } from "./settings-screen.style"
 
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
-import { ButtonGroup } from "../../components/button-group"
 import { ExtendedView } from "../../components/extended-view"
-import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
@@ -33,6 +30,7 @@ import { RootStore } from "../../models/root-store"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import * as Intercom from "../../utils/intercom"
+import { SettingsScreenWalletActionsView } from "./settings-screen.wallet-actions-view"
 
 const LOGOUT: ViewStyle = {
   marginTop: spacing[4],
@@ -127,38 +125,14 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     return (
       <ExtendedView
         backgroundColor={color.primary}
-        style={HeaderStyle.Root}
+        style={Style.Header}
       >
         {this.renderUserInfo()}
-        <View style={HeaderStyle.ButtonsContainer}>
-          <ButtonGroup
-            buttons={[
-              {
-                key: "scan",
-                preset: "icon",
-                icon: "qrcode-scan",
-                style: HeaderStyle.QRCodeButton,
-                onPress: this.onPressQRCodeButton,
-              },
-            ]}
-            style={HeaderStyle.QRCodeButtonGroup}
-          />
-          <Button
-            preset="gradient"
-            text={this.props.chain.formattedConciseTotalBalance}
-            prepend={(
-              <Icon
-                name="tab-wallet"
-                fill={color.primary}
-                width={20}
-                style={HeaderStyle.WalletButtonIcon}
-              />
-            )}
-            textStyle={HeaderStyle.WalletButtonTextStyle}
-            style={HeaderStyle.WalletButton}
-            onPress={this.onPressWalletButton}
-          />
-        </View>
+        <SettingsScreenWalletActionsView
+          walletButtonText={this.props.chain.formattedConciseTotalBalance}
+          onPressWalletButton={this.onPressWalletButton}
+          onPressQRCodeButton={this.onPressQRCodeButton}
+        />
       </ExtendedView>
     )
   }
