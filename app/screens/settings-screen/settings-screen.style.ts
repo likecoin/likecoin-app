@@ -7,6 +7,7 @@ export const SettingScreenHeaderStyle = StyleSheet.create({
     position: "relative",
     alignItems: "center",
     marginTop: spacing[4],
+    marginHorizontal: spacing[4],
   } as ViewStyle,
   QRCodeButton: {
     paddingVertical: spacing[2],
@@ -18,16 +19,23 @@ export const SettingScreenHeaderStyle = StyleSheet.create({
     right: 0,
   } as ViewStyle,
   Root: {
-    padding: 24,
+    paddingVertical: spacing[5],
   } as ViewStyle,
   WalletButton: {
     position: "relative",
-    minWidth: 180,
+    minWidth: 160,
+    marginHorizontal: spacing[2],
   } as ViewStyle,
   WalletButtonIcon: {
     position: "absolute",
     left: spacing[3],
   } as ViewStyle,
+  WalletButtonTextStyle: {
+    flexGrow: 1,
+    paddingLeft: spacing[6],
+    paddingRight: spacing[2],
+    textAlign: "center",
+  } as TextStyle,
 })
 
 export const SettingScreenUserInfoStyle = StyleSheet.create({
@@ -42,6 +50,7 @@ export const SettingScreenUserInfoStyle = StyleSheet.create({
   Root: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: spacing[5],
   } as ViewStyle,
   UserID: {
     color: color.palette.white,

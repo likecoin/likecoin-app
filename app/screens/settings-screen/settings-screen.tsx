@@ -23,8 +23,10 @@ import { Text } from "../../components/text"
 
 import { color, spacing } from "../../theme"
 
+import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
+import { RootStore } from "../../models/root-store"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
@@ -67,16 +69,22 @@ const SETTINGS_MENU = StyleSheet.create({
 })
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
+  chain: ChainStore
   userStore: UserStore,
   readerStore: ReaderStore,
 }
 
-@inject(
-  "userStore",
-  "readerStore",
-)
+@inject((rootStore: RootStore) => ({
+  chain: rootStore.chainStore,
+  userStore: rootStore.userStore,
+  readerStore: rootStore.readerStore,
+}))
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
+  componentDidMount() {
+    this.props.chain.fetchAll()
+  }
+
   private onPressSubscription = () => {
     this.props.navigation.navigate("Subscription")
   }
@@ -187,7 +195,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           />
           <Button
             preset="gradient"
-            text="Wallet"
+            text={this.props.chain.formattedConciseTotalBalance}
             prepend={(
               <Icon
                 name="tab-wallet"
@@ -196,6 +204,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 style={HeaderStyle.WalletButtonIcon}
               />
             )}
+            textStyle={HeaderStyle.WalletButtonTextStyle}
             style={HeaderStyle.WalletButton}
             onPress={this.onPressWalletButton}
           />
