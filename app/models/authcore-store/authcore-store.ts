@@ -36,6 +36,9 @@ export const AuthCoreStoreModel = types
     getCredentialKeyFor(path: "access_token" | "refresh_token" | "id_token") {
       return `${this.credentialKeyPrefix}/${path}`
     },
+    getBaseURL() {
+      return self.env.authCoreAPI.baseURL
+    },
   }))
   .actions(self => ({
     setHasSignedIn(value: boolean) {

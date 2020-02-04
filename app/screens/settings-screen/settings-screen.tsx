@@ -86,6 +86,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("Subscription")
   }
 
+  private onPressAuthcoreSettings = () => {
+    this.props.navigation.navigate("AuthcoreSettings")
+  }
+
   private onClickLogout = async () => {
     this.props.readerStore.clearAllLists()
     this.props.userStore.logout()
@@ -180,6 +184,15 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             />
           </View>
         }
+        <View style={SETTINGS_MENU.TABLE}>
+          <Button
+            preset="plain"
+            tx="settingsScreen.authcoreSettings"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+            onPress={this.onPressAuthcoreSettings}
+          />
+        </View>
         <View style={SETTINGS_MENU.TABLE}>
           <Button
             preset="plain"
