@@ -129,6 +129,13 @@ export const ChainStoreModel = types
     get formattedTotalBalance() {
       return self.formatBalance(self.wallet.totalBalance, false)
     },
+    get formattedConciseTotalBalance() {
+      const balanceInDenom = self.toDenom(self.wallet.totalBalance)
+      if (balanceInDenom.isGreaterThan(0) && balanceInDenom.isLessThan(1)) {
+        return `< 1 ${self.denom}`
+      }
+      return self.formatDenom(self.wallet.totalBalance, 0, true, BigNumber.ROUND_FLOOR)
+    },
     get formattedAvailableBalance() {
       return self.formatBalance(self.wallet.availableBalance)
     },
@@ -371,6 +378,17 @@ export const ChainStoreModel = types
       } finally {
         validator.isFetchingRewards = false
       }
+    }),
+  }))
+  .actions(self => ({
+    fetchAll: flow(function * () {
+      self.fetchBalance()
+      yield self.fetchAnnualProvision()
+      yield self.fetchValidators()
+      self.fetchDelegations()
+      self.fetchRedelegations()
+      self.fetchUnbondingDelegations()
+      self.fetchRewards()
     }),
   }))
 

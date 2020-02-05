@@ -26,6 +26,11 @@ export interface ScreenProps {
   backgroundColor?: string
 
   /**
+   * An optional wrapper background color that is only applied in `scroll` preset
+   */
+  wrapperBackgroundColor?: string
+
+  /**
    * An optional status bar setting. Defaults to light-content.
    */
   statusBar?: "light-content" | "dark-content"

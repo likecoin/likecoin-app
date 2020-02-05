@@ -58,6 +58,14 @@ export const viewPresets = {
   } as ViewStyle,
 
   /**
+   * A gradient style button
+   */
+  gradient: {
+    ...BASE_VIEW,
+    ...BASE_BLOCK_VIEW,
+  },
+
+  /**
    * A button without extras.
    */
   link: {
@@ -87,6 +95,10 @@ export const textPresets = {
     ...BASE_TEXT,
     color: color.palette.likeGreen,
   } as TextStyle,
+  gradient: {
+    ...BASE_TEXT,
+    color: color.palette.likeGreen,
+  },
   outlined: {
     ...BASE_TEXT,
     color: color.palette.lighterCyan,
