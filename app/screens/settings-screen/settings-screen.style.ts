@@ -26,6 +26,7 @@ export const SettingScreenUserInfoStyle = StyleSheet.create({
     fontWeight: "500",
   } as TextStyle,
   Identity: {
+    flex: 1,
     marginLeft: 12,
   } as ViewStyle,
   Root: {
