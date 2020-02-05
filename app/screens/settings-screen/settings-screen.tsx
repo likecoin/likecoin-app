@@ -154,6 +154,9 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           <Text
             style={UserInfoStyle.DisplayName}
             text={user.displayName}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+            adjustsFontSizeToFit
           />
         </View>
       </View>

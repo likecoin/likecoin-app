@@ -132,7 +132,7 @@ export const ChainStoreModel = types
     get formattedConciseTotalBalance() {
       const balanceInDenom = self.toDenom(self.wallet.totalBalance)
       if (balanceInDenom.isGreaterThan(0) && balanceInDenom.isLessThan(1)) {
-        return `> 1 ${self.denom}`
+        return `< 1 ${self.denom}`
       }
       return self.formatDenom(self.wallet.totalBalance, 0, true, BigNumber.ROUND_FLOOR)
     },

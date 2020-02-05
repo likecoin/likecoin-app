@@ -87,7 +87,7 @@ export const ContentModel = types
               image,
               like,
             } = result.data
-            if (!self.creator) {
+            if (!self.creator && likerId) {
               const readerStore: ReaderStore = getParentOfType(self, ReaderStoreModel)
               self.creator = readerStore.createCreatorFromLikerId(likerId)
             }
