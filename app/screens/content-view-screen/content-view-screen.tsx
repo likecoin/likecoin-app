@@ -68,6 +68,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
           style={FULL}
           sharedCookiesEnabled={true}
           source={{ uri: content.url }}
+          decelerationRate={0.998}
           // TODO: remove HACK after applicationNameForUserAgent type is fixed
           {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
         />
