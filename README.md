@@ -1,19 +1,15 @@
-# LikeCoinApp
-
+# Liker Land App
+Liker Land on iOS/Android Mobile
 ![](https://github.com/likecoin/likecoin-app/workflows/Lint%20and%20build/badge.svg)
 ![](https://github.com/likecoin/likecoin-app/workflows/Release/badge.svg)
 
-## The latest and greatest boilerplate for Infinite Red opinions
+## Features
+Personalized reader
+- Content reader included oice and other websites
+- Like and follow the reader you like
 
-This is the boilerplate that [Infinite Red](https://infinite.red) uses as a way to test bleeding-edge changes to our React Native stack.
-
-Currently includes:
-
-- React Native
-- React Navigation
-- MobX State Tree
-- TypeScript
-- And more!
+Rewarding system
+- User can reward the creator of content by clicking like button
 
 ## Quick Start
 
@@ -134,11 +130,13 @@ In `app/app.tsx`, change `SHOW_STORYBOOK` to `true` and reload the app.
 
 For Visual Studio Code users, there is a handy extension that makes it easy to load Storybook use cases into a running emulator via tapping on items in the editor sidebar. Install the `React Native Storybook` extension by `Orta`, hit `cmd + shift + P` and select "Reconnect Storybook to VSCode". Expand the STORYBOOK section in the sidebar to see all use cases for components that have `.story.tsx` files in their directories.
 
-## Previous Boilerplates
+## Credit
+Original boilerplate made by [Infinite Red](https://infinite.red), released under MIT LICENSE
 
-- [2017 aka Andross](https://github.com/infinitered/ignite-andross)
-- [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)
+## License
 
-## Premium Support
+Copyright 2018-2020 LikeCoin Foundation
 
-[Ignite CLI](https://infinite.red/ignite), [Ignite Andross](https://github.com/infinitered/ignite-andross), and [Ignite Bowser](https://github.com/infinitered/ignite-bowser), as open source projects, are free to use and always will be. [Infinite Red](https://infinite.red/) offers premium Ignite support and general mobile app design/development services. Email us at [hello@infinite.red](mailto:hello@infinite.red) to get in touch with us for more details.
+Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
+
+Additional Permissions For Submission to Apple App Store: Provided that you are otherwise in compliance with the GPLv3 for each covered work you convey (including without limitation making the Corresponding Source available in compliance with Section 6 of the GPLv3), LikeCoin Foundation also grants you the additional permission to convey through the Apple App Store non-source executable versions of the Program as incorporated into each applicable covered work as Executable Versions only under the Mozilla Public License version 2.0 (https://www.mozilla.org/en-US/MPL/2.0/).
