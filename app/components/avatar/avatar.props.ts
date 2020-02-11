@@ -17,6 +17,11 @@ export interface AvatarProps {
   isCivicLiker?: boolean
 
   /**
+   * Set to `true` to display in focused style. Default is `false`
+   */
+  focused?: boolean
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle

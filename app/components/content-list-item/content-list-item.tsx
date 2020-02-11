@@ -61,7 +61,7 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
       isLoading,
       likeCount,
       coverImageURL,
-      title,
+      normalizedTitle,
     } = content
 
     if (isLoading) {
@@ -90,7 +90,7 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
               color="grey4a"
               size="medium"
               weight="600"
-              text={title}
+              text={normalizedTitle}
               style={Style.DETAIL_TEXT}
             />
           </View>

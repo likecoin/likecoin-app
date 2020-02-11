@@ -69,6 +69,7 @@ export class AuthCoreAPI {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
+      socialLoginPaneStyle: "top",
     })
     this.cosmosChainId = cosmosChainId
     if (refreshToken) {
@@ -136,6 +137,8 @@ export class AuthCoreAPI {
           case 403:
             this.onUnauthenticated()
             break
+          default:
+            throw error
         }
       }
     }
