@@ -58,7 +58,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
         style={FULL}
       >
         <Header
-          headerText={content.title}
+          headerText={content.normalizedTitle}
           leftIcon="close"
           rightIcon="share"
           onLeftPress={this.goBack}
