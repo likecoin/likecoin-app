@@ -1,9 +1,12 @@
 import { ViewStyle } from "react-native"
 
 import { Content } from "../../models/content"
+import { Creator } from "../../models/creator"
 
 export interface ContentListItemProps {
   content: Content
+
+  creator?: Creator
 
   /**
    * Set to false to hide the bookmark icon. Default is true.
@@ -24,4 +27,14 @@ export interface ContentListItemProps {
    * A callback when the bookmark button is pressed.
    */
   onBookmark?: (url: string) => void
+
+  /**
+   * A callback when the more button is pressed.
+   */
+  onPressMoreButton?: (content: Content) => void
+
+  /**
+   * A callback when the undo button is pressed.
+   */
+  onPressUndoButton?: (content: Content) => void
 }

@@ -10,9 +10,13 @@
     "copied": "Copied",
     "done": "Done",
     "follow": "Follow",
+    "followSuccess": "You are now following %{creator}",
     "next": "Next",
     "ok": "OK",
-    "viewOnBlockExplorer": "View on Big Dipper"
+    "viewOnBlockExplorer": "View on Big Dipper",
+    "undo": "Undo",
+    "unfollow": "Unfollow",
+    "unfollowSuccess": "You have unfollowed %{creator}"
   },
   "ContentListItem": {
     "likeStatsLabel": {

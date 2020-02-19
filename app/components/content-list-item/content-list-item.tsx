@@ -7,21 +7,32 @@ import {
 import ReactNativeSvg from "react-native-svg"
 import { observer } from "mobx-react"
 
-import { ContentListItemProps } from "./content-list-item.props"
+import { ContentListItemProps as Props } from "./content-list-item.props"
+import { ContentListItemState as State } from "./content-list-item.state"
+import { ContentListItemStyle as Style } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
-import Style from "./content-list-item.styles"
-
-import { Icon } from "../icon"
-import { Text } from "../text"
-import { translate } from "../../i18n"
-
 import BookmarkIcon from "./bookmark.svg"
 
+import { Button } from "../button"
+import { Icon } from "../icon"
+import { Text } from "../text"
+
+import { translate } from "../../i18n"
+import { color } from "../../theme"
+
 @observer
-export class ContentListItem extends React.Component<ContentListItemProps> {
+export class ContentListItem extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isPrevFollow: props.creator && props.creator.isFollowing,
+    }
+  }
+
   static defaultProps = {
     isShowBookmarkIcon: true,
-  } as Partial<ContentListItemProps>
+  } as Partial<Props>
 
   componentDidMount() {
     if (this.props.content.shouldFetchDetails) {
@@ -47,8 +58,20 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
     if (this.props.onBookmark) this.props.onBookmark(this.props.content.url)
   }
 
+  private onPressMoreButton = () => {
+    if (this.props.onPressMoreButton) {
+      this.props.onPressMoreButton(this.props.content)
+    }
+  }
+
   private onPress = () => {
     if (this.props.onPress) this.props.onPress(this.props.content.url)
+  }
+
+  private onPressUndoButton = () => {
+    if (this.props.onPressUndoButton) {
+      this.props.onPressUndoButton(this.props.content)
+    }
   }
 
   render() {
@@ -66,6 +89,13 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
 
     if (isLoading) {
       return <ContentListItemSkeleton />
+    } else if (
+      this.props.creator &&
+      this.props.onPressUndoButton &&
+      this.state.isPrevFollow &&
+      !this.props.creator.isFollowing
+    ) {
+      return this.renderUndo()
     }
 
     const rootStyle = {
@@ -122,8 +152,9 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
               />
             }
           </View>
-          <View>
+          <View style={Style.BOTTOM_BUTTON_CONTAINER}>
             {this.renderBookmarkButton(content.isBookmarked)}
+            {this.renderMoreButton()}
           </View>
         </View>
       </TouchableOpacity>
@@ -145,6 +176,22 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
     )
   }
 
+  private renderMoreButton() {
+    return (
+      <TouchableOpacity
+        style={Style.MORE_BUTTON}
+        onPress={this.onPressMoreButton}
+      >
+        <Icon
+          name="three-dot-vertical"
+          width={24}
+          height={24}
+          color="grey4a"
+        />
+      </TouchableOpacity>
+    )
+  }
+
   private renderBookmarkFlag() {
     if (typeof BookmarkIcon !== "function") {
       return <ReactNativeSvg style={Style.BOOKMARK_FLAG} />
@@ -155,6 +202,46 @@ export class ContentListItem extends React.Component<ContentListItemProps> {
         height={24}
         style={Style.BOOKMARK_FLAG}
       />
+    )
+  }
+
+  private renderUndo() {
+    return (
+      <View style={Style.RootUndo}>
+        <Icon
+          name="seen"
+          fill={color.palette.grey9b}
+          width={24}
+          height={24}
+        />
+        <View style={Style.UndoTextWrapper}>
+          <Text
+            text={translate("common.unfollowSuccess", {
+              creator: this.props.creator.displayName
+            })}
+            weight="600"
+            color="grey9b"
+            numberOfLines={1}
+            ellipsizeMode="middle"
+          />
+        </View>
+        <Button
+          preset="plain"
+          tx="common.undo"
+          size="default"
+          append={
+            <Icon
+              name="undo"
+              width={16}
+              height={16}
+              fill={color.primary}
+              style={Style.UndoButtonIcon}
+            />
+          }
+          style={Style.UndoButton}
+          onPress={this.onPressUndoButton}
+        />
+      </View>
     )
   }
 }

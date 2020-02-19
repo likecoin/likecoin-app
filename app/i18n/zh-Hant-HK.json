@@ -10,9 +10,13 @@
     "copied": "已複製",
     "done": "完成",
     "follow": "追踪",
+    "followSuccess": "已追踪 %{creator}",
     "next": "下一步",
     "ok": "好",
-    "viewOnBlockExplorer": "在 Big Dipper 查看"
+    "viewOnBlockExplorer": "在 Big Dipper 查看",
+    "undo": "復原",
+    "unfollow": "取消追踪",
+    "unfollowSuccess": "已取消追踪 %{creator}"
   },
   "ContentListItem": {
     "likeStatsLabel": {

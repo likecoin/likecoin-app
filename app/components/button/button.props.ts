@@ -51,6 +51,11 @@ export interface ButtonProps extends TouchableOpacityProps {
   prepend?: React.ReactElement
 
   /**
+   * The children append to the button
+   */
+  append?: React.ReactElement
+
+  /**
    * The URL that opens if it is clicked
    */
   link?: string
