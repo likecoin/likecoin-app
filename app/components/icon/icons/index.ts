@@ -14,6 +14,7 @@ import TabBookmark from "./tab-bookmark.svg"
 import TabReader from "./tab-reader.svg"
 import TabSettings from "./tab-settings.svg"
 import TabWallet from "./tab-wallet.svg"
+import ThreeDotHorizontal from "./three-dot-horizontal.svg"
 
 export const icons = {
   "arrow-down": ArrowDownIcon,
@@ -33,6 +34,7 @@ export const icons = {
   "tab-reader": TabReader,
   "tab-settings": TabSettings,
   "tab-wallet": TabWallet,
+  "three-dot-horizontal": ThreeDotHorizontal,
 }
 
 export type IconTypes = keyof typeof icons

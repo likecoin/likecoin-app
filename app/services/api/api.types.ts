@@ -45,5 +45,6 @@ export type UserResult = { kind: "ok"; data: User } | GeneralApiProblem
 export type ContentResult = { kind: "ok"; data: Content } | GeneralApiProblem
 export type LikeStatResult = { kind: "ok"; data: LikeStat } | GeneralApiProblem
 
+export type ReaderCreatorsResult = { kind: "ok"; following: string[], unfollowed: string[] } | GeneralApiProblem
 export type ContentListResult = { kind: "ok"; data: Content[] } | GeneralApiProblem
 export type BookmarkListResult = { kind: "ok"; data: string[] } | GeneralApiProblem

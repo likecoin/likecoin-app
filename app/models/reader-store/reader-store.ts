@@ -14,6 +14,7 @@ import {
   ContentListResult,
   Content as ContentResultData,
   GeneralResult,
+  ReaderCreatorsResult,
 } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 
@@ -31,8 +32,12 @@ export const ReaderStoreModel = types
     featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
     bookmarkList: ContentList,
+    followingCreators: types.array(types.safeReference(CreatorModel)),
+    unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
   .volatile(() => ({
+    isFetchingCreatorList: false,
+    hasFetchedCreatorList: false,
     isFetchingFeaturedList: false,
     hasFetchedFeaturedList: false,
     isFetchingFollowedList: false,
@@ -63,6 +68,8 @@ export const ReaderStoreModel = types
       self.hasFetchedFollowedList = false
       self.hasReachedEndOfFollowedList = false
       self.followedSet = new Set<string>()
+      self.followingCreators.replace([])
+      self.unfollowedCreators.replace([])
     },
     createCreatorFromLikerId(likerId: string) {
       let creator = self.creators.get(likerId)
@@ -115,6 +122,33 @@ export const ReaderStoreModel = types
     },
   }))
   .actions(self => ({
+    fetchCreatorList: flow(function * () {
+      if (self.isFetchingCreatorList) return
+      self.isFetchingCreatorList = true
+      try {
+        const result: ReaderCreatorsResult = yield self.env.likerLandAPI.fetchReaderCreators()
+        switch (result.kind) {
+          case "ok":
+            self.followingCreators.replace([])
+            result.following.forEach(likerID => {
+              const creator = self.createCreatorFromLikerId(likerID)
+              creator.isFollowing = true
+              self.followingCreators.push(creator)
+            })
+            self.unfollowedCreators.replace([])
+            result.unfollowed.forEach(likerID => {
+              const creator = self.createCreatorFromLikerId(likerID)
+              creator.isFollowing = false
+              self.unfollowedCreators.push(creator)
+            })
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        self.isFetchingCreatorList = false
+        self.hasFetchedCreatorList = true
+      }
+    }),
     fetchFeaturedList: flow(function * () {
       self.isFetchingFeaturedList = true
       try {
@@ -134,7 +168,7 @@ export const ReaderStoreModel = types
         self.featuredListLastFetchedDate = new Date()
       }
     }),
-    fetchFollowedList: flow(function * () {
+    fetchFollowingList: flow(function * () {
       self.isFetchingFollowedList = true
       try {
         const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFollowing()
@@ -218,6 +252,37 @@ export const ReaderStoreModel = types
         logError(error.message)
         content.isBookmarked = prevIsBookmarked
         self.bookmarkList.replace(prevBookmarkList)
+      }
+    }),
+    toggleFollow: flow(function * (likerID: string) {
+      const creator = self.creators.get(likerID)
+      if (!creator) return
+      const prevIsFollow = creator.isFollowing
+      const prevFollowingCreators = self.followingCreators
+      const prevUnfollowedCreators = self.unfollowedCreators
+      creator.isFollowing = !creator.isFollowing
+
+      try {
+        if (creator.isFollowing) {
+          self.unfollowedCreators.remove(creator)
+          self.followingCreators.push(creator)
+          const result: GeneralResult = yield self.env.likerLandAPI.followLiker(likerID)
+          if (result.kind !== "ok") {
+            throw new Error("READER_FOLLOW_FAILED")
+          }
+        } else {
+          self.followingCreators.remove(creator)
+          self.unfollowedCreators.push(creator)
+          const result: GeneralResult = yield self.env.likerLandAPI.unfollowLiker(likerID)
+          if (result.kind !== "ok") {
+            throw new Error("READER_UNFOLLOW_FAILED")
+          }
+        }
+      } catch (error) {
+        logError(error.message)
+        creator.isFollowing = prevIsFollow
+        self.followingCreators.replace(prevFollowingCreators)
+        self.unfollowedCreators.replace(prevUnfollowedCreators)
       }
     }),
   }))

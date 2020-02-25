@@ -29,6 +29,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
 
   componentDidMount() {
     this.list.current.props.onRefresh()
+    this.props.readerStore.fetchCreatorList()
     this.props.readerStore.fetchBookmarkList()
   }
 
@@ -89,7 +90,7 @@ export class ReaderScreen extends React.Component<ReaderScreenProps> {
             onFetchMore={this.props.readerStore.fetchMoreFollowedList}
             onBookmarkItem={this.onBookmarkContentItem}
             onPressItem={this.onPressContentItem}
-            onRefresh={this.props.readerStore.fetchFollowedList}
+            onRefresh={this.props.readerStore.fetchFollowingList}
           />
         )
     }
