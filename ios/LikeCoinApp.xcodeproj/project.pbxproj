@@ -707,6 +707,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.15.0;
 				OTHER_LDFLAGS = (
@@ -730,6 +731,7 @@
 				CURRENT_PROJECT_VERSION = 164;
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.15.0;
 				OTHER_LDFLAGS = (
