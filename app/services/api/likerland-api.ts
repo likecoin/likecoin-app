@@ -77,6 +77,28 @@ export class LikerLandAPI {
   }
 
   /**
+   * Fetch reader's users
+   */
+  async fetchReaderCreators(): Promise<Types.ReaderCreatorsResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/reader/index")
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return {
+        kind: "ok",
+        following: response.data.list,
+        unfollowed: response.data.unfollowedUsers,
+      }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
    * Fetch a list of the reader suggestion
    */
   async fetchReaderFeatured(): Promise<Types.ContentListResult> {
@@ -162,6 +184,34 @@ export class LikerLandAPI {
    */
   async removeBookmark(url: string): Promise<Types.GeneralResult> {
     const response: ApiResponse<any> = await this.apisauce.delete("/reader/bookmark", null, { params: { url } })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
+
+  /**
+   * Follow a liker
+   */
+  async followLiker(likerID: string): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post(`/reader/follow/user/${likerID}`)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
+
+  /**
+   * Unfollow a liker
+   */
+  async unfollowLiker(likerID: string): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.delete(`/reader/follow/user/${likerID}`)
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

@@ -21,6 +21,8 @@ export interface ContentListProps {
 
   onPressItem?: (url: string) => void
   onBookmarkItem?: (url: string) => void
+  onPressMoreButton?: (content: Content) => void
+  onPressUndoButton?: (content: Content) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
 

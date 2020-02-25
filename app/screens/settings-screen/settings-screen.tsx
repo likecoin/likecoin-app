@@ -97,6 +97,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     Intercom.displayMessageComposer()
   }
 
+  private onPressFollowSettings = () => {
+    logAnalyticsEvent('SettingsClickFollowSettings')
+    this.props.navigation.navigate("FollowSettings")
+  }
+
   private onPressQRCodeButton = () => {
     logAnalyticsEvent('SettingsClickQRCodeScan')
     this.props.navigation.navigate("QRCodeScan")
@@ -169,6 +174,15 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     } = this.props.userStore.iapStore
     return (
       <View style={Style.Body}>
+        <View style={SETTINGS_MENU.TABLE}>
+          <Button
+            preset="plain"
+            tx="settingsScreen.followSettings"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+            onPress={this.onPressFollowSettings}
+          />
+        </View>
         {isIAPEnabled &&
           <View style={SETTINGS_MENU.TABLE}>
             <Button
