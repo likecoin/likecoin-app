@@ -35,13 +35,3 @@ target 'LikeCoinApp' do
 
   use_native_modules!
 end
-
-target 'LikeCoinApp-tvOS' do
-  # Pods for LikeCoinApp-tvOS
-
-  target 'LikeCoinApp-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end
