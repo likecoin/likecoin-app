@@ -8,6 +8,7 @@ import {
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { withEnvironment } from "../extensions"
 
+import { AuthcoreScreenOptions } from "../../services/authcore"
 import * as Keychain from "../../utils/keychain"
 
 /**
@@ -36,6 +37,9 @@ export const AuthCoreStoreModel = types
     getCredentialKeyFor(path: "access_token" | "refresh_token" | "id_token") {
       return `${this.credentialKeyPrefix}/${path}`
     },
+    getBaseURL() {
+      return self.env.authCoreAPI.baseURL
+    },
   }))
   .actions(self => ({
     setHasSignedIn(value: boolean) {
@@ -59,7 +63,13 @@ export const AuthCoreStoreModel = types
         Keychain.reset(self.getCredentialKeyFor("id_token")),
       ])
       yield self.env.authCoreAPI.signOut()
-    })
+    }),
+    openSettingsWidget(options: AuthcoreScreenOptions) {
+      self.env.authCoreAPI.openSettingsWidget({
+        ...options,
+        accessToken: self.accessToken,
+      })
+    },
   }))
   .actions(self => ({
     init: flow(function * (

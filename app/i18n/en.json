@@ -106,6 +106,7 @@
     "title": "Undelegate"
   },
   "settingsScreen": {
+    "authcoreSettings": "Authcore Settings",
     "contactUs": "Contact Us",
     "followSettings": "Following / Unfollow",
     "openSourceLicense": "Open Source License",

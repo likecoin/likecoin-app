@@ -11,6 +11,15 @@ export interface AuthCoreCallback {
   unauthorized?: Function
 }
 
+export interface AuthcoreScreenOptions {
+  accessToken?: string
+  company?: string
+  logo?: string
+  primaryColour?: string
+  dangerColour?: string
+  successColour?: string
+}
+
 function parseAuthCoreUser({
   id,
   primary_email: primaryEmail,
@@ -215,5 +224,15 @@ export class AuthCoreAPI {
   async getCurrentUser(accessToken: string) {
     const json = await this.client.auth.userInfo({ token: accessToken })
     return parseAuthCoreUser(json)
+  }
+
+  /**
+   * Open Authcore settings widgets in in-app webview
+   * @param accessToken Authcore access token
+   * @param primaryColour Theme color
+   * @param company Text label in the top
+   */
+  openSettingsWidget(options: AuthcoreScreenOptions) {
+    this.client.settings.show(options)
   }
 }
