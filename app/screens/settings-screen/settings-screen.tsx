@@ -87,7 +87,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressAuthcoreSettings = () => {
-    this.props.navigation.navigate("AuthcoreSettings")
+    this.props.userStore.authCore.openSettingsWidget({
+      company: "Liker ID",
+      logo: "https://like.co/favicon.png",
+      primaryColour: color.primary,
+      successColour: color.primary,
+      dangerColour: color.palette.angry,
+    })
   }
 
   private onClickLogout = async () => {
