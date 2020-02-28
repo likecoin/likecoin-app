@@ -12,8 +12,12 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		40B243B835C50D731CE4FD3B /* libPods-LikeCoinApp-LikerLandShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C429FADD31C96AAFD61D1CD1 /* libPods-LikeCoinApp-LikerLandShare.a */; };
 		83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7023282B3700E6998E /* LKCWebViewManager.m */; };
 		83924D7423282B3700E6998E /* LKCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7123282B3700E6998E /* LKCWebView.m */; };
+		83FE4EA424064FE50073E6EA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83FE4EA224064FE50073E6EA /* MainInterface.storyboard */; };
+		83FE4EA824064FE50073E6EA /* Liker Land Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		83FE4EAE240650780073E6EA /* LikerLandShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FE4EAD240650780073E6EA /* LikerLandShare.m */; };
 		AB07D850C91B8398F5E2FB23 /* libPods-LikeCoinAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84393A9D99A91D9737F14BA4 /* libPods-LikeCoinAppTests.a */; };
 		C27A56C94CBEC946501048B2 /* libPods-LikeCoinApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D8FC0335890CDFBF9C4CF5 /* libPods-LikeCoinApp.a */; };
 		DCFADF7E237C0E7600028C41 /* Release in Resources */ = {isa = PBXBuildFile; fileRef = DCFADF7C237C0E7600028C41 /* Release */; };
@@ -28,7 +32,28 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = LikeCoinApp;
 		};
+		83FE4EA624064FE50073E6EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83FE4E9C24064FE50073E6EA;
+			remoteInfo = LikerLandShare;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		83FE4EA924064FE50073E6EA /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				83FE4EA824064FE50073E6EA /* Liker Land Share.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -55,9 +80,17 @@
 		83924D7023282B3700E6998E /* LKCWebViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebViewManager.m; path = LikeCoinApp/LKCWebViewManager.m; sourceTree = "<group>"; };
 		83924D7123282B3700E6998E /* LKCWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebView.m; path = LikeCoinApp/LKCWebView.m; sourceTree = "<group>"; };
 		83924D7223282B3700E6998E /* LKCWebViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebViewManager.h; path = LikeCoinApp/LKCWebViewManager.h; sourceTree = "<group>"; };
+		83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Liker Land Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		83FE4EA324064FE50073E6EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		83FE4EA524064FE50073E6EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83FE4EAD240650780073E6EA /* LikerLandShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LikerLandShare.m; sourceTree = "<group>"; };
+		83FE4EAF24082D920073E6EA /* Liker Land Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Liker Land Share.entitlements"; sourceTree = "<group>"; };
 		84393A9D99A91D9737F14BA4 /* libPods-LikeCoinAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C429FADD31C96AAFD61D1CD1 /* libPods-LikeCoinApp-LikerLandShare.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp-LikerLandShare.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC54C5B2CB95D35A624B34B3 /* Pods-LikeCoinApp-LikerLandShare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp-LikerLandShare.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp-LikerLandShare/Pods-LikeCoinApp-LikerLandShare.debug.xcconfig"; sourceTree = "<group>"; };
 		DCFADF7C237C0E7600028C41 /* Release */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Release; sourceTree = "<group>"; };
 		DCFADF7D237C0E7600028C41 /* Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Debug; sourceTree = "<group>"; };
+		E20D300766D75E29830A2550 /* Pods-LikeCoinApp-LikerLandShare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp-LikerLandShare.release.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp-LikerLandShare/Pods-LikeCoinApp-LikerLandShare.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -76,6 +109,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C27A56C94CBEC946501048B2 /* libPods-LikeCoinApp.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83FE4E9A24064FE50073E6EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40B243B835C50D731CE4FD3B /* libPods-LikeCoinApp-LikerLandShare.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +169,7 @@
 				6CE7585CD68977C813A97C0C /* libPods-LikeCoinApp-tvOS.a */,
 				52304CD7A69CFA7CA3C03F2A /* libPods-LikeCoinApp-tvOSTests.a */,
 				84393A9D99A91D9737F14BA4 /* libPods-LikeCoinAppTests.a */,
+				C429FADD31C96AAFD61D1CD1 /* libPods-LikeCoinApp-LikerLandShare.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -147,6 +189,7 @@
 				13B07FAE1A68108700A75B9A /* LikeCoinApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* LikeCoinAppTests */,
+				83FE4E9E24064FE50073E6EA /* LikerLandShare */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				EFFFE8D89D5BF8B5BA93DC85 /* Pods */,
@@ -161,8 +204,20 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* LikeCoinApp.app */,
 				00E356EE1AD99517003FC87E /* LikeCoinAppTests.xctest */,
+				83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		83FE4E9E24064FE50073E6EA /* LikerLandShare */ = {
+			isa = PBXGroup;
+			children = (
+				83FE4EAF24082D920073E6EA /* Liker Land Share.entitlements */,
+				83FE4EA224064FE50073E6EA /* MainInterface.storyboard */,
+				83FE4EA524064FE50073E6EA /* Info.plist */,
+				83FE4EAD240650780073E6EA /* LikerLandShare.m */,
+			);
+			path = LikerLandShare;
 			sourceTree = "<group>";
 		};
 		EFFFE8D89D5BF8B5BA93DC85 /* Pods */ = {
@@ -172,6 +227,8 @@
 				2520972AC9D7D68790FC9E37 /* Pods-LikeCoinApp.release.xcconfig */,
 				0A802AED6459CC30DF37423E /* Pods-LikeCoinAppTests.debug.xcconfig */,
 				1353A4971D00DBB6E455BFE8 /* Pods-LikeCoinAppTests.release.xcconfig */,
+				CC54C5B2CB95D35A624B34B3 /* Pods-LikeCoinApp-LikerLandShare.debug.xcconfig */,
+				E20D300766D75E29830A2550 /* Pods-LikeCoinApp-LikerLandShare.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -211,15 +268,36 @@
 				C76FA05B0208092CE895C07A /* [CP-User] [RNFB] Core Configuration */,
 				CA245B537CEDD94F185A0102 /* [CP-User] [RNFB] Crashlytics Configuration */,
 				512FB86A807CF2F0E223B7FC /* [CP] Copy Pods Resources */,
+				83FE4EA924064FE50073E6EA /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				83FE4EA724064FE50073E6EA /* PBXTargetDependency */,
 			);
 			name = LikeCoinApp;
 			productName = LikeCoinApp;
 			productReference = 13B07F961A680F5B00A75B9A /* LikeCoinApp.app */;
 			productType = "com.apple.product-type.application";
+		};
+		83FE4E9C24064FE50073E6EA /* LikerLandShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83FE4EAC24064FE50073E6EA /* Build configuration list for PBXNativeTarget "LikerLandShare" */;
+			buildPhases = (
+				F8DF553DB1327357EEEC6B92 /* [CP] Check Pods Manifest.lock */,
+				83FE4E9924064FE50073E6EA /* Sources */,
+				83FE4E9A24064FE50073E6EA /* Frameworks */,
+				83FE4E9B24064FE50073E6EA /* Resources */,
+				127AFA9F1F2CAC72968EAAED /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LikerLandShare;
+			productName = LikerLandShare;
+			productReference = 83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -242,6 +320,10 @@
 							};
 						};
 					};
+					83FE4E9C24064FE50073E6EA = {
+						CreatedOnToolsVersion = 11.3.1;
+						ProvisioningStyle = Manual;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "LikeCoinApp" */;
@@ -261,6 +343,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* LikeCoinApp */,
 				00E356ED1AD99517003FC87E /* LikeCoinAppTests */,
+				83FE4E9C24064FE50073E6EA /* LikerLandShare */,
 			);
 		};
 /* End PBXProject section */
@@ -281,6 +364,14 @@
 				DCFADF7F237C0E7600028C41 /* Debug in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83FE4E9B24064FE50073E6EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83FE4EA424064FE50073E6EA /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +412,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		127AFA9F1F2CAC72968EAAED /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LikeCoinApp-LikerLandShare/Pods-LikeCoinApp-LikerLandShare-resources.sh",
+				"${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle",
+				"${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Intercom.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IntercomTranslations.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LikeCoinApp-LikerLandShare/Pods-LikeCoinApp-LikerLandShare-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4ED9E47BDA696CE0954D0521 /* [CP] Check Pods Manifest.lock */ = {
@@ -385,6 +496,28 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec Fabric Run from Pods\"\n  ${PODS_ROOT}/Fabric/run\nelse\n  echo \"info: Exec Fabric Run from framework\"\n  ${PROJECT_DIR}/Fabric.framework/run\nfi\n";
 		};
+		F8DF553DB1327357EEEC6B92 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LikeCoinApp-LikerLandShare-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -426,6 +559,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		83FE4E9924064FE50073E6EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83FE4EAE240650780073E6EA /* LikerLandShare.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -433,6 +574,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* LikeCoinApp */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		83FE4EA724064FE50073E6EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83FE4E9C24064FE50073E6EA /* LikerLandShare */;
+			targetProxy = 83FE4EA624064FE50073E6EA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -444,6 +590,14 @@
 			);
 			name = LaunchScreen.xib;
 			path = LikeCoinApp;
+			sourceTree = "<group>";
+		};
+		83FE4EA224064FE50073E6EA /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83FE4EA324064FE50073E6EA /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -640,6 +794,62 @@
 			};
 			name = Release;
 		};
+		83FE4EAA24064FE50073E6EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC54C5B2CB95D35A624B34B3 /* Pods-LikeCoinApp-LikerLandShare.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "LikerLandShare/Liker Land Share.entitlements";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = LikerLandShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oice.LikerLandShare;
+				PRODUCT_NAME = "Liker Land Share";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		83FE4EAB24064FE50073E6EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E20D300766D75E29830A2550 /* Pods-LikeCoinApp-LikerLandShare.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "LikerLandShare/Liker Land Share.entitlements";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = LikerLandShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oice.LikerLandShare;
+				PRODUCT_NAME = "Liker Land Share";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -666,6 +876,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83FE4EAC24064FE50073E6EA /* Build configuration list for PBXNativeTarget "LikerLandShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83FE4EAA24064FE50073E6EA /* Debug */,
+				83FE4EAB24064FE50073E6EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

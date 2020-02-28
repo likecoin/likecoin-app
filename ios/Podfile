@@ -27,6 +27,8 @@ target 'LikeCoinApp' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  
+  pod 'ReactNativeShareExtension', :podspec => '../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec'
 
   target 'LikeCoinAppTests' do
     inherit! :search_paths
@@ -34,4 +36,17 @@ target 'LikeCoinApp' do
   end
 
   use_native_modules!
+
+  target 'LikerLandShare' do
+    use_native_modules!
+    inherit! :complete
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+    end
+  end
 end
