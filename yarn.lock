@@ -9642,9 +9642,9 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-"react-native-authcore@https://gitlab.com/blocksq/react-native-authcore#5d2369b4d5dc57e68cba1b704ad1be9b19e45f96":
+"react-native-authcore@https://gitlab.com/blocksq/react-native-authcore#a78dac7aa6ba900571e72d723f82933a5a55f94f":
   version "1.0.0"
-  resolved "https://gitlab.com/blocksq/react-native-authcore#5d2369b4d5dc57e68cba1b704ad1be9b19e45f96"
+  resolved "https://gitlab.com/blocksq/react-native-authcore#a78dac7aa6ba900571e72d723f82933a5a55f94f"
   dependencies:
     color "^3.1.2"
     react-native-webview "^8.1.1"
