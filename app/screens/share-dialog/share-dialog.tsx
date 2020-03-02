@@ -10,41 +10,56 @@ import { Text } from "../../components/text"
 import { LikerLandAPI } from "../../services/api"
 import { color } from "../../theme"
 import { Icon } from "../../components/icon"
+import { Screen } from "../../components/screen"
 
 export class ShareDialog extends React.Component {
   likerLandAPI = new LikerLandAPI()
 
   state = {
     url: "",
-    error: false,
+    error: undefined,
   }
 
   async componentDidMount() {
     // FIXME: Hard-coded endpoint
-    this.likerLandAPI.setup("https://like.land/api")
+    this.likerLandAPI.setup("https://liker.land/api")
 
     try {
       const { value: url } = await ShareExtension.data()
       this.setState({ url })
       const response = await this.likerLandAPI.addBookmark(url)
+      console.log(response.kind)
       switch (response.kind) {
         case "ok":
           break
 
         default:
-          this.setState({ error: true })
+          this.setState({ error: response.kind })
       }
     } catch (error) {
       console.log(error)
-      this.setState({ error: true })
+      this.setState({ error: "unknown" })
     }
   }
 
   onClose = () => ShareExtension.close()
 
+  getErrorMessage = () => {
+    switch (this.state.error) {
+      case "forbidden":
+        return "Please sign-in in the app"
+
+      default:
+        return "Unable to bookmark"
+    }
+  }
+
   render() {
     return (
-      <View style={Style.Root}>
+      <Screen
+        preset="fixed"
+        style={Style.Root}
+      >
         <View style={Style.HandleWrapper}>
           <View style={Style.Handle} />
         </View>
@@ -57,7 +72,7 @@ export class ShareDialog extends React.Component {
           />
           {this.state.error ? (
             <Text
-              text="Unable to bookmark"
+              text={this.getErrorMessage()}
               size="medium"
               weight="600"
               color="angry"
@@ -82,7 +97,7 @@ export class ShareDialog extends React.Component {
           text="Click to close"
           onPress={this.onClose}
         />
-      </View>
+      </Screen>
     )
   }
 }

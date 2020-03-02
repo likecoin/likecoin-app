@@ -18,6 +18,7 @@ import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
 import { RootStore, setupRootStore } from "./models/root-store"
 import { logError } from "./utils/error"
 import { LoadingScreen } from "./components/loading-screen"
+import { ShareDialog } from "./screens/share-dialog"
 import { StorybookUIRoot } from "../storybook"
 
 /**
@@ -138,9 +139,19 @@ export class App extends React.Component<{}, AppState> {
 }
 
 /**
+ * This is the root component of the share extension.
+ */
+export class ShareExtension extends React.Component {
+  render() {
+    return <ShareDialog />
+  }
+}
+
+/**
  * This needs to match what's found in your app_delegate.m and MainActivity.java.
  */
 const APP_NAME = "LikeCoinApp"
+const SHARE_EXTENSION_NAME = "LikerLandShare"
 
 // Should we show storybook instead of our app?
 //
@@ -149,3 +160,4 @@ const SHOW_STORYBOOK = false
 
 const RootComponent = SHOW_STORYBOOK && __DEV__ ? StorybookUIRoot : App
 AppRegistry.registerComponent(APP_NAME, () => RootComponent)
+AppRegistry.registerComponent(SHARE_EXTENSION_NAME, () => ShareExtension)
