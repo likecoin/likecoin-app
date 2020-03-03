@@ -34,6 +34,7 @@ export interface TransferTargetInputScreenParams {
   amount: string,
   memo: string,
   likerId: string,
+  skipToConfirm: boolean,
 }
 
 export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
@@ -118,12 +119,20 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     const address = this.props.navigation.getParam("address")
     const memo = this.props.navigation.getParam("memo")
     const amount = this.props.navigation.getParam("amount")
+    const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
     const target = likerId || address
     if (!prevAddress && target) {
       this.props.txStore.setReceiver(target)
     }
     if (memo) this.props.txStore.setMemo(memo)
-    if (amount) this.props.txStore.setAmount(amount, true)
+    if (!prevAddress && target && skipToConfirm) {
+      this.validate().then(() => {
+        this.props.navigation.navigate("TransferAmountInput", {
+          amount,
+          skipToConfirm,
+        })
+      })
+    }
   }
 
   /**
