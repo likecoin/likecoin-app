@@ -64,7 +64,23 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
   }
 
   private onRead = (event: any) => {
-    if (validateAccountAddress(event.data)) {
+    if (typeof event.data !== 'string') return
+    if (event.data[0] === '{') {
+      try {
+        const {
+          amount,
+          address,
+          memo
+        } = JSON.parse(event.data)
+        this.props.navigation.replace("Transfer", {
+          address,
+          amount,
+          memo,
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    } else if (validateAccountAddress(event.data)) {
       this.props.navigation.replace("Transfer", { address: event.data })
     }
   }
