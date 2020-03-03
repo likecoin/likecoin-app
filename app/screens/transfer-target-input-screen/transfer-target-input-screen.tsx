@@ -33,6 +33,7 @@ export interface TransferTargetInputScreenParams {
   address: string,
   amount: string,
   memo: string,
+  likerId: string,
 }
 
 export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
@@ -113,11 +114,13 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
 
   _mapParamsToProps = (prepProps?: TransferTargetInputScreenProps) => {
     const prevAddress = prepProps && prepProps.navigation.getParam("address")
+    const likerId = this.props.navigation.getParam("likerId")
     const address = this.props.navigation.getParam("address")
     const memo = this.props.navigation.getParam("memo")
     const amount = this.props.navigation.getParam("amount")
-    if (!prevAddress && address) {
-      this.props.txStore.setTarget(address)
+    const target = likerId || address
+    if (!prevAddress && target) {
+      this.props.txStore.setTarget(target)
     }
     if (memo) this.props.txStore.setMemo(memo)
     if (amount) this.props.txStore.setAmount(amount, true)
