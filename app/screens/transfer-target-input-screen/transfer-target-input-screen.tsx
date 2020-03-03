@@ -30,7 +30,9 @@ import { color, spacing } from "../../theme"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 export interface TransferTargetInputScreenParams {
-  address: string
+  address: string,
+  amount: string,
+  memo: string,
 }
 
 export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
@@ -112,9 +114,13 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   _mapParamsToProps = (prepProps?: TransferTargetInputScreenProps) => {
     const prevAddress = prepProps && prepProps.navigation.getParam("address")
     const address = this.props.navigation.getParam("address")
+    const memo = this.props.navigation.getParam("memo")
+    const amount = this.props.navigation.getParam("amount")
     if (!prevAddress && address) {
       this.props.txStore.setReceiver(address)
     }
+    if (memo) this.props.txStore.setMemo(memo)
+    if (amount) this.props.txStore.setAmount(amount, true)
   }
 
   /**

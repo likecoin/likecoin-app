@@ -76,8 +76,13 @@ export const TxStoreModel = types
       self.target = newTarget
       self.errorMessage = ""
     },
-    setAmount: (value: string = "0") => {
-      self.inputAmount = value
+    setAmount: (value: string = "0", isBigNumber: boolean = false) => {
+      if (isBigNumber) {
+        const normalized = new BigNumber(value).shiftedBy(-self.fractionDigits)
+        self.inputAmount = normalized.toFixed()
+      } else {
+        self.inputAmount = value
+      }
       self.errorMessage = ""
     },
     setMemo: (newMemo: string = "") => {
