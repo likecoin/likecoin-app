@@ -70,14 +70,16 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
         const {
           address,
           likerId,
-          coins,
-          memo
+          coins = {},
+          memo,
+          skipToConfirm = true,
         } = JSON.parse(event.data)
         this.props.navigation.replace("Transfer", {
           address,
           likerId,
-          amount: coins?.amount,
+          amount: coins.amount,
           memo,
+          skipToConfirm,
         })
       } catch (err) {
         console.error(err)
