@@ -2,7 +2,7 @@ import * as React from "react"
 import { View } from "react-native"
 import ShareExtension from "react-native-share-extension"
 
-import { ShareDialogStyle as Style } from "./share-dialog.style"
+import { SaveToBookmarkScreenStyle as Style } from "./save-to-bookmark-screen.style"
 
 import { Button } from "../../components/button"
 import { Text } from "../../components/text"
@@ -12,7 +12,7 @@ import { color } from "../../theme"
 import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 
-export class ShareDialog extends React.Component {
+export class SaveToBookmarkScreen extends React.Component {
   likerLandAPI = new LikerLandAPI()
 
   state = {
@@ -28,7 +28,6 @@ export class ShareDialog extends React.Component {
       const { value: url } = await ShareExtension.data()
       this.setState({ url })
       const response = await this.likerLandAPI.addBookmark(url)
-      console.log(response.kind)
       switch (response.kind) {
         case "ok":
           break
@@ -39,6 +38,8 @@ export class ShareDialog extends React.Component {
     } catch (error) {
       console.log(error)
       this.setState({ error: "unknown" })
+    } finally {
+      this.setState({ isLoading: false })
     }
   }
 
@@ -50,7 +51,7 @@ export class ShareDialog extends React.Component {
         return "Please sign-in in the app"
 
       default:
-        return "Unable to bookmark"
+        return "Unable to save to bookmark"
     }
   }
 
@@ -79,7 +80,7 @@ export class ShareDialog extends React.Component {
             />
           ) : (
             <Text
-              text="Bookmarked to Liker Land!"
+              text="Saved to Liker Land!"
               size="medium"
               weight="600"
               color="likeCyan"

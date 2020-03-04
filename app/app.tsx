@@ -18,7 +18,7 @@ import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
 import { RootStore, setupRootStore } from "./models/root-store"
 import { logError } from "./utils/error"
 import { LoadingScreen } from "./components/loading-screen"
-import { ShareDialog } from "./screens/share-dialog"
+import { SaveToBookmarkScreen } from "./screens/save-to-bookmark-screen"
 import { StorybookUIRoot } from "../storybook"
 
 /**
@@ -143,7 +143,7 @@ export class App extends React.Component<{}, AppState> {
  */
 export class ShareExtension extends React.Component {
   render() {
-    return <ShareDialog />
+    return <SaveToBookmarkScreen />
   }
 }
 
