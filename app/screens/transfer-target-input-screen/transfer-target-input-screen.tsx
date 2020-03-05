@@ -115,6 +115,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
 
   _mapParamsToProps = (prepProps?: TransferTargetInputScreenProps) => {
     const prevAddress = prepProps && prepProps.navigation.getParam("address")
+    const prevMemo = prepProps && prepProps.navigation.getParam("memo")
     const likerId = this.props.navigation.getParam("likerId")
     const address = this.props.navigation.getParam("address")
     const memo = this.props.navigation.getParam("memo")
@@ -124,7 +125,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     if (!prevAddress && target) {
       this.props.txStore.setReceiver(target)
     }
-    if (memo) this.props.txStore.setMemo(memo)
+    if (prevMemo !== memo) this.props.txStore.setMemo(memo)
     if (!prevAddress && target && skipToConfirm) {
       this.validate().then(() => {
         this.props.navigation.navigate("TransferAmountInput", {
