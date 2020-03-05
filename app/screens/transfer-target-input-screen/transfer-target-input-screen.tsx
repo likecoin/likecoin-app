@@ -113,7 +113,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     const prevAddress = prepProps && prepProps.navigation.getParam("address")
     const address = this.props.navigation.getParam("address")
     if (!prevAddress && address) {
-      this.props.txStore.setTarget(address)
+      this.props.txStore.setReceiver(address)
     }
   }
 
