@@ -1,6 +1,6 @@
 import * as React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
-import { RNCamera } from 'react-native-camera'
+import { RNCamera } from "react-native-camera"
 import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import throttle from "lodash.throttle"
 
@@ -64,8 +64,8 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
   }
 
   private onRead = (event: any) => {
-    if (typeof event.data !== 'string') return
-    if (event.data[0] === '{') {
+    if (typeof event.data !== "string") return
+    if (event.data[0] === "{") {
       try {
         const {
           address,
