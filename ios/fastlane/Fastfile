@@ -76,6 +76,7 @@ platform :ios do
   lane :update_dsyms do
     download_dsyms(
       version: ENV["VERSION_NAME"] || "latest",
+      build_number: ENV["BUILD_NUMBER"],
     )
     upload_symbols_to_crashlytics(
       gsp_path: "./Release/GoogleService-Info.plist",

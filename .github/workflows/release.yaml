@@ -9,11 +9,17 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@master
-    - name: Set release name env
+    - name: Set release version and build number env
       run: |
-        ref="${github_ref%v*}"
-        echo $ref
-        echo "::set-env name=ref::$ref"
+        version="${github_ref#*v}"
+        build="${version#*-}"
+        version="${version%-*}"
+        build="${build%-*}"
+        version="${version%-*}"
+        echo $version
+        echo $build
+        echo "::set-env name=VERSION_NAME::$version"
+        echo "::set-env name=BUILD_NUMBER::$build"
       env:
         github_ref: ${{ github.ref }}
     - uses: actions/cache@v1
@@ -32,7 +38,6 @@ jobs:
       working-directory: ios
       env:
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
-        VERSION_NAME: ${{ ref }}
 
   build-android:
     runs-on: ubuntu-latest
