@@ -7,8 +7,10 @@ jobs:
     name: Upload dsyms
     runs-on: macOS-latest
     steps:
-    - name: Checkout the repository
-      uses: actions/checkout@master
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
     - name: Set release version and build number env
       run: |
         version="${github_ref#*v}"
@@ -22,6 +24,25 @@ jobs:
         echo "::set-env name=BUILD_NUMBER::$build"
       env:
         github_ref: ${{ github.ref }}
+    - name: Get yarn cache
+      id: yarn-cache
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.yarn-cache.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - uses: actions/cache@v1
+      with:
+        path: ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+    - name: Install dependencies
+      run: yarn
+    - name: Compile
+      run: yarn compile
     - uses: actions/cache@v1
       with:
         path: ios/vendor/bundle
