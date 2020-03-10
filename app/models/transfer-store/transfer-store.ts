@@ -33,13 +33,15 @@ export const TransferStoreModel = TxStoreModel
             avatar: avatarURL,
             cosmosWallet,
           } = result.data
-          self.liker = UserModel.create({
-            likerID,
-            displayName,
-            email,
-            avatarURL,
-            cosmosWallet,
-          })
+          if (likerID) {
+            self.liker = UserModel.create({
+              likerID,
+              displayName,
+              email,
+              avatarURL,
+              cosmosWallet,
+            })
+          }
           break
         }
       }

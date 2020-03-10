@@ -86,6 +86,8 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
       }
     } else if (validateAccountAddress(event.data)) {
       this.props.navigation.replace("Transfer", { address: event.data })
+    } else {
+      this.props.navigation.replace("Transfer", { likerId: event.data })
     }
   }
 
