@@ -25,7 +25,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 
 export interface ReceiveScreenProps extends NavigationScreenProps {
   wallet: Wallet
-  likerID: string
+  qrCodeContent: string
 }
 const ROOT: ViewStyle = {
   flex: 1,
@@ -70,7 +70,7 @@ const BOTTOM_BAR: ViewStyle = {
 
 @inject((rootStore: RootStore) => ({
   wallet: rootStore.chainStore.wallet,
-  likerID: rootStore.userStore.currentUser.likerID,
+  qrCodeContent: rootStore.userStore.currentUser.qrCodeContentForPayment,
 }))
 @observer
 export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
@@ -101,7 +101,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
 
   render () {
     const {
-      likerID,
+      qrCodeContent,
       wallet: {
         address,
       },
@@ -133,7 +133,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
             />
             <Sheet style={SHEET}>
               <QRCode
-                value={likerID}
+                value={qrCodeContent}
                 size={160}
               />
               <Text style={ADDRESS} text={address} />

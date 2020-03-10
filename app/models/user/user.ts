@@ -13,6 +13,14 @@ export const UserModel = types
     cosmosWallet: types.maybe(types.string),
     isCivicLiker: types.optional(types.boolean, false),
   })
+  .views(self => ({
+    get qrCodeContentForPayment() {
+      return JSON.stringify({
+        likerId: self.likerID,
+        skipToConfirm: false,
+      })
+    },
+  }))
 
 type UserType = Instance<typeof UserModel>
 export interface User extends UserType {}
