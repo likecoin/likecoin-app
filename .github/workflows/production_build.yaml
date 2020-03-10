@@ -1,29 +1,20 @@
+name: Build Production
+
 on:
-  release:
-    types: [created]
-name: Handle Release
+  push:
+    branches-ignore:
+    - '**'
+    tags:
+    - 'v**'
+
 jobs:
-  upload-ios:
-    name: Upload dsyms
+  build-ios:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: 10
-    - name: Set release version and build number env
-      run: |
-        version="${github_ref#*v}"
-        build="${version#*-}"
-        version="${version%-*}"
-        build="${build%-*}"
-        version="${version%-*}"
-        echo $version
-        echo $build
-        echo "::set-env name=VERSION_NAME::$version"
-        echo "::set-env name=BUILD_NUMBER::$build"
-      env:
-        github_ref: ${{ github.ref }}
     - name: Get yarn cache
       id: yarn-cache
       run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -54,15 +45,16 @@ jobs:
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
       working-directory: ios
-    - name: Download and update dsyms
-      run: bundle exec fastlane update_dsyms
+    - name: Set Release certificate
+      run: mkdir -p ios/builds && echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/builds/apple_dist_cert.p12
+    - name: Build to testflight
+      run: bundle exec fastlane ci_beta
       working-directory: ios
       env:
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
-
+        APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
   build-android:
     runs-on: ubuntu-latest
-    name: Create release-artifacts
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
@@ -110,38 +102,11 @@ jobs:
           ${{ runner.os }}-gradle-
     - name: Set Release keystore
       run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
-    - name: Build Release APK
-      run: bundle exec fastlane apk
+    - name: Set Google Play service account key
+      run: echo ${{ secrets.ANDROID_GOOGLE_PLAY_SERVICE_ACCOUNT }} | base64 -d > android/key.json
+    - name: Build to Google Play internal test
+      run: bundle exec fastlane beta
       working-directory: android
       env:
         ANDROID_RELEASE_KEY_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_STORE_PASSWORD }}
         ANDROID_RELEASE_KEY_KEY_PASSWORD: ${{  secrets.ANDROID_RELEASE_KEY_KEY_PASSWORD }}
-    - name: Format release url
-      id: url-format
-      run: |
-        RELEASE_ID=${{ github.event.release.id }}
-        UPLOAD_URL="https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets{?name,label}"
-        echo "::set-output name=upload_url::$UPLOAD_URL"
-    - name: Set release version and build number env
-      id: version-format
-      run: |
-        version="${github_ref#*v}"
-        build="${version#*-}"
-        version="${version%-*}"
-        build="${build%-*}"
-        version="${version%-*}"
-        echo $version
-        echo $build
-        echo "::set-env name=VERSION_NAME::$version"
-        echo "::set-env name=BUILD_NUMBER::$build"
-        echo "::set-output name=version::$version"
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.url-format.outputs.upload_url }}
-        asset_path: ./android/app/build/outputs/apk/release/app-release.apk
-        asset_name: liker-land-app_${{ steps.version-format.outputs.version }}.apk
-        asset_content_type: application/zip

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
-import { RNCamera } from 'react-native-camera'
+import { RNCamera } from "react-native-camera"
 import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import throttle from "lodash.throttle"
 
@@ -64,7 +64,27 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
   }
 
   private onRead = (event: any) => {
-    if (validateAccountAddress(event.data)) {
+    if (typeof event.data !== "string") return
+    if (event.data[0] === "{") {
+      try {
+        const {
+          address,
+          likerId,
+          coins = {},
+          memo,
+          skipToConfirm = true,
+        } = JSON.parse(event.data)
+        this.props.navigation.replace("Transfer", {
+          address,
+          likerId,
+          amount: coins.amount,
+          memo,
+          skipToConfirm,
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    } else if (validateAccountAddress(event.data)) {
       this.props.navigation.replace("Transfer", { address: event.data })
     }
   }

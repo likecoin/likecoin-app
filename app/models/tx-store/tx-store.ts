@@ -30,6 +30,7 @@ export const TxStoreModel = types
     target: "",
     inputAmount: "",
     gas: new BigNumber(0),
+    memo: "",
     txHash: "",
 
     isCreatingTx: false,
@@ -61,6 +62,7 @@ export const TxStoreModel = types
       return {
         gas: self.gas.toFixed(),
         gasPrices: [parseCosmosCoin(self.gasPrice.toFixed(), self.fractionDenom)],
+        memo: self.memo,
       }
     },
   }))
@@ -74,9 +76,17 @@ export const TxStoreModel = types
       self.target = newTarget
       self.errorMessage = ""
     },
-    setAmount: (value: string = "0") => {
-      self.inputAmount = value
+    setAmount: (value: string = "0", isBigNumber: boolean = false) => {
+      if (isBigNumber) {
+        const normalized = new BigNumber(value).shiftedBy(-self.fractionDigits)
+        self.inputAmount = normalized.toFixed()
+      } else {
+        self.inputAmount = value
+      }
       self.errorMessage = ""
+    },
+    setMemo: (newMemo: string = "") => {
+      self.memo = newMemo
     },
   }))
   .actions(self => {
@@ -93,6 +103,7 @@ export const TxStoreModel = types
         self.setAmount()
         self.gas = new BigNumber(0)
         self.txHash = ""
+        self.memo = ""
 
         self.isCreatingTx = false
         self.isSigningTx = false
