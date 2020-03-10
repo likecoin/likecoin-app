@@ -9,6 +9,7 @@ import { TransferStore } from "../../models/transfer-store"
 
 import { SigningView } from "../../components/signing-view"
 
+import { TransferNavigatorParams } from "../../navigation/transfer-navigator"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import TransferGraph from "../../assets/graph/transfer.svg"
@@ -17,7 +18,7 @@ const GRAPH: ViewStyle = {
   marginRight: -18,
 }
 
-export interface TransferSigningScreenProps extends NavigationScreenProps<{}> {
+export interface TransferSigningScreenProps extends NavigationScreenProps<TransferNavigatorParams> {
   txStore: TransferStore,
   chain: ChainStore,
 }
@@ -37,7 +38,12 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
   }
 
   private onPressCloseButton = () => {
-    this.props.navigation.goBack()
+    const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
+    if (skipToConfirm) {
+      this.props.navigation.dismiss()
+    } else {
+      this.props.navigation.goBack()
+    }
   }
 
   private onPressConfirmButton = () => {

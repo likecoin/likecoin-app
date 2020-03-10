@@ -42,4 +42,20 @@ platform :android do
     )
   end
 
+  desc "Build a new production apk"
+  lane :apk do
+    releaseFilePath = File.join(Dir.pwd, "..", "app", "release.keystore")
+    gradle(task: 'clean')
+    gradle(
+      task: 'app:assemble',
+      build_type: 'Release',
+      print_command: false,
+      properties: {
+        "android.injected.signing.store.file" => releaseFilePath,
+        "android.injected.signing.store.password" => ENV['ANDROID_RELEASE_KEY_STORE_PASSWORD'],
+        "android.injected.signing.key.alias" => "oice-app",
+        "android.injected.signing.key.password" => ENV['ANDROID_RELEASE_KEY_KEY_PASSWORD'],
+      }
+    )
+  end
 end

@@ -71,4 +71,16 @@ platform :ios do
       skip_waiting_for_build_processing: true,
     )
   end
+
+  desc "Pull dsyms from itunes and upload to crashlytics"
+  lane :update_dsyms do
+    download_dsyms(
+      version: ENV["VERSION_NAME"] || "latest",
+      build_number: ENV["BUILD_NUMBER"],
+    )
+    upload_symbols_to_crashlytics(
+      gsp_path: "./Release/GoogleService-Info.plist",
+    )
+    clean_build_artifacts
+  end
 end

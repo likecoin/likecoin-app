@@ -15,3 +15,11 @@ export const TransferNavigator = createStackNavigator({
   headerMode: "none",
   initialRouteName: "TransferTargetInput",
 })
+
+export interface TransferNavigatorParams {
+  address: string
+  amount: string
+  memo: string
+  likerId: string
+  skipToConfirm: boolean
+}
