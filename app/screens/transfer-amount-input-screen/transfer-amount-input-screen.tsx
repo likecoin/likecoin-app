@@ -3,21 +3,19 @@ import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { AmountInputView } from "../../components/amount-input-view"
+import { LoadingScreen } from "../../components/loading-screen"
 
 import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { TransferStore } from "../../models/transfer-store"
 
+import { TransferNavigatorParams } from "../../navigation/transfer-navigator"
+
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import TransferGraph from "../../assets/graph/transfer.svg"
 
-export interface TransferAmountInputScreenParams {
-  amount: string,
-  skipToConfirm: boolean,
-}
-
-export interface TransferAmountInputScreenProps extends NavigationScreenProps<TransferAmountInputScreenParams> {
+export interface TransferAmountInputScreenProps extends NavigationScreenProps<TransferNavigatorParams> {
   txStore: TransferStore,
   chain: ChainStore,
 }
@@ -43,7 +41,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
     if (!prevAmount && amount) this.props.txStore.setAmount(amount, true)
     if (!prevAmount && amount && skipToConfirm) {
       this.createTransactionForSigning().then(() => {
-        this.props.navigation.navigate("TransferSigning")
+        this.props.navigation.replace("TransferSigning", { skipToConfirm })
       })
     }
   }
@@ -98,6 +96,12 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
       errorMessage,
       isCreatingTx,
     } = this.props.txStore
+
+    const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
+    if (skipToConfirm) {
+      return <LoadingScreen />
+    }
+
     return (
       <AmountInputView
         value={inputAmount}
