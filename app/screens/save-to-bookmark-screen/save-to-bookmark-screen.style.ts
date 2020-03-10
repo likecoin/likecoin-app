@@ -8,7 +8,7 @@ import { sizes } from "../../components/text/text.sizes"
 
 import { color, spacing } from "../../theme"
 
-export const ShareDialogStyle = StyleSheet.create({
+export const SaveToBookmarkScreenStyle = StyleSheet.create({
   Handle: {
     height: 4,
     width: 32,

@@ -2,7 +2,7 @@ import * as React from "react"
 import { View } from "react-native"
 import ShareExtension from "react-native-share-extension"
 
-import { ShareDialogStyle as Style } from "./share-dialog.style"
+import { SaveToBookmarkScreenStyle as Style } from "./save-to-bookmark-screen.style"
 
 import { Button } from "../../components/button"
 import { Text } from "../../components/text"
@@ -10,18 +10,19 @@ import { Text } from "../../components/text"
 import { LikerLandAPI } from "../../services/api"
 import { color } from "../../theme"
 import { Icon } from "../../components/icon"
+import { Screen } from "../../components/screen"
 
-export class ShareDialog extends React.Component {
+export class SaveToBookmarkScreen extends React.Component {
   likerLandAPI = new LikerLandAPI()
 
   state = {
     url: "",
-    error: false,
+    error: undefined,
   }
 
   async componentDidMount() {
     // FIXME: Hard-coded endpoint
-    this.likerLandAPI.setup("https://like.land/api")
+    this.likerLandAPI.setup("https://liker.land/api")
 
     try {
       const { value: url } = await ShareExtension.data()
@@ -32,19 +33,34 @@ export class ShareDialog extends React.Component {
           break
 
         default:
-          this.setState({ error: true })
+          this.setState({ error: response.kind })
       }
     } catch (error) {
       console.log(error)
-      this.setState({ error: true })
+      this.setState({ error: "unknown" })
+    } finally {
+      this.setState({ isLoading: false })
     }
   }
 
   onClose = () => ShareExtension.close()
 
+  getErrorMessage = () => {
+    switch (this.state.error) {
+      case "forbidden":
+        return "Please sign-in in the app"
+
+      default:
+        return "Unable to save to bookmark"
+    }
+  }
+
   render() {
     return (
-      <View style={Style.Root}>
+      <Screen
+        preset="fixed"
+        style={Style.Root}
+      >
         <View style={Style.HandleWrapper}>
           <View style={Style.Handle} />
         </View>
@@ -57,14 +73,14 @@ export class ShareDialog extends React.Component {
           />
           {this.state.error ? (
             <Text
-              text="Unable to bookmark"
+              text={this.getErrorMessage()}
               size="medium"
               weight="600"
               color="angry"
             />
           ) : (
             <Text
-              text="Bookmarked to Liker Land!"
+              text="Saved to Liker Land!"
               size="medium"
               weight="600"
               color="likeCyan"
@@ -82,7 +98,7 @@ export class ShareDialog extends React.Component {
           text="Click to close"
           onPress={this.onClose}
         />
-      </View>
+      </Screen>
     )
   }
 }

@@ -12,6 +12,8 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLog.h>
 
+@import Firebase;
+
 @interface LikerLandShare : ReactNativeShareExtension
 @end
 
@@ -20,15 +22,36 @@
 RCT_EXPORT_MODULE();
 
 - (UIView*) shareView {
-  NSURL *jsCodeLocation;
+  // Initialize Firebase
+  if ([FIRApp defaultApp] == nil) {
+    NSString *filePath;
+    #ifdef DEBUG
+      NSLog(@"[FIREBASE] Development mode.");
+      filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist" inDirectory:@"Debug"];
+    #else
+      NSLog(@"[FIREBASE] Production mode.");
+      filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist" inDirectory:@"Release"];
+    #endif
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"share-extension" fallbackResource:nil];
+    FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
+    [FIRApp configureWithOptions:options];
+  }
 
+  // Sync cookies from App
+  NSArray<NSHTTPCookie *> *cookies = [[NSHTTPCookieStorage sharedCookieStorageForGroupContainerIdentifier:@"group.liker.land"] cookies];
+  for (NSHTTPCookie *cookie in cookies) {
+    if ([cookie.name isEqualToString:@"__session"]) {
+      [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+  }
+
+  NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  NSLog(@"JSCODE LOCATION %@", jsCodeLocation);
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"LikerLandShare"
                                                initialProperties:nil
                                                    launchOptions:nil];
-  rootView.backgroundColor = nil;
+  rootView.backgroundColor = [UIColor colorWithRed:16.0/255.0 green:39.0/255.0 blue:43.0/255.0 alpha:1];
 
   // Uncomment for console output in Xcode console for release mode on device:
   // RCTSetLogThreshold(RCTLogLevelInfo - 1);
