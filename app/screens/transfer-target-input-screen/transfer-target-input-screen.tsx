@@ -20,20 +20,19 @@ import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
+import { LoadingScreen } from "../../components/loading-screen"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
+
+import { TransferNavigatorParams } from "../../navigation/transfer-navigator"
 
 import { translate } from "../../i18n"
 import { color, spacing } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-export interface TransferTargetInputScreenParams {
-  address: string
-}
-
-export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferTargetInputScreenParams> {
+export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferNavigatorParams> {
   txStore: TransferStore,
   chain: ChainStore,
 }
@@ -110,10 +109,27 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   _mapParamsToProps = (prepProps?: TransferTargetInputScreenProps) => {
+    const prevLikerId = prepProps && prepProps.navigation.getParam("likerId")
     const prevAddress = prepProps && prepProps.navigation.getParam("address")
+    const prevMemo = prepProps && prepProps.navigation.getParam("memo")
+    const likerId = this.props.navigation.getParam("likerId")
     const address = this.props.navigation.getParam("address")
-    if (!prevAddress && address) {
-      this.props.txStore.setReceiver(address)
+    const memo = this.props.navigation.getParam("memo")
+    const amount = this.props.navigation.getParam("amount")
+    const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
+    const prevTarget = prevLikerId || prevAddress
+    const target = likerId || address
+    if (!prevTarget && target) {
+      this.props.txStore.setReceiver(target)
+    }
+    if (prevMemo !== memo) this.props.txStore.setMemo(memo)
+    if (!prevTarget && target && skipToConfirm) {
+      this.validate().then(() => {
+        this.props.navigation.replace("TransferAmountInput", {
+          amount,
+          skipToConfirm,
+        })
+      })
     }
   }
 
@@ -167,6 +183,11 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   render () {
+    const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
+    if (skipToConfirm) {
+      return <LoadingScreen />
+    }
+
     const { isFetchingLiker, target } = this.props.txStore
     const bottomBarStyle = [
       BOTTOM_BAR,
