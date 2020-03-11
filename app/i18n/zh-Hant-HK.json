@@ -19,6 +19,12 @@
     "unfollowSuccess": "已取消追踪 %{creator}"
   },
   "ContentListItem": {
+    "Back": {
+      "Bookmark": "加到書籤",
+      "Follow": "追踨作者",
+      "Unbookmark": "移除書籤",
+      "Unfollow": "消取追蹤"
+    },
     "likeStatsLabel": {
       "other": "{{count}} 個讚"
     }

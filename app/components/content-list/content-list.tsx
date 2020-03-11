@@ -25,6 +25,7 @@ const FULL: ViewStyle = {
 }
 const HEADER: ViewStyle = {
   paddingTop: spacing[4],
+  paddingBottom: spacing[2],
 }
 const EMPTY: ViewStyle = {
   ...FULL,
@@ -87,9 +88,9 @@ export class ContentList extends React.Component<ContentListProps> {
       content={content}
       creator={content.creator}
       isShowBookmarkIcon={this.props.isShowBookmarkIcon}
-      onBookmark={this.props.onBookmarkItem}
+      onToggleBookmark={this.props.onToggleBookmark}
+      onToggleFollow={this.props.onToggleFollow}
       onPress={this.props.onPressItem}
-      onPressMoreButton={this.props.onPressMoreButton}
       onPressUndoButton={this.props.onPressUndoButton}
     />
   )

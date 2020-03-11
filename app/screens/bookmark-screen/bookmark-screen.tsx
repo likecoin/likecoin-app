@@ -8,6 +8,8 @@ import { Header } from "../../components/header"
 import { ContentList } from "../../components/content-list"
 import { Screen } from "../../components/screen"
 
+import { Content } from "../../models/content"
+
 @inject("readerStore")
 @observer
 export class BookmarkScreen extends React.Component<Props> {
@@ -17,8 +19,12 @@ export class BookmarkScreen extends React.Component<Props> {
     }
   }
 
-  private onBookmarkContentItem = (url: string) => {
+  private onToggleBookmark = (url: string) => {
     this.props.readerStore.toggleBookmark(url)
+  }
+
+  private onToggleFollow = (content: Content) => {
+    this.props.readerStore.toggleFollow(content.creator.likerID)
   }
 
   private onPressContentItem = (id: string) => {
@@ -40,7 +46,8 @@ export class BookmarkScreen extends React.Component<Props> {
           isLoading={this.props.readerStore.isFetchingBookmarkList}
           isShowBookmarkIcon={false}
           onPressItem={this.onPressContentItem}
-          onBookmarkItem={this.onBookmarkContentItem}
+          onToggleBookmark={this.onToggleBookmark}
+          onToggleFollow={this.onToggleFollow}
           onRefresh={this.props.readerStore.fetchBookmarkList}
           style={Style.List}
         />

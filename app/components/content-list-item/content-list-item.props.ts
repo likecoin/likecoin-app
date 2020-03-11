@@ -26,12 +26,12 @@ export interface ContentListItemProps {
   /**
    * A callback when the bookmark button is pressed.
    */
-  onBookmark?: (url: string) => void
+  onToggleBookmark?: (url: string) => void
 
   /**
-   * A callback when the more button is pressed.
+   * A callback when the follow button is pressed.
    */
-  onPressMoreButton?: (content: Content) => void
+  onToggleFollow?: (content: Content) => void
 
   /**
    * A callback when the undo button is pressed.

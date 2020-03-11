@@ -1,9 +1,11 @@
 import * as React from "react"
 import {
   Image,
+  TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native"
+import { SwipeRow } from "react-native-swipe-list-view"
 import ReactNativeSvg from "react-native-svg"
 import { observer } from "mobx-react"
 
@@ -19,14 +21,18 @@ import { Text } from "../text"
 
 import { translate } from "../../i18n"
 import { color } from "../../theme"
+import { ContentListItemBack } from "./content-list-item.back"
 
 @observer
 export class ContentListItem extends React.Component<Props, State> {
+  swipeRowRef = React.createRef<SwipeRow<{}>>()
+
   constructor(props: Props) {
     super(props)
 
     this.state = {
       isPrevFollow: props.creator && props.creator.isFollowing,
+      offsetX: 0,
     }
   }
 
@@ -45,6 +51,10 @@ export class ContentListItem extends React.Component<Props, State> {
     this.fetchCreatorDependedDetails()
   }
 
+  private getSwipeRowWidth() {
+    return -(this.props.creator ? 128 : 64)
+  }
+
   private fetchCreatorDependedDetails() {
     if (this.props.content.shouldFetchLikeStat) {
       this.props.content.fetchLikeStat()
@@ -54,14 +64,18 @@ export class ContentListItem extends React.Component<Props, State> {
     }
   }
 
-  private onBookmark = () => {
-    if (this.props.onBookmark) this.props.onBookmark(this.props.content.url)
+  private onToggleBookmark = () => {
+    this.swipeRowRef.current.closeRow()
+    if (this.props.onToggleBookmark) this.props.onToggleBookmark(this.props.content.url)
+  }
+
+  private onToggleFollow = () => {
+    this.swipeRowRef.current.closeRow()
+    if (this.props.onToggleFollow) this.props.onToggleFollow(this.props.content)
   }
 
   private onPressMoreButton = () => {
-    if (this.props.onPressMoreButton) {
-      this.props.onPressMoreButton(this.props.content)
-    }
+    this.swipeRowRef.current.manuallySwipeRow(this.getSwipeRowWidth())
   }
 
   private onPress = () => {
@@ -76,16 +90,10 @@ export class ContentListItem extends React.Component<Props, State> {
 
   render() {
     const {
-      content,
-      style,
-    } = this.props
-
-    const {
+      isBookmarked,
+      isFollowingCreator,
       isLoading,
-      likeCount,
-      coverImageURL,
-      normalizedTitle,
-    } = content
+    } = this.props.content
 
     if (isLoading) {
       return <ContentListItemSkeleton />
@@ -93,71 +101,105 @@ export class ContentListItem extends React.Component<Props, State> {
       this.props.creator &&
       this.props.onPressUndoButton &&
       this.state.isPrevFollow &&
-      !this.props.creator.isFollowing
+      !isFollowingCreator
     ) {
       return this.renderUndo()
     }
 
+    return (
+      <SwipeRow
+      ref={this.swipeRowRef}
+        rightOpenValue={this.getSwipeRowWidth()}
+        stopLeftSwipe={0}
+      >
+        <ContentListItemBack
+          isShowFollowToggle={!!this.props.creator}
+          isBookmarked={isBookmarked}
+          isFollowingCreator={isFollowingCreator}
+          onToggleBookmark={this.onToggleBookmark}
+          onToggleFollow={this.onToggleFollow}
+        />
+        {this.renderFront()}
+      </SwipeRow>
+    )
+  }
+
+  private renderFront() {
+    const {
+      content,
+      style,
+    } = this.props
+
+    const {
+      likeCount,
+      coverImageURL,
+      normalizedTitle,
+    } = content
+
     const rootStyle = {
-      ...Style.ROOT,
+      ...Style.Root,
       ...style,
+      transform: [{ translateX: this.state.offsetX }],
     }
 
     return (
-      <TouchableOpacity
-        onPress={this.onPress}
+      <TouchableHighlight
+        underlayColor={color.palette.greyf2}
         style={rootStyle}
+        onPress={this.onPress}
       >
-        <View style={Style.ROW}>
-          <View style={Style.DETAIL_VIEW}>
-            <Text
-              color="likeGreen"
-              size="default"
-              weight="600"
-              text={content.creatorDisplayName}
-            />
-            <Text
-              color="grey4a"
-              size="medium"
-              weight="600"
-              text={normalizedTitle}
-              style={Style.DETAIL_TEXT}
-            />
-          </View>
-          {!!coverImageURL &&
-            <Image
-              source={{ uri: coverImageURL }}
-              style={Style.IMAGE_VIEW}
-            />
-          }
-          {content.isBookmarked &&
-            this.props.isShowBookmarkIcon &&
-            this.renderBookmarkFlag()
-          }
-        </View>
-        <View style={Style.FOOTER}>
-          <View>
-            {likeCount > 0 &&
+        <View>
+          <View style={Style.ROW}>
+            <View style={Style.DETAIL_VIEW}>
               <Text
-                text={translate("ContentListItem.likeStatsLabel", { count: likeCount })}
+                color="likeGreen"
+                size="default"
+                weight="600"
+                text={content.creatorDisplayName}
+              />
+              <Text
+                color="grey4a"
                 size="medium"
-                prepend={(
-                  <Icon
-                    name="like-clap"
-                    width={24}
-                    color="grey9b"
-                  />
-                )}
-                color="grey9b"
+                weight="600"
+                text={normalizedTitle}
+                style={Style.DETAIL_TEXT}
+              />
+            </View>
+            {!!coverImageURL &&
+              <Image
+                source={{ uri: coverImageURL }}
+                style={Style.IMAGE_VIEW}
               />
             }
+            {content.isBookmarked &&
+              this.props.isShowBookmarkIcon &&
+              this.renderBookmarkFlag()
+            }
           </View>
-          <View style={Style.BOTTOM_BUTTON_CONTAINER}>
-            {this.renderBookmarkButton(content.isBookmarked)}
-            {this.renderMoreButton()}
+          <View style={Style.FOOTER}>
+            <View>
+              {likeCount > 0 &&
+                <Text
+                  text={translate("ContentListItem.likeStatsLabel", { count: likeCount })}
+                  size="medium"
+                  prepend={(
+                    <Icon
+                      name="like-clap"
+                      width={24}
+                      color="grey9b"
+                    />
+                  )}
+                  color="grey9b"
+                />
+              }
+            </View>
+            <View style={Style.BOTTOM_BUTTON_CONTAINER}>
+              {this.renderBookmarkButton(content.isBookmarked)}
+              {this.renderMoreButton()}
+            </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     )
   }
 
@@ -165,7 +207,7 @@ export class ContentListItem extends React.Component<Props, State> {
     const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
     const iconColor = isBookmarked ? "likeCyan" : "grey4a"
     return (
-      <TouchableOpacity onPress={this.onBookmark}>
+      <TouchableOpacity onPress={this.onToggleBookmark}>
         <Icon
           name={iconName}
           width={24}

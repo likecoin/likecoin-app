@@ -19,6 +19,12 @@
     "unfollowSuccess": "You have unfollowed %{creator}"
   },
   "ContentListItem": {
+    "Back": {
+      "Bookmark": "Bookmark",
+      "Follow": "Follow",
+      "Unbookmark": "Unsave",
+      "Unfollow": "Unfollow"
+    },
     "likeStatsLabel": {
       "one": "1 Like",
       "other": "{{count}} Likes"
