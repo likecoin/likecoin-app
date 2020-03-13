@@ -101,36 +101,44 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   componentDidMount() {
     const { fractionDenom, fractionDigits, gasPrice } = this.props.chain
     this.props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
-    this._mapParamsToProps()
+    this.handleParams()
   }
 
-  componentDidUpdate(prepProps: TransferTargetInputScreenProps) {
-    this._mapParamsToProps(prepProps)
-  }
-
-  _mapParamsToProps = (prepProps?: TransferTargetInputScreenProps) => {
-    const prevLikerId = prepProps && prepProps.navigation.getParam("likerId")
-    const prevAddress = prepProps && prepProps.navigation.getParam("address")
-    const prevMemo = prepProps && prepProps.navigation.getParam("memo")
+  private handleParams = () => {
     const likerId = this.props.navigation.getParam("likerId")
     const address = this.props.navigation.getParam("address")
-    const memo = this.props.navigation.getParam("memo")
-    const amount = this.props.navigation.getParam("amount")
-    const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
-    const prevTarget = prevLikerId || prevAddress
     const target = likerId || address
-    if (!prevTarget && target) {
+    if (target) {
       this.props.txStore.setReceiver(target)
     }
-    if (prevMemo !== memo) this.props.txStore.setMemo(memo)
-    if (!prevTarget && target && skipToConfirm) {
-      this.validate().then(() => {
-        this.props.navigation.replace("TransferAmountInput", {
-          amount,
-          skipToConfirm,
-        })
-      })
+
+    const amount = this.props.navigation.getParam("amount")
+    if (amount) {
+      this.props.txStore.setAmount(amount, true)
     }
+
+    const memo = this.props.navigation.getParam("memo")
+    if (memo) {
+      this.props.txStore.setMemo(memo)
+    }
+
+    let skipToConfirm = this.props.navigation.getParam("skipToConfirm")
+    if (target) {
+      if (skipToConfirm) {
+        this.validate()
+          .then(() => {
+            this.props.navigation.replace("TransferAmountInput", {
+              skipToConfirm
+            })
+          })
+          .catch(() => {
+            this.props.navigation.setParams({})
+          })
+      }
+    } else {
+      skipToConfirm = false
+    }
+    this.props.navigation.setParams({ skipToConfirm })
   }
 
   /**

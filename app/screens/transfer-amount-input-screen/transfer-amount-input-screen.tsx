@@ -27,23 +27,22 @@ export interface TransferAmountInputScreenProps extends NavigationScreenProps<Tr
 @observer
 export class TransferAmountInputScreen extends React.Component<TransferAmountInputScreenProps, {}> {
   componentDidMount() {
-    this._mapParamsToProps()
+    this.handleParams()
   }
 
-  componentDidUpdate(prepProps: TransferAmountInputScreenProps) {
-    this._mapParamsToProps(prepProps)
-  }
-
-  _mapParamsToProps = (prepProps?: TransferAmountInputScreenProps) => {
-    const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
-    const prevAmount = prepProps && prepProps.navigation.getParam("amount")
-    const amount = this.props.navigation.getParam("amount")
-    if (!prevAmount && amount) this.props.txStore.setAmount(amount, true)
-    if (!prevAmount && amount && skipToConfirm) {
-      this.createTransactionForSigning().then(() => {
-        this.props.navigation.replace("TransferSigning", { skipToConfirm })
-      })
+  private handleParams = () => {
+    let skipToConfirm = this.props.navigation.getParam("skipToConfirm")
+    if (skipToConfirm) {
+      const { amount } = this.props.txStore
+      if (!amount.isZero()) {
+        this.createTransactionForSigning().then(() => {
+          this.props.navigation.replace("TransferSigning", { skipToConfirm })
+        })
+      } else {
+        skipToConfirm = false
+      }
     }
+    this.props.navigation.setParams({ skipToConfirm })
   }
 
   /**
