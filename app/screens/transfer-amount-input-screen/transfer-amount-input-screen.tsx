@@ -98,7 +98,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
     } = this.props.txStore
 
     const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
-    if (skipToConfirm) {
+    if (skipToConfirm && !errorMessage) {
       return <LoadingScreen />
     }
 

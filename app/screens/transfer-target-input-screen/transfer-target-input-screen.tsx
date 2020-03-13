@@ -183,12 +183,17 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   render () {
+    const {
+      errorMessage,
+      isFetchingLiker,
+      target,
+    } = this.props.txStore
+
     const skipToConfirm = this.props.navigation.getParam("skipToConfirm")
-    if (skipToConfirm) {
+    if (skipToConfirm && !errorMessage) {
       return <LoadingScreen />
     }
 
-    const { isFetchingLiker, target } = this.props.txStore
     const bottomBarStyle = [
       BOTTOM_BAR,
       {
