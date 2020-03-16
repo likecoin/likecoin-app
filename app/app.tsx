@@ -7,7 +7,6 @@ import * as React from "react"
 import { Alert, AppRegistry, Linking, YellowBox } from "react-native"
 import { mapping, light as lightTheme } from '@eva-design/eva'
 import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten'
-import { ActionSheetProvider } from "@expo/react-native-action-sheet"
 import RNExitApp from 'react-native-exit-app'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { Provider } from "mobx-react"
@@ -126,16 +125,14 @@ export class App extends React.Component<{}, AppState> {
     const { navigationStore, ...otherStores } = rootStore
 
     return (
-      <ActionSheetProvider>
-        <Provider rootStore={rootStore} navigationStore={navigationStore} {...otherStores}>
-          <ApplicationProvider mapping={mapping} theme={lightTheme}>
-            <IconRegistry icons={EvaIconsPack}/>
-            <BackButtonHandler canExit={this.canExit}>
-              <StatefulNavigator />
-            </BackButtonHandler>
-          </ApplicationProvider>
-        </Provider>
-      </ActionSheetProvider>
+      <Provider rootStore={rootStore} navigationStore={navigationStore} {...otherStores}>
+        <ApplicationProvider mapping={mapping} theme={lightTheme}>
+          <IconRegistry icons={EvaIconsPack}/>
+          <BackButtonHandler canExit={this.canExit}>
+            <StatefulNavigator />
+          </BackButtonHandler>
+        </ApplicationProvider>
+      </Provider>
     )
   }
 }

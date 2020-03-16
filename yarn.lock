@@ -888,14 +888,6 @@
   resolved "https://registry.yarnpkg.com/@eva-design/processor/-/processor-1.1.0-beta.1.tgz#bb054b39f3c42370518761f68c122767efcb9374"
   integrity sha512-d8KFeyBuCldmCRZeR79PymL3MZP8Py3wum0LgifK2CBYK6l/7eGs2D718ZREMgbpZjs9GDevxbSpFT5ZYTDdUg==
 
-"@expo/react-native-action-sheet@^3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@expo/react-native-action-sheet/-/react-native-action-sheet-3.5.0.tgz#243ef101b47d9d438ba17883ff816252c5d5b7dc"
-  integrity sha512-xhJZtRJxG9/IsJFJhXhYMqLbq+IM3PCKsN4nEoI+4B07oitQOGfeqZlfQNOAQdFUjaG4pjDFSkzRK8hPlLLr+w==
-  dependencies:
-    "@types/hoist-non-react-statics" "^3.3.1"
-    hoist-non-react-statics "^3.3.0"
-
 "@hapi/address@2.x.x":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.0.0.tgz#9f05469c88cb2fd3dcd624776b54ee95c312126a"
@@ -1692,14 +1684,6 @@
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
-
-"@types/hoist-non-react-statics@^3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
-  integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
-  dependencies:
-    "@types/react" "*"
-    hoist-non-react-statics "^3.3.0"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.1"

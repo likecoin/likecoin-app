@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@eva-design/eva": "^1.0.1",
-    "@expo/react-native-action-sheet": "^3.5.0",
     "@lunie/cosmos-api": "^0.2.1",
     "@react-native-community/async-storage": "^1.5.1",
     "@react-native-firebase/analytics": "6.1.0",

@@ -1,7 +1,6 @@
 import * as React from "react"
 import { ViewStyle } from "react-native"
 import { inject, observer } from "mobx-react"
-import { connectActionSheet } from "@expo/react-native-action-sheet"
 
 import { ReaderScreenProps as Props } from "./reader-screen.props"
 
@@ -21,7 +20,7 @@ const CONTAINER: ViewStyle = {
 
 @inject("readerStore")
 @observer
-class ReaderScreenRaw extends React.Component<Props> {
+export class ReaderScreen extends React.Component<Props> {
   list = React.createRef<ContentList>()
 
   componentDidMount() {
@@ -114,5 +113,3 @@ class ReaderScreenRaw extends React.Component<Props> {
     return null
   }
 }
-
-export const ReaderScreen = connectActionSheet(ReaderScreenRaw)
