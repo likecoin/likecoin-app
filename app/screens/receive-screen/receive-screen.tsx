@@ -23,8 +23,9 @@ import { color, spacing } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-export interface ReceiveScreenProps extends NavigationScreenProps<{}> {
-  wallet: Wallet,
+export interface ReceiveScreenProps extends NavigationScreenProps {
+  wallet: Wallet
+  qrCodeContent: string
 }
 const ROOT: ViewStyle = {
   flex: 1,
@@ -69,6 +70,7 @@ const BOTTOM_BAR: ViewStyle = {
 
 @inject((rootStore: RootStore) => ({
   wallet: rootStore.chainStore.wallet,
+  qrCodeContent: rootStore.userStore.currentUser.qrCodeContentForPayment,
 }))
 @observer
 export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
@@ -98,7 +100,12 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
   }
 
   render () {
-    const { address } = this.props.wallet
+    const {
+      qrCodeContent,
+      wallet: {
+        address,
+      },
+    } = this.props
 
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
@@ -126,7 +133,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
             />
             <Sheet style={SHEET}>
               <QRCode
-                value={address}
+                value={qrCodeContent}
                 size={160}
               />
               <Text style={ADDRESS} text={address} />
