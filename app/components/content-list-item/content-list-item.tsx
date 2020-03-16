@@ -108,7 +108,7 @@ export class ContentListItem extends React.Component<Props, State> {
 
     return (
       <SwipeRow
-      ref={this.swipeRowRef}
+        ref={this.swipeRowRef}
         rightOpenValue={this.getSwipeRowWidth()}
         stopLeftSwipe={0}
       >

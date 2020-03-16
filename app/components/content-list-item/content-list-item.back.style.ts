@@ -31,13 +31,13 @@ export const ContentListItemBackStyle = StyleSheet.create({
     fontWeight: "bold",
     color: color.palette.white,
   } as TextStyle,
-  ButtonUnfollow: {
-    ...ButtonBase,
-    backgroundColor: color.palette.grey9b,
-  } as ViewStyle,
   ButtonUnbookmark: {
     ...ButtonBase,
     backgroundColor: color.palette.angry,
+  } as ViewStyle,
+  ButtonUnfollow: {
+    ...ButtonBase,
+    backgroundColor: color.palette.grey9b,
   } as ViewStyle,
   Root: {
     flex: 1,
