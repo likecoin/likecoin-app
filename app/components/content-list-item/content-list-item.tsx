@@ -32,6 +32,7 @@ export class ContentListItem extends React.Component<Props, State> {
 
     this.state = {
       isPrevFollow: props.creator && props.creator.isFollowing,
+      isRowOpen: false,
       offsetX: 0,
     }
   }
@@ -64,6 +65,14 @@ export class ContentListItem extends React.Component<Props, State> {
     }
   }
 
+  private onRowOpen = () => {
+    this.setState({ isRowOpen: true })
+  }
+
+  private onRowClose = () => {
+    this.setState({ isRowOpen: false })
+  }
+
   private onToggleBookmark = () => {
     this.swipeRowRef.current.closeRow()
     if (this.props.onToggleBookmark) this.props.onToggleBookmark(this.props.content.url)
@@ -75,7 +84,11 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private onPressMoreButton = () => {
-    this.swipeRowRef.current.manuallySwipeRow(this.getSwipeRowWidth())
+    if (this.state.isRowOpen) {
+      this.swipeRowRef.current.closeRow()
+    } else {
+      this.swipeRowRef.current.manuallySwipeRow(this.getSwipeRowWidth())
+    }
   }
 
   private onPress = () => {
@@ -111,6 +124,8 @@ export class ContentListItem extends React.Component<Props, State> {
         ref={this.swipeRowRef}
         rightOpenValue={this.getSwipeRowWidth()}
         stopLeftSwipe={0}
+        onRowOpen={this.onRowOpen}
+        onRowClose={this.onRowClose}
       >
         <ContentListItemBack
           isShowFollowToggle={!!this.props.creator}
@@ -225,7 +240,7 @@ export class ContentListItem extends React.Component<Props, State> {
         onPress={this.onPressMoreButton}
       >
         <Icon
-          name="three-dot-vertical"
+          name="three-dot-horizontal"
           width={24}
           height={24}
           color="grey4a"
