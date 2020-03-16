@@ -1,4 +1,5 @@
 import { ViewStyle } from "react-native"
+import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
@@ -37,4 +38,14 @@ export interface ContentListItemProps {
    * A callback when the undo button is pressed.
    */
   onPressUndoButton?: (content: Content) => void
+
+  /**
+   * A callback when the undo button is pressed.
+   */
+  onSwipeOpen?: (key: string, ref: React.RefObject<SwipeRow<{}>>) => void
+
+  /**
+   * A callback when the undo button is pressed.
+   */
+  onSwipeClose?: (key: string) => void
 }

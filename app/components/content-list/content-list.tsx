@@ -7,6 +7,7 @@ import {
 } from "react-native"
 import { FlatList } from 'react-navigation'
 import { observer } from "mobx-react"
+import { SwipeRow } from "react-native-swipe-list-view"
 
 import { ContentListProps } from "./content-list.props"
 
@@ -38,6 +39,9 @@ const FOOTER: ViewStyle = {
 
 @observer
 export class ContentList extends React.Component<ContentListProps> {
+
+  listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
+
   private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
 
   private onEndReach = () => {
@@ -48,6 +52,25 @@ export class ContentList extends React.Component<ContentListProps> {
     ) {
       this.props.onFetchMore()
     }
+  }
+
+  private onItemSwipeOpen = (key: string, ref: React.RefObject<SwipeRow<{}>>) => {    
+    Object.keys(this.listItemRefs).forEach((refKey: string) => {
+      if (refKey !== key) {
+        this.listItemRefs[refKey].current.closeRow()
+      }
+    })
+    this.listItemRefs[key] = ref
+  }
+
+  private onItemSwipeClose = (key: string) => {
+    delete this.listItemRefs[key]
+  }
+
+  private onScrollBeginDrag = () => {
+    Object.keys(this.listItemRefs).forEach((refKey: string) => {
+      this.listItemRefs[refKey].current.closeRow()
+    })
   }
 
   render() {
@@ -79,6 +102,7 @@ export class ContentList extends React.Component<ContentListProps> {
         contentContainerStyle={this.props.data.length > 0 ? null : FULL}
         style={[FULL, this.props.style]}
         onEndReached={this.onEndReach}
+        onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
   }
@@ -92,6 +116,8 @@ export class ContentList extends React.Component<ContentListProps> {
       onToggleFollow={this.props.onToggleFollow}
       onPress={this.props.onPressItem}
       onPressUndoButton={this.props.onPressUndoButton}
+      onSwipeOpen={this.onItemSwipeOpen}
+      onSwipeClose={this.onItemSwipeClose}
     />
   )
 

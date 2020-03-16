@@ -66,10 +66,12 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private onRowOpen = () => {
+    if (this.props.onSwipeOpen) this.props.onSwipeOpen(this.props.content.url, this.swipeRowRef)
     this.setState({ isRowOpen: true })
   }
 
   private onRowClose = () => {
+    if (this.props.onSwipeClose) this.props.onSwipeClose(this.props.content.url)
     this.setState({ isRowOpen: false })
   }
 
