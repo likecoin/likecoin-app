@@ -20,7 +20,9 @@ export interface ContentListProps {
   isShowBookmarkIcon?: boolean
 
   onPressItem?: (url: string) => void
-  onBookmarkItem?: (url: string) => void
+  onToggleBookmark?: (url: string) => void
+  onToggleFollow?: (content: Content) => void
+  onPressUndoButton?: (content: Content) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
 

@@ -9,11 +9,22 @@
     "copy": "Copy",
     "copied": "Copied",
     "done": "Done",
+    "follow": "Follow",
+    "followSuccess": "You are now following %{creator}",
     "next": "Next",
     "ok": "OK",
-    "viewOnBlockExplorer": "View on Big Dipper"
+    "viewOnBlockExplorer": "View on Big Dipper",
+    "undo": "Undo",
+    "unfollow": "Unfollow",
+    "unfollowSuccess": "You have unfollowed %{creator}"
   },
   "ContentListItem": {
+    "Back": {
+      "Bookmark": "Bookmark",
+      "Follow": "Follow",
+      "Unbookmark": "Unsave",
+      "Unfollow": "Unfollow"
+    },
     "likeStatsLabel": {
       "one": "1 Like",
       "other": "{{count}} Likes"
@@ -40,6 +51,13 @@
     "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum undelegation amount",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough to pay for transaction fee"
+  },
+  "FollowSettingsScreen": {
+    "Title": "Following / Unfollow",
+    "TabTitle": {
+      "Following": "Following",
+      "Unfollowed": "Unfollowed"
+    }
   },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
@@ -96,6 +114,7 @@
   "settingsScreen": {
     "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
+    "followSettings": "Following / Unfollow",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
     "subscription": "Subscription",

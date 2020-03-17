@@ -67,7 +67,7 @@ class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
       case "Featured":
         name = "reader-featured"
         break
-      case "Followed":
+      case "Following":
         name = "reader-following"
         break
     }
@@ -85,8 +85,9 @@ class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
 
 const ReaderTabs = createMaterialTopTabNavigator({
   Featured: ReaderScreen,
-  Followed: ReaderScreen,
+  Following: ReaderScreen,
 }, {
+  swipeEnabled: false,
   tabBarOptions: {
     style: {
       backgroundColor: color.primary,

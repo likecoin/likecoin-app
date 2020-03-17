@@ -9,11 +9,22 @@
     "copy": "複製",
     "copied": "已複製",
     "done": "完成",
+    "follow": "追踪",
+    "followSuccess": "已追踪 %{creator}",
     "next": "下一步",
     "ok": "好",
-    "viewOnBlockExplorer": "在 Big Dipper 查看"
+    "viewOnBlockExplorer": "在 Big Dipper 查看",
+    "undo": "復原",
+    "unfollow": "取消追踪",
+    "unfollowSuccess": "已取消追踪 %{creator}"
   },
   "ContentListItem": {
+    "Back": {
+      "Bookmark": "加到書籤",
+      "Follow": "追踨作者",
+      "Unbookmark": "移除書籤",
+      "Unfollow": "消取追蹤"
+    },
     "likeStatsLabel": {
       "other": "{{count}} 個讚"
     }
@@ -39,6 +50,13 @@
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
     "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
+  },
+  "FollowSettingsScreen": {
+    "Title": "追踪 / 取消追踪",
+    "TabTitle": {
+      "Following": "追踪中",
+      "Unfollowed": "已取消追踪"
+    }
   },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
@@ -87,6 +105,7 @@
   "settingsScreen": {
     "authcoreSettings": "帳戶設定",
     "contactUs": "聯絡我們",
+    "followSettings": "追踪 / 取消追踪",
     "openSourceLicense": "開源授權",
     "privacyPolicy": "隱私權政策",
     "subscription": "訂閱",

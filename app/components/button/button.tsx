@@ -23,11 +23,20 @@ import {
 export const PREPEND: ViewStyle = {
   marginRight: spacing[2],
 }
+export const APPEND: ViewStyle = {
+  marginLeft: spacing[2],
+}
 
-function _renderPrependElement(element: React.ReactElement) {
+function _renderSideElement(
+  element: React.ReactElement,
+  prepend = true
+) {
   if (!element) return null
   return React.cloneElement(element, {
-    style: StyleSheet.flatten([element.props.style, PREPEND]),
+    style: StyleSheet.flatten([
+      prepend ? PREPEND : APPEND,
+      element.props.style,
+    ]),
   })
 }
 
@@ -46,6 +55,7 @@ export function Button(props: ButtonProps) {
     icon,
     link,
     prepend,
+    append,
     preset = "primary",
     size,
     style: styleOverride,
@@ -125,8 +135,9 @@ export function Button(props: ButtonProps) {
           end={{ x: 1.0, y: 0.0 }}
           style={viewStyle}
         >
-          {_renderPrependElement(prepend)}
+          {_renderSideElement(prepend)}
           {content}
+          {_renderSideElement(append, false)}
         </LinearGradient>
       </TouchableOpacity>
     )
@@ -134,8 +145,9 @@ export function Button(props: ButtonProps) {
 
   return (
     <TouchableOpacity style={viewStyle} {...rest}>
-      {_renderPrependElement(prepend)}
+      {_renderSideElement(prepend)}
       {content}
+      {_renderSideElement(append, false)}
     </TouchableOpacity>
   )
 }
