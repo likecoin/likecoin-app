@@ -94,6 +94,7 @@
     "title": "Undelegate"
   },
   "settingsScreen": {
+    "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",

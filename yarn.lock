@@ -9642,11 +9642,12 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-"react-native-authcore@https://gitlab.com/blocksq/react-native-authcore#02d5c1960be257848248b4a10b01abfb761488a4":
+"react-native-authcore@https://gitlab.com/blocksq/react-native-authcore#a78dac7aa6ba900571e72d723f82933a5a55f94f":
   version "1.0.0"
-  resolved "https://gitlab.com/blocksq/react-native-authcore#02d5c1960be257848248b4a10b01abfb761488a4"
+  resolved "https://gitlab.com/blocksq/react-native-authcore#a78dac7aa6ba900571e72d723f82933a5a55f94f"
   dependencies:
     color "^3.1.2"
+    react-native-webview "^8.1.1"
     url "^0.11.0"
 
 react-native-camera@^3.8.0:
@@ -9808,10 +9809,10 @@ react-native-ui-kitten@4.2.0-beta.2:
     hoist-non-react-statics "^3.2.1"
     lodash.merge "^4.6.1"
 
-react-native-webview@^8.0.3:
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-8.0.3.tgz#1dcd30de28aa4bdb314b4fa8a60e0abc2431a9d4"
-  integrity sha512-Uhd3o73HcqiQ0GWxyz5G5+Jkh1dd1A8Kz/rCYHiX/Ctkg3KO9qrZUmzRetq5y9X1+fUH9XJt6+LO3iO/Dxopfw==
+react-native-webview@^8.1.1:
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-8.1.2.tgz#c2ddb1e82d1c294f8f68a13be5d0536f7808f377"
+  integrity sha512-UnGQDttXcgp9JuexidYVu3KIQn1V9xG93yKIs7u6OMdORD5EM4lm7Z1fqqBa59LBeEii5M546kh1/rm0rDA0cA==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
