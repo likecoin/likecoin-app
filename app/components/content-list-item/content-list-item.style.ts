@@ -42,7 +42,8 @@ export const ContentListItemStyle = StyleSheet.create({
     resizeMode: "cover",
   } as ImageStyle,
   MORE_BUTTON: {
-    marginRight: -10,
+    marginLeft: spacing[2],
+    marginRight: spacing[1],
   } as ViewStyle,
   ROW: {
     flexDirection: "row",
