@@ -87,6 +87,7 @@ const ReaderTabs = createMaterialTopTabNavigator({
   Featured: ReaderScreen,
   Following: ReaderScreen,
 }, {
+  swipeEnabled: false,
   tabBarOptions: {
     style: {
       backgroundColor: color.primary,

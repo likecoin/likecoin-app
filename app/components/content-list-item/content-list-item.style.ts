@@ -42,22 +42,32 @@ export const ContentListItemStyle = StyleSheet.create({
     resizeMode: "cover",
   } as ImageStyle,
   MORE_BUTTON: {
-    marginRight: -10,
-  } as ViewStyle,
-  ROOT: {
-    position: "relative",
-    paddingVertical: spacing[4],
-    paddingHorizontal: spacing[5],
+    marginLeft: spacing[2],
+    marginRight: spacing[1],
   } as ViewStyle,
   ROW: {
     flexDirection: "row",
     alignItems: "center",
+  } as ViewStyle,
+  Root: {
+    position: "relative",
+    paddingVertical: spacing[4],
+    paddingHorizontal: spacing[5],
+    backgroundColor: color.palette.white,
   } as ViewStyle,
   RootUndo: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: spacing[5],
     backgroundColor: color.palette.greyf7,
+  } as ViewStyle,
+  Underlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: color.palette.grey4a,
   } as ViewStyle,
   UndoButton: {
     flexShrink: 0,

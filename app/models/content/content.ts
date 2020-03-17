@@ -45,6 +45,9 @@ export const ContentModel = types
     get coverImageURL() {
       return self.imageURL ? encodeURI(decodeURI(self.imageURL)) : undefined
     },
+    get isFollowingCreator() {
+      return self.creator && self.creator.isFollowing
+    },
     get isLoading() {
       return !(self.hasCached || self.hasFetchedDetails) ||
         (!self.hasCached && self.isFetchingDetails) ||

@@ -19,6 +19,12 @@
     "unfollowSuccess": "You have unfollowed %{creator}"
   },
   "ContentListItem": {
+    "Back": {
+      "Bookmark": "Bookmark",
+      "Follow": "Follow",
+      "Unbookmark": "Unsave",
+      "Unfollow": "Unfollow"
+    },
     "likeStatsLabel": {
       "one": "1 Like",
       "other": "{{count}} Likes"
@@ -106,7 +112,7 @@
     "title": "Undelegate"
   },
   "settingsScreen": {
-    "authcoreSettings": "Authcore Settings",
+    "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
     "followSettings": "Following / Unfollow",
     "openSourceLicense": "Open Source License",

@@ -1,4 +1,5 @@
 import { ViewStyle } from "react-native"
+import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
@@ -26,15 +27,25 @@ export interface ContentListItemProps {
   /**
    * A callback when the bookmark button is pressed.
    */
-  onBookmark?: (url: string) => void
+  onToggleBookmark?: (url: string) => void
 
   /**
-   * A callback when the more button is pressed.
+   * A callback when the follow button is pressed.
    */
-  onPressMoreButton?: (content: Content) => void
+  onToggleFollow?: (content: Content) => void
 
   /**
    * A callback when the undo button is pressed.
    */
   onPressUndoButton?: (content: Content) => void
+
+  /**
+   * A callback when the list item is swiped to open.
+   */
+  onSwipeOpen?: (key: string, ref: React.RefObject<SwipeRow<{}>>) => void
+
+  /**
+   * A callback when the list item is swiped to close.
+   */
+  onSwipeClose?: (key: string) => void
 }

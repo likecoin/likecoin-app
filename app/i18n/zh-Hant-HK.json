@@ -19,6 +19,12 @@
     "unfollowSuccess": "已取消追踪 %{creator}"
   },
   "ContentListItem": {
+    "Back": {
+      "Bookmark": "加到書籤",
+      "Follow": "追踨作者",
+      "Unbookmark": "移除書籤",
+      "Unfollow": "消取追蹤"
+    },
     "likeStatsLabel": {
       "other": "{{count}} 個讚"
     }
@@ -97,7 +103,7 @@
     "title": "取回委託"
   },
   "settingsScreen": {
-    "authcoreSettings": "Authcore 設定",
+    "authcoreSettings": "帳戶設定",
     "contactUs": "聯絡我們",
     "followSettings": "追踪 / 取消追踪",
     "openSourceLicense": "開源授權",

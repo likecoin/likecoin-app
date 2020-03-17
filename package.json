@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@eva-design/eva": "^1.0.1",
-    "@expo/react-native-action-sheet": "^3.5.0",
     "@lunie/cosmos-api": "^0.2.1",
     "@react-native-community/async-storage": "^1.5.1",
     "@react-native-firebase/analytics": "6.1.0",
@@ -63,6 +62,7 @@
     "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#master",
     "react-native-splash-screen": "3.1.1",
     "react-native-svg": "^9.9.3",
+    "react-native-swipe-list-view": "^2.4.0",
     "react-native-ui-kitten": "4.2.0-beta.2",
     "react-native-webview": "^8.1.1",
     "react-navigation": "3.11.1",
