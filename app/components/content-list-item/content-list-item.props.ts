@@ -40,12 +40,12 @@ export interface ContentListItemProps {
   onPressUndoButton?: (content: Content) => void
 
   /**
-   * A callback when the undo button is pressed.
+   * A callback when the list item is swiped to open.
    */
   onSwipeOpen?: (key: string, ref: React.RefObject<SwipeRow<{}>>) => void
 
   /**
-   * A callback when the undo button is pressed.
+   * A callback when the list item is swiped to close.
    */
   onSwipeClose?: (key: string) => void
 }
