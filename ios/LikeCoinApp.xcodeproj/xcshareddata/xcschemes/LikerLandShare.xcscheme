@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "83FE4E9C24064FE50073E6EA"
-               BuildableName = "Liker Land Share.appex"
+               BuildableName = "Liker Land.appex"
                BlueprintName = "LikerLandShare"
                ReferencedContainer = "container:LikeCoinApp.xcodeproj">
             </BuildableReference>
