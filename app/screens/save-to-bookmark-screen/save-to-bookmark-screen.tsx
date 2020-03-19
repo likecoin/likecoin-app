@@ -26,6 +26,10 @@ export class SaveToBookmarkScreen extends React.Component {
 
     try {
       const { value: url } = await ShareExtension.data()
+      if (!/^https?:\/\//.test(url)) {
+        this.setState({ error: "invalid-url" })
+        return
+      }
       this.setState({ url })
       const response = await this.likerLandAPI.addBookmark(url)
       switch (response.kind) {
@@ -49,6 +53,9 @@ export class SaveToBookmarkScreen extends React.Component {
     switch (this.state.error) {
       case "forbidden":
         return "Please sign-in in the app"
+
+      case "invalid-url":
+        return "Cannot save this link"
 
       default:
         return "Unable to save to bookmark"
