@@ -16,7 +16,7 @@
 		83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7023282B3700E6998E /* LKCWebViewManager.m */; };
 		83924D7423282B3700E6998E /* LKCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7123282B3700E6998E /* LKCWebView.m */; };
 		83FE4EA424064FE50073E6EA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83FE4EA224064FE50073E6EA /* MainInterface.storyboard */; };
-		83FE4EA824064FE50073E6EA /* Liker Land Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		83FE4EA824064FE50073E6EA /* Liker Land.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 83FE4E9D24064FE50073E6EA /* Liker Land.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		83FE4EAE240650780073E6EA /* LikerLandShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FE4EAD240650780073E6EA /* LikerLandShare.m */; };
 		83FE4EB4240D3AC40073E6EA /* Debug in Resources */ = {isa = PBXBuildFile; fileRef = DCFADF7D237C0E7600028C41 /* Debug */; };
 		83FE4EB6240D3ADC0073E6EA /* Release in Resources */ = {isa = PBXBuildFile; fileRef = DCFADF7C237C0E7600028C41 /* Release */; };
@@ -50,7 +50,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				83FE4EA824064FE50073E6EA /* Liker Land Share.appex in Embed App Extensions */,
+				83FE4EA824064FE50073E6EA /* Liker Land.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,7 +82,7 @@
 		83924D7023282B3700E6998E /* LKCWebViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebViewManager.m; path = LikeCoinApp/LKCWebViewManager.m; sourceTree = "<group>"; };
 		83924D7123282B3700E6998E /* LKCWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebView.m; path = LikeCoinApp/LKCWebView.m; sourceTree = "<group>"; };
 		83924D7223282B3700E6998E /* LKCWebViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebViewManager.h; path = LikeCoinApp/LKCWebViewManager.h; sourceTree = "<group>"; };
-		83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Liker Land Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		83FE4E9D24064FE50073E6EA /* Liker Land.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Liker Land.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FE4EA324064FE50073E6EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		83FE4EA524064FE50073E6EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83FE4EAD240650780073E6EA /* LikerLandShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LikerLandShare.m; sourceTree = "<group>"; };
@@ -206,7 +206,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* LikeCoinApp.app */,
 				00E356EE1AD99517003FC87E /* LikeCoinAppTests.xctest */,
-				83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */,
+				83FE4E9D24064FE50073E6EA /* Liker Land.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -299,7 +299,7 @@
 			);
 			name = LikerLandShare;
 			productName = LikerLandShare;
-			productReference = 83FE4E9D24064FE50073E6EA /* Liker Land Share.appex */;
+			productReference = 83FE4E9D24064FE50073E6EA /* Liker Land.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -971,7 +971,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oice.share-extension";
-				PRODUCT_NAME = "Liker Land Share";
+				PRODUCT_NAME = "Liker Land";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1000,7 +1000,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oice.share-extension";
-				PRODUCT_NAME = "Liker Land Share";
+				PRODUCT_NAME = "Liker Land";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

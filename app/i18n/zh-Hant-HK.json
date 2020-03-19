@@ -75,6 +75,14 @@
     "likerIdLabel": "創建 Liker ID",
     "shouldSignInOnDesktop": "請在電腦上登入 http://like.co 後再試一遍"
   },
+  "SaveToBookmarkScreen": {
+    "DismissButtonText": "按此關閉",
+    "Error": {
+      "forbidden": "請在 App 重新登入。",
+      "invalid-url": "未能成功辨識連結。",
+      "unknown": "未能成功把連結加到書籤。"
+    }
+  },
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"
   },

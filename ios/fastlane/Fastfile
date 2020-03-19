@@ -42,13 +42,25 @@ platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
     get_provisioning_profile( # Create or get provisioning profile
+      app_identifier: CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier),
       output_path: "./builds",  # Download provisioning profile in the build folder
-      filename: "provisioning.mobileprovision" # Rename the local provisioning profile
+      filename: "app.mobileprovision" # Rename the local provisioning profile
+    )
+    get_provisioning_profile(
+      app_identifier: CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) + ".share-extension",
+      output_path: "./builds",
+      filename: "share-extension.mobileprovision"
     )
     update_project_provisioning( # Set the project provisioning profile (related in Xcode to the General > Signing Release section)
       xcodeproj: "LikeCoinApp.xcodeproj",
       target_filter: "LikeCoinApp", # Name of your project
-      profile: "./builds/provisioning.mobileprovision",
+      profile: "./builds/app.mobileprovision",
+      build_configuration: "Release"
+    )
+    update_project_provisioning(
+      xcodeproj: "LikeCoinApp.xcodeproj",
+      target_filter: "LikerLandShare", # Name of your project
+      profile: "./builds/share-extension.mobileprovision",
       build_configuration: "Release"
     )
     update_project_team( # Set the right team on your project

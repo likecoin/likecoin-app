@@ -11,6 +11,7 @@ import { LikerLandAPI } from "../../services/api"
 import { color } from "../../theme"
 import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
+import { LoadingScreen } from "../../components/loading-screen"
 
 export class SaveToBookmarkScreen extends React.Component {
   likerLandAPI = new LikerLandAPI()
@@ -18,6 +19,7 @@ export class SaveToBookmarkScreen extends React.Component {
   state = {
     url: "",
     error: undefined,
+    isLoading: true,
   }
 
   async componentDidMount() {
@@ -26,6 +28,10 @@ export class SaveToBookmarkScreen extends React.Component {
 
     try {
       const { value: url } = await ShareExtension.data()
+      if (!/^https?:\/\//.test(url)) {
+        this.setState({ error: "invalid-url" })
+        return
+      }
       this.setState({ url })
       const response = await this.likerLandAPI.addBookmark(url)
       switch (response.kind) {
@@ -45,17 +51,13 @@ export class SaveToBookmarkScreen extends React.Component {
 
   onClose = () => ShareExtension.close()
 
-  getErrorMessage = () => {
-    switch (this.state.error) {
-      case "forbidden":
-        return "Please sign-in in the app"
-
-      default:
-        return "Unable to save to bookmark"
-    }
-  }
-
   render() {
+    if (this.state.isLoading) {
+      return (
+        <LoadingScreen style={Style.Root} />
+      )
+    }
+
     return (
       <Screen
         preset="fixed"
@@ -73,7 +75,7 @@ export class SaveToBookmarkScreen extends React.Component {
           />
           {this.state.error ? (
             <Text
-              text={this.getErrorMessage()}
+              tx={`SaveToBookmarkScreen.Error.${this.state.error}`}
               size="medium"
               weight="600"
               color="angry"
@@ -95,7 +97,7 @@ export class SaveToBookmarkScreen extends React.Component {
         </View>
         <Button
           preset="outlined"
-          text="Click to close"
+          tx="SaveToBookmarkScreen.DismissButtonText"
           onPress={this.onClose}
         />
       </Screen>
