@@ -30,11 +30,6 @@ target 'LikeCoinApp' do
   
   pod 'ReactNativeShareExtension', :podspec => '../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec'
 
-  target 'LikeCoinAppTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
   use_native_modules!
 
   target 'LikerLandShare' do
