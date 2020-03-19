@@ -11,6 +11,7 @@ import { LikerLandAPI } from "../../services/api"
 import { color } from "../../theme"
 import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
+import { LoadingScreen } from "../../components/loading-screen"
 
 export class SaveToBookmarkScreen extends React.Component {
   likerLandAPI = new LikerLandAPI()
@@ -18,6 +19,7 @@ export class SaveToBookmarkScreen extends React.Component {
   state = {
     url: "",
     error: undefined,
+    isLoading: true,
   }
 
   async componentDidMount() {
@@ -63,6 +65,12 @@ export class SaveToBookmarkScreen extends React.Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <LoadingScreen style={Style.Root} />
+      )
+    }
+
     return (
       <Screen
         preset="fixed"
