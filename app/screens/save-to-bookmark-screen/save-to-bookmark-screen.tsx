@@ -51,19 +51,6 @@ export class SaveToBookmarkScreen extends React.Component {
 
   onClose = () => ShareExtension.close()
 
-  getErrorMessage = () => {
-    switch (this.state.error) {
-      case "forbidden":
-        return "Please sign-in in the app"
-
-      case "invalid-url":
-        return "Cannot save this link"
-
-      default:
-        return "Unable to save to bookmark"
-    }
-  }
-
   render() {
     if (this.state.isLoading) {
       return (
@@ -88,7 +75,7 @@ export class SaveToBookmarkScreen extends React.Component {
           />
           {this.state.error ? (
             <Text
-              text={this.getErrorMessage()}
+              tx={`SaveToBookmarkScreen.Error.${this.state.error}`}
               size="medium"
               weight="600"
               color="angry"
@@ -110,7 +97,7 @@ export class SaveToBookmarkScreen extends React.Component {
         </View>
         <Button
           preset="outlined"
-          text="Click to close"
+          tx="SaveToBookmarkScreen.DismissButtonText"
           onPress={this.onClose}
         />
       </Screen>
