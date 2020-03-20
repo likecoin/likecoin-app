@@ -1,7 +1,20 @@
 import * as React from "react"
-import { View, ViewStyle, TextStyle, SafeAreaView, Alert } from "react-native"
+import {
+  Alert,
+  Image,
+  SafeAreaView,
+  View,
+} from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
+import i18n from "i18n-js"
+
+import {
+  SignInScreenStyle as Style,
+} from "./sign-in-screen.style"
+
+import SloganEn from "./slogan-en.svg"
+import SloganZh from "./slogan-zh.svg"
 
 import { logError } from "../../utils/error"
 import { logAnalyticsEvent } from "../../utils/analytics"
@@ -15,30 +28,11 @@ import { UserStore } from "../../models/user-store"
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
 import { LoadingScreen } from "../../components/loading-screen"
-import { Text } from "../../components/text"
-import { Screen } from "../../components/screen"
-import { Wallpaper } from "../../components/wallpaper"
 
-import { color, spacing } from "../../theme"
 import { translate } from "../../i18n"
+import { color } from "../../theme"
 
-const FULL: ViewStyle = { flex: 1 }
-const CONTAINER: ViewStyle = {
-  backgroundColor: color.transparent,
-  paddingHorizontal: spacing[4],
-}
-const TITLE_WRAPPER: TextStyle = {
-  marginHorizontal: spacing[4],
-  marginVertical: spacing[8],
-}
-const FOOTER_CONTENT: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[6],
-  alignItems: "stretch",
-}
-const VERSION: ViewStyle = {
-  marginTop: spacing[2],
-}
+const splashImage = require("./bg.jpg")
 
 interface SignInScreenNavigationParams {
   signIn: UserLoginParams
@@ -141,6 +135,15 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
     }
   }
 
+  private getSlogan() {
+    switch (i18n.locale) {
+      case "en":
+        return SloganEn
+      default:
+        return SloganZh
+    }
+  }
+
   render() {
     const {
       isSigningIn,
@@ -154,33 +157,39 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
       return <LoadingScreen />
     }
 
+    const isLoading = !!isSigningIn || hasSignedInToAuthcore
+
+    const Slogan = this.getSlogan()
+
     return (
-      <View style={FULL}>
-        <Wallpaper />
-        <Screen
-          style={CONTAINER}
-          preset="fixed"
-          backgroundColor={color.transparent}>
-          <Text style={TITLE_WRAPPER}>
-            <Text
-              preset="header"
-              color="white"
-              size="large"
-              weight="bold"
-              align="center"
-              tx="signInScreen.heading"
+      <View style={Style.Root}>
+        <View style={Style.SplashImageWrapper}>
+          <Image
+            source={splashImage}
+            style={Style.SplashImage}
+          />
+        </View>
+        <SafeAreaView style={Style.Footer}>
+          <View style={Style.FooterContent}>
+            <Slogan
+              fill={color.palette.likeCyan}
+              style={Style.Slogan}
             />
-          </Text>
-        </Screen>
-        <SafeAreaView>
-          <View style={FOOTER_CONTENT}>
+            <AppVersionLabel style={Style.Version} />
             <Button
-              tx="signInScreen.signIn"
+              tx="signInScreen.signUp"
               preset="primary"
-              isLoading={!!isSigningIn || hasSignedInToAuthcore}
+              isLoading={isLoading}
               onPress={this._onPressAuthCoreButton}
             />
-            <AppVersionLabel style={VERSION} />
+            <Button
+              tx="signInScreen.signIn"
+              preset="link"
+              color="likeCyan"
+              isHidden={isLoading}
+              style={Style.SignInButton}
+              onPress={this._onPressAuthCoreButton}
+            />
           </View>
         </SafeAreaView>
       </View>

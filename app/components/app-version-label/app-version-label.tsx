@@ -12,7 +12,7 @@ export function AppVersionLabel(props: TextProps) {
     <Text
       color="greyBlue"
       align="center"
-      size="default"
+      size="small"
       {...props}
       text={`${APP_MARKETING_VERSION} (build ${APP_VERSION})`}
     />
