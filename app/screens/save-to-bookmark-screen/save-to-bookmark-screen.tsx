@@ -13,6 +13,8 @@ import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { LoadingScreen } from "../../components/loading-screen"
 
+const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
+
 export class SaveToBookmarkScreen extends React.Component {
   likerLandAPI = new LikerLandAPI()
 
@@ -27,11 +29,13 @@ export class SaveToBookmarkScreen extends React.Component {
     this.likerLandAPI.setup("https://liker.land/api")
 
     try {
-      const { value: url } = await ShareExtension.data()
-      if (!/^https?:\/\//.test(url)) {
+      const { value }: { value: string } = await ShareExtension.data()
+      const results = value.match(URL_REGEX)
+      if (!results) {
         this.setState({ error: "invalid-url" })
         return
       }
+      const url = results[0]
       this.setState({ url })
       const response = await this.likerLandAPI.addBookmark(url)
       switch (response.kind) {
