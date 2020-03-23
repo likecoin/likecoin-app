@@ -20,6 +20,7 @@ import {
   SIGNIN_SCREEN_BGIMAGE_URL,
   USER_PII_SALT,
 } from "react-native-dotenv"
+import FastImage from 'react-native-fast-image'
 
 export interface AppConfigParams {
   AUTHCORE_CREDENTIAL_KEY: string
@@ -96,6 +97,15 @@ export class AppConfig {
       this.config = {
         ...this.config,
         ...remoteConfig,
+      }
+
+      if (this.getValue("SIGNIN_SCREEN_BGIMAGE_URL")) {
+        FastImage.preload([
+          {
+            uri: this.getValue("SIGNIN_SCREEN_BGIMAGE_URL"),
+            priority: FastImage.priority.low,
+          }
+        ])
       }
     } catch (err) {
       console.error(err)

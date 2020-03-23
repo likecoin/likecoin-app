@@ -6,6 +6,7 @@ import {
   View,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
+import FastImage from "react-native-fast-image"
 import { inject, observer } from "mobx-react"
 import i18n from "i18n-js"
 
@@ -167,15 +168,25 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
     const Slogan = this.getSlogan()
 
-    const bgImageSource = bgImageURL ? { uri: bgImageURL } : defaultBgImage
-
     return (
       <View style={Style.Root}>
         <View style={Style.BgImageWrapper}>
           <Image
-            source={bgImageSource}
+            source={defaultBgImage}
             style={Style.BgImage}
           />
+          {bgImageURL &&
+            <FastImage
+              source={{
+                uri: bgImageURL,
+                // TODO: Fix type
+                // https://github.com/DylanVann/react-native-fast-image/pull/654
+                priority: FastImage.priority.low,
+                cache: FastImage.cacheControl.cacheOnly as any,
+              }}
+              style={Style.BgImage}
+            />
+          }
         </View>
         <SafeAreaView style={Style.Footer}>
           <View style={Style.FooterContent}>
