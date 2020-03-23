@@ -32,19 +32,22 @@ import { LoadingScreen } from "../../components/loading-screen"
 import { translate } from "../../i18n"
 import { color } from "../../theme"
 
-const splashImage = require("./bg.jpg")
+const defaultBgImage = require("./bg.jpg")
 
 interface SignInScreenNavigationParams {
   signIn: UserLoginParams
 }
+
 export interface SignInScreenProps extends NavigationScreenProps<SignInScreenNavigationParams> {
   userStore: UserStore
   chain: ChainStore
+  bgImageURL?: string
 }
 
-@inject((rootStore: RootStore) => ({
-  userStore: rootStore.userStore,
-  chain: rootStore.chainStore,
+@inject((allStores: any) => ({
+  userStore: allStores.userStore as UserStore,
+  chain: allStores.chainStore as ChainStore,
+  bgImageURL: (allStores.rootStore as RootStore).env.appConfig.getValue("SIGNIN_SCREEN_BGIMAGE_URL"),
 }))
 @observer
 export class SignInScreen extends React.Component<SignInScreenProps, {}> {
@@ -146,12 +149,15 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
   render() {
     const {
-      isSigningIn,
-      isSigningOut,
-      authCore: {
-        hasSignedIn: hasSignedInToAuthcore,
+      bgImageURL,
+      userStore: {
+        isSigningIn,
+        isSigningOut,
+        authCore: {
+          hasSignedIn: hasSignedInToAuthcore,
+        },
       },
-    } = this.props.userStore
+    } = this.props
 
     if (isSigningOut) {
       return <LoadingScreen />
@@ -161,12 +167,14 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
     const Slogan = this.getSlogan()
 
+    const bgImageSource = bgImageURL ? { uri: bgImageURL } : defaultBgImage
+
     return (
       <View style={Style.Root}>
-        <View style={Style.SplashImageWrapper}>
+        <View style={Style.BgImageWrapper}>
           <Image
-            source={splashImage}
-            style={Style.SplashImage}
+            source={bgImageSource}
+            style={Style.BgImage}
           />
         </View>
         <SafeAreaView style={Style.Footer}>

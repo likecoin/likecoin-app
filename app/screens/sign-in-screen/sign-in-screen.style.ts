@@ -7,6 +7,20 @@ import {
 import { spacing, color } from "../../theme"
 
 export const SignInScreenStyle = StyleSheet.create({
+  BgImage: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    width: null,
+    height: null,
+    resizeMode: "cover",
+  } as ImageStyle,
+  BgImageWrapper: {
+    position: "relative",
+    flexGrow: 1,
+  } as ViewStyle,
   Footer: {
     flexShrink: 0,
     alignItems: "center",
@@ -30,20 +44,6 @@ export const SignInScreenStyle = StyleSheet.create({
     alignSelf: "stretch",
     aspectRatio: 244 / 94,
   } as ImageStyle,
-  SplashImage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    width: null,
-    height: null,
-    resizeMode: "cover",
-  } as ImageStyle,
-  SplashImageWrapper: {
-    position: "relative",
-    flexGrow: 1,
-  } as ViewStyle,
   Version: {
     marginVertical: spacing[4],
   } as ViewStyle,
