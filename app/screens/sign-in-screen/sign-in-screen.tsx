@@ -175,7 +175,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
             source={defaultBgImage}
             style={Style.BgImage}
           />
-          {bgImageURL &&
+          {!!bgImageURL &&
             <FastImage
               source={{
                 uri: bgImageURL,
