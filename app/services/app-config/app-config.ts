@@ -17,8 +17,10 @@ import {
   LIKERLAND_API_URL,
   MIN_VERSION,
   SENTRY_DSN,
+  SIGNIN_SCREEN_BGIMAGE_URL,
   USER_PII_SALT,
 } from "react-native-dotenv"
+import FastImage from 'react-native-fast-image'
 
 export interface AppConfigParams {
   AUTHCORE_CREDENTIAL_KEY: string
@@ -37,6 +39,7 @@ export interface AppConfigParams {
   LIKERLAND_API_URL: string
   MIN_VERSION: string
   SENTRY_DSN: string
+  SIGNIN_SCREEN_BGIMAGE_URL: string
   USER_PII_SALT: string
 }
 
@@ -71,6 +74,7 @@ export class AppConfig {
       LIKERLAND_API_URL,
       MIN_VERSION,
       SENTRY_DSN,
+      SIGNIN_SCREEN_BGIMAGE_URL,
       USER_PII_SALT,
     }
     this.remoteConfig = RemoteConfigModule()
@@ -93,6 +97,15 @@ export class AppConfig {
       this.config = {
         ...this.config,
         ...remoteConfig,
+      }
+
+      if (this.getValue("SIGNIN_SCREEN_BGIMAGE_URL")) {
+        FastImage.preload([
+          {
+            uri: this.getValue("SIGNIN_SCREEN_BGIMAGE_URL"),
+            priority: FastImage.priority.low,
+          }
+        ])
       }
     } catch (err) {
       console.error(err)

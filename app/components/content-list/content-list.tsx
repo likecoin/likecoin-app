@@ -39,7 +39,6 @@ const FOOTER: ViewStyle = {
 
 @observer
 export class ContentList extends React.Component<ContentListProps> {
-
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
   private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
@@ -54,7 +53,7 @@ export class ContentList extends React.Component<ContentListProps> {
     }
   }
 
-  private onItemSwipeOpen = (key: string, ref: React.RefObject<SwipeRow<{}>>) => {    
+  private onItemSwipeOpen = (key: string, ref: React.RefObject<SwipeRow<{}>>) => {
     Object.keys(this.listItemRefs).forEach((refKey: string) => {
       if (refKey !== key) {
         this.listItemRefs[refKey].current.closeRow()
