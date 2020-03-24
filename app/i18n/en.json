@@ -76,6 +76,14 @@
     "likerIdLabel": "Create your Liker ID",
     "shouldSignInOnDesktop": "Please retry after signing in to http://like.co on desktop"
   },
+  "SaveToBookmarkScreen": {
+    "DismissButtonText": "Click to close",
+    "Error": {
+      "forbidden": "Please sign-in again in the app.",
+      "invalid-url": "Cannot save this link.",
+      "unknown": "Unable to save to bookmark."
+    }
+  },
   "signInScreen": {
     "error": "Sign In Error",
     "errorAuthCore": "Error occurs when signing in to AuthCore",

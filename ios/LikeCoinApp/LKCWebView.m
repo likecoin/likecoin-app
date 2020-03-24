@@ -38,6 +38,8 @@
             [cookieProperties setObject:nextMonth forKey:NSHTTPCookieExpires];
             NSHTTPCookie *newCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:newCookie];
+            NSHTTPCookieStorage *sharedStorage  = [NSHTTPCookieStorage sharedCookieStorageForGroupContainerIdentifier:@"group.liker.land"];
+            [sharedStorage setCookie:newCookie];
           }
         }
       }];

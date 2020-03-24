@@ -9764,6 +9764,10 @@ react-native-safe-area-view@^0.14.6:
   dependencies:
     debounce "^1.2.0"
 
+"react-native-share-extension@git+https://github.com/likecoin/react-native-share-extension#ec08b01d1ef0b7b4cbce75f670f185c1b5cdc734":
+  version "2.0.0"
+  resolved "git+https://github.com/likecoin/react-native-share-extension#ec08b01d1ef0b7b4cbce75f670f185c1b5cdc734"
+
 react-native-splash-screen@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.1.1.tgz#1a4e46c9fdce53ff52af2a2cb4181788c4e30b30"

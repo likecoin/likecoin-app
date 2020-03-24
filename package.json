@@ -59,6 +59,7 @@
     "react-native-localize": "^1.0.0",
     "react-native-qrcode-svg": "^5.2.0",
     "react-native-randombytes": "^3.5.3",
+    "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#ec08b01d1ef0b7b4cbce75f670f185c1b5cdc734",
     "react-native-splash-screen": "3.1.1",
     "react-native-svg": "^9.9.3",
     "react-native-swipe-list-view": "^2.4.0",
