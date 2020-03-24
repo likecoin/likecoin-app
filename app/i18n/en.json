@@ -90,7 +90,8 @@
     "errorLikeCo": "Error occurs when signing in to like.co",
     "errorLikerLand": "Error occurs when signing in to liker.land",
     "heading": "At Republic of Liker Land, every Like is a reward to creators",
-    "signIn": "Sign In"
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "Available"

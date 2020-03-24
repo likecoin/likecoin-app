@@ -130,7 +130,8 @@
     "errorLikeCo": "登入 like.co 錯誤",
     "errorLikerLand": "登入 liker.land 錯誤",
     "heading": "讚賞公民共和國，每個 Like 都是對創作者的實質回報",
-    "signIn": "登入"
+    "signIn": "登入",
+    "signUp": "註冊"
   },
   "subscriptionFeature": {
     "com.oice.membership": [
