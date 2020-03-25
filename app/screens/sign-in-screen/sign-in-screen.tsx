@@ -1,5 +1,6 @@
 import * as React from "react"
 import {
+  ActivityIndicator,
   Alert,
   Image,
   SafeAreaView,
@@ -195,20 +196,29 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
               style={Style.Slogan}
             />
             <AppVersionLabel style={Style.Version} />
-            <Button
-              tx="signInScreen.signUp"
-              preset="primary"
-              isLoading={isLoading}
-              onPress={this._onPressAuthCoreButton}
-            />
-            <Button
-              tx="signInScreen.signIn"
-              preset="link"
-              color="likeCyan"
-              isHidden={isLoading}
-              style={Style.SignInButton}
-              onPress={this._onPressAuthCoreButton}
-            />
+            <View style={Style.SignInButtonContainer}>
+              {isLoading &&
+                <ActivityIndicator
+                  size="large"
+                  color={color.palette.likeCyan}
+                  style={Style.SignInActivityIndicator}
+                />
+              }
+              <Button
+                tx="signInScreen.signUp"
+                preset="primary"
+                isHidden={isLoading}
+                onPress={this._onPressAuthCoreButton}
+              />
+              <Button
+                tx="signInScreen.signIn"
+                preset="link"
+                color="likeCyan"
+                isHidden={isLoading}
+                style={Style.SignInButton}
+                onPress={this._onPressAuthCoreButton}
+              />
+            </View>
           </View>
         </SafeAreaView>
       </View>

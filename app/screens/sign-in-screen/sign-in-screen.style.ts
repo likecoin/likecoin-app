@@ -40,6 +40,16 @@ export const SignInScreenStyle = StyleSheet.create({
     marginTop: spacing[1],
     padding: spacing[2],
   } as ViewStyle,
+  SignInButtonContainer: {
+    position: "relative",
+  } as ViewStyle,
+  SignInActivityIndicator: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  } as ViewStyle,
   Slogan: {
     alignSelf: "stretch",
     aspectRatio: 244 / 94,
