@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.16.0</string>
 	<key>CFBundleVersion</key>
-	<string>178</string>
+	<string>179</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
