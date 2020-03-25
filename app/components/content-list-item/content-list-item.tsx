@@ -27,11 +27,12 @@ import { ContentListItemBack } from "./content-list-item.back"
 export class ContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
 
+  isPrevFollow = this.props.content.creator && this.props.content.creator.isFollowing
+
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      isPrevFollow: props.creator && props.creator.isFollowing,
       isRowOpen: false,
       offsetX: 0,
     }
@@ -53,7 +54,7 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private getSwipeRowWidth() {
-    return -(this.props.creator ? 128 : 64)
+    return -(this.props.content.creator ? 128 : 64)
   }
 
   private fetchCreatorDependedDetails() {
@@ -113,9 +114,9 @@ export class ContentListItem extends React.Component<Props, State> {
     if (isLoading) {
       return <ContentListItemSkeleton />
     } else if (
-      this.props.creator &&
+      this.props.content.creator &&
       this.props.onPressUndoButton &&
-      this.state.isPrevFollow &&
+      this.isPrevFollow &&
       !isFollowingCreator
     ) {
       return this.renderUndo()
@@ -130,7 +131,7 @@ export class ContentListItem extends React.Component<Props, State> {
         onRowClose={this.onRowClose}
       >
         <ContentListItemBack
-          isShowFollowToggle={!!this.props.creator}
+          isShowFollowToggle={!!this.props.content.creator}
           isBookmarked={isBookmarked}
           isFollowingCreator={isFollowingCreator}
           onToggleBookmark={this.onToggleBookmark}
@@ -276,7 +277,7 @@ export class ContentListItem extends React.Component<Props, State> {
         <View style={Style.UndoTextWrapper}>
           <Text
             text={translate("common.unfollowSuccess", {
-              creator: this.props.creator.displayName
+              creator: this.props.content.creator.displayName
             })}
             weight="600"
             color="grey9b"

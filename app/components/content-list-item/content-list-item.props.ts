@@ -2,12 +2,9 @@ import { ViewStyle } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
-import { Creator } from "../../models/creator"
 
 export interface ContentListItemProps {
   content: Content
-
-  creator?: Creator
 
   /**
    * Set to false to hide the bookmark icon. Default is true.
