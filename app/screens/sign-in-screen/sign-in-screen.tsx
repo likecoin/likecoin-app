@@ -2,9 +2,12 @@ import * as React from "react"
 import {
   ActivityIndicator,
   Alert,
+  Animated,
+  Easing,
   Image,
   SafeAreaView,
   View,
+  ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import FastImage from "react-native-fast-image"
@@ -46,19 +49,64 @@ export interface SignInScreenProps extends NavigationScreenProps<SignInScreenNav
   bgImageURL?: string
 }
 
+export interface SignInScreenState {
+  viewFadeAnim: Animated.Value
+  bgImageScaleAnim: Animated.Value
+  footerYAnim: Animated.Value
+}
+
 @inject((allStores: any) => ({
   userStore: allStores.userStore as UserStore,
   chain: allStores.chainStore as ChainStore,
   bgImageURL: (allStores.rootStore as RootStore).env.appConfig.getValue("SIGNIN_SCREEN_BGIMAGE_URL"),
 }))
 @observer
-export class SignInScreen extends React.Component<SignInScreenProps, {}> {
+export class SignInScreen extends React.Component<SignInScreenProps, SignInScreenState> {
+  state = {
+    viewFadeAnim: new Animated.Value(0),
+    bgImageScaleAnim: new Animated.Value(2),
+    footerYAnim: new Animated.Value(200),
+  }
+
   componentDidMount() {
     this._checkNavigationParams()
+    this.reveal()
   }
 
   componentDidUpdate() {
     this._checkNavigationParams()
+  }
+
+  private reveal() {
+    const duration = 1500
+    const easing = Easing.out(Easing.cubic)
+
+    Animated.parallel([
+      Animated.timing(
+        this.state.viewFadeAnim,
+        {
+          toValue: 1,
+          duration,
+          easing,
+        }
+      ),
+      Animated.timing(
+        this.state.bgImageScaleAnim,
+        {
+          toValue: 1,
+          duration,
+          easing,
+        }
+      ),
+      Animated.timing(
+        this.state.footerYAnim,
+        {
+          toValue: 0,
+          duration: duration + 100,
+          easing,
+        }
+      )
+    ]).start();
   }
 
   _checkNavigationParams() {
@@ -169,28 +217,20 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
 
     const Slogan = this.getSlogan()
 
+    const bgImageStyle = {
+      opacity: this.state.viewFadeAnim,
+      transform: [{ scale: this.state.bgImageScaleAnim }],
+    }  as any as ViewStyle
+
+    const footerStyle = {
+      opacity: this.state.viewFadeAnim,
+      transform: [{ translateY: this.state.footerYAnim }],
+    }
+
     return (
       <View style={Style.Root}>
-        <View style={Style.BgImageWrapper}>
-          <Image
-            source={defaultBgImage}
-            style={Style.BgImage}
-          />
-          {!!bgImageURL &&
-            <FastImage
-              source={{
-                uri: bgImageURL,
-                // TODO: Fix type
-                // https://github.com/DylanVann/react-native-fast-image/pull/654
-                priority: FastImage.priority.low,
-                cache: FastImage.cacheControl.cacheOnly as any,
-              }}
-              style={Style.BgImage}
-            />
-          }
-        </View>
         <SafeAreaView style={Style.Footer}>
-          <View style={Style.FooterContent}>
+          <Animated.View style={[Style.FooterContent, footerStyle]}>
             <Slogan
               fill={color.palette.likeCyan}
               style={Style.Slogan}
@@ -219,8 +259,26 @@ export class SignInScreen extends React.Component<SignInScreenProps, {}> {
                 onPress={this._onPressAuthCoreButton}
               />
             </View>
-          </View>
+          </Animated.View>
         </SafeAreaView>
+        <Animated.View style={[Style.BgImageWrapper, bgImageStyle]}>
+          <Image
+            source={defaultBgImage}
+            style={Style.BgImage}
+          />
+          {!!bgImageURL &&
+            <FastImage
+              source={{
+                uri: bgImageURL,
+                // TODO: Fix type
+                // https://github.com/DylanVann/react-native-fast-image/pull/654
+                priority: FastImage.priority.low,
+                cache: FastImage.cacheControl.cacheOnly as any,
+              }}
+              style={Style.BgImage}
+            />
+          }
+        </Animated.View>
       </View>
     )
   }
