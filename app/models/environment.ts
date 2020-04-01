@@ -4,6 +4,7 @@ import { BigDipper } from "../services/big-dipper"
 import { CosmosAPI } from "../services/cosmos"
 import { Reactotron } from "../services/reactotron"
 import { LikeCoAPI, LikerLandAPI } from "../services/api"
+import { BranchIO } from "../services/branch-io"
 import { initSentry } from "../utils/sentry"
 
 /**
@@ -20,12 +21,14 @@ export class Environment {
     this.likerLandAPI = new LikerLandAPI()
     this.cosmosAPI = new CosmosAPI()
     this.bigDipper = new BigDipper()
+    this.branchIO = new BranchIO()
   }
 
   async setup() {
     // allow each service to setup
     await this.reactotron.setup()
     await this.appConfig.setup()
+    await this.branchIO.setup()
     const {
       COSMOS_LCD_URL,
       COSMOS_CHAIN_ID,
@@ -55,6 +58,11 @@ export class Environment {
    * The application configurations
    */
   appConfig: AppConfig
+
+  /**
+   * Branch.io sdk
+   */
+  branchIO: BranchIO
 
   /**
    * Reactotron is only available in dev.
