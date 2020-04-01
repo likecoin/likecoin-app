@@ -12,6 +12,10 @@
 		<string>applinks:ngwingt.at</string>
 		<string>applinks:zombicide-invader-helper.netlify.com</string>
 		<string>applinks:likecoin.page.link</string>
+		<string>applinks:likerland.app.link</string>
+		<string>applinks:likerland-alternate.app.link</string>
+		<string>applinks:likerland.test-app.link</string>
+		<string>applinks:likerland-alternate.test-app.link</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>

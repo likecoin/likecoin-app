@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '11.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'LikeCoinApp' do
@@ -29,6 +29,7 @@ target 'LikeCoinApp' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   
   pod 'ReactNativeShareExtension', :podspec => '../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec'
+  pod "react-native-branch", path: "../node_modules/react-native-branch"
 
   use_native_modules!
 
