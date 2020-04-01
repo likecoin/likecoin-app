@@ -1,5 +1,8 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - Branch (0.31.3):
+    - Branch/Core (= 0.31.3)
+  - Branch/Core (0.31.3)
   - BVLinearGradient (2.5.6):
     - React
   - Crashlytics (3.12.0):
@@ -195,6 +198,9 @@ PODS:
   - React-jsinspector (0.60.4)
   - react-native-authcore (1.0.0):
     - React
+  - react-native-branch (4.4.0):
+    - Branch (= 0.31.3)
+    - React
   - react-native-camera (3.8.0):
     - React
     - react-native-camera/RCT (= 3.8.0)
@@ -326,6 +332,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-authcore (from `../node_modules/react-native-authcore`)
+  - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-intercom (from `../node_modules/react-native-intercom`)
@@ -363,6 +370,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - Branch
     - Crashlytics
     - Fabric
     - FBSDKCoreKit
@@ -420,6 +428,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-authcore:
     :path: "../node_modules/react-native-authcore"
+  react-native-branch:
+    :path: "../node_modules/react-native-branch"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-fbsdk:
@@ -489,6 +499,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  Branch: 9b299693ee54b308ff8c18146afe1f711c2069ec
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
@@ -528,6 +539,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-authcore: cca08325158d4979caff295a8cd064733b78264f
+  react-native-branch: a15b8ecb55c08139e06e7ea15bcadabc81a51e64
   react-native-camera: 21cf4ed26cf432ceb1fae959aa6924943fd6f714
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-intercom: 25ceddd224fdf63be29d4e25e95a893e5befe18f
@@ -565,6 +577,6 @@ SPEC CHECKSUMS:
   Sentry: bba998b0fb157fdd6596aa73290a9d67ae47be79
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: 8fbf7741e5748d8d9dcbc591bc6cd0e55f7325aa
+PODFILE CHECKSUM: 0d74d8cc43fe663e5879690564d616bb8811043e
 
 COCOAPODS: 1.8.4
