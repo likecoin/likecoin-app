@@ -13,6 +13,7 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <RNBranch/RNBranch.h>
 
 @import Firebase;
 
@@ -24,9 +25,9 @@
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"LikeCoinApp"
                                             initialProperties:nil];
-
+  
   rootView.backgroundColor = [UIColor colorWithRed:40.0/255.0 green:100.0/255.0 blue:110.0/255.0 alpha:1];
-
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
@@ -46,9 +47,12 @@
     FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
     [FIRApp configureWithOptions:options];
   }
-  
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+#ifdef DEBUG
+  [RNBranch useTestInstance];
+#endif
+  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   
   return YES;
 }
@@ -63,19 +67,18 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                                                     annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-          ] || [RCTLinkingManager application:application
-                                      openURL:url
-                                      options:options];
+  return [RNBranch.branch application:application openURL:url options:options]
+  || [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                    openURL:url
+                                          sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                                 annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+      ] || [RCTLinkingManager application:application
+                                  openURL:url
+                                  options:options];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
-  return [RCTLinkingManager application:application
-                   continueUserActivity:userActivity
-                     restorationHandler:restorationHandler];
+  return [RNBranch continueUserActivity:userActivity] || [RCTLinkingManager application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
