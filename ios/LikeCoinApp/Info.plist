@@ -49,6 +49,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>InterAppID</key>
+	<string>e7kyqbxv</string>
+	<key>IntercomAPIKey</key>
+	<string>ios_sdk-20a5e5bb16164c6d6e76b1fe33e145faebf62786</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -89,9 +95,14 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>IntercomAPIKey</key>
-	<string>ios_sdk-20a5e5bb16164c6d6e76b1fe33e145faebf62786</string>
-	<key>InterAppID</key>
-	<string>e7kyqbxv</string>
+	<key>branch_app_domain</key>
+	<string>likerland.app.link</string>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_ioIMK0K8YS06p9Ndf7K2IpgmBzl55RxS</string>
+		<key>test</key>
+		<string>key_test_cmTNU7J68M39fXLig8P8UdjdtEh41PuF</string>
+	</dict>
 </dict>
 </plist>
