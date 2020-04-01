@@ -4,4 +4,6 @@
     <string name="intercom_api_key">android_sdk-56496b6d8e04617c8ee32cfc8f9df4899081dba8</string>
     <string name="intercom_app_id">e7kyqbxv</string>
     <string name="share_extension_name">Liker Land</string>
+    <string name="branch_io_live_key">key_live_ioIMK0K8YS06p9Ndf7K2IpgmBzl55RxS</string>
+    <string name="branch_io_test_key">key_test_cmTNU7J68M39fXLig8P8UdjdtEh41PuF</string>
 </resources>

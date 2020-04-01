@@ -10,6 +10,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import io.intercom.android.sdk.Intercom;
+import io.branch.rnbranch.RNBranchModule;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     Intercom.initialize(this, getResources().getString(R.string.intercom_api_key), getResources().getString(R.string.intercom_app_id));
+    RNBranchModule.getAutoInstance(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
