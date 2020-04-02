@@ -34,6 +34,7 @@ export interface UserLoginParams {
   username?: string
   email?: string
   displayName?: string
+  appReferrer?: string
 }
 
 export interface UserRegisterParams extends UserLoginParams {

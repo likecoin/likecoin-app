@@ -49,7 +49,11 @@ export const UserStoreModel = types
       self.isSigningIn = value
     },
     register: flow(function * (params: UserRegisterParams) {
-      const result: GeneralResult = yield self.env.likeCoAPI.register(params)
+      const appReferrer = yield self.env.branchIO.getAppReferrer()
+      const result: GeneralResult = yield self.env.likeCoAPI.register({
+        appReferrer,
+        ...params
+      })
       switch (result.kind) {
         case "ok":
           break
@@ -67,7 +71,11 @@ export const UserStoreModel = types
       }
     }),
     login: flow(function * (params: UserLoginParams) {
-      const result: GeneralResult = yield self.env.likeCoAPI.login(params)
+      const appReferrer = yield self.env.branchIO.getAppReferrer()
+      const result: GeneralResult = yield self.env.likeCoAPI.login({
+        appReferrer,
+        ...params
+      })
       switch (result.kind) {
         case "ok":
           break
