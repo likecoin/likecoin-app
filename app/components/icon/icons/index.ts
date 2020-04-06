@@ -1,5 +1,6 @@
 import ArrowDownIcon from "./arrow-down.svg"
 import ArrowLeftIcon from "./arrow-left.svg"
+import ArrowRightIcon from "./arrow-right.svg"
 import ArrowUpIcon from "./arrow-up.svg"
 import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
@@ -23,6 +24,7 @@ import UndoIcon from "./undo.svg"
 export const icons = {
   "arrow-down": ArrowDownIcon,
   "arrow-left": ArrowLeftIcon,
+  "arrow-right": ArrowRightIcon,
   "arrow-up": ArrowUpIcon,
   back: ArrowLeftIcon,
   "bookmark-filled": BookmarkFilledIcon,

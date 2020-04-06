@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react"
 import {
   StyleSheet,
   TextStyle,
+  TouchableHighlight,
   View,
   ViewStyle,
 } from "react-native"
@@ -11,12 +12,14 @@ import { NavigationScreenProps } from "react-navigation"
 import {
   SettingScreenStyle as Style,
   SettingScreenUserInfoStyle as UserInfoStyle,
+  SettingsScreenStatsPanelStyle as StatsPanelStyle,
 } from "./settings-screen.style"
 
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
 import { ExtendedView } from "../../components/extended-view"
+import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
@@ -43,19 +46,30 @@ const VERSION: TextStyle = {
 const TABLE_CELL_BASE: ViewStyle = {
   justifyContent: "flex-start",
 }
+const TABLE_CELL: ViewStyle = {
+  ...TABLE_CELL_BASE,
+  borderStyle: "solid",
+  borderTopColor: color.palette.lighterGrey,
+  borderTopWidth: StyleSheet.hairlineWidth,
+}
+const TABLE_BORDER_RADIUS = 12
 const SETTINGS_MENU = StyleSheet.create({
   TABLE: {
-    borderRadius: 12,
+    borderRadius: TABLE_BORDER_RADIUS,
     backgroundColor: color.palette.white,
     marginVertical: spacing[4],
   } as ViewStyle,
-  TABLE_CELL: {
+  TABLE_CELL,
+  TABLE_CELL_FIRST_CHILD: {
     ...TABLE_CELL_BASE,
-    borderStyle: "solid",
-    borderTopColor: color.palette.lighterGrey,
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopLeftRadius: TABLE_BORDER_RADIUS,
+    borderTopRightRadius: TABLE_BORDER_RADIUS,
   } as ViewStyle,
-  TABLE_CELL_FIRST_CHILD: TABLE_CELL_BASE,
+  TABLE_CELL_LAST_CHILD: {
+    ...TABLE_CELL,
+    borderBottomLeftRadius: TABLE_BORDER_RADIUS,
+    borderBottomRightRadius: TABLE_BORDER_RADIUS,
+  } as ViewStyle,
   TABLE_CELL_TEXT: {
     padding: spacing[2],
     paddingVertical: spacing[1],
@@ -122,6 +136,14 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("Wallet")
   }
 
+  private onPressStatsSupportedButton = () => {
+    // TODO: Navigate to stats supported screen
+  }
+
+  private onPressStatsRewardsButton = () => {
+    // TODO: Navigate to stats rewards screen
+  }
+
   render () {
     return (
       <Screen
@@ -184,6 +206,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     } = this.props.userStore.iapStore
     return (
       <View style={Style.Body}>
+        {this.renderStatsPanel()}
         <View style={SETTINGS_MENU.TABLE}>
           <Button
             preset="plain"
@@ -249,6 +272,77 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           onPress={this.onClickLogout}
         />
         <AppVersionLabel style={VERSION} />
+      </View>
+    )
+  }
+
+  renderStatsPanel() {
+    // TODO: Port real data
+    const supported = {
+      LIKE: 221.58,
+      works: 22,
+    }
+    const rewards = {
+      LIKE: 27.47,
+    }
+    return (
+      <View style={StatsPanelStyle.Root}>
+        <Text
+          text="This week"
+          style={StatsPanelStyle.Label}
+        />
+        <View style={[SETTINGS_MENU.TABLE, StatsPanelStyle.Table]}>
+          <TouchableHighlight
+            underlayColor={StatsPanelStyle.ButtonUnderlaying.backgroundColor}
+            style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+            onPress={this.onPressStatsSupportedButton}
+          >
+            <View style={StatsPanelStyle.Button}>
+              <View style={StatsPanelStyle.ButtonContent}>
+                <Text text="Supported (Civic Liker)" style={StatsPanelStyle.ButtonTitle} />
+                <View style={StatsPanelStyle.ButtonStatsDetails}>
+                  <View style={StatsPanelStyle.ButtonStatsDetailsLeft}>
+                    <Text
+                      text={`${supported.LIKE} LIKE`}
+                      style={StatsPanelStyle.ButtonStatsDetailsTitle}
+                    />
+                  </View>
+                  <View style={StatsPanelStyle.ButtonStatsDetailsRight}>
+                    <Text
+                      text={`${supported.works}`}
+                      style={StatsPanelStyle.ButtonStatsDetailsTitle}
+                    />
+                    <Text
+                      text="Works"
+                      style={StatsPanelStyle.ButtonStatsDetailsSubtitle}
+                    />
+                  </View>
+                </View>
+              </View>
+              <Icon name="arrow-right" color="grey9b" />
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor={StatsPanelStyle.ButtonUnderlaying.backgroundColor}
+            style={SETTINGS_MENU.TABLE_CELL_LAST_CHILD}
+            onPress={this.onPressStatsRewardsButton}
+          >
+            <View style={StatsPanelStyle.Button}>
+              <View style={StatsPanelStyle.ButtonContent}>
+                <Text text="Rewards" style={StatsPanelStyle.ButtonTitle} />
+                <View style={StatsPanelStyle.ButtonStatsDetails}>
+                  <View style={StatsPanelStyle.ButtonStatsDetailsLeft}>
+                    <Text
+                      text={`${rewards.LIKE} LIKE`}
+                      style={StatsPanelStyle.ButtonStatsDetailsTitle}
+                    />
+                  </View>
+                </View>
+              </View>
+              <Icon name="arrow-right" color="grey9b" />
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }
