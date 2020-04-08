@@ -64,7 +64,7 @@
     "react-native-randombytes": "^3.5.3",
     "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#244989a267e4d1beb41779228ad905e5211f6bf7",
     "react-native-splash-screen": "3.1.1",
-    "react-native-svg": "^9.9.3",
+    "react-native-svg": "^12.0.0",
     "react-native-swipe-list-view": "^2.4.0",
     "react-native-ui-kitten": "4.2.0-beta.2",
     "react-native-webview": "^8.1.1",
