@@ -48,3 +48,26 @@ export type LikeStatResult = { kind: "ok"; data: LikeStat } | GeneralApiProblem
 export type ReaderCreatorsResult = { kind: "ok"; following: string[], unfollowed: string[] } | GeneralApiProblem
 export type ContentListResult = { kind: "ok"; data: Content[] } | GeneralApiProblem
 export type BookmarkListResult = { kind: "ok"; data: string[] } | GeneralApiProblem
+
+export interface StatisticsSupportedCreatorResult {
+  likee: string
+  workCount: number
+  LIKE: number
+  likeCount: number
+}
+export interface StatisticsSupportedWorkResult {
+  likee: string
+  sourceURL: string
+  LIKE: number
+  likeCount: number
+}
+export type StatisticsSupportedResult = {
+  kind: "ok"
+  data: {
+    workCount: number
+    LIKE: number
+    likeCount: number
+    all: StatisticsSupportedCreatorResult[],
+    daily: StatisticsSupportedWorkResult[][],
+  }
+} | GeneralApiProblem
