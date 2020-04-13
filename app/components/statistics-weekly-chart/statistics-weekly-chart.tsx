@@ -158,6 +158,14 @@ export function StatisticsWeeklyChart(props: Props) {
           if (props.onPressBar) props.onPressBar(i)
         }}
       >
+        <Rect
+          x={bar.x - barInterspace / 2}
+          width={barWidth + barInterspace}
+          y={chartMarginTop}
+          height={chartHeight}
+          fill="none"
+          stroke="none"
+        />
         {bar.isFocused && (
           <Rect
             x={bar.x - 2}
