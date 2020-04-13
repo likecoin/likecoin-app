@@ -7,6 +7,7 @@ import {
 import { FlatList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
+import moment from "moment"
 
 import {
   StatisticsSupportedScreenProps as Props,
@@ -24,6 +25,7 @@ import {
 } from "../../components/statistics-data-grid"
 import {
   StatisticsWeeklyChart,
+  StatisticsWeeklyChartBarData,
 } from "../../components/statistics-weekly-chart"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
@@ -112,10 +114,17 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
       startTs = 0,
     } = weekData || {}
 
-    const chartData = days && days.map((day, i) => ({
-      values: [day.totalLikeAmount],
-      label: translate(`Week.${i}`),
-    }))
+    const chartData = days && days.map((day, weekday) => {
+      const barData: StatisticsWeeklyChartBarData = {
+        values: [day.totalLikeAmount],
+        label: translate(`Week.${weekday}`),
+      }
+      // Highlight today
+      if (index === 0 && weekday === moment().weekday()) {
+        barData.isHighlighted = true
+      }
+      return barData
+    })
 
     let title: string
     if (index === 0) {
