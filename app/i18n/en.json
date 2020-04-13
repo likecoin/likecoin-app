@@ -146,6 +146,11 @@
     "followSettings": "Following / Unfollow",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
+    "StatisticsPanel": {
+      "Supported": {
+        "Title": "Supported (Civic Liker)"
+      }
+    },
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
     "title": "Settings"

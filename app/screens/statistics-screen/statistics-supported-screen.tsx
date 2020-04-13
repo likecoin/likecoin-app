@@ -41,7 +41,9 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
   }
 
   componentDidMount() {
-    this.props.dataStore.fetchLatest()
+    this.props.dataStore.fetchLatest({
+      shouldFetchLastWeek: true,
+    })
   }
 
   private listItemKeyExtractor = (item: StatisticsSupportedCreator) => item.likerID

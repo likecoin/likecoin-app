@@ -28,12 +28,13 @@ import { color, spacing } from "../../theme"
 import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
-import { RootStore } from "../../models/root-store"
+import { StatisticsSupportedStore } from "../../models/statistics-store"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import * as Intercom from "../../utils/intercom"
 import { SettingsScreenWalletActionsView } from "./settings-screen.wallet-actions-view"
+import { translate } from "../../i18n"
 
 const LOGOUT: ViewStyle = {
   marginTop: spacing[4],
@@ -81,19 +82,23 @@ const SETTINGS_MENU = StyleSheet.create({
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   chain: ChainStore
-  userStore: UserStore,
-  readerStore: ReaderStore,
+  userStore: UserStore
+  readerStore: ReaderStore
+  supportedStatistics: StatisticsSupportedStore
 }
 
-@inject((rootStore: RootStore) => ({
-  chain: rootStore.chainStore,
-  userStore: rootStore.userStore,
-  readerStore: rootStore.readerStore,
+@inject((allStores: any) => ({
+  chain: allStores.chainStore as ChainStore,
+  userStore: allStores.userStore as UserStore,
+  readerStore: allStores.readerStore as ReaderStore,
+  supportedStatistics:
+    allStores.statisticsSupportedStore as StatisticsSupportedStore,
 }))
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   componentDidMount() {
     this.props.chain.fetchAll()
+    this.props.supportedStatistics.fetchLatest()
   }
 
   private onPressSubscription = () => {
@@ -278,18 +283,18 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   renderStatsPanel() {
+    const {
+      likeAmount: supportedLikeAmount = 0,
+      worksCount: supportedWorksCount = 0
+    } = this.props.supportedStatistics.weeks[0] || {}
     // TODO: Port real data
-    const supported = {
-      LIKE: 221.58,
-      works: 22,
-    }
     const rewards = {
       LIKE: 27.47,
     }
     return (
       <View style={StatsPanelStyle.Root}>
         <Text
-          text="This week"
+          tx="Statistics.Period.Week.This"
           style={StatsPanelStyle.Label}
         />
         <View style={[SETTINGS_MENU.TABLE, StatsPanelStyle.Table]}>
@@ -300,21 +305,24 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           >
             <View style={StatsPanelStyle.Button}>
               <View style={StatsPanelStyle.ButtonContent}>
-                <Text text="Supported (Civic Liker)" style={StatsPanelStyle.ButtonTitle} />
+                <Text
+                  tx="settingsScreen.StatisticsPanel.Supported.Title"
+                  style={StatsPanelStyle.ButtonTitle}
+                />
                 <View style={StatsPanelStyle.ButtonStatsDetails}>
                   <View style={StatsPanelStyle.ButtonStatsDetailsLeft}>
                     <Text
-                      text={`${supported.LIKE} LIKE`}
+                      text={`${supportedLikeAmount.toFixed(4)} LIKE`}
                       style={StatsPanelStyle.ButtonStatsDetailsTitle}
                     />
                   </View>
                   <View style={StatsPanelStyle.ButtonStatsDetailsRight}>
                     <Text
-                      text={`${supported.works}`}
+                      text={`${supportedWorksCount}`}
                       style={StatsPanelStyle.ButtonStatsDetailsTitle}
                     />
                     <Text
-                      text="Works"
+                      text={translate("Statistics.Work", { count: supportedWorksCount })}
                       style={StatsPanelStyle.ButtonStatsDetailsSubtitle}
                     />
                   </View>

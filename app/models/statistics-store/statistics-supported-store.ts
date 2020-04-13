@@ -24,6 +24,13 @@ import { withEnvironment, withReaderStore } from "../extensions"
 import { logError } from "../../utils/error"
 import { StatisticsSupportedResult } from "../../services/api"
 
+export interface FetchDataForWeekOptions {
+  shouldSelect?: boolean
+}
+export interface FetchLatestOptions {
+  shouldFetchLastWeek?: boolean
+}
+
 /**
  * Store for supported statistics
  */
@@ -57,13 +64,17 @@ export const StatisticsSupportedStoreModel = types
     deselectWeekday() {
       self.selectedWeekday = -1
     },
-    fetchDataForWeek: flow(function * (startTs: number, isSelected = false) {
+    fetchDataForWeek: flow(function * (startTs: number, options?: FetchDataForWeekOptions) {
+      const opts: FetchDataForWeekOptions = {
+        shouldSelect: false,
+        ...options,
+      }
       let weekData = self.weeksData.get(startTs.toString())
       if (!weekData) {
         weekData = StatisticsSupportedWeekModel.create({ startTs }, self.env)
         self.weeksData.put(weekData)
       }
-      if (isSelected) self.selectedWeek = weekData
+      if (opts.shouldSelect) self.selectedWeek = weekData
       weekData.setFetching()
       try {
         const result: StatisticsSupportedResult = yield self.env.likeCoAPI.fetchSupportedStatistics()
@@ -111,13 +122,24 @@ export const StatisticsSupportedStoreModel = types
     }),
   }))
   .actions(self => ({
-    fetchLatest: flow(function * () {
+    fetchLatest: flow(function * (options?: FetchLatestOptions) {
+      const opts: FetchLatestOptions = {
+        shouldFetchLastWeek: false,
+        ...options,
+      }
       const currentWeek = moment().startOf("week")
-      self.weeksData.replace({})
-      yield Promise.all([
-        self.fetchDataForWeek(currentWeek.unix(), true),
-        self.fetchDataForWeek(moment(currentWeek).subtract(1, "week").unix(), true),
-      ])
+      const promises = [
+        self.fetchDataForWeek(currentWeek.unix(), {
+          shouldSelect: true,
+        }),
+      ]
+      if (opts.shouldFetchLastWeek) {
+        const lastWeek = moment(currentWeek).subtract(1, "week")
+        promises.push(
+          self.fetchDataForWeek(lastWeek.unix())
+        )
+      }
+      yield Promise.all(promises)
     }),
     selectWeek(weekIndex: number) {
       self.deselectWeekday()
@@ -125,7 +147,7 @@ export const StatisticsSupportedStoreModel = types
       self.selectedWeek = weekData
       if (weekIndex === self.weeks.length - 1) {
         const prevWeek = moment.unix(weekData.startTs).subtract(1, "week")
-        self.fetchDataForWeek(prevWeek.unix())
+        self.fetchDataForWeek(prevWeek.unix(), { shouldSelect: true })
       }
     },
     selectWeekday(weekday: number) {
