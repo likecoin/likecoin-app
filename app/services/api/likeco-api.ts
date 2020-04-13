@@ -3,7 +3,11 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
-import { SupportedStatisticsTestData } from "./mock-response"
+import {
+  SupportedStatisticsTestData,
+  RewardedStatisticsTestData,
+  RewardedStatisticsSummaryTestData,
+} from "./mock-response"
 
 /**
  * like.co API.
@@ -205,5 +209,13 @@ export class LikeCoAPI {
 
   async fetchSupportedStatistics(): Promise<Types.StatisticsSupportedResult> {
     return { kind: "ok", data: SupportedStatisticsTestData }
+  }
+
+  async fetchRewardedStatistics(): Promise<Types.StatisticsRewardedResult> {
+    return { kind: "ok", data: RewardedStatisticsTestData }
+  }
+
+  async fetchRewardedStatisticsSummary(): Promise<Types.StatisticsRewardedSummaryResult> {
+    return { kind: "ok", data: RewardedStatisticsSummaryTestData }
   }
 }

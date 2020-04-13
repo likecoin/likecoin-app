@@ -71,3 +71,48 @@ export type StatisticsSupportedResult = {
     daily: StatisticsSupportedWorkResult[][],
   }
 } | GeneralApiProblem
+
+export interface StatisticsRewardedContentResult {
+  sourceURL: string
+  LIKE: number
+}
+
+export interface StatisticsRewardedContentDetailsResult {
+  sourceURL: string
+  LIKE: number
+  LIKEDetails: {
+    basic: number
+    civic: number
+  }
+  likeCount: number
+  likerCount: {
+    basic: number
+    civic: number
+  }
+}
+
+export type StatisticsRewardedResult = {
+  kind: "ok"
+  data: {
+    all: StatisticsRewardedContentResult[],
+    daily: StatisticsRewardedContentDetailsResult[][],
+  }
+} | GeneralApiProblem
+
+export type StatisticsRewardedSummaryResult = {
+  kind: "ok"
+  data: {
+    LIKE: {
+      CreatorsFunds: number
+      CivicLiker: number
+    },
+    likeCount: {
+      civic: number
+      basic: number
+    },
+    likerCount: {
+      civic: number
+      basic: number
+    }
+  }
+} | GeneralApiProblem

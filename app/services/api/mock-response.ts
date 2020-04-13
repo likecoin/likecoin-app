@@ -1,3 +1,355 @@
+
+export const RewardedStatisticsSummaryTestData = {
+  LIKE: {
+    CreatorsFunds: 2748.559941949049,
+    CivicLiker: 5385.41570983,
+  },
+  likeCount: {
+    civic: 241,
+    basic: 78,
+  },
+  likerCount: {
+    civic: 50,
+    basic: 32,
+  }
+}
+
+export const RewardedStatisticsTestData = {
+  all: [
+    {
+      sourceURL: 'https://matters.news/@ckxpress/%E8%88%87%E5%94%90%E9%B3%B3%E8%AB%87%E6%B5%81%E5%8B%95%E6%B0%91%E4%B8%BB-bafyreifwepl6yhghohjygkz7s4wugi2vglqesg4ojdanmoitywgm3jpg5q',
+      LIKE: 4065.314426382911
+    },
+    {
+      sourceURL: 'https://matters.news/@ckxpress/%E6%BC%82%E6%B5%81%E6%95%99%E5%AE%A4-iii-%E5%BE%9E%E9%9B%B6%E5%92%8C%E5%88%B0%E5%85%B1%E5%92%8C-zdpuB14QnJ6XypnxQ6kYmje5XjX5KdN9S53XEdMgeX4u8N4ir',
+      LIKE: 1799.2282297350885
+    },
+    {
+      sourceURL: 'https://matters.news/@ckxpress/%E7%AD%94%E5%AE%A2%E5%95%8F-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E7%9A%84%E7%94%A2%E5%93%81%E8%A8%AD%E8%A8%88%E9%82%8F%E8%BC%AF-zdpuAzeWd2hsjDqorgvVSD2aTvovauituqSa83hJY1MHUfs5x',
+      LIKE: 1272.3906728019736
+    },
+    {
+      sourceURL: 'https://ckxpress.com/liquid-democracy-with-audrey-tang/',
+      LIKE: 407.76591426821375
+    },
+    {
+      sourceURL: 'https://matters.news/@ckxpress/2020-04-01-%E6%9C%89%E4%BA%9B%E4%BA%8B%E7%8F%BE%E5%9C%A8%E4%B8%8D%E5%81%9A%E4%B8%80%E8%BC%A9%E5%AD%90%E9%83%BD%E4%B8%8D%E6%9C%83%E5%81%9A%E4%BA%86-bafyreiboszu3l5iyowris4cfwmd4eni4mb6npilhvxovtejlgieo7kxemu',
+      LIKE: 287.858055792
+    },
+    {
+      sourceURL: 'https://matters.news/@ckxpress/1%E5%88%A5%E7%9F%A3-medium-bafyreiab6aepilyhkssycdwmf3x52czjqpsbfqcz2wsiacpkbzo2kg7bkq',
+      LIKE: 102.77138955181488
+    },
+    {
+      sourceURL: 'https://ckxpress.com/liker-land/',
+      LIKE: 95.21616786871974
+    },
+    {
+      sourceURL: 'https://medium.com/likecoin/likecoin-chronicle-769001f784b3',
+      LIKE: 54.82673598736304
+    },
+    {
+      sourceURL: 'https://matters.news/@ckxpress/%E7%AD%94%E5%AE%A2%E5%95%8F-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E5%85%B1%E5%92%8C%E5%9C%8B%E8%B7%9F%E4%B8%80%E8%88%AC%E7%B6%B2%E4%B8%8A%E7%A4%BE%E7%BE%A4%E6%9C%89%E4%BD%95%E5%8D%80%E5%88%A5-bafyreidnld4csdxdvv3ylfv7ak3sh7skv2eqahwnwdc4m3qsgo2xl3zjli',
+      LIKE: 25.911809418844765
+    },
+    {
+      sourceURL: 'https://matters.news/@likecoin/%E5%8C%96%E8%AE%9A%E7%82%BA%E8%B3%9E-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%87%B6%E4%BA%BA%E5%8C%85-zdpuAtWT6a2rjr75JZBzwnvy67vrxw5cBRqwnHbkFehRYHLXx',
+      LIKE: 16.711026892687524
+    },
+    {
+      sourceURL: 'https://medium.com/likecoin/%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%87%B6%E4%BA%BA%E5%8C%85-e7079686bf6e',
+      LIKE: 2.272744999925442
+    },
+    {
+      sourceURL: 'https://matters.news/@ckxpress/%E7%AD%94%E5%AE%A2%E5%95%8F-%E7%82%BA%E7%94%9A%E9%BA%BC%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%B2%92%E6%9C%89%E4%BB%98%E6%9B%B4%E5%A4%9A%E7%9A%84%E9%81%B8%E9%A0%85-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%89%80%E7%82%BA%E4%BD%95%E4%BA%8B-like-coin-%E6%9C%89%E4%BD%95%E9%9C%80%E6%B1%82-%E9%99%A4%E4%BA%86%E6%8F%9B%E6%88%90%E5%82%B3%E7%B5%B1%E8%B2%A8%E5%B9%A3-like-coin-%E9%82%84%E8%83%BD%E7%94%A8%E4%BE%86%E5%81%9A%E7%94%9A%E9%BA%BC-zdpuAnDeiQGtsgLpH5FaqccAyvyZZ9vpoFM2Eb1BDijsk4kfQ',
+      LIKE: 1.435733079581235
+    },
+    {
+      sourceURL: 'https://ckxpress.com/on-indie-3/',
+      LIKE: 1.136372499962721
+    },
+    {
+      sourceURL: 'https://ckxpress.com/sleeping-dogs/',
+      LIKE: 1.136372499962721
+    }
+  ],
+  daily: [
+    [
+      {
+        sourceURL: 'https://medium.com/likecoin/likecoin-chronicle-769001f784b3',
+        LIKE: 54.82673598736304,
+        likeCount: 1,
+        likerCount: {
+          civic: 1,
+          basic: 1
+        },
+        LIKEDetails: {
+          basic: 20.56002599526114,
+          civic: 34.266709992101894
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E7%AD%94%E5%AE%A2%E5%95%8F-%E7%82%BA%E7%94%9A%E9%BA%BC%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%B2%92%E6%9C%89%E4%BB%98%E6%9B%B4%E5%A4%9A%E7%9A%84%E9%81%B8%E9%A0%85-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%89%80%E7%82%BA%E4%BD%95%E4%BA%8B-like-coin-%E6%9C%89%E4%BD%95%E9%9C%80%E6%B1%82-%E9%99%A4%E4%BA%86%E6%8F%9B%E6%88%90%E5%82%B3%E7%B5%B1%E8%B2%A8%E5%B9%A3-like-coin-%E9%82%84%E8%83%BD%E7%94%A8%E4%BE%86%E5%81%9A%E7%94%9A%E9%BA%BC-zdpuAnDeiQGtsgLpH5FaqccAyvyZZ9vpoFM2Eb1BDijsk4kfQ',
+        LIKE: 1.435733079581235,
+        likeCount: 1,
+        likerCount: {
+          basic: 1,
+          civic: 0
+        },
+        LIKEDetails: {
+          basic: 1.435733079581235,
+          civic: 0
+        }
+      }
+    ],
+    [
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E8%88%87%E5%94%90%E9%B3%B3%E8%AB%87%E6%B5%81%E5%8B%95%E6%B0%91%E4%B8%BB-bafyreifwepl6yhghohjygkz7s4wugi2vglqesg4ojdanmoitywgm3jpg5q',
+        LIKE: 2435.034117361328,
+        likeCount: 174,
+        likerCount: {
+          civic: 25,
+          basic: 44
+        },
+        LIKEDetails: {
+          basic: 1164.5815343902004,
+          civic: 1270.4525829711274
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@likecoin/%E5%8C%96%E8%AE%9A%E7%82%BA%E8%B3%9E-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%87%B6%E4%BA%BA%E5%8C%85-zdpuAtWT6a2rjr75JZBzwnvy67vrxw5cBRqwnHbkFehRYHLXx',
+        LIKE: 16.711026892687524,
+        likeCount: 1,
+        likerCount: {
+          civic: 1,
+          basic: 1
+        },
+        LIKEDetails: {
+          basic: 6.266635084757821,
+          civic: 10.444391807929703
+        }
+      }
+    ],
+    [
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E8%88%87%E5%94%90%E9%B3%B3%E8%AB%87%E6%B5%81%E5%8B%95%E6%B0%91%E4%B8%BB-bafyreifwepl6yhghohjygkz7s4wugi2vglqesg4ojdanmoitywgm3jpg5q',
+        LIKE: 895.7433658798309,
+        likeCount: 60,
+        likerCount: {
+          civic: 7,
+          basic: 20
+        },
+        LIKEDetails: {
+          basic: 497.6352032665727,
+          civic: 398.1081626132582
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E6%BC%82%E6%B5%81%E6%95%99%E5%AE%A4-iii-%E5%BE%9E%E9%9B%B6%E5%92%8C%E5%88%B0%E5%85%B1%E5%92%8C-zdpuB14QnJ6XypnxQ6kYmje5XjX5KdN9S53XEdMgeX4u8N4ir',
+        LIKE: 274.4893419572436,
+        likeCount: 5,
+        likerCount: {
+          civic: 1,
+          basic: 1
+        },
+        LIKEDetails: {
+          basic: 102.93350323396635,
+          civic: 171.55583872327725
+        }
+      },
+      {
+        sourceURL: 'https://ckxpress.com/liquid-democracy-with-audrey-tang/',
+        LIKE: 33.61251327047402,
+        likeCount: 5,
+        likerCount: {
+          civic: 1,
+          basic: 1
+        },
+        LIKEDetails: {
+          basic: 12.604692476427758,
+          civic: 21.00782079404626
+        }
+      },
+      {
+        sourceURL: 'https://medium.com/likecoin/%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E6%87%B6%E4%BA%BA%E5%8C%85-e7079686bf6e',
+        LIKE: 2.272744999925442,
+        likeCount: 2,
+        likerCount: {
+          basic: 1,
+          civic: 0
+        },
+        LIKEDetails: {
+          basic: 2.272744999925442,
+          civic: 0
+        }
+      },
+      {
+        sourceURL: 'https://ckxpress.com/on-indie-3/',
+        LIKE: 1.136372499962721,
+        likeCount: 1,
+        likerCount: {
+          basic: 1,
+          civic: 0
+        },
+        LIKEDetails: {
+          basic: 1.136372499962721,
+          civic: 0
+        }
+      },
+      {
+        sourceURL: 'https://ckxpress.com/sleeping-dogs/',
+        LIKE: 1.136372499962721,
+        likeCount: 1,
+        likerCount: {
+          basic: 1,
+          civic: 0
+        },
+        LIKEDetails: {
+          basic: 1.136372499962721,
+          civic: 0
+        }
+      }
+    ],
+    [
+      {
+        sourceURL: 'https://ckxpress.com/liquid-democracy-with-audrey-tang/',
+        LIKE: 364.8564887454755,
+        likeCount: 5,
+        likerCount: {
+          civic: 1,
+          basic: 1
+        },
+        LIKEDetails: {
+          basic: 136.8211832795533,
+          civic: 228.03530546592216
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E8%88%87%E5%94%90%E9%B3%B3%E8%AB%87%E6%B5%81%E5%8B%95%E6%B0%91%E4%B8%BB-bafyreifwepl6yhghohjygkz7s4wugi2vglqesg4ojdanmoitywgm3jpg5q',
+        LIKE: 11.409126974313804,
+        likeCount: 10,
+        likerCount: {
+          basic: 2,
+          civic: 0
+        },
+        LIKEDetails: {
+          basic: 11.409126974313804,
+          civic: 0
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E5%88%A5%E7%9F%A3-medium-bafyreiab6aepilyhkssycdwmf3x52czjqpsbfqcz2wsiacpkbzo2kg7bkq',
+        LIKE: 7.555221683095137,
+        likeCount: 5,
+        likerCount: {
+          basic: 1,
+          civic: 0
+        },
+        LIKEDetails: {
+          basic: 7.555221683095137,
+          civic: 0
+        }
+      }
+    ],
+    [
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E6%BC%82%E6%B5%81%E6%95%99%E5%AE%A4-iii-%E5%BE%9E%E9%9B%B6%E5%92%8C%E5%88%B0%E5%85%B1%E5%92%8C-zdpuB14QnJ6XypnxQ6kYmje5XjX5KdN9S53XEdMgeX4u8N4ir',
+        LIKE: 1524.7388877778449,
+        likeCount: 5,
+        likerCount: {
+          civic: 1,
+          basic: 1
+        },
+        LIKEDetails: {
+          basic: 571.7770829166918,
+          civic: 952.961804861153
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E7%AD%94%E5%AE%A2%E5%95%8F-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E7%9A%84%E7%94%A2%E5%93%81%E8%A8%AD%E8%A8%88%E9%82%8F%E8%BC%AF-zdpuAzeWd2hsjDqorgvVSD2aTvovauituqSa83hJY1MHUfs5x',
+        LIKE: 1272.3906728019736,
+        likeCount: 8,
+        likerCount: {
+          civic: 1,
+          basic: 2
+        },
+        LIKEDetails: {
+          basic: 636.1953364009868,
+          civic: 636.1953364009868
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E8%88%87%E5%94%90%E9%B3%B3%E8%AB%87%E6%B5%81%E5%8B%95%E6%B0%91%E4%B8%BB-bafyreifwepl6yhghohjygkz7s4wugi2vglqesg4ojdanmoitywgm3jpg5q',
+        LIKE: 715.669702654439,
+        likeCount: 10,
+        likerCount: {
+          civic: 2,
+          basic: 3
+        },
+        LIKEDetails: {
+          basic: 322.0513661944975,
+          civic: 393.6183364599415
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E7%AD%94%E5%AE%A2%E5%95%8F-%E8%AE%9A%E8%B3%9E%E5%85%AC%E6%B0%91%E5%85%B1%E5%92%8C%E5%9C%8B%E8%B7%9F%E4%B8%80%E8%88%AC%E7%B6%B2%E4%B8%8A%E7%A4%BE%E7%BE%A4%E6%9C%89%E4%BD%95%E5%8D%80%E5%88%A5-bafyreidnld4csdxdvv3ylfv7ak3sh7skv2eqahwnwdc4m3qsgo2xl3zjli',
+        LIKE: 25.911809418844765,
+        likeCount: 5,
+        likerCount: {
+          civic: 1,
+          basic: 1
+        },
+        LIKEDetails: {
+          basic: 9.716928532066786,
+          civic: 16.19488088677798
+        }
+      },
+      {
+        sourceURL: 'https://ckxpress.com/liquid-democracy-with-audrey-tang/',
+        LIKE: 9.296912252264232,
+        likeCount: 10,
+        likerCount: {
+          basic: 2,
+          civic: 0
+        },
+        LIKEDetails: {
+          basic: 9.296912252264232,
+          civic: 0
+        }
+      }
+    ],
+    [
+      {
+        sourceURL: 'https://matters.news/@ckxpress/2020-04-01-%E6%9C%89%E4%BA%9B%E4%BA%8B%E7%8F%BE%E5%9C%A8%E4%B8%8D%E5%81%9A%E4%B8%80%E8%BC%A9%E5%AD%90%E9%83%BD%E4%B8%8D%E6%9C%83%E5%81%9A%E4%BA%86-bafyreiboszu3l5iyowris4cfwmd4eni4mb6npilhvxovtejlgieo7kxemu',
+        LIKE: 287.858055792,
+        likeCount: 71,
+        likerCount: {
+          civic: 18,
+          basic: 0
+        },
+        LIKEDetails: {
+          basic: 0,
+          civic: 287.858055792
+        }
+      },
+      {
+        sourceURL: 'https://matters.news/@ckxpress/%E8%88%87%E5%94%90%E9%B3%B3%E8%AB%87%E6%B5%81%E5%8B%95%E6%B0%91%E4%B8%BB-bafyreifwepl6yhghohjygkz7s4wugi2vglqesg4ojdanmoitywgm3jpg5q',
+        LIKE: 7.458113513,
+        likeCount: 5,
+        likerCount: {
+          civic: 1,
+          basic: 0
+        },
+        LIKEDetails: {
+          basic: 0,
+          civic: 7.458113513
+        }
+      }
+    ],
+    null
+  ]
+}
+
 export const SupportedStatisticsTestData = {
   workCount: 26,
   LIKE: 201.67334005800004,
