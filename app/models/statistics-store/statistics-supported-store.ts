@@ -35,6 +35,9 @@ export const StatisticsSupportedStoreModel = types
     weeksData: types.map(StatisticsSupportedWeekModel),
     selectedWeek: types.safeReference(StatisticsSupportedWeekModel),
   })
+  .volatile(() => ({
+    selectedWeekday: -1,
+  }))
   .views(self => ({
     get weeks() {
       return [...self.weeksData.values()].sort((weekA, weekB) => {
@@ -46,8 +49,14 @@ export const StatisticsSupportedStoreModel = types
         return -1
       })
     },
+    get hasSelectedWeekday() {
+      return self.selectedWeekday >= 0
+    },
   }))
   .actions(self => ({
+    deselectWeekday() {
+      self.selectedWeekday = -1
+    },
     fetchDataForWeek: flow(function * (startTs: number, isSelected = false) {
       let weekData = self.weeksData.get(startTs.toString())
       if (!weekData) {
@@ -111,11 +120,19 @@ export const StatisticsSupportedStoreModel = types
       ])
     }),
     selectWeek(weekIndex: number) {
+      self.deselectWeekday()
       const weekData = self.weeks[weekIndex]
       self.selectedWeek = weekData
       if (weekIndex === self.weeks.length - 1) {
         const prevWeek = moment.unix(weekData.startTs).subtract(1, "week")
         self.fetchDataForWeek(prevWeek.unix())
+      }
+    },
+    selectWeekday(weekday: number) {
+      if (weekday === self.selectedWeekday) {
+        self.deselectWeekday()
+      } else {
+        self.selectedWeekday = weekday
       }
     },
   }))

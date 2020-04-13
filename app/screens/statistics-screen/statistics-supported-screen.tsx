@@ -7,7 +7,6 @@ import {
 import { FlatList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
-import moment from "moment"
 
 import {
   StatisticsSupportedScreenProps as Props,
@@ -15,18 +14,12 @@ import {
 import {
   StatisticsSupportedScreenStyle as Style,
 } from "./statistics-supported-screen.style"
+import { StatisticsDashbaord } from "./statistics-dashboard"
 import {
   StatisticsSupportedListItem,
 } from "./statistics-supported-list-item"
 
 import { Header } from "../../components/header"
-import {
-  StatisticsDataGrid,
-} from "../../components/statistics-data-grid"
-import {
-  StatisticsWeeklyChart,
-  StatisticsWeeklyChartBarData,
-} from "../../components/statistics-weekly-chart"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
@@ -36,7 +29,6 @@ import {
   StatisticsSupportedWeek,
 } from "../../models/statistics-store"
 
-import { translate } from "../../i18n"
 import { color } from "../../theme"
 
 @inject(allStores => ({
@@ -56,6 +48,16 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
 
   onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
+  }
+
+  onScrollDashboard = () => {
+    if (this.props.dataStore.hasSelectedWeekday) {
+      this.props.dataStore.deselectWeekday()
+    }
+  }
+
+  onPressBarInChart = (weekday: number) => {
+    this.props.dataStore.selectWeekday(weekday)
   }
 
   render () {
@@ -83,6 +85,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
             itemWidth={sliderWidth}
             sliderWidth={sliderWidth}
             onBeforeSnapToItem={this.onBeforeSnapToWeek}
+            onScroll={this.onScrollDashboard}
           />
         </View>
         <Text
@@ -106,68 +109,13 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
     item: StatisticsSupportedWeek
     index: number
   }) => {
-    const {
-      likeAmount = 0,
-      worksCount = 0,
-      creatorsCount = 0,
-      days,
-      startTs = 0,
-    } = weekData || {}
-
-    const chartData = days && days.map((day, weekday) => {
-      const barData: StatisticsWeeklyChartBarData = {
-        values: [day.totalLikeAmount],
-        label: translate(`Week.${weekday}`),
-      }
-      // Highlight today
-      if (index === 0 && weekday === moment().weekday()) {
-        barData.isHighlighted = true
-      }
-      return barData
-    })
-
-    let title: string
-    if (index === 0) {
-      title = translate("Statistics.Period.Week.This")
-    } else if (index === 1) {
-      title = translate("Statistics.Period.Week.Last")
-    } else {
-      title = weekData ? weekData.getPeriodText() : ""
-    }
-
     return (
-      <View
-        key={startTs}
-        style={Style.Dashboard}
-      >
-        <StatisticsDataGrid
-          items={[
-            {
-              preset: "block",
-              title,
-              titlePreset: "small-highlighted",
-            },
-            {
-              title: `${likeAmount.toFixed(4)} LIKE`,
-              titlePreset: "large-highlighted"
-            },
-            {
-              preset: "right",
-              title: `${worksCount}`,
-              subtitle: translate("Statistics.Work", { count: worksCount }),
-            },
-            {
-              preset: "right",
-              title: `${creatorsCount}`,
-              subtitle: translate("Statistics.Creator", { count: creatorsCount }),
-            },
-          ]}
-          style={Style.DataGrid}
-        />
-        <View style={Style.Chart}>
-          <StatisticsWeeklyChart data={chartData} />
-        </View>
-      </View>
+      <StatisticsDashbaord
+        dataStore={this.props.dataStore}
+        weekData={weekData}
+        index={index}
+        onPressBarInChart={this.onPressBarInChart}
+      />
     )
   }
 

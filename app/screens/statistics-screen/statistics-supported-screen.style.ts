@@ -19,19 +19,6 @@ export const StatisticsSupportedScreenStyle = StyleSheet.create({
     // FIXME: Hack to reverse the carousel direction
     transform: [{ scaleX: -1 }],
   } as ViewStyle,
-  Chart: {
-    ...DashboardChildrenStyle,
-    paddingRight: spacing[0],
-  } as ViewStyle,
-  Dashboard: {
-    paddingTop: spacing[4],
-    paddingBottom: spacing[5],
-    // FIXME: Hack to reverse the carousel direction
-    transform: [{ scaleX: -1 }],
-  } as ViewStyle,
-  DataGrid: {
-    ...DashboardChildrenStyle,
-  } as ViewStyle,
   List: {
     flex: 1,
   } as ViewStyle,
