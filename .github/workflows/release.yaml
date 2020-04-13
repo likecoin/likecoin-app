@@ -135,6 +135,8 @@ jobs:
         echo "::set-env name=VERSION_NAME::$version"
         echo "::set-env name=BUILD_NUMBER::$build"
         echo "::set-output name=version::$version"
+      env:
+        github_ref: ${{ github.ref }}
     - name: Upload Release Asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
