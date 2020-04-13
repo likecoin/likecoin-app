@@ -152,7 +152,12 @@ export function StatisticsWeeklyChart(props: Props) {
       </ClipPath>
     )
     bars.push(
-      <G key={i}>
+      <G
+        key={i}
+        onPress={() => {
+          if (props.onPressBar) props.onPressBar(i)
+        }}
+      >
         {bar.isFocused && (
           <Rect
             x={bar.x - 2}
