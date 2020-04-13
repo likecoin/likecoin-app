@@ -54,7 +54,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
 
   private listItemKeyExtractor = (item: StatisticsSupportedCreator) => item.likerID
 
-  onSnapToWeek = (weekIndex: number) => {
+  onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
   }
 
@@ -82,7 +82,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
             renderItem={this.renderDashboard}
             itemWidth={sliderWidth}
             sliderWidth={sliderWidth}
-            onSnapToItem={this.onSnapToWeek}
+            onBeforeSnapToItem={this.onBeforeSnapToWeek}
           />
         </View>
         <Text

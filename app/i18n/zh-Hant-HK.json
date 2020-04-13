@@ -112,7 +112,13 @@
   },
   "Statistics": {
     "Work": "作品",
-    "Creator": "創作者" 
+    "Creator": "創作者",
+    "Period": {
+      "Week": {
+        "Last": "上星期",
+        "This": "本星期"
+      }
+    }
   },
   "StatisticsSupportedScreen": {
     "Title": "已支持",
