@@ -110,6 +110,14 @@
     "aboutLinkText": "關於取回委託",
     "title": "取回委託"
   },
+  "Statistics": {
+    "Work": "作品",
+    "Creator": "創作者" 
+  },
+  "StatisticsSupportedScreen": {
+    "Title": "已支持",
+    "ListTitle": "已支持作者"
+  },
   "settingsScreen": {
     "authcoreSettings": "帳戶設定",
     "contactUs": "聯絡我們",
@@ -203,6 +211,15 @@
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
   },
+  "Week": [
+    "日",
+    "一",
+    "二",
+    "三",
+    "四",
+    "五",
+    "六"
+  ],
   "welcomeScreen": {
     "welcome": "歡迎！",
     "logout": "登出"

@@ -137,7 +137,8 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressStatsSupportedButton = () => {
-    // TODO: Navigate to stats supported screen
+    logAnalyticsEvent('SettingsClickStatsSupported')
+    this.props.navigation.navigate("StatisticsSupported")
   }
 
   private onPressStatsRewardsButton = () => {

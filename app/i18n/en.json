@@ -120,6 +120,26 @@
     "aboutLinkText": "About undelegation",
     "title": "Undelegate"
   },
+  "Statistics": {
+    "Work": {
+      "one": "Work",
+      "other": "Works"
+    },
+    "Creator": {
+      "one": "Creator",
+      "other": "Creators"
+    },
+    "Period": {
+      "Week": {
+        "Last": "Last Week",
+        "This": "This Week"
+      }
+    }
+  },
+  "StatisticsSupportedScreen": {
+    "Title": "Supported",
+    "ListTitle": "Supported Creators"
+  },
   "settingsScreen": {
     "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
@@ -201,6 +221,15 @@
     "receive": "Receive",
     "withdrawRewardsButtonText": "Withdraw Rewards"
   },
+  "Week": [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ],
   "welcomeScreen": {
     "welcome": "Welcome!",
     "logout": "Logout"
