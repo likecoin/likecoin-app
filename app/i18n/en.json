@@ -138,7 +138,10 @@
   },
   "StatisticsSupportedScreen": {
     "Title": "Supported",
-    "ListTitle": "Supported Creators"
+    "ListTitle": {
+      "Content": "Supported Works",
+      "Creator": "Supported Creators"
+    }
   },
   "settingsScreen": {
     "authcoreSettings": "Account Settings",
