@@ -9,12 +9,13 @@ import {
   StatisticsSupportedCreator,
 } from "../../models/statistics-store"
 
-interface StatisticsSupportedListItemProps {
+interface StatisticsSupportedCreatorListItemProps {
   creator: StatisticsSupportedCreator
 }
 
 @observer
-export class StatisticsSupportedListItem extends React.Component<StatisticsSupportedListItemProps> {
+export class StatisticsSupportedCreatorListItem extends
+  React.Component<StatisticsSupportedCreatorListItemProps> {
   componentDidMount() {
     const { creator } = this.props
     if (creator.info && !creator.info.hasFetchedDetails) {
@@ -31,7 +32,7 @@ export class StatisticsSupportedListItem extends React.Component<StatisticsSuppo
     } = creator.info || {}
     return (
       <StatisticsListItem
-        type="support"
+        type="supported-creator"
         avatarURL={avatarURL}
         isCivicLiker={isCivicLiker}
         title={displayName}

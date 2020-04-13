@@ -122,7 +122,10 @@
   },
   "StatisticsSupportedScreen": {
     "Title": "已支持",
-    "ListTitle": "已支持作者"
+    "ListTitle": {
+      "Content": "已支持作品",
+      "Creator": "已支持作者"
+    }
   },
   "settingsScreen": {
     "authcoreSettings": "帳戶設定",

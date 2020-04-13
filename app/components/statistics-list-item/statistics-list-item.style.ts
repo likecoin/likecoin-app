@@ -3,6 +3,14 @@ import { StyleSheet, ViewStyle, TextStyle } from "react-native"
 import { color, spacing } from "../../theme"
 import { sizes } from "../text/text.sizes"
 
+const BaseTitle: TextStyle = {
+  color: color.palette.grey4a,
+  fontSize: sizes.medium,
+  fontWeight: "500",
+  flexShrink: 1,
+  lineHeight: 20,
+}
+
 export const StatisticsListItemStyle = StyleSheet.create({
   Avatar: {
     marginRight: spacing[2],
@@ -22,7 +30,6 @@ export const StatisticsListItemStyle = StyleSheet.create({
   MainDetailsLeftView: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
   } as ViewStyle,
   MainDetailsRightView: {
     alignItems: "flex-end",
@@ -49,12 +56,17 @@ export const StatisticsListItemStyle = StyleSheet.create({
     flexDirection: "row",
     marginTop: spacing[2],
   } as ViewStyle,
-  Title: {
-    color: color.palette.grey4a,
-    fontSize: sizes.medium,
+  Subtitle: {
+    color: color.primary,
+    fontSize: sizes.default,
     fontWeight: "500",
-    flexShrink: 1,
-    lineHeight: 20,
+  } as TextStyle,
+  Title: {
+    ...BaseTitle,
+  } as TextStyle,
+  TitleWithAvatar: {
+    ...BaseTitle,
+    alignSelf: "center",
   } as TextStyle,
   WorkCountText: {
     marginLeft: spacing[5],

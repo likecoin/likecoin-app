@@ -16,14 +16,18 @@ import {
 } from "./statistics-supported-screen.style"
 import { StatisticsDashbaord } from "./statistics-dashboard"
 import {
-  StatisticsSupportedListItem,
-} from "./statistics-supported-list-item"
+  StatisticsSupportedContentListItem,
+} from "./statistics-supported-content-list-item"
+import {
+  StatisticsSupportedCreatorListItem,
+} from "./statistics-supported-creator-list-item"
 
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
 import {
+  StatisticsSupportedContent,
   StatisticsSupportedCreator,
   StatisticsSupportedStore,
   StatisticsSupportedWeek,
@@ -46,7 +50,11 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
     })
   }
 
-  private listItemKeyExtractor = (item: StatisticsSupportedCreator) => item.likerID
+  private creatorListItemKeyExtractor =
+    (item: StatisticsSupportedCreator) => item.likerID
+
+  private contentListItemKeyExtractor =
+    (item: StatisticsSupportedContent) => item.contentURL
 
   onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
@@ -63,8 +71,10 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
   }
 
   render () {
-    const week = this.props.dataStore.selectedWeek
-    const supportedCreators = week && week.hasFetched ? week.creators : []
+    const {
+      selectedWeek,
+      hasSelectedWeekday,
+    } = this.props.dataStore
     const sliderWidth = Dimensions.get("window").width
     return (
       <Screen
@@ -90,20 +100,59 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
             onScroll={this.onScrollDashboard}
           />
         </View>
+        {selectedWeek && hasSelectedWeekday ? (
+          this.renderSupportedContentList(selectedWeek)
+        ) : (
+          this.renderSupportedCreatorList(selectedWeek)
+        )}
+      </Screen>
+    )
+  }
+
+  private renderSupportedCreatorList(week: StatisticsSupportedWeek) {
+    const supportedCreators = week && week.hasFetched ? week.creators : []
+    return (
+      <React.Fragment>
         <Text
-          tx="StatisticsSupportedScreen.ListTitle"
+          tx="StatisticsSupportedScreen.ListTitle.Creator"
           style={Style.ListHeaderText}
         />
         <FlatList<StatisticsSupportedCreator>
           key={week ? week.startTs : null}
           data={supportedCreators}
-          keyExtractor={this.listItemKeyExtractor}
+          keyExtractor={this.creatorListItemKeyExtractor}
           scrollEnabled={supportedCreators.length > 0}
-          renderItem={this.renderSupportedCreator}
+          renderItem={this.renderSupportedCreatorListItem}
           ItemSeparatorComponent={this.renderSeparator}
           style={Style.List}
         />
-      </Screen>
+      </React.Fragment>
+    )
+  }
+
+  private renderSupportedContentList(week: StatisticsSupportedWeek) {
+    const { selectedWeekday } = this.props.dataStore
+    const {
+      contents: supportedContent = []
+    } = week.days[selectedWeekday] || {}
+    const key = week
+      ? `${week.startTs}-${selectedWeekday}` : null
+    return (
+      <React.Fragment>
+        <Text
+          tx="StatisticsSupportedScreen.ListTitle.Content"
+          style={Style.ListHeaderText}
+        />
+        <FlatList<StatisticsSupportedContent>
+          key={key}
+          data={supportedContent}
+          keyExtractor={this.contentListItemKeyExtractor}
+          scrollEnabled={supportedContent.length > 0}
+          renderItem={this.renderSupportedContentListItem}
+          ItemSeparatorComponent={this.renderSeparator}
+          style={Style.List}
+        />
+      </React.Fragment>
     )
   }
 
@@ -123,7 +172,13 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
 
   private renderSeparator = () => <View style={Style.Separator} />
 
-  private renderSupportedCreator: ListRenderItem<StatisticsSupportedCreator> = ({ item }) => (
-    <StatisticsSupportedListItem creator={item} />
-  )
+  private renderSupportedCreatorListItem:
+    ListRenderItem<StatisticsSupportedCreator> = ({ item }) => (
+      <StatisticsSupportedCreatorListItem creator={item} />
+    )
+
+  private renderSupportedContentListItem:
+    ListRenderItem<StatisticsSupportedContent> = ({ item }) => (
+      <StatisticsSupportedContentListItem content={item} />
+    )
 }

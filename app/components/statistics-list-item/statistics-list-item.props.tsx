@@ -1,5 +1,8 @@
 export type StatisticsListItemType =
-  "rewards" | "support" | "rewards-daily" | "support-daily"
+  "rewarded-content" |
+  "rewarded-content-details" |
+  "supported-creator" |
+  "supported-content"
 
 export interface StatisticsListItemProps {
   type: StatisticsListItemType

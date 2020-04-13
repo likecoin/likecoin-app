@@ -19,6 +19,7 @@ export function StatisticsListItem(props: Props) {
   const {
     type,
     title = "",
+    subtitle = "",
     likeAmount = "0",
     likeCount = 0,
     numOfWorks = 0,
@@ -30,20 +31,30 @@ export function StatisticsListItem(props: Props) {
   return (
     <TouchableHighlight style={Style.Button}>
       <View style={Style.Wrapper}>
+        {!!subtitle && (
+          <Text text={subtitle} style={Style.Subtitle} />
+        )}
         <View style={Style.MainDetailsView}>
           <View style={Style.MainDetailsLeftView}>
-            {!!avatarURL && (
-              <Avatar
-                src={avatarURL}
-                size={40}
-                isCivicLiker={isCivicLiker}
-                style={Style.Avatar}
+            {avatarURL ? (
+              <React.Fragment>
+                <Avatar
+                  src={avatarURL}
+                  size={40}
+                  isCivicLiker={isCivicLiker}
+                  style={Style.Avatar}
+                />
+                <Text
+                  text={title}
+                  style={Style.TitleWithAvatar}
+                />
+              </React.Fragment>
+            ) : (
+              <Text
+                text={title}
+                style={Style.Title}
               />
             )}
-            <Text
-              text={title}
-              style={Style.Title}
-            />
           </View>
           <View style={Style.MainDetailsRightView}>
             <Text text={likeAmount} style={Style.LikeAmountText} />
@@ -55,14 +66,14 @@ export function StatisticsListItem(props: Props) {
             <View style={Style.SubDetailsItem}>
               <Icon name="like-clap" color="grey9b" style={Style.SubDetailsItemIcon} />
               <Text text={`${likeCount}`} style={Style.SubDetailsText} />
-              {type === "support" && numOfWorks > 0 && (
+              {type === "supported-creator" && numOfWorks > 0 && (
                 <Text
                   text={`${numOfWorks} Works`}
                   style={[Style.SubDetailsText, Style.WorkCountText]}
                 />
               )}
             </View>
-            {type === "rewards-daily" && (
+            {type === "rewarded-content-details" && (
               <View style={Style.SubDetailsItem}>
                 <Icon name="person" color="grey9b" style={Style.SubDetailsItemIcon} />
                 <View>
