@@ -1,4 +1,4 @@
-import branch from 'react-native-branch'
+import branch from "react-native-branch"
 
 export class BranchIO {
   /**
@@ -10,7 +10,7 @@ export class BranchIO {
 
   private handleAppReferrerEvent(params: any) {
     if (!params) return undefined
-    if (params.event === 'app_referral' && params.referrer) {
+    if (params.event === "app_referral" && params.referrer) {
       if (params.referrer) {
         this.appReferrer = params.referrer
         return this.appReferrer
@@ -22,7 +22,7 @@ export class BranchIO {
   async setup() {
     branch.subscribe(({ error, params }) => {
       if (error) {
-        console.error('Error from Branch: ' + error)
+        console.error("Error from Branch: " + error)
         return
       }
       this.params = params
@@ -51,5 +51,34 @@ export class BranchIO {
 
   getInstallParams() {
     return branch.getFirstReferringParams()
+  }
+
+  async generateAppReferralLink(userId: string) {
+    if (!userId) return ''
+    const appReferralBUO = await branch.createBranchUniversalObject(
+      `app_referral/${userId}`, {
+        contentMetadata: {
+          customMetadata: {
+            event: "app_referral",
+            referrer: userId,
+          }
+        }
+      }
+    )
+    const linkProperties = {
+      feature: "share",
+      channel: "referral",
+    }
+    const controlParams = {
+      /* eslint-disable @typescript-eslint/camelcase */
+      $desktop_url: "https://like.co/in/getapp",
+      custom_data: {
+        event: "app_referral",
+        referrer: userId
+      }
+      /* eslint-enable @typescript-eslint/camelcase */
+    }
+    const { url } = await appReferralBUO.generateShortUrl(linkProperties, controlParams)
+    return url
   }
 }
