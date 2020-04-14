@@ -13,6 +13,7 @@ import {
   IAP_ENABLE,
   IAP_IOS_IS_SANDBOX,
   IAP_IOS_SHARED_SECRET,
+  APP_REFERRAL_ENABLE,
   LIKECO_API_URL,
   LIKERLAND_API_URL,
   MIN_VERSION,
@@ -35,6 +36,7 @@ export interface AppConfigParams {
   IAP_ENABLE: string
   IAP_IOS_IS_SANDBOX: string
   IAP_IOS_SHARED_SECRET: string
+  APP_REFERRAL_ENABLE: string
   LIKECO_API_URL: string
   LIKERLAND_API_URL: string
   MIN_VERSION: string
@@ -70,6 +72,7 @@ export class AppConfig {
       IAP_ENABLE,
       IAP_IOS_IS_SANDBOX,
       IAP_IOS_SHARED_SECRET,
+      APP_REFERRAL_ENABLE,
       LIKECO_API_URL,
       LIKERLAND_API_URL,
       MIN_VERSION,
