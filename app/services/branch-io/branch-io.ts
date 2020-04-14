@@ -30,6 +30,14 @@ export class BranchIO {
     })
   }
 
+  setUserIdentity(userId: string) {
+    if (!userId) {
+      branch.logout()
+    } else {
+      branch.setIdentity(userId)
+    }
+  }
+
   getBranchInstance() {
     return branch
   }

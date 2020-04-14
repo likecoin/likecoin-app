@@ -95,6 +95,7 @@ export const UserStoreModel = types
           self.env.likeCoAPI.logout(),
           self.authCore.signOut(),
         ])
+        self.env.branchIO.setUserIdentity('')
         yield logoutAnalyticsUser()
       } finally {
         self.isSigningOut = false
@@ -125,6 +126,8 @@ export const UserStoreModel = types
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
           const primaryPhone = self.authCore.profile.primaryPhone
+          /* set branch user id for consistent link data */
+          self.env.branchIO.setUserIdentity(likerID)
           /* do not block user logic with analytics */
           updateAnalyticsUser({
             likerID,
