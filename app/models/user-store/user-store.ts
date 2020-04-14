@@ -33,6 +33,7 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
+    userAppReferralLink: types.maybe(types.string),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -170,6 +171,10 @@ export const UserStoreModel = types
         }
       }
     }),
+    generateUserAppReferralLink: flow(function * () {
+      const url = yield self.env.branchIO.generateAppReferralLink(self.currentUser.likerID)
+      self.userAppReferralLink = url
+    })
   }))
 
 type UserStoreType = Instance<typeof UserStoreModel>
