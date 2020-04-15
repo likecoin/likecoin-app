@@ -21,9 +21,8 @@ import { color, spacing } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-export interface ReceiveScreenProps extends NavigationScreenProps {
+export interface ReferralScreenProps extends NavigationScreenProps {
   userStore: UserStore,
-  appReferralLink: string
 }
 const ROOT: ViewStyle = {
   flex: 1,
@@ -71,23 +70,25 @@ const BOTTOM_BAR: ViewStyle = {
   appReferralLink: rootStore.userStore.userAppReferralLink,
 }))
 @observer
-export class ReferralScreen extends React.Component<ReceiveScreenProps, {}> {
+export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
   state = {
     isCopied: false
   }
 
   componentDidMount() {
-    this.props.userStore.generateUserAppReferralLink()
+    if (!this.props.userStore.userAppReferralLink) {
+      this.props.userStore.generateUserAppReferralLink()
+    }
   }
 
   private onPressShareButton = () => {
-    const url = this.props.appReferralLink
+    const url = this.props.userStore.userAppReferralLink
     logAnalyticsEvent('share', { contentType: 'app_referral', itemId: url })
     Share.share({ url, message: url })
   }
 
   private onPressCopyButton = () => {
-    const url = this.props.appReferralLink
+    const url = this.props.userStore.userAppReferralLink
     Clipboard.setString(url)
     logAnalyticsEvent('share', { contentType: 'app_referral_copy', itemId: url })
     this.setState({ isCopied: true })
@@ -98,9 +99,7 @@ export class ReferralScreen extends React.Component<ReceiveScreenProps, {}> {
   }
 
   render () {
-    const {
-      appReferralLink
-    } = this.props
+    const appReferralLink = this.props.userStore.userAppReferralLink
 
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
