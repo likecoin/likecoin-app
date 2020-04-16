@@ -15,5 +15,7 @@ export const StatisticsDataGridItemTitlePresets = {
   "large-highlighted": Style.ItemTitleLargeHighlighted,
   small: Style.ItemTitleSmall,
   "small-highlighted": Style.ItemTitleSmallHighlighted,
+  "value-decrease": Style.ItemTitleValueDecrease,
+  "value-increase": Style.ItemTitleValueIncrease,
 }
 export type StatisticsDataGridItemTitlePreset = keyof typeof StatisticsDataGridItemTitlePresets

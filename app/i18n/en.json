@@ -132,9 +132,20 @@
     "Period": {
       "Week": {
         "Last": "Last Week",
+        "Previous": "Previous Week",
         "This": "This Week"
       }
     }
+  },
+  "StatisticsRewardedScreen": {
+    "ListTitle": {
+      "Content": "Rewarded Works"
+    },
+    "Summary": {
+      "CivicLiker": "Civic Liker",
+      "Liker": "Liker"
+    },
+    "Title": "Rewards Received"
   },
   "StatisticsSupportedScreen": {
     "Title": "Supported",
@@ -150,6 +161,9 @@
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
     "StatisticsPanel": {
+      "Rewarded": {
+        "Title": "Rewarded"
+      },
       "Supported": {
         "Title": "Supported (Civic Liker)"
       }

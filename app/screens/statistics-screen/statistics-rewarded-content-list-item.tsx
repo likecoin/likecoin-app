@@ -7,16 +7,16 @@ import {
 } from "../../components/statistics-list-item"
 
 import {
-  StatisticsSupportedContent,
+  StatisticsRewardedContent,
 } from "../../models/statistics-store"
 
-interface StatisticsSupportedContentListItemProps {
-  content: StatisticsSupportedContent
+interface StatisticsContentListItemProps {
+  content: StatisticsRewardedContent
 }
 
 @observer
-export class StatisticsSupportedContentListItem extends
-  React.Component<StatisticsSupportedContentListItemProps> {
+export class StatisticsRewardedContentListItem extends
+  React.Component<StatisticsContentListItemProps> {
   componentDidMount() {
     const { content } = this.props
     if (content.info && !content.info.hasFetchedDetails) {
@@ -45,7 +45,7 @@ export class StatisticsSupportedContentListItem extends
     } = content || {}
     return (
       <StatisticsListItem
-        type="supported-content"
+        type="rewarded-content"
         title={title}
         subtitle={creatorDisplayName}
         likeAmount={likeAmount.toFixed(4)}

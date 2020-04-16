@@ -12,6 +12,7 @@ import {
   StatisticsDataGridItemTitlePresets as ItemTitlePresets,
 } from "./statistics-data-grid.presets"
 
+import { Icon } from "../icon"
 import { Text } from "../text"
 
 export function StatisticsDataGrid(props: Props) {
@@ -33,6 +34,22 @@ export function StatisticsDataGrid(props: Props) {
             <Text
               text={title}
               style={titleStyle}
+              prepend={(
+                titlePreset === "value-increase" || titlePreset === "value-decrease"
+                  ? (
+                    <Icon
+                      width={12}
+                      height={12}
+                      name={(
+                        titlePreset === "value-increase"
+                          ? "arrow-increase"
+                          : "arrow-decrease"
+                      )}
+                      fill={titleStyle.color}
+                    />
+                  )
+                  : null
+              )}
             />
             {!!subtitle && (
               <Text

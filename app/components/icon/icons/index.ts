@@ -1,3 +1,5 @@
+import ArrowIncrease from "./arrow-increase.svg"
+import ArrowDecrease from "./arrow-decrease.svg"
 import ArrowDownIcon from "./arrow-down.svg"
 import ArrowLeftIcon from "./arrow-left.svg"
 import ArrowRightIcon from "./arrow-right.svg"
@@ -22,6 +24,8 @@ import ThreeDotVertical from "./three-dot-vertical.svg"
 import UndoIcon from "./undo.svg"
 
 export const icons = {
+  "arrow-increase": ArrowIncrease,
+  "arrow-decrease": ArrowDecrease,
   "arrow-down": ArrowDownIcon,
   "arrow-left": ArrowLeftIcon,
   "arrow-right": ArrowRightIcon,

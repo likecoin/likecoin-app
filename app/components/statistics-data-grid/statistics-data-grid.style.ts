@@ -17,6 +17,10 @@ const ItemTitleBase: TextStyle = {
   fontWeight: "500",
   lineHeight: 30,
 }
+const ItemValueBase: TextStyle = {
+  fontSize: sizes.default,
+  fontWeight: "500",
+}
 const ItemTitleSmallBase: TextStyle = {
   fontSize: sizes.small,
   fontWeight: "bold",
@@ -54,6 +58,14 @@ export const StatisticsDataGridStyle = StyleSheet.create({
   ItemTitleSmallHighlighted: {
     ...ItemTitleSmallBase,
     color: TextColorHighlighted,
+  } as TextStyle,
+  ItemTitleValueDecrease: {
+    ...ItemValueBase,
+    color: color.palette.angry,
+  } as TextStyle,
+  ItemTitleValueIncrease: {
+    ...ItemValueBase,
+    color: color.palette.darkModeGreen,
   } as TextStyle,
   Root: {
     flexDirection: "row",

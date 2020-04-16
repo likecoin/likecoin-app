@@ -11,9 +11,11 @@ import {
   StatisticsListItemStyle as Style,
 } from "./statistics-list-item.style"
 
-import { Text } from "../text"
-import { Icon } from "../icon"
 import { Avatar } from "../avatar"
+import { Icon } from "../icon"
+import { Text } from "../text"
+
+import { color } from "../../theme"
 
 export function StatisticsListItem(props: Props) {
   const {
@@ -29,7 +31,11 @@ export function StatisticsListItem(props: Props) {
     isCivicLiker = false,
   } = props
   return (
-    <TouchableHighlight style={Style.Button}>
+    <TouchableHighlight
+      style={Style.Button}
+      onPress={props.onPress}
+      underlayColor={color.palette.offWhite}
+    >
       <View style={Style.Wrapper}>
         {!!subtitle && (
           <Text text={subtitle} style={Style.Subtitle} />
@@ -73,7 +79,7 @@ export function StatisticsListItem(props: Props) {
                 />
               )}
             </View>
-            {type === "rewarded-content-details" && (
+            {type === "rewarded-daily-content" && (
               <View style={Style.SubDetailsItem}>
                 <Icon name="person" color="grey9b" style={Style.SubDetailsItemIcon} />
                 <View>

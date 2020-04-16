@@ -1,3 +1,7 @@
+export * from "./statistics-rewarded-content"
+export * from "./statistics-rewarded-day"
+export * from "./statistics-rewarded-store"
+export * from "./statistics-rewarded-week"
 export * from "./statistics-supported-content"
 export * from "./statistics-supported-creator"
 export * from "./statistics-supported-day"

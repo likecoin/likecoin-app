@@ -1,6 +1,6 @@
 export type StatisticsListItemType =
   "rewarded-content" |
-  "rewarded-content-details" |
+  "rewarded-daily-content" |
   "supported-creator" |
   "supported-content"
 
@@ -18,4 +18,6 @@ export interface StatisticsListItemProps {
 
   avatarURL?: string
   isCivicLiker?: boolean
+
+  onPress?: () => void
 }

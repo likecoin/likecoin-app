@@ -6,7 +6,7 @@ const DashboardChildrenStyle: ViewStyle = {
   paddingHorizontal: spacing[5],
 }
 
-export const StatisticsSupportedScreenStyle = StyleSheet.create({
+export const StatisticsScreenStyle = StyleSheet.create({
   Backdrop: {
     flex: 0.5,
     backgroundColor: color.primary,

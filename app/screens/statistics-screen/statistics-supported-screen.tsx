@@ -9,11 +9,11 @@ import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
 
 import {
+  StatisticsScreenStyle as Style,
+} from "./statistics-screen.style"
+import {
   StatisticsSupportedScreenProps as Props,
 } from "./statistics-supported-screen.props"
-import {
-  StatisticsSupportedScreenStyle as Style,
-} from "./statistics-supported-screen.style"
 import {
   StatisticsSupportedContentListItem,
 } from "./statistics-supported-content-list-item"

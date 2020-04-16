@@ -28,7 +28,10 @@ import { color, spacing } from "../../theme"
 import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
-import { StatisticsSupportedStore } from "../../models/statistics-store"
+import {
+  StatisticsRewardedStore,
+  StatisticsSupportedStore,
+} from "../../models/statistics-store"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
@@ -84,6 +87,7 @@ export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   chain: ChainStore
   userStore: UserStore
   readerStore: ReaderStore
+  rewardedStatistics: StatisticsRewardedStore
   supportedStatistics: StatisticsSupportedStore
 }
 
@@ -91,6 +95,8 @@ export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   chain: allStores.chainStore as ChainStore,
   userStore: allStores.userStore as UserStore,
   readerStore: allStores.readerStore as ReaderStore,
+  rewardedStatistics:
+    allStores.statisticsRewardedStore as StatisticsRewardedStore,
   supportedStatistics:
     allStores.statisticsSupportedStore as StatisticsSupportedStore,
 }))
@@ -99,6 +105,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   componentDidMount() {
     this.props.chain.fetchAll()
     this.props.supportedStatistics.fetchLatest()
+    this.props.rewardedStatistics.fetchSummary()
   }
 
   private onPressSubscription = () => {
@@ -147,7 +154,8 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressStatsRewardsButton = () => {
-    // TODO: Navigate to stats rewards screen
+    logAnalyticsEvent('SettingsClickStatsRewarded')
+    this.props.navigation.navigate("StatisticsRewarded")
   }
 
   render () {
@@ -288,9 +296,9 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
       worksCount: supportedWorksCount = 0
     } = this.props.supportedStatistics.weekList[0] || {}
     // TODO: Port real data
-    const rewards = {
-      LIKE: 27.47,
-    }
+    const {
+      totalLikeAmount: totalRewardedLikeAmount = 0,
+    } = this.props.rewardedStatistics
     return (
       <View style={StatsPanelStyle.Root}>
         <Text
@@ -338,11 +346,14 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           >
             <View style={StatsPanelStyle.Button}>
               <View style={StatsPanelStyle.ButtonContent}>
-                <Text text="Rewards" style={StatsPanelStyle.ButtonTitle} />
+                <Text
+                  tx="settingsScreen.StatisticsPanel.Rewarded.Title"
+                  style={StatsPanelStyle.ButtonTitle}
+                />
                 <View style={StatsPanelStyle.ButtonStatsDetails}>
                   <View style={StatsPanelStyle.ButtonStatsDetailsLeft}>
                     <Text
-                      text={`${rewards.LIKE} LIKE`}
+                      text={`${totalRewardedLikeAmount.toFixed(4)} LIKE`}
                       style={StatsPanelStyle.ButtonStatsDetailsTitle}
                     />
                   </View>

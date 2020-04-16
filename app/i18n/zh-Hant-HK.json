@@ -116,9 +116,20 @@
     "Period": {
       "Week": {
         "Last": "上星期",
+        "Previous": "上一個星期",
         "This": "本星期"
       }
     }
+  },
+  "StatisticsRewardedScreen": {
+    "ListTitle": {
+      "Content": "已獲讚賞作品"
+    },
+    "Summary": {
+      "CivicLiker": "讚賞公民",
+      "Liker": "讚賞人"
+    },
+    "Title": "已獲讚賞"
   },
   "StatisticsSupportedScreen": {
     "Title": "已支持",
@@ -134,6 +145,9 @@
     "openSourceLicense": "開源授權",
     "privacyPolicy": "隱私權政策",
     "StatisticsPanel": {
+      "Rewarded": {
+        "Title": "已獲讚賞"
+      },
       "Supported": {
         "Title": "已支持（讚賞公民）"
       }
