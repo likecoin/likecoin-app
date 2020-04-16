@@ -4,65 +4,83 @@ import { observer } from "mobx-react"
 import moment from "moment"
 
 import {
-  StatisticsDashbaordProps as Props,
-} from "./statistics-dashboard.props"
-import {
   StatisticsDashbaordStyle as Style,
 } from "./statistics-dashboard.style"
+import {
+  StatisticsSupportedDashbaordProps as Props,
+} from "./statistics-supported-dashboard.props"
 
+import {
+  StatisticsDataGrid,
+} from "../../components/statistics-data-grid"
 import {
   StatisticsWeeklyChart,
   StatisticsWeeklyChartBarData,
 } from "../../components/statistics-weekly-chart"
 import {
-  StatisticsDataGrid,
-} from "../../components/statistics-data-grid"
+  StatisticsSupportedDay,
+} from "../../models/statistics-store"
 
 import { translate } from "../../i18n"
 
 @observer
-export class StatisticsDashbaord extends React.Component<Props> {
+export class StatisticsSupportedDashbaord extends React.Component<Props> {
   render() {
     const {
-      weekData,
-      index,
+      index: weekIndex,
+      store: {
+        hasSelectedDayOfWeek,
+        selectedDayOfWeek,
+      },
+      week: {
+        likeAmount: weekLikeAmount = 0,
+        worksCount: weekWorksCount = 0,
+        creatorsCount: weekCreatorsCount = 0,
+        days = [] as StatisticsSupportedDay[],
+        startTs = 0,
+        getPeriodText = undefined,
+      } = {},
     } = this.props
-    const {
-      likeAmount = 0,
-      worksCount = 0,
-      creatorsCount = 0,
-      days,
-      startTs = 0,
-    } = weekData || {}
 
-    const chartData = days && days.map((day, weekday) => {
+    const chartData: StatisticsWeeklyChartBarData[] = []
+    days.forEach((day, dayOfWeek) => {
       const barData: StatisticsWeeklyChartBarData = {
         values: [day.totalLikeAmount],
-        label: translate(`Week.${weekday}`),
+        label: translate(`Week.${dayOfWeek}`),
       }
       // Highlight today
-      if (index === 0 && weekday === moment().weekday()) {
+      if (weekIndex === 0 && dayOfWeek === moment().weekday()) {
         barData.isHighlighted = true
       }
-      const { selectedWeekday } = this.props.dataStore
-      if (selectedWeekday !== -1) {
-        if (weekday === selectedWeekday) {
+      if (hasSelectedDayOfWeek) {
+        if (dayOfWeek === selectedDayOfWeek) {
           barData.isFocused = true
         } else {
           barData.isDimmed = true
         }
       }
-      return barData
+      chartData.push(barData)
     })
 
     let title: string
-    if (index === 0) {
+    if (weekIndex === 0) {
       title = translate("Statistics.Period.Week.This")
-    } else if (index === 1) {
+    } else if (weekIndex === 1) {
       title = translate("Statistics.Period.Week.Last")
     } else {
-      title = weekData ? weekData.getPeriodText() : ""
+      title = getPeriodText ? getPeriodText() : ""
     }
+    const likeAmount = hasSelectedDayOfWeek
+      ? days[selectedDayOfWeek].totalLikeAmount
+      : weekLikeAmount
+
+    const worksCount = hasSelectedDayOfWeek
+      ? days[selectedDayOfWeek].totalWorksCount
+      : weekWorksCount
+
+    const creatorsCount = hasSelectedDayOfWeek
+      ? days[selectedDayOfWeek].totalCreatorsCount
+      : weekCreatorsCount
 
     return (
       <View
@@ -74,11 +92,11 @@ export class StatisticsDashbaord extends React.Component<Props> {
             {
               preset: "block",
               title,
-              titlePreset: "small-highlighted",
+              titlePreset: hasSelectedDayOfWeek ? "small" : "small-highlighted",
             },
             {
               title: `${likeAmount.toFixed(4)} LIKE`,
-              titlePreset: "large-highlighted"
+              titlePreset: hasSelectedDayOfWeek ? "large" : "large-highlighted"
             },
             {
               preset: "right",

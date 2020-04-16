@@ -3,9 +3,9 @@ import {
   StatisticsSupportedWeek,
 } from "../../models/statistics-store"
 
-export interface StatisticsDashbaordProps {
-  dataStore: StatisticsSupportedStore
-  weekData: StatisticsSupportedWeek
+export interface StatisticsSupportedDashbaordProps {
   index: number
+  store: StatisticsSupportedStore
+  week: StatisticsSupportedWeek
   onPressBarInChart: (index: number) => void
 }

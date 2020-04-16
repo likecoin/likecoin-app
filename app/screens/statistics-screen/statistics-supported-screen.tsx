@@ -14,13 +14,15 @@ import {
 import {
   StatisticsSupportedScreenStyle as Style,
 } from "./statistics-supported-screen.style"
-import { StatisticsDashbaord } from "./statistics-dashboard"
 import {
   StatisticsSupportedContentListItem,
 } from "./statistics-supported-content-list-item"
 import {
   StatisticsSupportedCreatorListItem,
 } from "./statistics-supported-creator-list-item"
+import {
+  StatisticsSupportedDashbaord,
+} from "./statistics-supported-dashboard"
 
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
@@ -114,9 +116,9 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
     index: number
   }) => {
     return (
-      <StatisticsDashbaord
-        dataStore={this.props.dataStore}
-        weekData={weekData}
+      <StatisticsSupportedDashbaord
+        store={this.props.dataStore}
+        week={weekData}
         index={index}
         onPressBarInChart={this.onPressBarInChart}
       />
