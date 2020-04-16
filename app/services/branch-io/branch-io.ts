@@ -8,6 +8,8 @@ export class BranchIO {
 
   private appReferrer: string
 
+  private isClickedBranchLink: boolean
+
   private handleAppReferrerEvent(params: any) {
     if (!params) return undefined
     if (params.event === "app_referral" && params.referrer) {
@@ -25,6 +27,17 @@ export class BranchIO {
         console.error("Error from Branch: " + error)
         return
       }
+
+      if (params['+non_branch_link']) {
+        // non-Branch URL if appropriate.
+        return
+      }
+
+      if (!params['+clicked_branch_link']) {
+        this.isClickedBranchLink = false
+        return
+      }
+      this.isClickedBranchLink = true
       this.params = params
       this.handleAppReferrerEvent(params)
     })
@@ -47,6 +60,10 @@ export class BranchIO {
     const params = await this.getLatestParams()
     const referrer = await this.handleAppReferrerEvent(params)
     return referrer
+  }
+
+  getIsClickedBranchLink() {
+    return this.isClickedBranchLink
   }
 
   getParams() {
