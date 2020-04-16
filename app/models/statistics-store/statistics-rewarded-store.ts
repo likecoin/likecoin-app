@@ -4,7 +4,7 @@ import {
   SnapshotOut,
   types,
 } from "mobx-state-tree"
-import { Moment } from "moment"
+import moment, { Moment } from "moment"
 
 import {
   StatisticsStoreModel,
@@ -57,7 +57,10 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
     fetchSummary: flow(function * () {
       try {
         const result: StatisticsRewardedSummaryResult =
-          yield self.env.likeCoAPI.fetchRewardedStatisticsSummary()
+          yield self.env.likeCoAPI.fetchRewardedStatisticsSummary(
+            moment().startOf("week").unix(),
+            moment().endOf("week").unix()
+          )
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_REWARDED_SUMMARY_FAILED")
         }
@@ -95,7 +98,10 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
 
       try {
         const result: StatisticsRewardedResult =
-          yield self.env.likeCoAPI.fetchRewardedStatistics()
+          yield self.env.likeCoAPI.fetchRewardedStatistics(
+            week.startTs,
+            week.getEndDate().unix()
+          )
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_REWARDED_FAILED")
         }

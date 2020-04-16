@@ -3,12 +3,6 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
-import {
-  SupportedStatisticsTestData,
-  RewardedStatisticsTestData,
-  RewardedStatisticsSummaryTestData,
-} from "./mock-response"
-
 /**
  * like.co API.
  */
@@ -207,15 +201,70 @@ export class LikeCoAPI {
     }
   }
 
-  async fetchSupportedStatistics(): Promise<Types.StatisticsSupportedResult> {
-    return { kind: "ok", data: SupportedStatisticsTestData }
+  async fetchSupportedStatistics(
+    startTs: number,
+    endTs: number
+  ): Promise<Types.StatisticsSupportedResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/civicliker/details", {
+      after: startTs,
+      before: endTs,
+      tz: new Date().getTimezoneOffset() / 60,
+      format: "week"
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", data: response.data }
+    } catch {
+      return { kind: "bad-data" }
+    }
   }
 
-  async fetchRewardedStatistics(): Promise<Types.StatisticsRewardedResult> {
-    return { kind: "ok", data: RewardedStatisticsTestData }
+  async fetchRewardedStatistics(
+    startTs: number,
+    endTs: number
+  ): Promise<Types.StatisticsRewardedResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/writer/details", {
+      after: startTs,
+      before: endTs,
+      tz: new Date().getTimezoneOffset() / 60,
+      format: "week"
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", data: response.data }
+    } catch {
+      return { kind: "bad-data" }
+    }
   }
 
-  async fetchRewardedStatisticsSummary(): Promise<Types.StatisticsRewardedSummaryResult> {
-    return { kind: "ok", data: RewardedStatisticsSummaryTestData }
+  async fetchRewardedStatisticsSummary(
+    startTs: number,
+    endTs: number
+  ): Promise<Types.StatisticsRewardedSummaryResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/writer/total", {
+      after: startTs,
+      before: endTs,
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", data: response.data }
+    } catch {
+      return { kind: "bad-data" }
+    }
   }
 }

@@ -69,7 +69,10 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
       week.setFetching()
       try {
         const result: StatisticsSupportedResult =
-          yield self.env.likeCoAPI.fetchSupportedStatistics()
+          yield self.env.likeCoAPI.fetchSupportedStatistics(
+            startTs,
+            week.getEndDate().unix()
+          )
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_SUPPORTED_FAILED")
         }
