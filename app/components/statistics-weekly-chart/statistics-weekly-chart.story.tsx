@@ -19,7 +19,7 @@ storiesOf("StatisticsWeeklyChart", module)
   .add("Behavior", () => {
     const simpleData: StatisticsWeeklyChartBarData[] = []
     for (let i = 0; i < 7; i++) {
-      const value = Math.random() * 10
+      const value = i * 5
       simpleData.push({
         values: [value],
         label: value.toFixed(1),
@@ -30,7 +30,7 @@ storiesOf("StatisticsWeeklyChart", module)
     let value1Sum = 0
     let value2Sum = 0
     simpleData.forEach(({ values: [value1] }, i) => {
-      const value2 = Math.random() * 10
+      const value2 = i * 10
       value1Sum = value1Sum + value1
       value2Sum = value2Sum + value2
       const data: StatisticsWeeklyChartBarData = {
