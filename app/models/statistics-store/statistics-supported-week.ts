@@ -3,7 +3,6 @@ import {
   SnapshotOut,
   types,
 } from "mobx-state-tree"
-import moment from "moment"
 
 import {
   StatisticsSupportedCreator,
@@ -14,15 +13,14 @@ import {
   StatisticsSupportedDayModel,
 } from "./statistics-supported-day"
 
-import { StateModel } from "../state"
+import { StatisticsWeekModel } from "./statistics-week"
 
 /**
  * Weekly model for supported statistics
  */
-export const StatisticsSupportedWeekModel = StateModel
+export const StatisticsSupportedWeekModel = StatisticsWeekModel
   .named("StatisticsSupportedWeek")
   .props({
-    startTs: types.identifierNumber,
     worksCount: types.optional(types.number, 0),
     likeAmount: types.optional(types.number, 0.0),
     likesCount: types.optional(types.number, 0),
@@ -32,19 +30,6 @@ export const StatisticsSupportedWeekModel = StateModel
   .views(self => ({
     get creatorsCount() {
       return self.creators.length
-    },
-    getStartDate() {
-      return moment.unix(self.startTs)
-    },
-  }))
-  .views(self => ({
-    getEndDate() {
-      return moment(self.getStartDate()).endOf("week")
-    },
-  }))
-  .views(self => ({
-    getPeriodText(format = "YYYY.MM.DD") {
-      return `${self.getStartDate().format(format)} - ${self.getEndDate().format(format)}`
     },
   }))
   .actions(self => ({

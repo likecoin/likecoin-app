@@ -4,8 +4,13 @@ import {
   SnapshotOut,
   types,
 } from "mobx-state-tree"
-import moment from "moment"
+import { Moment } from "moment"
 
+import {
+  StatisticsStoreModel,
+  StatisticsStoreFetchLatestOptions,
+  StatisticsStoreFetchWeekOptions,
+} from "./statistics-store"
 import {
   StatisticsSupportedCreatorModel,
 } from "./statistics-supported-creator"
@@ -19,35 +24,21 @@ import {
   StatisticsSupportedWeekModel,
 } from "./statistics-supported-week"
 
-import { withEnvironment, withReaderStore } from "../extensions"
-
 import { logError } from "../../utils/error"
 import { StatisticsSupportedResult } from "../../services/api"
-
-export interface FetchDataForWeekOptions {
-  shouldSelect?: boolean
-}
-export interface FetchLatestOptions {
-  shouldFetchLastWeek?: boolean
-}
 
 /**
  * Store for supported statistics
  */
-export const StatisticsSupportedStoreModel = types
-  .model("StatisticsSupportedStore")
-  .extend(withEnvironment)
-  .extend(withReaderStore)
+export const StatisticsSupportedStoreModel = StatisticsStoreModel
+  .named("StatisticsSupportedStore")
   .props({
-    weeksData: types.map(StatisticsSupportedWeekModel),
+    weeks: types.map(StatisticsSupportedWeekModel),
     selectedWeek: types.safeReference(StatisticsSupportedWeekModel),
   })
-  .volatile(() => ({
-    selectedWeekday: -1,
-  }))
   .views(self => ({
-    get weeks() {
-      return [...self.weeksData.values()].sort((weekA, weekB) => {
+    get weekList() {
+      return [...self.weeks.values()].sort((weekA, weekB) => {
         if (weekA.startTs === weekB.startTs) {
           return 0
         } else if (weekA.startTs < weekB.startTs) {
@@ -56,36 +47,37 @@ export const StatisticsSupportedStoreModel = types
         return -1
       })
     },
-    get hasSelectedWeekday() {
-      return self.selectedWeekday >= 0
-    },
   }))
   .actions(self => ({
-    deselectWeekday() {
-      self.selectedWeekday = -1
-    },
-    fetchDataForWeek: flow(function * (startTs: number, options?: FetchDataForWeekOptions) {
-      const opts: FetchDataForWeekOptions = {
+    fetchWeek: flow(function * (
+      startDate: Moment,
+      options?: StatisticsStoreFetchWeekOptions
+    ) {
+      const opts: StatisticsStoreFetchWeekOptions = {
         shouldSelect: false,
         ...options,
       }
-      let weekData = self.weeksData.get(startTs.toString())
-      if (!weekData) {
-        weekData = StatisticsSupportedWeekModel.create({ startTs }, self.env)
-        self.weeksData.put(weekData)
+      const startTs = startDate.unix()
+      let week = self.weeks.get(startTs.toString())
+      if (!week) {
+        week = StatisticsSupportedWeekModel.create({ startTs }, self.env)
+        self.weeks.put(week)
       }
-      if (opts.shouldSelect) self.selectedWeek = weekData
-      weekData.setFetching()
+      if (opts.shouldSelect) {
+        self.selectedWeek = week
+      }
+      week.setFetching()
       try {
-        const result: StatisticsSupportedResult = yield self.env.likeCoAPI.fetchSupportedStatistics()
+        const result: StatisticsSupportedResult =
+          yield self.env.likeCoAPI.fetchSupportedStatistics()
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_SUPPORTED_FAILED")
         }
 
-        weekData.setWorksCount(result.data.workCount)
-        weekData.setLikesCount(result.data.likeCount)
-        weekData.setLikeAmount(result.data.LIKE)
-        weekData.setCreators(result.data.all.map(({ likee, workCount, LIKE, likeCount }) => {
+        week.setWorksCount(result.data.workCount)
+        week.setLikesCount(result.data.likeCount)
+        week.setLikeAmount(result.data.LIKE)
+        week.setCreators(result.data.all.map(({ likee, workCount, LIKE, likeCount }) => {
           const creator = StatisticsSupportedCreatorModel.create({
             likerID: likee,
             likeAmount: LIKE,
@@ -95,18 +87,18 @@ export const StatisticsSupportedStoreModel = types
           creator.setInfo(self.readerStore.createCreatorFromLikerId(likee))
           return creator
         }))
-        weekData.setDays(
+        week.setDays(
           result.data.daily.map((contents, i) => {
             const dayID = `${startTs}-${i + 1}`
             const day = StatisticsSupportedDayModel.create({ dayID }, self.env)
             if (contents && contents.length > 0) {
               day.setContents(contents.map(({ sourceURL: url, LIKE, likeCount }) => {
                 const content = StatisticsSupportedContentModel.create({
-                  contentURL: url,
+                  id: url,
                   likeAmount: LIKE,
                   likesCount: likeCount,
                 }, self.env)
-                content.setInfo(self.readerStore.createContentFromContentResultData({ url }))
+                content.setInfo(self.readerStore.getContentByURL(url))
                 return content
               }))
             }
@@ -116,45 +108,31 @@ export const StatisticsSupportedStoreModel = types
       } catch (error) {
         logError(error.message)
       } finally {
-        weekData.setFetched()
+        week.setFetched()
       }
-      return weekData
+      return week
     }),
   }))
   .actions(self => ({
-    fetchLatest: flow(function * (options?: FetchLatestOptions) {
-      const opts: FetchLatestOptions = {
+    fetchLatest: flow(function * (options?: StatisticsStoreFetchLatestOptions) {
+      const opts: StatisticsStoreFetchLatestOptions = {
         shouldFetchLastWeek: false,
         ...options,
       }
-      const currentWeek = moment().startOf("week")
-      const promises = [
-        self.fetchDataForWeek(currentWeek.unix(), {
-          shouldSelect: true,
-        }),
-      ]
+      const promises = [self.fetchWeek(self.getStartOfThisWeek(), { shouldSelect: true })]
       if (opts.shouldFetchLastWeek) {
-        const lastWeek = moment(currentWeek).subtract(1, "week")
-        promises.push(
-          self.fetchDataForWeek(lastWeek.unix())
-        )
+        promises.push(self.fetchWeek(self.getStartOfLastWeek()))
       }
       yield Promise.all(promises)
     }),
     selectWeek(weekIndex: number) {
-      self.deselectWeekday()
-      const weekData = self.weeks[weekIndex]
-      self.selectedWeek = weekData
-      if (weekIndex === self.weeks.length - 1) {
-        const prevWeek = moment.unix(weekData.startTs).subtract(1, "week")
-        self.fetchDataForWeek(prevWeek.unix(), { shouldSelect: true })
+      if (self.hasSelectedDayOfWeek) {
+        self.deselectDayOfWeek()
       }
-    },
-    selectWeekday(weekday: number) {
-      if (weekday === self.selectedWeekday) {
-        self.deselectWeekday()
-      } else {
-        self.selectedWeekday = weekday
+      const week = self.weekList[weekIndex]
+      self.selectedWeek = week
+      if (weekIndex === self.weekList.length - 1) {
+        self.fetchWeek(week.getPreviousWeekStartDate(), { shouldSelect: true })
       }
     },
   }))

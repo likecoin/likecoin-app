@@ -286,7 +286,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     const {
       likeAmount: supportedLikeAmount = 0,
       worksCount: supportedWorksCount = 0
-    } = this.props.supportedStatistics.weeks[0] || {}
+    } = this.props.supportedStatistics.weekList[0] || {}
     // TODO: Port real data
     const rewards = {
       LIKE: 27.47,

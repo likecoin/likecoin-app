@@ -54,26 +54,26 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
     (item: StatisticsSupportedCreator) => item.likerID
 
   private contentListItemKeyExtractor =
-    (item: StatisticsSupportedContent) => item.contentURL
+    (item: StatisticsSupportedContent) => item.id
 
   onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
   }
 
   onScrollDashboard = () => {
-    if (this.props.dataStore.hasSelectedWeekday) {
-      this.props.dataStore.deselectWeekday()
+    if (this.props.dataStore.hasSelectedDayOfWeek) {
+      this.props.dataStore.deselectDayOfWeek()
     }
   }
 
-  onPressBarInChart = (weekday: number) => {
-    this.props.dataStore.selectWeekday(weekday)
+  onPressBarInChart = (dayOfWeek: number) => {
+    this.props.dataStore.selectDayOfWeek(dayOfWeek)
   }
 
   render () {
     const {
       selectedWeek,
-      hasSelectedWeekday,
+      hasSelectedDayOfWeek,
     } = this.props.dataStore
     const sliderWidth = Dimensions.get("window").width
     return (
@@ -92,7 +92,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
         />
         <View style={Style.Carousel}>
           <Carousel<StatisticsSupportedWeek>
-            data={this.props.dataStore.weeks}
+            data={this.props.dataStore.weekList}
             renderItem={this.renderDashboard}
             itemWidth={sliderWidth}
             sliderWidth={sliderWidth}
@@ -100,12 +100,26 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
             onScroll={this.onScrollDashboard}
           />
         </View>
-        {selectedWeek && hasSelectedWeekday ? (
+        {selectedWeek && hasSelectedDayOfWeek ? (
           this.renderSupportedContentList(selectedWeek)
         ) : (
           this.renderSupportedCreatorList(selectedWeek)
         )}
       </Screen>
+    )
+  }
+
+  private renderDashboard = ({ item: weekData, index }: {
+    item: StatisticsSupportedWeek
+    index: number
+  }) => {
+    return (
+      <StatisticsDashbaord
+        dataStore={this.props.dataStore}
+        weekData={weekData}
+        index={index}
+        onPressBarInChart={this.onPressBarInChart}
+      />
     )
   }
 
@@ -131,12 +145,11 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
   }
 
   private renderSupportedContentList(week: StatisticsSupportedWeek) {
-    const { selectedWeekday } = this.props.dataStore
+    const { selectedDayOfWeek } = this.props.dataStore
     const {
       contents: supportedContent = []
-    } = week.days[selectedWeekday] || {}
-    const key = week
-      ? `${week.startTs}-${selectedWeekday}` : null
+    } = week.days[selectedDayOfWeek] || {}
+    const key = week ? `${week.startTs}-${selectedDayOfWeek}` : null
     return (
       <React.Fragment>
         <Text
@@ -153,20 +166,6 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
           style={Style.List}
         />
       </React.Fragment>
-    )
-  }
-
-  private renderDashboard = ({ item: weekData, index }: {
-    item: StatisticsSupportedWeek
-    index: number
-  }) => {
-    return (
-      <StatisticsDashbaord
-        dataStore={this.props.dataStore}
-        weekData={weekData}
-        index={index}
-        onPressBarInChart={this.onPressBarInChart}
-      />
     )
   }
 
