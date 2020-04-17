@@ -17,7 +17,8 @@ import {
 interface UserIdPayload {
   likerID: string,
   displayName: string,
-  email: string,
+  email?: string,
+  primaryPhone?: string,
   intercomToken: string,
   oAuthFactors: Promise<[{ service: string }]>|[{ service: string }],
   cosmosWallet: string,
@@ -60,6 +61,7 @@ export async function updateAnalyticsUser({
   oAuthFactors,
   cosmosWallet,
   authCoreUserId,
+  primaryPhone,
   userPIISalt,
 }: UserIdPayload) {
   Intercom.registerIdentifiedUser(likerID, intercomToken)
@@ -69,15 +71,18 @@ export async function updateAnalyticsUser({
     if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
     return accumOpt
   }, { binded_authcore: true })
-  Intercom.updateUser({
+  const intercomUserPayload: any = {
     name: displayName,
-    email,
     custom_attributes: {
       has_liker_land_app: true,
       cosmos_wallet: cosmosWallet,
       ...opt,
     }
-  })
+  }
+  if (email) intercomUserPayload.email = email
+  if (primaryPhone) intercomUserPayload.phone = primaryPhone
+  Intercom.updateUser(intercomUserPayload)
+  AppEventsLogger.setUserData({ email })
   await Promise.all([
     setSentryUser({ id: hashUserId(authCoreUserId, userPIISalt) }),
     setCrashlyticsUserId(hashUserId(authCoreUserId, userPIISalt)),
