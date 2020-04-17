@@ -57,10 +57,7 @@ export const ContentModel = types
       return !self.hasFetchedDetails || !self.hasCached
     },
     get shouldFetchCreatorDetails() {
-      return self.creator && (
-        !self.creator.hasFetchedDetails ||
-        !self.creator.hasCached
-      )
+      return self.creator && !self.creator.hasFetchedDetails
     },
     get shouldFetchLikeStat() {
       return self.creator && !self.hasFetchedLikeStats
