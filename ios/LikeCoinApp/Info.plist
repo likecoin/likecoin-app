@@ -22,6 +22,12 @@
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb105087446989974</string>
+      </array>
+    </dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -58,6 +64,10 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>FacebookAppID</key>
+  <string>105087446989974</string>
+  <key>FacebookDisplayName</key>
+  <string>Liker</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>

@@ -1,4 +1,5 @@
-import crypto from 'crypto'
+import crypto from "crypto"
+import { AppEventsLogger } from "react-native-fbsdk"
 import { logError } from "./error"
 import * as Intercom from "./intercom"
 import {
@@ -135,6 +136,7 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
           filterKeyLimit(eventCamel),
           filterPayloadByLimit(payload),
         )
+        AppEventsLogger.logEvent(filterKeyLimit(eventCamel))
         break
       }
     }
