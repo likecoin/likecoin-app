@@ -82,6 +82,7 @@ export async function updateAnalyticsUser({
   if (email) intercomUserPayload.email = email
   if (primaryPhone) intercomUserPayload.phone = primaryPhone
   Intercom.updateUser(intercomUserPayload)
+  AppEventsLogger.setUserID(hashUserId(authCoreUserId, userPIISalt))
   AppEventsLogger.setUserData({ email })
   await Promise.all([
     setSentryUser({ id: hashUserId(authCoreUserId, userPIISalt) }),
@@ -94,6 +95,7 @@ export async function updateAnalyticsUser({
 export async function logoutAnalyticsUser() {
   Intercom.logout()
   await Promise.all([
+    AppEventsLogger.setUserID(null),
     resetAnalyticsUser(),
     resetSentryUser(),
     resetCrashlyticsUserId(),
@@ -104,6 +106,9 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
   try {
     /* eslint-disable @typescript-eslint/camelcase */
     const analytics = getAnalyticsInstance()
+    const [char, ...chars] = event.split("")
+    // cast to camel case
+    const eventCamel = `App${char.toUpperCase()}${chars.join("")}`
     switch (event) {
       case 'login':
         await analytics.logLogin({ method: '' })
@@ -134,17 +139,14 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         break
       }
       default: {
-        const [char, ...chars] = event.split("")
-        // cast to camel case
-        const eventCamel = `App${char.toUpperCase()}${chars.join("")}`
         await analytics.logEvent(
           filterKeyLimit(eventCamel),
           filterPayloadByLimit(payload),
         )
-        AppEventsLogger.logEvent(filterKeyLimit(eventCamel))
         break
       }
     }
+    AppEventsLogger.logEvent(filterKeyLimit(eventCamel))
     /* eslint-enable @typescript-eslint/camelcase */
   } catch (err) {
     logError(err)
