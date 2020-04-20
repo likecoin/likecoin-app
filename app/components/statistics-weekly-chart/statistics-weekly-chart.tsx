@@ -166,6 +166,14 @@ export function StatisticsWeeklyChart(props: Props) {
           fill="none"
           stroke="none"
         />
+        {bar.height > 0 && (
+          <Path
+            d={barPath}
+            fill={Style.Root.backgroundColor}
+            stroke={Style.Root.backgroundColor}
+            strokeMiterlimit={10}
+          />
+        )}
         {bar.isFocused && (
           <Rect
             x={bar.x - 2}
@@ -174,14 +182,6 @@ export function StatisticsWeeklyChart(props: Props) {
             height={height - chartMarginBottom}
             fill="url(#focused)"
             opacity={0.2}
-          />
-        )}
-        {bar.isDimmed && (
-          <Path
-            d={barPath}
-            fill={Style.Root.backgroundColor}
-            stroke={Style.Root.backgroundColor}
-            strokeMiterlimit={10}
           />
         )}
         {bar.height > 0 && (
