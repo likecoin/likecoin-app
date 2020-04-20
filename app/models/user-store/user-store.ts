@@ -115,11 +115,13 @@ export const UserStoreModel = types
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
+          const primaryPhone = self.authCore.profile.primaryPhone
           /* do not block user logic with analytics */
           updateAnalyticsUser({
             likerID,
             displayName,
             email,
+            primaryPhone,
             intercomToken,
             oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
             cosmosWallet,

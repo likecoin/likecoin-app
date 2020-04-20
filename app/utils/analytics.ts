@@ -1,4 +1,5 @@
-import crypto from 'crypto'
+import crypto from "crypto"
+import { AppEventsLogger } from "react-native-fbsdk"
 import { logError } from "./error"
 import * as Intercom from "./intercom"
 import {
@@ -16,7 +17,8 @@ import {
 interface UserIdPayload {
   likerID: string,
   displayName: string,
-  email: string,
+  email?: string,
+  primaryPhone?: string,
   intercomToken: string,
   oAuthFactors: Promise<[{ service: string }]>|[{ service: string }],
   cosmosWallet: string,
@@ -59,6 +61,7 @@ export async function updateAnalyticsUser({
   oAuthFactors,
   cosmosWallet,
   authCoreUserId,
+  primaryPhone,
   userPIISalt,
 }: UserIdPayload) {
   Intercom.registerIdentifiedUser(likerID, intercomToken)
@@ -68,15 +71,19 @@ export async function updateAnalyticsUser({
     if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
     return accumOpt
   }, { binded_authcore: true })
-  Intercom.updateUser({
+  const intercomUserPayload: any = {
     name: displayName,
-    email,
     custom_attributes: {
       has_liker_land_app: true,
       cosmos_wallet: cosmosWallet,
       ...opt,
     }
-  })
+  }
+  if (email) intercomUserPayload.email = email
+  if (primaryPhone) intercomUserPayload.phone = primaryPhone
+  Intercom.updateUser(intercomUserPayload)
+  AppEventsLogger.setUserID(hashUserId(authCoreUserId, userPIISalt))
+  AppEventsLogger.setUserData({ email })
   await Promise.all([
     setSentryUser({ id: hashUserId(authCoreUserId, userPIISalt) }),
     setCrashlyticsUserId(hashUserId(authCoreUserId, userPIISalt)),
@@ -88,6 +95,7 @@ export async function updateAnalyticsUser({
 export async function logoutAnalyticsUser() {
   Intercom.logout()
   await Promise.all([
+    AppEventsLogger.setUserID(null),
     resetAnalyticsUser(),
     resetSentryUser(),
     resetCrashlyticsUserId(),
@@ -98,6 +106,9 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
   try {
     /* eslint-disable @typescript-eslint/camelcase */
     const analytics = getAnalyticsInstance()
+    const [char, ...chars] = event.split("")
+    // cast to camel case
+    const eventCamel = `App${char.toUpperCase()}${chars.join("")}`
     switch (event) {
       case 'login':
         await analytics.logLogin({ method: '' })
@@ -128,9 +139,6 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         break
       }
       default: {
-        const [char, ...chars] = event.split("")
-        // cast to camel case
-        const eventCamel = `App${char.toUpperCase()}${chars.join("")}`
         await analytics.logEvent(
           filterKeyLimit(eventCamel),
           filterPayloadByLimit(payload),
@@ -138,6 +146,7 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         break
       }
     }
+    AppEventsLogger.logEvent(filterKeyLimit(eventCamel))
     /* eslint-enable @typescript-eslint/camelcase */
   } catch (err) {
     logError(err)
