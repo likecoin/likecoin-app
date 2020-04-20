@@ -40,6 +40,20 @@ export const StatisticsRewardedWeekModel = StatisticsWeekModel
       })
       return likeAmount
     },
+    get likeAmountFromCivicLikers() {
+      let likeAmount = 0
+      self.contents.forEach(content => {
+        likeAmount += content.civicLikeAmount
+      })
+      return likeAmount
+    },
+    get likeAmountFromCreatorsFund() {
+      let likeAmount = 0
+      self.contents.forEach(content => {
+        likeAmount += content.basicLikeAmount
+      })
+      return likeAmount
+    },
     get likesCount() {
       let count = 0
       self.contents.forEach(content => {

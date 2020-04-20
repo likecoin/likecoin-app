@@ -138,6 +138,12 @@
     }
   },
   "StatisticsRewardedScreen": {
+    "Dashboard": {
+      "Legends": {
+        "CivicLiker": "Civic Liker",
+        "CreatorFunds": "Creator Funds"
+      }
+    },
     "ListTitle": {
       "Content": "Rewarded Works"
     },

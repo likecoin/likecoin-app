@@ -122,6 +122,12 @@
     }
   },
   "StatisticsRewardedScreen": {
+    "Dashboard": {
+      "Legends": {
+        "CivicLiker": "Civic Liker",
+        "CreatorFunds": "Creator Funds"
+      }
+    },
     "ListTitle": {
       "Content": "已獲讚賞作品"
     },
