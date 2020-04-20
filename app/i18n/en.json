@@ -162,6 +162,7 @@
     "privacyPolicy": "Privacy Policy",
     "StatisticsPanel": {
       "Rewarded": {
+        "GetRewardsButtonTitle": "Get rewards",
         "Title": "Rewarded"
       },
       "Supported": {

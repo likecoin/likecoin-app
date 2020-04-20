@@ -1,6 +1,7 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
 import {
+  Linking,
   StyleSheet,
   TextStyle,
   TouchableHighlight,
@@ -156,6 +157,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressStatsRewardsButton = () => {
     logAnalyticsEvent('SettingsClickStatsRewarded')
     this.props.navigation.navigate("StatisticsRewarded")
+  }
+
+  private onPressGetRewardsButton = () => {
+    Linking.openURL("https://like.co/in/creator")
   }
 
   render () {
@@ -353,12 +358,25 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 <View style={StatsPanelStyle.ButtonStatsDetails}>
                   <View style={StatsPanelStyle.ButtonStatsDetailsLeft}>
                     <Text
-                      text={`${totalRewardedLikeAmount.toFixed(4)} LIKE`}
+                      text={(
+                        totalRewardedLikeAmount > 0
+                          ? `${totalRewardedLikeAmount.toFixed(4)} LIKE`
+                          : "---"
+                      )}
                       style={StatsPanelStyle.ButtonStatsDetailsTitle}
                     />
                   </View>
                 </View>
               </View>
+              {totalRewardedLikeAmount === 0 && (
+                <Button
+                  preset="plain"
+                  tx="settingsScreen.StatisticsPanel.Rewarded.GetRewardsButtonTitle"
+                  color="likeCyan"
+                  weight="500"
+                  onPress={this.onPressGetRewardsButton}
+                />
+              )}
               <Icon name="arrow-right" color="grey9b" />
             </View>
           </TouchableHighlight>
