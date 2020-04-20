@@ -17,46 +17,47 @@ declare var module: any
 storiesOf("StatisticsWeeklyChart", module)
   .addDecorator((fn: () => React.ReactNode) => <StoryScreen>{fn()}</StoryScreen>)
   .add("Behavior", () => {
-    const simpleData: StatisticsWeeklyChartBarData[] = []
-    for (let i = 0; i < 7; i++) {
-      const value = i * 5
-      simpleData.push({
-        values: [value],
-        label: value.toFixed(1),
-      })
-    }
-
-    const stackedData: StatisticsWeeklyChartBarData[] = []
+    const chartData: StatisticsWeeklyChartBarData[] = []
     let value1Sum = 0
     let value2Sum = 0
-    simpleData.forEach(({ values: [value1] }, i) => {
+    for (let i = 0; i < 7; i++) {
+      const value1 = i * 5
       const value2 = i * 10
-      value1Sum = value1Sum + value1
-      value2Sum = value2Sum + value2
       const data: StatisticsWeeklyChartBarData = {
         values: [value1, value2],
         label: (value1 + value2).toFixed(1),
       }
       switch (i) {
         case 0:
+          data.isDimmed = true
           break
         case 1:
-          data.isMarked = true
+          data.values = [1, 0]
+          data.label = "1.0"
           break
         case 2:
-          data.isFocused = true
+          data.isMarked = true
           break
         case 3:
-          data.isHighlighted = true
+          data.isFocused = true
           break
         case 4:
+          data.isHighlighted = true
+          break
+        case 5:
           data.label = "Text"
+          data.isDimmed = true
+          break
+        case 6:
+          data.values[0] += data.values[1]
+          data.values[1] = 0
           break
         default:
-          data.isDimmed = true
       }
-      stackedData.push(data)
-    })
+      value1Sum += data.values[0]
+      value2Sum += data.values[1]
+      chartData.push(data)
+    }
 
     const legends: StatisticsChartLegendData[] = [
       {
@@ -76,13 +77,9 @@ storiesOf("StatisticsWeeklyChart", module)
         <UseCase text="Empty Chart" usage="No props are passed">
           <StatisticsWeeklyChart />
         </UseCase>
-        <UseCase text="Basic Chart" usage="Basic bar chart with `values[]` and `label`">
-          <StatisticsWeeklyChart data={simpleData} />
-          <Text text={JSON.stringify({ data: [simpleData[0]] }, null, 2)} />
-        </UseCase>
         <UseCase text="Stacked Chart with Legends" usage="Stacked bar chart with other props">
-          <StatisticsWeeklyChart data={stackedData} legends={legends} />
-          <Text text={JSON.stringify({ data: stackedData }, null, 2)} />
+          <StatisticsWeeklyChart data={chartData} legends={legends} />
+          <Text text={JSON.stringify({ data: chartData }, null, 2)} />
         </UseCase>
       </Story>
     )

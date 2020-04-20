@@ -3721,951 +3721,6 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                     }
                   }
                 >
-                  Basic Chart
-                </Text>
-              </View>
-              <Text
-                style={
-                  Object {
-                    "color": "#666",
-                    "fontSize": 10,
-                    "paddingTop": 0,
-                  }
-                }
-              >
-                Basic bar chart with \`values[]\` and \`label\`
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "backgroundColor": "#fff",
-                  "padding": 10,
-                }
-              }
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "#28646e",
-                    },
-                    undefined,
-                  ]
-                }
-              >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbWidth="100%"
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
-                  style={
-                    Array [
-                      Object {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      Object {
-                        "aspectRatio": 2.0140845070422535,
-                      },
-                    ]
-                  }
-                  vbHeight={142}
-                  vbWidth={286}
-                  width="100%"
-                >
-                  <RNSVGGroup>
-                    <RNSVGDefs>
-                      <RNSVGLinearGradient
-                        gradient={
-                          Array [
-                            0,
-                            11203047,
-                            0.25,
-                            -5574169,
-                          ]
-                        }
-                        gradientTransform={null}
-                        gradientUnits={0}
-                        name="focused"
-                        x1="0%"
-                        x2="0%"
-                        y1="0%"
-                        y2="100%"
-                      />
-                      <RNSVGClipPath
-                        name="bar1"
-                      >
-                        <RNSVGPath
-                          d="
-      M 18.5 119.5
-      h 6
-      a 4 4 0 0 1 4 4
-      v 0
-      h -14
-      V 123.5
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                        />
-                      </RNSVGClipPath>
-                      <RNSVGClipPath
-                        name="bar2"
-                      >
-                        <RNSVGPath
-                          d="
-      M 52.5 105.19444444444444
-      h 6
-      a 4 4 0 0 1 4 4
-      v 14.305555555555555
-      h -14
-      V 109.19444444444444
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                        />
-                      </RNSVGClipPath>
-                      <RNSVGClipPath
-                        name="bar3"
-                      >
-                        <RNSVGPath
-                          d="
-      M 86.5 90.88888888888889
-      h 6
-      a 4 4 0 0 1 4 4
-      v 28.61111111111111
-      h -14
-      V 94.88888888888889
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                        />
-                      </RNSVGClipPath>
-                      <RNSVGClipPath
-                        name="bar4"
-                      >
-                        <RNSVGPath
-                          d="
-      M 120.5 76.58333333333334
-      h 6
-      a 4 4 0 0 1 4 4
-      v 42.916666666666664
-      h -14
-      V 80.58333333333334
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                        />
-                      </RNSVGClipPath>
-                      <RNSVGClipPath
-                        name="bar5"
-                      >
-                        <RNSVGPath
-                          d="
-      M 154.5 62.27777777777778
-      h 6
-      a 4 4 0 0 1 4 4
-      v 57.22222222222222
-      h -14
-      V 66.27777777777777
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                        />
-                      </RNSVGClipPath>
-                      <RNSVGClipPath
-                        name="bar6"
-                      >
-                        <RNSVGPath
-                          d="
-      M 188.5 47.97222222222223
-      h 6
-      a 4 4 0 0 1 4 4
-      v 71.52777777777777
-      h -14
-      V 51.97222222222223
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                        />
-                      </RNSVGClipPath>
-                      <RNSVGClipPath
-                        name="bar7"
-                      >
-                        <RNSVGPath
-                          d="
-      M 222.5 33.66666666666667
-      h 6
-      a 4 4 0 0 1 4 4
-      v 85.83333333333333
-      h -14
-      V 37.66666666666667
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                        />
-                      </RNSVGClipPath>
-                      <RNSVGClipPath
-                        name="chart-clip"
-                      >
-                        <RNSVGRect
-                          height={104}
-                          width={246}
-                          x={0}
-                          y={16}
-                        />
-                      </RNSVGClipPath>
-                    </RNSVGDefs>
-                    <RNSVGGroup>
-                      <RNSVGGroup
-                        propList={
-                          Array [
-                            "stroke",
-                            "strokeWidth",
-                            "strokeMiterlimit",
-                          ]
-                        }
-                        stroke={4283491266}
-                        strokeMiterlimit={10}
-                        strokeWidth={1}
-                      >
-                        <RNSVGGroup>
-                          <RNSVGLine
-                            opacity={0.2}
-                            x1={0}
-                            x2={246}
-                            y1={16.5}
-                            y2={16.5}
-                          />
-                          <RNSVGForeignObject
-                            height={14}
-                            width={25}
-                            x={254}
-                            y={9.5}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#a9c1c5",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                }
-                              }
-                            >
-                              36
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup>
-                          <RNSVGLine
-                            opacity={0.2}
-                            x1={0}
-                            x2={246}
-                            y1={50.833333333333336}
-                            y2={50.833333333333336}
-                          />
-                          <RNSVGForeignObject
-                            height={14}
-                            width={25}
-                            x={254}
-                            y={43.833333333333336}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#a9c1c5",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                }
-                              }
-                            >
-                              24
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup>
-                          <RNSVGLine
-                            opacity={0.2}
-                            x1={0}
-                            x2={246}
-                            y1={85.16666666666667}
-                            y2={85.16666666666667}
-                          />
-                          <RNSVGForeignObject
-                            height={14}
-                            width={25}
-                            x={254}
-                            y={78.16666666666667}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#a9c1c5",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                }
-                              }
-                            >
-                              12
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup>
-                          <RNSVGLine
-                            opacity={0.2}
-                            x1={0}
-                            x2={246}
-                            y1={119.5}
-                            y2={119.5}
-                          />
-                          <RNSVGForeignObject
-                            height={14}
-                            width={25}
-                            x={254}
-                            y={112.5}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#a9c1c5",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                }
-                              }
-                            >
-                              LIKE
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                      </RNSVGGroup>
-                      <RNSVGGroup>
-                        <RNSVGGroup
-                          onResponderGrant={[Function]}
-                          onResponderMove={[Function]}
-                          onResponderRelease={[Function]}
-                          onResponderTerminate={[Function]}
-                          onResponderTerminationRequest={[Function]}
-                          onStartShouldSetResponder={[Function]}
-                          responsible={true}
-                        >
-                          <RNSVGRect
-                            fill={null}
-                            height={103}
-                            propList={
-                              Array [
-                                "fill",
-                                "stroke",
-                              ]
-                            }
-                            stroke={null}
-                            width={34}
-                            x={4}
-                            y={16}
-                          />
-                          <RNSVGForeignObject
-                            height={22}
-                            width={42}
-                            x={0}
-                            y={124}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#ffffff",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal",
-                                  "textAlign": "center",
-                                  "width": 42,
-                                }
-                              }
-                            >
-                              0.0
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup
-                          onResponderGrant={[Function]}
-                          onResponderMove={[Function]}
-                          onResponderRelease={[Function]}
-                          onResponderTerminate={[Function]}
-                          onResponderTerminationRequest={[Function]}
-                          onStartShouldSetResponder={[Function]}
-                          responsible={true}
-                        >
-                          <RNSVGRect
-                            fill={null}
-                            height={103}
-                            propList={
-                              Array [
-                                "fill",
-                                "stroke",
-                              ]
-                            }
-                            stroke={null}
-                            width={34}
-                            x={38}
-                            y={16}
-                          />
-                          <RNSVGGroup
-                            clipPath="chart-clip"
-                            opacity={1}
-                          >
-                            <RNSVGRect
-                              clipPath="bar2"
-                              fill={4292340972}
-                              height={15.305555555555554}
-                              propList={
-                                Array [
-                                  "fill",
-                                ]
-                              }
-                              width={14}
-                              x={48.5}
-                              y={105.19444444444444}
-                            />
-                            <RNSVGPath
-                              d="
-      M 52.5 105.19444444444444
-      h 6
-      a 4 4 0 0 1 4 4
-      v 14.305555555555555
-      h -14
-      V 109.19444444444444
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                              propList={
-                                Array [
-                                  "stroke",
-                                  "strokeMiterlimit",
-                                ]
-                              }
-                              stroke={4292340972}
-                              strokeMiterlimit={10}
-                            />
-                          </RNSVGGroup>
-                          <RNSVGForeignObject
-                            height={22}
-                            width={42}
-                            x={34}
-                            y={124}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#ffffff",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal",
-                                  "textAlign": "center",
-                                  "width": 42,
-                                }
-                              }
-                            >
-                              5.0
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup
-                          onResponderGrant={[Function]}
-                          onResponderMove={[Function]}
-                          onResponderRelease={[Function]}
-                          onResponderTerminate={[Function]}
-                          onResponderTerminationRequest={[Function]}
-                          onStartShouldSetResponder={[Function]}
-                          responsible={true}
-                        >
-                          <RNSVGRect
-                            fill={null}
-                            height={103}
-                            propList={
-                              Array [
-                                "fill",
-                                "stroke",
-                              ]
-                            }
-                            stroke={null}
-                            width={34}
-                            x={72}
-                            y={16}
-                          />
-                          <RNSVGGroup
-                            clipPath="chart-clip"
-                            opacity={1}
-                          >
-                            <RNSVGRect
-                              clipPath="bar3"
-                              fill={4292340972}
-                              height={29.611111111111107}
-                              propList={
-                                Array [
-                                  "fill",
-                                ]
-                              }
-                              width={14}
-                              x={82.5}
-                              y={90.88888888888889}
-                            />
-                            <RNSVGPath
-                              d="
-      M 86.5 90.88888888888889
-      h 6
-      a 4 4 0 0 1 4 4
-      v 28.61111111111111
-      h -14
-      V 94.88888888888889
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                              propList={
-                                Array [
-                                  "stroke",
-                                  "strokeMiterlimit",
-                                ]
-                              }
-                              stroke={4292340972}
-                              strokeMiterlimit={10}
-                            />
-                          </RNSVGGroup>
-                          <RNSVGForeignObject
-                            height={22}
-                            width={42}
-                            x={68}
-                            y={124}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#ffffff",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal",
-                                  "textAlign": "center",
-                                  "width": 42,
-                                }
-                              }
-                            >
-                              10.0
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup
-                          onResponderGrant={[Function]}
-                          onResponderMove={[Function]}
-                          onResponderRelease={[Function]}
-                          onResponderTerminate={[Function]}
-                          onResponderTerminationRequest={[Function]}
-                          onStartShouldSetResponder={[Function]}
-                          responsible={true}
-                        >
-                          <RNSVGRect
-                            fill={null}
-                            height={103}
-                            propList={
-                              Array [
-                                "fill",
-                                "stroke",
-                              ]
-                            }
-                            stroke={null}
-                            width={34}
-                            x={106}
-                            y={16}
-                          />
-                          <RNSVGGroup
-                            clipPath="chart-clip"
-                            opacity={1}
-                          >
-                            <RNSVGRect
-                              clipPath="bar4"
-                              fill={4292340972}
-                              height={43.916666666666664}
-                              propList={
-                                Array [
-                                  "fill",
-                                ]
-                              }
-                              width={14}
-                              x={116.5}
-                              y={76.58333333333334}
-                            />
-                            <RNSVGPath
-                              d="
-      M 120.5 76.58333333333334
-      h 6
-      a 4 4 0 0 1 4 4
-      v 42.916666666666664
-      h -14
-      V 80.58333333333334
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                              propList={
-                                Array [
-                                  "stroke",
-                                  "strokeMiterlimit",
-                                ]
-                              }
-                              stroke={4292340972}
-                              strokeMiterlimit={10}
-                            />
-                          </RNSVGGroup>
-                          <RNSVGForeignObject
-                            height={22}
-                            width={42}
-                            x={102}
-                            y={124}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#ffffff",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal",
-                                  "textAlign": "center",
-                                  "width": 42,
-                                }
-                              }
-                            >
-                              15.0
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup
-                          onResponderGrant={[Function]}
-                          onResponderMove={[Function]}
-                          onResponderRelease={[Function]}
-                          onResponderTerminate={[Function]}
-                          onResponderTerminationRequest={[Function]}
-                          onStartShouldSetResponder={[Function]}
-                          responsible={true}
-                        >
-                          <RNSVGRect
-                            fill={null}
-                            height={103}
-                            propList={
-                              Array [
-                                "fill",
-                                "stroke",
-                              ]
-                            }
-                            stroke={null}
-                            width={34}
-                            x={140}
-                            y={16}
-                          />
-                          <RNSVGGroup
-                            clipPath="chart-clip"
-                            opacity={1}
-                          >
-                            <RNSVGRect
-                              clipPath="bar5"
-                              fill={4292340972}
-                              height={58.222222222222214}
-                              propList={
-                                Array [
-                                  "fill",
-                                ]
-                              }
-                              width={14}
-                              x={150.5}
-                              y={62.277777777777786}
-                            />
-                            <RNSVGPath
-                              d="
-      M 154.5 62.27777777777778
-      h 6
-      a 4 4 0 0 1 4 4
-      v 57.22222222222222
-      h -14
-      V 66.27777777777777
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                              propList={
-                                Array [
-                                  "stroke",
-                                  "strokeMiterlimit",
-                                ]
-                              }
-                              stroke={4292340972}
-                              strokeMiterlimit={10}
-                            />
-                          </RNSVGGroup>
-                          <RNSVGForeignObject
-                            height={22}
-                            width={42}
-                            x={136}
-                            y={124}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#ffffff",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal",
-                                  "textAlign": "center",
-                                  "width": 42,
-                                }
-                              }
-                            >
-                              20.0
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup
-                          onResponderGrant={[Function]}
-                          onResponderMove={[Function]}
-                          onResponderRelease={[Function]}
-                          onResponderTerminate={[Function]}
-                          onResponderTerminationRequest={[Function]}
-                          onStartShouldSetResponder={[Function]}
-                          responsible={true}
-                        >
-                          <RNSVGRect
-                            fill={null}
-                            height={103}
-                            propList={
-                              Array [
-                                "fill",
-                                "stroke",
-                              ]
-                            }
-                            stroke={null}
-                            width={34}
-                            x={174}
-                            y={16}
-                          />
-                          <RNSVGGroup
-                            clipPath="chart-clip"
-                            opacity={1}
-                          >
-                            <RNSVGRect
-                              clipPath="bar6"
-                              fill={4292340972}
-                              height={72.52777777777777}
-                              propList={
-                                Array [
-                                  "fill",
-                                ]
-                              }
-                              width={14}
-                              x={184.5}
-                              y={47.97222222222223}
-                            />
-                            <RNSVGPath
-                              d="
-      M 188.5 47.97222222222223
-      h 6
-      a 4 4 0 0 1 4 4
-      v 71.52777777777777
-      h -14
-      V 51.97222222222223
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                              propList={
-                                Array [
-                                  "stroke",
-                                  "strokeMiterlimit",
-                                ]
-                              }
-                              stroke={4292340972}
-                              strokeMiterlimit={10}
-                            />
-                          </RNSVGGroup>
-                          <RNSVGForeignObject
-                            height={22}
-                            width={42}
-                            x={170}
-                            y={124}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#ffffff",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal",
-                                  "textAlign": "center",
-                                  "width": 42,
-                                }
-                              }
-                            >
-                              25.0
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                        <RNSVGGroup
-                          onResponderGrant={[Function]}
-                          onResponderMove={[Function]}
-                          onResponderRelease={[Function]}
-                          onResponderTerminate={[Function]}
-                          onResponderTerminationRequest={[Function]}
-                          onStartShouldSetResponder={[Function]}
-                          responsible={true}
-                        >
-                          <RNSVGRect
-                            fill={null}
-                            height={103}
-                            propList={
-                              Array [
-                                "fill",
-                                "stroke",
-                              ]
-                            }
-                            stroke={null}
-                            width={34}
-                            x={208}
-                            y={16}
-                          />
-                          <RNSVGGroup
-                            clipPath="chart-clip"
-                            opacity={1}
-                          >
-                            <RNSVGRect
-                              clipPath="bar7"
-                              fill={4292340972}
-                              height={86.83333333333333}
-                              propList={
-                                Array [
-                                  "fill",
-                                ]
-                              }
-                              width={14}
-                              x={218.5}
-                              y={33.66666666666667}
-                            />
-                            <RNSVGPath
-                              d="
-      M 222.5 33.66666666666667
-      h 6
-      a 4 4 0 0 1 4 4
-      v 85.83333333333333
-      h -14
-      V 37.66666666666667
-      a 4 4 0 0 1 4 -4
-      Z
-    "
-                              propList={
-                                Array [
-                                  "stroke",
-                                  "strokeMiterlimit",
-                                ]
-                              }
-                              stroke={4292340972}
-                              strokeMiterlimit={10}
-                            />
-                          </RNSVGGroup>
-                          <RNSVGForeignObject
-                            height={22}
-                            width={42}
-                            x={204}
-                            y={124}
-                          >
-                            <Text
-                              style={
-                                Object {
-                                  "color": "#ffffff",
-                                  "fontFamily": "System",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal",
-                                  "textAlign": "center",
-                                  "width": 42,
-                                }
-                              }
-                            >
-                              30.0
-                            </Text>
-                          </RNSVGForeignObject>
-                        </RNSVGGroup>
-                      </RNSVGGroup>
-                    </RNSVGGroup>
-                  </RNSVGGroup>
-                </RNSVGSvgView>
-              </View>
-              <Text
-                style={
-                  Object {
-                    "color": "#4a4a4a",
-                    "fontFamily": "System",
-                    "fontSize": 12,
-                  }
-                }
-              >
-                {
-  "data": [
-    {
-      "values": [
-        0
-      ],
-      "label": "0.0"
-    }
-  ]
-}
-              </Text>
-            </View>
-          </View>
-          <View
-            style={
-              Object {
-                "backgroundColor": "#eee",
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "borderBottomColor": "#e6e6e6",
-                  "borderBottomWidth": 1,
-                  "paddingBottom": 10,
-                  "paddingHorizontal": 10,
-                  "paddingTop": 20,
-                }
-              }
-            >
-              <View
-                style={
-                  Object {
-                    "borderTopColor": "#e6e6e6",
-                    "borderTopWidth": 1,
-                    "flexDirection": "row",
-                    "left": 0,
-                    "position": "absolute",
-                    "right": 0,
-                    "top": 0,
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Object {
-                      "color": "#666",
-                      "fontSize": 10,
-                      "paddingBottom": 2,
-                      "paddingHorizontal": 4,
-                    }
-                  }
-                >
-                  Use Case
-                </Text>
-              </View>
-              <View
-                style={Object {}}
-              >
-                <Text
-                  style={
-                    Object {
-                      "color": "#3d3d3d",
-                      "fontWeight": "600",
-                    }
-                  }
-                >
                   Stacked Chart with Legends
                 </Text>
               </View>
@@ -4761,12 +3816,12 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                       >
                         <RNSVGPath
                           d="
-      M 52.5 104.3529411764706
+      M 52.5 118.49019607843137
       h 6
       a 4 4 0 0 1 4 4
-      v 15.147058823529411
+      v 1.0098039215686274
       h -14
-      V 108.3529411764706
+      V 122.49019607843137
       a 4 4 0 0 1 4 -4
       Z
     "
@@ -5054,6 +4109,28 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             x={38}
                             y={16}
                           />
+                          <RNSVGPath
+                            d="
+      M 52.5 118.49019607843137
+      h 6
+      a 4 4 0 0 1 4 4
+      v 1.0098039215686274
+      h -14
+      V 122.49019607843137
+      a 4 4 0 0 1 4 -4
+      Z
+    "
+                            fill={4280837230}
+                            propList={
+                              Array [
+                                "fill",
+                                "stroke",
+                                "strokeMiterlimit",
+                              ]
+                            }
+                            stroke={4280837230}
+                            strokeMiterlimit={10}
+                          />
                           <RNSVGGroup
                             clipPath="chart-clip"
                             opacity={1}
@@ -5061,7 +4138,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             <RNSVGRect
                               clipPath="bar2"
                               fill={4292340972}
-                              height={6.049019607843137}
+                              height={2.0098039215686274}
                               propList={
                                 Array [
                                   "fill",
@@ -5069,16 +4146,16 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                               }
                               width={14}
                               x={48.5}
-                              y={114.45098039215686}
+                              y={118.49019607843137}
                             />
                             <RNSVGPath
                               d="
-      M 52.5 104.3529411764706
+      M 52.5 118.49019607843137
       h 6
       a 4 4 0 0 1 4 4
-      v 15.147058823529411
+      v 1.0098039215686274
       h -14
-      V 108.3529411764706
+      V 122.49019607843137
       a 4 4 0 0 1 4 -4
       Z
     "
@@ -5092,17 +4169,6 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                               strokeMiterlimit={10}
                             />
                           </RNSVGGroup>
-                          <RNSVGCircle
-                            cx={55}
-                            cy={96.8529411764706}
-                            fill={4293087312}
-                            propList={
-                              Array [
-                                "fill",
-                              ]
-                            }
-                            r={1.5}
-                          />
                           <RNSVGForeignObject
                             height={22}
                             width={42}
@@ -5121,7 +4187,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                                 }
                               }
                             >
-                              15.0
+                              1.0
                             </Text>
                           </RNSVGForeignObject>
                         </RNSVGGroup>
@@ -5148,23 +4214,27 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             x={72}
                             y={16}
                           />
-                          <RNSVGRect
-                            fill={
-                              Array [
-                                1,
-                                "focused",
-                              ]
-                            }
-                            height={120}
-                            opacity={0.2}
+                          <RNSVGPath
+                            d="
+      M 86.5 89.20588235294117
+      h 6
+      a 4 4 0 0 1 4 4
+      v 30.294117647058822
+      h -14
+      V 93.20588235294117
+      a 4 4 0 0 1 4 -4
+      Z
+    "
+                            fill={4280837230}
                             propList={
                               Array [
                                 "fill",
+                                "stroke",
+                                "strokeMiterlimit",
                               ]
                             }
-                            width={19}
-                            x={80}
-                            y={0}
+                            stroke={4280837230}
+                            strokeMiterlimit={10}
                           />
                           <RNSVGGroup
                             clipPath="chart-clip"
@@ -5172,7 +4242,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                           >
                             <RNSVGRect
                               clipPath="bar3"
-                              fill={4283491266}
+                              fill={4292340972}
                               height={11.098039215686274}
                               propList={
                                 Array [
@@ -5200,10 +4270,21 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                                   "strokeMiterlimit",
                                 ]
                               }
-                              stroke={4283491266}
+                              stroke={4292340972}
                               strokeMiterlimit={10}
                             />
                           </RNSVGGroup>
+                          <RNSVGCircle
+                            cx={89}
+                            cy={81.70588235294117}
+                            fill={4293087312}
+                            propList={
+                              Array [
+                                "fill",
+                              ]
+                            }
+                            r={1.5}
+                          />
                           <RNSVGForeignObject
                             height={22}
                             width={42}
@@ -5249,13 +4330,53 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             x={106}
                             y={16}
                           />
+                          <RNSVGPath
+                            d="
+      M 120.5 74.05882352941177
+      h 6
+      a 4 4 0 0 1 4 4
+      v 45.44117647058823
+      h -14
+      V 78.05882352941177
+      a 4 4 0 0 1 4 -4
+      Z
+    "
+                            fill={4280837230}
+                            propList={
+                              Array [
+                                "fill",
+                                "stroke",
+                                "strokeMiterlimit",
+                              ]
+                            }
+                            stroke={4280837230}
+                            strokeMiterlimit={10}
+                          />
+                          <RNSVGRect
+                            fill={
+                              Array [
+                                1,
+                                "focused",
+                              ]
+                            }
+                            height={120}
+                            opacity={0.2}
+                            propList={
+                              Array [
+                                "fill",
+                              ]
+                            }
+                            width={19}
+                            x={114}
+                            y={0}
+                          />
                           <RNSVGGroup
                             clipPath="chart-clip"
                             opacity={1}
                           >
                             <RNSVGRect
                               clipPath="bar4"
-                              fill={4292340972}
+                              fill={4283491266}
                               height={16.14705882352941}
                               propList={
                                 Array [
@@ -5283,7 +4404,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                                   "strokeMiterlimit",
                                 ]
                               }
-                              stroke={4292340972}
+                              stroke={4283491266}
                               strokeMiterlimit={10}
                             />
                           </RNSVGGroup>
@@ -5296,10 +4417,10 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             <Text
                               style={
                                 Object {
-                                  "color": "#50e3c2",
+                                  "color": "#ffffff",
                                   "fontFamily": "System",
                                   "fontSize": 10,
-                                  "fontWeight": "bold",
+                                  "fontWeight": "normal",
                                   "textAlign": "center",
                                   "width": 42,
                                 }
@@ -5308,17 +4429,6 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                               45.0
                             </Text>
                           </RNSVGForeignObject>
-                          <RNSVGCircle
-                            cx={123}
-                            cy={139.5}
-                            fill={4283491266}
-                            propList={
-                              Array [
-                                "fill",
-                              ]
-                            }
-                            r={1.5}
-                          />
                         </RNSVGGroup>
                         <RNSVGGroup
                           onResponderGrant={[Function]}
@@ -5342,6 +4452,28 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             width={34}
                             x={140}
                             y={16}
+                          />
+                          <RNSVGPath
+                            d="
+      M 154.5 58.911764705882355
+      h 6
+      a 4 4 0 0 1 4 4
+      v 60.588235294117645
+      h -14
+      V 62.911764705882355
+      a 4 4 0 0 1 4 -4
+      Z
+    "
+                            fill={4280837230}
+                            propList={
+                              Array [
+                                "fill",
+                                "stroke",
+                                "strokeMiterlimit",
+                              ]
+                            }
+                            stroke={4280837230}
+                            strokeMiterlimit={10}
                           />
                           <RNSVGGroup
                             clipPath="chart-clip"
@@ -5390,18 +4522,29 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             <Text
                               style={
                                 Object {
-                                  "color": "#ffffff",
+                                  "color": "#50e3c2",
                                   "fontFamily": "System",
                                   "fontSize": 10,
-                                  "fontWeight": "normal",
+                                  "fontWeight": "bold",
                                   "textAlign": "center",
                                   "width": 42,
                                 }
                               }
                             >
-                              Text
+                              60.0
                             </Text>
                           </RNSVGForeignObject>
+                          <RNSVGCircle
+                            cx={157}
+                            cy={139.5}
+                            fill={4283491266}
+                            propList={
+                              Array [
+                                "fill",
+                              ]
+                            }
+                            r={1.5}
+                          />
                         </RNSVGGroup>
                         <RNSVGGroup
                           onResponderGrant={[Function]}
@@ -5504,7 +4647,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                                 }
                               }
                             >
-                              75.0
+                              Text
                             </Text>
                           </RNSVGForeignObject>
                         </RNSVGGroup>
@@ -5555,12 +4698,12 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                           />
                           <RNSVGGroup
                             clipPath="chart-clip"
-                            opacity={0.2}
+                            opacity={1}
                           >
                             <RNSVGRect
                               clipPath="bar7"
                               fill={4292340972}
-                              height={31.29411764705882}
+                              height={91.88235294117646}
                               propList={
                                 Array [
                                   "fill",
@@ -5568,7 +4711,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                               }
                               width={14}
                               x={218.5}
-                              y={89.20588235294119}
+                              y={28.617647058823536}
                             />
                             <RNSVGPath
                               d="
@@ -5644,7 +4787,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                         }
                       }
                     >
-                      105.00
+                      161.00
                     </Text>
                     <View
                       style={
@@ -5755,7 +4898,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                         }
                       }
                     >
-                      210.00
+                      140.00
                     </Text>
                     <View
                       style={
@@ -5865,15 +5008,15 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
         0,
         0
       ],
-      "label": "0.0"
+      "label": "0.0",
+      "isDimmed": true
     },
     {
       "values": [
-        5,
-        10
+        1,
+        0
       ],
-      "label": "15.0",
-      "isMarked": true
+      "label": "1.0"
     },
     {
       "values": [
@@ -5881,7 +5024,7 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
         20
       ],
       "label": "30.0",
-      "isFocused": true
+      "isMarked": true
     },
     {
       "values": [
@@ -5889,30 +5032,30 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
         30
       ],
       "label": "45.0",
-      "isHighlighted": true
+      "isFocused": true
     },
     {
       "values": [
         20,
         40
       ],
-      "label": "Text"
+      "label": "60.0",
+      "isHighlighted": true
     },
     {
       "values": [
         25,
         50
       ],
-      "label": "75.0",
+      "label": "Text",
       "isDimmed": true
     },
     {
       "values": [
-        30,
-        60
+        90,
+        0
       ],
-      "label": "90.0",
-      "isDimmed": true
+      "label": "90.0"
     }
   ]
 }
