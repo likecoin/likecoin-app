@@ -30,5 +30,6 @@ export const StatisticsRewardedContentModel = StatisticsContentModel
 
 type StatisticsRewardedContentType = Instance<typeof StatisticsRewardedContentModel>
 export interface StatisticsRewardedContent extends StatisticsRewardedContentType {}
+export type StatisticsRewardedContentPropsKey = keyof typeof StatisticsRewardedContentModel.properties
 type StatisticsRewardedContentSnapshotType = SnapshotOut<typeof StatisticsRewardedContentModel>
 export interface StatisticsRewardedContentSnapshot extends StatisticsRewardedContentSnapshotType {}
