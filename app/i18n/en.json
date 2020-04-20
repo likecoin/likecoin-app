@@ -139,6 +139,10 @@
   },
   "StatisticsRewardedScreen": {
     "Dashboard": {
+      "Empty": {
+        "ButtonTitle": "Get Rewards",
+        "Title": "You don’t have any reward in this week"
+      },
       "Legends": {
         "CivicLiker": "Civic Liker",
         "CreatorFunds": "Creator Funds"

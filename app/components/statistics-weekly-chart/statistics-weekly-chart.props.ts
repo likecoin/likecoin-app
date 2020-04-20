@@ -38,6 +38,7 @@ export interface StatisticsWeeklyChartProps {
   yUnit?: string
   legends?: StatisticsChartLegendData[]
   style?: StyleProp<ViewStyle>
+  chartStyle?: StyleProp<ViewStyle>
   onPressBar?: (index: number) => void
 }
 

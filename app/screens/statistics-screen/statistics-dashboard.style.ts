@@ -6,9 +6,16 @@ const DashboardChildrenStyle: ViewStyle = {
   paddingHorizontal: spacing[5],
 }
 
-export const StatisticsDashbaordStyle = StyleSheet.create({
-  Chart: {
+export const StatisticsDashboardStyle = StyleSheet.create({
+  ChartOverlay: {
+    ...StyleSheet.absoluteFillObject,
     ...DashboardChildrenStyle,
+    paddingTop: spacing[5],
+    alignItems: "center",
+  } as ViewStyle,
+  ChartWrapper: {
+    ...DashboardChildrenStyle,
+    position: "relative",
     paddingRight: spacing[0],
   } as ViewStyle,
   DataGrid: {

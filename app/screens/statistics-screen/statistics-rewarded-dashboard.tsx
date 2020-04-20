@@ -1,15 +1,22 @@
 import * as React from "react"
-import { View } from "react-native"
+import {
+  Linking,
+  View,
+} from "react-native"
 import { observer } from "mobx-react"
 import moment from "moment"
 
 import {
-  StatisticsDashbaordStyle as Style,
+  StatisticsDashboardStyle as CommonStyle,
 } from "./statistics-dashboard.style"
 import {
-  StatisticsRewardedDashbaordProps as Props,
+  StatisticsRewardedDashboardStyle as Style,
+} from "./statistics-rewarded-dashboard.style"
+import {
+  StatisticsRewardedDashboardProps as Props,
 } from "./statistics-rewarded-dashboard.props"
 
+import { Button } from "../../components/button"
 import {
   StatisticsDataGrid,
   StatisticsDataGridItemProps,
@@ -19,6 +26,7 @@ import {
   StatisticsWeeklyChart,
   StatisticsWeeklyChartBarData,
 } from "../../components/statistics-weekly-chart"
+import { Text } from "../../components/text"
 
 import {
   StatisticsRewardedDay,
@@ -29,6 +37,10 @@ import { calcPercentDiff } from "../../utils/number"
 
 @observer
 export class StatisticsRewardedDashbaord extends React.Component<Props> {
+  private onPressGetRewardsButton = () => {
+    Linking.openURL("https://like.co/in/creator")
+  }
+
   render() {
     const {
       index: weekIndex,
@@ -38,7 +50,7 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
       },
       week: {
         days = [] as StatisticsRewardedDay[],
-        likeAmount: weekLikeAmount = 0,
+        likeAmount: weeklyLikeAmount = 0,
         likeAmountFromCivicLikers: weeklyLikeAmountFromCivicLikers = 0,
         likeAmountFromCreatorsFund: weeklyLikeAmountFromCreatorsFund = 0,
         getPeriodText = undefined,
@@ -79,7 +91,7 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
 
     const likeAmount = hasSelectedDayOfWeek
       ? days[selectedDayOfWeek].totalLikeAmount
-      : weekLikeAmount
+      : weeklyLikeAmount
 
     const likeAmountFromCivicLikers = hasSelectedDayOfWeek
       ? days[selectedDayOfWeek].totalCivicLikeAmount
@@ -104,7 +116,7 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
     if (!hasSelectedDayOfWeek) {
       const lastWeek = this.props.store.getWeekByIndex(weekIndex + 1)
       if (lastWeek) {
-        const growthPercentage = calcPercentDiff(weekLikeAmount, lastWeek.likeAmount || 0)
+        const growthPercentage = calcPercentDiff(weeklyLikeAmount, lastWeek.likeAmount || 0)
         if (growthPercentage !== 0) {
           dataItems.push({
             preset: "right",
@@ -129,18 +141,36 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
       },
     ]
 
+    const hasNoReward = weeklyLikeAmount === 0
+
     return (
-      <View style={Style.Root}>
+      <View style={CommonStyle.Root}>
         <StatisticsDataGrid
           items={dataItems}
-          style={Style.DataGrid}
+          style={CommonStyle.DataGrid}
         />
-        <View style={Style.Chart}>
+        <View style={CommonStyle.ChartWrapper}>
           <StatisticsWeeklyChart
             data={chartData}
             legends={legendsData}
             onPressBar={this.props.onPressBarInChart}
+            chartStyle={hasNoReward ? Style.ChartDimmed : null}
           />
+          {hasNoReward && (
+            <View style={CommonStyle.ChartOverlay}>
+              <Text
+                tx="StatisticsRewardedScreen.Dashboard.Empty.Title"
+                size="default"
+                weight="500"
+                color="likeCyan"
+              />
+              <Button
+                tx="StatisticsRewardedScreen.Dashboard.Empty.ButtonTitle"
+                style={Style.GetRewardsButton}
+                onPress={this.onPressGetRewardsButton}
+              />
+            </View>
+          )}
         </View>
       </View>
     )

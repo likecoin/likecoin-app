@@ -123,6 +123,10 @@
   },
   "StatisticsRewardedScreen": {
     "Dashboard": {
+      "Empty": {
+        "ButtonTitle": "獲得讚賞",
+        "Title": "你在本週沒有獲得任何讚賞"
+      },
       "Legends": {
         "CivicLiker": "Civic Liker",
         "CreatorFunds": "Creator Funds"

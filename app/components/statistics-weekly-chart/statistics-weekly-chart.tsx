@@ -1,5 +1,10 @@
 import * as React from "react"
-import { TextStyle, ViewStyle, View } from "react-native"
+import {
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+  View,
+} from "react-native"
 import {
   Svg,
   Circle,
@@ -243,9 +248,10 @@ export function StatisticsWeeklyChart(props: Props) {
     )
   })
 
-  const chartStyle: ViewStyle = {
-    aspectRatio: width / height,
-  }
+  const chartStyle: ViewStyle = StyleSheet.flatten([
+    { aspectRatio: width / height },
+    props.chartStyle
+  ])
 
   return (
     <View style={[Style.Root, props.style]}>

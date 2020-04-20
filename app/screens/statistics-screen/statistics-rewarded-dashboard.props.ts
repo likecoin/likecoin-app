@@ -3,7 +3,7 @@ import {
   StatisticsRewardedWeek,
 } from "../../models/statistics-store"
 
-export interface StatisticsRewardedDashbaordProps {
+export interface StatisticsRewardedDashboardProps {
   index: number
   store: StatisticsRewardedStore
   week: StatisticsRewardedWeek

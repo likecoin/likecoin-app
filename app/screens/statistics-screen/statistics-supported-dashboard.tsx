@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import moment from "moment"
 
 import {
-  StatisticsDashbaordStyle as Style,
+  StatisticsDashboardStyle as Style,
 } from "./statistics-dashboard.style"
 import {
   StatisticsSupportedDashbaordProps as Props,
@@ -111,7 +111,7 @@ export class StatisticsSupportedDashbaord extends React.Component<Props> {
           ]}
           style={Style.DataGrid}
         />
-        <View style={Style.Chart}>
+        <View style={Style.ChartWrapper}>
           <StatisticsWeeklyChart
             data={chartData}
             onPressBar={this.props.onPressBarInChart}
