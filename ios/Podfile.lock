@@ -299,7 +299,7 @@ PODS:
   - RNSentry (1.1.0):
     - React
     - Sentry (~> 4.4.0)
-  - RNSVG (9.9.3):
+  - RNSVG (12.0.3):
     - React
   - SDWebImage (5.6.1):
     - SDWebImage/Core (= 5.6.1)
@@ -559,7 +559,7 @@ SPEC CHECKSUMS:
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
   RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7
-  RNSVG: 2a15d0d14d171ba610db927190604d1ab223f413
+  RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
   SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
   Sentry: bba998b0fb157fdd6596aa73290a9d67ae47be79

@@ -200,4 +200,71 @@ export class LikeCoAPI {
       return { kind: "bad-data" }
     }
   }
+
+  async fetchSupportedStatistics(
+    startTs: number,
+    endTs: number
+  ): Promise<Types.StatisticsSupportedResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/civicliker/details", {
+      after: startTs,
+      before: endTs,
+      tz: new Date().getTimezoneOffset() / 60,
+      format: "week"
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", data: response.data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async fetchRewardedStatistics(
+    startTs: number,
+    endTs: number
+  ): Promise<Types.StatisticsRewardedResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/writer/details", {
+      after: startTs,
+      before: endTs,
+      tz: new Date().getTimezoneOffset() / 60,
+      format: "week"
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", data: response.data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async fetchRewardedStatisticsSummary(
+    startTs: number,
+    endTs: number
+  ): Promise<Types.StatisticsRewardedSummaryResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/writer/total", {
+      after: startTs,
+      before: endTs,
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", data: response.data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
 }

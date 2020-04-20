@@ -48,3 +48,71 @@ export type LikeStatResult = { kind: "ok"; data: LikeStat } | GeneralApiProblem
 export type ReaderCreatorsResult = { kind: "ok"; following: string[], unfollowed: string[] } | GeneralApiProblem
 export type ContentListResult = { kind: "ok"; data: Content[] } | GeneralApiProblem
 export type BookmarkListResult = { kind: "ok"; data: string[] } | GeneralApiProblem
+
+export interface StatisticsSupportedCreatorResult {
+  likee: string
+  workCount: number
+  LIKE: number
+  likeCount: number
+}
+export interface StatisticsSupportedWorkResult {
+  likee: string
+  sourceURL: string
+  LIKE: number
+  likeCount: number
+}
+export type StatisticsSupportedResult = {
+  kind: "ok"
+  data: {
+    workCount: number
+    LIKE: number
+    likeCount: number
+    all: StatisticsSupportedCreatorResult[],
+    daily: StatisticsSupportedWorkResult[][],
+  }
+} | GeneralApiProblem
+
+export interface StatisticsRewardedContentResult {
+  sourceURL: string
+  LIKE: number
+}
+
+export interface StatisticsRewardedContentDetailsResult {
+  sourceURL: string
+  LIKE: number
+  LIKEDetails: {
+    basic: number
+    civic: number
+  }
+  likeCount: number
+  likerCount: {
+    basic: number
+    civic: number
+  }
+}
+
+export type StatisticsRewardedResult = {
+  kind: "ok"
+  data: {
+    all: StatisticsRewardedContentResult[],
+    daily: StatisticsRewardedContentDetailsResult[][],
+  }
+} | GeneralApiProblem
+
+export type StatisticsRewardedSummaryResult = {
+  kind: "ok"
+  data: {
+    LIKE: {
+      CreatorsFunds: number
+      CivicLiker: number
+    },
+    likeCount: {
+      civic: number
+      basic: number
+    },
+    likerCount: {
+      civic: number
+      basic: number
+    }
+  }
+} | GeneralApiProblem

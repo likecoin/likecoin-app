@@ -110,12 +110,59 @@
     "aboutLinkText": "關於取回委託",
     "title": "取回委託"
   },
+  "Statistics": {
+    "Work": "作品",
+    "Creator": "創作者",
+    "Period": {
+      "Week": {
+        "Last": "上星期",
+        "Previous": "上一個星期",
+        "This": "本星期"
+      }
+    }
+  },
+  "StatisticsRewardedScreen": {
+    "Dashboard": {
+      "Empty": {
+        "ButtonTitle": "獲得讚賞",
+        "Title": "你在本週沒有獲得任何讚賞"
+      },
+      "Legends": {
+        "CivicLiker": "Civic Liker",
+        "CreatorFunds": "Creator Funds"
+      }
+    },
+    "ListTitle": {
+      "Content": "已獲讚賞作品"
+    },
+    "Summary": {
+      "CivicLiker": "讚賞公民",
+      "Liker": "讚賞人"
+    },
+    "Title": "已獲讚賞"
+  },
+  "StatisticsSupportedScreen": {
+    "Title": "已支持",
+    "ListTitle": {
+      "Content": "已支持作品",
+      "Creator": "已支持作者"
+    }
+  },
   "settingsScreen": {
     "authcoreSettings": "帳戶設定",
     "contactUs": "聯絡我們",
     "followSettings": "追踪 / 取消追踪",
     "openSourceLicense": "開源授權",
     "privacyPolicy": "隱私權政策",
+    "StatisticsPanel": {
+      "Rewarded": {
+        "GetRewardsButtonTitle": "獲得讚賞",
+        "Title": "已獲讚賞"
+      },
+      "Supported": {
+        "Title": "已支持（讚賞公民）"
+      }
+    },
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
     "title": "設定"
@@ -203,6 +250,15 @@
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
   },
+  "Week": [
+    "日",
+    "一",
+    "二",
+    "三",
+    "四",
+    "五",
+    "六"
+  ],
   "welcomeScreen": {
     "welcome": "歡迎！",
     "logout": "登出"
