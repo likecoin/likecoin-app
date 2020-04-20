@@ -136,19 +136,17 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
     const key = week ? `${week.startTs}` : null
     return (
       <React.Fragment>
-        {!isFetching && hasFetched && (
-          <SectionList
-            key={key}
-            sections={[{ data: rewardedContents }]}
-            keyExtractor={this.contentListItemKeyExtractor}
-            scrollEnabled={rewardedContents.length > 0}
-            renderItem={this.renderRewardedContentListItem}
-            renderSectionHeader={this.renderSectionHeader}
-            ItemSeparatorComponent={this.renderSeparator}
-            ListHeaderComponent={() => this.renderListHeader(week)}
-            style={CommonStyle.List}
-          />
-        )}
+        <SectionList
+          key={key}
+          sections={[{ data: !isFetching && hasFetched ? rewardedContents : [] }]}
+          keyExtractor={this.contentListItemKeyExtractor}
+          scrollEnabled={rewardedContents.length > 0}
+          renderItem={this.renderRewardedContentListItem}
+          renderSectionHeader={this.renderSectionHeader}
+          ItemSeparatorComponent={this.renderSeparator}
+          ListHeaderComponent={() => this.renderListHeader(week)}
+          style={CommonStyle.List}
+        />
       </React.Fragment>
     )
   }
