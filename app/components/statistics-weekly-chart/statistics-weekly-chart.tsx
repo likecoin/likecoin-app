@@ -48,7 +48,14 @@ export function StatisticsWeeklyChart(props: Props) {
     legends: propsLegends,
   } = props
   const legends = propsLegends || []
-  const data = propsData && propsData.length > 0 ? propsData : new Array<BarData>(7)
+  const data = new Array<BarData>(7)
+  if (propsData && propsData.length) {
+    for (let i = 0; i < data.length; i++) {
+      if (propsData[i]) {
+        data[i] = propsData[i]
+      }
+    }
+  }
 
   const chartWidth = chartPaddingLeft + data.length * (barWidth + barInterspace) - barInterspace + chartPaddingRight
   const chartHeight = height - strokeWidth * 2 - chartMarginTop - chartMarginBottom
