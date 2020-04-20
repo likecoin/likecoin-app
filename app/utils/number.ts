@@ -8,6 +8,9 @@ export function sum(value1: string | number, value2: string | number) {
 }
 
 export function calcPercentDiff(value1: number, value2: number) {
+  if (value1 === 0) {
+    return -999
+  }
   if (value2 === 0) {
     return 999
   }
