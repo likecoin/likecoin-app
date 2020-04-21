@@ -102,3 +102,49 @@ export const SettingsScreenStatsPanelStyle = StyleSheet.create({
     alignItems: "center",
   } as ViewStyle,
 })
+
+export const LOGOUT: ViewStyle = {
+  marginTop: spacing[4],
+  paddingVertical: spacing[4],
+  paddingHorizontal: spacing[4],
+}
+export const VERSION: TextStyle = {
+  marginTop: spacing[4]
+}
+
+const TABLE_CELL_BASE: ViewStyle = {
+  justifyContent: "flex-start",
+  overflow: "hidden",
+}
+const TABLE_CELL: ViewStyle = {
+  ...TABLE_CELL_BASE,
+  borderStyle: "solid",
+  borderTopColor: color.palette.lighterGrey,
+  borderTopWidth: StyleSheet.hairlineWidth,
+}
+const TABLE_BORDER_RADIUS = 12
+export const SETTINGS_MENU = StyleSheet.create({
+  TABLE: {
+    borderRadius: TABLE_BORDER_RADIUS,
+    backgroundColor: color.palette.white,
+    marginVertical: spacing[4],
+  } as ViewStyle,
+  TABLE_CELL,
+  TABLE_CELL_FIRST_CHILD: {
+    ...TABLE_CELL_BASE,
+    borderTopLeftRadius: TABLE_BORDER_RADIUS,
+    borderTopRightRadius: TABLE_BORDER_RADIUS,
+  } as ViewStyle,
+  TABLE_CELL_LAST_CHILD: {
+    ...TABLE_CELL,
+    borderBottomLeftRadius: TABLE_BORDER_RADIUS,
+    borderBottomRightRadius: TABLE_BORDER_RADIUS,
+  } as ViewStyle,
+  TABLE_CELL_TEXT: {
+    padding: spacing[2],
+    paddingVertical: spacing[1],
+    color: color.palette.grey4a,
+    textAlign: "left",
+    fontWeight: "normal",
+  } as TextStyle,
+})

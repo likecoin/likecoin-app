@@ -2,15 +2,15 @@ import * as React from "react"
 import { observer, inject } from "mobx-react"
 import {
   Linking,
-  StyleSheet,
-  TextStyle,
   TouchableHighlight,
   View,
-  ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
 import {
+  LOGOUT,
+  VERSION,
+  SETTINGS_MENU,
   SettingScreenStyle as Style,
   SettingScreenUserInfoStyle as UserInfoStyle,
   SettingsScreenStatsPanelStyle as StatsPanelStyle,
@@ -24,7 +24,7 @@ import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
-import { color, spacing, gradient } from "../../theme"
+import { color, gradient } from "../../theme"
 
 import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
@@ -40,51 +40,6 @@ import * as Intercom from "../../utils/intercom"
 import { SettingsScreenWalletActionsView } from "./settings-screen.wallet-actions-view"
 import { translate } from "../../i18n"
 import LinearGradient from "react-native-linear-gradient"
-
-const LOGOUT: ViewStyle = {
-  marginTop: spacing[4],
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
-}
-const VERSION: TextStyle = {
-  marginTop: spacing[4]
-}
-const TABLE_CELL_BASE: ViewStyle = {
-  justifyContent: "flex-start",
-  overflow: "hidden",
-}
-const TABLE_CELL: ViewStyle = {
-  ...TABLE_CELL_BASE,
-  borderStyle: "solid",
-  borderTopColor: color.palette.lighterGrey,
-  borderTopWidth: StyleSheet.hairlineWidth,
-}
-const TABLE_BORDER_RADIUS = 12
-const SETTINGS_MENU = StyleSheet.create({
-  TABLE: {
-    borderRadius: TABLE_BORDER_RADIUS,
-    backgroundColor: color.palette.white,
-    marginVertical: spacing[4],
-  } as ViewStyle,
-  TABLE_CELL,
-  TABLE_CELL_FIRST_CHILD: {
-    ...TABLE_CELL_BASE,
-    borderTopLeftRadius: TABLE_BORDER_RADIUS,
-    borderTopRightRadius: TABLE_BORDER_RADIUS,
-  } as ViewStyle,
-  TABLE_CELL_LAST_CHILD: {
-    ...TABLE_CELL,
-    borderBottomLeftRadius: TABLE_BORDER_RADIUS,
-    borderBottomRightRadius: TABLE_BORDER_RADIUS,
-  } as ViewStyle,
-  TABLE_CELL_TEXT: {
-    padding: spacing[2],
-    paddingVertical: spacing[1],
-    color: color.palette.grey4a,
-    textAlign: "left",
-    fontWeight: "normal",
-  } as TextStyle,
-})
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   chain: ChainStore
