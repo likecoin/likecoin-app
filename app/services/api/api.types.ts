@@ -116,3 +116,10 @@ export type StatisticsRewardedSummaryResult = {
     }
   }
 } | GeneralApiProblem
+
+export type StatisticsTopSupportedCreatorsResult = {
+  kind: "ok"
+  data: {
+    ids: string[]
+  }
+} | GeneralApiProblem
