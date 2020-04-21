@@ -24,8 +24,13 @@ import {
   StatisticsSupportedWeekModel,
 } from "./statistics-supported-week"
 
+import { CreatorModel, Creator } from "../creator"
+
 import { logError } from "../../utils/error"
-import { StatisticsSupportedResult } from "../../services/api"
+import {
+  StatisticsSupportedResult,
+  StatisticsTopSupportedCreatorsResult,
+} from "../../services/api"
 
 /**
  * Store for supported statistics
@@ -35,6 +40,7 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
   .props({
     weeks: types.map(StatisticsSupportedWeekModel),
     selectedWeek: types.safeReference(StatisticsSupportedWeekModel),
+    topSupportedCreators: types.array(types.safeReference(CreatorModel)),
   })
   .views(self => ({
     get weekList() {
@@ -114,6 +120,30 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
         week.setFetched()
       }
       return week
+    }),
+    fetchTopSupportedCreators: flow(function * () {
+      try {
+        const result: StatisticsTopSupportedCreatorsResult =
+          yield self.env.likeCoAPI.fetchTopSupportedCreators()
+
+        if (result.kind !== "ok") {
+          throw new Error("STATS_FETCH_TOP_SUPPORTED_CREATORS_FAILED")
+        }
+
+        const creators: Creator[] = []
+        const fetchDetailsPromises = []
+        result.data.ids.forEach(likerID => {
+          const creator = self.readerStore.createCreatorFromLikerId(likerID)
+          creators.push(creator)
+          if (!creator.hasFetchedDetails) {
+            fetchDetailsPromises.push(creator.fetchDetails())
+          }
+        })
+        yield Promise.all(fetchDetailsPromises)
+        self.topSupportedCreators.replace(creators)
+      } catch (error) {
+        logError(error.message)
+      }
     }),
   }))
   .actions(self => ({
