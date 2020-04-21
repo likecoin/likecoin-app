@@ -142,6 +142,10 @@
     "Title": "已獲讚賞"
   },
   "StatisticsSupportedScreen": {
+    "Empty": {
+      "Content": "你還沒有支持作品",
+      "Creator": "你還沒有支持作者"
+    },
     "Title": "已支持",
     "ListTitle": {
       "Content": "已支持作品",

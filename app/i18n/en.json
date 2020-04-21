@@ -158,6 +158,10 @@
     "Title": "Rewards Received"
   },
   "StatisticsSupportedScreen": {
+    "Empty": {
+      "Content": "You haven't support any content",
+      "Creator": "You haven't support any creator"
+    },
     "Title": "Supported",
     "ListTitle": {
       "Content": "Supported Works",

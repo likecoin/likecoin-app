@@ -140,6 +140,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
           scrollEnabled={supportedCreators.length > 0}
           renderItem={this.renderSupportedCreatorListItem}
           ItemSeparatorComponent={this.renderSeparator}
+          ListEmptyComponent={this.renderSupportedCreatorEmptyList}
           style={Style.List}
         />
       </React.Fragment>
@@ -165,6 +166,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
           scrollEnabled={supportedContent.length > 0}
           renderItem={this.renderSupportedContentListItem}
           ItemSeparatorComponent={this.renderSeparator}
+          ListEmptyComponent={this.renderSupportedContentEmptyList}
           style={Style.List}
         />
       </React.Fragment>
@@ -182,4 +184,26 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
     ListRenderItem<StatisticsSupportedContent> = ({ item }) => (
       <StatisticsSupportedContentListItem content={item} />
     )
+
+  private renderSupportedCreatorEmptyList = () => {
+    return (
+      <View style={Style.Empty}>
+        <Text
+          tx="StatisticsSupportedScreen.Empty.Creator"
+          style={Style.EmptyLabel}
+        />
+      </View>
+    )
+  }
+
+  private renderSupportedContentEmptyList = () => {
+    return (
+      <View style={Style.Empty}>
+        <Text
+          tx="StatisticsSupportedScreen.Empty.Content"
+          style={Style.EmptyLabel}
+        />
+      </View>
+    )
+  }
 }
