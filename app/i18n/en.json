@@ -177,6 +177,10 @@
       },
       "Supported": {
         "Title": "Supported (Civic Liker)"
+      },
+      "TopSupportedCreator": {
+        "BecomeCivicLiker": "Become a Civic Liker",
+        "SupportMore": "Support more to {{creator}}"
       }
     },
     "subscription": "Subscription",

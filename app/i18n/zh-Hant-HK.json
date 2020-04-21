@@ -161,6 +161,10 @@
       },
       "Supported": {
         "Title": "已支持（讚賞公民）"
+      },
+      "TopSupportedCreator": {
+        "BecomeCivicLiker": "成為讚賞公民",
+        "SupportMore": "給予 {{creator}} 更多支持"
       }
     },
     "subscription": "訂閱",

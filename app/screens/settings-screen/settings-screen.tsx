@@ -24,7 +24,7 @@ import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
-import { color, spacing } from "../../theme"
+import { color, spacing, gradient } from "../../theme"
 
 import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
@@ -39,6 +39,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 import * as Intercom from "../../utils/intercom"
 import { SettingsScreenWalletActionsView } from "./settings-screen.wallet-actions-view"
 import { translate } from "../../i18n"
+import LinearGradient from "react-native-linear-gradient"
 
 const LOGOUT: ViewStyle = {
   marginTop: spacing[4],
@@ -50,6 +51,7 @@ const VERSION: TextStyle = {
 }
 const TABLE_CELL_BASE: ViewStyle = {
   justifyContent: "flex-start",
+  overflow: "hidden",
 }
 const TABLE_CELL: ViewStyle = {
   ...TABLE_CELL_BASE,
@@ -106,6 +108,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   componentDidMount() {
     this.props.chain.fetchAll()
     this.props.supportedStatistics.fetchLatest()
+    this.props.supportedStatistics.fetchTopSupportedCreators()
     this.props.rewardedStatistics.fetchSummary()
   }
 
@@ -300,7 +303,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
       likeAmount: supportedLikeAmount = 0,
       worksCount: supportedWorksCount = 0
     } = this.props.supportedStatistics.weekList[0] || {}
-    // TODO: Port real data
+    const [topSupportedCreator] =
+      this.props.supportedStatistics.topSupportedCreators
+    const {
+      displayName = "",
+      isCivicLiker = false,
+      avatarURL = "",
+    } = topSupportedCreator || {}
     const {
       totalLikeAmount: totalRewardedLikeAmount = 0,
     } = this.props.rewardedStatistics
@@ -311,6 +320,51 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           style={StatsPanelStyle.Label}
         />
         <View style={[SETTINGS_MENU.TABLE, StatsPanelStyle.Table]}>
+          {!!topSupportedCreator && (
+            <TouchableHighlight
+              underlayColor={StatsPanelStyle.ButtonUnderlaying.backgroundColor}
+              style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+            >
+              <LinearGradient
+                colors={gradient.LikeCoin}
+                start={{ x: 0.0, y: 1.0 }}
+                end={{ x: 1.0, y: 0.0 }}
+                style={StatsPanelStyle.Button}
+              >
+                <View style={StatsPanelStyle.ButtonContent}>
+                  <View style={StatsPanelStyle.TopSupportedCreatorIdentity}>
+                    <Avatar
+                      src={avatarURL}
+                      size={40}
+                      isCivicLiker={isCivicLiker}
+                      style={StatsPanelStyle.TopSupportedCreatorAvatar}
+                    />
+                    <Text
+                      text={displayName}
+                      color="grey4a"
+                      size="medium-large"
+                    />
+                  </View>
+                  <Text
+                    text={translate("settingsScreen.StatisticsPanel.TopSupportedCreator.SupportMore", {
+                      creator: displayName
+                    })}
+                    color="grey4a"
+                    size="medium-large"
+                    weight="500"
+                    style={StatsPanelStyle.ButtonTitle}
+                  />
+                  <Text
+                    tx="settingsScreen.StatisticsPanel.TopSupportedCreator.BecomeCivicLiker"
+                    color="likeGreen"
+                    size="default"
+                    weight="500"
+                  />
+                </View>
+                <Icon name="arrow-right" color="likeGreen" />
+              </LinearGradient>
+            </TouchableHighlight>
+          )}
           <TouchableHighlight
             underlayColor={StatsPanelStyle.ButtonUnderlaying.backgroundColor}
             style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}

@@ -94,4 +94,11 @@ export const SettingsScreenStatsPanelStyle = StyleSheet.create({
   Table: {
     marginTop: spacing[2],
   } as ViewStyle,
+  TopSupportedCreatorAvatar: {
+    marginRight: spacing[2],
+  } as ViewStyle,
+  TopSupportedCreatorIdentity: {
+    flexDirection: "row",
+    alignItems: "center",
+  } as ViewStyle,
 })
