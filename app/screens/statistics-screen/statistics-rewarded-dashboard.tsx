@@ -61,8 +61,8 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
     days.forEach((day, dayOfWeek) => {
       const barData: StatisticsWeeklyChartBarData = {
         values: [
-          day.totalBasicLikeAmount,
           day.totalCivicLikeAmount,
+          day.totalBasicLikeAmount,
         ],
         label: translate(`Week.${dayOfWeek}`),
       }
