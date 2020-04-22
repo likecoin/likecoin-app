@@ -29,6 +29,7 @@ import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
 import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
 
