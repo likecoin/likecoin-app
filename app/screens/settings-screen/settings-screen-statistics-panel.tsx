@@ -47,7 +47,7 @@ export interface SettingsScreenStatisticsPanelProps {
 export class SettingsScreenStatisticsPanel extends React.Component<SettingsScreenStatisticsPanelProps> {
   componentDidMount() {
     this.props.supportedStatistics.fetchLatest()
-    this.props.supportedStatistics.fetchTopSupportedCreators()
+    // this.props.supportedStatistics.fetchTopSupportedCreators()
     this.props.rewardedStatistics.fetchSummary()
   }
 
