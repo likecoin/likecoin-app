@@ -63,7 +63,7 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
         shouldSelect: false,
         ...options,
       }
-      const startTs = startDate.unix()
+      const startTs = startDate.valueOf()
       let week = self.weeks.get(startTs.toString())
       if (!week) {
         week = StatisticsSupportedWeekModel.create({ startTs }, self.env)
@@ -77,7 +77,7 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
         const result: StatisticsSupportedResult =
           yield self.env.likeCoAPI.fetchSupportedStatistics(
             startTs,
-            week.getEndDate().unix()
+            week.getEndDate().valueOf()
           )
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_SUPPORTED_FAILED")

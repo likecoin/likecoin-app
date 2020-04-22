@@ -58,8 +58,8 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
       try {
         const result: StatisticsRewardedSummaryResult =
           yield self.env.likeCoAPI.fetchRewardedStatisticsSummary(
-            moment().startOf("week").unix(),
-            moment().endOf("week").unix()
+            moment().startOf("week").valueOf(),
+            moment().endOf("week").valueOf()
           )
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_REWARDED_SUMMARY_FAILED")
@@ -84,7 +84,7 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
         shouldSelect: false,
         ...options,
       }
-      const startTs = startDate.unix()
+      const startTs = startDate.valueOf()
       let week: StatisticsRewardedWeek = self.weeks.get(startTs.toString())
       if (!week) {
         week = StatisticsRewardedWeekModel.create({ startTs }, self.env)
@@ -100,7 +100,7 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
         const result: StatisticsRewardedResult =
           yield self.env.likeCoAPI.fetchRewardedStatistics(
             week.startTs,
-            week.getEndDate().unix()
+            week.getEndDate().valueOf()
           )
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_REWARDED_FAILED")

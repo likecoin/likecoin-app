@@ -17,7 +17,7 @@ export const StatisticsWeekModel = StateModel
   })
   .views(self => ({
     getStartDate() {
-      return moment.unix(self.startTs)
+      return moment(self.startTs)
     },
   }))
   .views(self => ({
