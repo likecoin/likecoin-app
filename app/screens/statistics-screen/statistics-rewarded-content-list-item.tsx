@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 
 import {
   StatisticsListItem,
+  StatisticsListItemType,
 } from "../../components/statistics-list-item"
 
 import {
@@ -12,6 +13,7 @@ import {
 
 interface StatisticsContentListItemProps {
   content: StatisticsRewardedContent
+  type: StatisticsListItemType
 }
 
 @observer
@@ -32,10 +34,12 @@ export class StatisticsRewardedContentListItem extends
   }
 
   render () {
-    const { content } = this.props
+    const { content, type } = this.props
     const {
       likeAmount = 0,
       likesCount = 0,
+      basicLikersCount = 0,
+      civicLikersCount = 0,
       info: {
         title = "",
         creator: {
@@ -45,11 +49,13 @@ export class StatisticsRewardedContentListItem extends
     } = content || {}
     return (
       <StatisticsListItem
-        type="rewarded-content"
+        type={type}
         title={title}
         subtitle={creatorDisplayName}
         likeAmount={likeAmount.toFixed(4)}
         likeCount={likesCount}
+        numOfLiker={basicLikersCount}
+        numOfCivicLiker={civicLikersCount}
         onPress={this.onPress}
       />
     )
