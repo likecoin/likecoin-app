@@ -73,10 +73,9 @@ function AvatarComponent(props: Props) {
         />
       </LinearGradient>
       {isCivicLiker &&
-        <HaloComponent
-          fill="#40BFA5"
-          style={Style.Halo}
-        />
+        <View style={Style.Halo}>
+          <HaloComponent fill="#40BFA5" />
+        </View>
       }
     </View>
   )
