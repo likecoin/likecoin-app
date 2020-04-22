@@ -104,7 +104,7 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
           />
         </View>
         {selectedWeek && hasSelectedDayOfWeek ? (
-          this.renderDailyRewardedContentList(selectedWeek)
+          this.renderRewardedDailyContentList(selectedWeek)
         ) : (
           this.renderWeeklyRewardedContentList(selectedWeek)
         )}
@@ -250,7 +250,7 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
     )
   }
 
-  private renderDailyRewardedContentList(week: StatisticsRewardedWeek) {
+  private renderRewardedDailyContentList(week: StatisticsRewardedWeek) {
     const { selectedDayOfWeek } = this.props.dataStore
     const {
       contents: dailyRewardedContents = []
@@ -267,7 +267,7 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
           data={dailyRewardedContents}
           keyExtractor={this.contentListItemKeyExtractor}
           scrollEnabled={dailyRewardedContents.length > 0}
-          renderItem={this.renderRewardedContentListItem}
+          renderItem={this.renderRewardedDailyContentListItem}
           ItemSeparatorComponent={this.renderSeparator}
           style={CommonStyle.List}
         />
@@ -279,6 +279,17 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
 
   private renderRewardedContentListItem:
     ListRenderItem<StatisticsRewardedContent> = ({ item }) => (
-      <StatisticsRewardedContentListItem content={item} />
+      <StatisticsRewardedContentListItem
+        type="rewarded-content"
+        content={item}
+      />
+    )
+
+  private renderRewardedDailyContentListItem:
+    ListRenderItem<StatisticsRewardedContent> = ({ item }) => (
+      <StatisticsRewardedContentListItem
+        type="rewarded-daily-content"
+        content={item}
+      />
     )
 }

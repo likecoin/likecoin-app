@@ -38,6 +38,7 @@ export class StatisticsSupportedCreatorListItem extends
         title={displayName}
         likeAmount={creator.likeAmount.toFixed(4)}
         likeCount={creator.likesCount}
+        numOfWorks={creator.worksCount}
       />
     )
   }
