@@ -51,6 +51,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.redirectTimer = undefined
     }
     await Promise.all([
+      this.props.rootStore.userStore.handleAfterLikerLandSignIn(),
       this.props.rootStore.userStore.fetchUserInfo(),
       this.props.rootStore.userStore.fetchLikerLandUserInfo(),
     ])

@@ -174,6 +174,10 @@ export const UserStoreModel = types
         }
       }
     }),
+    handleAfterLikerLandSignIn: flow(function * () {
+      const appReferrer = yield self.env.branchIO.getAppReferrer()
+      if (appReferrer) yield self.env.likerLandAPI.followLiker(appReferrer)
+    }),
     generateUserAppReferralLink: flow(function * () {
       const url = yield self.env.branchIO.generateAppReferralLink(self.currentUser.likerID)
       self.userAppReferralLink = url
