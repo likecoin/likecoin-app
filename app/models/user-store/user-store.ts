@@ -7,6 +7,7 @@ import {
 
 import { withEnvironment } from "../extensions"
 import { UserModel } from "../user"
+import { AppMetaModel } from "../app-meta"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
@@ -20,6 +21,7 @@ import {
   UserLoginParams,
   UserResult,
   UserRegisterParams,
+  AppMetaResult,
 } from "../../services/api"
 
 import { throwProblem } from "../../services/api/api-problem"
@@ -34,6 +36,7 @@ export const UserStoreModel = types
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
     userAppReferralLink: types.maybe(types.string),
+    appMeta: types.optional(AppMetaModel, {}),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -157,6 +160,41 @@ export const UserStoreModel = types
         case "unauthorized": {
           yield self.logout()
         }
+      }
+    }),
+    fetchUserAppMeta: flow(function * () {
+      const result: AppMetaResult = yield self.env.likeCoAPI.fetchAppMeta()
+      switch (result.kind) {
+        case "ok": {
+          const {
+            isNew,
+            isEmailVerified,
+            ts: firstOpenTs,
+            android: hasAndroid,
+            ios: hasIOS,
+          } = result.data
+          self.appMeta = AppMetaModel.create({
+            isNew,
+            isEmailVerified,
+            firstOpenTs,
+            hasAndroid,
+            hasIOS,
+          })
+          break
+        }
+        default:
+          throwProblem(result)
+      }
+    }),
+    postUserAppReferrer: flow(function * (likerID: string) {
+      const result: GeneralResult = yield self.env.likeCoAPI.addAppReferrer(likerID)
+      switch (result.kind) {
+        case "ok": {
+          self.appMeta.isNew = false
+          break
+        }
+        default:
+          throwProblem(result)
       }
     }),
     handleAfterLikerLandSignIn: flow(function * () {

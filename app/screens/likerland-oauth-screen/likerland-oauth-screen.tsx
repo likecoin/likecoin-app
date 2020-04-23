@@ -54,6 +54,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.props.rootStore.userStore.handleAfterLikerLandSignIn(),
       this.props.rootStore.userStore.fetchUserInfo(),
       this.props.rootStore.userStore.fetchLikerLandUserInfo(),
+      this.props.rootStore.userStore.fetchUserAppMeta(),
     ])
     this.props.navigation.navigate("App")
 

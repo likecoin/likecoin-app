@@ -284,4 +284,33 @@ export class LikeCoAPI {
       return { kind: "bad-data" }
     }
   }
+
+  async fetchAppMeta(): Promise<Types.AppMetaResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(`/app/meta`)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", data: response.data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async addAppReferrer(likerID: string): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post(
+      `/app/meta/referral`,
+      { referrer: likerID },
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
 }
