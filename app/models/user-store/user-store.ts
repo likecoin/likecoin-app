@@ -35,6 +35,7 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
+    appReferrer: types.optional(types.string, ''),
     userAppReferralLink: types.maybe(types.string),
     appMeta: types.optional(AppMetaModel, {}),
   })
@@ -63,7 +64,10 @@ export const UserStoreModel = types
         uri = "https://help.like.co"
       }
       return uri
-    }
+    },
+    get shouldPromptForReferrer() {
+      return !self.appReferrer && self.appMeta.isNew
+    },
   }))
   .actions(self => ({
     setIsSigningIn(value: boolean) {
@@ -71,6 +75,7 @@ export const UserStoreModel = types
     },
     register: flow(function * (params: UserRegisterParams) {
       const appReferrer = yield self.env.branchIO.getAppReferrer()
+      self.appReferrer = appReferrer
       const result: GeneralResult = yield self.env.likeCoAPI.register({
         appReferrer,
         ...params
@@ -93,6 +98,7 @@ export const UserStoreModel = types
     }),
     login: flow(function * (params: UserLoginParams) {
       const appReferrer = yield self.env.branchIO.getAppReferrer()
+      self.appReferrer = appReferrer
       const result: GeneralResult = yield self.env.likeCoAPI.login({
         appReferrer,
         ...params
