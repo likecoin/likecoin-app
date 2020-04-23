@@ -177,3 +177,18 @@ type StatisticsSupportedStoreType = Instance<typeof StatisticsSupportedStoreMode
 export interface StatisticsSupportedStore extends StatisticsSupportedStoreType {}
 type StatisticsSupportedStoreSnapshotType = SnapshotOut<typeof StatisticsSupportedStoreModel>
 export interface StatisticsSupportedStoreSnapshot extends StatisticsSupportedStoreSnapshotType {}
+
+export function handleStatisticsSupportedStoreSnapshot(
+  {
+    weeks,
+    ...snapshot
+  }: StatisticsSupportedStoreSnapshot
+): StatisticsSupportedStoreSnapshot {
+  return {
+    weeks: Object.keys(weeks).sort().reverse().slice(0, 5).reduce((newWeeks, weekID) => {
+      newWeeks[weekID] = weeks[weekID]
+      return newWeeks
+    }, {}),
+    ...snapshot
+  }
+}

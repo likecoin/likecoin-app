@@ -208,3 +208,18 @@ type StatisticsRewardedStoreType = Instance<typeof StatisticsRewardedStoreModel>
 export interface StatisticsRewardedStore extends StatisticsRewardedStoreType {}
 type StatisticsRewardedStoreSnapshotType = SnapshotOut<typeof StatisticsRewardedStoreModel>
 export interface StatisticsRewardedStoreSnapshot extends StatisticsRewardedStoreSnapshotType {}
+
+export function handleStatisticsRewardedStoreSnapshot(
+  {
+    weeks,
+    ...snapshot
+  }: StatisticsRewardedStoreSnapshot
+): StatisticsRewardedStoreSnapshot {
+  return {
+    weeks: Object.keys(weeks).sort().reverse().slice(0, 5).reduce((newWeeks, weekID) => {
+      newWeeks[weekID] = weeks[weekID]
+      return newWeeks
+    }, {}),
+    ...snapshot
+  }
+}
