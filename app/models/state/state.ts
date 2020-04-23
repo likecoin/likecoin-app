@@ -18,6 +18,9 @@ export const StateModel = types
   .props({
     state: types.optional(types.enumeration<FetchingStatus>(Object.values(FetchingStatus)), FetchingStatus.Unfetched),
   })
+  .volatile(() => ({
+    hasRecentlyFetched: false,
+  }))
   .views(self => ({
     get isFetching() {
       return self.state === FetchingStatus.Fetching
@@ -32,6 +35,7 @@ export const StateModel = types
     },
     setFetching() {
       self.state = FetchingStatus.Fetching
+      self.hasRecentlyFetched = true
     },
     setFetched() {
       self.state = FetchingStatus.Fetched

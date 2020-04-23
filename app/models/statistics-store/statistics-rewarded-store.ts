@@ -195,6 +195,9 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
       }
       const week = self.weekList[weekIndex]
       self.selectedWeek = week
+      if (!week.hasRecentlyFetched) {
+        self.fetchWeek(week.getStartDate())
+      }
       if (weekIndex === self.weekList.length - 1) {
         self.fetchWeek(week.getPreviousWeekStartDate(), { shouldSelect: true })
       }
