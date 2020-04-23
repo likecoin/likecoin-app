@@ -1,5 +1,11 @@
 import * as React from "react"
-import { View, ViewStyle, Image, ImageStyle, StyleSheet } from "react-native"
+import {
+  ImageStyle,
+  View,
+  ViewStyle,
+  StyleSheet,
+} from "react-native"
+import FastImage from "react-native-fast-image"
 import LinearGradient from "react-native-linear-gradient"
 
 import { AvatarProps as Props } from "./avatar.props"
@@ -67,7 +73,7 @@ function AvatarComponent(props: Props) {
         end={{ x: 1.0, y: 0.0 }}
         style={gradientStyle}
       >
-        <Image
+        <FastImage
           style={imageStyle}
           source={{ uri: src }}
         />
