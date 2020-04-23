@@ -20,10 +20,22 @@ storiesOf("StatisticsListItem", module)
             title="Rewarded Content"
           />
         </UseCase>
+        <UseCase text="Rewarded Content (Skeleton)" usage="rewarded-content" noPad>
+          <StatisticsListItem
+            type="rewarded-content"
+            isSkeleton
+          />
+        </UseCase>
         <UseCase text="Rewarded Daily Content" usage="rewarded-daily-content" noPad>
           <StatisticsListItem
             type="rewarded-daily-content"
             title="Rewarded Daily Content"
+          />
+        </UseCase>
+        <UseCase text="Rewarded Daily Content (Skeleton)" usage="rewarded-daily-content" noPad>
+          <StatisticsListItem
+            type="rewarded-daily-content"
+            isSkeleton
           />
         </UseCase>
         <UseCase text="Supported Content" usage="supported-content" noPad>
@@ -32,12 +44,24 @@ storiesOf("StatisticsListItem", module)
             title="Supported Content"
           />
         </UseCase>
+        <UseCase text="Supported Content (Skeleton)" usage="supported-content" noPad>
+          <StatisticsListItem
+            type="supported-content"
+            isSkeleton
+          />
+        </UseCase>
         <UseCase text="Supported Creator" usage="supported-creator" noPad>
           <StatisticsListItem
             type="supported-creator"
             title="Supported Creator"
             avatarURL="https://via.placeholder.com/100"
             numOfWorks={1}
+          />
+        </UseCase>
+        <UseCase text="Supported Creator (Skeleton)" usage="supported-creator" noPad>
+          <StatisticsListItem
+            type="supported-creator"
+            isSkeleton
           />
         </UseCase>
       </Story>

@@ -10,6 +10,9 @@ import {
 import {
   StatisticsListItemStyle as Style,
 } from "./statistics-list-item.style"
+import {
+  StatisticsListItemSkeleton,
+} from "./statistics-list-item.skeleton"
 
 import { Avatar } from "../avatar"
 import { Icon } from "../icon"
@@ -29,7 +32,13 @@ export function StatisticsListItem(props: Props) {
     numOfLiker = 0,
     avatarURL = "",
     isCivicLiker = false,
+    isSkeleton = false,
   } = props
+  if (isSkeleton) {
+    return (
+      <StatisticsListItemSkeleton type={type} />
+    )
+  }
   return (
     <TouchableHighlight
       style={Style.Button}
