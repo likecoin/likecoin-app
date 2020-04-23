@@ -123,3 +123,15 @@ export type StatisticsTopSupportedCreatorsResult = {
     ids: string[]
   }
 } | GeneralApiProblem
+
+export type AppMetaResult = {
+  kind: "ok"
+  data: {
+    isNew: boolean
+    isEmailVerified?: boolean
+    ts?: number
+    android?: boolean
+    ios?: boolean
+  }
+
+} | GeneralApiProblem
