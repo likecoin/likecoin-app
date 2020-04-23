@@ -26,6 +26,9 @@ import {
 
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
+import {
+  StatisticsListItemSkeleton,
+} from "../../components/statistics-list-item"
 import { Text } from "../../components/text"
 
 import {
@@ -57,6 +60,9 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
 
   private contentListItemKeyExtractor =
     (item: StatisticsSupportedContent) => item.id
+
+  private contentListItemSkeletonKeyExtractor =
+    (_: any, index: number) => `${index}`
 
   onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
@@ -133,16 +139,27 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
           tx="StatisticsSupportedScreen.ListTitle.Creator"
           style={Style.ListHeaderText}
         />
-        <FlatList<StatisticsSupportedCreator>
-          key={week ? week.startTs : null}
-          data={supportedCreators}
-          keyExtractor={this.creatorListItemKeyExtractor}
-          scrollEnabled={supportedCreators.length > 0}
-          renderItem={this.renderSupportedCreatorListItem}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListEmptyComponent={this.renderSupportedCreatorEmptyList}
-          style={Style.List}
-        />
+        {week.isFetching ? (
+          <FlatList
+            data={new Array(3)}
+            scrollEnabled={false}
+            keyExtractor={this.contentListItemSkeletonKeyExtractor}
+            renderItem={this.renderSupportedCreatorListItemSkeleton}
+            ItemSeparatorComponent={this.renderSeparator}
+            style={Style.List}
+          />
+        ) : (
+          <FlatList<StatisticsSupportedCreator>
+            key={week ? week.startTs : null}
+            data={supportedCreators}
+            keyExtractor={this.creatorListItemKeyExtractor}
+            renderItem={this.renderSupportedCreatorListItem}
+            ItemSeparatorComponent={this.renderSeparator}
+            scrollEnabled={supportedCreators.length > 0}
+            ListEmptyComponent={this.renderSupportedCreatorEmptyList}
+            style={Style.List}
+          />
+        )}
       </React.Fragment>
     )
   }
@@ -184,6 +201,10 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
     ListRenderItem<StatisticsSupportedContent> = ({ item }) => (
       <StatisticsSupportedContentListItem content={item} />
     )
+
+  private renderSupportedCreatorListItemSkeleton: ListRenderItem<any> = () => (
+    <StatisticsListItemSkeleton type="supported-creator" />
+  )
 
   private renderSupportedCreatorEmptyList = () => {
     return (

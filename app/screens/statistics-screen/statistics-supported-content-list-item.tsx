@@ -40,7 +40,8 @@ export class StatisticsSupportedContentListItem extends
         title = "",
         creator: {
           displayName: creatorDisplayName = "",
-        } = {}
+        } = {},
+        isFetchingDetails = false
       } = {},
     } = content || {}
     return (
@@ -50,6 +51,7 @@ export class StatisticsSupportedContentListItem extends
         subtitle={creatorDisplayName}
         likeAmount={likeAmount.toFixed(4)}
         likeCount={likesCount}
+        isSkeleton={isFetchingDetails}
         onPress={this.onPress}
       />
     )

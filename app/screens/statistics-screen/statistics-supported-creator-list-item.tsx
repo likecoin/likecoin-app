@@ -28,7 +28,8 @@ export class StatisticsSupportedCreatorListItem extends
     const {
       avatarURL = "",
       displayName = "",
-      isCivicLiker = false
+      isCivicLiker = false,
+      isFetchingDetails = false,
     } = creator.info || {}
     return (
       <StatisticsListItem
@@ -39,6 +40,7 @@ export class StatisticsSupportedCreatorListItem extends
         likeAmount={creator.likeAmount.toFixed(4)}
         likeCount={creator.likesCount}
         numOfWorks={creator.worksCount}
+        isSkeleton={isFetchingDetails}
       />
     )
   }
