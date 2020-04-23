@@ -75,6 +75,11 @@
     "likerIdLabel": "創建 Liker ID",
     "shouldSignInOnDesktop": "請在電腦上登入 http://like.co 後再試一遍"
   },
+  "ReferrerInputScreen": {
+    "referrerIdHint": "Liker ID 為 7 至 20 位小寫英文字母、數字、「-」及「_」字元",
+    "referrerIdLabel": "（如有）輸入推薦人的 Liker ID",
+    "emailVerificationHint": "需要通過電郵驗證後才能獲得推薦獎賞"
+  },
   "SaveToBookmarkScreen": {
     "DismissButtonText": "按此關閉",
     "Error": {
