@@ -168,7 +168,7 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
         self.fetchWeek(week.getStartDate())
       }
       if (weekIndex === self.weekList.length - 1) {
-        self.fetchWeek(week.getPreviousWeekStartDate(), { shouldSelect: true })
+        self.fetchWeek(week.getPreviousWeekStartDate())
       }
     },
   }))
