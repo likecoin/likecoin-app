@@ -50,9 +50,21 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
   }
 
   componentDidMount() {
-    this.props.dataStore.fetchLatest({
-      shouldFetchLastWeek: true,
-    })
+    const { selectedWeek } = this.props.dataStore
+    if (selectedWeek) {
+      // Fetch this week data if necessary
+      if (!selectedWeek.getIsJustFetched()) {
+        selectedWeek.fetchData()
+      }
+      // Fetch previous week data if necessary
+      this.props.dataStore.fetchWeek(selectedWeek.getPreviousWeekStartDate(), {
+        skipIfFetched: true
+      })
+    } else {
+      this.props.dataStore.fetchLatest({
+        shouldFetchLastWeek: true,
+      })
+    }
   }
 
   private creatorListItemKeyExtractor =

@@ -19,7 +19,7 @@ export const StateModel = types
     state: types.optional(types.enumeration<FetchingStatus>(Object.values(FetchingStatus)), FetchingStatus.Unfetched),
   })
   .volatile(() => ({
-    hasRecentlyFetched: false,
+    lastFetched: null as number,
   }))
   .views(self => ({
     get isFetching() {
@@ -28,6 +28,15 @@ export const StateModel = types
     get hasFetched() {
       return self.state === FetchingStatus.Fetched
     },
+    get hasRecentlyFetched() {
+      return self.lastFetched !== null
+    },
+    /**
+     * Check whether the last fetch is under 10s
+     */
+    getIsJustFetched() {
+      return Date.now() - self.lastFetched <= 10000
+    },
   }))
   .actions(self => ({
     setUnfetched() {
@@ -35,7 +44,7 @@ export const StateModel = types
     },
     setFetching() {
       self.state = FetchingStatus.Fetching
-      self.hasRecentlyFetched = true
+      self.lastFetched = Date.now()
     },
     setFetched() {
       self.state = FetchingStatus.Fetched

@@ -51,6 +51,7 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
     ) {
       const opts: StatisticsStoreFetchWeekOptions = {
         shouldSelect: false,
+        skipIfFetched: false,
         ...options,
       }
       const startTs = startDate.valueOf()
@@ -62,7 +63,9 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
       if (opts.shouldSelect) {
         self.selectedWeek = week
       }
-      yield week.fetchData()
+      if (!(opts.skipIfFetched && week.hasFetched)) {
+        yield week.fetchData()
+      }
       return week
     }),
     fetchTopSupportedCreators: flow(function * () {
