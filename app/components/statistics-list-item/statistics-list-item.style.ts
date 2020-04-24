@@ -20,11 +20,11 @@ export const StatisticsListItemStyle = StyleSheet.create({
   } as ViewStyle,
   LikeAmountText: {
     color: color.palette.grey4a,
-    fontSize: 18,
+    fontSize: sizes["medium-large"],
     fontWeight: "500",
   } as TextStyle,
   LikeAmountUnitLabel: {
-    fontSize: sizes.small,
+    fontSize: sizes.default,
     color: color.palette.grey4a,
   } as TextStyle,
   MainDetailsLeftView: {
@@ -67,6 +67,7 @@ export const StatisticsListItemStyle = StyleSheet.create({
   TitleWithAvatar: {
     ...BaseTitle,
     alignSelf: "center",
+    fontSize: sizes["medium-large"],
   } as TextStyle,
   WorkCountText: {
     marginLeft: spacing[5],

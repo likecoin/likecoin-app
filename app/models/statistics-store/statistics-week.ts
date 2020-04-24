@@ -5,6 +5,10 @@ import {
 } from "mobx-state-tree"
 import moment from "moment"
 
+import {
+  withEnvironment,
+  withReaderStore,
+} from "../extensions"
 import { StateModel } from "../state"
 
 /**
@@ -12,6 +16,8 @@ import { StateModel } from "../state"
  */
 export const StatisticsWeekModel = StateModel
   .named("StatisticsWeek")
+  .extend(withEnvironment)
+  .extend(withReaderStore)
   .props({
     startTs: types.identifierNumber,
   })

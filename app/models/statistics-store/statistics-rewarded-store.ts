@@ -195,8 +195,11 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
       }
       const week = self.weekList[weekIndex]
       self.selectedWeek = week
+      if (!week.hasRecentlyFetched) {
+        self.fetchWeek(week.getStartDate())
+      }
       if (weekIndex === self.weekList.length - 1) {
-        self.fetchWeek(week.getPreviousWeekStartDate(), { shouldSelect: true })
+        self.fetchWeek(week.getPreviousWeekStartDate())
       }
     },
   }))
@@ -205,3 +208,18 @@ type StatisticsRewardedStoreType = Instance<typeof StatisticsRewardedStoreModel>
 export interface StatisticsRewardedStore extends StatisticsRewardedStoreType {}
 type StatisticsRewardedStoreSnapshotType = SnapshotOut<typeof StatisticsRewardedStoreModel>
 export interface StatisticsRewardedStoreSnapshot extends StatisticsRewardedStoreSnapshotType {}
+
+export function handleStatisticsRewardedStoreSnapshot(
+  {
+    weeks,
+    ...snapshot
+  }: StatisticsRewardedStoreSnapshot
+): StatisticsRewardedStoreSnapshot {
+  return {
+    weeks: Object.keys(weeks).sort().reverse().slice(0, 5).reduce((newWeeks, weekID) => {
+      newWeeks[weekID] = weeks[weekID]
+      return newWeeks
+    }, {}),
+    ...snapshot
+  }
+}

@@ -3,6 +3,8 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
+import { getTimeZoneOffset } from "../../utils/date"
+
 /**
  * like.co API.
  */
@@ -208,7 +210,7 @@ export class LikeCoAPI {
     const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/civicliker/details", {
       after: startTs,
       before: endTs,
-      tz: new Date().getTimezoneOffset() / 60,
+      tz: getTimeZoneOffset(),
       format: "week"
     })
 
@@ -231,7 +233,7 @@ export class LikeCoAPI {
     const response: ApiResponse<any> = await this.apisauce.get("/like/info/dist/writer/details", {
       after: startTs,
       before: endTs,
-      tz: new Date().getTimezoneOffset() / 60,
+      tz: getTimeZoneOffset(),
       format: "week"
     })
 

@@ -9,6 +9,7 @@ import { withEnvironment, withReaderStore } from "../extensions"
 
 export interface StatisticsStoreFetchWeekOptions {
   shouldSelect?: boolean
+  skipIfFetched?: boolean
 }
 export interface StatisticsStoreFetchLatestOptions {
   shouldFetchLastWeek?: boolean

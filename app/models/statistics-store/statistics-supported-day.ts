@@ -17,18 +17,9 @@ export const StatisticsSupportedDayModel = types
   .props({
     dayID: types.identifier,
     contents: types.array(StatisticsSupportedContentModel),
+    totalCreatorsCount: types.optional(types.number, 0),
   })
   .views(self => ({
-    get totalCreatorsCount() {
-      const creators = new Set<string>()
-      self.contents.forEach(content => {
-        const { info: { creator: { likerID = "" } = {} } = {} } = content
-        if (likerID && !creators.has(likerID)) {
-          creators.add(likerID)
-        }
-      })
-      return creators.size
-    },
     get totalLikeAmount() {
       return self.contents.reduce((amount, content) => amount + content.likeAmount, 0)
     },
@@ -37,6 +28,9 @@ export const StatisticsSupportedDayModel = types
     },
   }))
   .actions(self => ({
+    setTotalCreatorsCount(count: number) {
+      self.totalCreatorsCount = count
+    },
     setContents(contents: StatisticsSupportedContent[]) {
       self.contents.replace(contents)
     },

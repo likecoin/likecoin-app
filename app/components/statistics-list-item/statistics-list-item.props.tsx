@@ -19,5 +19,7 @@ export interface StatisticsListItemProps {
   avatarURL?: string
   isCivicLiker?: boolean
 
+  isSkeleton?: boolean
+
   onPress?: () => void
 }

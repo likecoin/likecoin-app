@@ -12,25 +12,15 @@ import {
   StatisticsStoreFetchWeekOptions,
 } from "./statistics-store"
 import {
-  StatisticsSupportedCreatorModel,
-} from "./statistics-supported-creator"
-import {
-  StatisticsSupportedContentModel,
-} from "./statistics-supported-content"
-import {
-  StatisticsSupportedDayModel,
-} from "./statistics-supported-day"
-import {
   StatisticsSupportedWeekModel,
 } from "./statistics-supported-week"
 
 import { CreatorModel, Creator } from "../creator"
 
-import { logError } from "../../utils/error"
 import {
-  StatisticsSupportedResult,
   StatisticsTopSupportedCreatorsResult,
 } from "../../services/api"
+import { logError } from "../../utils/error"
 
 /**
  * Store for supported statistics
@@ -61,6 +51,7 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
     ) {
       const opts: StatisticsStoreFetchWeekOptions = {
         shouldSelect: false,
+        skipIfFetched: false,
         ...options,
       }
       const startTs = startDate.valueOf()
@@ -72,52 +63,8 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
       if (opts.shouldSelect) {
         self.selectedWeek = week
       }
-      week.setFetching()
-      try {
-        const result: StatisticsSupportedResult =
-          yield self.env.likeCoAPI.fetchSupportedStatistics(
-            startTs,
-            week.getEndDate().valueOf()
-          )
-        if (result.kind !== "ok") {
-          throw new Error("STATS_FETCH_SUPPORTED_FAILED")
-        }
-
-        week.setWorksCount(result.data.workCount)
-        week.setLikesCount(result.data.likeCount)
-        week.setLikeAmount(result.data.LIKE)
-        week.setCreators(result.data.all.map(({ likee, workCount, LIKE, likeCount }) => {
-          const creator = StatisticsSupportedCreatorModel.create({
-            likerID: likee,
-            likeAmount: LIKE,
-            likesCount: likeCount,
-            worksCount: workCount,
-          }, self.env)
-          creator.setInfo(self.readerStore.createCreatorFromLikerId(likee))
-          return creator
-        }))
-        week.setDays(
-          result.data.daily.map((contents, i) => {
-            const dayID = `${startTs}-${i + 1}`
-            const day = StatisticsSupportedDayModel.create({ dayID }, self.env)
-            if (contents && contents.length > 0) {
-              day.setContents(contents.map(({ sourceURL: url, LIKE, likeCount }) => {
-                const content = StatisticsSupportedContentModel.create({
-                  id: url,
-                  likeAmount: LIKE,
-                  likesCount: likeCount,
-                }, self.env)
-                content.setInfo(self.readerStore.getContentByURL(url))
-                return content
-              }))
-            }
-            return day
-          })
-        )
-      } catch (error) {
-        logError(error.message)
-      } finally {
-        week.setFetched()
+      if (!(opts.skipIfFetched && week.hasFetched)) {
+        yield week.fetchData()
       }
       return week
     }),
@@ -164,8 +111,11 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
       }
       const week = self.weekList[weekIndex]
       self.selectedWeek = week
+      if (!week.hasRecentlyFetched) {
+        self.fetchWeek(week.getStartDate())
+      }
       if (weekIndex === self.weekList.length - 1) {
-        self.fetchWeek(week.getPreviousWeekStartDate(), { shouldSelect: true })
+        self.fetchWeek(week.getPreviousWeekStartDate())
       }
     },
   }))
@@ -174,3 +124,18 @@ type StatisticsSupportedStoreType = Instance<typeof StatisticsSupportedStoreMode
 export interface StatisticsSupportedStore extends StatisticsSupportedStoreType {}
 type StatisticsSupportedStoreSnapshotType = SnapshotOut<typeof StatisticsSupportedStoreModel>
 export interface StatisticsSupportedStoreSnapshot extends StatisticsSupportedStoreSnapshotType {}
+
+export function handleStatisticsSupportedStoreSnapshot(
+  {
+    weeks,
+    ...snapshot
+  }: StatisticsSupportedStoreSnapshot
+): StatisticsSupportedStoreSnapshot {
+  return {
+    weeks: Object.keys(weeks).sort().reverse().slice(0, 5).reduce((newWeeks, weekID) => {
+      newWeeks[weekID] = weeks[weekID]
+      return newWeeks
+    }, {}),
+    ...snapshot
+  }
+}
