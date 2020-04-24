@@ -6,11 +6,9 @@ import {
 } from "mobx-state-tree"
 
 import {
-  StatisticsSupportedCreator,
   StatisticsSupportedCreatorModel,
 } from "./statistics-supported-creator"
 import {
-  StatisticsSupportedDay,
   StatisticsSupportedDayModel,
 } from "./statistics-supported-day"
 import {
@@ -42,21 +40,6 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
     },
   }))
   .actions(self => ({
-    setWorksCount(worksCount: number) {
-      self.worksCount = worksCount
-    },
-    setLikeAmount(likeAmount: number) {
-      self.likeAmount = likeAmount
-    },
-    setLikesCount(likesCount: number) {
-      self.likesCount = likesCount
-    },
-    setCreators(creators: StatisticsSupportedCreator[]) {
-      self.creators.replace(creators)
-    },
-    setDays(days: StatisticsSupportedDay[]) {
-      self.days.replace(days)
-    },
     fetchData: flow(function * () {
       self.setFetching()
       try {
