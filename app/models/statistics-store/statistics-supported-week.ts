@@ -14,6 +14,7 @@ import {
   StatisticsSupportedDayModel,
 } from "./statistics-supported-day"
 import {
+  StatisticsSupportedContent,
   StatisticsSupportedContentModel,
 } from "./statistics-supported-content"
 import {
@@ -82,19 +83,24 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
           return creator
         }))
         self.days.replace(
-          result.data.daily.map((contents, i) => {
+          result.data.daily.map((rawContents, i) => {
             const dayID = `${self.startTs}-${i + 1}`
             const day = StatisticsSupportedDayModel.create({ dayID }, self.env)
-            if (contents && contents.length > 0) {
-              day.setContents(contents.map(({ sourceURL: url, LIKE, likeCount }) => {
+            if (rawContents && rawContents.length > 0) {
+              const likees = new Set<string>()
+              const contents: StatisticsSupportedContent[] = []
+              rawContents.forEach(({ likee, sourceURL: url, LIKE, likeCount }) => {
+                likees.add(likee)
                 const content = StatisticsSupportedContentModel.create({
                   id: url,
                   likeAmount: LIKE,
                   likesCount: likeCount,
                 }, self.env)
                 content.setInfo(self.readerStore.getContentByURL(url))
-                return content
-              }))
+                contents.push(content)
+              })
+              day.setTotalCreatorsCount(likees.size)
+              day.setContents(contents)
             }
             return day
           })
