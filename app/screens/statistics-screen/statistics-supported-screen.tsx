@@ -1,10 +1,9 @@
 import * as React from "react"
 import {
-  ListRenderItem,
   View,
   Dimensions,
 } from "react-native"
-import { FlatList } from "react-navigation"
+import { SectionList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
 
@@ -45,6 +44,10 @@ import { color } from "../../theme"
 }))
 @observer
 export class StatisticsSupportedScreen extends React.Component<Props> {
+  state = {
+    sliderWidth: Dimensions.get("window").width,
+  }
+
   private onPressHeaderLeft = () => {
     this.props.navigation.goBack()
   }
@@ -73,7 +76,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
   private contentListItemKeyExtractor =
     (item: StatisticsSupportedContent) => item.id
 
-  private contentListItemSkeletonKeyExtractor =
+  private skeletonListItemKeyExtractor =
     (_: any, index: number) => `${index}`
 
   onBeforeSnapToWeek = (weekIndex: number) => {
@@ -91,11 +94,6 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
   }
 
   render () {
-    const {
-      selectedWeek,
-      hasSelectedDayOfWeek,
-    } = this.props.dataStore
-    const sliderWidth = Dimensions.get("window").width
     return (
       <Screen
         preset="fixed"
@@ -110,21 +108,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
           leftIcon="back"
           onLeftPress={this.onPressHeaderLeft}
         />
-        <View style={Style.Carousel}>
-          <Carousel<StatisticsSupportedWeek>
-            data={this.props.dataStore.weekList}
-            renderItem={this.renderDashboard}
-            itemWidth={sliderWidth}
-            sliderWidth={sliderWidth}
-            onBeforeSnapToItem={this.onBeforeSnapToWeek}
-            onScroll={this.onScrollDashboard}
-          />
-        </View>
-        {selectedWeek && hasSelectedDayOfWeek ? (
-          this.renderSupportedContentList(selectedWeek)
-        ) : (
-          this.renderSupportedCreatorList(selectedWeek)
-        )}
+        {this.renderSupportedList()}
       </Screen>
     )
   }
@@ -143,100 +127,101 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
     )
   }
 
-  private renderSupportedCreatorList(week: StatisticsSupportedWeek) {
-    const supportedCreators = week && week.hasFetched ? week.creators : []
-    return (
-      <React.Fragment>
-        <Text
-          tx="StatisticsSupportedScreen.ListTitle.Creator"
-          style={Style.ListHeaderText}
-        />
-        {week.isFetching ? (
-          <FlatList
-            data={new Array(3)}
-            scrollEnabled={false}
-            keyExtractor={this.contentListItemSkeletonKeyExtractor}
-            renderItem={this.renderSupportedCreatorListItemSkeleton}
-            ItemSeparatorComponent={this.renderSeparator}
-            style={Style.List}
-          />
-        ) : (
-          <FlatList<StatisticsSupportedCreator>
-            key={week ? week.startTs : null}
-            data={supportedCreators}
-            keyExtractor={this.creatorListItemKeyExtractor}
-            renderItem={this.renderSupportedCreatorListItem}
-            ItemSeparatorComponent={this.renderSeparator}
-            scrollEnabled={supportedCreators.length > 0}
-            ListEmptyComponent={this.renderSupportedCreatorEmptyList}
-            style={Style.List}
-          />
-        )}
-      </React.Fragment>
-    )
-  }
-
-  private renderSupportedContentList(week: StatisticsSupportedWeek) {
-    const { selectedDayOfWeek } = this.props.dataStore
+  private renderSupportedList() {
+    const {
+      selectedWeek: week,
+      selectedDayOfWeek,
+      hasSelectedDayOfWeek,
+    } = this.props.dataStore
+    const {
+      creators: supportedCreators = [],
+      days = [],
+    } = week || {}
     const {
       contents: supportedContent = []
-    } = week.days[selectedDayOfWeek] || {}
-    const key = week ? `${week.startTs}-${selectedDayOfWeek}` : null
+    } = days[selectedDayOfWeek] || {}
+
     return (
-      <React.Fragment>
-        <Text
-          tx="StatisticsSupportedScreen.ListTitle.Content"
-          style={Style.ListHeaderText}
-        />
-        <FlatList<StatisticsSupportedContent>
-          key={key}
-          data={supportedContent}
-          keyExtractor={this.contentListItemKeyExtractor}
-          scrollEnabled={supportedContent.length > 0}
-          renderItem={this.renderSupportedContentListItem}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListEmptyComponent={this.renderSupportedContentEmptyList}
-          style={Style.List}
-        />
-      </React.Fragment>
+      <SectionList
+        ListHeaderComponent={(
+          <View
+            style={Style.Carousel}
+            onLayout={event => {
+              this.setState({ sliderWidth: event.nativeEvent.layout.width })
+            }}
+          >
+            <Carousel<StatisticsSupportedWeek>
+              data={this.props.dataStore.weekList}
+              renderItem={this.renderDashboard}
+              itemWidth={this.state.sliderWidth}
+              sliderWidth={this.state.sliderWidth}
+              onBeforeSnapToItem={this.onBeforeSnapToWeek}
+              onScroll={this.onScrollDashboard}
+            />
+          </View>
+        )}
+        sections={[
+          week.isFetching
+            ? {
+              key: "loading",
+              data: new Array(3),
+              keyExtractor: this.skeletonListItemKeyExtractor
+            }
+            : (
+              hasSelectedDayOfWeek
+                ? {
+                  key: "contents",
+                  data: [...supportedContent],
+                  keyExtractor: this.contentListItemKeyExtractor,
+                }
+                : {
+                  key: "creators",
+                  data: [...supportedCreators],
+                  keyExtractor: this.creatorListItemKeyExtractor
+                }
+            ),
+        ]}
+        renderItem={({ item, section }) => {
+          if (section.key === "loading") {
+            return <StatisticsListItemSkeleton type="supported-creator" />
+          }
+          if (section.key === "creators") {
+            return <StatisticsSupportedCreatorListItem creator={item} />
+          }
+          return <StatisticsSupportedContentListItem content={item} />
+        }}
+        renderSectionHeader={() => {
+          return (
+            <Text
+              tx={`StatisticsSupportedScreen.ListTitle.${
+                hasSelectedDayOfWeek ? "Content" : "Creator"
+              }`}
+              style={Style.ListHeaderText}
+            />
+          )
+        }}
+        renderSectionFooter={({ section }) =>
+          section.data.length > 0
+            ? null
+            : (
+              <View style={Style.Empty}>
+                <Text
+                  tx={`StatisticsSupportedScreen.Empty.${
+                    hasSelectedDayOfWeek ? "Content" : "Creator"
+                  }`}
+                  style={Style.EmptyLabel}
+                />
+              </View>
+            )}
+        ItemSeparatorComponent={this.renderSeparator}
+        style={Style.List}
+      />
     )
   }
 
-  private renderSeparator = () => <View style={Style.Separator} />
-
-  private renderSupportedCreatorListItem:
-    ListRenderItem<StatisticsSupportedCreator> = ({ item }) => (
-      <StatisticsSupportedCreatorListItem creator={item} />
-    )
-
-  private renderSupportedContentListItem:
-    ListRenderItem<StatisticsSupportedContent> = ({ item }) => (
-      <StatisticsSupportedContentListItem content={item} />
-    )
-
-  private renderSupportedCreatorListItemSkeleton: ListRenderItem<any> = () => (
-    <StatisticsListItemSkeleton type="supported-creator" />
+  private renderSeparator = () => (
+    <View style={Style.SeparatorWrapper}>
+      <View style={Style.Separator} />
+    </View>
   )
-
-  private renderSupportedCreatorEmptyList = () => {
-    return (
-      <View style={Style.Empty}>
-        <Text
-          tx="StatisticsSupportedScreen.Empty.Creator"
-          style={Style.EmptyLabel}
-        />
-      </View>
-    )
-  }
-
-  private renderSupportedContentEmptyList = () => {
-    return (
-      <View style={Style.Empty}>
-        <Text
-          tx="StatisticsSupportedScreen.Empty.Content"
-          style={Style.EmptyLabel}
-        />
-      </View>
-    )
-  }
 }

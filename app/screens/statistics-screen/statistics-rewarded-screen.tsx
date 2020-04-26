@@ -275,7 +275,11 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
     )
   }
 
-  private renderSeparator = () => <View style={CommonStyle.Separator} />
+  private renderSeparator = () => (
+    <View style={CommonStyle.SeparatorWrapper}>
+      <View style={CommonStyle.Separator} />
+    </View>
+  )
 
   private renderRewardedContentListItem:
     ListRenderItem<StatisticsRewardedContent> = ({ item }) => (

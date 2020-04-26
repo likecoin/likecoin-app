@@ -27,6 +27,7 @@ export const StatisticsScreenStyle = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: color.palette.white,
   } as ViewStyle,
   EmptyLabel: {
     color: color.palette.grey9b,
@@ -47,8 +48,11 @@ export const StatisticsScreenStyle = StyleSheet.create({
     flex: 1,
   } as ViewStyle,
   Separator: {
-    marginHorizontal: DashboardChildrenStyle.paddingHorizontal,
     backgroundColor: color.palette.offWhite,
     height: 1,
+  } as ViewStyle,
+  SeparatorWrapper: {
+    backgroundColor: color.palette.white,
+    paddingHorizontal: DashboardChildrenStyle.paddingHorizontal,
   } as ViewStyle,
 })
