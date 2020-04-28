@@ -54,6 +54,7 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
         likeAmountFromCivicLikers: weeklyLikeAmountFromCivicLikers = 0,
         likeAmountFromCreatorsFund: weeklyLikeAmountFromCreatorsFund = 0,
         getPeriodText = undefined,
+        isFetching = false,
       } = {},
     } = this.props
 
@@ -156,7 +157,7 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
             onPressBar={this.props.onPressBarInChart}
             chartStyle={hasNoReward ? Style.ChartDimmed : null}
           />
-          {hasNoReward && (
+          {!isFetching && hasNoReward && (
             <View style={CommonStyle.ChartOverlay}>
               <Text
                 tx="StatisticsRewardedScreen.Dashboard.Empty.Title"

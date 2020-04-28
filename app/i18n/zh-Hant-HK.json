@@ -122,6 +122,9 @@
     }
   },
   "StatisticsRewardedScreen": {
+    "Empty": {
+      "Content": "沒有獲得讚賞的作品"
+    },
     "Dashboard": {
       "Empty": {
         "ButtonTitle": "獲得讚賞",

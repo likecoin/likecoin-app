@@ -15,6 +15,7 @@ export const StatisticsRewardedScreenStyle = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: color.palette.white,
   } as ViewStyle,
   SummaryIcon: {
     marginLeft: -3,

@@ -1,13 +1,9 @@
 import * as React from "react"
 import {
-  ListRenderItem,
   View,
   Dimensions,
 } from "react-native"
-import {
-  FlatList,
-  SectionList,
-} from "react-navigation"
+import { SectionList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
 
@@ -30,6 +26,9 @@ import {
 import { Header } from "../../components/header"
 import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
+import {
+  StatisticsListItemSkeleton,
+} from "../../components/statistics-list-item"
 import { Text } from "../../components/text"
 
 import {
@@ -46,6 +45,10 @@ import { calcPercentDiff } from "../../utils/number"
 }))
 @observer
 export class StatisticsRewardedScreen extends React.Component<Props> {
+  state = {
+    sliderWidth: Dimensions.get("window").width,
+  }
+
   private onPressHeaderLeft = () => {
     this.props.navigation.goBack()
   }
@@ -58,6 +61,9 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
 
   private contentListItemKeyExtractor =
     (item: StatisticsRewardedContent) => item.id
+
+  private skeletonListItemKeyExtractor =
+    (_: any, index: number) => `${index}`
 
   onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
@@ -74,11 +80,6 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
   }
 
   render () {
-    const {
-      selectedWeek,
-      hasSelectedDayOfWeek,
-    } = this.props.dataStore
-    const sliderWidth = Dimensions.get("window").width
     return (
       <Screen
         preset="fixed"
@@ -93,21 +94,7 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
           leftIcon="back"
           onLeftPress={this.onPressHeaderLeft}
         />
-        <View style={CommonStyle.Carousel}>
-          <Carousel<StatisticsRewardedWeek>
-            data={this.props.dataStore.weekList}
-            renderItem={this.renderDashboard}
-            itemWidth={sliderWidth}
-            sliderWidth={sliderWidth}
-            onBeforeSnapToItem={this.onBeforeSnapToWeek}
-            onScroll={this.onScrollDashboard}
-          />
-        </View>
-        {selectedWeek && hasSelectedDayOfWeek ? (
-          this.renderRewardedDailyContentList(selectedWeek)
-        ) : (
-          this.renderWeeklyRewardedContentList(selectedWeek)
-        )}
+        {this.renderContentList()}
       </Screen>
     )
   }
@@ -118,7 +105,6 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
   }) => {
     return (
       <StatisticsRewardedDashbaord
-        key={weekData.startTs}
         store={this.props.dataStore}
         week={weekData}
         index={index}
@@ -127,39 +113,117 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
     )
   }
 
-  private renderWeeklyRewardedContentList(week: StatisticsRewardedWeek) {
+  private renderContentList() {
+    const {
+      selectedWeek: week,
+      selectedDayOfWeek,
+      hasSelectedDayOfWeek,
+    } = this.props.dataStore
     const {
       contentList: rewardedContents = [],
+      days = [],
       isFetching = false,
-      hasFetched = false,
     } = week || {}
-    const key = week ? `${week.startTs}` : null
+    const {
+      contents: dailyRewardedContents = []
+    } = days[selectedDayOfWeek] || {}
+
+    console.tron.log("renderContentList")
+
     return (
-      <React.Fragment>
-        <SectionList
-          key={key}
-          sections={[{ data: !isFetching && hasFetched ? rewardedContents : [] }]}
-          keyExtractor={this.contentListItemKeyExtractor}
-          scrollEnabled={rewardedContents.length > 0}
-          renderItem={this.renderRewardedContentListItem}
-          renderSectionHeader={this.renderSectionHeader}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={() => this.renderListHeader(week)}
-          style={CommonStyle.List}
-        />
-      </React.Fragment>
+      <SectionList
+        ListHeaderComponent={(
+          <React.Fragment>
+            {this.renderCarousel()}
+            {this.renderWeekSummary(week)}
+          </React.Fragment>
+        )}
+        sections={[
+          isFetching ? {
+            key: "loading",
+            data: new Array(3),
+            keyExtractor: this.skeletonListItemKeyExtractor,
+          } : (
+            hasSelectedDayOfWeek
+              ? {
+                key: "day",
+                data: [...dailyRewardedContents],
+                keyExtractor: this.contentListItemKeyExtractor,
+              }
+              : {
+                key: "week",
+                data: [...rewardedContents],
+                keyExtractor: this.contentListItemKeyExtractor,
+              }
+          ),
+        ]}
+        renderItem={({ item, section }) => {
+          if (section.key === "loading") {
+            return <StatisticsListItemSkeleton type="supported-creator" />
+          }
+          if (section.key === "week") {
+            return (
+              <StatisticsRewardedContentListItem
+                type="rewarded-content"
+                content={item}
+              />
+            )
+          }
+          return (
+            <StatisticsRewardedContentListItem
+              type="rewarded-daily-content"
+              content={item}
+            />
+          )
+        }}
+        renderSectionHeader={this.renderSectionHeader}
+        renderSectionFooter={({ section }) =>
+          section.data.length > 0
+            ? null
+            : (
+              <View style={CommonStyle.Empty}>
+                <Text
+                  tx="StatisticsRewardedScreen.Empty.Content"
+                  style={CommonStyle.EmptyLabel}
+                />
+              </View>
+            )}
+        ItemSeparatorComponent={this.renderSeparator}
+        style={CommonStyle.List}
+      />
     )
   }
 
-  private renderListHeader = (week: StatisticsRewardedWeek) => {
+  private renderCarousel = () => {
+    return (
+      <View
+        style={CommonStyle.Carousel}
+        onLayout={event => {
+          this.setState({ sliderWidth: event.nativeEvent.layout.width })
+        }}
+      >
+        <Carousel<StatisticsRewardedWeek>
+          data={this.props.dataStore.weekList}
+          renderItem={this.renderDashboard}
+          itemWidth={this.state.sliderWidth}
+          sliderWidth={this.state.sliderWidth}
+          onBeforeSnapToItem={this.onBeforeSnapToWeek}
+          onScroll={this.onScrollDashboard}
+        />
+      </View>
+    )
+  }
+
+  private renderWeekSummary = (week: StatisticsRewardedWeek) => {
     const {
       likesCount = 0,
       basicLikersCount = 0,
       civicLikersCount = 0,
+      startTs = 0,
     } = week || {}
 
     const lastWeekIndex = this.props.dataStore.weekList
-      .findIndex(w => w.startTs === week.startTs) + 1
+      .findIndex(w => w.startTs === startTs) + 1
     const {
       likesCount: lastWeekLikesCount = 0,
     } = this.props.dataStore.weekList[lastWeekIndex] || {}
@@ -250,50 +314,9 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
     )
   }
 
-  private renderRewardedDailyContentList(week: StatisticsRewardedWeek) {
-    const { selectedDayOfWeek } = this.props.dataStore
-    const {
-      contents: dailyRewardedContents = []
-    } = week.days[selectedDayOfWeek] || {}
-    const key = week ? `${week.startTs}-${selectedDayOfWeek}` : null
-    return (
-      <React.Fragment>
-        <Text
-          tx="StatisticsRewardedScreen.ListTitle.Content"
-          style={CommonStyle.ListHeaderText}
-        />
-        <FlatList<StatisticsRewardedContent>
-          key={key}
-          data={dailyRewardedContents}
-          keyExtractor={this.contentListItemKeyExtractor}
-          scrollEnabled={dailyRewardedContents.length > 0}
-          renderItem={this.renderRewardedDailyContentListItem}
-          ItemSeparatorComponent={this.renderSeparator}
-          style={CommonStyle.List}
-        />
-      </React.Fragment>
-    )
-  }
-
   private renderSeparator = () => (
     <View style={CommonStyle.SeparatorWrapper}>
       <View style={CommonStyle.Separator} />
     </View>
   )
-
-  private renderRewardedContentListItem:
-    ListRenderItem<StatisticsRewardedContent> = ({ item }) => (
-      <StatisticsRewardedContentListItem
-        type="rewarded-content"
-        content={item}
-      />
-    )
-
-  private renderRewardedDailyContentListItem:
-    ListRenderItem<StatisticsRewardedContent> = ({ item }) => (
-      <StatisticsRewardedContentListItem
-        type="rewarded-daily-content"
-        content={item}
-      />
-    )
 }

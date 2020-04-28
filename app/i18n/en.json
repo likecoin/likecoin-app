@@ -138,6 +138,9 @@
     }
   },
   "StatisticsRewardedScreen": {
+    "Empty": {
+      "Content": "No rewarded content"
+    },
     "Dashboard": {
       "Empty": {
         "ButtonTitle": "Get Rewards",
