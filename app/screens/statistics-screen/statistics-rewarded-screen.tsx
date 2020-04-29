@@ -219,14 +219,12 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
       likesCount = 0,
       basicLikersCount = 0,
       civicLikersCount = 0,
-      startTs = 0,
     } = week || {}
-
-    const lastWeekIndex = this.props.dataStore.weekList
-      .findIndex(w => w.startTs === startTs) + 1
     const {
-      likesCount: lastWeekLikesCount = 0,
-    } = this.props.dataStore.weekList[lastWeekIndex] || {}
+      selectedLastWeek: {
+        likesCount: lastWeekLikesCount = 0,
+      } = {}
+    } = this.props.dataStore
     const growthPercentage = calcPercentDiff(likesCount, lastWeekLikesCount)
     return (
       <View style={Style.Summary}>

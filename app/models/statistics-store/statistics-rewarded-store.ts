@@ -34,8 +34,6 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
     selectedWeek: types.safeReference(StatisticsRewardedWeekModel),
     totalLikeAmount: types.optional(types.number, 0),
   })
-  .volatile(() => ({
-  }))
   .views(self => ({
     get weekList() {
       return [...self.weeks.values()].sort((weekA, weekB) => {
@@ -51,6 +49,14 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
   .views(self => ({
     getWeekByIndex(index: number) {
       return self.weekList[index]
+    },
+    get selectedLastWeek() {
+      if (self.selectedWeek) {
+        const selectedWeekIndex =
+          self.weekList.findIndex(week => week.startTs === self.selectedWeek.startTs)
+        return self.weekList[selectedWeekIndex + 1]
+      }
+      return undefined
     },
   }))
   .actions(self => ({
