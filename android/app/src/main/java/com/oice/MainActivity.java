@@ -1,10 +1,12 @@
 package com.oice;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
-      import com.facebook.react.ReactActivityDelegate;
-      import com.facebook.react.ReactRootView;
-      import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+import io.branch.rnbranch.*;
+import android.content.Intent;
 
 public class MainActivity extends ReactActivity {
 
@@ -17,6 +19,20 @@ public class MainActivity extends ReactActivity {
       }
     };
   }
+
+    // Override onStart, onNewIntent:
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RNBranchModule.initSession(getIntent().getData(), this);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        RNBranchModule.reInitSession(this);
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript.

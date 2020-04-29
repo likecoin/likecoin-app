@@ -29,6 +29,7 @@ import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
 import { ChainStore } from "../../models/chain-store"
+import { RootStore } from "../../models/root-store"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
 
@@ -39,14 +40,16 @@ import * as Intercom from "../../utils/intercom"
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   chain: ChainStore
-  userStore: UserStore
-  readerStore: ReaderStore
+  userStore: UserStore,
+  readerStore: ReaderStore,
+  isAppReferralEnabled: boolean,
 }
 
 @inject((allStores: any) => ({
   chain: allStores.chainStore as ChainStore,
   userStore: allStores.userStore as UserStore,
   readerStore: allStores.readerStore as ReaderStore,
+  isAppReferralEnabled: !!(allStores.rootStore as RootStore).env.appConfig.getValue("APP_REFERRAL_ENABLE"),
 }))
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
@@ -82,6 +85,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressFollowSettings = () => {
     logAnalyticsEvent('SettingsClickFollowSettings')
     this.props.navigation.navigate("FollowSettings")
+  }
+
+  private onPressReferral = () => {
+    logAnalyticsEvent('SettingsClickReferral')
+    this.props.navigation.navigate("Referral")
   }
 
   private onPressQRCodeButton = () => {
@@ -189,6 +197,15 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
             onPress={this.onPressFollowSettings}
           />
+          {this.props.isAppReferralEnabled &&
+            <Button
+              preset="plain"
+              tx="settingsScreen.referral"
+              textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+              style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+              onPress={this.onPressReferral}
+            />
+          }
         </View>
         {isIAPEnabled &&
           <View style={SETTINGS_MENU.TABLE}>
