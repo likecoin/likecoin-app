@@ -135,7 +135,7 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
         ListHeaderComponent={(
           <React.Fragment>
             {this.renderCarousel()}
-            {this.renderWeekSummary(week)}
+            {!hasSelectedDayOfWeek && this.renderWeekSummary(week)}
           </React.Fragment>
         )}
         sections={[
