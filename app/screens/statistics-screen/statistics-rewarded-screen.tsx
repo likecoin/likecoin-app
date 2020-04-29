@@ -1,12 +1,12 @@
 import * as React from "react"
-import {
-  View,
-  Dimensions,
-} from "react-native"
+import { View } from "react-native"
 import { SectionList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
 
+import {
+  wrapStatisticsScreenBase,
+} from "./statistics-screen"
 import {
   StatisticsRewardedScreenProps as Props,
 } from "./statistics-rewarded-screen.props"
@@ -23,9 +23,7 @@ import {
   StatisticsRewardedDashbaord,
 } from "./statistics-rewarded-dashboard"
 
-import { Header } from "../../components/header"
 import { Icon } from "../../components/icon"
-import { Screen } from "../../components/screen"
 import {
   StatisticsListItemSkeleton,
 } from "../../components/statistics-list-item"
@@ -44,15 +42,7 @@ import { calcPercentDiff } from "../../utils/number"
   dataStore: (allStores as any).statisticsRewardedStore as StatisticsRewardedStore,
 }))
 @observer
-export class StatisticsRewardedScreen extends React.Component<Props> {
-  state = {
-    sliderWidth: Dimensions.get("window").width,
-  }
-
-  private onPressHeaderLeft = () => {
-    this.props.navigation.goBack()
-  }
-
+class StatisticsRewardedScreenBase extends React.Component<Props> {
   componentDidMount() {
     this.props.dataStore.fetchLatest({
       shouldFetchLastWeek: true,
@@ -60,60 +50,23 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
   }
 
   private contentListItemKeyExtractor =
-    (item: StatisticsRewardedContent) => item.id
+   (item: StatisticsRewardedContent) => item.id
 
-  private skeletonListItemKeyExtractor =
-    (_: any, index: number) => `${index}`
-
-  onBeforeSnapToWeek = (weekIndex: number) => {
-    this.props.dataStore.selectWeek(weekIndex)
-  }
-
-  onScrollDashboard = () => {
+  private onScrollDashboard = () => {
     if (this.props.dataStore.hasSelectedDayOfWeek) {
       this.props.dataStore.deselectDayOfWeek()
     }
   }
 
-  onPressBarInChart = (dayOfWeek: number) => {
+  private onPressDay = (dayOfWeek: number) => {
     this.props.dataStore.selectDayOfWeek(dayOfWeek)
   }
 
-  render () {
-    return (
-      <Screen
-        preset="fixed"
-        backgroundColor={color.transparent}
-        style={CommonStyle.Screen}
-      >
-        <View style={CommonStyle.BackdropWrapper}>
-          <View style={CommonStyle.Backdrop} />
-        </View>
-        <Header
-          headerTx="StatisticsRewardedScreen.Title"
-          leftIcon="back"
-          onLeftPress={this.onPressHeaderLeft}
-        />
-        {this.renderContentList()}
-      </Screen>
-    )
+  onBeforeSnapToWeek = (weekIndex: number) => {
+    this.props.dataStore.selectWeek(weekIndex)
   }
 
-  private renderDashboard = ({ item: weekData, index }: {
-    item: StatisticsRewardedWeek
-    index: number
-  }) => {
-    return (
-      <StatisticsRewardedDashbaord
-        store={this.props.dataStore}
-        week={weekData}
-        index={index}
-        onPressBarInChart={this.onPressBarInChart}
-      />
-    )
-  }
-
-  private renderContentList() {
+  render() {
     const {
       selectedWeek: week,
       selectedDayOfWeek,
@@ -142,7 +95,7 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
           isFetching ? {
             key: "loading",
             data: new Array(3),
-            keyExtractor: this.skeletonListItemKeyExtractor,
+            keyExtractor: this.props.skeletonListItemKeyExtractor,
           } : (
             hasSelectedDayOfWeek
               ? {
@@ -188,7 +141,7 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
                 />
               </View>
             )}
-        ItemSeparatorComponent={this.renderSeparator}
+        ItemSeparatorComponent={this.props.renderSeparator}
         style={CommonStyle.List}
       />
     )
@@ -198,19 +151,31 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
     return (
       <View
         style={CommonStyle.Carousel}
-        onLayout={event => {
-          this.setState({ sliderWidth: event.nativeEvent.layout.width })
-        }}
+        onLayout={this.props.onLayoutCarousel}
       >
         <Carousel<StatisticsRewardedWeek>
           data={this.props.dataStore.weekList}
           renderItem={this.renderDashboard}
-          itemWidth={this.state.sliderWidth}
-          sliderWidth={this.state.sliderWidth}
+          itemWidth={this.props.carouselWidth}
+          sliderWidth={this.props.carouselWidth}
           onBeforeSnapToItem={this.onBeforeSnapToWeek}
           onScroll={this.onScrollDashboard}
         />
       </View>
+    )
+  }
+
+  private renderDashboard = ({ item: weekData, index }: {
+    item: StatisticsRewardedWeek
+    index: number
+  }) => {
+    return (
+      <StatisticsRewardedDashbaord
+        store={this.props.dataStore}
+        week={weekData}
+        index={index}
+        onPressBarInChart={this.onPressDay}
+      />
     )
   }
 
@@ -311,10 +276,9 @@ export class StatisticsRewardedScreen extends React.Component<Props> {
       />
     )
   }
-
-  private renderSeparator = () => (
-    <View style={CommonStyle.SeparatorWrapper}>
-      <View style={CommonStyle.Separator} />
-    </View>
-  )
 }
+
+export const StatisticsRewardedScreen = wrapStatisticsScreenBase(
+  StatisticsRewardedScreenBase,
+  "StatisticsRewardedScreen.Title"
+)

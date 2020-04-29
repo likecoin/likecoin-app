@@ -1,9 +1,9 @@
-import { NavigationScreenProps } from "react-navigation"
+import { StatisticsScreenProps } from "./statistics-screen.props"
 
 import {
   StatisticsRewardedStore,
 } from "../../models/statistics-store"
 
-export interface StatisticsRewardedScreenProps extends NavigationScreenProps {
+export interface StatisticsRewardedScreenProps extends StatisticsScreenProps {
   dataStore: StatisticsRewardedStore
 }
