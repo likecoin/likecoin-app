@@ -35,6 +35,16 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
       this.setState({ sliderWidth: event.nativeEvent.layout.width })
     }
 
+    onScrollDashboard = () => {
+      if (this.props.dataStore.hasSelectedDayOfWeek) {
+        this.props.dataStore.deselectDayOfWeek()
+      }
+    }
+
+    onSelectDay = (dayOfWeek: number) => {
+      this.props.dataStore.selectDayOfWeek(dayOfWeek)
+    }
+
     render() {
       return (
         <Screen
@@ -56,6 +66,8 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
             skeletonListItemKeyExtractor={this.skeletonListItemKeyExtractor}
             renderSeparator={this.renderSeparator}
             onLayoutCarousel={this.onLayoutCarousel}
+            onScrollDashboard={this.onScrollDashboard}
+            onSelectDay={this.onSelectDay}
           />
         </Screen>
       )

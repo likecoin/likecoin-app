@@ -38,9 +38,6 @@ import {
 import { color } from "../../theme"
 import { calcPercentDiff } from "../../utils/number"
 
-@inject(allStores => ({
-  dataStore: (allStores as any).statisticsRewardedStore as StatisticsRewardedStore,
-}))
 @observer
 class StatisticsRewardedScreenBase extends React.Component<Props> {
   componentDidMount() {
@@ -51,16 +48,6 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
 
   private contentListItemKeyExtractor =
    (item: StatisticsRewardedContent) => item.id
-
-  private onScrollDashboard = () => {
-    if (this.props.dataStore.hasSelectedDayOfWeek) {
-      this.props.dataStore.deselectDayOfWeek()
-    }
-  }
-
-  private onPressDay = (dayOfWeek: number) => {
-    this.props.dataStore.selectDayOfWeek(dayOfWeek)
-  }
 
   onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
@@ -159,7 +146,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
           itemWidth={this.props.carouselWidth}
           sliderWidth={this.props.carouselWidth}
           onBeforeSnapToItem={this.onBeforeSnapToWeek}
-          onScroll={this.onScrollDashboard}
+          onScroll={this.props.onScrollDashboard}
         />
       </View>
     )
@@ -174,7 +161,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
         store={this.props.dataStore}
         week={weekData}
         index={index}
-        onPressBarInChart={this.onPressDay}
+        onPressBarInChart={this.props.onSelectDay}
       />
     )
   }
@@ -278,7 +265,14 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
   }
 }
 
-export const StatisticsRewardedScreen = wrapStatisticsScreenBase(
-  StatisticsRewardedScreenBase,
-  "StatisticsRewardedScreen.Title"
+export const StatisticsRewardedScreen = inject(
+  (allStores: any) => ({
+    dataStore:
+      allStores.statisticsRewardedStore as StatisticsRewardedStore,
+  })
+)(
+  wrapStatisticsScreenBase(
+    StatisticsRewardedScreenBase,
+    "StatisticsRewardedScreen.Title"
+  )
 )

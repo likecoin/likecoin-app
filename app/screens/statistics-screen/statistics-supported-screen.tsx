@@ -35,9 +35,6 @@ import {
   StatisticsSupportedWeek,
 } from "../../models/statistics-store"
 
-@inject(allStores => ({
-  dataStore: (allStores as any).statisticsSupportedStore as StatisticsSupportedStore,
-}))
 @observer
 class StatisticsSupportedScreenBase extends React.Component<Props> {
   componentDidMount() {
@@ -68,16 +65,6 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
     this.props.dataStore.selectWeek(weekIndex)
   }
 
-  private onScrollDashboard = () => {
-    if (this.props.dataStore.hasSelectedDayOfWeek) {
-      this.props.dataStore.deselectDayOfWeek()
-    }
-  }
-
-  private onSelectDay = (dayOfWeek: number) => {
-    this.props.dataStore.selectDayOfWeek(dayOfWeek)
-  }
-
   private renderDashboard = ({ item: weekData, index }: {
     item: StatisticsSupportedWeek
     index: number
@@ -87,7 +74,7 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
         store={this.props.dataStore}
         week={weekData}
         index={index}
-        onPressBarInChart={this.onSelectDay}
+        onPressBarInChart={this.props.onSelectDay}
       />
     )
   }
@@ -119,7 +106,7 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
               itemWidth={this.props.carouselWidth}
               sliderWidth={this.props.carouselWidth}
               onBeforeSnapToItem={this.onBeforeSnapToWeek}
-              onScroll={this.onScrollDashboard}
+              onScroll={this.props.onScrollDashboard}
             />
           </View>
         )}
@@ -183,7 +170,14 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
   }
 }
 
-export const StatisticsSupportedScreen = wrapStatisticsScreenBase(
-  StatisticsSupportedScreenBase,
-  "StatisticsSupportedScreen.Title"
+export const StatisticsSupportedScreen = inject(
+  (allStores: any) => ({
+    dataStore:
+      allStores.statisticsSupportedStore as StatisticsSupportedStore,
+  })
+)(
+  wrapStatisticsScreenBase(
+    StatisticsSupportedScreenBase,
+    "StatisticsSupportedScreen.Title"
+  )
 )
