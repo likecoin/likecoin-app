@@ -1,4 +1,8 @@
-import { LayoutChangeEvent } from "react-native"
+import {
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  LayoutChangeEvent,
+} from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
 import {
@@ -14,6 +18,7 @@ export interface StatisticsScreenProps extends StatisticsScreenWrapperProps {
   skeletonListItemKeyExtractor: (item: any, index: number) => string
   renderSeparator: React.ComponentType<any> | null
   onLayoutCarousel: (event: LayoutChangeEvent) => void
+  onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
   onScrollDashboard: () => void
   onSelectDay: (dayIndex: number) => void
 }

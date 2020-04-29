@@ -165,6 +165,7 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
             )}
         ItemSeparatorComponent={this.props.renderSeparator}
         style={Style.List}
+        onScroll={this.props.onScroll}
       />
     )
   }

@@ -43,6 +43,18 @@ export const StatisticsScreenStyle = StyleSheet.create({
     paddingVertical: spacing[2] - spacing[1],
     fontWeight: "500",
   } as TextStyle,
+  ListShadow: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: color.palette.grey4a,
+  } as ViewStyle,
+  ListWrapper: {
+    position: "relative",
+    flex: 1,
+  } as ViewStyle,
   Screen: {
     position: "relative",
     flex: 1,

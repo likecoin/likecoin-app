@@ -3,6 +3,7 @@ import {
   Dimensions,
   LayoutChangeEvent,
   View,
+  Animated,
 } from "react-native"
 
 import {
@@ -22,6 +23,7 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
   return class extends React.Component<P & Props> {
     state = {
       carouselWidth: Dimensions.get("window").width,
+      scrollY: new Animated.Value(0),
     }
 
     componentDidMount() {
@@ -49,6 +51,18 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
       this.props.dataStore.selectDayOfWeek(dayOfWeek)
     }
 
+    onScroll = Animated.event(
+      [
+        {
+          nativeEvent: {
+            contentOffset: {
+              y: this.state.scrollY,
+            },
+          },
+        },
+      ]
+    )
+
     render() {
       return (
         <Screen
@@ -64,15 +78,29 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
             leftIcon="back"
             onLeftPress={this.onPressBack}
           />
-          <WrappedComponent
-            {...this.props as P}
-            carouselWidth={this.state.carouselWidth}
-            skeletonListItemKeyExtractor={this.skeletonListItemKeyExtractor}
-            renderSeparator={this.renderSeparator}
-            onLayoutCarousel={this.onLayoutCarousel}
-            onScrollDashboard={this.onScrollDashboard}
-            onSelectDay={this.onSelectDay}
-          />
+          <View style={Style.ListWrapper}>
+            <WrappedComponent
+              {...this.props as P}
+              carouselWidth={this.state.carouselWidth}
+              skeletonListItemKeyExtractor={this.skeletonListItemKeyExtractor}
+              renderSeparator={this.renderSeparator}
+              onLayoutCarousel={this.onLayoutCarousel}
+              onScroll={this.onScroll}
+              onScrollDashboard={this.onScrollDashboard}
+              onSelectDay={this.onSelectDay}
+            />
+            <Animated.View
+              style={[
+                Style.ListShadow,
+                {
+                  opacity: this.state.scrollY.interpolate({
+                    inputRange: [0, 10, 11],
+                    outputRange: [0, 0.5, 0.5],
+                  }),
+                }
+              ]}
+            />
+          </View>
         </Screen>
       )
     }

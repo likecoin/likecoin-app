@@ -130,6 +130,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
             )}
         ItemSeparatorComponent={this.props.renderSeparator}
         style={CommonStyle.List}
+        onScroll={this.props.onScroll}
       />
     )
   }
