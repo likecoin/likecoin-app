@@ -24,6 +24,10 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
       carouselWidth: Dimensions.get("window").width,
     }
 
+    componentDidMount() {
+      this.props.dataStore.deselectDayOfWeek()
+    }
+
     skeletonListItemKeyExtractor =
       (_: any, index: number) => `${index}`
 
