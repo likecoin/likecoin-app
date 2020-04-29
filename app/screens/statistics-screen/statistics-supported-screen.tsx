@@ -1,12 +1,12 @@
 import * as React from "react"
-import {
-  View,
-  Dimensions,
-} from "react-native"
+import { View } from "react-native"
 import { SectionList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
 
+import {
+  wrapStatisticsScreenBase,
+} from "./statistics-screen"
 import {
   StatisticsScreenStyle as Style,
 } from "./statistics-screen.style"
@@ -23,8 +23,6 @@ import {
   StatisticsSupportedDashbaord,
 } from "./statistics-supported-dashboard"
 
-import { Header } from "../../components/header"
-import { Screen } from "../../components/screen"
 import {
   StatisticsListItemSkeleton,
 } from "../../components/statistics-list-item"
@@ -37,21 +35,11 @@ import {
   StatisticsSupportedWeek,
 } from "../../models/statistics-store"
 
-import { color } from "../../theme"
-
 @inject(allStores => ({
   dataStore: (allStores as any).statisticsSupportedStore as StatisticsSupportedStore,
 }))
 @observer
-export class StatisticsSupportedScreen extends React.Component<Props> {
-  state = {
-    sliderWidth: Dimensions.get("window").width,
-  }
-
-  private onPressHeaderLeft = () => {
-    this.props.navigation.goBack()
-  }
-
+class StatisticsSupportedScreenBase extends React.Component<Props> {
   componentDidMount() {
     const { selectedWeek } = this.props.dataStore
     if (selectedWeek) {
@@ -76,41 +64,18 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
   private contentListItemKeyExtractor =
     (item: StatisticsSupportedContent) => item.id
 
-  private skeletonListItemKeyExtractor =
-    (_: any, index: number) => `${index}`
-
-  onBeforeSnapToWeek = (weekIndex: number) => {
+  private onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
   }
 
-  onScrollDashboard = () => {
+  private onScrollDashboard = () => {
     if (this.props.dataStore.hasSelectedDayOfWeek) {
       this.props.dataStore.deselectDayOfWeek()
     }
   }
 
-  onPressBarInChart = (dayOfWeek: number) => {
+  private onSelectDay = (dayOfWeek: number) => {
     this.props.dataStore.selectDayOfWeek(dayOfWeek)
-  }
-
-  render () {
-    return (
-      <Screen
-        preset="fixed"
-        backgroundColor={color.transparent}
-        style={Style.Screen}
-      >
-        <View style={Style.BackdropWrapper}>
-          <View style={Style.Backdrop} />
-        </View>
-        <Header
-          headerTx="StatisticsSupportedScreen.Title"
-          leftIcon="back"
-          onLeftPress={this.onPressHeaderLeft}
-        />
-        {this.renderSupportedList()}
-      </Screen>
-    )
   }
 
   private renderDashboard = ({ item: weekData, index }: {
@@ -122,12 +87,12 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
         store={this.props.dataStore}
         week={weekData}
         index={index}
-        onPressBarInChart={this.onPressBarInChart}
+        onPressBarInChart={this.onSelectDay}
       />
     )
   }
 
-  private renderSupportedList() {
+  render() {
     const {
       selectedWeek: week,
       selectedDayOfWeek,
@@ -146,15 +111,13 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
         ListHeaderComponent={(
           <View
             style={Style.Carousel}
-            onLayout={event => {
-              this.setState({ sliderWidth: event.nativeEvent.layout.width })
-            }}
+            onLayout={this.props.onLayoutCarousel}
           >
             <Carousel<StatisticsSupportedWeek>
               data={this.props.dataStore.weekList}
               renderItem={this.renderDashboard}
-              itemWidth={this.state.sliderWidth}
-              sliderWidth={this.state.sliderWidth}
+              itemWidth={this.props.carouselWidth}
+              sliderWidth={this.props.carouselWidth}
               onBeforeSnapToItem={this.onBeforeSnapToWeek}
               onScroll={this.onScrollDashboard}
             />
@@ -165,7 +128,7 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
             ? {
               key: "loading",
               data: new Array(3),
-              keyExtractor: this.skeletonListItemKeyExtractor
+              keyExtractor: this.props.skeletonListItemKeyExtractor
             }
             : (
               hasSelectedDayOfWeek
@@ -213,15 +176,14 @@ export class StatisticsSupportedScreen extends React.Component<Props> {
                 />
               </View>
             )}
-        ItemSeparatorComponent={this.renderSeparator}
+        ItemSeparatorComponent={this.props.renderSeparator}
         style={Style.List}
       />
     )
   }
-
-  private renderSeparator = () => (
-    <View style={Style.SeparatorWrapper}>
-      <View style={Style.Separator} />
-    </View>
-  )
 }
+
+export const StatisticsSupportedScreen = wrapStatisticsScreenBase(
+  StatisticsSupportedScreenBase,
+  "StatisticsSupportedScreen.Title"
+)
