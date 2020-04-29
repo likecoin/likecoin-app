@@ -62,7 +62,9 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
             likesCount: likeCount,
             worksCount: workCount,
           }, self.env)
-          creator.setInfo(self.readerStore.createCreatorFromLikerId(likee))
+          if (likee) {
+            creator.setInfo(self.readerStore.createCreatorFromLikerId(likee))
+          }
           return creator
         }))
         self.days.replace(
@@ -79,7 +81,9 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
                   likeAmount: LIKE,
                   likesCount: likeCount,
                 }, self.env)
-                content.setInfo(self.readerStore.getContentByURL(url))
+                if (url) {
+                  content.setInfo(self.readerStore.getContentByURL(url))
+                }
                 contents.push(content)
               })
               day.setTotalCreatorsCount(likees.size)

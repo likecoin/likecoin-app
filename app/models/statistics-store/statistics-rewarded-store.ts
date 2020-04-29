@@ -136,7 +136,9 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
                 civicLikersCount,
               }, self.env)
               const contentInfo = self.readerStore.getContentByURL(url)
-              dailyContent.setInfo(contentInfo)
+              if (contentInfo) {
+                dailyContent.setInfo(contentInfo)
+              }
               dailyContents.push(dailyContent)
 
               // Accumulate content stats for the week
@@ -161,7 +163,9 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
                   basicLikersCount,
                   civicLikersCount,
                 }, self.env)
-                weeklyContent.setInfo(contentInfo)
+                if (contentInfo) {
+                  weeklyContent.setInfo(contentInfo)
+                }
                 week.contents.put(weeklyContent)
               }
             })
