@@ -19,7 +19,7 @@ export const ValidatorScreenStyle = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: spacing[5],
+    paddingHorizontal: spacing[4],
     paddingBottom: spacing[5],
   } as ViewStyle,
   IdentityInner: {
@@ -51,6 +51,10 @@ export const ValidatorScreenStyle = StyleSheet.create({
   } as ViewStyle,
   StakingContainer: {
     alignItems: "center",
+  } as ViewStyle,
+  TopBar: {
+    alignItems: "flex-start",
+    paddingHorizontal: spacing[2],
   } as ViewStyle,
   ValidatorIcon: {
     width: 64,

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from "react-native"
-import { NavigationScreenProps, SafeAreaView } from "react-navigation"
+import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import {
@@ -105,100 +105,103 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
 
     return (
-      <View style={Style.Root}>
-        <Screen
-          style={Style.Screen}
-          backgroundColor={color.transparent}
-          preset="scroll"
-          refreshControl={
-            <RefreshControl
-              tintColor={color.palette.lighterCyan}
-              colors={[color.primary]}
-              refreshing={validator.isLoading}
-              onRefresh={this.onRefresh}
+      <Screen
+        style={Style.Screen}
+        backgroundColor={color.primary}
+        preset="scroll"
+        refreshControl={
+          <RefreshControl
+            tintColor={color.palette.lighterCyan}
+            colors={[color.primary]}
+            refreshing={validator.isLoading}
+            onRefresh={this.onRefresh}
+          />
+        }
+      >
+        <View style={Style.TopBar}>
+          <Button
+            preset="icon"
+            icon="close"
+            color="white"
+            onPress={this.onPressCloseButton}
+          />
+        </View>
+        <View style={Style.ContentContainer}>
+          {this.renderIdentitySection()}
+          {this.renderDelegationSection()}
+          <ValidatorScreenGridItem
+            labelTx="validator.description"
+            isTopLabel
+          >
+            <Text
+              color="white"
+              text={validator.details}
             />
-          }
-        >
-          <View style={Style.ContentContainer}>
-            {this.renderIdentitySection()}
-            {this.renderDelegationSection()}
-            <ValidatorScreenGridItem
-              labelTx="validator.description"
-              isTopLabel
-            >
-              <Text
-                color="white"
-                text={validator.details}
-              />
-              {!!validator.website &&
-                <View style={Style.LinkWrapper}>
-                  <Button
-                    preset="link"
-                    tx="validator.website"
-                    size="default"
-                    link={validator.website}
-                    style={Style.Link}
-                    prepend={
-                      <GlobeIcon
-                        width={16}
-                        height={16}
-                        fill={color.palette.lighterCyan}
-                      />
-                    }
-                  />
-                </View>
-              }
-            </ValidatorScreenGridItem>
-            <ValidatorScreenGridItem
-              value={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
-              labelTx={"validator.rewards"}
-              isHalf
-            />
-            <ValidatorScreenGridItem
-              value={this.props.chain.getValidatorVotingPowerPercentage(validator)}
-              labelTx={"validator.votingPower"}
-              isHalf
-            />
-            <ValidatorScreenGridItem
-              value={formatBalance(validator.totalDelegatorShares)}
-              labelTx="validator.delegatorShare"
-            />
-            <ValidatorScreenGridItem
-              labelTx={validatorAddressLabelTx}
-              isTopLabel
-            >
-              <TouchableOpacity onPress={this.onPressValidatorAddress}>
-                <Text
-                  color="likeCyan"
-                  text={validator.operatorAddress}
-                  numberOfLines={1}
-                  ellipsizeMode="middle"
-                />
-              </TouchableOpacity>
+            {!!validator.website &&
               <View style={Style.LinkWrapper}>
                 <Button
                   preset="link"
-                  tx="common.viewOnBlockExplorer"
-                  link={validator.blockExplorerURL}
+                  tx="validator.website"
                   size="default"
+                  link={validator.website}
                   style={Style.Link}
+                  prepend={
+                    <GlobeIcon
+                      width={16}
+                      height={16}
+                      fill={color.palette.lighterCyan}
+                    />
+                  }
                 />
               </View>
-            </ValidatorScreenGridItem>
-          </View>
-        </Screen>
-        <SafeAreaView
-          forceInset={{ top: "never", bottom: "always" }}
-          style={Style.BottomBar}
-        >
+            }
+          </ValidatorScreenGridItem>
+          <ValidatorScreenGridItem
+            value={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
+            labelTx={"validator.rewards"}
+            isHalf
+          />
+          <ValidatorScreenGridItem
+            value={this.props.chain.getValidatorVotingPowerPercentage(validator)}
+            labelTx={"validator.votingPower"}
+            isHalf
+          />
+          <ValidatorScreenGridItem
+            value={formatBalance(validator.totalDelegatorShares)}
+            labelTx="validator.delegatorShare"
+          />
+          <ValidatorScreenGridItem
+            labelTx={validatorAddressLabelTx}
+            isTopLabel
+          >
+            <TouchableOpacity onPress={this.onPressValidatorAddress}>
+              <Text
+                color="likeCyan"
+                text={validator.operatorAddress}
+                numberOfLines={1}
+                ellipsizeMode="middle"
+              />
+            </TouchableOpacity>
+            <View style={Style.LinkWrapper}>
+              <Button
+                preset="link"
+                tx="common.viewOnBlockExplorer"
+                link={validator.blockExplorerURL}
+                size="default"
+                style={Style.Link}
+              />
+            </View>
+          </ValidatorScreenGridItem>
+        </View>
+        <View style={Style.BottomBar}>
           <Button
             preset="icon"
             icon="close"
             color="likeGreen"
             onPress={this.onPressCloseButton}
           />
-        </SafeAreaView>
-      </View>
+        </View>
+      </Screen>
     )
   }
 

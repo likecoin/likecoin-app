@@ -18,7 +18,6 @@ import { ContentViewScreen } from "../screens/content-view-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
 import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
-import { ValidatorScreen } from "../screens/validator-screen"
 
 import { color } from "../theme"
 
@@ -53,7 +52,6 @@ export const AppNavigator = createStackNavigator({
   StakingUnbondingDelegation: StakingUnbondingDelegationNavigator,
   StakingRewardsWithdraw: StakingRewardsWithdrawScreen,
   Transfer: TransferNavigator,
-  Validator: ValidatorScreen,
 }, {
   mode: "modal",
   headerMode: "none",
