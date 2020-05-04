@@ -11,6 +11,8 @@ import {
   StatisticsRewardedContent,
 } from "../../models/statistics-store"
 
+import { translate } from "../../i18n"
+
 interface StatisticsContentListItemProps {
   content: StatisticsRewardedContent
   type: StatisticsListItemType
@@ -50,7 +52,7 @@ export class StatisticsRewardedContentListItem extends
     return (
       <StatisticsListItem
         type={type}
-        title={title}
+        title={title || translate("Statistics.UnknownSource")}
         subtitle={creatorDisplayName}
         likeAmount={likeAmount.toFixed(4)}
         likeCount={likesCount}

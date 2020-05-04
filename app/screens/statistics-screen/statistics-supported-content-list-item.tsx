@@ -10,6 +10,8 @@ import {
   StatisticsSupportedContent,
 } from "../../models/statistics-store"
 
+import { translate } from "../../i18n"
+
 interface StatisticsSupportedContentListItemProps {
   content: StatisticsSupportedContent
 }
@@ -47,7 +49,7 @@ export class StatisticsSupportedContentListItem extends
     return (
       <StatisticsListItem
         type="supported-content"
-        title={title}
+        title={title || translate("Statistics.UnknownSource")}
         subtitle={creatorDisplayName}
         likeAmount={likeAmount.toFixed(4)}
         likeCount={likesCount}

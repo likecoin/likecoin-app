@@ -135,7 +135,8 @@
         "Previous": "Previous Week",
         "This": "This Week"
       }
-    }
+    },
+    "UnknownSource": "Unknown source"
   },
   "StatisticsRewardedScreen": {
     "Empty": {

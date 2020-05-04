@@ -119,7 +119,8 @@
         "Previous": "上一個星期",
         "This": "本星期"
       }
-    }
+    },
+    "UnknownSource": "未知來源"
   },
   "StatisticsRewardedScreen": {
     "Empty": {
