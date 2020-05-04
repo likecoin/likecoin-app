@@ -6,7 +6,6 @@
  */
 
 #import "AppDelegate.h"
-#import "Intercom/intercom.h"
 
 #import <UserNotifications/UserNotifications.h>
 #import <React/RCTBridge.h>
@@ -46,11 +45,6 @@
     
     FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
     [FIRApp configureWithOptions:options];
-    
-    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *IntercomAPIKey = [infoDict objectForKey:@"IntercomAPIKey"];
-    NSString *InterAppID = [infoDict objectForKey:@"InterAppID"];
-    [Intercom setApiKey:IntercomAPIKey forAppId:InterAppID];
   }
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
@@ -91,11 +85,6 @@
       [application registerForRemoteNotifications];
     }
   }];
-}
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  // Intercom
-  [Intercom setDeviceToken:deviceToken];
 }
 
 @end

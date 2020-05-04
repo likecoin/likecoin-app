@@ -9765,11 +9765,6 @@ react-native-iap@^4.3.0:
   dependencies:
     dooboolab-welcome "^1.1.1"
 
-react-native-intercom@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-intercom/-/react-native-intercom-13.2.0.tgz#22181547d26bcd008bc184cab15f18db6d413b4b"
-  integrity sha512-Y0gdlBY0DvsVYnB81gLOQgMXsgSNh9R9vTktqIBL24LJFQVOszDShw9w+GTYp7RTaQAo1Wls2GrushpUMUKa7Q==
-
 react-native-keychain@3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.1.3.tgz#fce176e7b95243cecda1896a7e6bdfe0335d778a"
