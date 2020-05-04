@@ -33,12 +33,12 @@ export class CrispSupportScreen extends React.Component<CrispSupportScreenProps,
 
   render() {
     const { CRISP_WEBSITE_ID } = this.props
-    const { email } = this.props.userStore.currentUser || {}
-    const { primaryPhone } = this.props.userStore.authCore.profile || {}
+    const { currentUser } = this.props.userStore
+    const { profile } = this.props.userStore.authCore
     let uri = CRISP_WEBSITE_ID ? `https://go.crisp.chat/chat/embed/?website_id=${CRISP_WEBSITE_ID}` : 'https://help.like.co'
     if (CRISP_WEBSITE_ID) {
-      if (email) uri += `&email=${encodeURIComponent(email)}`
-      if (primaryPhone) uri += `&phone=${encodeURIComponent(primaryPhone)}`
+      if (currentUser && currentUser.email) uri += `&email=${encodeURIComponent(currentUser.email)}`
+      if (profile && profile.primaryPhone) uri += `&phone=${encodeURIComponent(profile.primaryPhone)}`
     }
     console.log(uri)
     return (

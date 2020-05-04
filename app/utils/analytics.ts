@@ -61,12 +61,7 @@ export async function updateAnalyticsUser({
   primaryPhone,
   userPIISalt,
 }: UserIdPayload) {
-  const services = (await oAuthFactors).map(f => f.service)
   /* eslint-disable @typescript-eslint/camelcase */
-  const opt = services.reduce((accumOpt, service) => {
-    if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
-    return accumOpt
-  }, { binded_authcore: true })
   AppEventsLogger.setUserID(hashUserId(authCoreUserId, userPIISalt))
   AppEventsLogger.setUserData({ email })
   await Promise.all([
