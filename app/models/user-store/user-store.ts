@@ -102,7 +102,6 @@ export const UserStoreModel = types
             displayName,
             email,
             avatar: avatarURL,
-            intercomToken,
             isSubscribedCivicLiker: isCivicLiker,
           } = result.data
           self.currentUser = UserModel.create({
@@ -122,7 +121,6 @@ export const UserStoreModel = types
             displayName,
             email,
             primaryPhone,
-            intercomToken,
             oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
             cosmosWallet,
             authCoreUserId,

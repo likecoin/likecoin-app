@@ -5,7 +5,6 @@ export interface User {
   displayName?: string
   email?: string
   avatar?: string
-  intercomToken?: string
   cosmosWallet?: string
   isSubscribedCivicLiker?: boolean
 }
