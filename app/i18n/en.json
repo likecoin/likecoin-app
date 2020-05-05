@@ -192,6 +192,9 @@
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"
   },
+  "ValidatorListScreen": {
+    "Title": "All validators"
+  },
   "UnauthenticatedAlert": {
     "title": "Session Expired",
     "message": "Please sign in again."
@@ -200,6 +203,7 @@
     "availableBalanceLabel": "Available",
     "allDelegatorRewardsLabel": "Rewards",
     "allUnbondingBalanceLabel": "Unbonding",
+    "AllValidatorsButtonText": "All validators",
     "send": "Send",
     "stakeLabel": "Delegate",
     "receive": "Receive",

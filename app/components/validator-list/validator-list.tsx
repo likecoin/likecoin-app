@@ -20,12 +20,23 @@ export class ValidatorList extends React.Component<Props> {
     this.props.onPressItem && this.props.onPressItem(validator)
   }
 
-  private filterList = (validator: Validator) => !this.props.excluded.includes(validator.operatorAddress)
+  private filterList = (validator: Validator) => {
+    // Filter out inactive validator in short list
+    if (this.props.isShort && !validator.isActive) {
+      return false
+    }
+    return !this.props.excluded.includes(validator.operatorAddress)
+  }
 
   render() {
+    const { sortedValidatorList: list } = this.props.chain
     return (
       <View style={this.props.style}>
-        {this.props.chain.sortedValidatorList.filter(this.filterList).map(this.renderItem)}
+        {(
+          this.props.isShort
+            ? list.filter(this.filterList).slice(0, 10)
+            : list.filter(this.filterList)
+        ).map(this.renderItem)}
       </View>
     )
   }

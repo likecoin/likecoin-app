@@ -15,6 +15,11 @@ export interface ValidatorListProps {
   excluded?: string[]
 
   /**
+   * Set to `true` to show a shorten list
+   */
+  isShort: boolean
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle

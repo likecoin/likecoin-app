@@ -82,6 +82,10 @@ const VALIDATOR_LIST = StyleSheet.create({
   CONTAINER: {
     padding: spacing[2],
   } as ViewStyle,
+  Footer: {
+    paddingTop: spacing[2],
+    paddingHorizontal: spacing[4],
+  } as ViewStyle,
   HEADER: {
     alignItems: "center",
   } as ViewStyle,
@@ -137,6 +141,11 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     this.props.navigation.navigate("Validator", {
       validator,
     })
+  }
+
+  private onPressAllValidatorsButton = () => {
+    logAnalyticsEvent("WalletClickValidatorList")
+    this.props.navigation.navigate("ValidatorList")
   }
 
   render () {
@@ -223,9 +232,18 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               </View>
               <ValidatorList
                 chain={this.props.chain}
+                isShort
                 style={VALIDATOR_LIST.CONTAINER}
                 onPressItem={this.onPressValidator}
               />
+              <View style={VALIDATOR_LIST.Footer}>
+                <Button
+                  preset="outlined"
+                  tx="walletDashboardScreen.AllValidatorsButtonText"
+                  color="likeCyan"
+                  onPress={this.onPressAllValidatorsButton}
+                />
+              </View>
               <View style={DASHBOARD_FOOTER}>
                 <Button
                   preset="outlined"

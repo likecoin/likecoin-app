@@ -194,6 +194,9 @@
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"
   },
+  "ValidatorListScreen": {
+    "Title": "所有驗證人"
+  },
   "UnauthenticatedAlert": {
     "title": "登入階段已失效",
     "message": "請重新登入。"
@@ -202,6 +205,7 @@
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
     "allUnbondingBalanceLabel": "解綁中",
+    "AllValidatorsButtonText": "所有驗證人",
     "send": "轉帳",
     "stakeLabel": "委託",
     "receive": "收款",
