@@ -8,6 +8,17 @@ import { sizes } from "../../components/text/text.sizes"
 
 import { color, spacing } from "../../theme"
 
+const StatusBase: TextStyle = {
+  paddingHorizontal: spacing[2],
+  paddingVertical: 1,
+  fontSize: sizes.small,
+  fontWeight: "bold",
+  textTransform: "uppercase",
+  lineHeight: spacing[3],
+  borderWidth: 1,
+  borderRadius: 6,
+}
+
 export const ValidatorScreenStyle = StyleSheet.create({
   ContentContainer: {
     flex: 1,
@@ -16,12 +27,18 @@ export const ValidatorScreenStyle = StyleSheet.create({
     paddingHorizontal: spacing[4],
     paddingBottom: spacing[5],
   } as ViewStyle,
-  IdentityInner: {
-    alignItems: "center",
+  Identity: {
+    flexBasis: "100%",
+  } as ViewStyle,
+  IdentityLayout: {
+    alignItems: "stretch",
     flexDirection: "row",
   } as ViewStyle,
-  IdentityRoot: {
-    flexBasis: "100%",
+  IdentityRight: {
+    alignItems: "flex-start",
+    justifyContent: "flex-end",
+    flexGrow: 0,
+    flexShrink: 1,
   } as ViewStyle,
   Link: {
     marginTop: spacing[4],
@@ -46,6 +63,16 @@ export const ValidatorScreenStyle = StyleSheet.create({
   StakingContainer: {
     alignItems: "center",
   } as ViewStyle,
+  StatusActive: {
+    ...StatusBase,
+    color: color.palette.darkModeGreen,
+    borderColor: color.palette.darkModeGreen,
+  } as TextStyle,
+  StatusInactive: {
+    ...StatusBase,
+    color: color.palette.orange,
+    borderColor: color.palette.orange,
+  } as TextStyle,
   TopBar: {
     alignItems: "flex-start",
     paddingHorizontal: spacing[2],
@@ -60,6 +87,7 @@ export const ValidatorScreenStyle = StyleSheet.create({
     color: color.palette.likeCyan,
     fontSize: sizes.large,
     fontWeight: "500",
-    flex: 1,
+    flexShrink: 1,
+    marginBottom: spacing[2],
   } as TextStyle,
 })

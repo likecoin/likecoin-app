@@ -202,21 +202,32 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
 
     return (
       <ValidatorScreenGridItem
-        style={Style.IdentityRoot}
-        innerStyle={Style.IdentityInner}
+        style={Style.Identity}
+        innerStyle={Style.IdentityLayout}
         isShowSeparator={false}
       >
         <Image
           source={{ uri: validator.avatar }}
           style={Style.ValidatorIcon}
         />
-        <Text
-          text={validator.moniker}
-          numberOfLines={3}
-          adjustsFontSizeToFit
-          ellipsizeMode="middle"
-          style={Style.ValidatorName}
-        />
+        <View style={Style.IdentityRight}>
+          <Text
+            text={validator.moniker}
+            numberOfLines={3}
+            adjustsFontSizeToFit
+            ellipsizeMode="middle"
+            style={Style.ValidatorName}
+          />
+          <Text
+            tx={`validatorScreen.Status.${
+              validator.isActive ? "Active" : "Inactive"
+            }`}
+            style={validator.isActive
+              ? Style.StatusActive
+              : Style.StatusInactive
+            }
+          />
+        </View>
       </ValidatorScreenGridItem>
     )
   }
