@@ -14,6 +14,7 @@ import { Validator } from "../../models/validator"
 export class ValidatorList extends React.Component<Props> {
   static defaultProps = {
     excluded: [],
+    limit: 0,
   } as Partial<Props>
 
   private onPressItem = (validator: Validator) => {
@@ -22,19 +23,20 @@ export class ValidatorList extends React.Component<Props> {
 
   private filterList = (validator: Validator) => {
     // Filter out inactive validator in short list
-    if (this.props.isShort && !validator.isActive) {
+    if (this.props.limit > 0 && !validator.isActive) {
       return false
     }
     return !this.props.excluded.includes(validator.operatorAddress)
   }
 
   render() {
-    const { sortedValidatorList: list } = this.props.chain
+    const list = this.props.chain?.sortedValidatorList || []
+    const { limit } = this.props
     return (
       <View style={this.props.style}>
         {(
-          this.props.isShort
-            ? list.filter(this.filterList).slice(0, 10)
+          limit > 0
+            ? list.filter(this.filterList).slice(0, limit)
             : list.filter(this.filterList)
         ).map(this.renderItem)}
       </View>

@@ -157,7 +157,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
               </View>
               <ValidatorList
                 chain={this.props.chain}
-                isShort
+                limit={10}
                 style={Style.ValidatorListWrapper}
                 onPressItem={this.onPressValidator}
               />
