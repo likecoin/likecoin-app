@@ -67,7 +67,7 @@ export class AuthCoreAPI {
   /**
    * The chain ID for cosmos
    */
-  cosmosChainId: string = ""
+  cosmosChainId = ""
 
   /**
    * Callback function if error occurs
