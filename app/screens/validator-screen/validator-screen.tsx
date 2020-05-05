@@ -193,14 +193,6 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             </View>
           </ValidatorScreenGridItem>
         </View>
-        <View style={Style.BottomBar}>
-          <Button
-            preset="icon"
-            icon="close"
-            color="likeGreen"
-            onPress={this.onPressCloseButton}
-          />
-        </View>
       </Screen>
     )
   }

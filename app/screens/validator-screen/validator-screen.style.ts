@@ -9,12 +9,6 @@ import { sizes } from "../../components/text/text.sizes"
 import { color, spacing } from "../../theme"
 
 export const ValidatorScreenStyle = StyleSheet.create({
-  BottomBar: {
-    alignItems: "center",
-    width: "100%",
-    padding: spacing[3],
-    backgroundColor: color.palette.white,
-  } as ViewStyle,
   ContentContainer: {
     flex: 1,
     flexDirection: "row",
