@@ -187,8 +187,8 @@
       "message": "你最近曾轉移委託至這驗證人，轉移委託後21天將會被解鎖。"
     },
     "Status": {
-      "Active": "有效",
-      "Inactive": "無效"
+      "Active": "活躍",
+      "Inactive": "閒置"
     },
     "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
