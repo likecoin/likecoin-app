@@ -52,13 +52,8 @@ function filterPayloadByLimit(payload) {
 }
 
 export async function updateAnalyticsUser({
-  likerID,
-  displayName,
   email,
-  oAuthFactors,
-  cosmosWallet,
   authCoreUserId,
-  primaryPhone,
   userPIISalt,
 }: UserIdPayload) {
   /* eslint-disable @typescript-eslint/camelcase */
