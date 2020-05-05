@@ -1,6 +1,7 @@
 import * as React from "react"
 import { inject, observer } from "mobx-react"
-// @ts-ignore: until they update @type/react-navigation
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore: until we update react-navigation version
 import { getNavigation, NavigationScreenProp, NavigationState } from "react-navigation"
 import { RootNavigator } from "./root-navigator"
 import { NavigationStore } from "./navigation-store"

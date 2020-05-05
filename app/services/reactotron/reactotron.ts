@@ -99,7 +99,7 @@ export class Reactotron {
           console.tron.display({ name, value: snapshot, preview: "New State" })
         })
       }
-
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       console.tron.trackMstNode(rootStore)
     }

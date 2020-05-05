@@ -30,5 +30,7 @@ export interface ApiConfig {
 export const COMMON_API_CONFIG: ApiConfig = {
   timeout: TIMEOUT,
   userAgent: USER_AGENT,
-  onUnauthenticated: () => {},
+  onUnauthenticated: () => {
+    // do nothing
+  },
 }

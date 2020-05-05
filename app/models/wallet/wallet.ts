@@ -47,7 +47,7 @@ export const WalletModel = types
     },
   }))
   .views(self => ({
-    getDelegation(validatorAddress: string, isReadonly: boolean = true) {
+    getDelegation(validatorAddress: string, isReadonly = true) {
       if (self.hasDelegation(validatorAddress)) {
         return self.delegations.get(validatorAddress)
       }

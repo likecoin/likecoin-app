@@ -86,7 +86,7 @@ export const ChainStoreModel = types
     formatDenom(
       value: BigNumber,
       decimalPlaces?: number,
-      showUnit: boolean = true,
+      showUnit = true,
       roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_CEIL,
       format?: BigNumber.Format
     ) {

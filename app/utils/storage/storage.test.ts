@@ -6,6 +6,7 @@ const VALUE_OBJECT = { x: 1 }
 const VALUE_STRING = JSON.stringify(VALUE_OBJECT)
 
 beforeEach(() => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   AsyncStorage.getItem.mockReturnValue(Promise.resolve(VALUE_STRING))
 })
