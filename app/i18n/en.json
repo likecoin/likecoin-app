@@ -249,9 +249,16 @@
       "title": "Redelegation is Locked",
       "message": "You have redelegated to this validator recently, please wait for 21 days after redelegation to unlock."
     },
+    "Status": {
+      "Active": "Active",
+      "Inactive": "Inactive"
+    },
     "undelegateButtonText": "Undelegate",
     "validatorAddress": "Validator Address (Click to copy)",
     "validatorAddressCopied": "Validator Address (Copied)"
+  },
+  "ValidatorListScreen": {
+    "Title": "All validators"
   },
   "UnauthenticatedAlert": {
     "title": "Session Expired",
@@ -261,6 +268,7 @@
     "availableBalanceLabel": "Available",
     "allDelegatorRewardsLabel": "Rewards",
     "allUnbondingBalanceLabel": "Unbonding",
+    "AllValidatorsButtonText": "All validators",
     "send": "Send",
     "stakeLabel": "Delegate",
     "receive": "Receive",

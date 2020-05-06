@@ -35,7 +35,6 @@ import { ReaderStore } from "../../models/reader-store"
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
-import * as Intercom from "../../utils/intercom"
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   chain: ChainStore
@@ -76,7 +75,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressContactUs = () => {
-    Intercom.displayMessageComposer()
+    this.props.navigation.navigate("CrispSupport")
   }
 
   private onPressFollowSettings = () => {

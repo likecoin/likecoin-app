@@ -3,17 +3,16 @@ import {
   Alert,
   Clipboard,
   Image,
-  ImageStyle,
-  TextStyle,
-  StyleSheet,
   View,
-  ViewStyle,
   TouchableOpacity,
   RefreshControl,
 } from "react-native"
-import { NavigationScreenProps, SafeAreaView } from "react-navigation"
+import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
+import {
+  ValidatorScreenStyle as Style,
+} from "./validator-screen.style"
 import { ValidatorScreenGridItem } from "./validator-screen.grid-item"
 
 import { Button } from "../../components/button"
@@ -21,9 +20,8 @@ import { textPresets as ButtonTextPresets } from "../../components/button/button
 import { ButtonGroup } from "../../components/button-group"
 import { Icon } from "../../components/icon"
 import { Text } from "../../components/text"
-import { sizes } from "../../components/text/text.sizes"
 import { Screen } from "../../components/screen"
-import { color, spacing } from "../../theme"
+import { color } from "../../theme"
 
 import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
@@ -40,69 +38,6 @@ export interface ValidatorScreenNavigationParams {
 export interface ValidatorScreenProps extends NavigationScreenProps<ValidatorScreenNavigationParams> {
   chain: ChainStore,
 }
-
-const ROOT: ViewStyle = {
-  flex: 1,
-  backgroundColor: color.primary,
-}
-const SCREEN: ViewStyle = {
-  flexGrow: 1,
-}
-const CONTENT_CONTAINER: ViewStyle = {
-  flex: 1,
-  flexDirection: "row",
-  flexWrap: "wrap",
-  paddingHorizontal: spacing[5],
-  paddingBottom: spacing[5],
-}
-const IDENTITY = StyleSheet.create({
-  INNER: {
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  ROOT: {
-    flexBasis: "100%",
-  },
-})
-const STAKING = StyleSheet.create({
-  CONTAINER: {
-    alignItems: "center",
-  } as ViewStyle,
-})
-
-const VALIDATOR_ICON: ImageStyle = {
-  width: 64,
-  height: 64,
-  borderRadius: 12,
-  marginRight: spacing[3],
-}
-const VALIDATOR_NAME: TextStyle = {
-  color: color.palette.likeCyan,
-  fontSize: sizes.large,
-  fontWeight: "500",
-  flex: 1,
-}
-const LINK_WRAPPER: ViewStyle = {
-  flexDirection: "row",
-}
-const LINK: ViewStyle = {
-  marginTop: spacing[4],
-}
-const BOTTOM_BAR: ViewStyle = {
-  alignItems: "center",
-  width: "100%",
-  padding: spacing[3],
-  backgroundColor: color.palette.white,
-}
-const RedelegateButton = StyleSheet.create({
-  Lock: {
-    position: "absolute",
-    margin: spacing[2],
-  } as ViewStyle,
-  Self: {
-    position: "relative",
-  } as ViewStyle,
-})
 
 @inject((rootStore: RootStore) => ({
   chain: rootStore.chainStore,
@@ -170,100 +105,95 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
 
     return (
-      <View style={ROOT}>
-        <Screen
-          style={SCREEN}
-          backgroundColor={color.transparent}
-          preset="scroll"
-          refreshControl={
-            <RefreshControl
-              tintColor={color.palette.lighterCyan}
-              colors={[color.primary]}
-              refreshing={validator.isLoading}
-              onRefresh={this.onRefresh}
-            />
-          }
-        >
-          <View style={CONTENT_CONTAINER}>
-            {this.renderIdentitySection()}
-            {this.renderDelegationSection()}
-            <ValidatorScreenGridItem
-              labelTx="validator.description"
-              isTopLabel
-            >
-              <Text
-                color="white"
-                text={validator.details}
-              />
-              {!!validator.website &&
-                <View style={LINK_WRAPPER}>
-                  <Button
-                    preset="link"
-                    tx="validator.website"
-                    size="default"
-                    link={validator.website}
-                    style={LINK}
-                    prepend={
-                      <GlobeIcon
-                        width={16}
-                        height={16}
-                        fill={color.palette.lighterCyan}
-                      />
-                    }
-                  />
-                </View>
-              }
-            </ValidatorScreenGridItem>
-            <ValidatorScreenGridItem
-              value={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
-              labelTx={"validator.rewards"}
-              isHalf
-            />
-            <ValidatorScreenGridItem
-              value={this.props.chain.getValidatorVotingPowerPercentage(validator)}
-              labelTx={"validator.votingPower"}
-              isHalf
-            />
-            <ValidatorScreenGridItem
-              value={formatBalance(validator.totalDelegatorShares)}
-              labelTx="validator.delegatorShare"
-            />
-            <ValidatorScreenGridItem
-              labelTx={validatorAddressLabelTx}
-              isTopLabel
-            >
-              <TouchableOpacity onPress={this.onPressValidatorAddress}>
-                <Text
-                  color="likeCyan"
-                  text={validator.operatorAddress}
-                  numberOfLines={1}
-                  ellipsizeMode="middle"
-                />
-              </TouchableOpacity>
-              <View style={LINK_WRAPPER}>
-                <Button
-                  preset="link"
-                  tx="common.viewOnBlockExplorer"
-                  link={validator.blockExplorerURL}
-                  size="default"
-                  style={LINK}
-                />
-              </View>
-            </ValidatorScreenGridItem>
-          </View>
-        </Screen>
-        <SafeAreaView
-          forceInset={{ top: "never", bottom: "always" }}
-          style={BOTTOM_BAR}
-        >
+      <Screen
+        style={Style.Screen}
+        backgroundColor={color.primary}
+        preset="scroll"
+        refreshControl={
+          <RefreshControl
+            tintColor={color.palette.lighterCyan}
+            colors={[color.primary]}
+            refreshing={validator.isLoading}
+            onRefresh={this.onRefresh}
+          />
+        }
+      >
+        <View style={Style.TopBar}>
           <Button
             preset="icon"
             icon="close"
-            color="likeGreen"
+            color="white"
             onPress={this.onPressCloseButton}
           />
-        </SafeAreaView>
-      </View>
+        </View>
+        <View style={Style.ContentContainer}>
+          {this.renderIdentitySection()}
+          {this.renderDelegationSection()}
+          <ValidatorScreenGridItem
+            labelTx="validator.description"
+            isTopLabel
+          >
+            <Text
+              color="white"
+              text={validator.details}
+            />
+            {!!validator.website &&
+              <View style={Style.LinkWrapper}>
+                <Button
+                  preset="link"
+                  tx="validator.website"
+                  size="default"
+                  link={validator.website}
+                  style={Style.Link}
+                  prepend={
+                    <GlobeIcon
+                      width={16}
+                      height={16}
+                      fill={color.palette.lighterCyan}
+                    />
+                  }
+                />
+              </View>
+            }
+          </ValidatorScreenGridItem>
+          <ValidatorScreenGridItem
+            value={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
+            labelTx={"validator.rewards"}
+            isHalf
+          />
+          <ValidatorScreenGridItem
+            value={this.props.chain.getValidatorVotingPowerPercentage(validator)}
+            labelTx={"validator.votingPower"}
+            isHalf
+          />
+          <ValidatorScreenGridItem
+            value={formatBalance(validator.totalDelegatorShares)}
+            labelTx="validator.delegatorShare"
+          />
+          <ValidatorScreenGridItem
+            labelTx={validatorAddressLabelTx}
+            isTopLabel
+          >
+            <TouchableOpacity onPress={this.onPressValidatorAddress}>
+              <Text
+                color="likeCyan"
+                text={validator.operatorAddress}
+                numberOfLines={1}
+                ellipsizeMode="middle"
+              />
+            </TouchableOpacity>
+            <View style={Style.LinkWrapper}>
+              <Button
+                preset="link"
+                tx="common.viewOnBlockExplorer"
+                link={validator.blockExplorerURL}
+                size="default"
+                style={Style.Link}
+              />
+            </View>
+          </ValidatorScreenGridItem>
+        </View>
+      </Screen>
     )
   }
 
@@ -272,21 +202,32 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
 
     return (
       <ValidatorScreenGridItem
-        style={IDENTITY.ROOT}
-        innerStyle={IDENTITY.INNER}
+        style={Style.Identity}
+        innerStyle={Style.IdentityLayout}
         isShowSeparator={false}
       >
         <Image
           source={{ uri: validator.avatar }}
-          style={VALIDATOR_ICON}
+          style={Style.ValidatorIcon}
         />
-        <Text
-          text={validator.moniker}
-          numberOfLines={3}
-          adjustsFontSizeToFit
-          ellipsizeMode="middle"
-          style={VALIDATOR_NAME}
-        />
+        <View style={Style.IdentityRight}>
+          <Text
+            text={validator.moniker}
+            numberOfLines={3}
+            adjustsFontSizeToFit
+            ellipsizeMode="middle"
+            style={Style.ValidatorName}
+          />
+          <Text
+            tx={`validatorScreen.Status.${
+              validator.isActive ? "Active" : "Inactive"
+            }`}
+            style={validator.isActive
+              ? Style.StatusActive
+              : Style.StatusInactive
+            }
+          />
+        </View>
       </ValidatorScreenGridItem>
     )
   }
@@ -325,7 +266,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             isPaddingLess
           />
         }
-        <View style={STAKING.CONTAINER}>
+        <View style={Style.StakingContainer}>
           <ButtonGroup
             buttons={[
               {
@@ -351,12 +292,12 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
                     {delegation.hasDelegated && !canRedelegate &&
                       <Icon
                         name="lock"
-                        style={RedelegateButton.Lock}
+                        style={Style.RedelegateButtonIcon}
                       />
                     }
                   </React.Fragment>
                 ),
-                style: RedelegateButton.Self,
+                style: Style.RedelegateButton,
                 disabled: !delegation.hasDelegated,
                 onPress: canRedelegate ? this.onPressRedelegateButton : this.onPressLockedRedelegateButton,
               },

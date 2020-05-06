@@ -106,7 +106,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
           easing,
         }
       )
-    ]).start();
+    ]).start()
   }
 
   _checkNavigationParams() {
@@ -220,7 +220,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     const bgImageStyle = {
       opacity: this.state.viewFadeAnim,
       transform: [{ scale: this.state.bgImageScaleAnim }],
-    }  as any as ViewStyle
+    } as any as ViewStyle
 
     const footerStyle = {
       opacity: this.state.viewFadeAnim,

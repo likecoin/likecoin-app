@@ -101,6 +101,9 @@ export const ValidatorModel = types
         self.isFetchingUnbondingDelegation
       )
     },
+    get isActive() {
+      return !self.isJailed && self.status === 2
+    },
   }))
   .actions(self => ({
     update(result: ValidatorResult) {

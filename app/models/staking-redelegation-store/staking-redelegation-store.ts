@@ -15,7 +15,7 @@ export const StakingRedelegationStoreModel = TxStoreModel
     from: "",
   }))
   .actions(self => ({
-    setFrom: (newFrom: string = "") => {
+    setFrom: (newFrom = "") => {
       self.from = newFrom
       self.errorMessage = ""
     },

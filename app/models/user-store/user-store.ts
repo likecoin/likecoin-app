@@ -43,6 +43,23 @@ export const UserStoreModel = types
     get signInURL() {
       return self.env.likerLandAPI.getSignInURL()
     },
+    get crispChatEmbeddedURL() {
+      const crispWebSiteID = self.env.appConfig.getValue("CRISP_WEBSITE_ID")
+      let uri: string
+      if (crispWebSiteID) {
+        const { profile } = self.authCore
+        uri = `https://go.crisp.chat/chat/embed/?website_id=${crispWebSiteID}`
+        if (self.currentUser?.email) {
+          uri += `&email=${encodeURIComponent(self.currentUser.email)}`
+        }
+        if (profile?.primaryPhone) {
+          uri += `&phone=${encodeURIComponent(profile.primaryPhone)}`
+        }
+      } else {
+        uri = "https://help.like.co"
+      }
+      return uri
+    }
   }))
   .actions(self => ({
     setIsSigningIn(value: boolean) {
@@ -102,7 +119,6 @@ export const UserStoreModel = types
             displayName,
             email,
             avatar: avatarURL,
-            intercomToken,
             isSubscribedCivicLiker: isCivicLiker,
           } = result.data
           self.currentUser = UserModel.create({
@@ -122,7 +138,6 @@ export const UserStoreModel = types
             displayName,
             email,
             primaryPhone,
-            intercomToken,
             oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
             cosmosWallet,
             authCoreUserId,

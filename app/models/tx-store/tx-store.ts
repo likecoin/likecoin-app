@@ -72,11 +72,11 @@ export const TxStoreModel = types
       self.errorMessage = translateWithFallbackText(`error.${errorMessage}`, errorMessage)
       return false
     },
-    setTarget: (newTarget: string = "") => {
+    setTarget: (newTarget = "") => {
       self.target = newTarget
       self.errorMessage = ""
     },
-    setAmount: (value: string = "0", isBigNumber: boolean = false) => {
+    setAmount: (value = "0", isBigNumber = false) => {
       if (isBigNumber) {
         const normalized = new BigNumber(value).shiftedBy(-self.fractionDigits)
         self.inputAmount = normalized.toFixed()
@@ -85,7 +85,7 @@ export const TxStoreModel = types
       }
       self.errorMessage = ""
     },
-    setMemo: (newMemo: string = "") => {
+    setMemo: (newMemo = "") => {
       self.memo = newMemo
     },
   }))

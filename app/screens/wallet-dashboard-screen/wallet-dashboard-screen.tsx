@@ -1,15 +1,19 @@
 import * as React from "react"
-import { NavigationScreenProps } from "react-navigation"
 import {
-  StyleSheet,
   View,
-  ViewStyle,
   RefreshControl,
 } from "react-native"
 import { observer, inject } from "mobx-react"
 
-import { WalletDashboardScreenStyle as Style } from "./wallet-dashboard-screen.style"
-import { ValidatorScreenGridItem } from "../validator-screen/validator-screen.grid-item"
+import {
+  WalletDashboardScreenProps as Props,
+} from "./wallet-dashboard-screen.props"
+import {
+  WalletDashboardScreenStyle as Style,
+} from "./wallet-dashboard-screen.style"
+import {
+  ValidatorScreenGridItem,
+} from "../validator-screen/validator-screen.grid-item"
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
@@ -17,96 +21,21 @@ import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { ValidatorList } from "../../components/validator-list"
-import { color, spacing } from "../../theme"
 
 import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
 import { Validator } from "../../models/validator"
 
+import { color } from "../../theme"
+
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-export interface WalletDashboardScreenProps extends NavigationScreenProps<{}> {
-  chain: ChainStore
-  userStore: UserStore
-}
-
-const ROOT: ViewStyle = {
-  flex: 1,
-  backgroundColor: color.palette.white,
-}
-const TOP_UNDERLAY: ViewStyle = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  aspectRatio: 0.8,
-  backgroundColor: color.primary,
-}
-const SCREEN: ViewStyle = {
-  flexGrow: 1,
-  alignItems: "stretch",
-}
-const DASHBOARD_HEADER: ViewStyle = {
-  padding: spacing[3],
-  paddingBottom: 64,
-}
-const DASHBOARD_HEADER_BUTTON_GROUP_WRAPPER: ViewStyle = {
-  alignItems: "center",
-}
-const DASHBOARD_BODY: ViewStyle = {
-  flexGrow: 1,
-  backgroundColor: color.palette.white,
-  paddingHorizontal: spacing[3],
-  paddingBottom: spacing[6],
-}
-const DASHBOARD_BODY_INNER: ViewStyle = {
-  flex: 1,
-  marginTop: -40,
-}
-const DASHBOARD_FOOTER: ViewStyle = {
-  marginTop: spacing[5],
-  paddingTop: spacing[6],
-  margin: spacing[5],
-  borderTopColor: color.palette.grey9b,
-  borderTopWidth: StyleSheet.hairlineWidth,
-}
-const QRCODE_BUTTON: ViewStyle = {
-  paddingHorizontal: spacing[3],
-}
-const BALANCE_VIEW: ViewStyle = {
-  paddingTop: spacing[4],
-  paddingHorizontal: spacing[6],
-  paddingBottom: spacing[6],
-}
-const VALIDATOR_LIST = StyleSheet.create({
-  CONTAINER: {
-    padding: spacing[2],
-  } as ViewStyle,
-  HEADER: {
-    alignItems: "center",
-  } as ViewStyle,
-  VERTICAL_LINE: {
-    width: 2,
-    height: 16,
-    marginTop: spacing[2],
-    backgroundColor: color.primary,
-  } as ViewStyle,
-})
-const WITHDRAW_REWARDS_BUTTON = StyleSheet.create({
-  INNER: {
-    paddingHorizontal: spacing[4],
-  },
-  WRAPPER: {
-    alignItems: "center"
-  } as ViewStyle,
-})
-
-@inject((store: any) => ({
-  chain: store.chainStore as ChainStore,
-  userStore: store.userStore as UserStore,
+@inject((allStores: any) => ({
+  chain: allStores.chainStore as ChainStore,
+  userStore: allStores.userStore as UserStore,
 }))
 @observer
-export class WalletDashboardScreen extends React.Component<WalletDashboardScreenProps, {}> {
+export class WalletDashboardScreen extends React.Component<Props> {
   private onPressCloseButton = () => {
     logAnalyticsEvent('WalletClickClose')
     this.props.navigation.popToTop()
@@ -139,13 +68,18 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     })
   }
 
+  private onPressAllValidatorsButton = () => {
+    logAnalyticsEvent("WalletClickValidatorList")
+    this.props.navigation.navigate("ValidatorList")
+  }
+
   render () {
     const { currentUser } = this.props.userStore
     return (
-      <View style={ROOT}>
-        <View style={TOP_UNDERLAY} />
+      <View style={Style.Root}>
+        <View style={Style.TopUnderlay} />
         <Screen
-          style={SCREEN}
+          style={Style.Screen}
           backgroundColor={color.transparent}
           preset="scroll"
           refreshControl={
@@ -183,8 +117,8 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
               style={Style.BalanceUnitLabel}
             />
           </View>
-          <View style={DASHBOARD_HEADER}>
-            <View style={DASHBOARD_HEADER_BUTTON_GROUP_WRAPPER}>
+          <View style={Style.DashboardHeader}>
+            <View style={Style.DashboardHeaderButtonGroupWrapper}>
               <ButtonGroup
                 buttons={[
                   {
@@ -201,17 +135,17 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                     key: "scan",
                     preset: "icon",
                     icon: "qrcode-scan",
-                    style: QRCODE_BUTTON,
+                    style: Style.QRCodeButton,
                     onPress: this.onPressQRCodeButton,
                   },
                 ]}
               />
             </View>
           </View>
-          <View style={DASHBOARD_BODY}>
-            <Sheet style={DASHBOARD_BODY_INNER}>
+          <View style={Style.DashboardBodyWrapper}>
+            <Sheet style={Style.DashboardBody}>
               {this.renderBalanceView()}
-              <View style={VALIDATOR_LIST.HEADER}>
+              <View style={Style.ValidatorListHeader}>
                 <Text
                   tx="walletDashboardScreen.stakeLabel"
                   color="likeGreen"
@@ -219,14 +153,23 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
                   weight="600"
                   align="center"
                 />
-                <View style={VALIDATOR_LIST.VERTICAL_LINE} />
+                <View style={Style.ValidatorListVerticalLine} />
               </View>
               <ValidatorList
                 chain={this.props.chain}
-                style={VALIDATOR_LIST.CONTAINER}
+                limit={10}
+                style={Style.ValidatorListWrapper}
                 onPressItem={this.onPressValidator}
               />
-              <View style={DASHBOARD_FOOTER}>
+              <View style={Style.ValidatorListFooter}>
+                <Button
+                  preset="outlined"
+                  tx="walletDashboardScreen.AllValidatorsButtonText"
+                  color="likeCyan"
+                  onPress={this.onPressAllValidatorsButton}
+                />
+              </View>
+              <View style={Style.DashboardFooter}>
                 <Button
                   preset="outlined"
                   tx="common.viewOnBlockExplorer"
@@ -264,7 +207,7 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
     } = this.props.chain.wallet
     const rewardsTextColor = hasRewards ? "green" : "grey4a"
     return (
-      <View style={BALANCE_VIEW}>
+      <View style={Style.BalanceView}>
         <ValidatorScreenGridItem
           value={available}
           labelTx="walletDashboardScreen.availableBalanceLabel"
@@ -289,11 +232,11 @@ export class WalletDashboardScreen extends React.Component<WalletDashboardScreen
           />
         }
         {hasRewards &&
-          <View style={WITHDRAW_REWARDS_BUTTON.WRAPPER}>
+          <View style={Style.WithdrawRewardsButtonWrapper}>
             <Button
               preset="primary"
               tx="walletDashboardScreen.withdrawRewardsButtonText"
-              style={WITHDRAW_REWARDS_BUTTON.INNER}
+              style={Style.WithdrawRewardsButton}
               onPress={this.onPressRewardsWithdrawButton}
             />
           </View>

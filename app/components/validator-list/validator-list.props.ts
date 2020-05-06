@@ -15,6 +15,11 @@ export interface ValidatorListProps {
   excluded?: string[]
 
   /**
+   * Limit the number of validators shown. Default is 0, which shows all.
+   */
+  limit: number
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle

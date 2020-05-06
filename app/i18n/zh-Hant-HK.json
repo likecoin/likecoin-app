@@ -245,9 +245,16 @@
       "title": "轉移委託已被鎖上",
       "message": "你最近曾轉移委託至這驗證人，轉移委託後21天將會被解鎖。"
     },
+    "Status": {
+      "Active": "活躍",
+      "Inactive": "閒置"
+    },
     "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
     "validatorAddressCopied": "驗證人地址 (已複製)"
+  },
+  "ValidatorListScreen": {
+    "Title": "所有驗證人"
   },
   "UnauthenticatedAlert": {
     "title": "登入階段已失效",
@@ -257,6 +264,7 @@
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
     "allUnbondingBalanceLabel": "解綁中",
+    "AllValidatorsButtonText": "所有驗證人",
     "send": "轉帳",
     "stakeLabel": "委託",
     "receive": "收款",
