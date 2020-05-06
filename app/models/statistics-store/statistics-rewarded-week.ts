@@ -1,4 +1,5 @@
 import {
+  flow,
   Instance,
   SnapshotOut,
   types,
@@ -10,9 +11,16 @@ import {
   StatisticsRewardedDayModel,
 } from "./statistics-rewarded-day"
 import {
+  StatisticsRewardedContent,
   StatisticsRewardedContentModel,
   StatisticsRewardedContentPropsKey,
 } from "./statistics-rewarded-content"
+
+import {
+  StatisticsRewardedResult
+} from "../../services/api"
+
+import { logError } from "../../utils/error"
 
 /**
  * Weekly model for rewarded statistics
@@ -65,9 +73,92 @@ export const StatisticsRewardedWeekModel = StatisticsWeekModel
     },
   }))
   .actions(self => ({
-    setDays(days: StatisticsRewardedDay[]) {
-      self.days.replace(days)
-    },
+    fetchData: flow(function * () {
+      self.setFetching()
+      self.contents.replace({})
+      try {
+        const result: StatisticsRewardedResult =
+          yield self.env.likeCoAPI.fetchRewardedStatistics(
+            self.startTs,
+            self.getEndDate().valueOf()
+          )
+        if (result.kind !== "ok") {
+          throw new Error("STATS_FETCH_REWARDED_FAILED")
+        }
+
+        const days: StatisticsRewardedDay[] = []
+        result.data.daily.forEach((contents, i) => {
+          const day = StatisticsRewardedDayModel.create({}, self.env)
+          days.push(day)
+          if (contents && contents.length > 0) {
+            const dailyContents: StatisticsRewardedContent[] = []
+            contents.forEach(({
+              sourceURL: url,
+              LIKE: likeAmount,
+              LIKEDetails: {
+                basic: basicLikeAmount,
+                civic: civicLikeAmount,
+              },
+              likeCount: likesCount,
+              likerCount: {
+                basic: basicLikersCount,
+                civic: civicLikersCount,
+              },
+            }) => {
+              const dailyContentID = `${self.startTs}-${i + 1}-${url}`
+              const dailyContent = StatisticsRewardedContentModel.create({
+                id: dailyContentID,
+                likeAmount,
+                likesCount,
+                basicLikeAmount,
+                civicLikeAmount,
+                basicLikersCount,
+                civicLikersCount,
+              }, self.env)
+              const contentInfo = self.readerStore.getContentByURL(url)
+              if (contentInfo) {
+                dailyContent.setInfo(contentInfo)
+              }
+              dailyContents.push(dailyContent)
+
+              // Accumulate content stats for the week
+              const weeklyContentID = `${self.startTs}-${url}`
+              let weeklyContent = self.contents.get(weeklyContentID)
+              if (weeklyContent) {
+                weeklyContent.accumulate({
+                  likeAmount,
+                  basicLikeAmount,
+                  civicLikeAmount,
+                  likesCount,
+                  basicLikersCount,
+                  civicLikersCount,
+                })
+              } else {
+                weeklyContent = StatisticsRewardedContentModel.create({
+                  id: weeklyContentID,
+                  likeAmount,
+                  basicLikeAmount,
+                  civicLikeAmount,
+                  likesCount,
+                  basicLikersCount,
+                  civicLikersCount,
+                }, self.env)
+                if (contentInfo) {
+                  weeklyContent.setInfo(contentInfo)
+                }
+                self.contents.put(weeklyContent)
+              }
+            })
+            day.setContents(dailyContents)
+          }
+        })
+        self.days.replace(days)
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        self.setFetched()
+      }
+    }),
   }))
 
 type StatisticsRewardedWeekType = Instance<typeof StatisticsRewardedWeekModel>
