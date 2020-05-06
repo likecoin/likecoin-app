@@ -12,7 +12,7 @@ import { Text } from "../text"
 
 import { StoryScreen, Story, UseCase } from "../../../storybook/views"
 
-declare var module: any
+declare let module: any
 
 storiesOf("StatisticsWeeklyChart", module)
   .addDecorator((fn: () => React.ReactNode) => <StoryScreen>{fn()}</StoryScreen>)
