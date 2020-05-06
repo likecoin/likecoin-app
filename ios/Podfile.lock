@@ -534,7 +534,7 @@ SPEC CHECKSUMS:
   React-RCTText: e0f224898b13af9aa036ea7cb3d438daa68c1044
   React-RCTVibration: 0bea40cd51bd089bd591a8f74c86e91fdf2666c5
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
-  ReactNativeShareExtension: 589ed96a7823b475e630d7987a0958bff9804ee6
+  ReactNativeShareExtension: cf71e8346443b151c185595b025e19802ddea48a
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
   RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
