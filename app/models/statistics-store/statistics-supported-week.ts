@@ -45,7 +45,7 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
       try {
         const result: StatisticsSupportedResult =
           yield self.env.likeCoAPI.fetchSupportedStatistics(
-            self.startTs,
+            self.getStartDateWithLimit().valueOf(),
             self.getEndDate().valueOf()
           )
         if (result.kind !== "ok") {

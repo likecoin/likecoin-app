@@ -22,6 +22,9 @@ export const StatisticsWeekModel = StateModel
     startTs: types.identifierNumber,
   })
   .views(self => ({
+    getOldestDate() {
+      return moment(self.env.appConfig.getValue("STATISTICS_OLDEST_DATE")).startOf("day")
+    },
     getStartDate() {
       return moment(self.startTs)
     },
@@ -39,6 +42,15 @@ export const StatisticsWeekModel = StateModel
       const formattedStartDate = self.getStartDate().format(format)
       const formattedEndDate = self.getEndDate().format(format)
       return `${formattedStartDate} - ${formattedEndDate}`
+    },
+    getIsOldest() {
+      const oldestWeek = self.getOldestDate().startOf("week")
+      return self.getPreviousWeekStartDate().isBefore(oldestWeek)
+    },
+  }))
+  .views(self => ({
+    getStartDateWithLimit() {
+      return self.getIsOldest() ? self.getOldestDate() : self.getStartDate()
     },
   }))
 

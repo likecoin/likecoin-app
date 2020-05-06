@@ -79,7 +79,7 @@ export const StatisticsRewardedWeekModel = StatisticsWeekModel
       try {
         const result: StatisticsRewardedResult =
           yield self.env.likeCoAPI.fetchRewardedStatistics(
-            self.startTs,
+            self.getStartDateWithLimit().valueOf(),
             self.getEndDate().valueOf()
           )
         if (result.kind !== "ok") {

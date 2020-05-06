@@ -122,7 +122,7 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
       if (!week.hasRecentlyFetched) {
         self.fetchWeek(week.getStartDate())
       }
-      if (weekIndex === self.weekList.length - 1) {
+      if (weekIndex === self.weekList.length - 1 && !week.getIsOldest()) {
         self.fetchWeek(week.getPreviousWeekStartDate())
       }
     },
