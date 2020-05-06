@@ -15,6 +15,7 @@ import { MainTabBarIcon } from "../components/main-tab-bar"
 
 import { BookmarkScreen } from "../screens/bookmark-screen"
 import { ContentViewScreen } from "../screens/content-view-screen"
+import { CrispSupportScreen } from "../screens/crisp-support-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
 import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
@@ -46,6 +47,7 @@ const MainTabs = createBottomTabNavigator({
 export const AppNavigator = createStackNavigator({
   Main: MainTabs,
   ContentView: ContentViewScreen,
+  CrispSupport: CrispSupportScreen,
   QRCodeScan: QrcodeScannerScreen,
   Receive: ReceiveScreen,
   StakingDelegation: StakingDelegationNavigator,

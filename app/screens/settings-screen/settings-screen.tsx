@@ -29,7 +29,6 @@ import { RootStore } from "../../models/root-store"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-import * as Intercom from "../../utils/intercom"
 import { SettingsScreenWalletActionsView } from "./settings-screen.wallet-actions-view"
 
 const LOGOUT: ViewStyle = {
@@ -104,7 +103,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressContactUs = () => {
-    Intercom.displayMessageComposer()
+    this.props.navigation.navigate("CrispSupport")
   }
 
   private onPressFollowSettings = () => {

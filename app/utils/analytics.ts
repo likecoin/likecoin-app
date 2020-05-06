@@ -1,7 +1,6 @@
 import crypto from "crypto"
 import { AppEventsLogger } from "react-native-fbsdk"
 import { logError } from "./error"
-import * as Intercom from "./intercom"
 import {
   setSentryUser,
   resetSentryUser,
@@ -19,7 +18,6 @@ interface UserIdPayload {
   displayName: string,
   email?: string,
   primaryPhone?: string,
-  intercomToken: string,
   oAuthFactors: Promise<[{ service: string }]>|[{ service: string }],
   cosmosWallet: string,
   authCoreUserId: string,
@@ -54,34 +52,11 @@ function filterPayloadByLimit(payload) {
 }
 
 export async function updateAnalyticsUser({
-  likerID,
-  displayName,
   email,
-  intercomToken,
-  oAuthFactors,
-  cosmosWallet,
   authCoreUserId,
-  primaryPhone,
   userPIISalt,
 }: UserIdPayload) {
-  Intercom.registerIdentifiedUser(likerID, intercomToken)
-  const services = (await oAuthFactors).map(f => f.service)
   /* eslint-disable @typescript-eslint/camelcase */
-  const opt = services.reduce((accumOpt, service) => {
-    if (service) accumOpt[`binded_${service.toLowerCase()}`] = true
-    return accumOpt
-  }, { binded_authcore: true })
-  const intercomUserPayload: any = {
-    name: displayName,
-    custom_attributes: {
-      has_liker_land_app: true,
-      cosmos_wallet: cosmosWallet,
-      ...opt,
-    }
-  }
-  if (email) intercomUserPayload.email = email
-  if (primaryPhone) intercomUserPayload.phone = primaryPhone
-  Intercom.updateUser(intercomUserPayload)
   AppEventsLogger.setUserID(hashUserId(authCoreUserId, userPIISalt))
   AppEventsLogger.setUserData({ email })
   await Promise.all([
@@ -93,7 +68,6 @@ export async function updateAnalyticsUser({
 }
 
 export async function logoutAnalyticsUser() {
-  Intercom.logout()
   await Promise.all([
     AppEventsLogger.setUserID(null),
     resetAnalyticsUser(),

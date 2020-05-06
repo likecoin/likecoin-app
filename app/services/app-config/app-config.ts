@@ -17,6 +17,7 @@ import {
   LIKERLAND_API_URL,
   MIN_VERSION,
   SENTRY_DSN,
+  CRISP_WEBSITE_ID,
   SIGNIN_SCREEN_BGIMAGE_URL,
   USER_PII_SALT,
 } from "react-native-dotenv"
@@ -40,6 +41,7 @@ export interface AppConfigParams {
   MIN_VERSION: string
   SENTRY_DSN: string
   SIGNIN_SCREEN_BGIMAGE_URL: string
+  CRISP_WEBSITE_ID: string
   USER_PII_SALT: string
 }
 
@@ -75,6 +77,7 @@ export class AppConfig {
       MIN_VERSION,
       SENTRY_DSN,
       SIGNIN_SCREEN_BGIMAGE_URL,
+      CRISP_WEBSITE_ID,
       USER_PII_SALT,
     }
     this.remoteConfig = RemoteConfigModule()
