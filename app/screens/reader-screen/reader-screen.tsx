@@ -31,7 +31,7 @@ export class ReaderScreen extends React.Component<Props> {
     this.props.readerStore.fetchBookmarkList()
 
     // Automatically switch to following list if the user has followees
-    if (this.props.navigation.state.routeName !== "Following") {
+    if (this.props.navigation.state.routeName === "Featured") {
       reaction(
         () => this.props.readerStore.hasFetchedCreatorList,
         (hasFetchedCreatorList, r) => {
@@ -39,7 +39,7 @@ export class ReaderScreen extends React.Component<Props> {
             r.dispose()
             if (
               this.props.readerStore.followingCreators.length > 0 &&
-              this.props.navigation.state.routeName !== "Following"
+              this.props.navigation.state.routeName === "Featured"
             ) {
               this.props.navigation.navigate("Following")
             }
