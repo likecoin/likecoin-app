@@ -1,7 +1,6 @@
 import * as React from "react"
 import { ViewStyle } from "react-native"
 import {
-  createStackNavigator,
   createMaterialTopTabNavigator,
   NavigationScreenProps,
   NavigationRoute,
@@ -83,7 +82,7 @@ class ReaderTabBar extends React.Component<ReaderTabBarProps, {}> {
   }
 }
 
-const ReaderTabs = createMaterialTopTabNavigator({
+export const ReaderNavigator = createMaterialTopTabNavigator({
   Featured: ReaderScreen,
   Following: ReaderScreen,
 }, {
@@ -97,10 +96,4 @@ const ReaderTabs = createMaterialTopTabNavigator({
     },
   },
   tabBarComponent: ReaderTabBar,
-})
-
-export const ReaderNavigator = createStackNavigator({
-  ReaderList: ReaderTabs,
-}, {
-  headerMode: "none",
 })
