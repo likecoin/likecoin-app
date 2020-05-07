@@ -10,6 +10,7 @@ import {
   COSMOS_FRACTION_DENOM,
   COSMOS_FRACTION_DIGITS,
   COSMOS_GAS_PRICE,
+  CRISP_WEBSITE_ID,
   IAP_ENABLE,
   IAP_IOS_IS_SANDBOX,
   IAP_IOS_SHARED_SECRET,
@@ -17,8 +18,8 @@ import {
   LIKERLAND_API_URL,
   MIN_VERSION,
   SENTRY_DSN,
-  CRISP_WEBSITE_ID,
   SIGNIN_SCREEN_BGIMAGE_URL,
+  STATISTICS_OLDEST_DATE,
   USER_PII_SALT,
 } from "react-native-dotenv"
 import FastImage from 'react-native-fast-image'
@@ -33,6 +34,7 @@ export interface AppConfigParams {
   COSMOS_FRACTION_DENOM: string
   COSMOS_FRACTION_DIGITS: string
   COSMOS_GAS_PRICE: string
+  CRISP_WEBSITE_ID: string
   IAP_ENABLE: string
   IAP_IOS_IS_SANDBOX: string
   IAP_IOS_SHARED_SECRET: string
@@ -41,7 +43,7 @@ export interface AppConfigParams {
   MIN_VERSION: string
   SENTRY_DSN: string
   SIGNIN_SCREEN_BGIMAGE_URL: string
-  CRISP_WEBSITE_ID: string
+  STATISTICS_OLDEST_DATE: string
   USER_PII_SALT: string
 }
 
@@ -69,6 +71,7 @@ export class AppConfig {
       COSMOS_FRACTION_DIGITS,
       COSMOS_GAS_PRICE,
       COSMOS_LCD_URL,
+      CRISP_WEBSITE_ID,
       IAP_ENABLE,
       IAP_IOS_IS_SANDBOX,
       IAP_IOS_SHARED_SECRET,
@@ -77,7 +80,7 @@ export class AppConfig {
       MIN_VERSION,
       SENTRY_DSN,
       SIGNIN_SCREEN_BGIMAGE_URL,
-      CRISP_WEBSITE_ID,
+      STATISTICS_OLDEST_DATE,
       USER_PII_SALT,
     }
     this.remoteConfig = RemoteConfigModule()

@@ -13,6 +13,10 @@ import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-st
 import { StakingDelegationStoreModel } from "../staking-delegation-store"
 import { StakingRedelegationStoreModel } from "../staking-redelegation-store"
 import { StakingUnbondingDelegationStoreModel } from "../staking-unbonding-delegation-store"
+import {
+  StatisticsRewardedStoreModel,
+  StatisticsSupportedStoreModel,
+} from "../statistics-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
 
@@ -33,6 +37,8 @@ export const RootStoreModel = types
     stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
     stakingRedelegationStore: types.optional(StakingRedelegationStoreModel, {}),
     stakingUnbondingDelegationStore: types.optional(StakingUnbondingDelegationStoreModel, {}),
+    statisticsRewardedStore: types.optional(StatisticsRewardedStoreModel, {}),
+    statisticsSupportedStore: types.optional(StatisticsSupportedStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
     readerStore: types.optional(ReaderStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),

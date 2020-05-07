@@ -1,17 +1,25 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
 import {
-  StyleSheet,
-  TextStyle,
+  Linking,
   View,
-  ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
 import {
+  LOGOUT,
+  VERSION,
+  SETTINGS_MENU,
   SettingScreenStyle as Style,
   SettingScreenUserInfoStyle as UserInfoStyle,
 } from "./settings-screen.style"
+
+import {
+  SettingsScreenStatisticsPanel,
+} from "./settings-screen-statistics-panel"
+import {
+  SettingsScreenWalletActionsView,
+} from "./settings-screen.wallet-actions-view"
 
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Avatar } from "../../components/avatar"
@@ -20,60 +28,24 @@ import { ExtendedView } from "../../components/extended-view"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
-import { color, spacing } from "../../theme"
-
 import { ChainStore } from "../../models/chain-store"
 import { UserStore } from "../../models/user-store"
 import { ReaderStore } from "../../models/reader-store"
-import { RootStore } from "../../models/root-store"
+
+import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-import { SettingsScreenWalletActionsView } from "./settings-screen.wallet-actions-view"
-
-const LOGOUT: ViewStyle = {
-  marginTop: spacing[4],
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
-}
-const VERSION: TextStyle = {
-  marginTop: spacing[4]
-}
-const TABLE_CELL_BASE: ViewStyle = {
-  justifyContent: "flex-start",
-}
-const SETTINGS_MENU = StyleSheet.create({
-  TABLE: {
-    borderRadius: 12,
-    backgroundColor: color.palette.white,
-    marginVertical: spacing[4],
-  } as ViewStyle,
-  TABLE_CELL: {
-    ...TABLE_CELL_BASE,
-    borderStyle: "solid",
-    borderTopColor: color.palette.lighterGrey,
-    borderTopWidth: StyleSheet.hairlineWidth,
-  } as ViewStyle,
-  TABLE_CELL_FIRST_CHILD: TABLE_CELL_BASE,
-  TABLE_CELL_TEXT: {
-    padding: spacing[2],
-    paddingVertical: spacing[1],
-    color: color.palette.grey4a,
-    textAlign: "left",
-    fontWeight: "normal",
-  } as TextStyle,
-})
-
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   chain: ChainStore
-  userStore: UserStore,
-  readerStore: ReaderStore,
+  userStore: UserStore
+  readerStore: ReaderStore
 }
 
-@inject((rootStore: RootStore) => ({
-  chain: rootStore.chainStore,
-  userStore: rootStore.userStore,
-  readerStore: rootStore.readerStore,
+@inject((allStores: any) => ({
+  chain: allStores.chainStore as ChainStore,
+  userStore: allStores.userStore as UserStore,
+  readerStore: allStores.readerStore as ReaderStore,
 }))
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
@@ -119,6 +91,20 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressWalletButton = () => {
     logAnalyticsEvent('SettingsClickWallet')
     this.props.navigation.navigate("Wallet")
+  }
+
+  private onPressStatisticsSupportedSection = () => {
+    logAnalyticsEvent('SettingsClickStatsSupported')
+    this.props.navigation.navigate("StatisticsSupported")
+  }
+
+  private onPressStatisticsRewardedSection = () => {
+    logAnalyticsEvent('SettingsClickStatsRewarded')
+    this.props.navigation.navigate("StatisticsRewarded")
+  }
+
+  private onPressGetRewardsButton = () => {
+    Linking.openURL("https://like.co/in/creator")
   }
 
   render () {
@@ -179,10 +165,21 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
 
   renderBody() {
     const {
-      isEnabled: isIAPEnabled
-    } = this.props.userStore.iapStore
+      currentUser: {
+        isCivicLiker,
+      },
+      iapStore: {
+        isEnabled: isIAPEnabled
+      },
+    } = this.props.userStore
     return (
       <View style={Style.Body}>
+        <SettingsScreenStatisticsPanel
+          isCivicLiker={isCivicLiker}
+          onPressGetRewardsButton={this.onPressGetRewardsButton}
+          onPressRewardedSection={this.onPressStatisticsRewardedSection}
+          onPressSupportedSection={this.onPressStatisticsSupportedSection}
+        />
         <View style={SETTINGS_MENU.TABLE}>
           <Button
             preset="plain"

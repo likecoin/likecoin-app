@@ -120,12 +120,77 @@
     "aboutLinkText": "About undelegation",
     "title": "Undelegate"
   },
+  "Statistics": {
+    "Work": {
+      "one": "Work",
+      "other": "Works"
+    },
+    "Creator": {
+      "one": "Creator",
+      "other": "Creators"
+    },
+    "Period": {
+      "Week": {
+        "Last": "Last Week",
+        "Previous": "Previous Week",
+        "This": "This Week"
+      }
+    },
+    "UnknownSource": "Unknown source"
+  },
+  "StatisticsRewardedScreen": {
+    "Empty": {
+      "Content": "No rewarded content"
+    },
+    "Dashboard": {
+      "Empty": {
+        "ButtonTitle": "Get Rewards",
+        "Title": "You don’t have any reward in this week"
+      },
+      "Legends": {
+        "CivicLiker": "Civic Liker",
+        "CreatorFunds": "Creator Funds"
+      }
+    },
+    "ListTitle": {
+      "Content": "Rewarded Works"
+    },
+    "Summary": {
+      "CivicLiker": "Civic Liker",
+      "Liker": "Liker"
+    },
+    "Title": "Rewards Received"
+  },
+  "StatisticsSupportedScreen": {
+    "Empty": {
+      "Content": "You haven't support any content",
+      "Creator": "You haven't support any creator"
+    },
+    "Title": "Supported",
+    "ListTitle": {
+      "Content": "Supported Works",
+      "Creator": "Supported Creators"
+    }
+  },
   "settingsScreen": {
     "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
     "followSettings": "Following / Unfollow",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
+    "StatisticsPanel": {
+      "Rewarded": {
+        "GetRewardsButtonTitle": "Get rewards",
+        "Title": "Rewarded"
+      },
+      "Supported": {
+        "Title": "Supported (Civic Liker)"
+      },
+      "TopSupportedCreator": {
+        "BecomeCivicLiker": "Become a Civic Liker",
+        "SupportMore": "Support more to {{creator}}"
+      }
+    },
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
     "title": "Settings"
@@ -209,6 +274,15 @@
     "receive": "Receive",
     "withdrawRewardsButtonText": "Withdraw Rewards"
   },
+  "Week": [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ],
   "welcomeScreen": {
     "welcome": "Welcome!",
     "logout": "Logout"

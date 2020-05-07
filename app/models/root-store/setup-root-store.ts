@@ -3,6 +3,10 @@ import { partition } from "ramda"
 
 import { Environment } from "../environment"
 import { RootStoreModel, RootStore } from "./root-store"
+import {
+  handleStatisticsRewardedStoreSnapshot,
+  handleStatisticsSupportedStoreSnapshot,
+} from "../statistics-store"
 
 import * as storage from "../../utils/storage"
 import { logError } from "../../utils/error"
@@ -98,6 +102,8 @@ export async function setupRootStore() {
         followedList, // Never cache
         bookmarkList,
       },
+      statisticsRewardedStore,
+      statisticsSupportedStore,
       ...snapshot
     }) => {
       const toBePersistedContentURLs = new Set([].concat(
@@ -130,7 +136,11 @@ export async function setupRootStore() {
           creators: snCreators,
           featuredListLastFetchedDate,
           bookmarkList,
-        }
+        },
+        statisticsRewardedStore:
+          handleStatisticsRewardedStoreSnapshot(statisticsRewardedStore),
+        statisticsSupportedStore:
+          handleStatisticsSupportedStoreSnapshot(statisticsSupportedStore),
       })
     }
   )

@@ -5,6 +5,7 @@ export const sizes = {
   small: 10,
   default: 12,
   medium: 14,
+  "medium-large": 18,
   large: 24,
 }
 

@@ -24,9 +24,9 @@
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"LikeCoinApp"
                                             initialProperties:nil];
-  
-  rootView.backgroundColor = [UIColor colorWithRed:16.0/255.0 green:39.0/255.0 blue:43.0/255.0 alpha:1];
-  
+
+  rootView.backgroundColor = [UIColor colorWithRed:40.0/255.0 green:100.0/255.0 blue:110.0/255.0 alpha:1];
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;

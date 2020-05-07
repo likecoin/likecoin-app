@@ -118,7 +118,10 @@ export const ReaderStoreModel = types
       }
     },
     getContentByURL(url: string) {
-      return this.parseContentResult({ url })
+      if (url) {
+        return this.parseContentResult({ url })
+      }
+      return undefined
     },
   }))
   .actions(self => ({
