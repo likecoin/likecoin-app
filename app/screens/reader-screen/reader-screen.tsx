@@ -1,5 +1,6 @@
 import * as React from "react"
 import { ViewStyle } from "react-native"
+import { reaction } from "mobx"
 import { inject, observer } from "mobx-react"
 
 import { ReaderScreenProps as Props } from "./reader-screen.props"
@@ -7,10 +8,11 @@ import { ReaderScreenProps as Props } from "./reader-screen.props"
 import { Screen } from "../../components/screen"
 import { ContentList } from "../../components/content-list"
 
+import { Content } from "../../models/content"
+
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
-import { Content } from "../../models/content"
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -27,6 +29,24 @@ export class ReaderScreen extends React.Component<Props> {
     this.list.current.props.onRefresh()
     this.props.readerStore.fetchCreatorList()
     this.props.readerStore.fetchBookmarkList()
+
+    // Automatically switch to following list if the user has followees
+    if (this.props.navigation.state.routeName === "Featured") {
+      reaction(
+        () => this.props.readerStore.hasFetchedCreatorList,
+        (hasFetchedCreatorList, r) => {
+          if (hasFetchedCreatorList) {
+            r.dispose()
+            if (
+              this.props.readerStore.followingCreators.length > 0 &&
+              this.props.navigation.state.routeName === "Featured"
+            ) {
+              this.props.navigation.navigate("Following")
+            }
+          }
+        }
+      )
+    }
   }
 
   private onPressContentItem = (url: string) => {
@@ -71,15 +91,22 @@ export class ReaderScreen extends React.Component<Props> {
   }
 
   private renderList = () => {
+    const {
+      featuredList,
+      followedList,
+      hasFetchedCreatorList,
+      hasFetchedFeaturedList,
+      hasFetchedFollowedList,
+    } = this.props.readerStore
     switch (this.props.navigation.state.routeName) {
       case "Featured":
         return (
           <ContentList
             ref={this.list}
-            data={this.props.readerStore.featuredList}
+            data={hasFetchedCreatorList ? featuredList : []}
             creators={this.props.readerStore.creators}
             titleLabelTx="readerScreen.featuredLabel"
-            hasFetched={this.props.readerStore.hasFetchedFeaturedList}
+            hasFetched={hasFetchedFeaturedList && hasFetchedCreatorList}
             lastFetched={this.props.readerStore.featuredListLastFetchedDate.getTime()}
             isLoading={this.props.readerStore.isFetchingFeaturedList}
             onToggleBookmark={this.onBookmarkContentItem}
@@ -93,12 +120,12 @@ export class ReaderScreen extends React.Component<Props> {
         return (
           <ContentList
             ref={this.list}
-            data={this.props.readerStore.followedList}
+            data={hasFetchedCreatorList ? followedList : []}
             creators={this.props.readerStore.creators}
             titleLabelTx="readerScreen.followingLabel"
             isLoading={this.props.readerStore.isFetchingFollowedList}
             isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
-            hasFetched={this.props.readerStore.hasFetchedFollowedList}
+            hasFetched={hasFetchedFollowedList && hasFetchedCreatorList}
             hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
             lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
             onFetchMore={this.props.readerStore.fetchMoreFollowedList}
