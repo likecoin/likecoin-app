@@ -28,8 +28,6 @@ export const ReaderStoreModel = types
   .props({
     contents: types.map(types.late(() => ContentModel)),
     creators: types.map(types.late(() => CreatorModel)),
-    featuredList: ContentList,
-    featuredListLastFetchedDate: types.optional(types.Date, () => new Date(0)),
     followedList: ContentList,
     bookmarkList: ContentList,
     followingCreators: types.array(types.safeReference(CreatorModel)),
@@ -38,8 +36,6 @@ export const ReaderStoreModel = types
   .volatile(() => ({
     isFetchingCreatorList: false,
     hasFetchedCreatorList: false,
-    isFetchingFeaturedList: false,
-    hasFetchedFeaturedList: false,
     isFetchingFollowedList: false,
     hasFetchedFollowedList: false,
     followedListLastFetchedDate: new Date(),
@@ -50,20 +46,8 @@ export const ReaderStoreModel = types
     hasFetchedBookmarkList: false,
   }))
   .extend(withEnvironment)
-  .views(self => ({
-    getHasSeenFeaturedListToday() {
-      const past = self.featuredListLastFetchedDate
-      const now = new Date()
-      return past.getFullYear() === now.getFullYear() &&
-        past.getMonth() === now.getMonth() &&
-        past.getDate() === now.getDate()
-    },
-  }))
   .actions(self => ({
     clearAllLists: () => {
-      self.featuredList.replace([])
-      self.hasFetchedFeaturedList = false
-      self.featuredListLastFetchedDate = new Date(0)
       self.followedList.replace([])
       self.hasFetchedFollowedList = false
       self.hasReachedEndOfFollowedList = false
@@ -150,25 +134,6 @@ export const ReaderStoreModel = types
       } finally {
         self.isFetchingCreatorList = false
         self.hasFetchedCreatorList = true
-      }
-    }),
-    fetchFeaturedList: flow(function * () {
-      self.isFetchingFeaturedList = true
-      try {
-        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFeatured()
-        switch (result.kind) {
-          case "ok":
-            self.featuredList.replace([])
-            result.data.forEach((data) => {
-              self.featuredList.push(self.parseContentResult(data))
-            })
-        }
-      } catch (error) {
-        logError(error.message)
-      } finally {
-        self.isFetchingFeaturedList = false
-        self.hasFetchedFeaturedList = true
-        self.featuredListLastFetchedDate = new Date()
       }
     }),
     fetchFollowingList: flow(function * () {
