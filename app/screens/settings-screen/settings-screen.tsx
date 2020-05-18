@@ -107,6 +107,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     Linking.openURL("https://like.co/in/creator")
   }
 
+  private onPressWebsiteSignIn = () => {
+    logAnalyticsEvent('SettingsClickWebsiteSignIn')
+    this.props.navigation.navigate("WebsiteSignIn")
+  }
+
   render () {
     return (
       <Screen
@@ -187,6 +192,15 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
             onPress={this.onPressFollowSettings}
+          />
+        </View>
+        <View style={SETTINGS_MENU.TABLE}>
+          <Button
+            preset="plain"
+            tx="settingsScreen.WebsiteSignIn"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+            onPress={this.onPressWebsiteSignIn}
           />
         </View>
         {isIAPEnabled &&

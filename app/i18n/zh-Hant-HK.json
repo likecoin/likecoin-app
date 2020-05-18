@@ -177,7 +177,8 @@
     },
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
-    "title": "設定"
+    "title": "設定",
+    "WebsiteSignIn": "網站登入"
   },
   "storybook": {
     "placeholder": "Placeholder",
@@ -269,6 +270,18 @@
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
+  },
+  "WebsiteSignInScreen": {
+    "Item": {
+      "Appledailyhk": "香港蘋果日報",
+      "Appledailytw": "台灣蘋果日報",
+      "Daodu": "科技導讀",
+      "Matters": "Matters",
+      "Nytimes": "紐約時報",
+      "Substack": "Substack"
+    },
+    "OtherLabel": "其他（請輸入網址）",
+    "Title": "網站登入"
   },
   "Week": [
     "日",

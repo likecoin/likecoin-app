@@ -193,7 +193,8 @@
     },
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
-    "title": "Settings"
+    "title": "Settings",
+    "WebsiteSignIn": "Website Sign-in"
   },
   "storybook": {
     "placeholder": "Placeholder",
@@ -273,6 +274,18 @@
     "stakeLabel": "Delegate",
     "receive": "Receive",
     "withdrawRewardsButtonText": "Withdraw Rewards"
+  },
+  "WebsiteSignInScreen": {
+    "Item": {
+      "Appledailyhk": "Apply Daily (Hong Kong)",
+      "Appledailytw": "Apply Daily (Taiwan)",
+      "Daodu": "Daodu Tech",
+      "Matters": "Matters",
+      "Nytimes": "The New York Times",
+      "Substack": "Subtack"
+    },
+    "OtherLabel": "Other (Please specify URL)",
+    "Title": "Website Sign-in"
   },
   "Week": [
     "Sun",

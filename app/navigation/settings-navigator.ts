@@ -9,6 +9,8 @@ import {
 } from "../screens/statistics-screen"
 import { SettingsScreen } from "../screens/settings-screen"
 import { SubscriptionScreen } from "../screens/subscription-screen"
+import { WebsiteSignInScreen } from "../screens/website-signin-screen"
+import { WebsiteSignInWebviewScreen } from "../screens/website-signin-webview-screen"
 
 export const SettingsNavigator = createStackNavigator({
   FollowSettings: FollowSettingsScreen,
@@ -17,6 +19,8 @@ export const SettingsNavigator = createStackNavigator({
   StatisticsRewarded: StatisticsRewardedScreen,
   Subscription: SubscriptionScreen,
   Wallet: WalletNavigator,
+  WebsiteSignIn: WebsiteSignInScreen,
+  WebsiteSignInWebview: WebsiteSignInWebviewScreen,
 }, {
   headerMode: "none",
   initialRouteName: "Settings",
