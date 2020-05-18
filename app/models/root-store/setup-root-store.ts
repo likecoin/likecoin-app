@@ -97,8 +97,6 @@ export async function setupRootStore() {
       readerStore: {
         contents,
         creators,
-        featuredListLastFetchedDate,
-        featuredList, // Never cache
         followedList, // Never cache
         bookmarkList,
       },
@@ -108,7 +106,6 @@ export async function setupRootStore() {
     }) => {
       const toBePersistedContentURLs = new Set([].concat(
         bookmarkList,
-        featuredList,
         followedList.slice(0, 20)
       ))
       const [toBePersistedContents, restContents] = partition(
@@ -134,7 +131,6 @@ export async function setupRootStore() {
         readerStore: {
           contents: snContents,
           creators: snCreators,
-          featuredListLastFetchedDate,
           bookmarkList,
         },
         statisticsRewardedStore:

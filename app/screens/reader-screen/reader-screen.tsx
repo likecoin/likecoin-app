@@ -1,24 +1,15 @@
 import * as React from "react"
-import { ViewStyle } from "react-native"
-import { reaction } from "mobx"
 import { inject, observer } from "mobx-react"
 
 import { ReaderScreenProps as Props } from "./reader-screen.props"
+import { ReaderScreenStyle as Style } from "./reader-screen.style"
 
 import { Screen } from "../../components/screen"
 import { ContentList } from "../../components/content-list"
 
 import { Content } from "../../models/content"
 
-import { color } from "../../theme"
-
 import { logAnalyticsEvent } from "../../utils/analytics"
-
-const FULL: ViewStyle = { flex: 1 }
-const CONTAINER: ViewStyle = {
-  ...FULL,
-  alignItems: "stretch",
-}
 
 @inject("readerStore")
 @observer
@@ -29,24 +20,6 @@ export class ReaderScreen extends React.Component<Props> {
     this.list.current.props.onRefresh()
     this.props.readerStore.fetchCreatorList()
     this.props.readerStore.fetchBookmarkList()
-
-    // Automatically switch to following list if the user has followees
-    if (this.props.navigation.state.routeName === "Featured") {
-      reaction(
-        () => this.props.readerStore.hasFetchedCreatorList,
-        (hasFetchedCreatorList, r) => {
-          if (hasFetchedCreatorList) {
-            r.dispose()
-            if (
-              this.props.readerStore.followingCreators.length > 0 &&
-              this.props.navigation.state.routeName === "Featured"
-            ) {
-              this.props.navigation.navigate("Following")
-            }
-          }
-        }
-      )
-    }
   }
 
   private onPressContentItem = (url: string) => {
@@ -80,10 +53,8 @@ export class ReaderScreen extends React.Component<Props> {
   render() {
     return (
       <Screen
-        style={CONTAINER}
+        style={Style.Root}
         preset="fixed"
-        backgroundColor={color.palette.white}
-        unsafe={true}
       >
         {this.renderList()}
       </Screen>
@@ -91,52 +62,25 @@ export class ReaderScreen extends React.Component<Props> {
   }
 
   private renderList = () => {
-    const {
-      featuredList,
-      followedList,
-      hasFetchedCreatorList,
-      hasFetchedFeaturedList,
-      hasFetchedFollowedList,
-    } = this.props.readerStore
-    switch (this.props.navigation.state.routeName) {
-      case "Featured":
-        return (
-          <ContentList
-            ref={this.list}
-            data={hasFetchedCreatorList ? featuredList : []}
-            creators={this.props.readerStore.creators}
-            titleLabelTx="readerScreen.featuredLabel"
-            hasFetched={hasFetchedFeaturedList && hasFetchedCreatorList}
-            lastFetched={this.props.readerStore.featuredListLastFetchedDate.getTime()}
-            isLoading={this.props.readerStore.isFetchingFeaturedList}
-            onToggleBookmark={this.onBookmarkContentItem}
-            onToggleFollow={this.onFollowContentItem}
-            onPressItem={this.onPressContentItem}
-            onRefresh={this.props.readerStore.fetchFeaturedList}
-          />
-        )
-
-      case "Following":
-        return (
-          <ContentList
-            ref={this.list}
-            data={hasFetchedCreatorList ? followedList : []}
-            creators={this.props.readerStore.creators}
-            titleLabelTx="readerScreen.followingLabel"
-            isLoading={this.props.readerStore.isFetchingFollowedList}
-            isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
-            hasFetched={hasFetchedFollowedList && hasFetchedCreatorList}
-            hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
-            lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
-            onFetchMore={this.props.readerStore.fetchMoreFollowedList}
-            onToggleBookmark={this.onBookmarkContentItem}
-            onToggleFollow={this.onFollowContentItem}
-            onPressUndoButton={this.onPressUndoButton}
-            onPressItem={this.onPressContentItem}
-            onRefresh={this.props.readerStore.fetchFollowingList}
-          />
-        )
-    }
-    return null
+    return (
+      <ContentList
+        ref={this.list}
+        data={this.props.readerStore.followedList}
+        creators={this.props.readerStore.creators}
+        titleLabelTx="readerScreen.followingLabel"
+        isLoading={this.props.readerStore.isFetchingFollowedList}
+        isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
+        hasFetched={this.props.readerStore.hasFetchedFollowedList}
+        hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
+        lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
+        onFetchMore={this.props.readerStore.fetchMoreFollowedList}
+        onToggleBookmark={this.onBookmarkContentItem}
+        onToggleFollow={this.onFollowContentItem}
+        onPressUndoButton={this.onPressUndoButton}
+        onPressItem={this.onPressContentItem}
+        onRefresh={this.props.readerStore.fetchFollowingList}
+        style={Style.List}
+      />
+    )
   }
 }

@@ -65,7 +65,6 @@
   },
   "readerScreen": {
     "emptyLabel": "No content",
-    "featuredLabel": "Today",
     "followingLabel": "Your following list"
   },
   "receiveScreen": {

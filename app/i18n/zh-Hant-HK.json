@@ -64,7 +64,6 @@
   },
   "readerScreen": {
     "emptyLabel": "沒有內容",
-    "featuredLabel": "今日",
     "followingLabel": "你的追蹤列表"
   },
   "receiveScreen": {
