@@ -194,15 +194,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             onPress={this.onPressFollowSettings}
           />
         </View>
-        <View style={SETTINGS_MENU.TABLE}>
-          <Button
-            preset="plain"
-            tx="settingsScreen.WebsiteSignIn"
-            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-            style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-            onPress={this.onPressWebsiteSignIn}
-          />
-        </View>
         {isIAPEnabled &&
           <View style={SETTINGS_MENU.TABLE}>
             <Button
@@ -221,6 +212,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
             onPress={this.onPressAuthcoreSettings}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.WebsiteSignIn"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+            onPress={this.onPressWebsiteSignIn}
           />
         </View>
         <View style={SETTINGS_MENU.TABLE}>
