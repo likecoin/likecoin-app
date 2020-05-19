@@ -81,23 +81,26 @@ export class WebsiteSignInScreen extends React.Component<Props> {
           renderItem={this.renderItem}
           ItemSeparatorComponent={this.renderListSeparator}
           ListFooterComponent={(
-            <Sheet style={Style.ListFooter}>
-              <Text
-                tx="WebsiteSignInScreen.OtherLabel"
-                style={Style.ListItemTitle}
-              />
-              <TextInput
-                autoCapitalize="none"
-                autoCorrect={false}
-                returnKeyType="next"
-                placeholder="https://example.com"
-                selectionColor={color.palette.likeCyan}
-                value={this.state.url}
-                onChange={this.onURLInputChange}
-                onSubmitEditing={this.onPressNextButton}
-                style={Style.TextInput}
-              />
-            </Sheet>
+            <View style={Style.ListFooter}>
+              <Sheet style={Style.ListFooterSheet}>
+                <Text
+                  tx="WebsiteSignInScreen.OtherLabel"
+                  style={Style.ListItemTitle}
+                />
+                <TextInput
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType="next"
+                  placeholder="https://example.com"
+                  placeholderTextColor={color.palette.lighterGrey}
+                  selectionColor={color.palette.likeCyan}
+                  value={this.state.url}
+                  onChange={this.onURLInputChange}
+                  onSubmitEditing={this.onPressNextButton}
+                  style={Style.TextInput}
+                />
+              </Sheet>
+            </View>
           )}
           style={Style.List}
         />

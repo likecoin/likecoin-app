@@ -11,13 +11,17 @@ import { sizes } from "../../components/text/text.sizes"
 export const WebsiteSignInScreenStyle = StyleSheet.create({
   List: {
     flex: 1,
-    padding: spacing[3],
+    paddingTop: spacing[3],
   } as ViewStyle,
   ListFooter: {
-    marginTop: spacing[3],
+    paddingBottom: spacing[3],
+  } as ViewStyle,
+  ListFooterSheet: {
+    margin: spacing[3],
     paddingHorizontal: spacing[3],
   } as ViewStyle,
   ListItem: {
+    marginHorizontal: spacing[3],
     paddingHorizontal: spacing[3],
   } as ViewStyle,
   ListItemImage: {
@@ -42,6 +46,7 @@ export const WebsiteSignInScreenStyle = StyleSheet.create({
     backgroundColor: color.primary,
   } as ViewStyle,
   TextInput: {
+    color: color.palette.grey4a,
     marginVertical: spacing[3],
     paddingTop: spacing[3],
     paddingHorizontal: spacing[3],
