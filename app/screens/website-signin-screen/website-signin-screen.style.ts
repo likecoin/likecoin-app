@@ -1,4 +1,9 @@
-import { StyleSheet, ViewStyle, TextStyle } from "react-native"
+import {
+  ImageStyle,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+} from "react-native"
 
 import { color, spacing } from "../../theme"
 import { sizes } from "../../components/text/text.sizes"
@@ -13,8 +18,17 @@ export const WebsiteSignInScreenStyle = StyleSheet.create({
     paddingHorizontal: spacing[3],
   } as ViewStyle,
   ListItem: {
-    flexDirection: "row",
     paddingHorizontal: spacing[3],
+  } as ViewStyle,
+  ListItemImage: {
+    width: 32,
+    height: 32,
+    marginRight: spacing[2],
+    borderRadius: 8,
+  } as ImageStyle,
+  ListItemLayout: {
+    flexDirection: "row",
+    alignItems: "center",
   } as ViewStyle,
   ListItemTitle: {
     fontSize: sizes.medium,

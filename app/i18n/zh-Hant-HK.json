@@ -272,6 +272,10 @@
     "withdrawRewardsButtonText": "領取收益"
   },
   "WebsiteSignInScreen": {
+    "Alert": {
+      "Title": "現正登入",
+      "Message": "使用瀏覽器登入你的帳戶。當登入完成後，點「✕」，Liker Land 會記住你的登入狀態。"
+    },
     "Item": {
       "Appledailyhk": "香港蘋果日報",
       "Appledailytw": "台灣蘋果日報",

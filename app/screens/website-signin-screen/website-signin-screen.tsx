@@ -1,15 +1,18 @@
 import * as React from "react"
 import {
+  Image,
   ListRenderItem,
   NativeSyntheticEvent,
   TextInput,
   TextInputChangeEventData,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native"
 import { FlatList } from "react-navigation"
 
 import {
+  WEBSITE_SIGNIN_ITEMS,
   WebsiteSignInItem,
   WebsiteSignInScreenProps as Props,
 } from "./website-signin-screen.props"
@@ -22,33 +25,7 @@ import { color } from "../../theme"
 import { Text } from "../../components/text"
 import { Sheet } from "../../components/sheet"
 import { Header } from "../../components/header"
-
-const SIGNIN_ITEMS: WebsiteSignInItem[] = [
-  {
-    id: "Matters",
-    url: "https://matters.news/",
-  },
-  {
-    id: "Appledailytw",
-    url: "https://tw.appledaily.com/",
-  },
-  {
-    id: "Appledailyhk",
-    url: "https://hk.appledaily.com/",
-  },
-  {
-    id: "Substack",
-    url: "https://substack.com/",
-  },
-  {
-    id: "Daodu",
-    url: "https://daodu.tech/",
-  },
-  {
-    id: "Nytimes",
-    url: "https://www.nytimes.com/",
-  },
-]
+import { translate } from "../../i18n"
 
 export class WebsiteSignInScreen extends React.Component<Props> {
   state = {
@@ -58,7 +35,19 @@ export class WebsiteSignInScreen extends React.Component<Props> {
   private signIn = (inputURL?: string) => {
     const url = inputURL || this.state.url
     if (url) {
-      this.props.navigation.navigate("WebsiteSignInWebview", { url })
+      Alert.alert(
+        translate("WebsiteSignInScreen.Alert.Title"),
+        translate("WebsiteSignInScreen.Alert.Message"),
+        [
+          {
+            text: translate("common.ok"),
+            onPress: () => {
+              this.props.navigation.navigate("WebsiteSignInWebview", { url })
+            },
+          },
+        ],
+        { cancelable: false },
+      )
     }
   }
 
@@ -88,7 +77,7 @@ export class WebsiteSignInScreen extends React.Component<Props> {
           onLeftPress={this.onPressHeaderLeftButton}
         />
         <FlatList<WebsiteSignInItem>
-          data={SIGNIN_ITEMS}
+          data={WEBSITE_SIGNIN_ITEMS}
           renderItem={this.renderItem}
           ItemSeparatorComponent={this.renderListSeparator}
           ListFooterComponent={(
@@ -120,10 +109,16 @@ export class WebsiteSignInScreen extends React.Component<Props> {
     return (
       <TouchableOpacity onPress={() => this.signIn(item.url) }>
         <Sheet style={Style.ListItem}>
-          <Text
-            tx={`WebsiteSignInScreen.Item.${item.id}`}
-            style={Style.ListItemTitle}
-          />
+          <View style={Style.ListItemLayout}>
+            <Image
+              source={item.logo}
+              style={Style.ListItemImage}
+            />
+            <Text
+              tx={`WebsiteSignInScreen.Item.${item.id}`}
+              style={Style.ListItemTitle}
+            />
+          </View>
         </Sheet>
       </TouchableOpacity>
     )

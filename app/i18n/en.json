@@ -276,6 +276,10 @@
     "withdrawRewardsButtonText": "Withdraw Rewards"
   },
   "WebsiteSignInScreen": {
+    "Alert": {
+      "Title": "Signing in",
+      "Message": "Use the browser to sign in to your account. After you've signed in, click '✕' and Liker Land will remember the account for you."
+    },
     "Item": {
       "Appledailyhk": "Apply Daily (Hong Kong)",
       "Appledailytw": "Apply Daily (Taiwan)",
