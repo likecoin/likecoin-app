@@ -176,7 +176,8 @@
     },
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
-    "title": "設定"
+    "title": "設定",
+    "WebsiteSignIn": "網站登入"
   },
   "storybook": {
     "placeholder": "Placeholder",
@@ -268,6 +269,22 @@
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
+  },
+  "WebsiteSignInScreen": {
+    "Alert": {
+      "Title": "現正登入",
+      "Message": "使用瀏覽器登入你的帳戶。當登入完成後，點「✕」，Liker Land 會記住你的登入狀態。"
+    },
+    "Item": {
+      "Appledailyhk": "香港蘋果日報",
+      "Appledailytw": "台灣蘋果日報",
+      "Daodu": "科技導讀",
+      "Matters": "Matters",
+      "Nytimes": "紐約時報",
+      "Substack": "Substack"
+    },
+    "OtherLabel": "其他（請輸入網址）",
+    "Title": "網站登入"
   },
   "Week": [
     "日",
