@@ -1,3 +1,4 @@
+import Rate, { AndroidMarket } from "react-native-rate"
 import {
   flow,
   Instance,
@@ -33,6 +34,7 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
+    ratedAppVersion: types.maybe(types.string),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -64,6 +66,9 @@ export const UserStoreModel = types
   .actions(self => ({
     setIsSigningIn(value: boolean) {
       self.isSigningIn = value
+    },
+    setRatedAppVersion() {
+      self.ratedAppVersion = self.getConfig("APP_VERSION")
     },
     register: flow(function * (params: UserRegisterParams) {
       const result: GeneralResult = yield self.env.likeCoAPI.register(params)
@@ -160,6 +165,30 @@ export const UserStoreModel = types
         case "unauthorized": {
           yield self.logout()
         }
+      }
+    }),
+    rateApp: flow(function * () {
+      try {
+        yield new Promise((resolve, reject) => {
+          Rate.rate({
+            AppleAppID: "1248232355",
+            GooglePackageName: "com.oice",
+            preferredAndroidMarket: AndroidMarket.Google,
+            preferInApp: true,
+            openAppStoreIfInAppFails: true,
+          }, (success) => {
+            if (success) {
+              // This technically only tells us if the user successfully went to the Review Page.
+              // Whether they actually did anything, we do not know.
+              self.setRatedAppVersion()
+              resolve()
+            } else {
+              reject(new Error("APP_RATE_ERROR"))
+            }
+          })
+        })
+      } catch (error) {
+        logError(error)
       }
     }),
   }))
