@@ -82,7 +82,10 @@ export const UserStoreModel = types
       self.ratedAppVersion = self.getConfig("APP_VERSION")
     },
     resetAppRatingCooldown() {
-      self.appRatingCooldown = Date.now() + 5 * 60000 // 5 minutes
+      self.appRatingCooldown =
+        Date.now() +
+        (parseInt(self.getConfig("APP_RATING_COOLDOWN"), 10) || 5) *
+        60000
     },
     register: flow(function * (params: UserRegisterParams) {
       const result: GeneralResult = yield self.env.likeCoAPI.register(params)
