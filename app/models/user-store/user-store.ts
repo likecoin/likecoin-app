@@ -1,3 +1,4 @@
+import Rate, { AndroidMarket } from "react-native-rate"
 import {
   flow,
   Instance,
@@ -24,6 +25,8 @@ import {
 
 import { throwProblem } from "../../services/api/api-problem"
 
+import { logError } from "../../utils/error"
+
 /**
  * Store user related information.
  */
@@ -33,6 +36,8 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
+    ratedAppVersion: types.maybe(types.string),
+    appRatingCooldown: types.maybe(types.number),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -59,11 +64,28 @@ export const UserStoreModel = types
         uri = "https://help.like.co"
       }
       return uri
-    }
+    },
+    get hasRatedApp() {
+      return self.ratedAppVersion === self.getConfig("APP_VERSION")
+    },
+  }))
+  .views(self => ({
+    get shouldPromptAppRating() {
+      return !self.hasRatedApp && Date.now() >= self.appRatingCooldown
+    },
   }))
   .actions(self => ({
     setIsSigningIn(value: boolean) {
       self.isSigningIn = value
+    },
+    didPromptAppRating() {
+      self.ratedAppVersion = self.getConfig("APP_VERSION")
+    },
+    resetAppRatingCooldown() {
+      self.appRatingCooldown =
+        Date.now() +
+        (parseInt(self.getConfig("APP_RATING_COOLDOWN"), 10) || 5) *
+        60000
     },
     register: flow(function * (params: UserRegisterParams) {
       const result: GeneralResult = yield self.env.likeCoAPI.register(params)
@@ -110,6 +132,10 @@ export const UserStoreModel = types
     }),
   }))
   .actions(self => ({
+    resetAppRatingPrompt() {
+      self.ratedAppVersion = undefined
+      self.resetAppRatingCooldown()
+    },
     fetchUserInfo: flow(function * () {
       const result: UserResult = yield self.env.likeCoAPI.fetchCurrentUserInfo()
       switch (result.kind) {
@@ -160,6 +186,30 @@ export const UserStoreModel = types
         case "unauthorized": {
           yield self.logout()
         }
+      }
+    }),
+    rateApp: flow(function * () {
+      try {
+        yield new Promise((resolve, reject) => {
+          Rate.rate({
+            AppleAppID: "1248232355",
+            GooglePackageName: "com.oice",
+            preferredAndroidMarket: AndroidMarket.Google,
+            preferInApp: true,
+            openAppStoreIfInAppFails: true,
+          }, (success) => {
+            if (success) {
+              // This technically only tells us if the user successfully went to the Review Page.
+              // Whether they actually did anything, we do not know.
+              self.didPromptAppRating()
+              resolve()
+            } else {
+              reject(new Error("APP_RATE_ERROR"))
+            }
+          })
+        })
+      } catch (error) {
+        logError(error)
       }
     }),
   }))

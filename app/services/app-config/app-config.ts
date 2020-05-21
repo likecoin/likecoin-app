@@ -1,5 +1,6 @@
 import RemoteConfigModule, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import {
+  APP_RATING_COOLDOWN,
   APP_VERSION,
   AUTHCORE_CREDENTIAL_KEY,
   AUTHCORE_ROOT_URL,
@@ -25,6 +26,8 @@ import {
 import FastImage from 'react-native-fast-image'
 
 export interface AppConfigParams {
+  APP_RATING_COOLDOWN: string
+  APP_VERSION: string
   AUTHCORE_CREDENTIAL_KEY: string
   AUTHCORE_ROOT_URL: string
   BIG_DIPPER_URL: string
@@ -62,6 +65,8 @@ export class AppConfig {
 
   constructor() {
     this.config = {
+      APP_VERSION,
+      APP_RATING_COOLDOWN,
       AUTHCORE_CREDENTIAL_KEY,
       AUTHCORE_ROOT_URL,
       BIG_DIPPER_URL,
@@ -127,6 +132,6 @@ export class AppConfig {
   }
 
   getIsDeprecatedAppVersion() {
-    return parseInt(this.getValue("MIN_VERSION")) > parseInt(APP_VERSION)
+    return parseInt(this.getValue("MIN_VERSION")) > parseInt(this.getValue(APP_VERSION))
   }
 }

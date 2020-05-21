@@ -112,6 +112,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("WebsiteSignIn")
   }
 
+  private onPressRateApp = () => {
+    logAnalyticsEvent('SettingsClickRateApp')
+    this.props.userStore.rateApp()
+  }
+
   render () {
     return (
       <Screen
@@ -249,6 +254,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL}
             onPress={this.onPressContactUs}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.RateApp"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+            onPress={this.onPressRateApp}
           />
         </View>
         <Button

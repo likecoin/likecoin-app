@@ -9880,6 +9880,11 @@ react-native-randombytes@^3.5.3:
     buffer "^4.9.1"
     sjcl "^1.0.3"
 
+react-native-rate@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-rate/-/react-native-rate-1.2.1.tgz#c7a58b13dc68c49372d706d55a644b3700474597"
+  integrity sha512-Hm1cmSaFVkJZHlSC2ebrhW7Y2PCQozjGr9pvAhkU2vQ/G3fS01OplGqADb0MhW+Md5t1rWUtwZnTS/W3/osXvA==
+
 react-native-safe-area-view@^0.14.1:
   version "0.14.7"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.14.7.tgz#e1dd1c4d25a90677df2c15347fdddb2306ba5971"
