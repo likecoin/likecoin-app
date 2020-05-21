@@ -25,6 +25,8 @@ import {
 
 import { throwProblem } from "../../services/api/api-problem"
 
+import { logError } from "../../utils/error"
+
 /**
  * Store user related information.
  */
@@ -35,6 +37,7 @@ export const UserStoreModel = types
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
     ratedAppVersion: types.maybe(types.string),
+    appRatingCooldown: types.maybe(types.number),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -61,14 +64,25 @@ export const UserStoreModel = types
         uri = "https://help.like.co"
       }
       return uri
-    }
+    },
+    get hasRatedApp() {
+      return self.ratedAppVersion === self.getConfig("APP_VERSION")
+    },
+  }))
+  .views(self => ({
+    get shouldPromptAppRating() {
+      return !self.hasRatedApp && Date.now() >= self.appRatingCooldown
+    },
   }))
   .actions(self => ({
     setIsSigningIn(value: boolean) {
       self.isSigningIn = value
     },
-    setRatedAppVersion() {
+    didPromptAppRating() {
       self.ratedAppVersion = self.getConfig("APP_VERSION")
+    },
+    resetAppRatingCooldown() {
+      self.appRatingCooldown = Date.now() + 5 * 60000 // 5 minutes
     },
     register: flow(function * (params: UserRegisterParams) {
       const result: GeneralResult = yield self.env.likeCoAPI.register(params)
@@ -115,6 +129,10 @@ export const UserStoreModel = types
     }),
   }))
   .actions(self => ({
+    resetAppRatingPrompt() {
+      self.ratedAppVersion = undefined
+      self.resetAppRatingCooldown()
+    },
     fetchUserInfo: flow(function * () {
       const result: UserResult = yield self.env.likeCoAPI.fetchCurrentUserInfo()
       switch (result.kind) {
@@ -180,7 +198,7 @@ export const UserStoreModel = types
             if (success) {
               // This technically only tells us if the user successfully went to the Review Page.
               // Whether they actually did anything, we do not know.
-              self.setRatedAppVersion()
+              self.didPromptAppRating()
               resolve()
             } else {
               reject(new Error("APP_RATE_ERROR"))
