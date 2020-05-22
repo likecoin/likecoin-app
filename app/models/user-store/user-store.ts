@@ -36,8 +36,8 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
-    ratedAppVersion: types.maybe(types.string),
-    appRatingCooldown: types.maybe(types.number),
+    appRatingPromptedVersions: types.array(types.string),
+    appRatingCooldown: types.optional(types.number, 0),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -65,13 +65,13 @@ export const UserStoreModel = types
       }
       return uri
     },
-    get hasRatedApp() {
-      return self.ratedAppVersion === self.getConfig("APP_VERSION")
+    get hasPromptedAppRating() {
+      return self.appRatingPromptedVersions.indexOf(self.getConfig("APP_RATING_VERSION")) !== -1
     },
   }))
   .views(self => ({
     get shouldPromptAppRating() {
-      return !self.hasRatedApp && Date.now() >= self.appRatingCooldown
+      return !self.hasPromptedAppRating && Date.now() >= self.appRatingCooldown
     },
   }))
   .actions(self => ({
@@ -79,9 +79,12 @@ export const UserStoreModel = types
       self.isSigningIn = value
     },
     didPromptAppRating() {
-      self.ratedAppVersion = self.getConfig("APP_VERSION")
+      if (!self.hasPromptedAppRating) {
+        self.appRatingPromptedVersions.push(self.getConfig("APP_RATING_VERSION"))
+      }
+      self.appRatingCooldown = 0
     },
-    resetAppRatingCooldown() {
+    startAppRatingCooldown() {
       self.appRatingCooldown =
         Date.now() +
         (parseInt(self.getConfig("APP_RATING_COOLDOWN"), 10) || 5) *
@@ -132,10 +135,6 @@ export const UserStoreModel = types
     }),
   }))
   .actions(self => ({
-    resetAppRatingPrompt() {
-      self.ratedAppVersion = undefined
-      self.resetAppRatingCooldown()
-    },
     fetchUserInfo: flow(function * () {
       const result: UserResult = yield self.env.likeCoAPI.fetchCurrentUserInfo()
       switch (result.kind) {
