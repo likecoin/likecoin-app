@@ -54,15 +54,12 @@ function createRootStore(env: Environment, data: any = {}) {
   env.likeCoAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
   env.likerLandAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
 
-  // Reset app rating cooldown at first open
-  if (!rootStore.userStore.appRatingCooldown) {
-    rootStore.userStore.resetAppRatingCooldown()
-  } else if (
-    rootStore.userStore.ratedAppVersion &&
-    rootStore.userStore.ratedAppVersion !== env.appConfig.getValue("APP_VERSION")
+  // Start app rating cooldown if necessary
+  if (
+    !rootStore.userStore.hasPromptedAppRating &&
+    !rootStore.userStore.appRatingCooldown
   ) {
-    // Reset rating at version changes
-    rootStore.userStore.resetAppRatingPrompt()
+    rootStore.userStore.startAppRatingCooldown()
   }
 
   return rootStore
