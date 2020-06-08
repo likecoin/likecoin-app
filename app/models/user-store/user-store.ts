@@ -121,7 +121,7 @@ export const UserStoreModel = types
           self.env.likeCoAPI.logout(),
           self.authCore.signOut(),
         ])
-        self.env.branchIO.setUserIdentity('')
+        self.env.branchIO.setUserIdentity()
         yield logoutAnalyticsUser()
       } finally {
         self.isSigningOut = false

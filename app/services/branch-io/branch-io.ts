@@ -13,10 +13,8 @@ export class BranchIO {
   private handleAppReferrerEvent(params: any) {
     if (!params) return undefined
     if (params.event === "app_referral" && params.referrer) {
-      if (params.referrer) {
-        this.appReferrer = params.referrer
-        return this.appReferrer
-      }
+      this.appReferrer = params.referrer
+      return this.appReferrer
     }
     return undefined
   }
@@ -43,7 +41,7 @@ export class BranchIO {
     })
   }
 
-  setUserIdentity(userId: string) {
+  setUserIdentity(userId?: string) {
     if (!userId) {
       branch.logout()
     } else {
