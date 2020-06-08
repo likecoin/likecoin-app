@@ -42,8 +42,7 @@ function parseAuthCoreUser({
 }
 
 function findBestAvailableLanguage() {
-  const locale = i18n.currentLocale()
-  switch (locale) {
+  switch (i18n.locale) {
     case "en":
       return "en"
     default:
