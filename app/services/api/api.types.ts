@@ -124,7 +124,7 @@ export type StatisticsTopSupportedCreatorsResult = {
   }
 } | GeneralApiProblem
 
-export type AppMetaResult = {
+export type UserAppMetaResult = {
   kind: "ok"
   data: {
     isNew: boolean

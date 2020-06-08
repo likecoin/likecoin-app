@@ -21,7 +21,7 @@ import {
   UserLoginParams,
   UserResult,
   UserRegisterParams,
-  AppMetaResult,
+  UserAppMetaResult,
 } from "../../services/api"
 
 import { throwProblem } from "../../services/api/api-problem"
@@ -184,7 +184,7 @@ export const UserStoreModel = types
       }
     }),
     fetchUserAppMeta: flow(function * () {
-      const result: AppMetaResult = yield self.env.likeCoAPI.fetchAppMeta()
+      const result: UserAppMetaResult = yield self.env.likeCoAPI.fetchUserAppMeta()
       switch (result.kind) {
         case "ok": {
           const {
@@ -208,7 +208,7 @@ export const UserStoreModel = types
       }
     }),
     postUserAppReferrer: flow(function * (likerID: string) {
-      const result: GeneralResult = yield self.env.likeCoAPI.addAppReferrer(likerID)
+      const result: GeneralResult = yield self.env.likeCoAPI.addUserAppReferrer(likerID)
       switch (result.kind) {
         case "ok": {
           self.appMeta.isNew = false

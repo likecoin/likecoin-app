@@ -285,7 +285,7 @@ export class LikeCoAPI {
     }
   }
 
-  async fetchAppMeta(): Promise<Types.AppMetaResult> {
+  async fetchUserAppMeta(): Promise<Types.UserAppMetaResult> {
     const response: ApiResponse<any> = await this.apisauce.get(`/app/meta`)
 
     if (!response.ok) {
@@ -300,7 +300,7 @@ export class LikeCoAPI {
     }
   }
 
-  async addAppReferrer(likerID: string): Promise<Types.GeneralResult> {
+  async addUserAppReferrer(likerID: string): Promise<Types.GeneralResult> {
     const response: ApiResponse<any> = await this.apisauce.post(
       `/app/meta/referral`,
       { referrer: likerID },
