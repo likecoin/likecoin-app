@@ -7,7 +7,7 @@ import {
 
 import { withEnvironment } from "../extensions"
 import { UserModel } from "../user"
-import { AppMetaModel } from "../app-meta"
+import { UserAppMetaModel } from "../user-app-meta"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
@@ -37,7 +37,7 @@ export const UserStoreModel = types
     iapStore: types.optional(IAPStoreModel, {}),
     appReferrer: types.optional(types.string, ''),
     userAppReferralLink: types.maybe(types.string),
-    appMeta: types.optional(AppMetaModel, {}),
+    appMeta: types.optional(UserAppMetaModel, {}),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -194,7 +194,7 @@ export const UserStoreModel = types
             android: hasAndroid,
             ios: hasIOS,
           } = result.data
-          self.appMeta = AppMetaModel.create({
+          self.appMeta = UserAppMetaModel.create({
             isNew,
             isEmailVerified,
             firstOpenTs,

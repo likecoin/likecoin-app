@@ -3,8 +3,8 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 /**
  * App Meta
  */
-export const AppMetaModel = types
-  .model("AppMeta")
+export const UserAppMetaModel = types
+  .model("UserAppMeta")
   .props({
     isNew: types.maybe(types.boolean),
     isEmailVerified: types.optional(types.boolean, false),
@@ -13,7 +13,7 @@ export const AppMetaModel = types
     hasIOS: types.optional(types.boolean, false),
   })
 
-type AppMetaType = Instance<typeof AppMetaModel>
-export interface AppMeta extends AppMetaType {}
-type AppMetaSnapshotType = SnapshotOut<typeof AppMetaModel>
-export interface AppMetaSnapshot extends AppMetaSnapshotType {}
+type UserAppMetaType = Instance<typeof UserAppMetaModel>
+export interface UserAppMeta extends UserAppMetaType {}
+type UserAppMetaSnapshotType = SnapshotOut<typeof UserAppMetaModel>
+export interface UserAppMetaSnapshot extends UserAppMetaSnapshotType {}
