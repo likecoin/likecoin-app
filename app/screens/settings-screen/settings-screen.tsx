@@ -201,7 +201,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               preset="plain"
               tx="settingsScreen.Referral"
               textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-              style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+              style={SETTINGS_MENU.TABLE_CELL}
               onPress={this.onPressReferral}
             />
           }
