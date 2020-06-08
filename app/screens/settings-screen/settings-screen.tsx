@@ -199,7 +199,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           {this.props.isAppReferralEnabled &&
             <Button
               preset="plain"
-              tx="settingsScreen.referral"
+              tx="settingsScreen.Referral"
               textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
               style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
               onPress={this.onPressReferral}

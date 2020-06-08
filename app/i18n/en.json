@@ -71,15 +71,20 @@
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },
-  "RegistrationScreen": {
-    "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
-    "likerIdLabel": "Create your Liker ID",
-    "shouldSignInOnDesktop": "Please retry after signing in to http://like.co on desktop"
+  "ReferralScreen": {
+    "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓讀者追縱自己的更新。趕快邀請朋友下載 Liker Land 吧！",
+    "HeaderTitle": "推薦奬賞",
+    "Title": "推薦愈多，奬金愈多"
   },
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
     "referrerIdLabel": "(Optional) Input your referrer's Liker ID",
     "emailVerificationHint": "You will have to verify your email to receive referreal bonus"
+  },
+  "RegistrationScreen": {
+    "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
+    "likerIdLabel": "Create your Liker ID",
+    "shouldSignInOnDesktop": "Please retry after signing in to http://like.co on desktop"
   },
   "SaveToBookmarkScreen": {
     "DismissButtonText": "Click to close",
@@ -181,9 +186,9 @@
     "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
     "followSettings": "Following / Unfollow",
-    "referral": "Referral Programme",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
+    "Referral": "推薦奬賞",
     "StatisticsPanel": {
       "Rewarded": {
         "GetRewardsButtonTitle": "Get rewards",

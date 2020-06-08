@@ -1,73 +1,39 @@
-import { observer, inject } from "mobx-react"
 import * as React from "react"
-import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import {
   Clipboard,
+  Image,
   Share,
-  TextStyle,
+  TouchableOpacity,
   View,
-  ViewStyle,
 } from "react-native"
+import {
+  NavigationScreenProps,
+  ScrollView,
+} from "react-navigation"
+import { observer, inject } from "mobx-react"
 
-import { RootStore } from "../../models/root-store"
+import {
+  ReferralScreenStyle as Style,
+} from "./referral-screen.style"
+
 import { UserStore } from "../../models/user-store"
 
 import { Button } from "../../components/button"
+import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 
-import { color, spacing } from "../../theme"
-
 import { logAnalyticsEvent } from "../../utils/analytics"
 
+const Graph = require("./graph.png")
+
 export interface ReferralScreenProps extends NavigationScreenProps {
-  userStore: UserStore,
-}
-const ROOT: ViewStyle = {
-  flex: 1,
-  backgroundColor: color.primary,
-}
-const SCREEN: ViewStyle = {
-  flexGrow: 1,
-  alignItems: "center",
-  justifyContent: "center",
-}
-const HEADER_BAR: ViewStyle = {
-  alignItems: "flex-end",
-  width: "100%",
-  paddingHorizontal: spacing[4],
-  paddingVertical: spacing[1],
-}
-const INNER: ViewStyle = {
-  alignItems: "stretch",
-  padding: spacing[4],
-}
-const SHEET: ViewStyle = {
-  alignItems: "center",
-  maxWidth: 208,
-  marginVertical: spacing[5],
-  padding: spacing[5],
-  paddingBottom: spacing[0],
-  backgroundColor: color.palette.white,
-}
-const COPY_BUTTON: TextStyle = {
-  marginTop: spacing[3],
-  textAlign: "center",
-}
-const ADDRESS: TextStyle = {
-  marginTop: spacing[4],
-}
-const BOTTOM_BAR: ViewStyle = {
-  alignItems: "center",
-  width: "100%",
-  padding: spacing[3],
-  backgroundColor: color.palette.white,
+  userStore: UserStore
 }
 
-@inject((rootStore: RootStore) => ({
-  userStore: rootStore.userStore,
-  appReferralLink: rootStore.userStore.userAppReferralLink,
+@inject((allStores: any) => ({
+  userStore: allStores.userStore as UserStore,
 }))
 @observer
 export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
@@ -104,50 +70,52 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
     return (
-      <View style={ROOT}>
-        <SafeAreaView style={HEADER_BAR}>
-          <Button
-            preset="icon"
-            icon="share"
-            onPress={this.onPressShareButton}
-          />
-        </SafeAreaView>
-        <Screen
-          preset="fixed"
-          backgroundColor={color.transparent}
-          style={SCREEN}
-        >
-          <View style={INNER}>
-            <Text
-              color="likeCyan"
-              size="medium"
-              align="center"
-              weight="bold"
-              tx="receiveScreen.shareYourAddress"
-            />
-            <Sheet style={SHEET}>
-              <Text style={ADDRESS} text={appReferralLink} />
+      <Screen
+        preset="fixed"
+        style={Style.Root}
+      >
+        <Header
+          headerTx="ReferralScreen.HeaderTitle"
+          leftIcon="back"
+          rightIcon="share"
+          onLeftPress={this.onPressCloseButton}
+          onRightPress={this.onPressShareButton}
+        />
+        <ScrollView style={Style.ScrollView}>
+          <Sheet
+            preset="flat"
+            isZeroPaddingBottom
+            style={Style.Sheet}
+          >
+            <View style={Style.SheetContent}>
+              <Text
+                tx="ReferralScreen.Title"
+                style={Style.Title}
+              />
+              <Text
+                tx="ReferralScreen.DescriptionLabel"
+                style={Style.DescriptionLabel}
+              />
+              <TouchableOpacity
+                style={Style.LinkWrapper}
+                onPress={this.onPressCopyButton}
+              >
+                <Text text={appReferralLink} />
+              </TouchableOpacity>
               <Button
-                textStyle={COPY_BUTTON}
                 preset="link"
                 tx={copyButtonTx}
+                style={Style.CopyButton}
                 onPress={this.onPressCopyButton}
               />
-            </Sheet>
-          </View>
-        </Screen>
-        <SafeAreaView
-          forceInset={{ top: "never", bottom: "always" }}
-          style={BOTTOM_BAR}
-        >
-          <Button
-            preset="icon"
-            icon="close"
-            color="likeGreen"
-            onPress={this.onPressCloseButton}
-          />
-        </SafeAreaView>
-      </View>
+            </View>
+            <Image
+              source={Graph}
+              style={Style.Graph}
+            />
+          </Sheet>
+        </ScrollView>
+      </Screen>
     )
   }
 }
