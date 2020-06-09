@@ -76,6 +76,16 @@
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },
+  "ReferralScreen": {
+    "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓讀者追縱自己的更新。趕快邀請朋友下載 Liker Land 吧！",
+    "HeaderTitle": "推薦奬賞",
+    "Title": "推薦愈多，奬金愈多"
+  },
+  "ReferrerInputScreen": {
+    "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
+    "referrerIdLabel": "(Optional) Input your referrer's Liker ID",
+    "emailVerificationHint": "You will have to verify your email to receive referreal bonus"
+  },
   "RegistrationScreen": {
     "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
     "likerIdLabel": "Create your Liker ID",
@@ -184,6 +194,7 @@
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
     "RateApp": "Rate The Liker Land App",
+    "Referral": "推薦奬賞",
     "StatisticsPanel": {
       "Rewarded": {
         "GetRewardsButtonTitle": "Get rewards",
@@ -199,7 +210,8 @@
     },
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
-    "title": "Settings"
+    "title": "Settings",
+    "WebsiteSignIn": "Website Sign-in"
   },
   "storybook": {
     "placeholder": "Placeholder",
@@ -279,6 +291,22 @@
     "stakeLabel": "Delegate",
     "receive": "Receive",
     "withdrawRewardsButtonText": "Withdraw Rewards"
+  },
+  "WebsiteSignInScreen": {
+    "Alert": {
+      "Title": "Signing in",
+      "Message": "Use the browser to sign in to your account. After you've signed in, click '✕' and Liker Land will remember the account for you."
+    },
+    "Item": {
+      "Appledailyhk": "Apply Daily (Hong Kong)",
+      "Appledailytw": "Apply Daily (Taiwan)",
+      "Daodu": "Daodu Tech",
+      "Matters": "Matters",
+      "Nytimes": "The New York Times",
+      "Substack": "Subtack"
+    },
+    "OtherLabel": "Other (Please specify URL)",
+    "Title": "Website Sign-in"
   },
   "Week": [
     "Sun",

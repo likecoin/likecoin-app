@@ -1,5 +1,6 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
+import i18n from "i18n-js"
 import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
 
@@ -37,6 +38,15 @@ function parseAuthCoreUser({
     createdAt,
     primaryEmailVerified,
     primaryPhoneVerified,
+  }
+}
+
+function findBestAvailableLanguage() {
+  switch (i18n.locale) {
+    case "en":
+      return "en"
+    default:
+      return "zh-hk"
   }
 }
 
@@ -79,6 +89,7 @@ export class AuthCoreAPI {
     this.client = new AuthCore({
       baseUrl: baseURL,
       socialLoginPaneStyle: "top",
+      language: findBestAvailableLanguage(),
     })
     this.cosmosChainId = cosmosChainId
     if (refreshToken) {

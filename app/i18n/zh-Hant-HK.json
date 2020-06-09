@@ -75,6 +75,17 @@
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
   },
+  "ReferralScreen": {
+    "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓讀者追縱自己的更新。趕快邀請朋友下載 Liker Land 吧！",
+    "HeaderTitle": "推薦奬賞",
+    "ShareButtonTitle": "分享",
+    "Title": "推薦愈多，奬金愈多"
+  },
+  "ReferrerInputScreen": {
+    "referrerIdHint": "Liker ID 為 7 至 20 位小寫英文字母、數字、「-」及「_」字元",
+    "referrerIdLabel": "（如有）輸入推薦人的 Liker ID",
+    "emailVerificationHint": "需要通過電郵驗證後才能獲得推薦獎賞"
+  },
   "RegistrationScreen": {
     "likerIdHint": "只允許7至20位小寫英文字母、數字、「-」及「_」字元",
     "likerIdLabel": "創建 Liker ID",
@@ -168,6 +179,7 @@
     "openSourceLicense": "開源授權",
     "privacyPolicy": "隱私權政策",
     "RateApp": "為 Liker Land 評分",
+    "Referral": "推薦奬賞",
     "StatisticsPanel": {
       "Rewarded": {
         "GetRewardsButtonTitle": "獲得讚賞",
@@ -183,7 +195,8 @@
     },
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
-    "title": "設定"
+    "title": "設定",
+    "WebsiteSignIn": "網站登入"
   },
   "storybook": {
     "placeholder": "Placeholder",
@@ -275,6 +288,22 @@
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
+  },
+  "WebsiteSignInScreen": {
+    "Alert": {
+      "Title": "現正登入",
+      "Message": "使用瀏覽器登入你的帳戶。當登入完成後，點「✕」，Liker Land 會記住你的登入狀態。"
+    },
+    "Item": {
+      "Appledailyhk": "香港蘋果日報",
+      "Appledailytw": "台灣蘋果日報",
+      "Daodu": "科技導讀",
+      "Matters": "Matters",
+      "Nytimes": "紐約時報",
+      "Substack": "Substack"
+    },
+    "OtherLabel": "其他（請輸入網址）",
+    "Title": "網站登入"
   },
   "Week": [
     "日",

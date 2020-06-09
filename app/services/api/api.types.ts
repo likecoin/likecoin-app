@@ -33,6 +33,7 @@ export interface UserLoginParams {
   username?: string
   email?: string
   displayName?: string
+  appReferrer?: string
 }
 
 export interface UserRegisterParams extends UserLoginParams {
@@ -121,4 +122,16 @@ export type StatisticsTopSupportedCreatorsResult = {
   data: {
     ids: string[]
   }
+} | GeneralApiProblem
+
+export type UserAppMetaResult = {
+  kind: "ok"
+  data: {
+    isNew: boolean
+    isEmailVerified?: boolean
+    ts?: number
+    android?: boolean
+    ios?: boolean
+  }
+
 } | GeneralApiProblem

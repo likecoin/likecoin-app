@@ -91,3 +91,8 @@
   **[] $VALUES;
   public *;
 }
+
+# branch.io
+-dontwarn io.branch.**
+-dontwarn com.crashlytics.android.answers.shim.**
+-dontwarn com.google.firebase.appindexing.**
