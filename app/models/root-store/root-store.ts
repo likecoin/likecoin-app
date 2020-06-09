@@ -23,7 +23,7 @@ import { UserStoreModel } from "../user-store"
 import { translate } from "../../i18n"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
-import { logError } from "../../utils/error"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 // eslint-disable-next-line no-useless-escape
 const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
@@ -94,7 +94,10 @@ export const RootStoreModel = types
   }))
   .actions(self => ({
     handleUnauthenticatedError(type: string, error: any) {
-      logError(error)
+      logAnalyticsEvent("UnauthenticatedError", {
+        type,
+        error: error.toString(),
+      })
       if (self.isShowUnauthenticatedAlert) return
       self.isShowUnauthenticatedAlert = true
       Alert.alert(
