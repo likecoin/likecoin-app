@@ -8,8 +8,8 @@ import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
  * AuthCore callback functions to-be called
  */
 export interface AuthCoreCallback {
-  unauthenticated?: Function
-  unauthorized?: Function
+  unauthenticated?: (error: any) => void
+  unauthorized?: (error: any) => void
 }
 
 export interface AuthcoreScreenOptions {
@@ -135,12 +135,12 @@ export class AuthCoreAPI {
     return { accessToken }
   }
 
-  onUnauthenticated = () => {
-    this.callbacks.unauthenticated && this.callbacks.unauthenticated()
+  onUnauthenticated = (error: any) => {
+    this.callbacks.unauthenticated && this.callbacks.unauthenticated(error)
   }
 
-  onUnauthorized = () => {
-    this.callbacks.unauthorized && this.callbacks.unauthorized()
+  onUnauthorized = (error: any) => {
+    this.callbacks.unauthorized && this.callbacks.unauthorized(error)
   }
 
   async getCosmosAddresses() {
@@ -152,10 +152,10 @@ export class AuthCoreAPI {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {
           case 401:
-            this.onUnauthorized()
+            this.onUnauthorized(error)
             break
           case 403:
-            this.onUnauthenticated()
+            this.onUnauthenticated(error)
             break
           default:
             throw error
@@ -173,10 +173,10 @@ export class AuthCoreAPI {
       const statusCode = error.response ? error.response.status : error.status
       switch (statusCode) {
         case 401:
-          this.onUnauthorized()
+          this.onUnauthorized(error)
           break
         case 403:
-          this.onUnauthenticated()
+          this.onUnauthenticated(error)
           break
         default:
           throw error

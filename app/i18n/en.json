@@ -279,7 +279,7 @@
     "Title": "All validators"
   },
   "UnauthenticatedAlert": {
-    "title": "Session Expired",
+    "title": "Session Expired [{{type}}]",
     "message": "Please sign in again."
   },
   "walletDashboardScreen": {

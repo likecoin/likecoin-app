@@ -111,7 +111,7 @@ export class LikeCoAPI {
       const problem = getGeneralApiProblem(response)
       if (problem) {
         if (problem.kind === "forbidden") {
-          this.config.onUnauthenticated()
+          this.config.onUnauthenticated(response.originalError)
         }
         return problem
       }

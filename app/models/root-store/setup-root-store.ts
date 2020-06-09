@@ -49,10 +49,18 @@ function createRootStore(env: Environment, data: any = {}) {
     throw new Error("CHAIN_HAS_CHANGED")
   }
   const rootStore = RootStoreModel.create(data, env)
-  env.authCoreAPI.callbacks.unauthenticated = rootStore.handleUnauthenticatedError
-  env.authCoreAPI.callbacks.unauthorized = rootStore.handleUnauthenticatedError
-  env.likeCoAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
-  env.likerLandAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
+  env.authCoreAPI.callbacks.unauthenticated = (error: any) => {
+    rootStore.handleUnauthenticatedError("Authcore", error)
+  }
+  env.authCoreAPI.callbacks.unauthorized = (error: any) => {
+    rootStore.handleUnauthenticatedError("Authcore", error)
+  }
+  env.likeCoAPI.config.onUnauthenticated = (error: any) => {
+    rootStore.handleUnauthenticatedError("like.co", error)
+  }
+  env.likerLandAPI.config.onUnauthenticated = (error: any) => {
+    rootStore.handleUnauthenticatedError("liker.land", error)
+  }
 
   // Start app rating cooldown if necessary
   if (
