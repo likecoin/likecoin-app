@@ -23,6 +23,8 @@ import { UserStoreModel } from "../user-store"
 import { translate } from "../../i18n"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
+import { logError } from "../../utils/error"
+
 // eslint-disable-next-line no-useless-escape
 const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 
@@ -67,15 +69,16 @@ export const RootStoreModel = types
      */
     openDeepLink(url: string = self.deferredDeepLink) {
       if (!url) return
-
-      if (URL_REGEX.test(url)) {
-        self.navigationStore.dispatch({
-          type: "Navigation/PUSH",
-          routeName: "ContentView",
-          params: {
-            content: self.readerStore.getContentByURL(url),
-          },
-        })
+      if (!self.env.branchIO.getIsClickedBranchLink) {
+        if (URL_REGEX.test(url)) {
+          self.navigationStore.dispatch({
+            type: "Navigation/PUSH",
+            routeName: "ContentView",
+            params: {
+              content: self.readerStore.getContentByURL(url),
+            },
+          })
+        }
       }
 
       if (self.deferredDeepLink) {
@@ -90,11 +93,12 @@ export const RootStoreModel = types
     }),
   }))
   .actions(self => ({
-    handleUnauthenticatedError() {
+    handleUnauthenticatedError(type: string, error: any) {
+      logError(error)
       if (self.isShowUnauthenticatedAlert) return
       self.isShowUnauthenticatedAlert = true
       Alert.alert(
-        translate("UnauthenticatedAlert.title"),
+        translate("UnauthenticatedAlert.title", { type }),
         translate("UnauthenticatedAlert.message"),
         [
           {

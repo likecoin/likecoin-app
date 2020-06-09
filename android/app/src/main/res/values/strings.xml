@@ -2,4 +2,6 @@
     <string name="app_name">Liker Land</string>
 	<string name="facebook_app_id">105087446989974</string>
     <string name="share_extension_name">Liker Land</string>
+    <string name="branch_io_live_key">key_live_ioIMK0K8YS06p9Ndf7K2IpgmBzl55RxS</string>
+    <string name="branch_io_test_key">key_test_cmTNU7J68M39fXLig8P8UdjdtEh41PuF</string>
 </resources>

@@ -61,7 +61,7 @@ export class LikerLandAPI {
         switch (problem.kind) {
           case "forbidden":
           case "not-found":
-            this.config.onUnauthenticated()
+            this.config.onUnauthenticated(response.originalError)
             break
         }
         return problem
@@ -108,7 +108,7 @@ export class LikerLandAPI {
       const problem = getGeneralApiProblem(response)
       if (problem) {
         if (problem.kind === "forbidden") {
-          this.config.onUnauthenticated()
+          this.config.onUnauthenticated(response.originalError)
         }
         return problem
       }
@@ -132,7 +132,7 @@ export class LikerLandAPI {
       const problem = getGeneralApiProblem(response)
       if (problem) {
         if (problem.kind === "forbidden") {
-          this.config.onUnauthenticated()
+          this.config.onUnauthenticated(response.originalError)
         }
         return problem
       }

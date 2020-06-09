@@ -1,5 +1,6 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
+import i18n from "i18n-js"
 import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
 
@@ -7,8 +8,8 @@ import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
  * AuthCore callback functions to-be called
  */
 export interface AuthCoreCallback {
-  unauthenticated?: Function
-  unauthorized?: Function
+  unauthenticated?: (error: any) => void
+  unauthorized?: (error: any) => void
 }
 
 export interface AuthcoreScreenOptions {
@@ -37,6 +38,15 @@ function parseAuthCoreUser({
     createdAt,
     primaryEmailVerified,
     primaryPhoneVerified,
+  }
+}
+
+function findBestAvailableLanguage() {
+  switch (i18n.locale) {
+    case "en":
+      return "en"
+    default:
+      return "zh-hk"
   }
 }
 
@@ -79,6 +89,7 @@ export class AuthCoreAPI {
     this.client = new AuthCore({
       baseUrl: baseURL,
       socialLoginPaneStyle: "top",
+      language: findBestAvailableLanguage(),
     })
     this.cosmosChainId = cosmosChainId
     if (refreshToken) {
@@ -124,12 +135,12 @@ export class AuthCoreAPI {
     return { accessToken }
   }
 
-  onUnauthenticated = () => {
-    this.callbacks.unauthenticated && this.callbacks.unauthenticated()
+  onUnauthenticated = (error: any) => {
+    this.callbacks.unauthenticated && this.callbacks.unauthenticated(error)
   }
 
-  onUnauthorized = () => {
-    this.callbacks.unauthorized && this.callbacks.unauthorized()
+  onUnauthorized = (error: any) => {
+    this.callbacks.unauthorized && this.callbacks.unauthorized(error)
   }
 
   async getCosmosAddresses() {
@@ -141,10 +152,10 @@ export class AuthCoreAPI {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {
           case 401:
-            this.onUnauthorized()
+            this.onUnauthorized(error)
             break
           case 403:
-            this.onUnauthenticated()
+            this.onUnauthenticated(error)
             break
           default:
             throw error
@@ -162,10 +173,10 @@ export class AuthCoreAPI {
       const statusCode = error.response ? error.response.status : error.status
       switch (statusCode) {
         case 401:
-          this.onUnauthorized()
+          this.onUnauthorized(error)
           break
         case 403:
-          this.onUnauthenticated()
+          this.onUnauthenticated(error)
           break
         default:
           throw error

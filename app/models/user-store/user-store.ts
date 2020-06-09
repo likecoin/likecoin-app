@@ -8,6 +8,7 @@ import {
 
 import { withEnvironment } from "../extensions"
 import { UserModel } from "../user"
+import { UserAppMetaModel } from "../user-app-meta"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
@@ -21,6 +22,7 @@ import {
   UserLoginParams,
   UserResult,
   UserRegisterParams,
+  UserAppMetaResult,
 } from "../../services/api"
 
 import { throwProblem } from "../../services/api/api-problem"
@@ -36,8 +38,11 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
-    appRatingPromptedVersions: types.array(types.string),
+    appRatingLastPromptedVersion: types.maybe(types.string),
     appRatingCooldown: types.optional(types.number, 0),
+    appReferrer: types.optional(types.string, ''),
+    userAppReferralLink: types.maybe(types.string),
+    appMeta: types.optional(UserAppMetaModel, {}),
   })
   .volatile(() => ({
     isSigningIn: false,
@@ -66,7 +71,12 @@ export const UserStoreModel = types
       return uri
     },
     get hasPromptedAppRating() {
-      return self.appRatingPromptedVersions.indexOf(self.getConfig("APP_RATING_VERSION")) !== -1
+      return self.appRatingLastPromptedVersion &&
+        parseInt(self.appRatingLastPromptedVersion, 10) >=
+        parseInt(self.getConfig("APP_RATING_MIN_VERSION"), 10)
+    },
+    get shouldPromptForReferrer() {
+      return !self.appReferrer && self.appMeta.isNew
     },
   }))
   .views(self => ({
@@ -80,7 +90,7 @@ export const UserStoreModel = types
     },
     didPromptAppRating() {
       if (!self.hasPromptedAppRating) {
-        self.appRatingPromptedVersions.push(self.getConfig("APP_RATING_VERSION"))
+        self.appRatingLastPromptedVersion = self.getConfig("APP_VERSION")
       }
       self.appRatingCooldown = 0
     },
@@ -91,7 +101,12 @@ export const UserStoreModel = types
         60000
     },
     register: flow(function * (params: UserRegisterParams) {
-      const result: GeneralResult = yield self.env.likeCoAPI.register(params)
+      const appReferrer = yield self.env.branchIO.getAppReferrer()
+      self.appReferrer = appReferrer
+      const result: GeneralResult = yield self.env.likeCoAPI.register({
+        appReferrer,
+        ...params
+      })
       switch (result.kind) {
         case "ok":
           break
@@ -109,7 +124,12 @@ export const UserStoreModel = types
       }
     }),
     login: flow(function * (params: UserLoginParams) {
-      const result: GeneralResult = yield self.env.likeCoAPI.login(params)
+      const appReferrer = yield self.env.branchIO.getAppReferrer()
+      self.appReferrer = appReferrer
+      const result: GeneralResult = yield self.env.likeCoAPI.login({
+        appReferrer,
+        ...params
+      })
       switch (result.kind) {
         case "ok":
           break
@@ -128,6 +148,7 @@ export const UserStoreModel = types
           self.env.likeCoAPI.logout(),
           self.authCore.signOut(),
         ])
+        self.env.branchIO.setUserIdentity()
         yield logoutAnalyticsUser()
       } finally {
         self.isSigningOut = false
@@ -157,6 +178,8 @@ export const UserStoreModel = types
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
           const primaryPhone = self.authCore.profile.primaryPhone
+          /* set branch user id for consistent link data */
+          self.env.branchIO.setUserIdentity(likerID)
           /* do not block user logic with analytics */
           updateAnalyticsUser({
             likerID,
@@ -211,6 +234,49 @@ export const UserStoreModel = types
         logError(error)
       }
     }),
+    fetchUserAppMeta: flow(function * () {
+      const result: UserAppMetaResult = yield self.env.likeCoAPI.fetchUserAppMeta()
+      switch (result.kind) {
+        case "ok": {
+          const {
+            isNew,
+            isEmailVerified,
+            ts: firstOpenTs,
+            android: hasAndroid,
+            ios: hasIOS,
+          } = result.data
+          self.appMeta = UserAppMetaModel.create({
+            isNew,
+            isEmailVerified,
+            firstOpenTs,
+            hasAndroid,
+            hasIOS,
+          })
+          break
+        }
+        default:
+          throwProblem(result)
+      }
+    }),
+    postUserAppReferrer: flow(function * (likerID: string) {
+      const result: GeneralResult = yield self.env.likeCoAPI.addUserAppReferrer(likerID)
+      switch (result.kind) {
+        case "ok": {
+          self.appMeta.isNew = false
+          break
+        }
+        default:
+          throwProblem(result)
+      }
+    }),
+    handleAfterLikerLandSignIn: flow(function * () {
+      const appReferrer = yield self.env.branchIO.getAppReferrer()
+      if (appReferrer) yield self.env.likerLandAPI.followLiker(appReferrer)
+    }),
+    generateUserAppReferralLink: flow(function * () {
+      const url = yield self.env.branchIO.generateAppReferralLink(self.currentUser.likerID)
+      self.userAppReferralLink = url
+    })
   }))
 
 type UserStoreType = Instance<typeof UserStoreModel>

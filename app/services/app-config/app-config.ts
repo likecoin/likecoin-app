@@ -1,7 +1,7 @@
 import RemoteConfigModule, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import {
   APP_RATING_COOLDOWN,
-  APP_RATING_VERSION,
+  APP_RATING_MIN_VERSION,
   APP_VERSION,
   AUTHCORE_CREDENTIAL_KEY,
   AUTHCORE_ROOT_URL,
@@ -16,6 +16,7 @@ import {
   IAP_ENABLE,
   IAP_IOS_IS_SANDBOX,
   IAP_IOS_SHARED_SECRET,
+  APP_REFERRAL_ENABLE,
   LIKECO_API_URL,
   LIKERLAND_API_URL,
   MIN_VERSION,
@@ -28,7 +29,7 @@ import FastImage from 'react-native-fast-image'
 
 export interface AppConfigParams {
   APP_RATING_COOLDOWN: string
-  APP_RATING_VERSION: string
+  APP_RATING_MIN_VERSION: string
   APP_VERSION: string
   AUTHCORE_CREDENTIAL_KEY: string
   AUTHCORE_ROOT_URL: string
@@ -43,6 +44,7 @@ export interface AppConfigParams {
   IAP_ENABLE: string
   IAP_IOS_IS_SANDBOX: string
   IAP_IOS_SHARED_SECRET: string
+  APP_REFERRAL_ENABLE: string
   LIKECO_API_URL: string
   LIKERLAND_API_URL: string
   MIN_VERSION: string
@@ -68,7 +70,7 @@ export class AppConfig {
   constructor() {
     this.config = {
       APP_VERSION,
-      APP_RATING_VERSION,
+      APP_RATING_MIN_VERSION,
       APP_RATING_COOLDOWN,
       AUTHCORE_CREDENTIAL_KEY,
       AUTHCORE_ROOT_URL,
@@ -83,6 +85,7 @@ export class AppConfig {
       IAP_ENABLE,
       IAP_IOS_IS_SANDBOX,
       IAP_IOS_SHARED_SECRET,
+      APP_REFERRAL_ENABLE,
       LIKECO_API_URL,
       LIKERLAND_API_URL,
       MIN_VERSION,
