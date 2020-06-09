@@ -38,7 +38,7 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
-    appRatingPromptedVersions: types.array(types.string),
+    appRatingLastPromptedVersion: types.maybe(types.string),
     appRatingCooldown: types.optional(types.number, 0),
     appReferrer: types.optional(types.string, ''),
     userAppReferralLink: types.maybe(types.string),
@@ -71,7 +71,9 @@ export const UserStoreModel = types
       return uri
     },
     get hasPromptedAppRating() {
-      return self.appRatingPromptedVersions.indexOf(self.getConfig("APP_RATING_VERSION")) !== -1
+      return self.appRatingLastPromptedVersion &&
+        parseInt(self.appRatingLastPromptedVersion, 10) >=
+        parseInt(self.getConfig("APP_RATING_MIN_VERSION"), 10)
     },
     get shouldPromptForReferrer() {
       return !self.appReferrer && self.appMeta.isNew
@@ -88,7 +90,7 @@ export const UserStoreModel = types
     },
     didPromptAppRating() {
       if (!self.hasPromptedAppRating) {
-        self.appRatingPromptedVersions.push(self.getConfig("APP_RATING_VERSION"))
+        self.appRatingLastPromptedVersion = self.getConfig("APP_VERSION")
       }
       self.appRatingCooldown = 0
     },

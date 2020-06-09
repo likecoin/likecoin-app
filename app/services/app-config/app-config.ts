@@ -1,7 +1,7 @@
 import RemoteConfigModule, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import {
   APP_RATING_COOLDOWN,
-  APP_RATING_VERSION,
+  APP_RATING_MIN_VERSION,
   APP_VERSION,
   AUTHCORE_CREDENTIAL_KEY,
   AUTHCORE_ROOT_URL,
@@ -29,7 +29,7 @@ import FastImage from 'react-native-fast-image'
 
 export interface AppConfigParams {
   APP_RATING_COOLDOWN: string
-  APP_RATING_VERSION: string
+  APP_RATING_MIN_VERSION: string
   APP_VERSION: string
   AUTHCORE_CREDENTIAL_KEY: string
   AUTHCORE_ROOT_URL: string
@@ -70,7 +70,7 @@ export class AppConfig {
   constructor() {
     this.config = {
       APP_VERSION,
-      APP_RATING_VERSION,
+      APP_RATING_MIN_VERSION,
       APP_RATING_COOLDOWN,
       AUTHCORE_CREDENTIAL_KEY,
       AUTHCORE_ROOT_URL,
