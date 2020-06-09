@@ -53,6 +53,15 @@ function createRootStore(env: Environment, data: any = {}) {
   env.authCoreAPI.callbacks.unauthorized = rootStore.handleUnauthenticatedError
   env.likeCoAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
   env.likerLandAPI.config.onUnauthenticated = rootStore.handleUnauthenticatedError
+
+  // Start app rating cooldown if necessary
+  if (
+    !rootStore.userStore.hasPromptedAppRating &&
+    !rootStore.userStore.appRatingCooldown
+  ) {
+    rootStore.userStore.startAppRatingCooldown()
+  }
+
   return rootStore
 }
 

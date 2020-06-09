@@ -115,6 +115,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     Linking.openURL("https://like.co/in/creator")
   }
 
+  private onPressRateApp = () => {
+    logAnalyticsEvent('SettingsClickRateApp')
+    this.props.userStore.rateApp()
+  }
+
   private onPressWebsiteSignIn = () => {
     logAnalyticsEvent('SettingsClickWebsiteSignIn')
     this.props.navigation.navigate("WebsiteSignIn")
@@ -266,6 +271,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL}
             onPress={this.onPressContactUs}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.RateApp"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+            onPress={this.onPressRateApp}
           />
         </View>
         <Button

@@ -1,3 +1,4 @@
+import Rate, { AndroidMarket } from "react-native-rate"
 import {
   flow,
   Instance,
@@ -26,6 +27,8 @@ import {
 
 import { throwProblem } from "../../services/api/api-problem"
 
+import { logError } from "../../utils/error"
+
 /**
  * Store user related information.
  */
@@ -35,6 +38,8 @@ export const UserStoreModel = types
     currentUser: types.maybe(UserModel),
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
+    appRatingLastPromptedVersion: types.maybe(types.string),
+    appRatingCooldown: types.optional(types.number, 0),
     appReferrer: types.optional(types.string, ''),
     userAppReferralLink: types.maybe(types.string),
     appMeta: types.optional(UserAppMetaModel, {}),
@@ -65,13 +70,35 @@ export const UserStoreModel = types
       }
       return uri
     },
+    get hasPromptedAppRating() {
+      return self.appRatingLastPromptedVersion &&
+        parseInt(self.appRatingLastPromptedVersion, 10) >=
+        parseInt(self.getConfig("APP_RATING_MIN_VERSION"), 10)
+    },
     get shouldPromptForReferrer() {
       return !self.appReferrer && self.appMeta.isNew
+    },
+  }))
+  .views(self => ({
+    get shouldPromptAppRating() {
+      return !self.hasPromptedAppRating && Date.now() >= self.appRatingCooldown
     },
   }))
   .actions(self => ({
     setIsSigningIn(value: boolean) {
       self.isSigningIn = value
+    },
+    didPromptAppRating() {
+      if (!self.hasPromptedAppRating) {
+        self.appRatingLastPromptedVersion = self.getConfig("APP_VERSION")
+      }
+      self.appRatingCooldown = 0
+    },
+    startAppRatingCooldown() {
+      self.appRatingCooldown =
+        Date.now() +
+        (parseInt(self.getConfig("APP_RATING_COOLDOWN"), 10) || 5) *
+        60000
     },
     register: flow(function * (params: UserRegisterParams) {
       const appReferrer = yield self.env.branchIO.getAppReferrer()
@@ -181,6 +208,30 @@ export const UserStoreModel = types
         case "unauthorized": {
           yield self.logout()
         }
+      }
+    }),
+    rateApp: flow(function * () {
+      try {
+        yield new Promise((resolve, reject) => {
+          Rate.rate({
+            AppleAppID: "1248232355",
+            GooglePackageName: "com.oice",
+            preferredAndroidMarket: AndroidMarket.Google,
+            preferInApp: true,
+            openAppStoreIfInAppFails: true,
+          }, (success) => {
+            if (success) {
+              // This technically only tells us if the user successfully went to the Review Page.
+              // Whether they actually did anything, we do not know.
+              self.didPromptAppRating()
+              resolve()
+            } else {
+              reject(new Error("APP_RATE_ERROR"))
+            }
+          })
+        })
+      } catch (error) {
+        logError(error)
       }
     }),
     fetchUserAppMeta: flow(function * () {

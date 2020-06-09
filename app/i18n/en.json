@@ -1,4 +1,8 @@
 {
+  "AppRatingPrompt": {
+    "Title": "Are you satisfied with Liker Land?",
+    "DenialTitle": "Can you give us some feedback?"
+  },
   "BookmarkScreen": {
     "title": "Bookmarks"
   },
@@ -12,11 +16,13 @@
     "follow": "Follow",
     "followSuccess": "You are now following %{creator}",
     "next": "Next",
+    "No": "No",
     "ok": "OK",
     "viewOnBlockExplorer": "View on Big Dipper",
     "undo": "Undo",
     "unfollow": "Unfollow",
-    "unfollowSuccess": "You have unfollowed %{creator}"
+    "unfollowSuccess": "You have unfollowed %{creator}",
+    "Yes": "Yes"
   },
   "ContentListItem": {
     "Back": {
@@ -187,6 +193,7 @@
     "followSettings": "Following / Unfollow",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
+    "RateApp": "Rate The Liker Land App",
     "Referral": "推薦奬賞",
     "StatisticsPanel": {
       "Rewarded": {

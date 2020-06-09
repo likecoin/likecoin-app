@@ -1,9 +1,13 @@
 import * as React from "react"
+import { Alert } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
 
 import { LoadingScreen } from "../../components/loading-screen"
+
 import { UserStore } from "../../models/user-store"
+
+import { translate } from "../../i18n"
 
 export interface AuthLoadingScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -38,6 +42,11 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
         if (isEnabledIAP && hasSubscription) {
           await this.props.userStore.iapStore.restorePurchases()
         }
+
+        if (this.props.userStore.shouldPromptAppRating) {
+          this.promptAppRating()
+        }
+
         this.props.navigation.navigate('App')
         return
       } catch {
@@ -45,6 +54,44 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
       }
     }
     this.props.navigation.navigate('Auth')
+  }
+
+  private promptAppRating() {
+    this.props.userStore.didPromptAppRating()
+    setTimeout(() => {
+      Alert.alert(
+        translate("AppRatingPrompt.Title"),
+        undefined,
+        [
+          {
+            text: translate("common.No"),
+            style: "cancel",
+            onPress: () => {
+              Alert.alert(
+                translate("AppRatingPrompt.DenialTitle"),
+                undefined,
+                [
+                  {
+                    text: translate("common.No"),
+                    style: "cancel",
+                  },
+                  {
+                    text: translate("common.ok"),
+                    onPress: () => {
+                      this.props.navigation.navigate("CrispSupport")
+                    },
+                  },
+                ],
+              )
+            },
+          },
+          {
+            text: translate("common.Yes"),
+            onPress: this.props.userStore.rateApp,
+          }
+        ]
+      )
+    }, 5000)
   }
 
   render() {

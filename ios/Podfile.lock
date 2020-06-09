@@ -298,6 +298,8 @@ PODS:
     - React
   - RNLocalize (1.1.4):
     - React
+  - RNRate (1.2.1):
+    - React
   - RNScreens (2.7.0):
     - React
   - RNSentry (1.1.0):
@@ -360,6 +362,7 @@ DEPENDENCIES:
   - RNIap (from `../node_modules/react-native-iap`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - RNRate (from `../node_modules/react-native-rate`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -485,6 +488,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNRate:
+    :path: "../node_modules/react-native-rate"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSentry:
@@ -551,7 +556,7 @@ SPEC CHECKSUMS:
   React-RCTText: e0f224898b13af9aa036ea7cb3d438daa68c1044
   React-RCTVibration: 0bea40cd51bd089bd591a8f74c86e91fdf2666c5
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
-  ReactNativeShareExtension: cf71e8346443b151c185595b025e19802ddea48a
+  ReactNativeShareExtension: 589ed96a7823b475e630d7987a0958bff9804ee6
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
   RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
@@ -565,6 +570,7 @@ SPEC CHECKSUMS:
   RNIap: e75200c18ed318479a52db633dc2db2facce77ea
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
+  RNRate: a39ac26dc9daf3f9b639ce274b7f80672ae36db1
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
