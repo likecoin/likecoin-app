@@ -276,7 +276,7 @@
     "Title": "所有驗證人"
   },
   "UnauthenticatedAlert": {
-    "title": "登入階段已失效",
+    "title": "登入階段已失效 [{{type}}]",
     "message": "請重新登入。"
   },
   "walletDashboardScreen": {

@@ -23,6 +23,8 @@ import { UserStoreModel } from "../user-store"
 import { translate } from "../../i18n"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
 // eslint-disable-next-line no-useless-escape
 const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 
@@ -91,11 +93,15 @@ export const RootStoreModel = types
     }),
   }))
   .actions(self => ({
-    handleUnauthenticatedError() {
+    handleUnauthenticatedError(type: string, error: any) {
+      logAnalyticsEvent("UnauthenticatedError", {
+        type,
+        error: error.toString(),
+      })
       if (self.isShowUnauthenticatedAlert) return
       self.isShowUnauthenticatedAlert = true
       Alert.alert(
-        translate("UnauthenticatedAlert.title"),
+        translate("UnauthenticatedAlert.title", { type }),
         translate("UnauthenticatedAlert.message"),
         [
           {

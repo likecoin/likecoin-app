@@ -21,7 +21,7 @@ export interface ApiConfig {
   /**
    * Handler for unauthenticated response.
    */
-  onUnauthenticated?: () => void
+  onUnauthenticated?: (error: any) => void
 }
 
 /**
