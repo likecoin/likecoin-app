@@ -1,5 +1,9 @@
 import { GeneralApiProblem } from "./api-problem"
 
+export interface APIOptions {
+  isSlient?: boolean
+}
+
 export interface User {
   user: string
   displayName?: string

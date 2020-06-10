@@ -33,9 +33,9 @@ export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
 export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps> {
   redirectTimer?: NodeJS.Timeout
 
-  state = {
-    hasHandledRedirect: false,
-  }
+  verifySignInRetryCount = 0
+
+  hasHandledRedirect = false
 
   private handleError = async () => {
     await this.props.rootStore.userStore.logout()
@@ -44,8 +44,8 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   }
 
   private handlePostSignIn = async () => {
-    if (this.state.hasHandledRedirect) return
-    this.setState({ hasHandledRedirect: true })
+    if (this.hasHandledRedirect) return
+    this.hasHandledRedirect = true
     if (this.redirectTimer) {
       clearTimeout(this.redirectTimer)
       this.redirectTimer = undefined
@@ -53,7 +53,6 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
     await Promise.all([
       this.props.rootStore.userStore.handleAfterLikerLandSignIn(),
       this.props.rootStore.userStore.fetchUserInfo(),
-      this.props.rootStore.userStore.fetchLikerLandUserInfo(),
       this.props.rootStore.userStore.fetchUserAppMeta(),
     ])
     if (this.props.rootStore.userStore.shouldPromptForReferrer) {
@@ -70,11 +69,24 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
     if (url.includes("/following")) {
       this.handlePostSignIn()
     } else if (url.includes("/oauth/redirect")) {
-      // Fallback to use timer if the above case not working
-      this.redirectTimer = setTimeout(this.handlePostSignIn, 4000)
+      // Verify sign in with retry
+      this.verifySignIn()
     } else if (url.includes("/in/register")) {
       this.handleError()
       logError("Error when signing in to liker.land, like.co shows register page")
+    }
+  }
+
+  private async verifySignIn() {
+    await this.props.rootStore.userStore.fetchLikerLandUserInfo({ isSlient: true })
+    if (this.props.rootStore.userStore.currentUser) {
+      this.handlePostSignIn()
+    } else if (this.verifySignInRetryCount < 5) {
+      this.verifySignInRetryCount += 1
+      this.redirectTimer = setTimeout(this.verifySignIn, 1000)
+    } else {
+      this.handleError()
+      logError("Error when signing in to liker.land, verification retry timeout")
     }
   }
 
