@@ -52,7 +52,7 @@ export class LikerLandAPI {
   /**
    * Fetch the current user info
    */
-  async fetchCurrentUserInfo(): Promise<Types.UserResult> {
+  async fetchCurrentUserInfo(opts: Types.APIOptions = {}): Promise<Types.UserResult> {
     const response: ApiResponse<any> = await this.apisauce.get("/users/self")
 
     if (!response.ok) {
@@ -61,7 +61,9 @@ export class LikerLandAPI {
         switch (problem.kind) {
           case "forbidden":
           case "not-found":
-            this.config.onUnauthenticated(response.originalError)
+            if (!opts.isSlient) {
+              this.config.onUnauthenticated(response.originalError)
+            }
             break
         }
         return problem

@@ -18,7 +18,9 @@ import {
 } from '../../utils/analytics'
 
 import {
+  APIOptions,
   GeneralResult,
+  User,
   UserLoginParams,
   UserResult,
   UserRegisterParams,
@@ -154,6 +156,22 @@ export const UserStoreModel = types
         self.isSigningOut = false
       }
     }),
+    updateUserFromResultData(data: User) {
+      const {
+        user: likerID,
+        displayName,
+        email,
+        avatar: avatarURL,
+        isSubscribedCivicLiker: isCivicLiker,
+      } = data
+      self.currentUser = UserModel.create({
+        likerID,
+        displayName,
+        email,
+        avatarURL,
+        isCivicLiker,
+      })
+    },
   }))
   .actions(self => ({
     fetchUserInfo: flow(function * () {
@@ -164,16 +182,8 @@ export const UserStoreModel = types
             user: likerID,
             displayName,
             email,
-            avatar: avatarURL,
-            isSubscribedCivicLiker: isCivicLiker,
           } = result.data
-          self.currentUser = UserModel.create({
-            likerID,
-            displayName,
-            email,
-            avatarURL,
-            isCivicLiker,
-          })
+          self.updateUserFromResultData(result.data)
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
@@ -198,16 +208,17 @@ export const UserStoreModel = types
         }
       }
     }),
-    fetchLikerLandUserInfo: flow(function * () {
-      const result: UserResult = yield self.env.likerLandAPI.fetchCurrentUserInfo()
+    fetchLikerLandUserInfo: flow(function * (opts: APIOptions = {}) {
+      const result: UserResult = yield self.env.likerLandAPI.fetchCurrentUserInfo(opts)
       switch (result.kind) {
-        case "ok": {
-          // Refresh session only, no user update for now
+        case "ok":
+          self.updateUserFromResultData(result.data)
           break
-        }
-        case "unauthorized": {
-          yield self.logout()
-        }
+
+        case "unauthorized":
+          if (!opts.isSlient) {
+            yield self.logout()
+          }
       }
     }),
     rateApp: flow(function * () {
