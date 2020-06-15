@@ -1,7 +1,6 @@
 import * as React from "react"
 import {
   Clipboard,
-  Image,
   Share,
   TouchableOpacity,
   View,
@@ -26,7 +25,7 @@ import { Text } from "../../components/text"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-const Graph = require("./graph.png")
+import Graph from "./graph.svg"
 
 export interface ReferralScreenProps extends NavigationScreenProps {
   userStore: UserStore
@@ -109,10 +108,7 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
                 onPress={this.onPressCopyButton}
               />
             </View>
-            <Image
-              source={Graph}
-              style={Style.Graph}
-            />
+            <Graph style={Style.Graph} />
           </Sheet>
         </ScrollView>
       </Screen>

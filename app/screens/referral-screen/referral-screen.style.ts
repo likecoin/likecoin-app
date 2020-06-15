@@ -2,7 +2,6 @@ import {
   StyleSheet,
   TextStyle,
   ViewStyle,
-  ImageStyle,
 } from "react-native"
 
 import { color, spacing } from "../../theme"
@@ -17,8 +16,10 @@ export const ReferralScreenStyle = StyleSheet.create({
     marginTop: spacing[4],
   } as TextStyle,
   Graph: {
-    alignSelf: "flex-end",
-  } as ImageStyle,
+    aspectRatio: 1.35,
+    width: "100%",
+    height: undefined,
+  } as ViewStyle,
   LinkWrapper: {
     borderColor: color.palette.grey9b,
     borderRadius: 12,
