@@ -103,7 +103,7 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
                 <Text text={appReferralLink} />
               </TouchableOpacity>
               <Button
-                preset="link"
+                preset="link-dark"
                 tx={copyButtonTx}
                 style={Style.CopyButton}
                 onPress={this.onPressCopyButton}

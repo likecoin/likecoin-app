@@ -23,6 +23,13 @@ const BASE_TEXT: TextStyle = {
   fontWeight: "bold",
 }
 
+const BASE_TEXT_LINK: TextStyle = {
+  ...BASE_TEXT,
+  paddingHorizontal: 0,
+  paddingVertical: 0,
+  textDecorationLine: "underline",
+}
+
 /**
  * All the variations of text styling within the app.
  *
@@ -70,7 +77,9 @@ export const viewPresets = {
    */
   link: {
     ...BASE_VIEW,
-    alignItems: "flex-start",
+  } as ViewStyle,
+  "link-dark": {
+    ...BASE_VIEW,
   } as ViewStyle,
 
   /**
@@ -104,11 +113,12 @@ export const textPresets = {
     color: color.palette.lighterCyan,
   },
   link: {
-    ...BASE_TEXT,
+    ...BASE_TEXT_LINK,
     color: color.palette.lighterCyan,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    textDecorationLine: "underline",
+  } as TextStyle,
+  "link-dark": {
+    ...BASE_TEXT_LINK,
+    color: color.palette.likeCyan,
   } as TextStyle,
   "button-group": {
     ...BASE_TEXT,
