@@ -7,6 +7,7 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 import io.branch.rnbranch.*;
 import android.content.Intent;
+import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
 
@@ -15,7 +16,7 @@ public class MainActivity extends ReactActivity {
     return new ReactActivityDelegate(this, getMainComponentName()) {
       @Override
       protected ReactRootView createRootView() {
-       return new RNGestureHandlerEnabledRootView(MainActivity.this);
+        return new RNGestureHandlerEnabledRootView(MainActivity.this);
       }
     };
   }
@@ -25,6 +26,15 @@ public class MainActivity extends ReactActivity {
     protected void onStart() {
         super.onStart();
         RNBranchModule.initSession(getIntent().getData(), this);
+    }
+
+    /**
+     * Fix non-deterministically crashes
+     * Ref: https://github.com/software-mansion/react-native-screens/issues/17
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(null);
     }
 
     @Override
