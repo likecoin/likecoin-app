@@ -1,18 +1,20 @@
 import * as React from "react"
 import {
   NativeSyntheticEvent,
-  StyleSheet,
   TextInput,
   TextInputChangeEventData,
-  TextStyle,
   View,
-  ViewStyle,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
 import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
-import { UserStore } from "../../models/user-store"
+import {
+  ReferrerInputScreenStyle as Style,
+} from "./referrer-input-screen.style"
+import {
+  ReferrerInputScreenProps as Props,
+  ReferrerInputScreenState as State,
+} from "./referrer-input-screen.props"
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
@@ -20,111 +22,39 @@ import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
 
-import { color, spacing } from "../../theme"
+import { color } from "../../theme"
 
 import { translate, translateWithFallbackText } from "../../i18n"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
-
-export interface ReferrerInputScreenProps extends NavigationScreenProps<{}> {
-  userStore: UserStore,
-}
-export interface ReferrerInputScreenState {
-  /**
-   * The code of the error description which is looked up via i18n.
-   */
-  error: string
-  isPosting: boolean
-  referrerId: string
-}
 
 const LIKER_ID_MIN_LENGTH = 7
 const LIKER_ID_MAX_LENGTH = 20
 const LIKER_ID_VALID_CHARACTERS = 'a-z0-9-_'
 const LIKER_ID_REGEX = new RegExp(`^[${LIKER_ID_VALID_CHARACTERS}]{${LIKER_ID_MIN_LENGTH},${LIKER_ID_MAX_LENGTH}}$`)
 
-const ROOT: ViewStyle = {
-  flex: 1,
-  padding: spacing[4],
-  paddingTop: spacing[0],
-}
-const CONTENT_VIEW: ViewStyle = {
-  flexGrow: 1,
-  justifyContent: "center",
-  alignItems: "center",
-}
-const BUTTON_GROUP: ViewStyle = {
-  marginTop: spacing[4],
-  paddingHorizontal: spacing[1],
-  width: 256,
-}
-const LIKER_ID_INPUT = StyleSheet.create({
-  LABEL: {
-    marginBottom: spacing[2],
-    color: color.palette.likeCyan,
-    textAlign: "center",
-    fontSize: 14,
-    fontWeight: "500",
-  } as TextStyle,
-  LABEL_WRAPPER: {
-    width: BUTTON_GROUP.width,
-  } as ViewStyle,
-  ROOT: {
-    flex: 1,
-  } as ViewStyle,
-  TEXT: {
-    color: color.palette.white,
-    backgroundColor: color.transparent,
-    fontSize: sizes.default,
-    paddingHorizontal: spacing[3],
-    flex: 1,
-  } as TextStyle,
-})
-const ERROR = StyleSheet.create({
-  TEXT: {
-    flexGrow: 1,
-  } as TextStyle,
-  VIEW: {
-    paddingHorizontal: spacing[3],
-    paddingVertical: spacing[4],
-    flexDirection: "row",
-    width: BUTTON_GROUP.width,
-  } as ViewStyle,
-})
-const BOTTOM_BAR: ViewStyle = {
-  alignItems: "center",
-}
-const REGISTER: ViewStyle = {
-  alignSelf: "center",
-  minWidth: 144,
-  marginTop: spacing[4],
-}
-
 @inject("userStore")
 @observer
-export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProps, ReferrerInputScreenState> {
-  constructor(props: ReferrerInputScreenProps) {
-    super(props)
-    this.state = {
-      error: "",
-      referrerId: "",
-      isPosting: false,
-    }
+export class ReferrerInputScreen extends React.Component<Props, State> {
+  state = {
+    error: "",
+    referrerID: "",
+    isPosting: false,
   }
 
   /**
    * Validate the target input
    */
-  private validate = (referrerId: string) => {
+  private validate = (referrerID: string) => {
     let error = ""
     this.setState({ error })
 
     // Check for Liker Id
-    if (referrerId.length < LIKER_ID_MIN_LENGTH) {
+    if (referrerID.length < LIKER_ID_MIN_LENGTH) {
       error = translate("error.LIKER_ID_LENGTH_LIMIT_MIN", { count: LIKER_ID_MIN_LENGTH })
-    } else if (referrerId.length > LIKER_ID_MAX_LENGTH) {
+    } else if (referrerID.length > LIKER_ID_MAX_LENGTH) {
       error = translate("error.LIKER_ID_LENGTH_LIMIT_MAX", { count: LIKER_ID_MAX_LENGTH })
-    } else if (!LIKER_ID_REGEX.test(referrerId)) {
+    } else if (!LIKER_ID_REGEX.test(referrerID)) {
       error = translate("error.LIKER_ID_FORMAT_INVALID")
     }
 
@@ -143,11 +73,11 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
 
   private onPressConfirmButton = async () => {
     // Trim before validation
-    const referrerId = this.state.referrerId.trim()
-    if (this.validate(referrerId)) {
+    const referrerID = this.state.referrerID.trim()
+    if (this.validate(referrerID)) {
       try {
         this.setState({ isPosting: true })
-        await this.props.userStore.postUserAppReferrer(referrerId)
+        await this.props.userStore.postUserAppReferrer(referrerID)
         logAnalyticsEvent('AddReferrerId')
         this.props.navigation.navigate('App')
       } catch (error) {
@@ -160,28 +90,27 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
     }
   }
 
-  private onReferrerIdChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+  private onReferrerIDChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     this.setState({
       error: "",
-      referrerId: event.nativeEvent.text,
+      referrerID: event.nativeEvent.text,
       isPosting: false,
     })
   }
 
   render () {
-    const { referrerId, isPosting } = this.state
+    const { referrerID: referrerId, isPosting } = this.state
     const { isEmailVerified } = this.props.userStore.appMeta
     return (
       <Screen
         preset="fixed"
-        backgroundColor={color.palette.likeGreen}
-        style={ROOT}
+        style={Style.Screen}
       >
-        <View style={CONTENT_VIEW}>
-          <View style={LIKER_ID_INPUT.LABEL_WRAPPER}>
+        <View style={Style.ContentView}>
+          <View style={Style.ReferrerIDInputLabelWrapper}>
             <Text
               tx="ReferrerInputScreen.referrerIdLabel"
-              style={LIKER_ID_INPUT.LABEL}
+              style={Style.ReferrerIDInputLabel}
             />
             <Text
               tx="ReferrerInputScreen.referrerIdHint"
@@ -192,21 +121,21 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
             />
           </View>
           <ButtonGroup
-            style={BUTTON_GROUP}
+            style={Style.ButtonGroup}
             prepend={
               <View
                 key="receiverInput"
-                style={LIKER_ID_INPUT.ROOT}
+                style={Style.ReferrerIDInput}
               >
                 <TextInput
                   autoCapitalize="none"
                   autoCorrect={false}
                   returnKeyType="next"
                   selectionColor={color.palette.likeCyan}
-                  style={LIKER_ID_INPUT.TEXT}
+                  style={Style.ReferrerIDInputText}
                   value={referrerId}
                   autoFocus
-                  onChange={this.onReferrerIdChange}
+                  onChange={this.onReferrerIDChange}
                   onSubmitEditing={this.onPressConfirmButton}
                 />
               </View>
@@ -215,13 +144,13 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
           <Button
             tx="common.confirm"
             isLoading={isPosting}
-            style={REGISTER}
+            style={Style.ConfirmButton}
             onPress={this.onPressConfirmButton}
           />
-          {!isEmailVerified && this._renderEmailVerificationWarning()}
-          {this._renderError()}
+          {!isEmailVerified && this.renderEmailVerificationWarning()}
+          {this.renderError()}
         </View>
-        <View style={BOTTOM_BAR}>
+        <View style={Style.BottomBar}>
           <Button
             preset="link"
             tx="common.Skip"
@@ -233,9 +162,9 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
     )
   }
 
-  _renderEmailVerificationWarning = () => {
+  private renderEmailVerificationWarning = () => {
     return (
-      <View style={ERROR.VIEW}>
+      <View style={Style.ErrorView}>
         <Text
           tx="ReferrerInputScreen.emailVerificationHint"
           color="orange"
@@ -247,16 +176,16 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
               height={sizes.medium}
             />
           }
-          style={ERROR.TEXT}
+          style={Style.ErrorText}
         />
       </View>
     )
   }
 
-  _renderError = () => {
+  private renderError = () => {
     const { error } = this.state
     return (
-      <View style={ERROR.VIEW}>
+      <View style={Style.ErrorView}>
         <Text
           text={error}
           color="angry"
@@ -269,7 +198,7 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
               height={sizes.medium}
             />
           }
-          style={ERROR.TEXT}
+          style={Style.ErrorText}
         />
       </View>
     )
