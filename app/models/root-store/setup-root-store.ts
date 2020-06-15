@@ -65,9 +65,11 @@ function createRootStore(env: Environment, data: any = {}) {
   // Start app rating cooldown if necessary
   if (
     !rootStore.userStore.hasPromptedAppRating &&
-    !rootStore.userStore.appRatingCooldown
+    rootStore.userStore.appRatingCooldown === -1
   ) {
     rootStore.userStore.startAppRatingCooldown()
+  } else if (rootStore.userStore.appRatingCooldown > 0) {
+    rootStore.userStore.reduceAppRatingCooldown()
   }
 
   return rootStore

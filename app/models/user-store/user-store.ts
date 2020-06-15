@@ -41,7 +41,7 @@ export const UserStoreModel = types
     authCore: types.optional(AuthCoreStoreModel, {}),
     iapStore: types.optional(IAPStoreModel, {}),
     appRatingLastPromptedVersion: types.maybe(types.string),
-    appRatingCooldown: types.optional(types.number, 0),
+    appRatingCooldown: types.optional(types.number, -1),
     appReferrer: types.optional(types.string, ''),
     userAppReferralLink: types.maybe(types.string),
     appMeta: types.optional(UserAppMetaModel, {}),
@@ -83,7 +83,7 @@ export const UserStoreModel = types
   }))
   .views(self => ({
     get shouldPromptAppRating() {
-      return !self.hasPromptedAppRating && Date.now() >= self.appRatingCooldown
+      return !self.hasPromptedAppRating && self.appRatingCooldown === 0
     },
   }))
   .actions(self => ({
@@ -94,13 +94,13 @@ export const UserStoreModel = types
       if (!self.hasPromptedAppRating) {
         self.appRatingLastPromptedVersion = self.getConfig("APP_VERSION")
       }
-      self.appRatingCooldown = 0
+      self.appRatingCooldown = -1
     },
     startAppRatingCooldown() {
-      self.appRatingCooldown =
-        Date.now() +
-        (parseInt(self.getConfig("APP_RATING_COOLDOWN"), 10) || 5) *
-        60000
+      self.appRatingCooldown = parseInt(self.getConfig("APP_RATING_COOLDOWN"), 10) || 5
+    },
+    reduceAppRatingCooldown() {
+      self.appRatingCooldown -= 1
     },
     register: flow(function * (params: UserRegisterParams) {
       const appReferrer = yield self.env.branchIO.getAppReferrer()
