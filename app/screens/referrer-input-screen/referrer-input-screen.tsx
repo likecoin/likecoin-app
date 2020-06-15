@@ -48,9 +48,6 @@ const ROOT: ViewStyle = {
   padding: spacing[4],
   paddingTop: spacing[0],
 }
-const TOP_BAR: ViewStyle = {
-  alignItems: "flex-start",
-}
 const CONTENT_VIEW: ViewStyle = {
   flexGrow: 1,
   justifyContent: "center",
@@ -63,9 +60,11 @@ const BUTTON_GROUP: ViewStyle = {
 }
 const LIKER_ID_INPUT = StyleSheet.create({
   LABEL: {
-    fontSize: 28,
-    fontWeight: "300",
     marginBottom: spacing[2],
+    color: color.palette.likeCyan,
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: "500",
   } as TextStyle,
   LABEL_WRAPPER: {
     width: BUTTON_GROUP.width,
@@ -96,7 +95,9 @@ const BOTTOM_BAR: ViewStyle = {
   alignItems: "center",
 }
 const REGISTER: ViewStyle = {
-  width: BUTTON_GROUP.width,
+  alignSelf: "center",
+  minWidth: 144,
+  marginTop: spacing[4],
 }
 
 @inject("userStore")
@@ -172,29 +173,21 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
     const { isEmailVerified } = this.props.userStore.appMeta
     return (
       <Screen
-        preset="scroll"
+        preset="fixed"
         backgroundColor={color.palette.likeGreen}
         style={ROOT}
       >
-        <View style={TOP_BAR}>
-          <Button
-            preset="icon"
-            icon="close"
-            onPress={this.onPressSkipButton}
-          />
-        </View>
         <View style={CONTENT_VIEW}>
           <View style={LIKER_ID_INPUT.LABEL_WRAPPER}>
             <Text
               tx="ReferrerInputScreen.referrerIdLabel"
-              align="left"
-              color="likeCyan"
               style={LIKER_ID_INPUT.LABEL}
             />
             <Text
               tx="ReferrerInputScreen.referrerIdHint"
               color="lighterCyan"
-              size="default"
+              size="small"
+              align="center"
               weight="300"
             />
           </View>
@@ -219,15 +212,21 @@ export class ReferrerInputScreen extends React.Component<ReferrerInputScreenProp
               </View>
             }
           />
-          {!isEmailVerified && this._renderEmailVerificationWarning()}
-          {this._renderError()}
-        </View>
-        <View style={BOTTOM_BAR}>
           <Button
             tx="common.confirm"
             isLoading={isPosting}
             style={REGISTER}
             onPress={this.onPressConfirmButton}
+          />
+          {!isEmailVerified && this._renderEmailVerificationWarning()}
+          {this._renderError()}
+        </View>
+        <View style={BOTTOM_BAR}>
+          <Button
+            preset="link"
+            tx="common.Skip"
+            isHidden={isPosting}
+            onPress={this.onPressSkipButton}
           />
         </View>
       </Screen>
