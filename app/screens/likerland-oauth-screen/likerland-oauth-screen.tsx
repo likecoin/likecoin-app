@@ -66,6 +66,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   }
 
   private handleURLChange = (url: string) => {
+    if (this.hasHandledRedirect) return
     if (url.includes("/following")) {
       this.handlePostSignIn()
     } else if (url.includes("/oauth/redirect")) {
@@ -77,8 +78,10 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
     }
   }
 
-  private async verifySignIn() {
+  private verifySignIn = async () => {
+    if (this.hasHandledRedirect) return
     await this.props.rootStore.userStore.fetchLikerLandUserInfo({ isSlient: true })
+    if (this.hasHandledRedirect) return
     if (this.props.rootStore.userStore.currentUser) {
       this.handlePostSignIn()
     } else if (this.verifySignInRetryCount < 5) {
