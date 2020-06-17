@@ -55,8 +55,8 @@ export class BranchIO {
 
   async getAppReferrer() {
     if (this.appReferrer) return this.appReferrer
-    const params = await this.getLatestParams()
-    const referrer = await this.handleAppReferrerEvent(params)
+    const [latestParams, installParams] = await Promise.all([this.getLatestParams(), this.getInstallParams()])
+    const referrer = await this.handleAppReferrerEvent(latestParams || installParams)
     return referrer
   }
 
