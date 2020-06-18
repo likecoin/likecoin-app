@@ -116,7 +116,6 @@ export const AuthCoreStoreModel = types
         Keychain.load(self.getCredentialKeyFor("access_token")),
         Keychain.load(self.getCredentialKeyFor("id_token")),
       ])
-      yield self.env.setupAuthCore()
       yield self.init(refreshToken, accessToken, idToken)
     }),
   }))

@@ -90,6 +90,8 @@ export const RootStoreModel = types
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")
       yield self.userStore.logout()
+      self.readerStore.clearAllLists()
+      self.chainStore = undefined
     }),
   }))
   .actions(self => ({
