@@ -47,14 +47,6 @@ export const ReaderStoreModel = types
   }))
   .extend(withEnvironment)
   .actions(self => ({
-    clearAllLists: () => {
-      self.followedList.replace([])
-      self.hasFetchedFollowedList = false
-      self.hasReachedEndOfFollowedList = false
-      self.followedSet = new Set<string>()
-      self.followingCreators.replace([])
-      self.unfollowedCreators.replace([])
-    },
     createCreatorFromLikerId(likerId: string) {
       let creator = self.creators.get(likerId)
       if (!creator) {

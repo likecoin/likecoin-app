@@ -125,7 +125,8 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
       ) {
         // User cancelled auth, do nothing
       } else {
-        logError(`Error occurs when signing in with Authcore: ${JSON.stringify(error)}`)
+        this.props.userStore.authCore.setHasSignedIn(false)
+        logError(`Error occurs when signing in with Authcore: ${error.error_description || error}`)
         Alert.alert(translate("signInScreen.errorAuthCore"), `${error.error_description || error}`)
       }
       return

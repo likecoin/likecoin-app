@@ -211,6 +211,11 @@ export const ChainStoreModel = types
     },
   }))
   .actions(self => ({
+    reset() {
+      self.validators.replace({})
+      self.wallets.replace({})
+      self.currentWallet = undefined
+    },
     setupWallet(address: string) {
       let wallet = self.wallets.get(address)
       if (!wallet) {

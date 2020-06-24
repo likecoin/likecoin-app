@@ -1,5 +1,6 @@
 import Rate, { AndroidMarket } from "react-native-rate"
 import {
+  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
@@ -154,6 +155,9 @@ export const UserStoreModel = types
         yield logoutAnalyticsUser()
       } finally {
         self.isSigningOut = false
+        self.userAppReferralLink = undefined
+        applySnapshot(self.iapStore, {})
+        applySnapshot(self.appMeta, {})
       }
     }),
     updateUserFromResultData(data: User) {
