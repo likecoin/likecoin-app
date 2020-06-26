@@ -40,7 +40,10 @@ import {
 } from "../../models/statistics-store"
 
 import { color } from "../../theme"
-import { calcPercentDiff } from "../../utils/number"
+import {
+  calcPercentDiff,
+  withAbsPercent,
+} from "../../utils/number"
 
 const StatisticsRewardedSectionList:
   SectionList<StatisticsRewardedContent> = SectionList
@@ -173,7 +176,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
             />
             {growthPercentage !== 0 && (
               <Text
-                text={`${Math.abs(growthPercentage)}%`}
+                text={withAbsPercent(growthPercentage)}
                 color={growthPercentage > 0 ? "green" : "angry"}
                 prepend={(
                   <Icon
