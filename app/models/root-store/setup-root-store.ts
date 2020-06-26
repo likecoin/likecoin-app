@@ -90,8 +90,12 @@ export async function setupRootStore() {
     rootStore = createRootStore(env, data)
 
     // Setup Authcore
-    await rootStore.userStore.authCore.resume()
-    rootStore.chainStore.setupWallet(rootStore.userStore.authCore.primaryCosmosAddress)
+    await env.setupAuthCore()
+    if (rootStore.userStore.currentUser) {
+      await rootStore.userStore.authCore.resume()
+      const address = rootStore.userStore.authCore.primaryCosmosAddress
+      rootStore.chainStore.setupWallet(address)
+    }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.

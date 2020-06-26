@@ -46,21 +46,6 @@ export const AuthCoreStoreModel = types
       const currentUser: any = yield self.env.authCoreAPI.getCurrentUser(self.accessToken)
       self.profile = AuthCoreUserModel.create(currentUser)
     }),
-    fetchCosmosAddress: flow(function * () {
-      self.cosmosAddresses = yield self.env.authCoreAPI.getCosmosAddresses()
-    }),
-    signOut: flow(function * () {
-      self.accessToken = ""
-      self.idToken = ""
-      self.hasSignedIn = false
-      self.profile = undefined
-      yield Promise.all([
-        Keychain.reset(self.getCredentialKeyFor("access_token")),
-        Keychain.reset(self.getCredentialKeyFor("refresh_token")),
-        Keychain.reset(self.getCredentialKeyFor("id_token")),
-      ])
-      yield self.env.authCoreAPI.signOut()
-    }),
     openSettingsWidget(options: AuthcoreScreenOptions) {
       self.env.authCoreAPI.openSettingsWidget({
         ...options,
@@ -80,14 +65,26 @@ export const AuthCoreStoreModel = types
       if (profile) self.profile = profile
 
       const {
-        accessToken: newAccessToken = ""
-      }: any = yield self.env.authCoreAPI.setupModules(refreshToken, accessToken)
+        accessToken: newAccessToken,
+        addresses,
+      }: {
+        accessToken: string
+        addresses: string[]
+      } = yield self.env.authCoreAPI.setupModules(refreshToken, accessToken)
       self.accessToken = newAccessToken
-      if (newAccessToken) {
-        yield self.fetchCosmosAddress()
-      } else {
-        self.cosmosAddresses = undefined
-      }
+      self.cosmosAddresses.replace(addresses)
+    }),
+    signOut: flow(function * () {
+      self.setHasSignedIn(false)
+      self.accessToken = ""
+      self.idToken = ""
+      self.profile = undefined
+      yield Promise.all([
+        self.env.authCoreAPI.signOut(),
+        Keychain.reset(self.getCredentialKeyFor("access_token")),
+        Keychain.reset(self.getCredentialKeyFor("refresh_token")),
+        Keychain.reset(self.getCredentialKeyFor("id_token")),
+      ])
     }),
   }))
   .actions(self => ({
@@ -98,13 +95,13 @@ export const AuthCoreStoreModel = types
         idToken,
         currentUser,
       }: any = yield self.env.authCoreAPI.signIn()
-      self.hasSignedIn = true
+      self.setHasSignedIn(true)
       yield Promise.all([
+        self.init(refreshToken, accessToken, idToken, currentUser),
         Keychain.save("authcore_refresh_token", refreshToken, self.getCredentialKeyFor("refresh_token")),
         Keychain.save("authcore_access_token", accessToken, self.getCredentialKeyFor("access_token")),
         Keychain.save("authcore_id_token", idToken, self.getCredentialKeyFor("id_token")),
       ])
-      yield self.init(refreshToken, accessToken, idToken, currentUser)
     }),
     resume: flow(function * () {
       const [
@@ -116,8 +113,8 @@ export const AuthCoreStoreModel = types
         Keychain.load(self.getCredentialKeyFor("access_token")),
         Keychain.load(self.getCredentialKeyFor("id_token")),
       ])
-      yield self.env.setupAuthCore()
       yield self.init(refreshToken, accessToken, idToken)
+      self.setHasSignedIn(true)
     }),
   }))
 

@@ -77,6 +77,10 @@
   "receiveScreen": {
     "shareYourAddress": "Share your address"
   },
+  "ReferralCTAView": {
+    "Title": "Get the 100 LIKE affiliate bonus now",
+    "ButtonTitle": "More"
+  },
   "ReferralScreen": {
     "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓讀者追縱自己的更新。趕快邀請朋友下載 Liker Land 吧！",
     "HeaderTitle": "推薦奬賞",
@@ -304,7 +308,7 @@
       "Daodu": "Daodu Tech",
       "Matters": "Matters",
       "Nytimes": "The New York Times",
-      "Substack": "Subtack"
+      "Substack": "Substack"
     },
     "OtherLabel": "Other (Please specify URL)",
     "Title": "Website Sign-in"

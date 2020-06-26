@@ -1,5 +1,9 @@
 import * as React from "react"
-import { View } from "react-native"
+import {
+  SectionListData,
+  SectionListRenderItem,
+  View,
+} from "react-native"
 import { SectionList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
@@ -36,7 +40,13 @@ import {
 } from "../../models/statistics-store"
 
 import { color } from "../../theme"
-import { calcPercentDiff } from "../../utils/number"
+import {
+  calcPercentDiff,
+  withAbsPercent,
+} from "../../utils/number"
+
+const StatisticsRewardedSectionList:
+  SectionList<StatisticsRewardedContent> = SectionList
 
 @observer
 class StatisticsRewardedScreenBase extends React.Component<Props> {
@@ -47,9 +57,9 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
   }
 
   private contentListItemKeyExtractor =
-   (item: StatisticsRewardedContent) => item.id
+    (item: StatisticsRewardedContent) => item.id
 
-  onBeforeSnapToWeek = (weekIndex: number) => {
+  private onBeforeSnapToWeek = (weekIndex: number) => {
     this.props.dataStore.selectWeek(weekIndex)
   }
 
@@ -68,10 +78,8 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
       contents: dailyRewardedContents = []
     } = days[selectedDayOfWeek] || {}
 
-    console.tron.log("renderContentList")
-
     return (
-      <SectionList
+      <StatisticsRewardedSectionList
         ListHeaderComponent={(
           <React.Fragment>
             {this.renderCarousel()}
@@ -97,37 +105,9 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
               }
           ),
         ]}
-        renderItem={({ item, section }) => {
-          if (section.key === "loading") {
-            return <StatisticsListItemSkeleton type="supported-creator" />
-          }
-          if (section.key === "week") {
-            return (
-              <StatisticsRewardedContentListItem
-                type="rewarded-content"
-                content={item}
-              />
-            )
-          }
-          return (
-            <StatisticsRewardedContentListItem
-              type="rewarded-daily-content"
-              content={item}
-            />
-          )
-        }}
+        renderItem={this.renderItem}
         renderSectionHeader={this.renderSectionHeader}
-        renderSectionFooter={({ section }) =>
-          section.data.length > 0
-            ? null
-            : (
-              <View style={CommonStyle.Empty}>
-                <Text
-                  tx="StatisticsRewardedScreen.Empty.Content"
-                  style={CommonStyle.EmptyLabel}
-                />
-              </View>
-            )}
+        renderSectionFooter={this.renderSectionFooter}
         ItemSeparatorComponent={this.props.renderSeparator}
         style={CommonStyle.List}
         onScroll={this.props.onScroll}
@@ -196,7 +176,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
             />
             {growthPercentage !== 0 && (
               <Text
-                text={`${Math.abs(growthPercentage)}%`}
+                text={withAbsPercent(growthPercentage)}
                 color={growthPercentage > 0 ? "green" : "angry"}
                 prepend={(
                   <Icon
@@ -256,6 +236,30 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
     )
   }
 
+  private renderItem: SectionListRenderItem<StatisticsRewardedContent> = ({ item, section }) => {
+    if (section.key === "loading") {
+      return (
+        <StatisticsListItemSkeleton
+          type="supported-creator"
+        />
+      )
+    }
+    if (section.key === "week") {
+      return (
+        <StatisticsRewardedContentListItem
+          type="rewarded-content"
+          content={item}
+        />
+      )
+    }
+    return (
+      <StatisticsRewardedContentListItem
+        type="rewarded-daily-content"
+        content={item}
+      />
+    )
+  }
+
   private renderSectionHeader = () => {
     return (
       <Text
@@ -264,6 +268,22 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
       />
     )
   }
+
+  private renderSectionFooter = ({
+    section,
+  }: {
+    section: SectionListData<StatisticsRewardedContent>
+  }) =>
+    section.data.length > 0
+      ? null
+      : (
+        <View style={CommonStyle.Empty}>
+          <Text
+            tx="StatisticsRewardedScreen.Empty.Content"
+            style={CommonStyle.EmptyLabel}
+          />
+        </View>
+      )
 }
 
 export const StatisticsRewardedScreen = inject(

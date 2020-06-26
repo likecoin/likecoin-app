@@ -4,6 +4,7 @@ import {
   Instance,
   SnapshotOut,
   types,
+  applySnapshot,
 } from "mobx-state-tree"
 
 import { withEnvironment } from "../extensions"
@@ -90,6 +91,10 @@ export const RootStoreModel = types
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")
       yield self.userStore.logout()
+      self.chainStore.reset()
+      applySnapshot(self.readerStore, {})
+      applySnapshot(self.statisticsRewardedStore, {})
+      applySnapshot(self.statisticsSupportedStore, {})
     }),
   }))
   .actions(self => ({

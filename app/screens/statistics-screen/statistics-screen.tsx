@@ -13,10 +13,12 @@ import {
   StatisticsScreenWrapperProps as Props,
 } from "./statistics-screen.props"
 
-import { Screen } from "../../components/screen"
 import { Header } from "../../components/header"
+import { ReferralCTA } from "../../components/referral-cta"
+import { Screen } from "../../components/screen"
 
 import { color } from "../../theme"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: React.ComponentType<P>, titleTx: string) => {
   // eslint-disable-next-line react/display-name
@@ -63,6 +65,11 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
       ]
     )
 
+    onPressReferralCTA = () => {
+      this.props.navigation.navigate("Referral")
+      logAnalyticsEvent("StatisticsClickReferralCTA")
+    }
+
     render() {
       return (
         <Screen
@@ -100,10 +107,31 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
                 }
               ]}
             />
+            {this.renderReferralCTA()}
           </View>
         </Screen>
       )
     }
+
+    renderReferralCTA = () => (
+      <Animated.View
+        style={[
+          Style.ReferralCTA,
+          {
+            transform: [
+              {
+                translateY: this.state.scrollY.interpolate({
+                  inputRange: [-1, 0, 1],
+                  outputRange: [0, 0, 1],
+                }),
+              },
+            ],
+          },
+        ]}
+      >
+        <ReferralCTA onPressAction={this.onPressReferralCTA} />
+      </Animated.View>
+    )
 
     renderSeparator = () => (
       <View style={Style.SeparatorWrapper}>

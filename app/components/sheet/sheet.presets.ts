@@ -8,7 +8,6 @@ import { color } from "../../theme"
 const BASE_VIEW: ViewStyle = {
   borderRadius: 14,
   backgroundColor: color.palette.white,
-  overflow: "hidden",
 }
 
 /**

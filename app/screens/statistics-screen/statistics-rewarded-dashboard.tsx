@@ -33,7 +33,10 @@ import {
 } from "../../models/statistics-store"
 
 import { translate } from "../../i18n"
-import { calcPercentDiff } from "../../utils/number"
+import {
+  calcPercentDiff,
+  withAbsPercent,
+} from "../../utils/number"
 
 @observer
 export class StatisticsRewardedDashbaord extends React.Component<Props> {
@@ -121,7 +124,7 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
         if (growthPercentage !== 0) {
           dataItems.push({
             preset: "right",
-            title: `${Math.abs(growthPercentage)}%`,
+            title: withAbsPercent(growthPercentage),
             titlePreset: growthPercentage > 0 ? "value-increase" : "value-decrease",
             subtitle: translate("Statistics.Period.Week.Previous"),
           })

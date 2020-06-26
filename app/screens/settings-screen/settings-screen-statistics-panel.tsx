@@ -175,10 +175,15 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
     const {
       totalLikeAmount: totalRewardedLikeAmount = 0,
     } = this.props.rewardedStatistics
+    const [topSupportedCreator] =
+      this.props.supportedStatistics.topSupportedCreators
     return (
       <TouchableHighlight
         underlayColor={Style.ButtonUnderlaying.backgroundColor}
-        style={SETTINGS_MENU.TABLE_CELL_LAST_CHILD}
+        style={!this.props.isCivicLiker && !topSupportedCreator
+          ? SETTINGS_MENU.TABLE_CELL_FIRST_CHILD
+          : SETTINGS_MENU.TABLE_CELL_LAST_CHILD
+        }
         onPress={this.props.onPressRewardedSection}
       >
         <View style={Style.Button}>

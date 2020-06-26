@@ -38,17 +38,17 @@ import { color } from "../../theme"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
+  rootStore: RootStore
   chain: ChainStore
-  userStore: UserStore,
-  readerStore: ReaderStore,
-  isAppReferralEnabled: boolean,
+  userStore: UserStore
+  readerStore: ReaderStore
 }
 
 @inject((allStores: any) => ({
+  rootStore: allStores.rootStore as RootStore,
   chain: allStores.chainStore as ChainStore,
   userStore: allStores.userStore as UserStore,
   readerStore: allStores.readerStore as ReaderStore,
-  isAppReferralEnabled: !!(allStores.rootStore as RootStore).env.appConfig.getValue("APP_REFERRAL_ENABLE"),
 }))
 @observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
@@ -71,9 +71,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onClickLogout = async () => {
-    this.props.readerStore.clearAllLists()
-    this.props.userStore.logout()
-    this.props.navigation.navigate("Auth")
+    this.props.rootStore.signOut()
     logAnalyticsEvent('SignOut')
   }
 
@@ -206,7 +204,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
             onPress={this.onPressFollowSettings}
           />
-          {this.props.isAppReferralEnabled &&
+          {this.props.rootStore.getConfig("APP_REFERRAL_ENABLE") === "true" &&
             <Button
               preset="plain"
               tx="settingsScreen.Referral"

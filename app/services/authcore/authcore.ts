@@ -116,7 +116,13 @@ export class AuthCoreAPI {
         console.error(err)
       }
     }
-    if (!accessToken) return {}
+    if (!accessToken) {
+      return {
+        accessToken: "",
+        addresses: [],
+      }
+    }
+
     this.client.auth.client.bearer = `Bearer ${accessToken}`
 
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
@@ -131,8 +137,11 @@ export class AuthCoreAPI {
     })
 
     // Getting Cosmos addresses, it will be created if not exists
-    await this.getCosmosAddresses()
-    return { accessToken }
+    const addresses = await this.getCosmosAddresses()
+    return {
+      accessToken,
+      addresses,
+    }
   }
 
   onUnauthenticated = (error: any) => {
