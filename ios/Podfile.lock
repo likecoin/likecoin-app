@@ -256,6 +256,8 @@ PODS:
     - React
   - RNCAsyncStorage (1.6.1):
     - React
+  - RNDeviceInfo (5.6.1):
+    - React
   - RNExitApp (1.1.0):
     - React
   - RNFastImage (8.1.5):
@@ -350,6 +352,7 @@ DEPENDENCIES:
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - ReactNativeShareExtension (from `../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
@@ -464,6 +467,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNExitApp:
     :path: "../node_modules/react-native-exit-app"
   RNFastImage:
@@ -558,6 +563,7 @@ SPEC CHECKSUMS:
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
   ReactNativeShareExtension: 589ed96a7823b475e630d7987a0958bff9804ee6
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
+  RNDeviceInfo: b6e650fbd234732c759544218657d549b4339038
   RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
   RNFBAnalytics: 525439ff61630432b5c62f0b3534bd4ccd662355
@@ -581,4 +587,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0d74d8cc43fe663e5879690564d616bb8811043e
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

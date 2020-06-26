@@ -42,7 +42,8 @@ export class LikeCoAPI {
       timeout: this.config.timeout,
       headers: {
         Accept: "application/json",
-        "User-Agent": this.config.userAgent
+        "User-Agent": this.config.userAgent,
+        "X-Device-Id": this.config.deviceId
       },
     })
   }

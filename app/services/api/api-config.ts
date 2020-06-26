@@ -1,5 +1,6 @@
 import { Platform } from 'react-native'
 import { APP_MARKETING_VERSION, APP_VERSION } from "react-native-dotenv"
+import DeviceInfo from 'react-native-device-info'
 
 const TIMEOUT = 10000
 const USER_AGENT = `LikeCoinApp-${Platform.OS === "ios" ? 'iOS' : 'Android'}/${APP_MARKETING_VERSION}(${APP_VERSION})`
@@ -18,6 +19,8 @@ export interface ApiConfig {
    */
   userAgent: string
 
+  deviceId: string
+
   /**
    * Handler for unauthenticated response.
    */
@@ -30,6 +33,7 @@ export interface ApiConfig {
 export const COMMON_API_CONFIG: ApiConfig = {
   timeout: TIMEOUT,
   userAgent: USER_AGENT,
+  deviceId: DeviceInfo.getUniqueId(),
   onUnauthenticated: () => {
     // do nothing
   },
