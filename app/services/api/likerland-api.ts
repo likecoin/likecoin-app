@@ -50,6 +50,20 @@ export class LikerLandAPI {
   }
 
   /**
+   * Sign out current user
+   */
+  async signOut(): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post("/users/logout")
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
+
+  /**
    * Fetch the current user info
    */
   async fetchCurrentUserInfo(opts: Types.APIOptions = {}): Promise<Types.UserResult> {
