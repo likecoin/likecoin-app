@@ -58,6 +58,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = LikeCoinApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = LikeCoinApp/main.m; sourceTree = "<group>"; };
 		2520972AC9D7D68790FC9E37 /* Pods-LikeCoinApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp.release.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp/Pods-LikeCoinApp.release.xcconfig"; sourceTree = "<group>"; };
+		2F29085524A5E2D9008CE1DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2F29085624A5E483008CE1DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		2F796178233DC2D700306A87 /* LikeCoinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LikeCoinApp.entitlements; path = LikeCoinApp/LikeCoinApp.entitlements; sourceTree = "<group>"; };
 		612C5BA990BB7AB7622CC7A0 /* Pods-LikeCoinApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp/Pods-LikeCoinApp.debug.xcconfig"; sourceTree = "<group>"; };
 		75D8FC0335890CDFBF9C4CF5 /* libPods-LikeCoinApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,13 +262,12 @@
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "LikeCoinApp" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
-				en,
 				Base,
-				"zh-HK",
+				en,
+				"zh-Hant",
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -492,6 +493,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				13B07FB21A68108700A75B9A /* Base */,
+				2F29085524A5E2D9008CE1DA /* en */,
+				2F29085624A5E483008CE1DA /* zh-Hant */,
 			);
 			name = LaunchScreen.xib;
 			path = LikeCoinApp;
