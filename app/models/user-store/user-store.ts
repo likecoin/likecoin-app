@@ -149,6 +149,7 @@ export const UserStoreModel = types
         self.iapStore.clear()
         yield Promise.all([
           self.env.likeCoAPI.logout(),
+          self.env.likerLandAPI.signOut(),
           self.authCore.signOut(),
         ])
         self.env.branchIO.setUserIdentity()
