@@ -76,6 +76,10 @@
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
   },
+  "ReferralCTAView": {
+    "Title": "立即領取 100 LIKE 推薦奬金",
+    "ButtonTitle": "詳情"
+  },
   "ReferralScreen": {
     "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓讀者追縱自己的更新。趕快邀請朋友下載 Liker Land 吧！",
     "HeaderTitle": "推薦奬賞",

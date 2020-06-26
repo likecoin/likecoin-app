@@ -55,6 +55,12 @@ export const StatisticsScreenStyle = StyleSheet.create({
     position: "relative",
     flex: 1,
   } as ViewStyle,
+  ReferralCTA: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    left: 0,
+  } as ViewStyle,
   Screen: {
     position: "relative",
     flex: 1,
