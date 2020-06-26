@@ -1,5 +1,9 @@
 import * as React from "react"
-import { View } from "react-native"
+import {
+  SectionListData,
+  SectionListRenderItem,
+  View,
+} from "react-native"
 import { SectionList } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import Carousel from "react-native-snap-carousel"
@@ -31,9 +35,16 @@ import { Text } from "../../components/text"
 import {
   StatisticsSupportedContent,
   StatisticsSupportedCreator,
+  StatisticsSupportedDay,
   StatisticsSupportedStore,
   StatisticsSupportedWeek,
 } from "../../models/statistics-store"
+
+type StatisticsSupportedItemType =
+  StatisticsSupportedCreator | StatisticsSupportedContent
+
+const StatisticsSupportedSectionList:
+  SectionList<StatisticsSupportedItemType> = SectionList
 
 @observer
 class StatisticsSupportedScreenBase extends React.Component<Props> {
@@ -86,15 +97,15 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
       hasSelectedDayOfWeek,
     } = this.props.dataStore
     const {
-      creators: supportedCreators = [],
-      days = [],
+      creators: supportedCreators = [] as StatisticsSupportedCreator[],
+      days = [] as StatisticsSupportedDay[],
     } = week || {}
     const {
-      contents: supportedContent = []
+      contents: supportedContent = [] as StatisticsSupportedContent[]
     } = days[selectedDayOfWeek] || {}
 
     return (
-      <SectionList
+      <StatisticsSupportedSectionList
         ListHeaderComponent={(
           <View
             style={Style.Carousel}
@@ -131,44 +142,67 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
                 }
             ),
         ]}
-        renderItem={({ item, section }) => {
-          if (section.key === "loading") {
-            return <StatisticsListItemSkeleton type="supported-creator" />
-          }
-          if (section.key === "creators") {
-            return <StatisticsSupportedCreatorListItem creator={item} />
-          }
-          return <StatisticsSupportedContentListItem content={item} />
-        }}
-        renderSectionHeader={() => {
-          return (
-            <Text
-              tx={`StatisticsSupportedScreen.ListTitle.${
-                hasSelectedDayOfWeek ? "Content" : "Creator"
-              }`}
-              style={Style.ListHeaderText}
-            />
-          )
-        }}
-        renderSectionFooter={({ section }) =>
-          section.data.length > 0
-            ? null
-            : (
-              <View style={Style.Empty}>
-                <Text
-                  tx={`StatisticsSupportedScreen.Empty.${
-                    hasSelectedDayOfWeek ? "Content" : "Creator"
-                  }`}
-                  style={Style.EmptyLabel}
-                />
-              </View>
-            )}
+        renderItem={this.renderItem}
+        renderSectionHeader={this.renderSectionHeader}
+        renderSectionFooter={this.renderSectionFooter}
         ItemSeparatorComponent={this.props.renderSeparator}
         style={Style.List}
         onScroll={this.props.onScroll}
       />
     )
   }
+
+  private renderItem: SectionListRenderItem<StatisticsSupportedItemType> = ({
+    item,
+    section,
+  }) => {
+    if (section.key === "loading") {
+      return <StatisticsListItemSkeleton type="supported-creator" />
+    }
+    if (section.key === "creators") {
+      return (
+        <StatisticsSupportedCreatorListItem
+          creator={item as StatisticsSupportedCreator}
+        />
+      )
+    }
+    return (
+      <StatisticsSupportedContentListItem
+        content={item as StatisticsSupportedContent}
+      />
+    )
+  }
+
+  private renderSectionHeader = () => (
+    <Text
+      tx={`StatisticsSupportedScreen.ListTitle.${
+        this.props.dataStore.hasSelectedDayOfWeek
+          ? "Content"
+          : "Creator"
+      }`}
+      style={Style.ListHeaderText}
+    />
+  )
+
+  private renderSectionFooter = ({
+    section
+  }: {
+    section: SectionListData<StatisticsSupportedItemType>
+  }) =>
+    section.data.length > 0
+      ? null
+      : (
+        <View style={Style.Empty}>
+          <Text
+            tx={`StatisticsSupportedScreen.Empty.${
+              this.props.dataStore.hasSelectedDayOfWeek
+                ? "Content"
+                : "Creator"
+            }`}
+            style={Style.EmptyLabel}
+          />
+        </View>
+      )
 }
 
 export const StatisticsSupportedScreen = inject(
