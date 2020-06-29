@@ -3,11 +3,18 @@ import {
   ViewStyle,
 } from "react-native"
 
-import { Content } from "../../models/content"
+import {
+  Content,
+  ContentsGroupedByDay,
+} from "../../models/content"
 import { Creator } from "../../models/creator"
 
 export interface ContentListProps {
-  data: Content[]
+  data?: Content[]
+  /**
+   * Set this to show content list in sections grouped by day
+   */
+  groups?: ContentsGroupedByDay
   creators: Map<string, Creator>
 
   titleLabelTx?: string
@@ -21,11 +28,6 @@ export interface ContentListProps {
    * Set to false to hide bookmark icons. Default is true.
    */
   isShowBookmarkIcon?: boolean
-
-  /**
-   * Set to true to show content list in sections grouped by day
-   */
-  isGroupedByDay?: boolean
 
   onPressItem?: (url: string) => void
   onToggleBookmark?: (url: string) => void

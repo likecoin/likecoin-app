@@ -85,7 +85,7 @@ export class ContentList extends React.Component<Props> {
   }
 
   render() {
-    if (this.props.isGroupedByDay) {
+    if (this.props.groups) {
       return this.renderInGroupedByDay()
     }
     return (
@@ -108,33 +108,17 @@ export class ContentList extends React.Component<Props> {
   }
 
   private renderInGroupedByDay() {
-    const now = Date.now()
-    const dayGroups = this.props.data.reduce(
-      (groups, content) => {
-        // NOTE: `content.timestamp` could be in the future
-        const dayTs = moment(Math.min(content.timestamp, now))
-          .startOf('day')
-          .valueOf()
-          .toString()
-        if (!groups[dayTs]) {
-          groups[dayTs] = []
-        }
-        groups[dayTs].push(content)
-        return groups
-      },
-      {} as {
-        [dayTs: string]: Content[]
-      }
-    )
-
-    const sections: ContentSectionListData[] = []
-    Object.keys(dayGroups).forEach(dayTs => {
-      sections.push({
-        data: dayGroups[dayTs],
-        key: dayTs,
-        title: this.getSectionTitle(dayTs)
-      })
-    })
+    const sections = Object.keys(this.props.groups)
+      .sort()
+      .reverse()
+      .reduce((s, dayTs) => {
+        s.push({
+          data: this.props.groups[dayTs],
+          key: dayTs,
+          title: this.getSectionTitle(dayTs)
+        })
+        return s
+      }, [] as ContentSectionListData[])
 
     return (
       <ContentSectionList
@@ -148,7 +132,7 @@ export class ContentList extends React.Component<Props> {
         ListEmptyComponent={this.renderEmpty}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-        contentContainerStyle={this.props.data.length > 0 ? null : Style.Full}
+        contentContainerStyle={sections.length > 0 ? null : Style.Full}
         style={[Style.Full, this.props.style]}
         stickySectionHeadersEnabled={false}
         onEndReached={this.onEndReach}

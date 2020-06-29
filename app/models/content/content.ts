@@ -136,3 +136,7 @@ type ContentType = Instance<typeof ContentModel>
 export interface Content extends ContentType {}
 type ContentSnapshotType = SnapshotOut<typeof ContentModel>
 export interface ContentSnapshot extends ContentSnapshotType {}
+
+export interface ContentsGroupedByDay {
+  [dayTs: string]: Content[]
+}

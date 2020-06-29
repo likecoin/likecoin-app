@@ -5,7 +5,10 @@ import {
   types,
 } from "mobx-state-tree"
 
-import { ContentModel } from "../content"
+import {
+  ContentModel,
+  ContentsGroupedByDay,
+} from "../content"
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
 
@@ -17,6 +20,7 @@ import {
   ReaderCreatorsResult,
 } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
+import moment from "moment"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
 
@@ -42,6 +46,7 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
+    followedListGroups: {} as ContentsGroupedByDay,
     isFetchingBookmarkList: false,
     hasFetchedBookmarkList: false,
   }))
@@ -91,6 +96,16 @@ export const ReaderStoreModel = types
       if (!self.followedSet.has(content.url)) {
         self.followedSet.add(content.url)
         self.followedList.push(content)
+
+        // NOTE: `content.timestamp` could be in the future
+        const dayTs = moment(Math.min(content.timestamp, Date.now()))
+          .startOf('day')
+          .valueOf()
+          .toString()
+        if (!self.followedListGroups[dayTs]) {
+          self.followedListGroups[dayTs] = []
+        }
+        self.followedListGroups[dayTs].push(content)
       }
     },
     getContentByURL(url: string) {
@@ -115,6 +130,7 @@ export const ReaderStoreModel = types
               self.followingCreators.push(creator)
             })
             self.unfollowedCreators.replace([])
+            self.followedListGroups = {}
             result.unfollowed.forEach(likerID => {
               const creator = self.createCreatorFromLikerId(likerID)
               creator.isFollowing = false
