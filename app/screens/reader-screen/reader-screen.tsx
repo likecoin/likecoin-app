@@ -70,6 +70,7 @@ export class ReaderScreen extends React.Component<Props> {
         titleLabelTx="readerScreen.followingLabel"
         isLoading={this.props.readerStore.isFetchingFollowedList}
         isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
+        isGroupedByDay={true}
         hasFetched={this.props.readerStore.hasFetchedFollowedList}
         hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
         lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}

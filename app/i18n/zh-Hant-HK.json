@@ -36,6 +36,10 @@
       "other": "{{count}} 個讚"
     }
   },
+  "Date": {
+    "Today": "今天",
+    "Yesterday": "昨天"
+  },
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",

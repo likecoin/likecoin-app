@@ -1,4 +1,7 @@
-import { ViewStyle } from "react-native"
+import {
+  SectionBase,
+  ViewStyle,
+} from "react-native"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
@@ -19,6 +22,11 @@ export interface ContentListProps {
    */
   isShowBookmarkIcon?: boolean
 
+  /**
+   * Set to true to show content list in sections grouped by day
+   */
+  isGroupedByDay?: boolean
+
   onPressItem?: (url: string) => void
   onToggleBookmark?: (url: string) => void
   onToggleFollow?: (content: Content) => void
@@ -27,4 +35,8 @@ export interface ContentListProps {
   onRefresh?: () => void
 
   style?: ViewStyle
+}
+
+export interface ContentSectionListData extends SectionBase<Content> {
+  title: string
 }

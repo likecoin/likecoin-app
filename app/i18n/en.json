@@ -36,7 +36,11 @@
       "one": "1 Like",
       "other": "{{count}} Likes"
     }
-  },  
+  },
+  "Date": {
+    "Today": "Today",
+    "Yesterday": "Yesterday"
+  },
   "error": {
     "DEPRECATED_APP": "New version is available. Please update the App.",
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchasing",
