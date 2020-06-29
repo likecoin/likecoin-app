@@ -3,13 +3,16 @@ import {
   ListRenderItem,
   RefreshControl,
   View,
-  ViewStyle,
 } from "react-native"
 import { FlatList } from 'react-navigation'
 import { observer } from "mobx-react"
 import { SwipeRow } from "react-native-swipe-list-view"
 
-import { ContentListProps } from "./content-list.props"
+import { ContentListProps as Props } from "./content-list.props"
+import {
+  ContentListStyle as Style,
+  RefreshControlColors,
+} from "./content-list.style"
 
 import {
   ContentListItem,
@@ -19,26 +22,8 @@ import { Text } from "../../components/text"
 
 import { Content } from "../../models/content"
 
-import { spacing, color } from "../../theme"
-
-const FULL: ViewStyle = {
-  flex: 1,
-}
-const HEADER: ViewStyle = {
-  paddingTop: spacing[4],
-  paddingBottom: spacing[2],
-}
-const EMPTY: ViewStyle = {
-  ...FULL,
-  justifyContent: "center",
-  alignItems: "center",
-}
-const FOOTER: ViewStyle = {
-  paddingBottom: spacing[4],
-}
-
 @observer
-export class ContentList extends React.Component<ContentListProps> {
+export class ContentList extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
   private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
@@ -80,7 +65,7 @@ export class ContentList extends React.Component<ContentListProps> {
         renderItem={this.renderContent}
         refreshControl={
           <RefreshControl
-            colors={[color.primary]}
+            colors={RefreshControlColors}
             refreshing={this.props.hasFetched && this.props.isLoading}
             onRefresh={this.props.onRefresh}
           />
@@ -94,12 +79,12 @@ export class ContentList extends React.Component<ContentListProps> {
             color="likeGreen"
             align="center"
             weight="600"
-            style={HEADER}
+            style={Style.Header}
           />
         ) : null}
         ListFooterComponent={this.renderFooter}
-        contentContainerStyle={this.props.data.length > 0 ? null : FULL}
-        style={[FULL, this.props.style]}
+        contentContainerStyle={this.props.data.length > 0 ? null : Style.Full}
+        style={[Style.Full, this.props.style]}
         onEndReached={this.onEndReach}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
@@ -122,7 +107,7 @@ export class ContentList extends React.Component<ContentListProps> {
   private renderEmpty = () => {
     if (this.props.hasFetched) {
       return (
-        <View style={EMPTY}>
+        <View style={Style.Empty}>
           <Text
             tx="readerScreen.emptyLabel"
             color="grey9b"
@@ -143,7 +128,7 @@ export class ContentList extends React.Component<ContentListProps> {
 
   private renderFooter = () => {
     return this.props.isFetchingMore ? (
-      <View style={FOOTER}>
+      <View style={Style.Footer}>
         <ContentListItemSkeleton />
       </View>
     ) : null
