@@ -1,4 +1,5 @@
 import {
+  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
@@ -47,6 +48,9 @@ export const ReaderStoreModel = types
   }))
   .extend(withEnvironment)
   .actions(self => ({
+    reset() {
+      applySnapshot(self, {})
+    },
     createCreatorFromLikerId(likerId: string) {
       let creator = self.creators.get(likerId)
       if (!creator) {

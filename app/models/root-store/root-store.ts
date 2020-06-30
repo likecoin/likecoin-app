@@ -4,7 +4,6 @@ import {
   Instance,
   SnapshotOut,
   types,
-  applySnapshot,
 } from "mobx-state-tree"
 
 import { withEnvironment } from "../extensions"
@@ -92,9 +91,14 @@ export const RootStoreModel = types
       self.navigationStore.navigateTo("Auth")
       yield self.userStore.logout()
       self.chainStore.reset()
-      applySnapshot(self.readerStore, {})
-      applySnapshot(self.statisticsRewardedStore, {})
-      applySnapshot(self.statisticsSupportedStore, {})
+      self.stakingRewardsWithdrawStore.reset()
+      self.stakingDelegationStore.reset()
+      self.stakingRedelegationStore.reset()
+      self.stakingUnbondingDelegationStore.reset()
+      self.statisticsRewardedStore.reset()
+      self.statisticsSupportedStore.reset()
+      self.transferStore.reset()
+      self.readerStore.reset()
     }),
   }))
   .actions(self => ({
