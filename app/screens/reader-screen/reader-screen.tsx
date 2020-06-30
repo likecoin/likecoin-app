@@ -8,8 +8,12 @@ import {
 } from "./reader-screen.props"
 import { ReaderScreenStyle as Style } from "./reader-screen.style"
 
+import {
+  ContentList,
+  ContentListSectionHeader,
+} from "../../components/content-list"
+import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
-import { ContentList, ContentListSectionHeader } from "../../components/content-list"
 
 import { Content } from "../../models/content"
 
@@ -95,6 +99,7 @@ export class ReaderScreen extends React.Component<Props> {
         style={Style.Root}
         preset="fixed"
       >
+        <Header headerTx="readerScreen.Title" />
         {this.renderList()}
       </Screen>
     )
@@ -116,7 +121,6 @@ export class ReaderScreen extends React.Component<Props> {
         ref={this.list}
         sections={this.sections}
         creators={this.props.readerStore.creators}
-        titleLabelTx="readerScreen.followingLabel"
         isLoading={this.props.readerStore.isFetchingFollowedList}
         isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
         hasFetched={this.props.readerStore.hasFetchedFollowedList}

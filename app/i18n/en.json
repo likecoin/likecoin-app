@@ -75,6 +75,7 @@
     "showMyQRCode": "Show my QR Code"
   },
   "readerScreen": {
+    "Title": "Reading",
     "emptyLabel": "No content",
     "followingLabel": "Your following list"
   },

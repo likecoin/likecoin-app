@@ -74,6 +74,7 @@
     "showMyQRCode": "我的二維碼"
   },
   "readerScreen": {
+    "Title": "Reading",
     "emptyLabel": "沒有內容",
     "followingLabel": "你的追蹤列表"
   },
