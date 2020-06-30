@@ -92,7 +92,7 @@ export const RootStoreModel = types
       self.navigationStore.navigateTo("Auth")
       yield self.userStore.logout()
       self.chainStore.reset()
-      applySnapshot(self.readerStore, {})
+      self.readerStore.reset()
       applySnapshot(self.statisticsRewardedStore, {})
       applySnapshot(self.statisticsSupportedStore, {})
     }),

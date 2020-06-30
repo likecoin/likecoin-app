@@ -3,6 +3,7 @@ import {
   Instance,
   SnapshotOut,
   types,
+  applySnapshot,
 } from "mobx-state-tree"
 
 import {
@@ -52,6 +53,20 @@ export const ReaderStoreModel = types
   }))
   .extend(withEnvironment)
   .actions(self => ({
+    reset() {
+      applySnapshot(self, {})
+      self.isFetchingCreatorList = false
+      self.hasFetchedCreatorList = false
+      self.isFetchingFollowedList = false
+      self.hasFetchedFollowedList = false
+      self.followedListLastFetchedDate = new Date()
+      self.isFetchingMoreFollowedList = false
+      self.hasReachedEndOfFollowedList = false
+      self.followedSet = new Set<string>()
+      self.followedListGroups = {} as ContentsGroupedByDay
+      self.isFetchingBookmarkList = false
+      self.hasFetchedBookmarkList = false
+    },
     createCreatorFromLikerId(likerId: string) {
       let creator = self.creators.get(likerId)
       if (!creator) {
@@ -130,7 +145,6 @@ export const ReaderStoreModel = types
               self.followingCreators.push(creator)
             })
             self.unfollowedCreators.replace([])
-            self.followedListGroups = {}
             result.unfollowed.forEach(likerID => {
               const creator = self.createCreatorFromLikerId(likerID)
               creator.isFollowing = false
@@ -152,6 +166,7 @@ export const ReaderStoreModel = types
           case "ok":
             self.followedSet = new Set()
             self.followedList.replace([])
+            self.followedListGroups = {}
             result.data.forEach(self.handleFollowedContentResultData)
         }
       } catch (error) {
