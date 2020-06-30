@@ -1,20 +1,18 @@
 import {
-  SectionBase,
+  SectionListData,
   ViewStyle,
 } from "react-native"
 
-import {
-  Content,
-  ContentsGroupedByDay,
-} from "../../models/content"
+import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 
 export interface ContentListProps {
   data?: Content[]
+
   /**
-   * Set this to show content list in sections grouped by day
+   * Set this to show content list in sections
    */
-  groups?: ContentsGroupedByDay
+  sections?: SectionListData<Content>[]
   creators: Map<string, Creator>
 
   titleLabelTx?: string
@@ -36,9 +34,10 @@ export interface ContentListProps {
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
 
-  style?: ViewStyle
-}
+  /**
+   * Rendered at the top of each section.
+   */
+  renderSectionHeader?: (info: { section: SectionListData<Content> }) => React.ReactElement | null
 
-export interface ContentSectionListData extends SectionBase<Content> {
-  title: string
+  style?: ViewStyle
 }

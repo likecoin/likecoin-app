@@ -1,14 +1,19 @@
 import * as React from "react"
 import { inject, observer } from "mobx-react"
+import moment from "moment"
 
-import { ReaderScreenProps as Props } from "./reader-screen.props"
+import {
+  ReaderScreenProps as Props,
+  ReaderSectionListData,
+} from "./reader-screen.props"
 import { ReaderScreenStyle as Style } from "./reader-screen.style"
 
 import { Screen } from "../../components/screen"
-import { ContentList } from "../../components/content-list"
+import { ContentList, ContentListSectionHeader } from "../../components/content-list"
 
 import { Content } from "../../models/content"
 
+import { translate } from "../../i18n"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 @inject("readerStore")
@@ -20,6 +25,40 @@ export class ReaderScreen extends React.Component<Props> {
     this.list.current.props.onRefresh()
     this.props.readerStore.fetchCreatorList()
     this.props.readerStore.fetchBookmarkList()
+  }
+
+  private getSectionTitle = (dayTs: string) => {
+    const mm = moment(parseInt(dayTs, 10))
+    const today = moment().startOf("day")
+    if (mm.isSameOrAfter(today)) {
+      return translate("Date.Today")
+    }
+    if (mm.isSameOrAfter(today.subtract(1, "day"))) {
+      return translate("Date.Yesterday")
+    }
+    return mm.format("DD-MM-YYYY")
+  }
+
+  private reduceGroupToSections = (
+    sections: ReaderSectionListData[],
+    dayTs: string
+  ) => {
+    sections.push({
+      data: this.props.readerStore.followedListGroups[dayTs],
+      key: dayTs,
+      title: this.getSectionTitle(dayTs)
+    })
+    return sections
+  }
+
+  private get sections() {
+    if (!this.props.readerStore.followedListGroups) {
+      return []
+    }
+    return Object.keys(this.props.readerStore.followedListGroups)
+      .sort()
+      .reverse()
+      .reduce(this.reduceGroupToSections, [])
   }
 
   private onPressContentItem = (url: string) => {
@@ -61,11 +100,21 @@ export class ReaderScreen extends React.Component<Props> {
     )
   }
 
+  private renderSectionHeader = ({
+    section: { title },
+  }: {
+    section: ReaderSectionListData
+  }) => {
+    return (
+      <ContentListSectionHeader text={title} />
+    )
+  }
+
   private renderList = () => {
     return (
       <ContentList
         ref={this.list}
-        groups={this.props.readerStore.followedListGroups}
+        sections={this.sections}
         creators={this.props.readerStore.creators}
         titleLabelTx="readerScreen.followingLabel"
         isLoading={this.props.readerStore.isFetchingFollowedList}
@@ -79,6 +128,7 @@ export class ReaderScreen extends React.Component<Props> {
         onPressUndoButton={this.onPressUndoButton}
         onPressItem={this.onPressContentItem}
         onRefresh={this.props.readerStore.fetchFollowingList}
+        renderSectionHeader={this.renderSectionHeader}
         style={Style.List}
       />
     )

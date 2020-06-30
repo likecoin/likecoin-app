@@ -11,19 +11,14 @@ import {
 } from 'react-navigation'
 import { observer } from "mobx-react"
 import { SwipeRow } from "react-native-swipe-list-view"
-import moment from "moment"
 
 import {
   ContentListProps as Props,
-  ContentSectionListData,
 } from "./content-list.props"
 import {
   ContentListStyle as Style,
   RefreshControlColors,
 } from "./content-list.style"
-import {
-  ContentListSectionHeader,
-} from "./content-list.section-header"
 
 import {
   ContentListItem,
@@ -33,8 +28,6 @@ import { Text } from "../../components/text"
 
 import { Content } from "../../models/content"
 
-import { translate } from "../../i18n"
-
 const ContentSectionList: SectionListStatic<Content> = SectionListBase
 
 @observer
@@ -42,18 +35,6 @@ export class ContentList extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
   private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
-
-  private getSectionTitle = (dayTs: string) => {
-    const mm = moment(parseInt(dayTs, 10))
-    const today = moment().startOf("day")
-    if (mm.isSameOrAfter(today)) {
-      return translate("Date.Today")
-    }
-    if (mm.isSameOrAfter(today.subtract(1, "day"))) {
-      return translate("Date.Yesterday")
-    }
-    return mm.format("DD-MM-YYYY")
-  }
 
   private onEndReach = () => {
     if (
@@ -85,8 +66,8 @@ export class ContentList extends React.Component<Props> {
   }
 
   render() {
-    if (this.props.groups) {
-      return this.renderInGroupedByDay()
+    if (this.props.sections) {
+      return this.renderSections()
     }
     return (
       <FlatList<Content>
@@ -107,32 +88,20 @@ export class ContentList extends React.Component<Props> {
     )
   }
 
-  private renderInGroupedByDay() {
-    const sections = Object.keys(this.props.groups)
-      .sort()
-      .reverse()
-      .reduce((s, dayTs) => {
-        s.push({
-          data: this.props.groups[dayTs],
-          key: dayTs,
-          title: this.getSectionTitle(dayTs)
-        })
-        return s
-      }, [] as ContentSectionListData[])
-
+  private renderSections() {
     return (
       <ContentSectionList
-        sections={sections}
+        sections={this.props.sections}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderContent}
-        renderSectionHeader={this.renderSectionHeader}
+        renderSectionHeader={this.props.renderSectionHeader}
         refreshControl={this.renderRefreshControl()}
         initialNumToRender={8}
         maxToRenderPerBatch={10}
         ListEmptyComponent={this.renderEmpty}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-        contentContainerStyle={sections.length > 0 ? null : Style.Full}
+        contentContainerStyle={this.props.sections.length > 0 ? null : Style.Full}
         style={[Style.Full, this.props.style]}
         stickySectionHeadersEnabled={false}
         onEndReached={this.onEndReach}
@@ -158,16 +127,6 @@ export class ContentList extends React.Component<Props> {
       onRefresh={this.props.onRefresh}
     />
   )
-
-  private renderSectionHeader = ({
-    section: { title },
-  }: {
-    section: ContentSectionListData
-  }) => {
-    return (
-      <ContentListSectionHeader text={title} />
-    )
-  }
 
   private renderContent: ListRenderItem<Content> = ({ item: content }) => (
     <ContentListItem
