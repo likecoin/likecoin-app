@@ -69,7 +69,7 @@ export const RootStoreModel = types
      */
     openDeepLink(url: string = self.deferredDeepLink) {
       if (!url) return
-      if (!self.env.branchIO.getIsClickedBranchLink) {
+      if (!self.env.branchIO.getIsClickedBranchLink()) {
         if (URL_REGEX.test(url)) {
           self.navigationStore.dispatch({
             type: "Navigation/PUSH",
