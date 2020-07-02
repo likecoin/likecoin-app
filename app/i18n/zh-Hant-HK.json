@@ -69,6 +69,9 @@
       "Unfollowed": "已取消追踪"
     }
   },
+  "GlobalSuperLikedFeedScreen": {
+    "Title": "所有已 Super Like 的內容"
+  },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
     "showMyQRCode": "我的二維碼"

@@ -66,8 +66,8 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   private onPressGlobalIcon = () => {
-    logAnalyticsEvent('GoToSuperLikedFeed')
-    // TODO: Navigate to Super Liked Feed
+    logAnalyticsEvent('GoToGlobalSuperLikedFeed')
+    this.props.navigation.navigate("GlobalSuperLikedFeed")
   }
 
   render() {
