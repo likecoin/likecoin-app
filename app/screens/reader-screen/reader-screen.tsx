@@ -1,5 +1,4 @@
 import * as React from "react"
-import { inject, observer } from "mobx-react"
 import moment from "moment"
 
 import {
@@ -14,17 +13,16 @@ import {
   ContentList,
   ContentListSectionHeader,
 } from "../../components/content-list"
+import {
+  wrapContentListScreen,
+} from "../../components/content-list-screen"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
-
-import { Content } from "../../models/content"
 
 import { translate } from "../../i18n"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-@inject("readerStore")
-@observer
-export class ReaderScreen extends React.Component<Props> {
+class ReaderScreenBase extends React.Component<Props> {
   list = React.createRef<ContentList>()
 
   componentDidMount() {
@@ -65,34 +63,6 @@ export class ReaderScreen extends React.Component<Props> {
       .sort()
       .reverse()
       .reduce(this.reduceGroupToSections, [])
-  }
-
-  private onPressContentItem = (url: string) => {
-    const content = this.props.readerStore.contents.get(url)
-    logAnalyticsEvent('select_content', { contentType: 'content', itemId: url })
-    logAnalyticsEvent('OpenArticle', { url })
-    this.props.navigation.navigate('ContentView', { content })
-  }
-
-  private onBookmarkContentItem = (url: string) => {
-    this.props.readerStore.toggleBookmark(url)
-  }
-
-  private onFollowContentItem = (content: Content) => {
-    const { isFollowing, likerID } = content.creator
-    if (isFollowing) {
-      logAnalyticsEvent("UnfollowLiker", { likerID })
-      this.props.readerStore.toggleFollow(likerID)
-    } else {
-      logAnalyticsEvent("FollowLiker", { likerID })
-      this.props.readerStore.toggleFollow(likerID)
-    }
-  }
-
-  private onPressUndoButton = (content: Content) => {
-    const { likerID } = content.creator
-    logAnalyticsEvent('UndoUnfollow', { likerID })
-    this.props.readerStore.toggleFollow(likerID)
   }
 
   private onPressGlobalIcon = () => {
@@ -148,10 +118,10 @@ export class ReaderScreen extends React.Component<Props> {
         hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
         lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
         onFetchMore={this.props.readerStore.fetchMoreFollowedList}
-        onToggleBookmark={this.onBookmarkContentItem}
-        onToggleFollow={this.onFollowContentItem}
-        onPressUndoButton={this.onPressUndoButton}
-        onPressItem={this.onPressContentItem}
+        onPressUndoButton={this.props.onPressUndoButton}
+        onPressItem={this.props.onPressContentItem}
+        onToggleBookmark={this.props.onToggleBookmark}
+        onToggleFollow={this.props.onToggleFollow}
         onRefresh={this.props.readerStore.fetchFollowingList}
         renderSectionHeader={this.renderSectionHeader}
         style={Style.List}
@@ -159,3 +129,7 @@ export class ReaderScreen extends React.Component<Props> {
     )
   }
 }
+
+export const ReaderScreen = wrapContentListScreen(
+  ReaderScreenBase
+)

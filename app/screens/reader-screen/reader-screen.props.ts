@@ -1,12 +1,11 @@
 import { SectionBase } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
 
 import { Content } from "../../models/content"
-import { ReaderStore } from "../../models/reader-store"
+import {
+  ContentListScreenProps,
+} from "../../components/content-list-screen"
 
-export interface ReaderScreenProps extends NavigationScreenProps {
-  readerStore: ReaderStore
-}
+export interface ReaderScreenProps extends ContentListScreenProps {}
 
 export interface ReaderSectionListData extends SectionBase<Content> {
   title: string
