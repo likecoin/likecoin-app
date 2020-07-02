@@ -7,7 +7,9 @@ import {
   ReaderSectionListData,
 } from "./reader-screen.props"
 import { ReaderScreenStyle as Style } from "./reader-screen.style"
+import { GlobalIcon } from "./global-icon"
 
+import { Button } from "../../components/button"
 import {
   ContentList,
   ContentListSectionHeader,
@@ -93,13 +95,32 @@ export class ReaderScreen extends React.Component<Props> {
     this.props.readerStore.toggleFollow(likerID)
   }
 
+  private onPressGlobalIcon = () => {
+    logAnalyticsEvent('GoToSuperLikedFeed')
+    // TODO: Navigate to Super Liked Feed
+  }
+
   render() {
     return (
       <Screen
         style={Style.Root}
         preset="fixed"
       >
-        <Header headerTx="readerScreen.Title" />
+        <Header
+          headerTx="readerScreen.Title"
+          rightView={(
+            <Button
+              preset="icon"
+              onPress={this.onPressGlobalIcon}
+              style={Style.GlobalIcon}
+            >
+              <GlobalIcon
+                width={30}
+                height={24}
+              />
+            </Button>
+          )}
+        />
         {this.renderList()}
       </Screen>
     )
