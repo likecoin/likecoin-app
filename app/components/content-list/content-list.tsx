@@ -132,6 +132,10 @@ export class ContentList extends React.Component<Props> {
     <ContentListItem
       content={content}
       isShowBookmarkIcon={this.props.isShowBookmarkIcon}
+      backgroundColor={this.props.backgroundColor}
+      underlayColor={this.props.underlayColor}
+      skeletonPrimaryColor={this.props.skeletonPrimaryColor}
+      skeletonSecondaryColor={this.props.skeletonSecondaryColor}
       onToggleBookmark={this.props.onToggleBookmark}
       onToggleFollow={this.props.onToggleFollow}
       onPress={this.props.onPressItem}

@@ -3,7 +3,29 @@ import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
 
-export interface ContentListItemProps {
+export interface ContentListItemStyleProps {
+  /**
+   * The background color of the list item. Default is white.
+   */
+  backgroundColor?: string
+
+  /**
+   * The color of the underlay that will show through when the touch is active on the list item.
+   */
+  underlayColor?: string
+
+  /**
+   * The primary color of the skeleton for loading.
+   */
+  skeletonPrimaryColor?: string
+
+  /**
+   * The secondary color of the skeleton for loading.
+   */
+  skeletonSecondaryColor?: string
+}
+
+export interface ContentListItemProps extends ContentListItemStyleProps {
   content: Content
 
   /**

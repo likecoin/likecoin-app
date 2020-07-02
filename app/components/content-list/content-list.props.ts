@@ -3,10 +3,14 @@ import {
   ViewStyle,
 } from "react-native"
 
+import {
+  ContentListItemStyleProps,
+} from "../content-list-item"
+
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 
-export interface ContentListProps {
+export interface ContentListProps extends ContentListItemStyleProps {
   data?: Content[]
 
   /**

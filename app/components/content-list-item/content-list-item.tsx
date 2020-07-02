@@ -4,6 +4,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
 import ReactNativeSvg from "react-native-svg"
@@ -112,7 +113,12 @@ export class ContentListItem extends React.Component<Props, State> {
     } = this.props.content
 
     if (isLoading) {
-      return <ContentListItemSkeleton />
+      return (
+        <ContentListItemSkeleton
+          primaryColor={this.props.skeletonPrimaryColor}
+          secondaryColor={this.props.skeletonSecondaryColor}
+        />
+      )
     } else if (
       this.props.content.creator &&
       this.props.onPressUndoButton &&
@@ -144,6 +150,7 @@ export class ContentListItem extends React.Component<Props, State> {
 
   private renderFront() {
     const {
+      backgroundColor,
       content,
       style,
     } = this.props
@@ -158,11 +165,15 @@ export class ContentListItem extends React.Component<Props, State> {
       ...Style.Root,
       ...style,
       transform: [{ translateX: this.state.offsetX }],
+    } as ViewStyle
+
+    if (backgroundColor) {
+      rootStyle.backgroundColor = backgroundColor
     }
 
     return (
       <TouchableHighlight
-        underlayColor={color.palette.greyf2}
+        underlayColor={this.props.underlayColor || color.palette.greyf2}
         style={rootStyle}
         onPress={this.onPress}
       >

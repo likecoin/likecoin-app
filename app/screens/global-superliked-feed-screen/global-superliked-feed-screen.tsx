@@ -16,6 +16,8 @@ import {
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
+import { color } from "../../theme"
+
 class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
   render() {
     return (
@@ -43,6 +45,10 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
         hasFetched={this.props.readerStore.hasFetchedFollowedList}
         hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
         lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
+        backgroundColor={color.palette.lightGreen}
+        underlayColor={color.palette.darkerGreen}
+        skeletonPrimaryColor={color.palette.darkerGreen}
+        skeletonSecondaryColor={color.palette.greyBlue}
         onFetchMore={this.props.readerStore.fetchMoreFollowedList}
         onPressUndoButton={this.props.onPressUndoButton}
         onPressItem={this.props.onPressContentItem}
