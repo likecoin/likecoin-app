@@ -72,6 +72,9 @@
   "GlobalSuperLikedFeedScreen": {
     "Title": "所有已 Super Like 的內容"
   },
+  "I18nStory": {
+    "UseCase1": "%{liker} 傳送了 %{amount} 給你。"
+  },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
     "showMyQRCode": "我的二維碼"

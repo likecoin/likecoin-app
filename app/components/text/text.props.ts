@@ -66,6 +66,11 @@ export interface TextProps extends TextProperties {
   isHidden?: boolean
 
   /**
+   * For i18n interpolation
+   */
+  place?: string
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: TextStyle | TextStyle[]

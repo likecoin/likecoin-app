@@ -73,6 +73,9 @@
   "GlobalSuperLikedFeedScreen": {
     "Title": "All Super Liked Feed"
   },
+  "I18nStory": {
+    "UseCase1": "%{liker} sent you %{amount}."
+  },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
     "showMyQRCode": "Show my QR Code"
