@@ -77,6 +77,24 @@
   "I18nStory": {
     "UseCase1": "%{liker} sent you %{amount}."
   },
+  "Notification": {
+    "Type": {
+      "send": "Send",
+      "receive": "Receive",
+      "civic-like": "Civic Liker",
+      "super-like": "Super Like",
+      "daily-rewards": "Daily Rewards",
+      "referral": "Referral Reward"
+    },
+    "Message": {
+      "send": "You sent %{amount} to %{to}.",
+      "receive": "You receive %{amount} from %{from}.",
+      "civic-like": "%{from} liked your work. You received %{amount}.",
+      "super-like": "%{from} Super Liked your work. You received %{amount}.",
+      "daily-rewards": "%{likers} liked your contents today. You received %{amount} in total.",
+      "referral": "%{from} has installed Liker Land app. You both received %{amount}."
+    }
+  },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
     "showMyQRCode": "Show my QR Code"

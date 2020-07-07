@@ -3522,6 +3522,1299 @@ exports[`Storyshots Icon Names 1`] = `
 </View>
 `;
 
+exports[`Storyshots NotificationListItem Behavior 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <RCTScrollView>
+        <View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Send
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                clickable={false}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={null}
+              >
+                <View
+                  preset="flat"
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#ffffff",
+                        "borderRadius": 14,
+                      },
+                      Array [
+                        Object {
+                          "paddingHorizontal": 16,
+                        },
+                        undefined,
+                      ],
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                        "flexDirection": "row",
+                        "paddingBottom": 14,
+                        "paddingTop": 14,
+                      }
+                    }
+                  >
+                    <View
+                      style={
+                        Object {
+                          "marginRight": 12,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "position": "relative",
+                            },
+                            undefined,
+                          ]
+                        }
+                      >
+                        <BVLinearGradient
+                          colors={
+                            Array [
+                              4292014320,
+                              4293977780,
+                            ]
+                          }
+                          endPoint={
+                            Object {
+                              "x": 1,
+                              "y": 0,
+                            }
+                          }
+                          locations={null}
+                          startPoint={
+                            Object {
+                              "x": 0,
+                              "y": 1,
+                            }
+                          }
+                          style={
+                            Array [
+                              Object {
+                                "borderColor": "rgba(0, 0, 0, 0)",
+                              },
+                              Object {
+                                "borderWidth": 2,
+                                "margin": 2,
+                              },
+                              Object {
+                                "borderRadius": 16,
+                              },
+                            ]
+                          }
+                        >
+                          <View
+                            style={
+                              Array [
+                                Object {
+                                  "overflow": "hidden",
+                                },
+                                Object {
+                                  "borderRadius": 14,
+                                  "height": 28,
+                                  "overflow": "hidden",
+                                  "width": 28,
+                                },
+                              ]
+                            }
+                          >
+                            <FastImageView
+                              resizeMode="cover"
+                              source={
+                                Object {
+                                  "uri": "https://via.placeholder.com/100",
+                                }
+                              }
+                              style={
+                                Object {
+                                  "bottom": 0,
+                                  "left": 0,
+                                  "position": "absolute",
+                                  "right": 0,
+                                  "top": 0,
+                                }
+                              }
+                            />
+                          </View>
+                        </BVLinearGradient>
+                      </View>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "flexDirection": "row",
+                          }
+                        }
+                      >
+                        <View
+                          style={
+                            Object {
+                              "flexDirection": "row",
+                              "flexGrow": 1,
+                            }
+                          }
+                        >
+                          <RNSVGSvgView
+                            align="xMidYMid"
+                            bbWidth={12}
+                            focusable={false}
+                            meetOrSlice={0}
+                            minX={0}
+                            minY={0}
+                            style={
+                              Array [
+                                Object {
+                                  "backgroundColor": "transparent",
+                                  "borderWidth": 0,
+                                },
+                                Object {
+                                  "marginRight": 4,
+                                },
+                              ]
+                            }
+                            vbHeight={7.5}
+                            vbWidth={9.32}
+                            width={12}
+                          >
+                            <RNSVGGroup>
+                              <RNSVGGroup
+                                fill={null}
+                                propList={
+                                  Array [
+                                    "fill",
+                                    "stroke",
+                                    "strokeWidth",
+                                    "strokeLinecap",
+                                    "strokeLinejoin",
+                                  ]
+                                }
+                                stroke={4293087312}
+                                strokeLinecap={1}
+                                strokeLinejoin={1}
+                                strokeWidth={1.5}
+                              >
+                                <RNSVGPath
+                                  d="M5.55 6.75l3.02-3H1.75h6.82l-3.02-3M.75.75v6"
+                                />
+                              </RNSVGGroup>
+                            </RNSVGGroup>
+                          </RNSVGSvgView>
+                          <Text
+                            style={
+                              Object {
+                                "color": "#9b9b9b",
+                                "fontFamily": "System",
+                                "fontSize": 12,
+                              }
+                            }
+                          >
+                            Notification.Type.send.test
+                          </Text>
+                        </View>
+                        <Text
+                          style={
+                            Object {
+                              "color": "#9b9b9b",
+                              "flexShrink": 1,
+                              "fontFamily": "System",
+                              "fontSize": 12,
+                            }
+                          }
+                        >
+                          12/06/19 15:47
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          Object {
+                            "marginTop": 4,
+                          }
+                        }
+                      >
+                        <Text>
+                          Notification.Message.send.test
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Receive
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                clickable={false}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={null}
+              >
+                <View
+                  preset="flat"
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#ffffff",
+                        "borderRadius": 14,
+                      },
+                      Array [
+                        Object {
+                          "paddingHorizontal": 16,
+                        },
+                        undefined,
+                      ],
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                        "flexDirection": "row",
+                        "paddingBottom": 14,
+                        "paddingTop": 14,
+                      }
+                    }
+                  >
+                    <View
+                      style={
+                        Object {
+                          "marginRight": 12,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "position": "relative",
+                            },
+                            undefined,
+                          ]
+                        }
+                      >
+                        <BVLinearGradient
+                          colors={
+                            Array [
+                              4292014320,
+                              4293977780,
+                            ]
+                          }
+                          endPoint={
+                            Object {
+                              "x": 1,
+                              "y": 0,
+                            }
+                          }
+                          locations={null}
+                          startPoint={
+                            Object {
+                              "x": 0,
+                              "y": 1,
+                            }
+                          }
+                          style={
+                            Array [
+                              Object {
+                                "borderColor": "rgba(0, 0, 0, 0)",
+                              },
+                              Object {
+                                "borderWidth": 2,
+                                "margin": 2,
+                              },
+                              Object {
+                                "borderRadius": 16,
+                              },
+                            ]
+                          }
+                        >
+                          <View
+                            style={
+                              Array [
+                                Object {
+                                  "overflow": "hidden",
+                                },
+                                Object {
+                                  "borderRadius": 14,
+                                  "height": 28,
+                                  "overflow": "hidden",
+                                  "width": 28,
+                                },
+                              ]
+                            }
+                          >
+                            <FastImageView
+                              resizeMode="cover"
+                              source={
+                                Object {
+                                  "uri": "https://via.placeholder.com/100",
+                                }
+                              }
+                              style={
+                                Object {
+                                  "bottom": 0,
+                                  "left": 0,
+                                  "position": "absolute",
+                                  "right": 0,
+                                  "top": 0,
+                                }
+                              }
+                            />
+                          </View>
+                        </BVLinearGradient>
+                      </View>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "flexDirection": "row",
+                          }
+                        }
+                      >
+                        <View
+                          style={
+                            Object {
+                              "flexDirection": "row",
+                              "flexGrow": 1,
+                            }
+                          }
+                        >
+                          <RNSVGSvgView
+                            align="xMidYMid"
+                            bbWidth={12}
+                            focusable={false}
+                            meetOrSlice={0}
+                            minX={0}
+                            minY={0}
+                            style={
+                              Array [
+                                Object {
+                                  "backgroundColor": "transparent",
+                                  "borderWidth": 0,
+                                },
+                                Object {
+                                  "marginRight": 4,
+                                },
+                              ]
+                            }
+                            vbHeight={7.5}
+                            vbWidth={9.32}
+                            width={12}
+                          >
+                            <RNSVGGroup>
+                              <RNSVGGroup
+                                fill={null}
+                                propList={
+                                  Array [
+                                    "fill",
+                                    "stroke",
+                                    "strokeWidth",
+                                    "strokeLinecap",
+                                    "strokeLinejoin",
+                                  ]
+                                }
+                                stroke={4281785856}
+                                strokeLinecap={1}
+                                strokeLinejoin={1}
+                                strokeWidth={1.5}
+                              >
+                                <RNSVGPath
+                                  d="M4.55 6.75l3.02-3H.75h6.82l-3.02-3M8.57.75v6"
+                                />
+                              </RNSVGGroup>
+                            </RNSVGGroup>
+                          </RNSVGSvgView>
+                          <Text
+                            style={
+                              Object {
+                                "color": "#9b9b9b",
+                                "fontFamily": "System",
+                                "fontSize": 12,
+                              }
+                            }
+                          >
+                            Notification.Type.receive.test
+                          </Text>
+                        </View>
+                        <Text
+                          style={
+                            Object {
+                              "color": "#9b9b9b",
+                              "flexShrink": 1,
+                              "fontFamily": "System",
+                              "fontSize": 12,
+                            }
+                          }
+                        >
+                          12/06/19 15:47
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          Object {
+                            "marginTop": 4,
+                          }
+                        }
+                      >
+                        <Text>
+                          Notification.Message.receive.test
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Civic Liker
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                clickable={false}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={null}
+              >
+                <View
+                  preset="flat"
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#ffffff",
+                        "borderRadius": 14,
+                      },
+                      Array [
+                        Object {
+                          "paddingHorizontal": 16,
+                        },
+                        undefined,
+                      ],
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                        "flexDirection": "row",
+                        "paddingBottom": 14,
+                        "paddingTop": 14,
+                      }
+                    }
+                  >
+                    <View
+                      style={
+                        Object {
+                          "marginRight": 12,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "borderRadius": 16,
+                            "padding": 4,
+                          }
+                        }
+                      >
+                        <RNSVGSvgView
+                          bbHeight={24}
+                          bbWidth={24}
+                          focusable={false}
+                          height={24}
+                          style={
+                            Array [
+                              Object {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              Object {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          width={24}
+                        >
+                          <RNSVGGroup />
+                        </RNSVGSvgView>
+                      </View>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "flexDirection": "row",
+                          }
+                        }
+                      >
+                        <View
+                          style={
+                            Object {
+                              "flexDirection": "row",
+                              "flexGrow": 1,
+                            }
+                          }
+                        >
+                          <Text
+                            style={
+                              Object {
+                                "color": "#9b9b9b",
+                                "fontFamily": "System",
+                                "fontSize": 12,
+                              }
+                            }
+                          >
+                            Notification.Type.civic-like.test
+                          </Text>
+                        </View>
+                        <Text
+                          style={
+                            Object {
+                              "color": "#9b9b9b",
+                              "flexShrink": 1,
+                              "fontFamily": "System",
+                              "fontSize": 12,
+                            }
+                          }
+                        >
+                          12/06/19 15:47
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          Object {
+                            "marginTop": 4,
+                          }
+                        }
+                      >
+                        <Text>
+                          Notification.Message.civic-like.test
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Daily Rewards
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                clickable={false}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={null}
+              >
+                <View
+                  preset="flat"
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#ffffff",
+                        "borderRadius": 14,
+                      },
+                      Array [
+                        Object {
+                          "paddingHorizontal": 16,
+                        },
+                        undefined,
+                      ],
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                        "flexDirection": "row",
+                        "paddingBottom": 14,
+                        "paddingTop": 14,
+                      }
+                    }
+                  >
+                    <View
+                      style={
+                        Object {
+                          "marginRight": 12,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "borderRadius": 16,
+                            "padding": 4,
+                          }
+                        }
+                      >
+                        <RNSVGSvgView
+                          bbHeight={24}
+                          bbWidth={24}
+                          focusable={false}
+                          height={24}
+                          style={
+                            Array [
+                              Object {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              Object {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          width={24}
+                        >
+                          <RNSVGGroup />
+                        </RNSVGSvgView>
+                      </View>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "flexDirection": "row",
+                          }
+                        }
+                      >
+                        <View
+                          style={
+                            Object {
+                              "flexDirection": "row",
+                              "flexGrow": 1,
+                            }
+                          }
+                        >
+                          <Text
+                            style={
+                              Object {
+                                "color": "#9b9b9b",
+                                "fontFamily": "System",
+                                "fontSize": 12,
+                              }
+                            }
+                          >
+                            Notification.Type.daily-rewards.test
+                          </Text>
+                        </View>
+                        <Text
+                          style={
+                            Object {
+                              "color": "#9b9b9b",
+                              "flexShrink": 1,
+                              "fontFamily": "System",
+                              "fontSize": 12,
+                            }
+                          }
+                        >
+                          12/06/19 15:47
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          Object {
+                            "marginTop": 4,
+                          }
+                        }
+                      >
+                        <Text>
+                          Notification.Message.daily-rewards.test
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Referral
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                clickable={false}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={null}
+              >
+                <View
+                  preset="flat"
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#ffffff",
+                        "borderRadius": 14,
+                      },
+                      Array [
+                        Object {
+                          "paddingHorizontal": 16,
+                        },
+                        undefined,
+                      ],
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                        "flexDirection": "row",
+                        "paddingBottom": 14,
+                        "paddingTop": 14,
+                      }
+                    }
+                  >
+                    <View
+                      style={
+                        Object {
+                          "marginRight": 12,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "borderRadius": 16,
+                            "padding": 4,
+                          }
+                        }
+                      >
+                        <RNSVGSvgView
+                          bbHeight={24}
+                          bbWidth={24}
+                          focusable={false}
+                          height={24}
+                          style={
+                            Array [
+                              Object {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              Object {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          width={24}
+                        >
+                          <RNSVGGroup />
+                        </RNSVGSvgView>
+                      </View>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Object {
+                            "flexDirection": "row",
+                          }
+                        }
+                      >
+                        <View
+                          style={
+                            Object {
+                              "flexDirection": "row",
+                              "flexGrow": 1,
+                            }
+                          }
+                        >
+                          <Text
+                            style={
+                              Object {
+                                "color": "#9b9b9b",
+                                "fontFamily": "System",
+                                "fontSize": 12,
+                              }
+                            }
+                          >
+                            Notification.Type.referral.test
+                          </Text>
+                        </View>
+                        <Text
+                          style={
+                            Object {
+                              "color": "#9b9b9b",
+                              "flexShrink": 1,
+                              "fontFamily": "System",
+                              "fontSize": 12,
+                            }
+                          }
+                        >
+                          12/06/19 15:47
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          Object {
+                            "marginTop": 4,
+                          }
+                        }
+                      >
+                        <Text>
+                          Notification.Message.referral.test
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
 exports[`Storyshots StatisticsListItem Type 1`] = `
 <View
   onLayout={[Function]}
