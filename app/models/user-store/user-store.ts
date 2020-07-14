@@ -26,6 +26,7 @@ import {
   UserResult,
   UserRegisterParams,
   UserAppMetaResult,
+  SuperLikeStatusResult,
 } from "../../services/api"
 
 import { throwProblem } from "../../services/api/api-problem"
@@ -169,13 +170,21 @@ export const UserStoreModel = types
         avatar: avatarURL,
         isSubscribedCivicLiker: isCivicLiker,
       } = data
-      self.currentUser = UserModel.create({
-        likerID,
-        displayName,
-        email,
-        avatarURL,
-        isCivicLiker,
-      })
+      if (!self.currentUser || self.currentUser.likerID !== likerID) {
+        self.currentUser = UserModel.create({
+          likerID,
+          displayName,
+          email,
+          avatarURL,
+          isCivicLiker,
+        })
+      } else {
+        self.currentUser.likerID = likerID
+        self.currentUser.displayName = displayName
+        self.currentUser.email = email
+        self.currentUser.avatarURL = avatarURL
+        self.currentUser.isCivicLiker = isCivicLiker
+      }
     },
   }))
   .actions(self => ({
@@ -293,7 +302,30 @@ export const UserStoreModel = types
     generateUserAppReferralLink: flow(function * () {
       const url = yield self.env.branchIO.generateAppReferralLink(self.currentUser.likerID)
       self.userAppReferralLink = url
-    })
+    }),
+    getMySuperLikeStatus: flow(function * () {
+      const timezone = (new Date().getTimezoneOffset() / -60).toString()
+      const result: SuperLikeStatusResult =
+        yield self.env.likeCoAPI.getMySuperLikeStatus(timezone)
+
+      switch (result.kind) {
+        case "ok":
+          const {
+            isSuperLiker,
+            canSuperLike,
+            nextSuperLikeTs = -1,
+            cooldown = 0,
+          } = result.data
+          self.currentUser.isSuperLiker = !!isSuperLiker
+          self.currentUser.canSuperLike = !!canSuperLike
+          self.currentUser.nextSuperLikeTimestamp = nextSuperLikeTs
+          self.currentUser.superLikeCooldown = cooldown
+          break
+
+        default:
+          throwProblem(result)
+      }
+    }),
   }))
 
 type UserStoreType = Instance<typeof UserStoreModel>

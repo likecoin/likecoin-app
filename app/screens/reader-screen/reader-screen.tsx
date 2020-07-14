@@ -1,4 +1,5 @@
 import * as React from "react"
+import { inject, observer } from "mobx-react"
 import moment from "moment"
 
 import {
@@ -19,9 +20,15 @@ import {
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
+import { UserStore } from "../../models/user-store"
+
 import { translate } from "../../i18n"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
+@inject((allStore: any) => ({
+  currentUser: (allStore.userStore as UserStore).currentUser,
+}))
+@observer
 class ReaderScreenBase extends React.Component<Props> {
   list = React.createRef<ContentList>()
 
@@ -78,7 +85,7 @@ class ReaderScreenBase extends React.Component<Props> {
       >
         <Header
           headerTx="readerScreen.Title"
-          rightView={(
+          rightView={!this.props.currentUser.isSuperLiker ? null : (
             <Button
               preset="icon"
               onPress={this.onPressGlobalIcon}

@@ -137,7 +137,16 @@ export type UserAppMetaResult = {
     android?: boolean
     ios?: boolean
   }
+} | GeneralApiProblem
 
+export type SuperLikeStatusResult = {
+  kind: "ok"
+  data: {
+    isSuperLiker: boolean
+    canSuperLike: boolean
+    nextSuperLikeTs: number
+    cooldown: number
+  },
 } | GeneralApiProblem
 
 export interface SuperLikeResult {
