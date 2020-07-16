@@ -12,6 +12,10 @@ import {
 } from "../content"
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
+import {
+  SuperLikedContent,
+  SuperLikedContentModel,
+} from "../super-liked-content"
 
 import {
   BookmarkListResult,
@@ -19,11 +23,19 @@ import {
   Content as ContentResultData,
   GeneralResult,
   ReaderCreatorsResult,
+  SuperLikedFeedResult,
 } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 import moment from "moment"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
+
+type FetchStatus =
+  "unfetch" |
+  "fetching" |
+  "fetching-more" |
+  "fetched" |
+  "fetched-more"
 
 /**
  * Store all content related information.
@@ -35,6 +47,7 @@ export const ReaderStoreModel = types
     creators: types.map(types.late(() => CreatorModel)),
     followedList: ContentList,
     bookmarkList: ContentList,
+    globalSuperLikedFeed: types.array(types.late(() => SuperLikedContentModel)),
     followingCreators: types.array(types.safeReference(CreatorModel)),
     unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
@@ -50,6 +63,8 @@ export const ReaderStoreModel = types
     followedListGroups: {} as ContentsGroupedByDay,
     isFetchingBookmarkList: false,
     hasFetchedBookmarkList: false,
+    globalSuperLikedFeedStatus: "unfetch" as FetchStatus,
+    globalSuperLikedFeedLastFetchedDate: new Date(),
   }))
   .extend(withEnvironment)
   .actions(self => ({
@@ -66,6 +81,8 @@ export const ReaderStoreModel = types
       self.followedListGroups = {} as ContentsGroupedByDay
       self.isFetchingBookmarkList = false
       self.hasFetchedBookmarkList = false
+      self.globalSuperLikedFeedStatus = "unfetch"
+      self.globalSuperLikedFeedLastFetchedDate = new Date()
     },
     createCreatorFromLikerId(likerId: string) {
       let creator = self.creators.get(likerId)
@@ -274,6 +291,65 @@ export const ReaderStoreModel = types
         creator.isFollowing = prevIsFollow
         self.followingCreators.replace(prevFollowingCreators)
         self.unfollowedCreators.replace(prevUnfollowedCreators)
+      }
+    }),
+    fetchGlobalSuperLikedFeed: flow(function * (options: {
+      isMore?: boolean
+    } = {}) {
+      if (self.globalSuperLikedFeedStatus === "fetching") return
+      self.globalSuperLikedFeedStatus = "fetching"
+      try {
+        const result: SuperLikedFeedResult = yield self.env.likeCoAPI.fetchGlobalSuperLikedFeed({
+          before: options.isMore
+            ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
+            : undefined
+        })
+        if (result.kind === "ok") {
+          const superLikes: SuperLikedContent[] = []
+          result.data.forEach(({
+            id,
+            url,
+            liker,
+            likee,
+            ts,
+          }) => {
+            const superLike = SuperLikedContentModel.create({
+              id,
+              timestamp: ts,
+            })
+
+            superLike.liker = self.createCreatorFromLikerId(liker)
+
+            // Find content reference for this Super Like
+            superLike.content = self.contents.get(url)
+            if (!superLike.content) {
+              superLike.content = ContentModel.create({ url })
+              self.contents.put(superLike)
+              if (likee) {
+                superLike.content.creator = self.createCreatorFromLikerId(likee)
+              }
+            }
+
+            superLikes.push(superLike)
+          })
+
+          if (options.isMore) {
+            if (superLikes.length) {
+              self.globalSuperLikedFeed.push(...superLikes)
+            } else {
+              self.globalSuperLikedFeedStatus = "fetched-more"
+            }
+          } else {
+            self.globalSuperLikedFeed.replace(superLikes)
+          }
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        if (self.globalSuperLikedFeedStatus !== "fetched-more") {
+          self.globalSuperLikedFeedStatus = "fetched"
+        }
+        self.globalSuperLikedFeedLastFetchedDate = new Date()
       }
     }),
   }))

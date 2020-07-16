@@ -8,7 +8,7 @@ import {
 } from "./global-superliked-feed-screen.style"
 
 import {
-  ContentList,
+  SuperLikedContentList,
 } from "../../components/content-list"
 import {
   wrapContentListScreen,
@@ -19,6 +19,14 @@ import { Screen } from "../../components/screen"
 import { color } from "../../theme"
 
 class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
+  componentDidMount() {
+    this.props.readerStore.fetchGlobalSuperLikedFeed()
+  }
+
+  private fetchMore = () => {
+    this.props.readerStore.fetchGlobalSuperLikedFeed({ isMore: true })
+  }
+
   render() {
     return (
       <Screen
@@ -37,24 +45,24 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
 
   private renderList = () => {
     return (
-      <ContentList
-        data={this.props.readerStore.followedList}
+      <SuperLikedContentList
+        data={this.props.readerStore.globalSuperLikedFeed}
         creators={this.props.readerStore.creators}
-        isLoading={this.props.readerStore.isFetchingFollowedList}
-        isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
-        hasFetched={this.props.readerStore.hasFetchedFollowedList}
-        hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
-        lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
+        isLoading={this.props.readerStore.globalSuperLikedFeedStatus === "fetching"}
+        isFetchingMore={this.props.readerStore.globalSuperLikedFeedStatus === "fetching-more"}
+        hasFetched={this.props.readerStore.globalSuperLikedFeedStatus === "fetched"}
+        hasFetchedAll={this.props.readerStore.globalSuperLikedFeedStatus === "fetched-more"}
+        lastFetched={this.props.readerStore.globalSuperLikedFeedLastFetchedDate.getTime()}
         backgroundColor={color.palette.lightGreen}
         underlayColor={color.palette.darkerGreen}
         skeletonPrimaryColor={color.palette.darkerGreen}
         skeletonSecondaryColor={color.palette.greyBlue}
-        onFetchMore={this.props.readerStore.fetchMoreFollowedList}
-        onPressUndoButton={this.props.onPressUndoButton}
+        onFetchMore={this.fetchMore}
+        onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
         onPressItem={this.props.onPressContentItem}
         onToggleBookmark={this.props.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
-        onRefresh={this.props.readerStore.fetchFollowingList}
+        onRefresh={this.props.readerStore.fetchGlobalSuperLikedFeed}
         style={Style.List}
       />
     )

@@ -9,14 +9,11 @@ import {
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
+import {
+  SuperLikedContent,
+} from "../../models/super-liked-content"
 
-export interface ContentListProps extends ContentListItemStyleProps {
-  data?: Content[]
-
-  /**
-   * Set this to show content list in sections
-   */
-  sections?: SectionListData<Content>[]
+export interface ContentListBaseProps extends ContentListItemStyleProps {
   creators: Map<string, Creator>
 
   titleLabelTx?: string
@@ -33,15 +30,42 @@ export interface ContentListProps extends ContentListItemStyleProps {
 
   onPressItem?: (url: string) => void
   onToggleBookmark?: (url: string) => void
-  onToggleFollow?: (content: Content) => void
-  onPressUndoButton?: (content: Content) => void
+  onToggleFollow?: (creator: Creator) => void
+  onPressUndoUnfollowButton?: (creator: Creator) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
+
+  style?: ViewStyle
+}
+
+export interface ContentListProps extends ContentListBaseProps {
+  data?: Content[]
+
+  /**
+   * Set this to show content list in sections
+   */
+  sections?: SectionListData<Content>[]
 
   /**
    * Rendered at the top of each section.
    */
-  renderSectionHeader?: (info: { section: SectionListData<Content> }) => React.ReactElement | null
+  renderSectionHeader?: (info: {
+    section: SectionListData<Content>,
+  }) => React.ReactElement | null
+}
 
-  style?: ViewStyle
+export interface SuperLikedContentListProps extends ContentListBaseProps {
+  data?: SuperLikedContent[]
+
+  /**
+   * Set this to show content list in sections
+   */
+  sections?: SectionListData<SuperLikedContent>[]
+
+  /**
+   * Rendered at the top of each section.
+   */
+  renderSectionHeader?: (info: {
+    section: SectionListData<SuperLikedContent>,
+  }) => React.ReactElement | null
 }

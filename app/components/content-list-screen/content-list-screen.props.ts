@@ -3,12 +3,12 @@ import { NavigationScreenProps } from "react-navigation"
 import {
   ReaderStore,
 } from "../../models/reader-store"
-import { Content } from "../../models/content"
+import { Creator } from "../../models/creator"
 
 export interface ContentListScreenProps extends NavigationScreenProps {
   readerStore: ReaderStore
   onPressContentItem: (url: string) => void
   onToggleBookmark: (url: string) => void
-  onToggleFollow: (content: Content) => void
-  onPressUndoButton: (content: Content) => void
+  onToggleFollow: (creator: Creator) => void
+  onPressUndoUnfollowButton: (creator: Creator) => void
 }

@@ -5,7 +5,7 @@ import {
   ContentListScreenProps as Props,
 } from "./content-list-screen.props"
 
-import { Content } from "../../models/content"
+import { Creator } from "../../models/creator"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
@@ -21,14 +21,14 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
       this.props.navigation.navigate('ContentView', { content })
     }
 
-    onPressUndoButton = (content: Content) => {
-      const { likerID } = content.creator
+    onPressUndoUnfollowButton = (creator: Creator) => {
+      const { likerID } = creator
       logAnalyticsEvent('UndoUnfollow', { likerID })
       this.props.readerStore.toggleFollow(likerID)
     }
 
-    onToggleFollow = (content: Content) => {
-      const { isFollowing, likerID } = content.creator
+    onToggleFollow = (creator: Creator) => {
+      const { isFollowing, likerID } = creator
       if (isFollowing) {
         logAnalyticsEvent("UnfollowLiker", { likerID })
       } else {
@@ -46,7 +46,7 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
         <ObservedComponent
           {...this.props as P}
           onPressContentItem={this.onPressContentItem}
-          onPressUndoButton={this.onPressUndoButton}
+          onPressUndoUnfollowButton={this.onPressUndoUnfollowButton}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
         />

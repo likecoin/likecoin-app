@@ -10,7 +10,9 @@ import { SwipeRow } from "react-native-swipe-list-view"
 import ReactNativeSvg from "react-native-svg"
 import { observer } from "mobx-react"
 
-import { ContentListItemProps as Props } from "./content-list-item.props"
+import {
+  SuperLikedContentListItemProps as Props,
+} from "./content-list-item.props"
 import { ContentListItemState as State } from "./content-list-item.state"
 import { ContentListItemStyle as Style } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
@@ -25,10 +27,10 @@ import { color } from "../../theme"
 import { ContentListItemBack } from "./content-list-item.back"
 
 @observer
-export class ContentListItem extends React.Component<Props, State> {
+export class SuperLikedContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
 
-  isPrevFollow = this.props.content.creator && this.props.content.creator.isFollowing
+  isPrevFollow = this.props.content.liker.isFollowing
 
   constructor(props: Props) {
     super(props)
@@ -44,8 +46,8 @@ export class ContentListItem extends React.Component<Props, State> {
   } as Partial<Props>
 
   componentDidMount() {
-    if (this.props.content.shouldFetchDetails) {
-      this.props.content.fetchDetails()
+    if (this.props.content.content.shouldFetchDetails) {
+      this.props.content.content.fetchDetails()
     }
     this.fetchCreatorDependedDetails()
   }
@@ -55,37 +57,46 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private getSwipeRowWidth() {
-    return -(this.props.content.creator ? 128 : 64)
+    return -(this.props.content.liker ? 128 : 64)
   }
 
   private fetchCreatorDependedDetails() {
-    if (this.props.content.shouldFetchLikeStat) {
-      this.props.content.fetchLikeStat()
+    if (this.props.content.content.shouldFetchLikeStat) {
+      this.props.content.content.fetchLikeStat()
     }
-    if (this.props.content.shouldFetchCreatorDetails) {
-      this.props.content.creator.fetchDetails()
+    if (this.props.content.content.shouldFetchCreatorDetails) {
+      this.props.content.content.creator.fetchDetails()
+    }
+    if (!this.props.content.liker.hasFetchedDetails) {
+      this.props.content.liker.fetchDetails()
     }
   }
 
   private onRowOpen = () => {
-    if (this.props.onSwipeOpen) this.props.onSwipeOpen(this.props.content.url, this.swipeRowRef)
+    if (this.props.onSwipeOpen) {
+      this.props.onSwipeOpen(this.props.content.content.url, this.swipeRowRef)
+    }
     this.setState({ isRowOpen: true })
   }
 
   private onRowClose = () => {
-    if (this.props.onSwipeClose) this.props.onSwipeClose(this.props.content.url)
+    if (this.props.onSwipeClose) {
+      this.props.onSwipeClose(this.props.content.content.url)
+    }
     this.setState({ isRowOpen: false })
   }
 
   private onToggleBookmark = () => {
     this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleBookmark) this.props.onToggleBookmark(this.props.content.url)
+    if (this.props.onToggleBookmark) {
+      this.props.onToggleBookmark(this.props.content.content.url)
+    }
   }
 
   private onToggleFollow = () => {
     this.swipeRowRef.current.closeRow()
     if (this.props.onToggleFollow) {
-      this.props.onToggleFollow(this.props.content.creator)
+      this.props.onToggleFollow(this.props.content.liker)
     }
   }
 
@@ -98,21 +109,22 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private onPress = () => {
-    if (this.props.onPress) this.props.onPress(this.props.content.url)
+    if (this.props.onPress) {
+      this.props.onPress(this.props.content.content.url)
+    }
   }
 
   private onPressUndoButton = () => {
     if (this.props.onPressUndoUnfollowButton) {
-      this.props.onPressUndoUnfollowButton(this.props.content.creator)
+      this.props.onPressUndoUnfollowButton(this.props.content.liker)
     }
   }
 
   render() {
     const {
       isBookmarked,
-      isFollowingCreator,
       isLoading,
-    } = this.props.content
+    } = this.props.content.content
 
     if (isLoading) {
       return (
@@ -122,10 +134,10 @@ export class ContentListItem extends React.Component<Props, State> {
         />
       )
     } else if (
-      this.props.content.creator &&
+      this.props.content.liker &&
       this.props.onPressUndoUnfollowButton &&
       this.isPrevFollow &&
-      !isFollowingCreator
+      !this.props.content.liker.isFollowing
     ) {
       return this.renderUndo()
     }
@@ -139,9 +151,9 @@ export class ContentListItem extends React.Component<Props, State> {
         onRowClose={this.onRowClose}
       >
         <ContentListItemBack
-          isShowFollowToggle={!!this.props.content.creator}
+          isShowFollowToggle={!!this.props.content.liker}
           isBookmarked={isBookmarked}
-          isFollowingCreator={isFollowingCreator}
+          isFollowingCreator={this.props.content.liker.isFollowing}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
         />
@@ -161,7 +173,7 @@ export class ContentListItem extends React.Component<Props, State> {
       likeCount,
       coverImageURL,
       normalizedTitle,
-    } = content
+    } = content.content
 
     const rootStyle = {
       ...Style.Root,
@@ -186,7 +198,7 @@ export class ContentListItem extends React.Component<Props, State> {
                 color="likeGreen"
                 size="default"
                 weight="600"
-                text={content.creatorDisplayName}
+                text={content.content.creatorDisplayName}
               />
               <Text
                 color="grey4a"
@@ -202,7 +214,7 @@ export class ContentListItem extends React.Component<Props, State> {
                 style={Style.IMAGE_VIEW}
               />
             }
-            {content.isBookmarked &&
+            {content.content.isBookmarked &&
               this.props.isShowBookmarkIcon &&
               this.renderBookmarkFlag()
             }
@@ -225,7 +237,7 @@ export class ContentListItem extends React.Component<Props, State> {
               }
             </View>
             <View style={Style.BOTTOM_BUTTON_CONTAINER}>
-              {this.renderBookmarkButton(content.isBookmarked)}
+              {this.renderBookmarkButton(content.content.isBookmarked)}
               {this.renderMoreButton()}
             </View>
           </View>
@@ -290,7 +302,7 @@ export class ContentListItem extends React.Component<Props, State> {
         <View style={Style.UndoTextWrapper}>
           <Text
             text={translate("common.unfollowSuccess", {
-              creator: this.props.content.creator.displayName
+              creator: this.props.content.liker.displayName
             })}
             weight="600"
             color="grey9b"

@@ -139,3 +139,16 @@ export type UserAppMetaResult = {
   }
 
 } | GeneralApiProblem
+
+export interface SuperLikeResult {
+  id: string
+  liker: string
+  likee: string
+  ts: number
+  url: string
+}
+
+export type SuperLikedFeedResult = {
+  kind: "ok",
+  data: SuperLikeResult[],
+} | GeneralApiProblem

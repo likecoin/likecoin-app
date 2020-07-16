@@ -118,7 +118,7 @@ class ReaderScreenBase extends React.Component<Props> {
         hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
         lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
         onFetchMore={this.props.readerStore.fetchMoreFollowedList}
-        onPressUndoButton={this.props.onPressUndoButton}
+        onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
         onPressItem={this.props.onPressContentItem}
         onToggleBookmark={this.props.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}

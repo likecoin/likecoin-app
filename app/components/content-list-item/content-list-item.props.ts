@@ -2,6 +2,10 @@ import { ViewStyle } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
+import { Creator } from "../../models/creator"
+import {
+  SuperLikedContent,
+} from "../../models/super-liked-content"
 
 export interface ContentListItemStyleProps {
   /**
@@ -25,9 +29,7 @@ export interface ContentListItemStyleProps {
   skeletonSecondaryColor?: string
 }
 
-export interface ContentListItemProps extends ContentListItemStyleProps {
-  content: Content
-
+export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   /**
    * Set to false to hide the bookmark icon. Default is true.
    */
@@ -51,12 +53,12 @@ export interface ContentListItemProps extends ContentListItemStyleProps {
   /**
    * A callback when the follow button is pressed.
    */
-  onToggleFollow?: (content: Content) => void
+  onToggleFollow?: (creator: Creator) => void
 
   /**
    * A callback when the undo button is pressed.
    */
-  onPressUndoButton?: (content: Content) => void
+  onPressUndoUnfollowButton?: (creator: Creator) => void
 
   /**
    * A callback when the list item is swiped to open.
@@ -67,4 +69,12 @@ export interface ContentListItemProps extends ContentListItemStyleProps {
    * A callback when the list item is swiped to close.
    */
   onSwipeClose?: (key: string) => void
+}
+
+export interface ContentListItemProps extends ContentListItemBaseProps {
+  content: Content
+}
+
+export interface SuperLikedContentListItemProps extends ContentListItemBaseProps {
+  content: SuperLikedContent
 }
