@@ -324,7 +324,7 @@ export const ReaderStoreModel = types
             superLike.content = self.contents.get(url)
             if (!superLike.content) {
               superLike.content = ContentModel.create({ url })
-              self.contents.put(superLike)
+              self.contents.put(superLike.content)
               if (likee) {
                 superLike.content.creator = self.createCreatorFromLikerId(likee)
               }
