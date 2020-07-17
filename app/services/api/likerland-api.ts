@@ -139,6 +139,30 @@ export class LikerLandAPI {
   }
 
   /**
+   * Fetch a list of Super Liked content from followed authors
+   */
+  async fetchReaderFollowedSuperLike({ before }: { before?: number } = {}): Promise<Types.SuperLikedContentListResult> {
+    const response: ApiResponse<any> = await this.apisauce.get("/reader/superlike/followed", { before })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        if (problem.kind === "forbidden") {
+          this.config.onUnauthenticated(response.originalError)
+        }
+        return problem
+      }
+    }
+
+    try {
+      const data: Types.SuperLikedContent[] = response.data.list
+      return { kind: "ok", data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
    * Fetch a list of bookmarked content
    */
   async fetchReaderBookmark(): Promise<Types.BookmarkListResult> {

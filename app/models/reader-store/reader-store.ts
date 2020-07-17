@@ -8,13 +8,13 @@ import {
 
 import {
   ContentModel,
-  ContentsGroupedByDay,
 } from "../content"
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
 import {
   SuperLikedContent,
   SuperLikedContentModel,
+  SuperLikedContentsGroupedByDay,
 } from "../super-liked-content"
 
 import {
@@ -24,6 +24,7 @@ import {
   GeneralResult,
   ReaderCreatorsResult,
   SuperLikedFeedResult,
+  SuperLikedContentListResult,
 } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
 import moment from "moment"
@@ -48,6 +49,7 @@ export const ReaderStoreModel = types
     followedList: ContentList,
     bookmarkList: ContentList,
     globalSuperLikedFeed: types.array(types.late(() => SuperLikedContentModel)),
+    followedSuperLikedFeed: types.array(types.late(() => SuperLikedContentModel)),
     followingCreators: types.array(types.safeReference(CreatorModel)),
     unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
@@ -60,7 +62,7 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
-    followedListGroups: {} as ContentsGroupedByDay,
+    followedSuperLikedFeedSections: {} as SuperLikedContentsGroupedByDay,
     isFetchingBookmarkList: false,
     hasFetchedBookmarkList: false,
     globalSuperLikedFeedStatus: "unfetch" as FetchStatus,
@@ -78,7 +80,7 @@ export const ReaderStoreModel = types
       self.isFetchingMoreFollowedList = false
       self.hasReachedEndOfFollowedList = false
       self.followedSet = new Set<string>()
-      self.followedListGroups = {} as ContentsGroupedByDay
+      self.followedSuperLikedFeedSections = {} as SuperLikedContentsGroupedByDay
       self.isFetchingBookmarkList = false
       self.hasFetchedBookmarkList = false
       self.globalSuperLikedFeedStatus = "unfetch"
@@ -128,16 +130,6 @@ export const ReaderStoreModel = types
       if (!self.followedSet.has(content.url)) {
         self.followedSet.add(content.url)
         self.followedList.push(content)
-
-        // NOTE: `content.timestamp` could be in the future
-        const dayTs = moment(Math.min(content.timestamp, Date.now()))
-          .startOf('day')
-          .valueOf()
-          .toString()
-        if (!self.followedListGroups[dayTs]) {
-          self.followedListGroups[dayTs] = []
-        }
-        self.followedListGroups[dayTs].push(content)
       }
     },
     getContentByURL(url: string) {
@@ -183,7 +175,6 @@ export const ReaderStoreModel = types
           case "ok":
             self.followedSet = new Set()
             self.followedList.replace([])
-            self.followedListGroups = {}
             result.data.forEach(self.handleFollowedContentResultData)
         }
       } catch (error) {
@@ -213,6 +204,79 @@ export const ReaderStoreModel = types
         logError(error.message)
       } finally {
         self.isFetchingMoreFollowedList = false
+      }
+    }),
+    fetchFollowedSuperLikedFeed: flow(function * (options: {
+      isMore?: boolean
+    } = {}) {
+      self.isFetchingFollowedList = true
+      try {
+        const result: SuperLikedContentListResult =
+          yield self.env.likerLandAPI.fetchReaderFollowedSuperLike({
+            before: options.isMore
+              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
+              : undefined
+          })
+
+        if (result.kind === "ok") {
+          if (!options.isMore) {
+            self.followedSuperLikedFeedSections = {}
+          }
+
+          const superLikedContents: SuperLikedContent[] = []
+          result.data.forEach(({
+            superLikeID,
+            url,
+            liker,
+            user: likee,
+            ts,
+          }) => {
+            const superLikedContent = SuperLikedContentModel.create({
+              id: superLikeID,
+              timestamp: ts,
+            })
+
+            superLikedContent.liker = self.createCreatorFromLikerId(liker)
+
+            // Find content reference for this Super Like
+            superLikedContent.content = self.contents.get(url)
+            if (!superLikedContent.content) {
+              superLikedContent.content = ContentModel.create({ url })
+              self.contents.put(superLikedContent.content)
+              if (likee) {
+                superLikedContent.content.creator = self.createCreatorFromLikerId(likee)
+              }
+            }
+
+            const dayTs = moment(Math.min(superLikedContent.timestamp, Date.now()))
+              .startOf('day')
+              .valueOf()
+              .toString()
+            if (!self.followedSuperLikedFeedSections[dayTs]) {
+              self.followedSuperLikedFeedSections[dayTs] = []
+            }
+            self.followedSuperLikedFeedSections[dayTs].push(superLikedContent)
+
+            superLikedContents.push(superLikedContent)
+          })
+
+          if (options.isMore) {
+            if (superLikedContents.length) {
+              self.followedSuperLikedFeed.push(...superLikedContents)
+            } else {
+              self.hasReachedEndOfFollowedList = true
+            }
+          } else {
+            self.followedSuperLikedFeed.replace(superLikedContents)
+          }
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        self.isFetchingFollowedList = false
+        self.hasFetchedFollowedList = true
+        self.followedListLastFetchedDate = new Date()
+        self.hasReachedEndOfFollowedList = false
       }
     }),
     fetchBookmarkList: flow(function * () {

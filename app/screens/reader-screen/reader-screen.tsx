@@ -13,6 +13,7 @@ import { Button } from "../../components/button"
 import {
   ContentList,
   ContentListSectionHeader,
+  SuperLikedContentList,
 } from "../../components/content-list"
 import {
   wrapContentListScreen,
@@ -20,6 +21,9 @@ import {
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
+import {
+  SuperLikedContent,
+} from "../../models/super-liked-content"
 import { UserStore } from "../../models/user-store"
 
 import { translate } from "../../i18n"
@@ -30,10 +34,16 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 }))
 @observer
 class ReaderScreenBase extends React.Component<Props> {
-  list = React.createRef<ContentList>()
+  legacyList = React.createRef<ContentList>()
+
+  superLikeList = React.createRef<SuperLikedContentList>()
 
   componentDidMount() {
-    this.list.current.props.onRefresh()
+    if (this.props.currentUser.isSuperLiker) {
+      this.superLikeList.current.props.onRefresh()
+    } else {
+      this.legacyList.current.props.onRefresh()
+    }
     this.props.readerStore.fetchCreatorList()
     this.props.readerStore.fetchBookmarkList()
   }
@@ -51,11 +61,11 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   private reduceGroupToSections = (
-    sections: ReaderSectionListData[],
+    sections: ReaderSectionListData<SuperLikedContent>[],
     dayTs: string
   ) => {
     sections.push({
-      data: this.props.readerStore.followedListGroups[dayTs],
+      data: this.props.readerStore.followedSuperLikedFeedSections[dayTs],
       key: dayTs,
       title: this.getSectionTitle(dayTs)
     })
@@ -63,13 +73,17 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   private get sections() {
-    if (!this.props.readerStore.followedListGroups) {
+    if (!this.props.readerStore.followedSuperLikedFeedSections) {
       return []
     }
-    return Object.keys(this.props.readerStore.followedListGroups)
+    return Object.keys(this.props.readerStore.followedSuperLikedFeedSections)
       .sort()
       .reverse()
       .reduce(this.reduceGroupToSections, [])
+  }
+
+  private fetchMoreSuperLikedFeed = () => {
+    this.props.readerStore.fetchFollowedSuperLikedFeed({ isMore: true })
   }
 
   private onPressGlobalIcon = () => {
@@ -98,7 +112,10 @@ class ReaderScreenBase extends React.Component<Props> {
             </Button>
           )}
         />
-        {this.renderList()}
+        {this.props.currentUser.isSuperLiker
+          ? this.renderSuperLikedList()
+          : this.renderList()
+        }
       </Screen>
     )
   }
@@ -106,7 +123,7 @@ class ReaderScreenBase extends React.Component<Props> {
   private renderSectionHeader = ({
     section: { title },
   }: {
-    section: ReaderSectionListData
+    section: ReaderSectionListData<SuperLikedContent>
   }) => {
     return (
       <ContentListSectionHeader text={title} />
@@ -116,8 +133,8 @@ class ReaderScreenBase extends React.Component<Props> {
   private renderList = () => {
     return (
       <ContentList
-        ref={this.list}
-        sections={this.sections}
+        ref={this.legacyList}
+        data={this.props.readerStore.followedList}
         creators={this.props.readerStore.creators}
         isLoading={this.props.readerStore.isFetchingFollowedList}
         isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
@@ -130,6 +147,28 @@ class ReaderScreenBase extends React.Component<Props> {
         onToggleBookmark={this.props.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
         onRefresh={this.props.readerStore.fetchFollowingList}
+        style={Style.List}
+      />
+    )
+  }
+
+  private renderSuperLikedList = () => {
+    return (
+      <SuperLikedContentList
+        ref={this.superLikeList}
+        sections={this.sections}
+        creators={this.props.readerStore.creators}
+        isLoading={this.props.readerStore.isFetchingFollowedList}
+        isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
+        hasFetched={this.props.readerStore.hasFetchedFollowedList}
+        hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
+        lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
+        onFetchMore={this.fetchMoreSuperLikedFeed}
+        onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
+        onPressItem={this.props.onPressContentItem}
+        onToggleBookmark={this.props.onToggleBookmark}
+        onToggleFollow={this.props.onToggleFollow}
+        onRefresh={this.props.readerStore.fetchFollowedSuperLikedFeed}
         renderSectionHeader={this.renderSectionHeader}
         style={Style.List}
       />

@@ -24,6 +24,11 @@ export interface Content {
   ts?: number,
 }
 
+export interface SuperLikedContent extends Content {
+  superLikeID: string
+  liker?: string
+}
+
 export interface LikeStat {
   total: number,
   totalLiker: number,
@@ -51,6 +56,10 @@ export type LikeStatResult = { kind: "ok"; data: LikeStat } | GeneralApiProblem
 
 export type ReaderCreatorsResult = { kind: "ok"; following: string[], unfollowed: string[] } | GeneralApiProblem
 export type ContentListResult = { kind: "ok"; data: Content[] } | GeneralApiProblem
+export type SuperLikedContentListResult = {
+  kind: "ok"
+  data: SuperLikedContent[]
+} | GeneralApiProblem
 export type BookmarkListResult = { kind: "ok"; data: string[] } | GeneralApiProblem
 
 export interface StatisticsSupportedCreatorResult {

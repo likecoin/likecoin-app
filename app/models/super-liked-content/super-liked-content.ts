@@ -23,3 +23,7 @@ type SuperLikedContentType = Instance<typeof SuperLikedContentModel>
 export interface SuperLikedContent extends SuperLikedContentType {}
 type SuperLikedContentSnapshotType = SnapshotOut<typeof SuperLikedContentModel>
 export interface SuperLikedContentSnapshot extends SuperLikedContentSnapshotType {}
+
+export interface SuperLikedContentsGroupedByDay {
+  [dayTs: string]: SuperLikedContent[]
+}
