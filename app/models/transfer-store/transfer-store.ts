@@ -1,4 +1,5 @@
 import {
+  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
@@ -48,6 +49,9 @@ export const TransferStoreModel = TxStoreModel
     }
 
     return {
+      reset() {
+        applySnapshot(self, {})
+      },
       setReceiver(receiver: string) {
         self.setTarget(receiver)
         self.liker = null

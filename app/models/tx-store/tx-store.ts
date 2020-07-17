@@ -1,4 +1,5 @@
 import {
+  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
@@ -67,6 +68,9 @@ export const TxStoreModel = types
     },
   }))
   .actions(self => ({
+    reset() {
+      applySnapshot(self, {})
+    },
     setError: (error: Error) => {
       const errorMessage = error.message || error.toString()
       self.errorMessage = translateWithFallbackText(`error.${errorMessage}`, errorMessage)

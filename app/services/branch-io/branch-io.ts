@@ -8,7 +8,7 @@ export class BranchIO {
 
   private appReferrer: string
 
-  private isClickedBranchLink: boolean
+  private isClickedBranchLink = false
 
   private handleAppReferrerEvent(params: any) {
     if (!params) return undefined
