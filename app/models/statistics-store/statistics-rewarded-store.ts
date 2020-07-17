@@ -1,4 +1,5 @@
 import {
+  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
@@ -56,6 +57,9 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
     },
   }))
   .actions(self => ({
+    reset() {
+      applySnapshot(self, {})
+    },
     fetchSummary: flow(function * () {
       try {
         const result: StatisticsRewardedSummaryResult =

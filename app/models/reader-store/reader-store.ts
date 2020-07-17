@@ -1,9 +1,9 @@
 import {
+  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
   types,
-  applySnapshot,
 } from "mobx-state-tree"
 
 import {

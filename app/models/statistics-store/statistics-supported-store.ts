@@ -1,4 +1,5 @@
 import {
+  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
@@ -45,6 +46,9 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
     },
   }))
   .actions(self => ({
+    reset() {
+      applySnapshot(self, {})
+    },
     fetchWeek: flow(function * (
       startDate: Moment,
       options?: StatisticsStoreFetchWeekOptions
