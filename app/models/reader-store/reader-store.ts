@@ -23,9 +23,8 @@ import {
   Content as ContentResultData,
   GeneralResult,
   ReaderCreatorsResult,
-  SuperLikedFeedResult,
-  SuperLikedContentListResult,
 } from "../../services/api/api.types"
+import * as LikerLandTypes from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 import moment from "moment"
 
@@ -211,8 +210,8 @@ export const ReaderStoreModel = types
     } = {}) {
       self.isFetchingFollowedList = true
       try {
-        const result: SuperLikedContentListResult =
-          yield self.env.likerLandAPI.fetchReaderFollowedSuperLike({
+        const result: LikerLandTypes.SuperLikeFeedResult =
+          yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed({
             before: options.isMore
               ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
               : undefined
@@ -363,22 +362,23 @@ export const ReaderStoreModel = types
       if (self.globalSuperLikedFeedStatus === "fetching") return
       self.globalSuperLikedFeedStatus = "fetching"
       try {
-        const result: SuperLikedFeedResult = yield self.env.likeCoAPI.fetchGlobalSuperLikedFeed({
-          before: options.isMore
-            ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
-            : undefined
-        })
+        const result: LikerLandTypes.SuperLikeFeedResult =
+          yield self.env.likerLandAPI.fetchReaderSuperLikeGlobalFeed({
+            before: options.isMore
+              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
+              : undefined
+          })
         if (result.kind === "ok") {
           const superLikes: SuperLikedContent[] = []
           result.data.forEach(({
-            id,
+            superLikeID,
             url,
             liker,
-            likee,
+            user,
             ts,
           }) => {
             const superLike = SuperLikedContentModel.create({
-              id,
+              id: superLikeID,
               timestamp: ts,
             })
 
@@ -389,8 +389,8 @@ export const ReaderStoreModel = types
             if (!superLike.content) {
               superLike.content = ContentModel.create({ url })
               self.contents.put(superLike.content)
-              if (likee) {
-                superLike.content.creator = self.createCreatorFromLikerId(likee)
+              if (user) {
+                superLike.content.creator = self.createCreatorFromLikerId(user)
               }
             }
 

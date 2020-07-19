@@ -340,42 +340,4 @@ export class LikeCoAPI {
       return { kind: "bad-data" }
     }
   }
-
-  async fetchGlobalSuperLikedFeed(options: {
-    before?: number
-    limit?: number
-  } = {}): Promise<Types.SuperLikedFeedResult> {
-    const { before, limit } = options
-    const response: ApiResponse<any> = await this.apisauce.get(
-      '/like/share/latest',
-      {
-        before,
-        limit,
-      }
-    )
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    try {
-      return {
-        kind: "ok",
-        data: response.data.list.map((data: Types.SuperLikeResult) => {
-          if (
-            !data.id ||
-            !data.liker ||
-            !data.url ||
-            !data.ts
-          ) {
-            throw new Error("BAD_DATA")
-          }
-          return data
-        }),
-      }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
 }

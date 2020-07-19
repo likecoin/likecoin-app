@@ -2,6 +2,7 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import * as LikerLandTypes from "./likerland-api.types"
 
 /**
  * liker.land API.
@@ -139,10 +140,39 @@ export class LikerLandAPI {
   }
 
   /**
-   * Fetch a list of Super Liked content from followed authors
+   * Fetch Super Like feed from all likers
    */
-  async fetchReaderFollowedSuperLike({ before }: { before?: number } = {}): Promise<Types.SuperLikedContentListResult> {
-    const response: ApiResponse<any> = await this.apisauce.get("/reader/superlike/followed", { before })
+  async fetchReaderSuperLikeGlobalFeed({
+    before,
+  }: {
+    before?: number
+  } = {}): Promise<LikerLandTypes.SuperLikeFeedResult> {
+    const response: ApiResponse<any> =
+      await this.apisauce.get("/reader/superlike/latest", { before })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const data: LikerLandTypes.SuperLikeFeed = response.data.list
+      return { kind: "ok", data }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
+   * Fetch a list of Super Like feed from following likers
+   */
+  async fetchReaderSuperLikeFollowingFeed({
+    before,
+  }: {
+    before?: number
+  } = {}): Promise<LikerLandTypes.SuperLikeFeedResult> {
+    const response: ApiResponse<any> =
+      await this.apisauce.get("/reader/superlike/followed", { before })
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -155,7 +185,7 @@ export class LikerLandAPI {
     }
 
     try {
-      const data: Types.SuperLikedContent[] = response.data.list
+      const data: LikerLandTypes.SuperLikeFeed = response.data.list
       return { kind: "ok", data }
     } catch {
       return { kind: "bad-data" }
