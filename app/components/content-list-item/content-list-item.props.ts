@@ -2,10 +2,34 @@ import { ViewStyle } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
+import { Creator } from "../../models/creator"
+import {
+  SuperLikedContent,
+} from "../../models/super-liked-content"
 
-export interface ContentListItemProps {
-  content: Content
+export interface ContentListItemStyleProps {
+  /**
+   * The background color of the list item. Default is white.
+   */
+  backgroundColor?: string
 
+  /**
+   * The color of the underlay that will show through when the touch is active on the list item.
+   */
+  underlayColor?: string
+
+  /**
+   * The primary color of the skeleton for loading.
+   */
+  skeletonPrimaryColor?: string
+
+  /**
+   * The secondary color of the skeleton for loading.
+   */
+  skeletonSecondaryColor?: string
+}
+
+export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   /**
    * Set to false to hide the bookmark icon. Default is true.
    */
@@ -29,12 +53,12 @@ export interface ContentListItemProps {
   /**
    * A callback when the follow button is pressed.
    */
-  onToggleFollow?: (content: Content) => void
+  onToggleFollow?: (creator: Creator) => void
 
   /**
    * A callback when the undo button is pressed.
    */
-  onPressUndoButton?: (content: Content) => void
+  onPressUndoUnfollowButton?: (creator: Creator) => void
 
   /**
    * A callback when the list item is swiped to open.
@@ -45,4 +69,12 @@ export interface ContentListItemProps {
    * A callback when the list item is swiped to close.
    */
   onSwipeClose?: (key: string) => void
+}
+
+export interface ContentListItemProps extends ContentListItemBaseProps {
+  content: Content
+}
+
+export interface SuperLikedContentListItemProps extends ContentListItemBaseProps {
+  content: SuperLikedContent
 }

@@ -40,7 +40,9 @@ export class Header extends React.Component<HeaderProps, {}> {
       onLeftPress,
       onRightPress,
       rightIcon,
+      rightView,
       leftIcon,
+      leftView,
       headerText,
       headerTx,
       titleStyle,
@@ -56,7 +58,9 @@ export class Header extends React.Component<HeaderProps, {}> {
             onPress={onLeftPress}
           />
         ) : (
-          <View style={LEFT} />
+          <View style={LEFT}>
+            {leftView}
+          </View>
         )}
         <View style={TITLE_MIDDLE}>
           <Text
@@ -72,7 +76,9 @@ export class Header extends React.Component<HeaderProps, {}> {
             onPress={onRightPress}
           />
         ) : (
-          <View style={RIGHT} />
+          <View style={RIGHT}>
+            {rightView}
+          </View>
         )}
       </View>
     )

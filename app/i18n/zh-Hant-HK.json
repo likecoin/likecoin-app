@@ -36,6 +36,10 @@
       "other": "{{count}} 個讚"
     }
   },
+  "Date": {
+    "Today": "今天",
+    "Yesterday": "昨天"
+  },
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",
@@ -65,11 +69,15 @@
       "Unfollowed": "已取消追踪"
     }
   },
+  "GlobalSuperLikedFeedScreen": {
+    "Title": "所有已 Super Like 的內容"
+  },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
     "showMyQRCode": "我的二維碼"
   },
   "readerScreen": {
+    "Title": "Reading",
     "emptyLabel": "沒有內容",
     "followingLabel": "你的追蹤列表"
   },

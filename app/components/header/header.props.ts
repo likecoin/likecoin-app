@@ -23,6 +23,11 @@ export interface HeaderProps {
   onLeftPress?(): void
 
   /**
+   * Custom view that should appear on the right
+   */
+  leftView?: React.ReactNode
+
+  /**
    * Icon that should appear on the right
    */
   rightIcon?: IconTypes
@@ -31,6 +36,11 @@ export interface HeaderProps {
    * What happens when you press the right icon
    */
   onRightPress?(): void
+
+  /**
+   * Custom view that should appear on the right
+   */
+  rightView?: React.ReactNode
 
   /**
    * Container style overrides.

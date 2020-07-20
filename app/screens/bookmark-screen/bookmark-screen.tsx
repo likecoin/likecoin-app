@@ -1,35 +1,24 @@
 import * as React from "react"
-import { inject, observer } from "mobx-react"
 
-import { BookmarkScreenProps as Props } from "./bookmark-screen.props"
-import { BookmarkScreenStyle as Style } from "./bookmark-screen.style"
+import {
+  BookmarkScreenProps as Props,
+} from "./bookmark-screen.props"
+import {
+  BookmarkScreenStyle as Style,
+} from "./bookmark-screen.style"
 
-import { Header } from "../../components/header"
 import { ContentList } from "../../components/content-list"
+import {
+  wrapContentListScreen,
+} from "../../components/content-list-screen"
+import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
-import { Content } from "../../models/content"
-
-@inject("readerStore")
-@observer
-export class BookmarkScreen extends React.Component<Props> {
+class BookmarkScreenBase extends React.Component<Props> {
   componentDidMount() {
     if (!this.props.readerStore.hasFetchedBookmarkList) {
       this.props.readerStore.fetchBookmarkList()
     }
-  }
-
-  private onToggleBookmark = (url: string) => {
-    this.props.readerStore.toggleBookmark(url)
-  }
-
-  private onToggleFollow = (content: Content) => {
-    this.props.readerStore.toggleFollow(content.creator.likerID)
-  }
-
-  private onPressContentItem = (id: string) => {
-    const content = this.props.readerStore.contents.get(id)
-    this.props.navigation.navigate('ContentView', { content })
   }
 
   render() {
@@ -45,9 +34,9 @@ export class BookmarkScreen extends React.Component<Props> {
           hasFetched={this.props.readerStore.hasFetchedBookmarkList}
           isLoading={this.props.readerStore.isFetchingBookmarkList}
           isShowBookmarkIcon={false}
-          onPressItem={this.onPressContentItem}
-          onToggleBookmark={this.onToggleBookmark}
-          onToggleFollow={this.onToggleFollow}
+          onPressItem={this.props.onPressContentItem}
+          onToggleBookmark={this.props.onToggleBookmark}
+          onToggleFollow={this.props.onToggleFollow}
           onRefresh={this.props.readerStore.fetchBookmarkList}
           style={Style.List}
         />
@@ -55,3 +44,7 @@ export class BookmarkScreen extends React.Component<Props> {
     )
   }
 }
+
+export const BookmarkScreen = wrapContentListScreen(
+  BookmarkScreenBase
+)

@@ -314,4 +314,30 @@ export class LikeCoAPI {
 
     return { kind: "ok" }
   }
+
+  async getMySuperLikeStatus(timezone: string, options: {
+    url?: string
+  } = {}): Promise<Types.SuperLikeStatusResult> {
+    const response: ApiResponse<any> = await this.apisauce.get(
+      '/like/share/self',
+      {
+        tz: timezone,
+        referrer: options.url,
+      }
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return {
+        kind: "ok",
+        data: response.data,
+      }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
 }

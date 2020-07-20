@@ -13,7 +13,7 @@ import { observer } from "mobx-react"
 import { SwipeRow } from "react-native-swipe-list-view"
 
 import {
-  ContentListProps as Props,
+  SuperLikedContentListProps as Props,
 } from "./content-list.props"
 import {
   ContentListStyle as Style,
@@ -21,20 +21,23 @@ import {
 } from "./content-list.style"
 
 import {
-  ContentListItem,
   ContentListItemSkeleton,
+  SuperLikedContentListItem,
 } from "../content-list-item"
-import { Text } from "../../components/text"
+import { Text } from "../text"
 
-import { Content } from "../../models/content"
+import {
+  SuperLikedContent,
+} from "../../models/super-liked-content"
 
-const ContentSectionList: SectionListStatic<Content> = SectionListBase
+const ContentSectionList: SectionListStatic<SuperLikedContent> = SectionListBase
 
 @observer
-export class ContentList extends React.Component<Props> {
+export class SuperLikedContentList extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
-  private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
+  private keyExtractor = (content: SuperLikedContent) =>
+    `${this.props.lastFetched}${content.content.url}`
 
   private onEndReach = () => {
     if (
@@ -70,7 +73,7 @@ export class ContentList extends React.Component<Props> {
       return this.renderSections()
     }
     return (
-      <FlatList<Content>
+      <FlatList<SuperLikedContent>
         data={this.props.data}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderContent}
@@ -128,8 +131,8 @@ export class ContentList extends React.Component<Props> {
     />
   )
 
-  private renderContent: ListRenderItem<Content> = ({ item: content }) => (
-    <ContentListItem
+  private renderContent: ListRenderItem<SuperLikedContent> = ({ item: content }) => (
+    <SuperLikedContentListItem
       content={content}
       isShowBookmarkIcon={this.props.isShowBookmarkIcon}
       backgroundColor={this.props.backgroundColor}

@@ -3,9 +3,15 @@ import {
   ViewStyle,
 } from "react-native"
 
-import { color } from "../../theme"
+import {
+  color,
+  spacing,
+} from "../../theme"
 
 export const ReaderScreenStyle = StyleSheet.create({
+  GlobalIcon: {
+    marginRight: spacing[3],
+  } as ViewStyle,
   List: {
     backgroundColor: color.palette.white,
   } as ViewStyle,
