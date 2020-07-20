@@ -35,6 +35,8 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
 
   verifySignInRetryCount = 0
 
+  isVerifyingSignIn = false
+
   hasHandledRedirect = false
 
   private handleError = async () => {
@@ -79,8 +81,10 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   }
 
   private verifySignIn = async () => {
-    if (this.hasHandledRedirect) return
+    if (this.hasHandledRedirect || this.isVerifyingSignIn) return
+    this.isVerifyingSignIn = true
     await this.props.rootStore.userStore.fetchLikerLandUserInfo({ isSlient: true })
+    this.isVerifyingSignIn = false
     if (this.hasHandledRedirect) return
     if (this.props.rootStore.userStore.currentUser) {
       this.handlePostSignIn()
