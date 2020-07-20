@@ -27,6 +27,10 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
     this.props.readerStore.fetchGlobalSuperLikedFeed({ isMore: true })
   }
 
+  private goBack = () => {
+    this.props.navigation.goBack()
+  }
+
   render() {
     return (
       <Screen
@@ -36,7 +40,7 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
         <Header
           headerTx="GlobalSuperLikedFeedScreen.Title"
           leftIcon="back"
-          onLeftPress={this.props.navigation.goBack}
+          onLeftPress={this.goBack}
         />
         {this.renderList()}
       </Screen>
