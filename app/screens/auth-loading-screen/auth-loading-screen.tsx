@@ -37,7 +37,6 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
           this.props.userStore.authCore.fetchCurrentUser(),
           this.props.userStore.fetchUserInfo(),
           this.props.userStore.fetchUserAppMeta(),
-          this.props.userStore.getMySuperLikeStatus(),
           this.props.userStore.fetchLikerLandUserInfo(),
         ])
         // Restore IAP if neccessary

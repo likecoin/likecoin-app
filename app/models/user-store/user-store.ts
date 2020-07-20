@@ -179,7 +179,6 @@ export const UserStoreModel = types
           isCivicLiker,
         })
       } else {
-        self.currentUser.likerID = likerID
         self.currentUser.displayName = displayName
         self.currentUser.email = email
         self.currentUser.avatarURL = avatarURL
@@ -189,15 +188,26 @@ export const UserStoreModel = types
   }))
   .actions(self => ({
     fetchUserInfo: flow(function * () {
-      const result: UserResult = yield self.env.likeCoAPI.fetchCurrentUserInfo()
-      switch (result.kind) {
+      const timezone = (new Date().getTimezoneOffset() / -60).toString()
+      const [
+        userResult,
+        superLikeStatusResult
+      ]: [
+        UserResult,
+        SuperLikeStatusResult,
+      ] = yield Promise.all([
+        self.env.likeCoAPI.fetchCurrentUserInfo(),
+        self.env.likeCoAPI.getMySuperLikeStatus(timezone)
+      ])
+
+      switch (userResult.kind) {
         case "ok": {
           const {
             user: likerID,
             displayName,
             email,
-          } = result.data
-          self.updateUserFromResultData(result.data)
+          } = userResult.data
+          self.updateUserFromResultData(userResult.data)
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
@@ -215,6 +225,24 @@ export const UserStoreModel = types
             authCoreUserId,
             userPIISalt,
           })
+
+          switch (superLikeStatusResult.kind) {
+            case "ok":
+              const {
+                isSuperLiker,
+                canSuperLike,
+                nextSuperLikeTs = -1,
+                cooldown = 0,
+              } = superLikeStatusResult.data
+              self.currentUser.isSuperLiker = !!isSuperLiker
+              self.currentUser.canSuperLike = !!canSuperLike
+              self.currentUser.nextSuperLikeTimestamp = nextSuperLikeTs
+              self.currentUser.superLikeCooldown = cooldown
+              break
+
+            default:
+              throwProblem(superLikeStatusResult)
+          }
           break
         }
         case "unauthorized": {
@@ -302,29 +330,6 @@ export const UserStoreModel = types
     generateUserAppReferralLink: flow(function * () {
       const url = yield self.env.branchIO.generateAppReferralLink(self.currentUser.likerID)
       self.userAppReferralLink = url
-    }),
-    getMySuperLikeStatus: flow(function * () {
-      const timezone = (new Date().getTimezoneOffset() / -60).toString()
-      const result: SuperLikeStatusResult =
-        yield self.env.likeCoAPI.getMySuperLikeStatus(timezone)
-
-      switch (result.kind) {
-        case "ok":
-          const {
-            isSuperLiker,
-            canSuperLike,
-            nextSuperLikeTs = -1,
-            cooldown = 0,
-          } = result.data
-          self.currentUser.isSuperLiker = !!isSuperLiker
-          self.currentUser.canSuperLike = !!canSuperLike
-          self.currentUser.nextSuperLikeTimestamp = nextSuperLikeTs
-          self.currentUser.superLikeCooldown = cooldown
-          break
-
-        default:
-          throwProblem(result)
-      }
     }),
   }))
 
