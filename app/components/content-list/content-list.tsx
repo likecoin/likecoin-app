@@ -162,7 +162,13 @@ export class ContentList extends React.Component<Props> {
 
     return (
       <View>
-        {[...Array(7)].map((_, i) => <ContentListItemSkeleton key={`${i}`} />)}
+        {[...Array(7)].map((_, i) => (
+          <ContentListItemSkeleton
+            key={`${i}`}
+            primaryColor={this.props.skeletonPrimaryColor}
+            secondaryColor={this.props.skeletonSecondaryColor}
+          />
+        ))}
       </View>
     )
   }
@@ -170,7 +176,10 @@ export class ContentList extends React.Component<Props> {
   private renderFooter = () => {
     return this.props.isFetchingMore ? (
       <View style={Style.Footer}>
-        <ContentListItemSkeleton />
+        <ContentListItemSkeleton
+          primaryColor={this.props.skeletonPrimaryColor}
+          secondaryColor={this.props.skeletonSecondaryColor}
+        />
       </View>
     ) : null
   }
