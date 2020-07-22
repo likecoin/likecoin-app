@@ -4,8 +4,8 @@ import {
   types,
 } from "mobx-state-tree"
 
-import { ContentModel } from "../content"
-import { CreatorModel } from "../creator"
+import { ContentModel, Content } from "../content"
+import { CreatorModel, Creator } from "../creator"
 
 /**
  * Super Liked Content
@@ -16,8 +16,16 @@ export const SuperLikedContentModel = types
     id: types.identifier,
     content: types.safeReference(types.late(() => ContentModel)),
     liker: types.safeReference(types.late(() => CreatorModel)),
-    timestamp: types.number,
+    timestamp: types.maybe(types.number),
   })
+  .actions(self => ({
+    setContent(content: Content) {
+      self.content = content
+    },
+    setLiker(liker: Creator) {
+      self.liker = liker
+    },
+  }))
 
 type SuperLikedContentType = Instance<typeof SuperLikedContentModel>
 export interface SuperLikedContent extends SuperLikedContentType {}
