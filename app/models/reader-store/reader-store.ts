@@ -131,6 +131,36 @@ export const ReaderStoreModel = types
         self.followedList.push(content)
       }
     },
+    parseSuperLikeFeedItemToModel({
+      superLikeID,
+      url,
+      referrer,
+      liker,
+      user: likee,
+      ts,
+    }: LikerLandTypes.SuperLikeFeedItem) {
+      const superLike = SuperLikedContentModel.create({
+        id: superLikeID,
+        timestamp: ts,
+      })
+
+      superLike.setLiker(this.createCreatorFromLikerId(liker))
+
+      // Find content reference for this Super Like
+      const contentURL = referrer || url
+      let content = self.contents.get(contentURL)
+      if (!content) {
+        content = ContentModel.create({ url: contentURL })
+        self.contents.put(content)
+        if (likee) {
+          content.creator = this.createCreatorFromLikerId(likee)
+        }
+      }
+
+      superLike.setContent(content)
+
+      return superLike
+    },
     getContentByURL(url: string) {
       if (url) {
         return this.parseContentResult({ url })
@@ -213,7 +243,7 @@ export const ReaderStoreModel = types
         const result: LikerLandTypes.SuperLikeFeedResult =
           yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed({
             before: options.isMore
-              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
+              ? self.followedSuperLikedFeed[self.followedSuperLikedFeed.length - 1].timestamp - 1
               : undefined
           })
 
@@ -223,29 +253,8 @@ export const ReaderStoreModel = types
           }
 
           const superLikedContents: SuperLikedContent[] = []
-          result.data.forEach(({
-            superLikeID,
-            url,
-            liker,
-            user: likee,
-            ts,
-          }) => {
-            const superLikedContent = SuperLikedContentModel.create({
-              id: superLikeID,
-              timestamp: ts,
-            })
-
-            superLikedContent.liker = self.createCreatorFromLikerId(liker)
-
-            // Find content reference for this Super Like
-            superLikedContent.content = self.contents.get(url)
-            if (!superLikedContent.content) {
-              superLikedContent.content = ContentModel.create({ url })
-              self.contents.put(superLikedContent.content)
-              if (likee) {
-                superLikedContent.content.creator = self.createCreatorFromLikerId(likee)
-              }
-            }
+          result.data.forEach(data => {
+            const superLikedContent = self.parseSuperLikeFeedItemToModel(data)
 
             const dayTs = moment(Math.min(superLikedContent.timestamp, Date.now()))
               .startOf('day')
@@ -267,6 +276,7 @@ export const ReaderStoreModel = types
             }
           } else {
             self.followedSuperLikedFeed.replace(superLikedContents)
+            self.hasReachedEndOfFollowedList = false
           }
         }
       } catch (error) {
@@ -275,7 +285,6 @@ export const ReaderStoreModel = types
         self.isFetchingFollowedList = false
         self.hasFetchedFollowedList = true
         self.followedListLastFetchedDate = new Date()
-        self.hasReachedEndOfFollowedList = false
       }
     }),
     fetchBookmarkList: flow(function * () {
@@ -365,36 +374,13 @@ export const ReaderStoreModel = types
         const result: LikerLandTypes.SuperLikeFeedResult =
           yield self.env.likerLandAPI.fetchReaderSuperLikeGlobalFeed({
             before: options.isMore
-              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
+              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length - 1].timestamp - 1
               : undefined
           })
         if (result.kind === "ok") {
           const superLikes: SuperLikedContent[] = []
-          result.data.forEach(({
-            superLikeID,
-            url,
-            liker,
-            user,
-            ts,
-          }) => {
-            const superLike = SuperLikedContentModel.create({
-              id: superLikeID,
-              timestamp: ts,
-            })
-
-            superLike.liker = self.createCreatorFromLikerId(liker)
-
-            // Find content reference for this Super Like
-            superLike.content = self.contents.get(url)
-            if (!superLike.content) {
-              superLike.content = ContentModel.create({ url })
-              self.contents.put(superLike.content)
-              if (user) {
-                superLike.content.creator = self.createCreatorFromLikerId(user)
-              }
-            }
-
-            superLikes.push(superLike)
+          result.data.forEach(data => {
+            superLikes.push(self.parseSuperLikeFeedItemToModel(data))
           })
 
           if (options.isMore) {
