@@ -82,9 +82,9 @@
     "ButtonTitle": "More"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓讀者追縱自己的更新。趕快邀請朋友下載 Liker Land 吧！",
-    "HeaderTitle": "推薦奬賞",
-    "Title": "推薦愈多，奬金愈多"
+    "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards, and accumulate your followers number as well.  Let's share now!",
+    "HeaderTitle": "Referral Bonus",
+    "Title": "Share and Earn More Rewards "
   },
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
