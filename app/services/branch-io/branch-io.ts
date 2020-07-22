@@ -1,5 +1,17 @@
 import branch from "react-native-branch"
 
+type BUOParam = {
+  contentImageUrl: string;
+  contentMetadata: {
+    customMetadata: {
+      event: string;
+      referrer: string;
+    }
+  };
+  title?: string;
+  contentDescription?: string;
+}
+
 export class BranchIO {
   /**
    * The config object
@@ -76,17 +88,27 @@ export class BranchIO {
     return branch.getFirstReferringParams()
   }
 
-  async generateAppReferralLink(userId: string) {
+  async generateAppReferralLink(userId: string, {
+    description,
+    title,
+  }: {
+    description?: string,
+    title?: string,
+  } = {}) {
     if (!userId) return ''
-    const appReferralBUO = await branch.createBranchUniversalObject(
-      `app_referral/${userId}`, {
-        contentMetadata: {
-          customMetadata: {
-            event: "app_referral",
-            referrer: userId,
-          }
+    const payload: BUOParam = {
+      contentImageUrl: 'https://static.like.co/og/app/referral.png',
+      contentMetadata: {
+        customMetadata: {
+          event: "app_referral",
+          referrer: userId,
         }
       }
+    }
+    if (title) payload.title = title
+    if (description) payload.contentDescription = description
+    const appReferralBUO = await branch.createBranchUniversalObject(
+      `app_referral/${userId}`, payload
     )
     const linkProperties = {
       feature: "share",

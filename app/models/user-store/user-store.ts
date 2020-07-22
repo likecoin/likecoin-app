@@ -13,6 +13,7 @@ import { UserAppMetaModel } from "../user-app-meta"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
+import { translate } from "../../i18n"
 import {
   updateAnalyticsUser,
   logoutAnalyticsUser,
@@ -291,7 +292,15 @@ export const UserStoreModel = types
       if (appReferrer) yield self.env.likerLandAPI.followLiker(appReferrer)
     }),
     generateUserAppReferralLink: flow(function * () {
-      const url = yield self.env.branchIO.generateAppReferralLink(self.currentUser.likerID)
+      const url = yield self.env.branchIO.generateAppReferralLink(
+        self.currentUser.likerID, {
+          title: translate(
+            "ReferralScreen.OgTitle",
+            { displayName: self.currentUser.displayName },
+          ),
+          description: translate("ReferralScreen.OgDescription")
+        }
+      )
       self.userAppReferralLink = url
     })
   }))
