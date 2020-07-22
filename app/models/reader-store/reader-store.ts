@@ -243,7 +243,7 @@ export const ReaderStoreModel = types
         const result: LikerLandTypes.SuperLikeFeedResult =
           yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed({
             before: options.isMore
-              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
+              ? self.followedSuperLikedFeed[self.followedSuperLikedFeed.length - 1].timestamp - 1
               : undefined
           })
 
@@ -276,6 +276,7 @@ export const ReaderStoreModel = types
             }
           } else {
             self.followedSuperLikedFeed.replace(superLikedContents)
+            self.hasReachedEndOfFollowedList = false
           }
         }
       } catch (error) {
@@ -284,7 +285,6 @@ export const ReaderStoreModel = types
         self.isFetchingFollowedList = false
         self.hasFetchedFollowedList = true
         self.followedListLastFetchedDate = new Date()
-        self.hasReachedEndOfFollowedList = false
       }
     }),
     fetchBookmarkList: flow(function * () {
@@ -374,7 +374,7 @@ export const ReaderStoreModel = types
         const result: LikerLandTypes.SuperLikeFeedResult =
           yield self.env.likerLandAPI.fetchReaderSuperLikeGlobalFeed({
             before: options.isMore
-              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length].timestamp
+              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length - 1].timestamp - 1
               : undefined
           })
         if (result.kind === "ok") {
