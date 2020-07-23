@@ -92,7 +92,9 @@
   "ReferralScreen": {
     "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards, and accumulate your followers number as well.  Let's share now!",
     "HeaderTitle": "Referral Bonus",
-    "Title": "Share and Earn More Rewards "
+    "Title": "Share and Earn More Rewards ",
+    "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
+    "OgDescription": "Follow your favourite creators and media, enjoy the best content."
   },
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
