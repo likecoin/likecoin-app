@@ -82,7 +82,8 @@
   "readerScreen": {
     "Title": "Reading",
     "emptyLabel": "沒有內容",
-    "followingLabel": "你的追蹤列表"
+    "followingLabel": "你的追蹤列表",
+    "SuperLikeFromLabel": "%{liker} 分享了"
   },
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"

@@ -83,7 +83,8 @@
   "readerScreen": {
     "Title": "Reading",
     "emptyLabel": "No content",
-    "followingLabel": "Your following list"
+    "followingLabel": "Your following list",
+    "SuperLikeFromLabel": "%{liker} shared"
   },
   "receiveScreen": {
     "shareYourAddress": "Share your address"

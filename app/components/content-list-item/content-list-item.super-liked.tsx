@@ -20,6 +20,7 @@ import BookmarkIcon from "./bookmark.svg"
 
 import { Button } from "../button"
 import { Icon } from "../icon"
+import { I18n } from "../i18n"
 import { Text } from "../text"
 
 import { translate } from "../../i18n"
@@ -170,7 +171,6 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
     } = this.props
 
     const {
-      likeCount,
       coverImageURL,
       normalizedTitle,
     } = content.content
@@ -194,12 +194,18 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
         <View>
           <View style={Style.ROW}>
             <View style={Style.DETAIL_VIEW}>
-              <Text
-                color="likeGreen"
-                size="default"
-                weight="600"
-                text={content.content.creatorDisplayName}
-              />
+              <I18n
+                tx="readerScreen.SuperLikeFromLabel"
+                style={Style.SharedLabel}
+              >
+                <Text
+                  color="likeGreen"
+                  size="default"
+                  weight="600"
+                  text={content.liker.displayName}
+                  place="liker"
+                />
+              </I18n>
               <Text
                 color="grey4a"
                 size="medium"
@@ -221,20 +227,11 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
           </View>
           <View style={Style.FOOTER}>
             <View>
-              {likeCount > 0 &&
-                <Text
-                  text={translate("ContentListItem.likeStatsLabel", { count: likeCount })}
-                  size="medium"
-                  prepend={(
-                    <Icon
-                      name="like-clap"
-                      width={24}
-                      color="grey9b"
-                    />
-                  )}
-                  color="grey9b"
-                />
-              }
+              <Text
+                text={content.content.creatorDisplayName}
+                size="small"
+                color="grey9b"
+              />
             </View>
             <View style={Style.BOTTOM_BUTTON_CONTAINER}>
               {this.renderBookmarkButton(content.content.isBookmarked)}
