@@ -37,7 +37,7 @@ export class SuperLikedContentList extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
   private keyExtractor = (content: SuperLikedContent) =>
-    `${this.props.lastFetched}${content.content.url}`
+    `${this.props.lastFetched}${content.id}`
 
   private onEndReach = () => {
     if (
