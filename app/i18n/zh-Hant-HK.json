@@ -80,7 +80,7 @@
     "showMyQRCode": "我的二維碼"
   },
   "readerScreen": {
-    "Title": "Reading",
+    "Title": "閱讀列表",
     "emptyLabel": "沒有內容",
     "followingLabel": "你的追蹤列表",
     "SuperLikeFromLabel": "%{liker} 分享了"
