@@ -142,7 +142,7 @@ export const ReaderStoreModel = types
       const superLike = SuperLikedContentModel.create({
         id: superLikeID,
         timestamp: ts,
-      })
+      }, self.env)
 
       superLike.setLiker(this.createCreatorFromLikerId(liker))
 

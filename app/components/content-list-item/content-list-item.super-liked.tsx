@@ -111,7 +111,7 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
 
   private onPress = () => {
     if (this.props.onPress) {
-      this.props.onPress(this.props.content.content.url)
+      this.props.onPress(this.props.content)
     }
   }
 

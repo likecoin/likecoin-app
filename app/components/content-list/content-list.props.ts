@@ -28,7 +28,6 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
    */
   isShowBookmarkIcon?: boolean
 
-  onPressItem?: (url: string) => void
   onToggleBookmark?: (url: string) => void
   onToggleFollow?: (creator: Creator) => void
   onPressUndoUnfollowButton?: (creator: Creator) => void
@@ -52,6 +51,8 @@ export interface ContentListProps extends ContentListBaseProps {
   renderSectionHeader?: (info: {
     section: SectionListData<Content>,
   }) => React.ReactElement | null
+
+  onPressItem?: (url: string) => void
 }
 
 export interface SuperLikedContentListProps extends ContentListBaseProps {
@@ -68,4 +69,6 @@ export interface SuperLikedContentListProps extends ContentListBaseProps {
   renderSectionHeader?: (info: {
     section: SectionListData<SuperLikedContent>,
   }) => React.ReactElement | null
+
+  onPressItem?: (superLike: SuperLikedContent) => void
 }

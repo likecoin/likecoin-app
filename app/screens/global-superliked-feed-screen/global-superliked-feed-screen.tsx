@@ -63,7 +63,7 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
         skeletonSecondaryColor={color.palette.greyBlue}
         onFetchMore={this.fetchMore}
         onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
-        onPressItem={this.props.onPressContentItem}
+        onPressItem={this.props.onPressSuperLikeItem}
         onToggleBookmark={this.props.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
         onRefresh={this.props.readerStore.fetchGlobalSuperLikedFeed}
