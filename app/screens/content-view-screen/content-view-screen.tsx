@@ -7,6 +7,7 @@ import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
 import { Content } from "../../models/content"
+import { SuperLikedContent } from "../../models/super-liked-content"
 
 import { color } from "../../theme"
 import { logError } from "../../utils/error"
@@ -17,22 +18,31 @@ import { COMMON_API_CONFIG } from "../../services/api/api-config"
 const FULL: ViewStyle = { flex: 1 }
 
 export interface ContentViewNavigationStateParams {
-  content: Content
+  content?: Content
+  superLike?: SuperLikedContent
 }
 export interface ContentViewScreenProps extends NavigationScreenProps<ContentViewNavigationStateParams> {}
 
 export class ContentViewScreen extends React.Component<ContentViewScreenProps, {}> {
   componentDidMount() {
-    const { content } = this.props.navigation.state.params
-    if (!content.hasFetchedDetails) {
-      content.fetchDetails()
+    if (!this.content.hasFetchedDetails) {
+      this.content.fetchDetails()
     }
   }
 
   componentWillUnmount() {
     // Update like count incase user has liked the content
-    const { content } = this.props.navigation.state.params
-    content.fetchLikeStat()
+    this.content.fetchLikeStat()
+  }
+
+  get content() {
+    const { content, superLike } = this.props.navigation.state.params
+    return superLike ? superLike.content : content
+  }
+
+  get url() {
+    const { content, superLike } = this.props.navigation.state.params
+    return superLike ? superLike.redirectURL : content.url
   }
 
   private goBack = () => {
@@ -40,7 +50,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
   }
 
   private onShare = async () => {
-    const { url } = this.props.navigation.state.params.content
+    const { url } = this
     logAnalyticsEvent('share', { contentType: 'content', itemId: url })
     try {
       await Share.share(Platform.OS === "ios" ? { url } : { message: url })
@@ -50,7 +60,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
   }
 
   render() {
-    const { content } = this.props.navigation.state.params
+    const { content, url } = this
     return (
       <Screen
         preset="fixed"
@@ -67,7 +77,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
         <WebView
           style={FULL}
           sharedCookiesEnabled={true}
-          source={{ uri: content.url }}
+          source={{ uri: url }}
           decelerationRate={0.998}
           // TODO: remove HACK after applicationNameForUserAgent type is fixed
           {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}

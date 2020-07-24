@@ -41,11 +41,6 @@ export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   style?: ViewStyle
 
   /**
-   * A callback when the item is pressed.
-   */
-  onPress?: (url: string) => void
-
-  /**
    * A callback when the bookmark button is pressed.
    */
   onToggleBookmark?: (url: string) => void
@@ -73,8 +68,18 @@ export interface ContentListItemBaseProps extends ContentListItemStyleProps {
 
 export interface ContentListItemProps extends ContentListItemBaseProps {
   content: Content
+
+  /**
+   * A callback when the item is pressed.
+   */
+  onPress?: (url: string) => void
 }
 
 export interface SuperLikedContentListItemProps extends ContentListItemBaseProps {
   content: SuperLikedContent
+
+  /**
+   * A callback when the item is pressed.
+   */
+  onPress?: (item: SuperLikedContent) => void
 }

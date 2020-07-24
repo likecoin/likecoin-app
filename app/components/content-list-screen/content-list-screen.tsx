@@ -6,6 +6,7 @@ import {
 } from "./content-list-screen.props"
 
 import { Creator } from "../../models/creator"
+import { SuperLikedContent } from "../../models/super-liked-content"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
@@ -19,6 +20,12 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
       logAnalyticsEvent('select_content', { contentType: 'content', itemId: url })
       logAnalyticsEvent('OpenArticle', { url })
       this.props.navigation.navigate('ContentView', { content })
+    }
+
+    onPressSuperLikeItem = (item: SuperLikedContent) => {
+      logAnalyticsEvent('select_content', { contentType: 'content', itemId: item.content.url })
+      logAnalyticsEvent('OpenArticle', { url: item.content.url })
+      this.props.navigation.navigate('ContentView', { superLike: item })
     }
 
     onPressUndoUnfollowButton = (creator: Creator) => {
@@ -46,6 +53,7 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
         <ObservedComponent
           {...this.props as P}
           onPressContentItem={this.onPressContentItem}
+          onPressSuperLikeItem={this.onPressSuperLikeItem}
           onPressUndoUnfollowButton={this.onPressUndoUnfollowButton}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
