@@ -14,7 +14,7 @@ export const ContentListItemStyle = StyleSheet.create({
   BOOKMARK_FLAG: {
     position: "absolute",
     top: -spacing[1],
-    right: spacing[0],
+    right: BASE_HORIZONTAL_PADDING,
     width: 32,
     height: 32,
     alignItems: "flex-end",
