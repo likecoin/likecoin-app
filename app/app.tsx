@@ -4,7 +4,13 @@
 
 import { translate } from "./i18n"
 import * as React from "react"
-import { Alert, AppRegistry, Linking, YellowBox } from "react-native"
+import {
+  Alert,
+  AppRegistry,
+  Linking,
+  Platform,
+  YellowBox,
+} from "react-native"
 import { enableScreens } from "react-native-screens"
 import { mapping, light as lightTheme } from '@eva-design/eva'
 import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten'
@@ -22,7 +28,9 @@ import { LoadingScreen } from "./components/loading-screen"
 import { SaveToBookmarkScreen } from "./screens/save-to-bookmark-screen"
 import { StorybookUIRoot } from "../storybook"
 
-enableScreens()
+if (Platform.OS === "ios") {
+  enableScreens()
+}
 
 /**
  * Ignore some yellowbox warnings. Some of these are for deprecated functions
