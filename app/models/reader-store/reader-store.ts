@@ -30,6 +30,8 @@ import moment from "moment"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
 
+const SLOT_HOURS = 12
+
 type FetchStatus =
   "unfetch" |
   "fetching" |
@@ -68,6 +70,16 @@ export const ReaderStoreModel = types
     globalSuperLikedFeedLastFetchedDate: new Date(),
   }))
   .extend(withEnvironment)
+  .views(() => ({
+    calcaluteSlotStartingTimestamp(timestamp: number) {
+      const date = moment(timestamp)
+      const noon = moment(date).startOf("day").add(SLOT_HOURS, "hours")
+      return (date.isBefore(noon) ? date.startOf("day") : noon).valueOf()
+    },
+    getCurrentSlotStartingTimestamp() {
+      return this.calcaluteSlotStartingTimestamp(Date.now())
+    },
+  }))
   .actions(self => ({
     reset() {
       applySnapshot(self, {})
@@ -242,9 +254,11 @@ export const ReaderStoreModel = types
       try {
         const result: LikerLandTypes.SuperLikeFeedResult =
           yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed({
-            before: options.isMore
-              ? self.followedSuperLikedFeed[self.followedSuperLikedFeed.length - 1].timestamp - 1
-              : undefined
+            before: (
+              options.isMore
+                ? self.followedSuperLikedFeed[self.followedSuperLikedFeed.length - 1].timestamp
+                : self.getCurrentSlotStartingTimestamp()
+            ) - 1
           })
 
         if (result.kind === "ok") {
@@ -256,8 +270,10 @@ export const ReaderStoreModel = types
           result.data.forEach(data => {
             const superLikedContent = self.parseSuperLikeFeedItemToModel(data)
 
-            const dayTs = moment(Math.min(superLikedContent.timestamp, Date.now()))
-              .startOf('day')
+            const timestamp = Math.min(superLikedContent.timestamp, Date.now())
+            const dayTs = moment(self.calcaluteSlotStartingTimestamp(timestamp))
+              .add(SLOT_HOURS, "hours")
+              .startOf("day")
               .valueOf()
               .toString()
             if (!self.followedSuperLikedFeedSections[dayTs]) {
@@ -373,9 +389,10 @@ export const ReaderStoreModel = types
       try {
         const result: LikerLandTypes.SuperLikeFeedResult =
           yield self.env.likerLandAPI.fetchReaderSuperLikeGlobalFeed({
-            before: options.isMore
-              ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length - 1].timestamp - 1
-              : undefined
+            before:
+              options.isMore
+                ? self.globalSuperLikedFeed[self.globalSuperLikedFeed.length - 1].timestamp - 1
+                : undefined
           })
         if (result.kind === "ok") {
           const superLikes: SuperLikedContent[] = []
