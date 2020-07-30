@@ -38,9 +38,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   hasHandledRedirect = false
 
   private handleError = async () => {
-    await this.props.rootStore.userStore.logout()
-    this.props.rootStore.userStore.setIsSigningIn(false)
-    this.props.navigation.goBack()
+    this.props.rootStore.signOut()
   }
 
   private handlePostSignIn = async () => {
