@@ -14,10 +14,7 @@ import { inject } from "mobx-react"
 import { Style } from "./likerland-oauth-screen.style"
 
 import { LikeCoinWebView } from "../../components/likecoin-webview"
-import { LoadingLikeCoin } from "../../components/loading-likecoin"
-import { Screen } from "../../components/screen"
-
-import { color } from "../../theme"
+import { LoadingScreen } from "../../components/loading-screen"
 
 import { RootStore } from "../../models/root-store"
 
@@ -33,9 +30,28 @@ export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
 export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps> {
   redirectTimer?: NodeJS.Timeout
 
+  patientTimer?: NodeJS.Timeout
+
   verifySignInRetryCount = 0
 
   hasHandledRedirect = false
+
+  state = {
+    loadingScreenText: "",
+  }
+
+  componentDidMount() {
+    this.patientTimer = setTimeout(() => {
+      this.setState({
+        loadingScreenText: translate("signInScreen.LoadingTakesLonger"),
+      })
+    }, 5000)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.patientTimer)
+    if (this.redirectTimer) clearTimeout(this.redirectTimer)
+  }
 
   get maxVerifySignInRetryCount() {
     return this.props.rootStore.getNumericConfig("LIKERLAND_SIGNIN_RETRY_COUNT", 5)
@@ -129,34 +145,23 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       signInURL,
     } = this.props.rootStore.userStore
     return (
-      <Screen
-        preset="fixed"
-        backgroundColor={color.primary}
-        style={Style.Screen}
-      >
-        <View style={Style.Overlay}>
+      <React.Fragment>
+        <View style={Style.WebViewWrapper}>
           <LikeCoinWebView
-            style={Style.Webview}
             sharedCookiesEnabled={true}
             source={{ uri: signInURL }}
             // TODO: remove HACK after applicationNameForUserAgent type is fixed
             {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
-            renderError={this.renderLoadingOverlay}
             onNavigationStateChange={this.onNavigationStateChange}
             onError={this.onError}
             onHttpError={this.onHttpError}
           />
-          {this.renderLoadingOverlay()}
         </View>
-      </Screen>
-    )
-  }
-
-  private renderLoadingOverlay = () => {
-    return (
-      <View style={Style.LoadingWrapper}>
-        <LoadingLikeCoin />
-      </View>
+        <LoadingScreen
+          text={this.state.loadingScreenText}
+          style={Style.LoadingScreen}
+        />
+      </React.Fragment>
     )
   }
 }

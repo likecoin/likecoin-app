@@ -1,19 +1,30 @@
 import * as React from "react"
-import { StyleSheet, ViewStyle } from "react-native"
+import {
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
+} from "react-native"
 
-import { Screen } from "../screen"
+import {
+  LoadingScreenStyle as Style,
+} from "./loading-screen.style"
+
 import { LoadingLikeCoin } from "../loading-likecoin"
-import { color } from "../../theme"
+import { Screen } from "../screen"
+import { Text } from "../text"
 
-const FULL: ViewStyle = {
-  flex: 1,
-}
+import { color } from "../../theme"
 
 export interface LoadingScreenProps {
   /**
+   * An optional text to display in the bottom.
+   */
+  text?: string
+
+  /**
    * An optional style override useful for padding & margin.
    */
-  style?: ViewStyle
+  style?: StyleProp<ViewStyle>
 }
 
 /**
@@ -21,7 +32,7 @@ export interface LoadingScreenProps {
  */
 export function LoadingScreen(props: LoadingScreenProps) {
   const { style, ...restProps } = props
-  const rootStyle = StyleSheet.flatten([FULL, style])
+  const rootStyle = StyleSheet.flatten([Style.Screen, style])
   return (
     <Screen
       preset="fixed"
@@ -29,7 +40,13 @@ export function LoadingScreen(props: LoadingScreenProps) {
       style={rootStyle}
       {...restProps}
     >
-      <LoadingLikeCoin style={FULL} />
+      <LoadingLikeCoin style={Style.Animation} />
+      <Text
+        text={props.text}
+        size="default"
+        color="lightCyan"
+        align="center"
+      />
     </Screen>
   )
 }
