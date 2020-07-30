@@ -21,5 +21,12 @@ export const withEnvironment = (self: IStateTreeNode) => ({
     getConfig(key: AppConfigParamKey) {
       return this.env.appConfig.getValue(key)
     },
+
+    /**
+     * Shortcut for getting the app config in number.
+     */
+    getNumericConfig(key: AppConfigParamKey, defaultValue?: number): number {
+      return this.env.appConfig.getNumericValue(key, defaultValue)
+    },
   },
 })

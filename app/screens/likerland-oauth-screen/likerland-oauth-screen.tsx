@@ -37,6 +37,10 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
 
   hasHandledRedirect = false
 
+  get maxVerifySignInRetryCount() {
+    return this.props.rootStore.getNumericConfig("LIKERLAND_SIGNIN_RETRY_COUNT", 5)
+  }
+
   private handleError = async () => {
     this.props.rootStore.signOut()
   }
@@ -82,7 +86,7 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
     if (this.hasHandledRedirect) return
     if (this.props.rootStore.userStore.currentUser) {
       this.handlePostSignIn()
-    } else if (this.verifySignInRetryCount < 5) {
+    } else if (this.verifySignInRetryCount < this.maxVerifySignInRetryCount) {
       this.verifySignInRetryCount += 1
       this.redirectTimer = setTimeout(this.verifySignIn, 1000)
     } else {
