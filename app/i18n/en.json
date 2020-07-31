@@ -94,9 +94,9 @@
     "ButtonTitle": "More"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards, and accumulate your followers number as well.  Let's share now!",
+    "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards, and accumulate your followers number as well. Let's share now!",
     "HeaderTitle": "Referral Bonus",
-    "Title": "Share and Earn More Rewards ",
+    "Title": "Share and Earn More Rewards",
     "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
     "OgDescription": "Follow your favourite creators and media, enjoy the best content."
   },
@@ -124,6 +124,7 @@
     "errorLikeCo": "Error occurs when signing in to like.co",
     "errorLikerLand": "Error occurs when signing in to liker.land",
     "heading": "At Republic of Liker Land, every Like is a reward to creators",
+    "LoadingTakesLonger": "This is taking longer than usual...",
     "signIn": "Sign In",
     "signUp": "Sign Up"
   },
