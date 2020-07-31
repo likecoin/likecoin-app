@@ -75,6 +75,21 @@ export function getGeneralApiProblem(response: ApiResponse<any>): GeneralApiProb
   return null
 }
 
+export function getProblemMessage(problem: GeneralApiProblem) {
+  switch (problem.kind) {
+    case "server":
+    case "bad-data":
+    case "rejected":
+    case "unknown":
+      if (problem.data) {
+        return problem.data
+      }
+      break
+    default:
+  }
+  return problem.kind
+}
+
 export function throwProblem(problem: GeneralApiProblem) {
-  throw new Error(problem.kind.replace('-', '_').toUpperCase())
+  throw new Error(getProblemMessage(problem).replace('-', '_').toUpperCase())
 }
