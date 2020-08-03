@@ -63,14 +63,14 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
-    followedSuperLikedFeedSections: {} as SuperLikedContentsGroupedByDay,
+    followingSuperLikePages: {} as SuperLikedContentsGroupedByDay,
     isFetchingBookmarkList: false,
     hasFetchedBookmarkList: false,
     globalSuperLikedFeedStatus: "unfetch" as FetchStatus,
     globalSuperLikedFeedLastFetchedDate: new Date(),
   }))
   .extend(withEnvironment)
-  .views(() => ({
+  .views(self => ({
     calcaluteSlotStartingTimestamp(timestamp: number) {
       const date = moment(timestamp)
       const noon = moment(date).startOf("day").add(SLOT_HOURS, "hours")
@@ -78,6 +78,12 @@ export const ReaderStoreModel = types
     },
     getCurrentSlotStartingTimestamp() {
       return this.calcaluteSlotStartingTimestamp(Date.now())
+    },
+    get isReachedFollowingSuperLikePageMax() {
+      return (
+        Object.keys(self.followingSuperLikePages).length >=
+        parseInt(self.getConfig("MAX_FOLLOWING_SUPERLIKE_PAGE"))
+      )
     },
   }))
   .actions(self => ({
@@ -91,7 +97,7 @@ export const ReaderStoreModel = types
       self.isFetchingMoreFollowedList = false
       self.hasReachedEndOfFollowedList = false
       self.followedSet = new Set<string>()
-      self.followedSuperLikedFeedSections = {} as SuperLikedContentsGroupedByDay
+      self.followingSuperLikePages = {} as SuperLikedContentsGroupedByDay
       self.isFetchingBookmarkList = false
       self.hasFetchedBookmarkList = false
       self.globalSuperLikedFeedStatus = "unfetch"
@@ -263,11 +269,12 @@ export const ReaderStoreModel = types
 
         if (result.kind === "ok") {
           if (!options.isMore) {
-            self.followedSuperLikedFeedSections = {}
+            self.followingSuperLikePages = {}
           }
 
           const superLikedContents: SuperLikedContent[] = []
-          result.data.forEach(data => {
+          for (let i = 0; i < result.data.length; i++) {
+            const data = result.data[i];
             const superLikedContent = self.parseSuperLikeFeedItemToModel(data)
 
             const timestamp = Math.min(superLikedContent.timestamp, Date.now())
@@ -276,13 +283,16 @@ export const ReaderStoreModel = types
               .startOf("day")
               .valueOf()
               .toString()
-            if (!self.followedSuperLikedFeedSections[dayTs]) {
-              self.followedSuperLikedFeedSections[dayTs] = []
+            if (!self.followingSuperLikePages[dayTs]) {
+              if (self.isReachedFollowingSuperLikePageMax) {
+                continue
+              }
+              self.followingSuperLikePages[dayTs] = []
             }
-            self.followedSuperLikedFeedSections[dayTs].push(superLikedContent)
+            self.followingSuperLikePages[dayTs].push(superLikedContent)
 
             superLikedContents.push(superLikedContent)
-          })
+          }
 
           if (options.isMore) {
             if (superLikedContents.length) {
@@ -395,13 +405,28 @@ export const ReaderStoreModel = types
                 : undefined
           })
         if (result.kind === "ok") {
-          const superLikes: SuperLikedContent[] = []
+          let superLikes: SuperLikedContent[] = []
           result.data.forEach(data => {
             superLikes.push(self.parseSuperLikeFeedItemToModel(data))
           })
 
           if (options.isMore) {
             if (superLikes.length) {
+              const maxFeedItemCount = parseInt(
+                self.getConfig("MAX_GLOBAL_SUPERLIKE_FEED_ITEM"),
+              )
+              if (
+                self.globalSuperLikedFeed.length + superLikes.length >
+                maxFeedItemCount
+              ) {
+                const itemCountLeft =
+                  maxFeedItemCount - self.globalSuperLikedFeed.length
+                superLikes = superLikes.splice(
+                  superLikes.length - itemCountLeft,
+                  itemCountLeft,
+                )
+                self.globalSuperLikedFeedStatus = "fetched-more"
+              }
               self.globalSuperLikedFeed.push(...superLikes)
             } else {
               self.globalSuperLikedFeedStatus = "fetched-more"

@@ -46,6 +46,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
           <Button
             preset="icon"
             icon="close"
+            color="white"
             isHidden={state !== "waiting"}
             onPress={this.onPressCloseButton}
           />
@@ -81,7 +82,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
             tx="common.viewOnBlockExplorer"
             link={txURL}
             color="likeCyan"
-            size="default"
+            fontSize="default"
             isHidden={!txURL}
             style={STYLE.BLOCK_EXPLORER_BUTTON}
           />

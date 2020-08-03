@@ -8,7 +8,7 @@ import {
 } from "./global-superliked-feed-screen.style"
 
 import {
-  SuperLikedContentList,
+  SuperLikeContentList,
 } from "../../components/content-list"
 import {
   wrapContentListScreen,
@@ -49,7 +49,7 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
 
   private renderList = () => {
     return (
-      <SuperLikedContentList
+      <SuperLikeContentList
         data={this.props.readerStore.globalSuperLikedFeed}
         creators={this.props.readerStore.creators}
         isLoading={this.props.readerStore.globalSuperLikedFeedStatus === "fetching"}
@@ -61,6 +61,7 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
         underlayColor={color.palette.darkerGreen}
         skeletonPrimaryColor={color.palette.darkerGreen}
         skeletonSecondaryColor={color.palette.greyBlue}
+        isShowFollowToggle={true}
         onFetchMore={this.fetchMore}
         onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
         onPressItem={this.props.onPressSuperLikeItem}

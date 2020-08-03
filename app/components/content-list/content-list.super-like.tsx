@@ -22,8 +22,9 @@ import {
 
 import {
   ContentListItemSkeleton,
-  SuperLikedContentListItem,
+  SuperLikeContentListItem,
 } from "../content-list-item"
+import { wrapScrollViewShadow } from "../wrap-scrollview-shadow"
 import { Text } from "../text"
 
 import {
@@ -33,7 +34,7 @@ import {
 const ContentSectionList: SectionListStatic<SuperLikedContent> = SectionListBase
 
 @observer
-export class SuperLikedContentList extends React.Component<Props> {
+class SuperLikeContentListBase extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
   private keyExtractor = (content: SuperLikedContent) =>
@@ -85,6 +86,7 @@ export class SuperLikedContentList extends React.Component<Props> {
         ListFooterComponent={this.renderFooter}
         contentContainerStyle={this.props.data.length > 0 ? null : Style.Full}
         style={[Style.Full, this.props.style]}
+        onScroll={this.props.onScroll}
         onEndReached={this.onEndReach}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
@@ -107,6 +109,7 @@ export class SuperLikedContentList extends React.Component<Props> {
         contentContainerStyle={this.props.sections.length > 0 ? null : Style.Full}
         style={[Style.Full, this.props.style]}
         stickySectionHeadersEnabled={false}
+        onScroll={this.props.onScroll}
         onEndReached={this.onEndReach}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
@@ -132,9 +135,10 @@ export class SuperLikedContentList extends React.Component<Props> {
   )
 
   private renderContent: ListRenderItem<SuperLikedContent> = ({ item: content }) => (
-    <SuperLikedContentListItem
+    <SuperLikeContentListItem
       content={content}
       isShowBookmarkIcon={this.props.isShowBookmarkIcon}
+      isShowFollowToggle={this.props.isShowFollowToggle}
       backgroundColor={this.props.backgroundColor}
       underlayColor={this.props.underlayColor}
       skeletonPrimaryColor={this.props.skeletonPrimaryColor}
@@ -187,3 +191,5 @@ export class SuperLikedContentList extends React.Component<Props> {
     ) : null
   }
 }
+
+export const SuperLikeContentList = wrapScrollViewShadow(SuperLikeContentListBase)

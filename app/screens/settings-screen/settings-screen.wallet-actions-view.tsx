@@ -41,6 +41,7 @@ function NonMemoView(props: Props) {
             key: "scan",
             preset: "icon",
             icon: "qrcode-scan",
+            color: "white",
             style: Style.QRCodeButton,
             onPress: props.onPressQRCodeButton,
           },

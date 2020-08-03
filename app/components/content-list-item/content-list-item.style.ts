@@ -8,13 +8,13 @@ import {
 import { sizes } from "../text/text.sizes"
 import { spacing, color } from "../../theme"
 
-const BASE_HORIZONTAL_PADDING = spacing[5]
+export const DEFAULT_INSET = spacing[5]
 
 export const ContentListItemStyle = StyleSheet.create({
   BOOKMARK_FLAG: {
     position: "absolute",
     top: -spacing[1],
-    right: spacing[0],
+    right: DEFAULT_INSET,
     width: 32,
     height: 32,
     alignItems: "flex-end",
@@ -35,7 +35,7 @@ export const ContentListItemStyle = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: spacing[2],
-    paddingHorizontal: BASE_HORIZONTAL_PADDING,
+    paddingHorizontal: DEFAULT_INSET,
   } as ViewStyle,
   IMAGE_VIEW: {
     flex: 0,
@@ -51,7 +51,7 @@ export const ContentListItemStyle = StyleSheet.create({
   ROW: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: BASE_HORIZONTAL_PADDING,
+    paddingHorizontal: DEFAULT_INSET,
   } as ViewStyle,
   Root: {
     position: "relative",
@@ -61,13 +61,9 @@ export const ContentListItemStyle = StyleSheet.create({
   RootUndo: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: BASE_HORIZONTAL_PADDING,
+    paddingHorizontal: DEFAULT_INSET,
     backgroundColor: color.palette.greyf7,
   } as ViewStyle,
-  SharedLabel: {
-    color: color.palette.grey9b,
-    fontWeight: "500",
-  } as TextStyle,
   Underlay: {
     position: "absolute",
     top: 0,
