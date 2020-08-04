@@ -298,7 +298,7 @@
   },
   "WebsiteSignInScreen": {
     "Alert": {
-      "Title": "正在登入中",
+      "Title": "登入說明",
       "Message": "使用瀏覽器登入你的帳戶。當登入完成後，點「✕」，Liker Land 會記住你的登入狀態。"
     },
     "Item": {
