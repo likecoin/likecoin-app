@@ -1,17 +1,13 @@
-import {
-  SectionListData,
-  ViewStyle,
-} from "react-native"
+import { SectionListData, StyleProp, ViewStyle } from "react-native"
 
-import {
-  ContentListItemStyleProps,
-} from "../content-list-item"
+import { ContentListItemStyleProps } from "../content-list-item"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
+import { SuperLikedContent } from "../../models/super-liked-content"
 import {
-  SuperLikedContent,
-} from "../../models/super-liked-content"
+  WrapScrollViewShadowProps,
+} from "../wrap-scrollview-shadow/wrap-scrollview-shadow.props"
 
 export interface ContentListBaseProps extends ContentListItemStyleProps {
   creators: Map<string, Creator>
@@ -28,13 +24,18 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
    */
   isShowBookmarkIcon?: boolean
 
+  /**
+   * Set to true to show follow toggle. Default is false.
+   */
+  isShowFollowToggle?: boolean
+
   onToggleBookmark?: (url: string) => void
   onToggleFollow?: (creator: Creator) => void
   onPressUndoUnfollowButton?: (creator: Creator) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
 
-  style?: ViewStyle
+  style?: StyleProp<ViewStyle>
 }
 
 export interface ContentListProps extends ContentListBaseProps {
@@ -49,14 +50,16 @@ export interface ContentListProps extends ContentListBaseProps {
    * Rendered at the top of each section.
    */
   renderSectionHeader?: (info: {
-    section: SectionListData<Content>,
+    section: SectionListData<Content>
   }) => React.ReactElement | null
 
   onPressItem?: (url: string) => void
 }
 
-export interface SuperLikedContentListProps extends ContentListBaseProps {
-  data?: SuperLikedContent[]
+export interface SuperLikedContentListProps
+  extends ContentListBaseProps,
+    WrapScrollViewShadowProps {
+  data?: ReadonlyArray<SuperLikedContent>
 
   /**
    * Set this to show content list in sections
@@ -67,7 +70,7 @@ export interface SuperLikedContentListProps extends ContentListBaseProps {
    * Rendered at the top of each section.
    */
   renderSectionHeader?: (info: {
-    section: SectionListData<SuperLikedContent>,
+    section: SectionListData<SuperLikedContent>
   }) => React.ReactElement | null
 
   onPressItem?: (superLike: SuperLikedContent) => void

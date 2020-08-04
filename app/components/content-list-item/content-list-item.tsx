@@ -301,7 +301,7 @@ export class ContentListItem extends React.Component<Props, State> {
         <Button
           preset="plain"
           tx="common.undo"
-          size="default"
+          fontSize="default"
           append={
             <Icon
               name="undo"

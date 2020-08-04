@@ -1,5 +1,5 @@
 import * as React from "react"
-import ReactNativeSvg from 'react-native-svg'
+import ReactNativeSvg from "react-native-svg"
 
 import { IconProps } from "./icon.props"
 import { icons } from "./icons"
@@ -7,12 +7,7 @@ import { icons } from "./icons"
 import { color } from "../../theme"
 
 export function Icon(props: IconProps) {
-  const {
-    name,
-    color: colorName,
-    fill,
-    ...rest
-  } = props
+  const { name, color: colorName, fill, ...rest } = props
   const Svg = icons[name]
 
   // FIXME: SVG is not converted in test
@@ -20,7 +15,7 @@ export function Icon(props: IconProps) {
     return <ReactNativeSvg {...rest} />
   }
 
-  return <Svg fill={fill || color.palette[colorName]} {...rest} />
+  return <Svg fill={fill || color.palette[colorName] || colorName} {...rest} />
 }
 
 Icon.defaultProps = {

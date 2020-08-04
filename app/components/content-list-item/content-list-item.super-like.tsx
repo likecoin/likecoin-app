@@ -1,22 +1,14 @@
 import * as React from "react"
-import {
-  Image,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native"
+import { TouchableHighlight, View, ViewStyle } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
-import ReactNativeSvg from "react-native-svg"
 import { observer } from "mobx-react"
 
-import {
-  SuperLikedContentListItemProps as Props,
-} from "./content-list-item.props"
+import { SuperLikedContentListItemProps as Props } from "./content-list-item.props"
+import { SuperLikeContentListItemStyle as Style } from "./content-list-item.super-like.style"
 import { ContentListItemState as State } from "./content-list-item.state"
-import { ContentListItemStyle as Style } from "./content-list-item.style"
+import { ContentListItemStyle as LegacyStyle } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
-import BookmarkIcon from "./bookmark.svg"
+import { ContentListItemBack } from "./content-list-item.back"
 
 import { Button } from "../button"
 import { Icon } from "../icon"
@@ -25,10 +17,9 @@ import { Text } from "../text"
 
 import { translate } from "../../i18n"
 import { color } from "../../theme"
-import { ContentListItemBack } from "./content-list-item.back"
 
 @observer
-export class SuperLikedContentListItem extends React.Component<Props, State> {
+export class SuperLikeContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
 
   isPrevFollow = this.props.content.liker.isFollowing
@@ -122,10 +113,7 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      isBookmarked,
-      isLoading,
-    } = this.props.content.content
+    const { isBookmarked, isLoading } = this.props.content.content
 
     if (isLoading) {
       return (
@@ -164,19 +152,12 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
   }
 
   private renderFront() {
-    const {
-      backgroundColor,
-      content,
-      style,
-    } = this.props
+    const { backgroundColor, content, style } = this.props
 
-    const {
-      coverImageURL,
-      normalizedTitle,
-    } = content.content
+    const { normalizedTitle } = content.content
 
     const rootStyle = {
-      ...Style.Root,
+      ...LegacyStyle.Root,
       ...style,
       transform: [{ translateX: this.state.offsetX }],
     } as ViewStyle
@@ -191,51 +172,40 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
         style={rootStyle}
         onPress={this.onPress}
       >
-        <View>
-          <View style={Style.ROW}>
-            <View style={Style.DETAIL_VIEW}>
-              <I18n
-                tx="readerScreen.SuperLikeFromLabel"
-                style={Style.SharedLabel}
-              >
-                <Text
-                  color="likeGreen"
-                  size="default"
-                  weight="600"
-                  text={content.liker.displayName}
-                  place="liker"
-                />
-              </I18n>
+        <View style={Style.Inset}>
+          <View style={Style.HeaderView}>
+            <I18n
+              tx="readerScreen.SuperLikeFromLabel"
+              style={Style.ShareByLabel}
+            >
               <Text
-                color="grey4a"
-                size="medium"
+                color="likeGreen"
+                size="default"
                 weight="600"
-                text={normalizedTitle}
-                style={Style.DETAIL_TEXT}
+                text={content.liker.displayName}
+                place="liker"
               />
-            </View>
-            {!!coverImageURL &&
-              <Image
-                source={{ uri: coverImageURL }}
-                style={Style.IMAGE_VIEW}
-              />
-            }
-            {content.content.isBookmarked &&
-              this.props.isShowBookmarkIcon &&
-              this.renderBookmarkFlag()
-            }
+            </I18n>
+            <Button
+              preset="plain"
+              icon="three-dot-horizontal"
+              size="tiny"
+              color="grey4a"
+              style={Style.MoreButton}
+              onPress={this.onPressMoreButton}
+            />
           </View>
-          <View style={Style.FOOTER}>
-            <View>
-              <Text
-                text={content.content.creatorDisplayName}
-                size="small"
-                color="grey9b"
-              />
-            </View>
-            <View style={Style.BOTTOM_BUTTON_CONTAINER}>
+          <Text text={normalizedTitle} style={Style.Title} />
+          <View style={Style.FooterView}>
+            <Text
+              text={content.content.creatorDisplayName}
+              size="small"
+              color="grey9b"
+            />
+            <View style={Style.AccessoryView}>
+              {this.props.isShowFollowToggle &&
+                this.renderFollowToggle(content.liker.isFollowing)}
               {this.renderBookmarkButton(content.content.isBookmarked)}
-              {this.renderMoreButton()}
             </View>
           </View>
         </View>
@@ -243,63 +213,42 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
     )
   }
 
+  private renderFollowToggle(isFollowing: boolean) {
+    const buttonPreset = isFollowing ? "primary" : "secondary"
+    const tx = `common.${isFollowing ? "Following" : "follow"}`
+    return (
+      <Button
+        preset={buttonPreset}
+        size="tiny"
+        tx={tx}
+        style={Style.AccessoryButton}
+        onPress={this.onToggleFollow}
+      />
+    )
+  }
+
   private renderBookmarkButton(isBookmarked: boolean) {
     const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
-    const iconColor = isBookmarked ? "likeCyan" : "grey4a"
+    const buttonPreset = isBookmarked ? "primary" : "secondary"
     return (
-      <TouchableOpacity onPress={this.onToggleBookmark}>
-        <Icon
-          name={iconName}
-          width={24}
-          height={24}
-          color={iconColor}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  private renderMoreButton() {
-    return (
-      <TouchableOpacity
-        style={Style.MORE_BUTTON}
-        onPress={this.onPressMoreButton}
-      >
-        <Icon
-          name="three-dot-horizontal"
-          width={24}
-          height={24}
-          color="grey4a"
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  private renderBookmarkFlag() {
-    if (typeof BookmarkIcon !== "function") {
-      return <ReactNativeSvg style={Style.BOOKMARK_FLAG} />
-    }
-    return (
-      <BookmarkIcon
-        width={24}
-        height={24}
-        style={Style.BOOKMARK_FLAG}
+      <Button
+        preset={buttonPreset}
+        size="tiny"
+        icon={iconName}
+        style={Style.AccessoryButton}
+        onPress={this.onToggleBookmark}
       />
     )
   }
 
   private renderUndo() {
     return (
-      <View style={Style.RootUndo}>
-        <Icon
-          name="seen"
-          fill={color.palette.grey9b}
-          width={24}
-          height={24}
-        />
-        <View style={Style.UndoTextWrapper}>
+      <View style={LegacyStyle.RootUndo}>
+        <Icon name="seen" width={24} height={24} fill={color.palette.grey9b} />
+        <View style={LegacyStyle.UndoTextWrapper}>
           <Text
             text={translate("common.unfollowSuccess", {
-              creator: this.props.content.liker.displayName
+              creator: this.props.content.liker.displayName,
             })}
             weight="600"
             color="grey9b"
@@ -310,17 +259,17 @@ export class SuperLikedContentListItem extends React.Component<Props, State> {
         <Button
           preset="plain"
           tx="common.undo"
-          size="default"
+          fontSize="default"
           append={
             <Icon
               name="undo"
               width={16}
               height={16}
               fill={color.primary}
-              style={Style.UndoButtonIcon}
+              style={LegacyStyle.UndoButtonIcon}
             />
           }
-          style={Style.UndoButton}
+          style={LegacyStyle.UndoButton}
           onPress={this.onPressUndoButton}
         />
       </View>

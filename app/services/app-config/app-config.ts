@@ -26,6 +26,8 @@ import {
   SIGNIN_SCREEN_BGIMAGE_URL,
   STATISTICS_OLDEST_DATE,
   USER_PII_SALT,
+  MAX_GLOBAL_SUPERLIKE_FEED_ITEM,
+  MAX_FOLLOWING_SUPERLIKE_PAGE,
 } from "react-native-dotenv"
 import FastImage from 'react-native-fast-image'
 
@@ -56,6 +58,8 @@ export interface AppConfigParams {
   SIGNIN_SCREEN_BGIMAGE_URL: string
   STATISTICS_OLDEST_DATE: string
   USER_PII_SALT: string
+  MAX_GLOBAL_SUPERLIKE_FEED_ITEM: string
+  MAX_FOLLOWING_SUPERLIKE_PAGE: string
 }
 
 export type AppConfigParamKey = keyof AppConfigParams
@@ -99,6 +103,8 @@ export class AppConfig {
       SIGNIN_SCREEN_BGIMAGE_URL,
       STATISTICS_OLDEST_DATE,
       USER_PII_SALT,
+      MAX_GLOBAL_SUPERLIKE_FEED_ITEM,
+      MAX_FOLLOWING_SUPERLIKE_PAGE,
     }
     this.remoteConfig = RemoteConfigModule()
   }

@@ -36,6 +36,11 @@ export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   isShowBookmarkIcon?: boolean
 
   /**
+   * Set to true to show the follow toggle. Default is false.
+   */
+  isShowFollowToggle?: boolean
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle

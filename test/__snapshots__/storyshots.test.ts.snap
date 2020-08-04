@@ -130,9 +130,8 @@ exports[`Storyshots Button Style Presets 1`] = `
                     "flexDirection": "row",
                     "justifyContent": "center",
                     "minHeight": 44,
+                    "minWidth": 44,
                     "opacity": 1,
-                    "paddingHorizontal": 8,
-                    "paddingVertical": 12,
                   }
                 }
               >
@@ -143,6 +142,7 @@ exports[`Storyshots Button Style Presets 1`] = `
                       "fontFamily": "System",
                       "fontSize": 14,
                       "fontWeight": "bold",
+                      "paddingHorizontal": 8,
                     }
                   }
                 >
@@ -248,9 +248,8 @@ exports[`Storyshots Button Style Presets 1`] = `
                     "flexDirection": "row",
                     "justifyContent": "center",
                     "minHeight": 44,
+                    "minWidth": 44,
                     "opacity": 0.3,
-                    "paddingHorizontal": 8,
-                    "paddingVertical": 12,
                   }
                 }
               >
@@ -261,6 +260,7 @@ exports[`Storyshots Button Style Presets 1`] = `
                       "fontFamily": "System",
                       "fontSize": 14,
                       "fontWeight": "bold",
+                      "paddingHorizontal": 8,
                     }
                   }
                 >
@@ -366,8 +366,8 @@ exports[`Storyshots Button Style Presets 1`] = `
                     "flexDirection": "row",
                     "justifyContent": "center",
                     "minHeight": 44,
+                    "minWidth": 44,
                     "opacity": 1,
-                    "paddingHorizontal": 8,
                     "paddingVertical": 100,
                   }
                 }
@@ -379,6 +379,7 @@ exports[`Storyshots Button Style Presets 1`] = `
                       "fontFamily": "System",
                       "fontSize": 20,
                       "fontWeight": "bold",
+                      "paddingHorizontal": 8,
                     }
                   }
                 >
@@ -2826,7 +2827,9 @@ exports[`Storyshots Header Behavior 1`] = `
                   <View
                     style={
                       Object {
-                        "width": 40,
+                        "alignItems": "flex-start",
+                        "justifyContent": "center",
+                        "width": 60,
                       }
                     }
                   />
@@ -2857,7 +2860,9 @@ exports[`Storyshots Header Behavior 1`] = `
                   <View
                     style={
                       Object {
-                        "width": 40,
+                        "alignItems": "flex-end",
+                        "justifyContent": "center",
+                        "width": 60,
                       }
                     }
                   />
@@ -2962,48 +2967,61 @@ exports[`Storyshots Header Behavior 1`] = `
                   }
                 >
                   <View
-                    accessible={true}
-                    clickable={true}
-                    isTVSelectable={true}
-                    onClick={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "alignItems": "center",
-                        "flexDirection": "row",
+                        "alignItems": "flex-start",
                         "justifyContent": "center",
-                        "opacity": 1,
-                        "padding": 8,
+                        "width": 60,
                       }
                     }
                   >
-                    <RNSVGSvgView
-                      bbHeight={24}
-                      bbWidth={24}
-                      focusable={false}
-                      height={24}
+                    <View
+                      accessible={true}
+                      clickable={true}
+                      isTVSelectable={true}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
                       style={
-                        Array [
-                          Object {
-                            "backgroundColor": "transparent",
-                            "borderWidth": 0,
-                          },
-                          Object {
-                            "flex": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                        ]
+                        Object {
+                          "alignItems": "center",
+                          "borderRadius": 12,
+                          "flexDirection": "row",
+                          "justifyContent": "center",
+                          "minHeight": 44,
+                          "minWidth": 44,
+                          "opacity": 1,
+                          "padding": 8,
+                        }
                       }
-                      width={24}
                     >
-                      <RNSVGGroup />
-                    </RNSVGSvgView>
+                      <RNSVGSvgView
+                        bbHeight={28}
+                        bbWidth={28}
+                        focusable={false}
+                        height={28}
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            Object {
+                              "flex": 0,
+                              "height": 28,
+                              "width": 28,
+                            },
+                          ]
+                        }
+                        width={28}
+                      >
+                        <RNSVGGroup />
+                      </RNSVGSvgView>
+                    </View>
                   </View>
                   <View
                     style={
@@ -3032,7 +3050,9 @@ exports[`Storyshots Header Behavior 1`] = `
                   <View
                     style={
                       Object {
-                        "width": 40,
+                        "alignItems": "flex-end",
+                        "justifyContent": "center",
+                        "width": 60,
                       }
                     }
                   />
@@ -3139,7 +3159,9 @@ exports[`Storyshots Header Behavior 1`] = `
                   <View
                     style={
                       Object {
-                        "width": 40,
+                        "alignItems": "flex-start",
+                        "justifyContent": "center",
+                        "width": 60,
                       }
                     }
                   />
@@ -3168,48 +3190,61 @@ exports[`Storyshots Header Behavior 1`] = `
                     </Text>
                   </View>
                   <View
-                    accessible={true}
-                    clickable={true}
-                    isTVSelectable={true}
-                    onClick={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "alignItems": "center",
-                        "flexDirection": "row",
+                        "alignItems": "flex-end",
                         "justifyContent": "center",
-                        "opacity": 1,
-                        "padding": 8,
+                        "width": 60,
                       }
                     }
                   >
-                    <RNSVGSvgView
-                      bbHeight={24}
-                      bbWidth={24}
-                      focusable={false}
-                      height={24}
+                    <View
+                      accessible={true}
+                      clickable={true}
+                      isTVSelectable={true}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
                       style={
-                        Array [
-                          Object {
-                            "backgroundColor": "transparent",
-                            "borderWidth": 0,
-                          },
-                          Object {
-                            "flex": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                        ]
+                        Object {
+                          "alignItems": "center",
+                          "borderRadius": 12,
+                          "flexDirection": "row",
+                          "justifyContent": "center",
+                          "minHeight": 44,
+                          "minWidth": 44,
+                          "opacity": 1,
+                          "padding": 8,
+                        }
                       }
-                      width={24}
                     >
-                      <RNSVGGroup />
-                    </RNSVGSvgView>
+                      <RNSVGSvgView
+                        bbHeight={28}
+                        bbWidth={28}
+                        focusable={false}
+                        height={28}
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            Object {
+                              "flex": 0,
+                              "height": 28,
+                              "width": 28,
+                            },
+                          ]
+                        }
+                        width={28}
+                      >
+                        <RNSVGGroup />
+                      </RNSVGSvgView>
+                    </View>
                   </View>
                 </View>
               </View>

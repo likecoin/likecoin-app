@@ -142,7 +142,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
                 <Button
                   preset="link"
                   tx="validator.website"
-                  size="default"
+                  fontSize="default"
                   link={validator.website}
                   style={Style.Link}
                   prepend={
@@ -187,7 +187,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
                 preset="link"
                 tx="common.viewOnBlockExplorer"
                 link={validator.blockExplorerURL}
-                size="default"
+                fontSize="default"
                 style={Style.Link}
               />
             </View>

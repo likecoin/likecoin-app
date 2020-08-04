@@ -81,7 +81,7 @@ export class FollowingSettingsListItem extends React.Component<Props> {
           <Button
             color="white"
             tx="common.unfollow"
-            size="default"
+            fontSize="default"
             style={[Style.Right, Style.UnfollowButton]}
             onPress={this.onPressUnfollow}
           />
@@ -108,7 +108,7 @@ export class FollowingSettingsListItem extends React.Component<Props> {
       <Button
         preset="plain"
         tx="common.follow"
-        size="default"
+        fontSize="default"
         style={Style.Right}
         onPress={this.onPressFollow}
       />

@@ -1,5 +1,9 @@
 import * as React from "react"
+import { View, NativeSyntheticEvent } from "react-native"
 import { inject, observer } from "mobx-react"
+import ViewPager, {
+  ViewPagerOnPageSelectedEventData,
+} from "@react-native-community/viewpager"
 import moment from "moment"
 
 import {
@@ -7,23 +11,18 @@ import {
   ReaderSectionListData,
 } from "./reader-screen.props"
 import { ReaderScreenStyle as Style } from "./reader-screen.style"
-import { GlobalIcon } from "./global-icon"
 
 import { Button } from "../../components/button"
+import { Text } from "../../components/text"
 import {
   ContentList,
-  ContentListSectionHeader,
-  SuperLikedContentList,
+  SuperLikeContentList,
 } from "../../components/content-list"
-import {
-  wrapContentListScreen,
-} from "../../components/content-list-screen"
+import { wrapContentListScreen } from "../../components/content-list-screen"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
-import {
-  SuperLikedContent,
-} from "../../models/super-liked-content"
+import { SuperLikedContent } from "../../models/super-liked-content"
 import { UserStore } from "../../models/user-store"
 
 import { translate } from "../../i18n"
@@ -36,11 +35,22 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 class ReaderScreenBase extends React.Component<Props> {
   legacyList = React.createRef<ContentList>()
 
-  superLikeList = React.createRef<SuperLikedContentList>()
+  viewPager = React.createRef<ViewPager>()
+
+  state = {
+    activePageIndex: 0,
+  }
+
+  get superLikeFeedPageTitle() {
+    if (this.sections.length) {
+      return this.sections[this.state.activePageIndex].title
+    }
+    return ""
+  }
 
   componentDidMount() {
     if (this.props.currentUser.isSuperLiker) {
-      this.superLikeList.current.props.onRefresh()
+      this.props.readerStore.fetchFollowedSuperLikedFeed()
     } else {
       this.legacyList.current.props.onRefresh()
     }
@@ -62,21 +72,29 @@ class ReaderScreenBase extends React.Component<Props> {
 
   private reduceGroupToSections = (
     sections: ReaderSectionListData<SuperLikedContent>[],
-    dayTs: string
+    dayTs: string,
   ) => {
     sections.push({
-      data: this.props.readerStore.followedSuperLikedFeedSections[dayTs],
+      data: this.props.readerStore.followingSuperLikePages[dayTs],
       key: dayTs,
-      title: this.getSectionTitle(dayTs)
+      title: this.getSectionTitle(dayTs),
     })
     return sections
   }
 
   private get sections() {
-    if (!this.props.readerStore.followedSuperLikedFeedSections) {
-      return []
+    if (
+      !Object.keys(this.props.readerStore.followingSuperLikePages).length
+    ) {
+      return [
+        {
+          data: [] as SuperLikedContent[],
+          key: "placeholder",
+          title: translate("Date.Today") as string,
+        },
+      ]
     }
-    return Object.keys(this.props.readerStore.followedSuperLikedFeedSections)
+    return Object.keys(this.props.readerStore.followingSuperLikePages)
       .sort()
       .reverse()
       .reduce(this.reduceGroupToSections, [])
@@ -87,46 +105,110 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   private onPressGlobalIcon = () => {
-    logAnalyticsEvent('GoToGlobalSuperLikedFeed')
+    logAnalyticsEvent("GoToGlobalSuperLikedFeed")
     this.props.navigation.navigate("GlobalSuperLikedFeed")
   }
 
+  private onPageSelected = (
+    event: NativeSyntheticEvent<ViewPagerOnPageSelectedEventData>,
+  ) => {
+    const pageIndex = event.nativeEvent.position
+    this.setState({
+      activePageIndex: pageIndex,
+    })
+    // Fetch more when selecting second last page
+    if (pageIndex === this.sections.length - 2) {
+      this.fetchMoreSuperLikedFeed()
+    }
+  }
+
+  private onRefreshSuperLikeFeed = () => {
+    if (this.state.activePageIndex === 0) {
+      this.props.readerStore.fetchFollowedSuperLikedFeed()
+    }
+  }
+
   render() {
+    if (this.props.currentUser.isSuperLiker) {
+      return this.renderSuperLikeScreen()
+    }
     return (
-      <Screen
-        style={Style.Root}
-        preset="fixed"
-      >
-        <Header
-          headerTx="readerScreen.Title"
-          rightView={!this.props.currentUser.isSuperLiker ? null : (
-            <Button
-              preset="icon"
-              onPress={this.onPressGlobalIcon}
-              style={Style.GlobalIcon}
-            >
-              <GlobalIcon
-                width={30}
-                height={24}
-              />
-            </Button>
-          )}
-        />
-        {this.props.currentUser.isSuperLiker
-          ? this.renderSuperLikedList()
-          : this.renderList()
-        }
+      <Screen style={Style.Root} preset="fixed">
+        <Header headerTx="readerScreen.Title" />
+        {this.renderList()}
       </Screen>
     )
   }
 
-  private renderSectionHeader = ({
-    section: { title },
-  }: {
-    section: ReaderSectionListData<SuperLikedContent>
-  }) => {
+  private renderSuperLikeScreen() {
     return (
-      <ContentListSectionHeader text={title} />
+      <Screen style={Style.Root} preset="fixed">
+        <View style={Style.ContentWrapper}>
+          <Header
+            rightView={this.renderHeaderRightView()}
+            style={Style.SuperLikeHeader}
+          >
+            <View style={Style.SuperLikeHeaderMiddleView}>
+              <Button
+                preset="plain"
+                icon="arrow-left"
+                size="small"
+                disabled={
+                  this.state.activePageIndex === this.sections.length - 1
+                }
+                onPress={() => {
+                  this.viewPager.current.setPage(this.state.activePageIndex + 1)
+                }}
+              />
+              <Text
+                text={this.superLikeFeedPageTitle}
+                style={Style.DateLabel}
+              />
+              <Button
+                preset="plain"
+                icon="arrow-right"
+                size="small"
+                disabled={this.state.activePageIndex === 0}
+                onPress={() => {
+                  this.viewPager.current.setPage(this.state.activePageIndex - 1)
+                }}
+              />
+            </View>
+          </Header>
+          <ViewPager
+            ref={this.viewPager}
+            scrollEnabled={false}
+            style={Style.ViewPager}
+            onPageSelected={this.onPageSelected}
+          >
+            {this.sections.map(this.renderSuperLikeFeed)}
+          </ViewPager>
+        </View>
+      </Screen>
+    )
+  }
+
+  private renderHeaderRightView = () => {
+    if (this.state.activePageIndex > 0) {
+      return (
+        <Button
+          preset="plain"
+          color="likeGreen"
+          tx="Date.Today"
+          style={Style.TodayButtonText}
+          onPress={() => {
+            this.viewPager.current.setPage(0)
+          }}
+        />
+      )
+    }
+    return (
+      <Button
+        preset="secondary"
+        icon="global-eye"
+        size="small"
+        onPress={this.onPressGlobalIcon}
+      />
     )
   }
 
@@ -152,30 +234,27 @@ class ReaderScreenBase extends React.Component<Props> {
     )
   }
 
-  private renderSuperLikedList = () => {
+  private renderSuperLikeFeed = (
+    section: ReaderSectionListData<SuperLikedContent>,
+  ) => {
     return (
-      <SuperLikedContentList
-        ref={this.superLikeList}
-        sections={this.sections}
+      <SuperLikeContentList
+        key={section.key}
+        data={section.data}
         creators={this.props.readerStore.creators}
-        isLoading={this.props.readerStore.isFetchingFollowedList}
-        isFetchingMore={this.props.readerStore.isFetchingMoreFollowedList}
+        isFetchingMore={this.props.readerStore.isFetchingFollowedList}
         hasFetched={this.props.readerStore.hasFetchedFollowedList}
         hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
         lastFetched={this.props.readerStore.followedListLastFetchedDate.getTime()}
-        onFetchMore={this.fetchMoreSuperLikedFeed}
         onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
         onPressItem={this.props.onPressSuperLikeItem}
         onToggleBookmark={this.props.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
-        onRefresh={this.props.readerStore.fetchFollowedSuperLikedFeed}
-        renderSectionHeader={this.renderSectionHeader}
-        style={Style.List}
+        onRefresh={this.onRefreshSuperLikeFeed}
+        style={Style.SuperLikeFeed}
       />
     )
   }
 }
 
-export const ReaderScreen = wrapContentListScreen(
-  ReaderScreenBase
-)
+export const ReaderScreen = wrapContentListScreen(ReaderScreenBase)
