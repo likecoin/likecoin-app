@@ -242,6 +242,10 @@ class ReaderScreenBase extends React.Component<Props> {
         key={section.key}
         data={section.data}
         creators={this.props.readerStore.creators}
+        isLoading={
+          // FIXME: Need proper page reload instead of reloading all pages
+          this.state.activePageIndex === 0 && this.props.readerStore.isFetchingFollowedList
+        }
         isFetchingMore={this.props.readerStore.isFetchingFollowedList}
         hasFetched={this.props.readerStore.hasFetchedFollowedList}
         hasFetchedAll={this.props.readerStore.hasReachedEndOfFollowedList}
