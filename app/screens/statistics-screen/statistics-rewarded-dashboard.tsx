@@ -53,9 +53,9 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
       },
       week: {
         days = [] as StatisticsRewardedDay[],
-        likeAmount: weeklyLikeAmount,
-        likeAmountFromCivicLikers: weeklyLikeAmountFromCivicLikers,
-        likeAmountFromCreatorsFund: weeklyLikeAmountFromCreatorsFund,
+        likeAmount: weeklyLikeAmount = 0,
+        likeAmountFromCivicLikers: weeklyLikeAmountFromCivicLikers = 0,
+        likeAmountFromCreatorsFund: weeklyLikeAmountFromCreatorsFund = 0,
         getPeriodText = undefined,
         isFetching = false,
       } = {},

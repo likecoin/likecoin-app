@@ -33,9 +33,9 @@ export class StatisticsSupportedDashbaord extends React.Component<Props> {
         selectedDayOfWeek,
       },
       week: {
-        likeAmount: weekLikeAmount,
-        worksCount: weekWorksCount,
-        creatorsCount: weekCreatorsCount,
+        likeAmount: weekLikeAmount = 0,
+        worksCount: weekWorksCount = 0,
+        creatorsCount: weekCreatorsCount = 0,
         days = [] as StatisticsSupportedDay[],
         startTs = 0,
         getPeriodText = undefined,

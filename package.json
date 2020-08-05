@@ -117,7 +117,7 @@
     "npm-run-all": "4.1.5",
     "patch-package": "6.1.2",
     "postinstall-prepare": "1.0.1",
-    "prettier": "1.18.2",
+    "prettier": "^1.19.1",
     "react-devtools-core": "3.6.3",
     "react-native-dotenv": "^0.2.0",
     "react-native-svg-transformer": "^0.13.0",
@@ -146,7 +146,7 @@
     ]
   },
   "prettier": {
-    "printWidth": 100,
+    "printWidth": 80,
     "semi": false,
     "singleQuote": false,
     "trailingComma": "all"
@@ -154,11 +154,11 @@
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "extends": [
-      "prettier",
+      "standard",
       "plugin:@typescript-eslint/recommended",
       "plugin:react/recommended",
       "plugin:react-native/all",
-      "standard"
+      "prettier"
     ],
     "parserOptions": {
       "ecmaFeatures": {
