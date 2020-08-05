@@ -95,6 +95,9 @@
       "referral": "%{from} has installed Liker Land app. You both received %{amount}."
     }
   },
+  "NotificationScreen": {
+    "Title": "Notifications"
+  },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
     "showMyQRCode": "Show my QR Code"

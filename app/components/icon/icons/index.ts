@@ -4,6 +4,7 @@ import ArrowDownIcon from "./arrow-down.svg"
 import ArrowLeftIcon from "./arrow-left.svg"
 import ArrowRightIcon from "./arrow-right.svg"
 import ArrowUpIcon from "./arrow-up.svg"
+import Bell from "./bell.svg"
 import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import CrossIcon from "./cross.svg"
@@ -32,6 +33,7 @@ export const icons = {
   "arrow-right": ArrowRightIcon,
   "arrow-up": ArrowUpIcon,
   back: ArrowLeftIcon,
+  bell: Bell,
   "bookmark-filled": BookmarkFilledIcon,
   "bookmark-outlined": BookmarkOutlinedIcon,
   close: CrossIcon,

@@ -94,6 +94,9 @@
       "referral": "%{from} 已安裝 Liker Land App。你們分別獲得 %{amount}。"
     }
   },
+  "NotificationScreen": {
+    "Title": "通知"
+  },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
     "showMyQRCode": "我的二維碼"

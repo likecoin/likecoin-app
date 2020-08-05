@@ -3,11 +3,12 @@ import { inject, observer } from "mobx-react"
 
 import { MainTabBarIconProps } from "./main-tab-bar.props"
 
+import { Avatar } from "../avatar"
 import { Icon, IconTypes } from "../icon"
 
 import { RootStore } from "../../models/root-store"
+
 import { color } from "../../theme"
-import { Avatar } from "../avatar"
 
 @inject((rootStore: RootStore) => ({
   user: rootStore.userStore.currentUser,
@@ -25,6 +26,9 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
       case "Reader":
         name = "tab-reader"
         size = 32
+        break
+      case "Notification":
+        name = "bell"
         break
       case "Settings": {
         if (user) {
