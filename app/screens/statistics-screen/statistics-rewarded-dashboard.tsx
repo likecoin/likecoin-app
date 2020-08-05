@@ -53,9 +53,9 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
       },
       week: {
         days = [] as StatisticsRewardedDay[],
-        likeAmount: weeklyLikeAmount = 0,
-        likeAmountFromCivicLikers: weeklyLikeAmountFromCivicLikers = 0,
-        likeAmountFromCreatorsFund: weeklyLikeAmountFromCreatorsFund = 0,
+        likeAmount: weeklyLikeAmount,
+        likeAmountFromCivicLikers: weeklyLikeAmountFromCivicLikers,
+        likeAmountFromCreatorsFund: weeklyLikeAmountFromCreatorsFund,
         getPeriodText = undefined,
         isFetching = false,
       } = {},
@@ -93,17 +93,20 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
       title = getPeriodText ? getPeriodText() : ""
     }
 
-    const likeAmount = hasSelectedDayOfWeek
-      ? days[selectedDayOfWeek].totalLikeAmount
-      : weeklyLikeAmount
+    const likeAmount =
+      (hasSelectedDayOfWeek
+        ? days[selectedDayOfWeek]?.totalLikeAmount
+        : weeklyLikeAmount) || 0
 
-    const likeAmountFromCivicLikers = hasSelectedDayOfWeek
-      ? days[selectedDayOfWeek].totalCivicLikeAmount
-      : weeklyLikeAmountFromCivicLikers
+    const likeAmountFromCivicLikers =
+      (hasSelectedDayOfWeek
+        ? days[selectedDayOfWeek]?.totalCivicLikeAmount
+        : weeklyLikeAmountFromCivicLikers) || 0
 
-    const likeAmountFromCreatorFunds = hasSelectedDayOfWeek
-      ? days[selectedDayOfWeek].totalBasicLikeAmount
-      : weeklyLikeAmountFromCreatorsFund
+    const likeAmountFromCreatorFunds =
+      (hasSelectedDayOfWeek
+        ? days[selectedDayOfWeek]?.totalBasicLikeAmount
+        : weeklyLikeAmountFromCreatorsFund) || 0
 
     const dataItems: StatisticsDataGridItemProps[] = [
       {

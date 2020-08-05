@@ -194,6 +194,7 @@
       "comma-dangle": 0,
       "no-unused-vars": 0,
       "no-undef": 0,
+      "no-unused-expressions": 0,
       "quotes": 0,
       "react/no-unescaped-entities": 0,
       "react-native/no-raw-text": 0,
@@ -205,6 +206,7 @@
       "@typescript-eslint/no-explicit-any": 0,
       "@typescript-eslint/no-object-literal-type-assertion": 0,
       "@typescript-eslint/no-empty-interface": 0,
+      "@typescript-eslint/no-unused-expressions": 1,
       "@typescript-eslint/no-var-requires": 0
     }
   }

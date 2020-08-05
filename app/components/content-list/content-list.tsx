@@ -56,7 +56,7 @@ export class ContentList extends React.Component<ContentListProps> {
   private onItemSwipeOpen = (key: string, ref: React.RefObject<SwipeRow<{}>>) => {
     Object.keys(this.listItemRefs).forEach((refKey: string) => {
       if (refKey !== key) {
-        this.listItemRefs[refKey].current.closeRow()
+        this.listItemRefs[refKey]?.current?.closeRow()
       }
     })
     this.listItemRefs[key] = ref
@@ -68,7 +68,7 @@ export class ContentList extends React.Component<ContentListProps> {
 
   private onScrollBeginDrag = () => {
     Object.keys(this.listItemRefs).forEach((refKey: string) => {
-      this.listItemRefs[refKey].current.closeRow()
+      this.listItemRefs[refKey]?.current?.closeRow()
     })
   }
 
