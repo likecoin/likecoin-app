@@ -70,17 +70,21 @@ export class StatisticsSupportedDashbaord extends React.Component<Props> {
     } else {
       title = getPeriodText ? getPeriodText() : ""
     }
-    const likeAmount = hasSelectedDayOfWeek
-      ? days[selectedDayOfWeek].totalLikeAmount
-      : weekLikeAmount
 
-    const worksCount = hasSelectedDayOfWeek
-      ? days[selectedDayOfWeek].totalWorksCount
-      : weekWorksCount
+    const likeAmount =
+      (hasSelectedDayOfWeek
+        ? days[selectedDayOfWeek]?.totalLikeAmount
+        : weekLikeAmount) || 0
 
-    const creatorsCount = hasSelectedDayOfWeek
-      ? days[selectedDayOfWeek].totalCreatorsCount
-      : weekCreatorsCount
+    const worksCount =
+      (hasSelectedDayOfWeek
+        ? days[selectedDayOfWeek]?.totalWorksCount
+        : weekWorksCount) || 0
+
+    const creatorsCount =
+      (hasSelectedDayOfWeek
+        ? days[selectedDayOfWeek]?.totalCreatorsCount
+        : weekCreatorsCount) || 0
 
     return (
       <View
