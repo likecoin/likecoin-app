@@ -122,12 +122,6 @@ class ReaderScreenBase extends React.Component<Props> {
     }
   }
 
-  private onRefreshSuperLikeFeed = () => {
-    if (this.state.activePageIndex === 0) {
-      this.props.readerStore.fetchFollowedSuperLikedFeed()
-    }
-  }
-
   render() {
     if (this.props.currentUser.isSuperLiker) {
       return this.renderSuperLikeScreen()
@@ -254,7 +248,6 @@ class ReaderScreenBase extends React.Component<Props> {
         onPressItem={this.props.onPressSuperLikeItem}
         onToggleBookmark={this.props.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
-        onRefresh={this.onRefreshSuperLikeFeed}
         style={Style.SuperLikeFeed}
       />
     )

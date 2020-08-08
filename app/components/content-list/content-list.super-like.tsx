@@ -1,35 +1,17 @@
 import * as React from "react"
-import {
-  ListRenderItem,
-  RefreshControl,
-  SectionListStatic,
-  View,
-} from "react-native"
-import {
-  FlatList,
-  SectionList as SectionListBase,
-} from 'react-navigation'
+import { ListRenderItem, RefreshControl, SectionListStatic, View } from "react-native"
+import { FlatList, SectionList as SectionListBase } from "react-navigation"
 import { observer } from "mobx-react"
 import { SwipeRow } from "react-native-swipe-list-view"
 
-import {
-  SuperLikedContentListProps as Props,
-} from "./content-list.props"
-import {
-  ContentListStyle as Style,
-  RefreshControlColors,
-} from "./content-list.style"
+import { SuperLikedContentListProps as Props } from "./content-list.props"
+import { ContentListStyle as Style, RefreshControlColors } from "./content-list.style"
 
-import {
-  ContentListItemSkeleton,
-  SuperLikeContentListItem,
-} from "../content-list-item"
+import { ContentListItemSkeleton, SuperLikeContentListItem } from "../content-list-item"
 import { wrapScrollViewShadow } from "../wrap-scrollview-shadow"
 import { Text } from "../text"
 
-import {
-  SuperLikedContent,
-} from "../../models/super-liked-content"
+import { SuperLikedContent } from "../../models/super-liked-content"
 
 const ContentSectionList: SectionListStatic<SuperLikedContent> = SectionListBase
 
@@ -37,15 +19,10 @@ const ContentSectionList: SectionListStatic<SuperLikedContent> = SectionListBase
 class SuperLikeContentListBase extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
-  private keyExtractor = (content: SuperLikedContent) =>
-    `${this.props.lastFetched}${content.id}`
+  private keyExtractor = (content: SuperLikedContent) => `${this.props.lastFetched}${content.id}`
 
   private onEndReach = () => {
-    if (
-      this.props.onFetchMore &&
-      this.props.hasFetched &&
-      !this.props.hasFetchedAll
-    ) {
+    if (this.props.onFetchMore && this.props.hasFetched && !this.props.hasFetchedAll) {
       this.props.onFetchMore()
     }
   }
@@ -116,23 +93,25 @@ class SuperLikeContentListBase extends React.Component<Props> {
     )
   }
 
-  private renderHeader = () => this.props.titleLabelTx ? (
-    <Text
-      tx={this.props.titleLabelTx}
-      color="likeGreen"
-      align="center"
-      weight="600"
-      style={Style.Header}
-    />
-  ) : null
+  private renderHeader = () =>
+    this.props.titleLabelTx ? (
+      <Text
+        tx={this.props.titleLabelTx}
+        color="likeGreen"
+        align="center"
+        weight="600"
+        style={Style.Header}
+      />
+    ) : null
 
-  private renderRefreshControl = () => (
-    <RefreshControl
-      colors={RefreshControlColors}
-      refreshing={this.props.hasFetched && this.props.isLoading}
-      onRefresh={this.props.onRefresh}
-    />
-  )
+  private renderRefreshControl = () =>
+    this.props.onRefresh ? (
+      <RefreshControl
+        colors={RefreshControlColors}
+        refreshing={this.props.hasFetched && this.props.isLoading}
+        onRefresh={this.props.onRefresh}
+      />
+    ) : null
 
   private renderContent: ListRenderItem<SuperLikedContent> = ({ item: content }) => (
     <SuperLikeContentListItem

@@ -274,7 +274,7 @@ export const ReaderStoreModel = types
 
           const superLikedContents: SuperLikedContent[] = []
           for (let i = 0; i < result.data.length; i++) {
-            const data = result.data[i];
+            const data = result.data[i]
             const superLikedContent = self.parseSuperLikeFeedItemToModel(data)
 
             const timestamp = Math.min(superLikedContent.timestamp, Date.now())
