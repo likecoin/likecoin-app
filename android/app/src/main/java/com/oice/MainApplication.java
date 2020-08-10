@@ -9,8 +9,11 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import org.conscrypt.Conscrypt;
+
 import io.branch.rnbranch.RNBranchModule;
 
+import java.security.Security;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -44,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Security.insertProviderAt(Conscrypt.newProvider(), 1);
     RNBranchModule.getAutoInstance(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
