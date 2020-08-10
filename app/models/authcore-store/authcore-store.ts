@@ -25,6 +25,7 @@ export const AuthCoreStoreModel = types
     accessToken: "",
     idToken: "",
     hasSignedIn: false,
+    pendingInit: null,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -43,6 +44,7 @@ export const AuthCoreStoreModel = types
       self.hasSignedIn = value
     },
     fetchCurrentUser: flow(function * () {
+      if (self.pendingInit) yield self.pendingInit
       const currentUser: any = yield self.env.authCoreAPI.getCurrentUser(self.accessToken)
       self.profile = AuthCoreUserModel.create(currentUser)
     }),
@@ -73,6 +75,7 @@ export const AuthCoreStoreModel = types
       } = yield self.env.authCoreAPI.setupModules(refreshToken, accessToken)
       self.accessToken = newAccessToken
       self.cosmosAddresses.replace(addresses)
+      self.pendingInit = null
     }),
     signOut: flow(function * () {
       self.setHasSignedIn(false)
@@ -104,17 +107,22 @@ export const AuthCoreStoreModel = types
       ])
     }),
     resume: flow(function * () {
-      const [
-        { password: refreshToken },
-        { password: accessToken },
-        { password: idToken },
-      ]: any = yield Promise.all([
+      const promises = Promise.all([
         Keychain.load(self.getCredentialKeyFor("refresh_token")),
         Keychain.load(self.getCredentialKeyFor("access_token")),
         Keychain.load(self.getCredentialKeyFor("id_token")),
-      ])
-      yield self.init(refreshToken, accessToken, idToken)
-      self.setHasSignedIn(true)
+      ]).then((res) => {
+        const [
+          { password: refreshToken },
+          { password: accessToken },
+          { password: idToken },
+        ] = res
+        return self.init(refreshToken, accessToken, idToken)
+      }).then(() => {
+        self.setHasSignedIn(true)
+      })
+      self.pendingInit = promises
+      yield promises
     }),
   }))
 

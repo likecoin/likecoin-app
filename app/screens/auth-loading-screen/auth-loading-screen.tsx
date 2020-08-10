@@ -25,13 +25,14 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
       currentUser: likeCoUser,
       authCore: {
         profile: authcoreUser,
+        pendingInit: authcoreIsSettingUp,
       },
       iapStore: {
         isEnabled: isEnabledIAP,
         hasSubscription,
       },
     } = this.props.userStore
-    if (authcoreUser && likeCoUser) {
+    if ((!!authcoreIsSettingUp || authcoreUser) && likeCoUser) {
       try {
         await Promise.all([
           this.props.userStore.fetchUserInfo(),
