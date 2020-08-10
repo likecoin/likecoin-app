@@ -18,7 +18,6 @@ interface UserIdPayload {
   displayName: string,
   email?: string,
   primaryPhone?: string,
-  oAuthFactors: Promise<[{ service: string }]>|[{ service: string }],
   cosmosWallet: string,
   authCoreUserId: string,
   userPIISalt: string,
