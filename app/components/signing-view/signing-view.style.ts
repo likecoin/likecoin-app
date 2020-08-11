@@ -22,7 +22,7 @@ export const SHEET = StyleSheet.create({
 export const SUMMARY = StyleSheet.create({
   AMOUNT: {
     marginTop: spacing[2],
-  },
+  } as ViewStyle,
   BODY: {
     marginHorizontal: spacing[4],
     paddingBottom: spacing[4],
@@ -42,7 +42,7 @@ export const SUMMARY = StyleSheet.create({
   } as ViewStyle,
   ENTITY_NAME: {
     flex: 1,
-  },
+  } as TextStyle,
   ENTITY_WITH_AVATAR: {
     flexDirection: "row",
     alignItems: "center",
@@ -56,7 +56,7 @@ export const SUMMARY = StyleSheet.create({
   GRAPH: {
     height: 56,
     width: 68,
-  },
+  } as ViewStyle,
   HEADER: {
     alignItems: "center",
     paddingBottom: spacing[4],
@@ -67,6 +67,9 @@ export const SUMMARY = StyleSheet.create({
   HEADER_TITLE: {
     marginTop: spacing[3],
   } as TextStyle,
+  MEMO: {
+    marginTop: spacing[2],
+  } as ViewStyle,
 })
 
 export const DETAIL = StyleSheet.create({
@@ -93,7 +96,7 @@ export default StyleSheet.create({
   BLOCK_EXPLORER_BUTTON: {
     marginTop: spacing[4],
     minWidth: SHEET.ROOT.width,
-  },
+  } as ViewStyle,
   BODY: {
     flexGrow: 1,
     justifyContent: "center",
@@ -114,7 +117,7 @@ export default StyleSheet.create({
     color: color.palette.grey9b,
     fontSize: sizes.default,
     paddingVertical: spacing[1],
-  },
+  } as TextStyle,
   SCREEN: {
     flexGrow: 1,
     paddingHorizontal: spacing[4],

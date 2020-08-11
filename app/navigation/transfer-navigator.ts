@@ -1,11 +1,13 @@
 import { createStackNavigator } from "react-navigation"
 
 import { TransferAmountInputScreen } from "../screens/transfer-amount-input-screen"
+import { TransferMemoInputScreen } from "../screens/transfer-memo-input-screen"
 import { TransferTargetInputScreen } from "../screens/transfer-target-input-screen"
 import { TransferSigningScreen } from "../screens/transfer-signing-screen"
 
 export const TransferNavigator = createStackNavigator({
   TransferAmountInput: TransferAmountInputScreen,
+  TransferMemoInput: TransferMemoInputScreen,
   TransferTargetInput: TransferTargetInputScreen,
   TransferSigning: TransferSigningScreen,
 }, {
