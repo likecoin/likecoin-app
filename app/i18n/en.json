@@ -85,7 +85,7 @@
     "Title": "Reading",
     "emptyLabel": "No content",
     "followingLabel": "Your following list",
-    "SuperLikeFromLabel": "%{liker} shared"
+    "SuperLikeFromLabel": "%{liker} Super Liked"
   },
   "receiveScreen": {
     "shareYourAddress": "Share your address"
@@ -104,7 +104,7 @@
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
     "referrerIdLabel": "(Optional) Input your referrer's Liker ID",
-    "emailVerificationHint": "You will have to verify your email to receive referreal bonus"
+    "emailVerificationHint": "You will have to verify your email to receive referral bonus"
   },
   "RegistrationScreen": {
     "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
@@ -215,7 +215,7 @@
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
     "RateApp": "Rate The Liker Land App",
-    "Referral": "推薦奬賞",
+    "Referral": "referral bonus",
     "StatisticsPanel": {
       "Rewarded": {
         "GetRewardsButtonTitle": "Get rewards",
