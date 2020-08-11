@@ -85,6 +85,12 @@ export const ReaderStoreModel = types
         parseInt(self.getConfig("MAX_FOLLOWING_SUPERLIKE_PAGE"))
       )
     },
+    getShouldRefreshFollowingFeed() {
+      return (
+        Date.now() - self.followedListLastFetchedDate.getTime() >=
+        parseInt(self.getConfig("READING_FEED_RESUME_REFRESH_DEBOUNCE")) * 1000
+      )
+    },
   }))
   .actions(self => ({
     reset() {

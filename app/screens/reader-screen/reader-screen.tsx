@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View, NativeSyntheticEvent } from "react-native"
+import { AppState, AppStateStatus, NativeSyntheticEvent, View } from "react-native"
 import { inject, observer } from "mobx-react"
 import ViewPager, {
   ViewPagerOnPageSelectedEventData,
@@ -37,6 +37,8 @@ class ReaderScreenBase extends React.Component<Props> {
 
   viewPager = React.createRef<ViewPager>()
 
+  appState = AppState.currentState
+
   state = {
     activePageIndex: 0,
   }
@@ -51,11 +53,31 @@ class ReaderScreenBase extends React.Component<Props> {
   componentDidMount() {
     if (this.props.currentUser.isSuperLiker) {
       this.props.readerStore.fetchFollowedSuperLikedFeed()
+      AppState.addEventListener("change", this.handleAppStateChange)
     } else {
       this.legacyList.current.props.onRefresh()
     }
     this.props.readerStore.fetchCreatorList()
     this.props.readerStore.fetchBookmarkList()
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this.handleAppStateChange)
+  }
+
+  private handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (
+      this.appState.match(/inactive|background/) &&
+      nextAppState === "active" &&
+      this.props.readerStore.getShouldRefreshFollowingFeed()
+    ) {
+      if (this.props.currentUser.isSuperLiker) {
+        this.props.readerStore.fetchFollowedSuperLikedFeed()
+      } else {
+        this.legacyList.current.props.onRefresh()
+      }
+    }
+    this.appState = nextAppState
   }
 
   private getSectionTitle = (dayTs: string) => {
