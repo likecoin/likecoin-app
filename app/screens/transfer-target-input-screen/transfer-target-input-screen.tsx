@@ -127,7 +127,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
       if (skipToConfirm) {
         this.validate()
           .then(() => {
-            this.props.navigation.replace("TransferAmountInput", {
+            this.props.navigation.replace("TransferMemoInput", {
               skipToConfirm
             })
           })
@@ -182,7 +182,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
     // Trim before validation
     this.props.txStore.setTarget(this.props.txStore.target.trim())
     if (await this.validate()) {
-      this.props.navigation.navigate("TransferAmountInput")
+      this.props.navigation.navigate("TransferMemoInput")
     }
   }
 

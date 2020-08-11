@@ -62,6 +62,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
       blockExplorerURL,
       errorMessage,
       fee,
+      memo,
       signingState: state,
       liker,
       receiverAddress,
@@ -83,6 +84,7 @@ export class TransferSigningScreen extends React.Component<TransferSigningScreen
         txURL={blockExplorerURL}
         error={errorMessage}
         fee={formatDenom(fee)}
+        memo={memo}
         target={target}
         totalAmount={formatDenom(totalAmount)}
         graph={<TransferGraph />}

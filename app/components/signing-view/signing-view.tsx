@@ -19,7 +19,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
   }
 
   private onPressCloseButton = () => {
-    this.props.onClose && this.props.onClose()
+    if (this.props.onClose) this.props.onClose()
   }
 
   private onPressDetailToggleButton = () => {
@@ -27,7 +27,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
   }
 
   private onPressConfirmButton = () => {
-    this.props.onConfirm && this.props.onConfirm()
+    if (this.props.onConfirm) this.props.onConfirm()
   }
 
   render () {
@@ -214,6 +214,7 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
   private renderDetail = () => {
     const {
       fee,
+      memo,
       totalAmount,
     } = this.props
     const { isShowDetail } = this.state
@@ -234,30 +235,33 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
             name={isShowDetail ? "arrow-up" : "arrow-down"}
           />
         </Button>
-        {isShowDetail &&
+        {isShowDetail && (
           <View style={DETAIL.BODY}>
             <View style={DETAIL.ITEM}>
               <Text
                 tx="transferSigningScreen.transactionFee"
                 style={STYLE.LABEL}
               />
-              <Text
-                text={fee}
-                weight="600"
-              />
+              <Text text={fee} weight="600" />
             </View>
             <View style={DETAIL.ITEM}>
               <Text
                 tx="transferSigningScreen.totalAmount"
                 style={STYLE.LABEL}
               />
-              <Text
-                text={totalAmount}
-                weight="600"
-              />
+              <Text text={totalAmount} weight="600" />
             </View>
+            {!!memo && (
+              <View style={DETAIL.ITEM}>
+                <Text
+                  tx="transferSigningScreen.Memo"
+                  style={STYLE.LABEL}
+                />
+                <Text text={memo} weight="600" />
+              </View>
+            )}
           </View>
-        }
+        )}
       </View>
     )
   }

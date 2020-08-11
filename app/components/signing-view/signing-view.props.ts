@@ -32,6 +32,11 @@ export interface SigningViewProps {
   fee?: string
 
   /**
+   * The memo of the transaction
+   */
+  memo?: string
+
+  /**
    * The total amount of the transaction
    */
   totalAmount?: string

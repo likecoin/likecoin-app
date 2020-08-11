@@ -121,7 +121,7 @@ export const TxStoreModel = types
         self.errorMessage = ""
         self.txHash = ""
         try {
-          const estimatedGas: number = yield message.simulate({})
+          const estimatedGas: number = yield message.simulate({ memo: self.memo })
           self.gas = new BigNumber(estimatedGas)
         } catch (error) {
           logError(error)
