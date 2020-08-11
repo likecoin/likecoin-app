@@ -1,9 +1,4 @@
-import {
-  flow,
-  Instance,
-  SnapshotOut,
-  types,
-} from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { withEnvironment } from "../extensions"
@@ -25,7 +20,6 @@ export const AuthCoreStoreModel = types
     accessToken: "",
     idToken: "",
     hasSignedIn: false,
-    pendingInit: null,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -43,11 +37,6 @@ export const AuthCoreStoreModel = types
     setHasSignedIn(value: boolean) {
       self.hasSignedIn = value
     },
-    fetchCurrentUser: flow(function * () {
-      if (self.pendingInit) yield self.pendingInit
-      const currentUser: any = yield self.env.authCoreAPI.getCurrentUser(self.accessToken)
-      self.profile = AuthCoreUserModel.create(currentUser)
-    }),
     openSettingsWidget(options: AuthcoreScreenOptions) {
       self.env.authCoreAPI.openSettingsWidget({
         ...options,
@@ -56,7 +45,23 @@ export const AuthCoreStoreModel = types
     },
   }))
   .actions(self => ({
-    init: flow(function * (
+    signOut: flow(function*() {
+      self.setHasSignedIn(false)
+      self.accessToken = ""
+      self.idToken = ""
+      self.profile = undefined
+      yield Promise.all([
+        self.env.authCoreAPI.signOut(),
+        Keychain.reset(self.getCredentialKeyFor("access_token")),
+        Keychain.reset(self.getCredentialKeyFor("refresh_token")),
+        Keychain.reset(self.getCredentialKeyFor("id_token")),
+      ])
+    }),
+  }))
+  .extend(self => {
+    let pendingInitPromise: Promise<void>
+
+    const init = flow(function*(
       refreshToken: string,
       accessToken: string,
       idToken: string,
@@ -75,56 +80,71 @@ export const AuthCoreStoreModel = types
       } = yield self.env.authCoreAPI.setupModules(refreshToken, accessToken)
       self.accessToken = newAccessToken
       self.cosmosAddresses.replace(addresses)
-      self.pendingInit = null
-    }),
-    signOut: flow(function * () {
-      self.setHasSignedIn(false)
-      self.accessToken = ""
-      self.idToken = ""
-      self.profile = undefined
-      yield Promise.all([
-        self.env.authCoreAPI.signOut(),
-        Keychain.reset(self.getCredentialKeyFor("access_token")),
-        Keychain.reset(self.getCredentialKeyFor("refresh_token")),
-        Keychain.reset(self.getCredentialKeyFor("id_token")),
-      ])
-    }),
-  }))
-  .actions(self => ({
-    signIn: flow(function * () {
-      const {
-        accessToken,
-        refreshToken,
-        idToken,
-        currentUser,
-      }: any = yield self.env.authCoreAPI.signIn()
-      self.setHasSignedIn(true)
-      yield Promise.all([
-        self.init(refreshToken, accessToken, idToken, currentUser),
-        Keychain.save("authcore_refresh_token", refreshToken, self.getCredentialKeyFor("refresh_token")),
-        Keychain.save("authcore_access_token", accessToken, self.getCredentialKeyFor("access_token")),
-        Keychain.save("authcore_id_token", idToken, self.getCredentialKeyFor("id_token")),
-      ])
-    }),
-    resume: flow(function * () {
-      const promises = Promise.all([
+      pendingInitPromise = undefined
+    })
+
+    const resume = flow(function*() {
+      const [
+        { password: refreshToken },
+        { password: accessToken },
+        { password: idToken },
+      ]: { password: string }[] = yield Promise.all([
         Keychain.load(self.getCredentialKeyFor("refresh_token")),
         Keychain.load(self.getCredentialKeyFor("access_token")),
         Keychain.load(self.getCredentialKeyFor("id_token")),
-      ]).then((res) => {
-        const [
-          { password: refreshToken },
-          { password: accessToken },
-          { password: idToken },
-        ] = res
-        return self.init(refreshToken, accessToken, idToken)
-      }).then(() => {
-        self.setHasSignedIn(true)
-      })
-      self.pendingInit = promises
-      yield promises
-    }),
-  }))
+      ])
+      yield init(refreshToken, accessToken, idToken)
+      self.setHasSignedIn(true)
+    })
+
+    return {
+      views: {
+        getIsSettingUp() {
+          return !!pendingInitPromise
+        },
+      },
+      actions: {
+        signIn: flow(function*() {
+          const {
+            accessToken,
+            refreshToken,
+            idToken,
+            currentUser,
+          }: any = yield self.env.authCoreAPI.signIn()
+          self.setHasSignedIn(true)
+          yield Promise.all([
+            init(refreshToken, accessToken, idToken, currentUser),
+            Keychain.save(
+              "authcore_refresh_token",
+              refreshToken,
+              self.getCredentialKeyFor("refresh_token"),
+            ),
+            Keychain.save(
+              "authcore_access_token",
+              accessToken,
+              self.getCredentialKeyFor("access_token"),
+            ),
+            Keychain.save(
+              "authcore_id_token",
+              idToken,
+              self.getCredentialKeyFor("id_token"),
+            ),
+          ])
+        }),
+        resume: flow(function*() {
+          pendingInitPromise = resume()
+          yield pendingInitPromise
+        }),
+        fetchCurrentUser: flow(function*() {
+          if (pendingInitPromise) yield pendingInitPromise
+          const currentUser: any = yield self.env.authCoreAPI.getCurrentUser(
+            self.accessToken,
+          )
+          self.profile = AuthCoreUserModel.create(currentUser)
+        }),
+      },
+    }
+  })
 
 type AuthcoreStoreType = Instance<typeof AuthCoreStoreModel>
 export interface AuthcoreStore extends AuthcoreStoreType {}
