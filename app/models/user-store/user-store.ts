@@ -218,7 +218,7 @@ export const UserStoreModel = types
       const result: UserResult = yield self.env.likerLandAPI.fetchCurrentUserInfo(opts)
       switch (result.kind) {
         case "ok":
-          self.updateUserFromResultData(result.data)
+          // Do nothing, store like.co user instead of liker.land
           break
 
         case "unauthorized":
