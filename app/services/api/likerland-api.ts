@@ -131,7 +131,7 @@ export class LikerLandAPI {
     }
 
     try {
-      const data: Types.Content[] = response.data.list
+      const data: Types.Content[] = response.data?.list || []
       return { kind: "ok", data }
     } catch {
       return { kind: "bad-data" }
