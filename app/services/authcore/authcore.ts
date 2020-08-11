@@ -84,7 +84,7 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback = {}
 
-  async setup(baseURL: string, cosmosChainId: string, refreshToken?: string, accessToken?: string) {
+  setup(baseURL: string, cosmosChainId: string, refreshToken?: string, accessToken?: string) {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
@@ -92,9 +92,6 @@ export class AuthCoreAPI {
       language: findBestAvailableLanguage(),
     })
     this.cosmosChainId = cosmosChainId
-    if (refreshToken) {
-      await this.setupModules(refreshToken, accessToken)
-    }
   }
 
   async setupModules(refreshToken: string, accessToken?: string) {

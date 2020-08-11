@@ -90,11 +90,12 @@ export async function setupRootStore() {
     rootStore = createRootStore(env, data)
 
     // Setup Authcore
-    await env.setupAuthCore()
+    env.setupAuthCore()
     if (rootStore.userStore.currentUser) {
-      await rootStore.userStore.authCore.resume()
-      const address = rootStore.userStore.authCore.primaryCosmosAddress
-      rootStore.chainStore.setupWallet(address)
+      rootStore.userStore.authCore.resume().then(() => {
+        const address = rootStore.userStore.authCore.primaryCosmosAddress
+        rootStore.chainStore.setupWallet(address)
+      })
     }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
@@ -103,7 +104,7 @@ export async function setupRootStore() {
     logError(e.message)
 
     rootStore = createRootStore(env)
-    await env.setupAuthCore()
+    env.setupAuthCore()
   }
 
   // reactotron logging
