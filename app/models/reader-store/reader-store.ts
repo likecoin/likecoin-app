@@ -85,6 +85,12 @@ export const ReaderStoreModel = types
         parseInt(self.getConfig("MAX_FOLLOWING_SUPERLIKE_PAGE"))
       )
     },
+    getShouldRefreshFollowingFeed() {
+      return (
+        Date.now() - self.followedListLastFetchedDate.getTime() >=
+        parseInt(self.getConfig("READING_FEED_RESUME_REFRESH_DEBOUNCE")) * 1000
+      )
+    },
   }))
   .actions(self => ({
     reset() {
@@ -274,7 +280,7 @@ export const ReaderStoreModel = types
 
           const superLikedContents: SuperLikedContent[] = []
           for (let i = 0; i < result.data.length; i++) {
-            const data = result.data[i];
+            const data = result.data[i]
             const superLikedContent = self.parseSuperLikeFeedItemToModel(data)
 
             const timestamp = Math.min(superLikedContent.timestamp, Date.now())

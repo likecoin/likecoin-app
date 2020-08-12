@@ -28,6 +28,7 @@ import {
   USER_PII_SALT,
   MAX_GLOBAL_SUPERLIKE_FEED_ITEM,
   MAX_FOLLOWING_SUPERLIKE_PAGE,
+  READING_FEED_RESUME_REFRESH_DEBOUNCE,
 } from "react-native-dotenv"
 import FastImage from 'react-native-fast-image'
 
@@ -60,6 +61,7 @@ export interface AppConfigParams {
   USER_PII_SALT: string
   MAX_GLOBAL_SUPERLIKE_FEED_ITEM: string
   MAX_FOLLOWING_SUPERLIKE_PAGE: string
+  READING_FEED_RESUME_REFRESH_DEBOUNCE: string
 }
 
 export type AppConfigParamKey = keyof AppConfigParams
@@ -105,6 +107,7 @@ export class AppConfig {
       USER_PII_SALT,
       MAX_GLOBAL_SUPERLIKE_FEED_ITEM,
       MAX_FOLLOWING_SUPERLIKE_PAGE,
+      READING_FEED_RESUME_REFRESH_DEBOUNCE,
     }
     this.remoteConfig = RemoteConfigModule()
   }
