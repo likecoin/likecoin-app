@@ -96,7 +96,8 @@
     }
   },
   "NotificationScreen": {
-    "Title": "Notifications"
+    "Title": "Notifications",
+    "EmptyLabel": "No notification"
   },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",

@@ -5,8 +5,12 @@ import {
   SectionListRenderItem,
   SectionListStatic,
   View,
+  RefreshControl,
 } from "react-native"
+import { NavigationEventSubscription } from "react-navigation"
 import { observer, inject } from "mobx-react"
+
+import { Notification } from "../../models/notification"
 
 import { Header } from "../../components/header"
 import { I18n } from "../../components/i18n"
@@ -17,7 +21,7 @@ import {
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 
-import { Notification } from "../../models/notification"
+import { color } from "../../theme"
 
 import { NotificationScreenStyle as Style } from "./notification-screen.style"
 import { NotificationScreenProps as Props } from "./notification-screen.props"
@@ -27,8 +31,26 @@ const NotificationList: SectionListStatic<Notification> = SectionList
 @inject("notificationStore", "userStore")
 @observer
 export class NotificationScreen extends React.Component<Props, {}> {
+  willFocusListener?: NavigationEventSubscription
+
+  willBlurListener?: NavigationEventSubscription
+
   componentDidMount() {
+    this.willBlurListener = this.props.navigation.addListener(
+      "willFocus",
+      this.props.notificationStore.fetch,
+    )
+    this.willBlurListener = this.props.navigation.addListener(
+      "willBlur",
+      this.props.notificationStore.readAll,
+    )
+
     this.props.notificationStore.fetch()
+  }
+
+  componentWillUnmount() {
+    if (this.willFocusListener) this.willFocusListener.remove()
+    if (this.willBlurListener) this.willBlurListener.remove()
   }
 
   private getNotificationTypeFromItem = (item: Notification) => {
@@ -57,7 +79,14 @@ export class NotificationScreen extends React.Component<Props, {}> {
     }
   }
 
+  private onEndReached = () => {
+    if (this.props.notificationStore.status === "done") {
+      this.props.notificationStore.fetchEarlier()
+    }
+  }
+
   render() {
+    const { status } = this.props.notificationStore
     return (
       <Screen preset="fixed" style={Style.Screen}>
         <Header headerTx="NotificationScreen.Title" />
@@ -65,8 +94,27 @@ export class NotificationScreen extends React.Component<Props, {}> {
           sections={this.props.notificationStore.sections}
           renderItem={this.renderItem}
           renderSectionHeader={this.renderSectionHeader}
+          refreshControl={
+            <RefreshControl
+              colors={[color.primary]}
+              refreshing={status === "pending"}
+              onRefresh={this.props.notificationStore.fetch}
+            />
+          }
+          ListEmptyComponent={
+            status === "done-more" && (
+              <View style={Style.EmptyView}>
+                <Text
+                  tx="NotificationScreen.EmptyLabel"
+                  style={Style.EmptyLabel}
+                />
+              </View>
+            )
+          }
           style={Style.List}
           contentContainerStyle={Style.ListContent}
+          onEndReachedThreshold={0.5}
+          onEndReached={this.onEndReached}
         />
       </Screen>
     )
@@ -77,9 +125,9 @@ export class NotificationScreen extends React.Component<Props, {}> {
   }: {
     section: SectionListData<Notification>
   }) => {
-    if (section.key === "seen") {
-      const [unseen] = this.props.notificationStore.sections
-      if (unseen.data.length) {
+    if (section.key === "read") {
+      const [unread] = this.props.notificationStore.itemsSplitByRead
+      if (unread.length) {
         return <View style={Style.Separator} />
       }
     }

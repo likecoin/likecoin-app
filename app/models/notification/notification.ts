@@ -7,7 +7,7 @@ export const NotificationModel = types.model("Notification").props({
   id: types.identifier,
   type: types.string,
   timestamp: types.number,
-  isSeen: types.optional(types.boolean, false),
+  isRead: types.optional(types.boolean, false),
 
   // Transaction related property
   likeAmount: types.maybe(types.number),
@@ -18,6 +18,11 @@ export const NotificationModel = types.model("Notification").props({
   // Content related property
   contentURL: types.maybe(types.string),
 })
+.actions(self => ({
+  read() {
+    self.isRead = true
+  },
+}))
 
 type NotificationType = Instance<typeof NotificationModel>
 export interface Notification extends NotificationType {}

@@ -9,6 +9,17 @@ export const NotificationScreenStyle = StyleSheet.create({
     fontWeight: "600",
     color: color.palette.green,
   } as TextStyle,
+  EmptyLabel: {
+    color: color.palette.grey9b,
+    fontSize: sizes["medium-large"],
+    fontWeight: "600",
+  } as TextStyle,
+  EmptyView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: spacing[8],
+  } as ViewStyle,
   List: {
     flex: 1,
     backgroundColor: color.palette.greyf2,

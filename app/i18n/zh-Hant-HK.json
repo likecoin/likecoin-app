@@ -95,7 +95,8 @@
     }
   },
   "NotificationScreen": {
-    "Title": "通知"
+    "Title": "通知",
+    "EmptyLabel": "沒有通知"
   },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
