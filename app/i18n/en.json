@@ -264,9 +264,14 @@
   "transferAmountInputScreen": {
     "available": "Available"
   },
+  "TransferMemoInputScreen": {
+    "DiscardInputAlert": "You have already inputted memo, do you want to discard?",
+    "InputLabel": "Input memo (optional)"
+  },
   "transferSigningScreen": {
     "completed": "Transaction Completed",
     "details": "Details",
+    "Memo": "Memo",
     "title": "Send",
     "totalAmount": "Total",
     "transactionFee": "Transaction fee"

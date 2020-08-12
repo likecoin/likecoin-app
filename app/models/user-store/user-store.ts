@@ -221,7 +221,6 @@ export const UserStoreModel = types
             displayName,
             email,
             primaryPhone,
-            oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
             cosmosWallet,
             authCoreUserId,
             userPIISalt,

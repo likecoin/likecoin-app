@@ -260,9 +260,14 @@
   "transferAmountInputScreen": {
     "available": "可轉帳"
   },
+  "TransferMemoInputScreen": {
+    "DiscardInputAlert": "你已輸入 Memo，是否要放棄修改？",
+    "InputLabel": "輸入 Memo (可省略）"
+  },
   "transferSigningScreen": {
     "completed": "已完成轉帳",
     "details": "詳細資料",
+    "Memo": "Memo",
     "title": "轉帳",
     "totalAmount": "總額",
     "transactionFee": "轉帳費用"
