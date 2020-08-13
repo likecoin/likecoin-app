@@ -89,8 +89,6 @@ export async function setupRootStore() {
     data = await storage.load(ROOT_STATE_STORAGE_KEY) || {}
     rootStore = createRootStore(env, data)
 
-    // Setup Authcore
-    env.setupAuthCore()
     if (rootStore.userStore.currentUser) {
       rootStore.userStore.authCore.resume().then(() => {
         const address = rootStore.userStore.authCore.primaryCosmosAddress
@@ -104,7 +102,6 @@ export async function setupRootStore() {
     logError(e.message)
 
     rootStore = createRootStore(env)
-    env.setupAuthCore()
   }
 
   // reactotron logging
