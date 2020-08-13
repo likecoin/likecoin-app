@@ -1,5 +1,6 @@
 import * as React from "react"
 import {
+  Linking,
   SectionList,
   SectionListData,
   SectionListRenderItem,
@@ -142,6 +143,13 @@ export class NotificationScreen extends React.Component<Props, {}> {
         type={type}
         ts={item.timestamp}
         style={Style.ListItem}
+        onPress={
+          item.txURL
+            ? () => {
+                Linking.openURL(item.txURL)
+              }
+            : null
+        }
       >
         <I18n tx={`Notification.Message.${type}`} style={Style.Message}>
           <Text text={item.toTarget} place="to" style={Style.UserLabel} />

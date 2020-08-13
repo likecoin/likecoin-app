@@ -3633,7 +3633,11 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={null}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
               >
                 <View
                   preset="flat"
@@ -3940,7 +3944,11 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={null}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
               >
                 <View
                   preset="flat"
@@ -4247,7 +4255,11 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={null}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
               >
                 <View
                   preset="flat"
@@ -4460,7 +4472,11 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={null}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
               >
                 <View
                   preset="flat"
@@ -4673,7 +4689,11 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
-                style={null}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
               >
                 <View
                   preset="flat"

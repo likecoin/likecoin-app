@@ -1,5 +1,5 @@
 import * as React from "react"
-import { TouchableHighlight, View } from "react-native"
+import { TouchableOpacity, View } from "react-native"
 import moment from "moment"
 
 import { NotificationListItemProps as Props } from "./notification-list-item.props"
@@ -31,7 +31,7 @@ export function NotificationListItem(props: Props) {
   }, [props.ts])
 
   return (
-    <TouchableHighlight>
+    <TouchableOpacity disabled={!props.onPress} onPress={props.onPress}>
       <Sheet preset="flat" style={[Style.Sheet, props.style]}>
         <View style={Style.Layout}>
           <View style={Style.LayoutLeft}>
@@ -54,6 +54,6 @@ export function NotificationListItem(props: Props) {
           </View>
         </View>
       </Sheet>
-    </TouchableHighlight>
+    </TouchableOpacity>
   )
 }

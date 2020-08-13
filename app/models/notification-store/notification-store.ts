@@ -76,7 +76,7 @@ export const NotificationStoreModel = types
         likeAmount: typeof LIKE === "string" ? parseFloat(LIKE) : LIKE,
         txHash,
         contentURL,
-      })
+      }, self.env)
     }
 
     async function fetchItems({

@@ -32,4 +32,9 @@ export interface NotificationListItemProps {
    * Override view style.
    */
   style?: StyleProp<ViewProps>
+
+  /**
+   * A callback when the item is pressed.
+   */
+  onPress?: () => void
 }
