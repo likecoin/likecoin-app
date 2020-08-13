@@ -84,7 +84,7 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback = {}
 
-  setup(baseURL: string, cosmosChainId: string, refreshToken?: string, accessToken?: string) {
+  setup(baseURL: string, cosmosChainId: string) {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
@@ -122,13 +122,13 @@ export class AuthCoreAPI {
 
     this.client.auth.client.bearer = `Bearer ${accessToken}`
 
-    __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
+    if (__DEV__) console.tron.log("Initializing AuthCore Key Vault Client")
     this.keyVaultClient = await new AuthcoreVaultClient({
       apiBaseURL: this.baseURL,
       accessToken,
     })
 
-    __DEV__ && console.tron.log("Initializing AuthCore Cosmos Provider")
+    if (__DEV__) console.tron.log("Initializing AuthCore Cosmos Provider")
     this.cosmosProvider = await new AuthcoreCosmosProvider({
       client: this.keyVaultClient,
     })
@@ -142,11 +142,11 @@ export class AuthCoreAPI {
   }
 
   onUnauthenticated = (error: any) => {
-    this.callbacks.unauthenticated && this.callbacks.unauthenticated(error)
+    if (this.callbacks.unauthenticated) this.callbacks.unauthenticated(error)
   }
 
   onUnauthorized = (error: any) => {
-    this.callbacks.unauthorized && this.callbacks.unauthorized(error)
+    if (this.callbacks.unauthorized) this.callbacks.unauthorized(error)
   }
 
   async getCosmosAddresses() {
