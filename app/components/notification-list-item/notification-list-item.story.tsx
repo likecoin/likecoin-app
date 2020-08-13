@@ -21,7 +21,7 @@ import { Alert } from "react-native"
 
 declare let module: any
 
-const TS = 1560325620000
+const DATE_STRING = "12/06/19 15:47"
 
 const AmountText = (value: number) => {
   return (
@@ -57,7 +57,7 @@ storiesOf("NotificationListItem", module)
         >
           <NotificationListItem
             type={NotificationType.Send}
-            ts={TS}
+            dateString={DATE_STRING}
             iconView={(
               <Avatar
                 size={28}
@@ -77,7 +77,7 @@ storiesOf("NotificationListItem", module)
         >
           <NotificationListItem
             type={NotificationType.Receive}
-            ts={TS}
+            dateString={DATE_STRING}
             iconView={(
               <Avatar
                 size={28}
@@ -97,7 +97,7 @@ storiesOf("NotificationListItem", module)
         >
           <NotificationListItem
             type={NotificationType.CivicLikerLike}
-            ts={TS}
+            dateString={DATE_STRING}
           >
             <I18n tx={`Notification.Message.${NotificationType.CivicLikerLike}`}>
               {PersonText("Alice", "liker")}
@@ -111,7 +111,7 @@ storiesOf("NotificationListItem", module)
         >
           <NotificationListItem
             type={NotificationType.DailyRewards}
-            ts={TS}
+            dateString={DATE_STRING}
           >
             <I18n tx={`Notification.Message.${NotificationType.DailyRewards}`}>
               {PersonText("3 Likers", "likers")}
@@ -125,7 +125,7 @@ storiesOf("NotificationListItem", module)
         >
           <NotificationListItem
             type={NotificationType.Referral}
-            ts={TS}
+            dateString={DATE_STRING}
           >
             <I18n tx={`Notification.Message.${NotificationType.Referral}`}>
               {PersonText("Carol", "from")}

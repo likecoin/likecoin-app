@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import { NavigationEventSubscription } from "react-navigation"
 import { observer, inject } from "mobx-react"
+import moment from "moment"
 
 import { Notification } from "../../models/notification"
 
@@ -22,6 +23,7 @@ import {
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 
+import { translate } from "../../i18n"
 import { color } from "../../theme"
 
 import { NotificationScreenStyle as Style } from "./notification-screen.style"
@@ -78,6 +80,22 @@ export class NotificationScreen extends React.Component<Props, {}> {
       default:
         return undefined
     }
+  }
+
+  private getDateString = (timestamp: number) => {
+    const today = moment().startOf("day")
+    const date = moment(timestamp)
+    let dateFormat: string
+    if (date.isSameOrAfter(today)) {
+      dateFormat = `[${translate("Date.Today")}]`
+    } else if (date.isSameOrAfter(today.subtract(1, "day"))) {
+      dateFormat = `[${translate("Date.Yesterday")}]`
+    } else if (date.isSameOrAfter(today.startOf("year"))) {
+      dateFormat = "DD/MM"
+    } else {
+      dateFormat = "DD/MM/YY"
+    }
+    return date.format(`${dateFormat} HH:mm`)
   }
 
   private onEndReached = () => {
@@ -141,7 +159,7 @@ export class NotificationScreen extends React.Component<Props, {}> {
     return (
       <NotificationListItem
         type={type}
-        ts={item.timestamp}
+        dateString={this.getDateString(item.timestamp)}
         style={Style.ListItem}
         onPress={
           item.txURL

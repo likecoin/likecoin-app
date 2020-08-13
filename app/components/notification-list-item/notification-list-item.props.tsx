@@ -19,9 +19,9 @@ export interface NotificationListItemProps {
   children?: React.ReactNode
 
   /**
-   * The timestamp of the notification
+   * The stringify date of the notification
    */
-  ts?: number
+  dateString?: string
 
   /**
    * The view replacing the default icon
