@@ -197,6 +197,9 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation project(':react-native-share-extension')
+    implementation 'org.conscrypt:conscrypt-android:2.4.0'
+    implementation "com.squareup.okhttp3:okhttp:4.8.1"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.8.1"
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
