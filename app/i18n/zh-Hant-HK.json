@@ -76,6 +76,28 @@
   "I18nStory": {
     "UseCase1": "%{liker} 傳送了 %{amount} 給你。"
   },
+  "Notification": {
+    "Type": {
+      "send": "轉出",
+      "receive": "轉入",
+      "civic-like": "讚賞公民",
+      "super-like": "Super Like",
+      "daily-rewards": "化讚為賞基金",
+      "referral": "推薦奬賞"
+    },
+    "Message": {
+      "send": "你已轉帳 %{amount} 給 %{to}。",
+      "receive": "你已從 %{from} 收到 %{amount}。",
+      "civic-like": "%{from} 已讚賞你的內容。你獲得了 %{amount}。",
+      "super-like": "%{from} 已 Super Like 你的內容。你獲得了 %{amount}。",
+      "daily-rewards": "今天有 %{likers} 讚賞你的內容。你共獲得 %{amount}。",
+      "referral": "%{from} 已安裝 Liker Land App。你們分別獲得 %{amount}。"
+    }
+  },
+  "NotificationScreen": {
+    "Title": "通知",
+    "EmptyLabel": "沒有通知"
+  },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
     "showMyQRCode": "我的二維碼"

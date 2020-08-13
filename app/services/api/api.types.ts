@@ -148,3 +148,24 @@ export type SuperLikeStatusResult = {
     cooldown: number
   },
 } | GeneralApiProblem
+
+export interface NotificationResult {
+  id: string
+  type: string
+  ts: number
+  isRead?: boolean
+
+  from?: string
+  to?: string
+  LIKE?: string | number
+  txHash?: string
+
+  sourceURL?: string
+}
+
+export type NotificationsResult =
+  | {
+      kind: "ok"
+      data: NotificationResult[]
+    }
+  | GeneralApiProblem

@@ -1,3 +1,4 @@
+import { NotificationStoreModel } from "../../models/notification-store"
 import { Alert } from "react-native"
 import {
   flow,
@@ -35,6 +36,7 @@ export const RootStoreModel = types
   .model("RootStore")
   .props({
     chainStore: types.maybe(ChainStoreModel),
+    notificationStore: types.optional(NotificationStoreModel, {}),
     stakingRewardsWithdrawStore: types.optional(StakingRewardsWithdrawStoreModel, {}),
     stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
     stakingRedelegationStore: types.optional(StakingRedelegationStoreModel, {}),
