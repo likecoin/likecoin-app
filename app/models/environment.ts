@@ -30,6 +30,7 @@ export class Environment {
     await this.appConfig.setup()
     await this.branchIO.setup()
     const {
+      AUTHCORE_ROOT_URL,
       COSMOS_LCD_URL,
       COSMOS_CHAIN_ID,
       LIKECO_API_URL,
@@ -37,6 +38,7 @@ export class Environment {
       BIG_DIPPER_URL,
       SENTRY_DSN,
     } = this.appConfig.getAllParams()
+    this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID)
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likerLandAPI.setup(LIKERLAND_API_URL)
     this.cosmosAPI.setup(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
@@ -44,14 +46,6 @@ export class Environment {
     if (SENTRY_DSN) {
       initSentry(SENTRY_DSN)
     }
-  }
-
-  setupAuthCore() {
-    const {
-      COSMOS_CHAIN_ID,
-      AUTHCORE_ROOT_URL,
-    } = this.appConfig.getAllParams()
-    this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID)
   }
 
   /**

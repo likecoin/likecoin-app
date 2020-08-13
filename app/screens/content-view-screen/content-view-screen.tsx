@@ -32,7 +32,9 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
 
   componentWillUnmount() {
     // Update like count incase user has liked the content
-    this.content.fetchLikeStat()
+    if (this.content.shouldFetchLikeStat) {
+      this.content.fetchLikeStat()
+    }
   }
 
   get content() {
