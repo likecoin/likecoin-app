@@ -44,10 +44,7 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   get superLikeFeedPageTitle() {
-    if (this.sections.length) {
-      return this.sections[this.state.activePageIndex].title
-    }
-    return ""
+    return this.sections[this.state.activePageIndex]?.title || ""
   }
 
   componentDidMount() {
