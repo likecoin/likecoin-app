@@ -16,6 +16,9 @@ export const ReaderScreenStyle = StyleSheet.create({
     fontSize: sizes.medium,
     textAlign: "center",
   } as TextStyle,
+  EmptyList: {
+    flex: 1,
+  } as ViewStyle,
   GlobalIcon: {
     marginRight: spacing[3],
   } as ViewStyle,
@@ -28,6 +31,7 @@ export const ReaderScreenStyle = StyleSheet.create({
     backgroundColor: color.primary,
   } as ViewStyle,
   SuperLikeFeed: {
+    flex: 1,
     transform: [{ scaleX: -1 }],
   } as ViewStyle,
   SuperLikeHeader: {
