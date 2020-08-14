@@ -517,7 +517,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LikeCoinApp/LikeCoinApp.entitlements;
-				CURRENT_PROJECT_VERSION = 215;
+				CURRENT_PROJECT_VERSION = 219;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				HEADER_SEARCH_PATHS = (
@@ -586,7 +586,7 @@
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.18.4;
+				MARKETING_VERSION = 0.18.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -606,7 +606,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LikeCoinApp/LikeCoinApp.entitlements;
-				CURRENT_PROJECT_VERSION = 215;
+				CURRENT_PROJECT_VERSION = 219;
 				DEVELOPMENT_TEAM = 76UMR894HH;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -674,7 +674,7 @@
 				INFOPLIST_FILE = LikeCoinApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.18.4;
+				MARKETING_VERSION = 0.18.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
