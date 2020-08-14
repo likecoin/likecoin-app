@@ -220,6 +220,9 @@ export const ChainStoreModel = types
       if (!address) {
         throw Error("MISSING_WALLET_ADDRESS")
       }
+      if (typeof address !== "string") {
+        throw Error("INVALID_WALLET_ADDRESS")
+      }
       let wallet = self.wallets.get(address)
       if (!wallet) {
         wallet = WalletModel.create({ address })

@@ -101,10 +101,10 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   private verifySignIn = async () => {
     if (this.hasHandledRedirect || this.isVerifyingSignIn) return
     this.isVerifyingSignIn = true
-    await this.props.rootStore.userStore.fetchLikerLandUserInfo({ isSlient: true })
+    const response = await this.props.rootStore.env.likerLandAPI.fetchCurrentUserInfo({ isSlient: true })
     this.isVerifyingSignIn = false
     if (this.hasHandledRedirect) return
-    if (this.props.rootStore.userStore.currentUser) {
+    if (response.kind === "ok") {
       this.handlePostSignIn()
     } else if (this.verifySignInRetryCount < this.maxVerifySignInRetryCount) {
       this.verifySignInRetryCount += 1

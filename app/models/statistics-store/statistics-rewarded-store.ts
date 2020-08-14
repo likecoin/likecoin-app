@@ -70,12 +70,8 @@ export const StatisticsRewardedStoreModel = StatisticsStoreModel
         if (result.kind !== "ok") {
           throw new Error("STATS_FETCH_REWARDED_SUMMARY_FAILED")
         }
-        const {
-          LIKE: {
-            CreatorsFunds: likeAmountFromCreatorFunds = 0,
-            CivicLiker: likeAmountFromCivicLiker = 0,
-          },
-        } = result.data
+        const likeAmountFromCreatorFunds = result.data?.LIKE?.CreatorsFunds || 0
+        const likeAmountFromCivicLiker = result.data?.LIKE?.CivicLiker || 0
         self.totalLikeAmount =
           likeAmountFromCreatorFunds + likeAmountFromCivicLiker
       } catch (error) {
