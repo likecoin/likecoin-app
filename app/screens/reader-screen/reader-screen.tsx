@@ -44,10 +44,10 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   get superLikeFeedPageTitle() {
-    if (this.sections.length) {
-      return this.sections[this.state.activePageIndex].title
-    }
-    return ""
+    return (
+      this.sections[this.state.activePageIndex]?.title ||
+      (translate("Date.Today") as string)
+    )
   }
 
   componentDidMount() {
@@ -105,17 +105,6 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   private get sections() {
-    if (
-      !Object.keys(this.props.readerStore.followingSuperLikePages).length
-    ) {
-      return [
-        {
-          data: [] as SuperLikedContent[],
-          key: "placeholder",
-          title: translate("Date.Today") as string,
-        },
-      ]
-    }
     return Object.keys(this.props.readerStore.followingSuperLikePages)
       .sort()
       .reverse()
@@ -191,14 +180,30 @@ class ReaderScreenBase extends React.Component<Props> {
               />
             </View>
           </Header>
-          <ViewPager
-            ref={this.viewPager}
-            scrollEnabled={false}
-            style={Style.ViewPager}
-            onPageSelected={this.onPageSelected}
-          >
-            {this.sections.map(this.renderSuperLikeFeed)}
-          </ViewPager>
+          {/**
+           * HACK: Seems <ViewPager/> has issue with sub view(s) update
+           * This hack prevents it rendering blank
+           */}
+          {this.sections.length > 0 ? (
+            <ViewPager
+              ref={this.viewPager}
+              initialPage={0}
+              scrollEnabled={false}
+              style={Style.ViewPager}
+              onPageSelected={this.onPageSelected}
+            >
+              {this.sections.map(this.renderSuperLikeFeed)}
+            </ViewPager>
+          ) : (
+            <SuperLikeContentList
+              key="placeholder"
+              creators={{} as any}
+              data={[]}
+              hasFetched={!this.props.readerStore.isFetchingFollowedList}
+              isLoading={true}
+              style={Style.EmptyList}
+            />
+          )}
         </View>
       </Screen>
     )
