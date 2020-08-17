@@ -12,7 +12,7 @@ import { withEnvironment } from "../extensions"
 /**
  * Super Liked Content
  */
-export const SuperLikedContentModel = types
+export const SuperLikeModel = types
   .model("SuperLikedContent")
   .extend(withEnvironment)
   .props({
@@ -35,11 +35,11 @@ export const SuperLikedContentModel = types
     },
   }))
 
-type SuperLikedContentType = Instance<typeof SuperLikedContentModel>
-export interface SuperLikedContent extends SuperLikedContentType {}
-type SuperLikedContentSnapshotType = SnapshotOut<typeof SuperLikedContentModel>
-export interface SuperLikedContentSnapshot extends SuperLikedContentSnapshotType {}
+type SuperLikeType = Instance<typeof SuperLikeModel>
+export interface SuperLike extends SuperLikeType {}
+type SuperLikeSnapshotType = SnapshotOut<typeof SuperLikeModel>
+export interface SuperLikeSnapshot extends SuperLikeSnapshotType {}
 
-export interface SuperLikedContentsGroupedByDay {
-  [dayTs: string]: SuperLikedContent[]
+export interface SuperLikesGroupedByDay {
+  [dayTs: string]: SuperLike[]
 }

@@ -12,10 +12,10 @@ import {
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
 import {
-  SuperLikedContent,
-  SuperLikedContentModel,
-  SuperLikedContentsGroupedByDay,
-} from "../super-liked-content"
+  SuperLike,
+  SuperLikeModel,
+  SuperLikesGroupedByDay,
+} from "../super-like"
 
 import {
   BookmarkListResult,
@@ -49,8 +49,8 @@ export const ReaderStoreModel = types
     creators: types.map(types.late(() => CreatorModel)),
     followedList: ContentList,
     bookmarkList: ContentList,
-    globalSuperLikedFeed: types.array(types.late(() => SuperLikedContentModel)),
-    followedSuperLikedFeed: types.array(types.late(() => SuperLikedContentModel)),
+    globalSuperLikedFeed: types.array(types.late(() => SuperLikeModel)),
+    followedSuperLikedFeed: types.array(types.late(() => SuperLikeModel)),
     followingCreators: types.array(types.safeReference(CreatorModel)),
     unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
@@ -63,7 +63,7 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
-    followingSuperLikePages: {} as SuperLikedContentsGroupedByDay,
+    followingSuperLikePages: {} as SuperLikesGroupedByDay,
     isFetchingBookmarkList: false,
     hasFetchedBookmarkList: false,
     globalSuperLikedFeedStatus: "unfetch" as FetchStatus,
@@ -103,7 +103,7 @@ export const ReaderStoreModel = types
       self.isFetchingMoreFollowedList = false
       self.hasReachedEndOfFollowedList = false
       self.followedSet = new Set<string>()
-      self.followingSuperLikePages = {} as SuperLikedContentsGroupedByDay
+      self.followingSuperLikePages = {} as SuperLikesGroupedByDay
       self.isFetchingBookmarkList = false
       self.hasFetchedBookmarkList = false
       self.globalSuperLikedFeedStatus = "unfetch"
@@ -163,7 +163,7 @@ export const ReaderStoreModel = types
       user: likee,
       ts,
     }: LikerLandTypes.SuperLikeFeedItem) {
-      const superLike = SuperLikedContentModel.create({
+      const superLike = SuperLikeModel.create({
         id: superLikeID,
         timestamp: ts,
       }, self.env)
@@ -278,7 +278,7 @@ export const ReaderStoreModel = types
             self.followingSuperLikePages = {}
           }
 
-          const superLikedContents: SuperLikedContent[] = []
+          const superLikedContents: SuperLike[] = []
           for (let i = 0; i < result.data.length; i++) {
             const data = result.data[i]
             const superLikedContent = self.parseSuperLikeFeedItemToModel(data)
@@ -411,7 +411,7 @@ export const ReaderStoreModel = types
                 : undefined
           })
         if (result.kind === "ok") {
-          let superLikes: SuperLikedContent[] = []
+          let superLikes: SuperLike[] = []
           result.data.forEach(data => {
             superLikes.push(self.parseSuperLikeFeedItemToModel(data))
           })

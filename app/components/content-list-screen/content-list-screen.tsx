@@ -6,7 +6,7 @@ import {
 } from "./content-list-screen.props"
 
 import { Creator } from "../../models/creator"
-import { SuperLikedContent } from "../../models/super-liked-content"
+import { SuperLike } from "../../models/super-like"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
@@ -22,7 +22,7 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
       this.props.navigation.navigate('ContentView', { content })
     }
 
-    onPressSuperLikeItem = (item: SuperLikedContent) => {
+    onPressSuperLikeItem = (item: SuperLike) => {
       logAnalyticsEvent('select_content', { contentType: 'content', itemId: item.content.url })
       logAnalyticsEvent('OpenArticle', { url: item.content.url })
       this.props.navigation.navigate('ContentView', { superLike: item })

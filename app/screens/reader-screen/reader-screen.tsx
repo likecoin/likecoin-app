@@ -22,7 +22,7 @@ import { wrapContentListScreen } from "../../components/content-list-screen"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
-import { SuperLikedContent } from "../../models/super-liked-content"
+import { SuperLike } from "../../models/super-like"
 import { UserStore } from "../../models/user-store"
 
 import { translate } from "../../i18n"
@@ -93,7 +93,7 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   private reduceGroupToSections = (
-    sections: ReaderSectionListData<SuperLikedContent>[],
+    sections: ReaderSectionListData<SuperLike>[],
     dayTs: string,
   ) => {
     sections.push({
@@ -256,7 +256,7 @@ class ReaderScreenBase extends React.Component<Props> {
   }
 
   private renderSuperLikeFeed = (
-    section: ReaderSectionListData<SuperLikedContent>,
+    section: ReaderSectionListData<SuperLike>,
   ) => {
     return (
       <SuperLikeContentList

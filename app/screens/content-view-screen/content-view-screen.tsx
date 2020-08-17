@@ -7,7 +7,7 @@ import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
 import { Content } from "../../models/content"
-import { SuperLikedContent } from "../../models/super-liked-content"
+import { SuperLike } from "../../models/super-like"
 
 import { color } from "../../theme"
 import { logError } from "../../utils/error"
@@ -19,7 +19,7 @@ const FULL: ViewStyle = { flex: 1 }
 
 export interface ContentViewNavigationStateParams {
   content?: Content
-  superLike?: SuperLikedContent
+  superLike?: SuperLike
 }
 export interface ContentViewScreenProps extends NavigationScreenProps<ContentViewNavigationStateParams> {}
 

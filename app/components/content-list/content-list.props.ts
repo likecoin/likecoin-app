@@ -4,7 +4,7 @@ import { ContentListItemStyleProps } from "../content-list-item"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
-import { SuperLikedContent } from "../../models/super-liked-content"
+import { SuperLike } from "../../models/super-like"
 import {
   WrapScrollViewShadowProps,
 } from "../wrap-scrollview-shadow/wrap-scrollview-shadow.props"
@@ -59,19 +59,19 @@ export interface ContentListProps extends ContentListBaseProps {
 export interface SuperLikedContentListProps
   extends ContentListBaseProps,
     WrapScrollViewShadowProps {
-  data?: ReadonlyArray<SuperLikedContent>
+  data?: ReadonlyArray<SuperLike>
 
   /**
    * Set this to show content list in sections
    */
-  sections?: SectionListData<SuperLikedContent>[]
+  sections?: SectionListData<SuperLike>[]
 
   /**
    * Rendered at the top of each section.
    */
   renderSectionHeader?: (info: {
-    section: SectionListData<SuperLikedContent>
+    section: SectionListData<SuperLike>
   }) => React.ReactElement | null
 
-  onPressItem?: (superLike: SuperLikedContent) => void
+  onPressItem?: (superLike: SuperLike) => void
 }
