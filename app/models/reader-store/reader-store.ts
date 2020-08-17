@@ -168,7 +168,7 @@ export const ReaderStoreModel = types
         timestamp: ts,
       }, self.env)
 
-      superLike.setLiker(this.createCreatorFromLikerId(liker))
+      superLike.addLiker(this.createCreatorFromLikerId(liker))
 
       // Find content reference for this Super Like
       const contentURL = referrer || url

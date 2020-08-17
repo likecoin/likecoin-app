@@ -18,10 +18,16 @@ export const SuperLikeModel = types
   .props({
     id: types.identifier,
     content: types.safeReference(types.late(() => ContentModel)),
-    liker: types.safeReference(types.late(() => CreatorModel)),
+    likers: types.array(types.safeReference(types.late(() => CreatorModel))),
     timestamp: types.maybe(types.number),
   })
   .views(self => ({
+    /**
+     * Return the first Super Liker.
+     */
+    get liker(): Creator {
+      return self.likers[0]
+    },
     get redirectURL() {
       return `${self.getConfig("LIKECOIN_BUTTON_BASE_URL")}/in/redirect/superlike/${self.id}`
     },
@@ -30,8 +36,10 @@ export const SuperLikeModel = types
     setContent(content: Content) {
       self.content = content
     },
-    setLiker(liker: Creator) {
-      self.liker = liker
+    addLiker(liker: Creator) {
+      if (!self.likers.find(l => l.likerID === liker.likerID)) {
+        self.likers.push(liker)
+      }
     },
   }))
 
