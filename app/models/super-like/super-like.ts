@@ -26,7 +26,7 @@ export const SuperLikeModel = types
      * Return the first Super Liker.
      */
     get liker(): Creator {
-      return self.likers[0]
+      return self.likers.length ? self.likers[0] : undefined
     },
     get redirectURL() {
       return `${self.getConfig("LIKECOIN_BUTTON_BASE_URL")}/in/redirect/superlike/${self.id}`

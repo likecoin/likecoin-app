@@ -10,7 +10,7 @@ import {
 } from "../wrap-scrollview-shadow/wrap-scrollview-shadow.props"
 
 export interface ContentListBaseProps extends ContentListItemStyleProps {
-  creators: Map<string, Creator>
+  creators?: Map<string, Creator>
 
   titleLabelTx?: string
   isLoading?: boolean
@@ -34,6 +34,19 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
   onPressUndoUnfollowButton?: (creator: Creator) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
   onRefresh?: () => void
+
+  /**
+   * Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
+   */
+  onEndReached?: ((info: { distanceFromEnd: number }) => void) | null;
+
+  /**
+   * How far from the end (in units of visible length of the list) the bottom edge of the
+   * list must be from the end of the content to trigger the `onEndReached` callback.
+   * Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
+   * within half the visible length of the list.
+   */
+  onEndReachedThreshold?: number | null;
 
   style?: StyleProp<ViewStyle>
 }

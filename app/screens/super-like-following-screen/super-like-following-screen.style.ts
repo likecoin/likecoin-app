@@ -1,8 +1,8 @@
-import { StyleSheet, ViewStyle, TextStyle } from "react-native"
-
-import { sizes } from "../../components/text/text.sizes"
+import { Dimensions, StyleSheet, TextStyle, ViewStyle } from "react-native"
 
 import { color, spacing } from "../../theme"
+
+import { sizes } from "../../components/text/text.sizes"
 
 export const SuperLikeFollowingScreenStyle = StyleSheet.create({
   ContentWrapper: {
@@ -25,14 +25,17 @@ export const SuperLikeFollowingScreenStyle = StyleSheet.create({
   List: {
     backgroundColor: color.palette.white,
   } as ViewStyle,
+  Page: {
+    flex: 1,
+    width: Dimensions.get("window").width,
+  } as ViewStyle,
+  PageList: {
+    flex: 1,
+  } as ViewStyle,
   Root: {
     flex: 1,
     alignItems: "stretch",
     backgroundColor: color.primary,
-  } as ViewStyle,
-  SuperLikeFeed: {
-    flex: 1,
-    transform: [{ scaleX: -1 }],
   } as ViewStyle,
   SuperLikeHeader: {
     paddingHorizontal: spacing[3],
@@ -46,8 +49,4 @@ export const SuperLikeFollowingScreenStyle = StyleSheet.create({
     flexShrink: 0,
     marginRight: -spacing[2],
   } as TextStyle,
-  ViewPager: {
-    flex: 1,
-    transform: [{ scaleX: -1 }],
-  } as ViewStyle,
 })

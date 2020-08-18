@@ -29,6 +29,7 @@ export class ReaderScreen extends React.Component<Props, {}> {
   componentDidMount() {
     this.props.readerStore.fetchCreatorList()
     this.props.readerStore.fetchBookmarkList()
+    AppState.addEventListener("change", this.handleAppStateChange)
   }
 
   componentWillUnmount() {
@@ -38,13 +39,16 @@ export class ReaderScreen extends React.Component<Props, {}> {
   private handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (
       this.appState.match(/inactive|background/) &&
-      nextAppState === "active" &&
-      this.props.readerStore?.getShouldRefreshFollowingFeed()
+      nextAppState === "active"
     ) {
       if (this.isShowSuperLike) {
-        this.superLikeScreen.current.onResume()
-      } else {
-        this.contentScreen.current.onResume()
+        if (this.superLikeScreen.current?.onResume) {
+          this.superLikeScreen.current.onResume()
+        }
+      } else if (this.props.readerStore?.getShouldRefreshFollowingFeed()) {
+        if (this.contentScreen.current?.onResume) {
+          this.contentScreen.current.onResume()
+        }
       }
     }
     this.appState = nextAppState

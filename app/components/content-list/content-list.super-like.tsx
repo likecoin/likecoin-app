@@ -21,7 +21,8 @@ class SuperLikeContentListBase extends React.Component<Props> {
 
   private keyExtractor = (content: SuperLike) => `${this.props.lastFetched}${content.id}`
 
-  private onEndReach = () => {
+  private onEndReach = (info: { distanceFromEnd: number }) => {
+    if (this.props.onEndReached) this.props.onEndReached(info)
     if (this.props.onFetchMore && this.props.hasFetched && !this.props.hasFetchedAll) {
       this.props.onFetchMore()
     }
@@ -65,6 +66,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
         style={[Style.Full, this.props.style]}
         onScroll={this.props.onScroll}
         onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
@@ -88,6 +90,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
         stickySectionHeadersEnabled={false}
         onScroll={this.props.onScroll}
         onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
