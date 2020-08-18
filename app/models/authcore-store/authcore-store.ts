@@ -73,14 +73,18 @@ export const AuthCoreStoreModel = types
 
       const {
         accessToken: newAccessToken,
-        addresses,
       }: {
         accessToken: string
-        addresses: string[]
       } = yield self.env.authCoreAPI.setupModules(refreshToken, accessToken)
       self.accessToken = newAccessToken
-      self.cosmosAddresses.replace(addresses)
       pendingInitPromise = undefined
+    })
+
+    const initWallet = flow(function*(
+      accessToken: string
+    ) {
+      const { addresses }: { addresses: string[] } = yield self.env.authCoreAPI.setupWallet(accessToken)
+      self.cosmosAddresses.replace(addresses)
     })
 
     const resume = flow(function*() {
@@ -114,6 +118,7 @@ export const AuthCoreStoreModel = types
           self.setHasSignedIn(true)
           yield Promise.all([
             init(refreshToken, accessToken, idToken, currentUser),
+            initWallet(accessToken),
             Keychain.save(
               "authcore_refresh_token",
               refreshToken,
@@ -134,6 +139,7 @@ export const AuthCoreStoreModel = types
         resume: flow(function*() {
           pendingInitPromise = resume()
           yield pendingInitPromise
+          yield initWallet(self.accessToken);
         }),
         fetchCurrentUser: flow(function*() {
           if (pendingInitPromise) yield pendingInitPromise
