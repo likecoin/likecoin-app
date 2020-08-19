@@ -28,6 +28,9 @@ export const SuperLikeModel = types
     get liker(): Creator {
       return self.likers.length ? self.likers[0] : undefined
     },
+    get otherLikersCount() {
+      return Math.max(self.likers.length - 1, 0)
+    },
     get redirectURL() {
       return `${self.getConfig("LIKECOIN_BUTTON_BASE_URL")}/in/redirect/superlike/${self.id}`
     },
@@ -37,7 +40,7 @@ export const SuperLikeModel = types
       self.content = content
     },
     addLiker(liker: Creator) {
-      if (!self.likers.find(l => l.likerID === liker.likerID)) {
+      if (liker && !self.likers.find(l => l.likerID === liker.likerID)) {
         self.likers.push(liker)
       }
     },

@@ -85,7 +85,11 @@
     "Title": "Reading",
     "emptyLabel": "No content",
     "followingLabel": "Your following list",
-    "SuperLikeFromLabel": "%{liker} shared"
+    "SuperLikeFromLabel": {
+      "zero": "%{liker} shared ",
+      "one": "%{liker} and {{count}} person shared ",
+      "other": "%{liker} and {{count}} people shared "
+    }
   },
   "receiveScreen": {
     "shareYourAddress": "Share your address"

@@ -176,13 +176,14 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
           <View style={Style.HeaderView}>
             <I18n
               tx="readerScreen.SuperLikeFromLabel"
+              txOptions={{ count: content.otherLikersCount }}
               style={Style.ShareByLabel}
             >
               <Text
                 color="likeGreen"
                 size="default"
                 weight="600"
-                text={content.liker?.displayName || ""}
+                text={content.liker?.displayName || content.liker?.likerID || ""}
                 place="liker"
               />
             </I18n>

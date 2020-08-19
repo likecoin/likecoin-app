@@ -4,7 +4,7 @@ import { SuperLikeFeedResult } from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 
 import { withEnvironment, withReaderStore, withStatus } from "../extensions"
-import { SuperLikeModel } from "../super-like"
+import { SuperLike, SuperLikeModel } from "../super-like"
 
 /**
  * Model description here for TypeScript hints.
@@ -28,11 +28,33 @@ export const SuperLikeFeedModel = types
   .extend(withEnvironment)
   .extend(withStatus)
   .extend(withReaderStore)
-  .actions(self => ({
-    reset() {
+  .actions(self => {
+    function reset() {
       self.items.replace([])
-    },
-    fetch: flow(function*() {
+    }
+
+    function removeDuplicatedFeedItems(items: SuperLike[]) {
+      const urlIndexMap: { [key: string]: number } = {}
+      const newItems: SuperLike[] = []
+      try {
+        for (let i = items.length - 1; i >= 0; i--) {
+          const item = items[i]
+          const url = item.content.url
+          const index = urlIndexMap[url]
+          if (index !== undefined) {
+            newItems[index].addLiker(item.liker)
+          } else {
+            urlIndexMap[url] = newItems.push(items[i]) - 1
+          }
+        }
+      } catch (error) {
+        logError(error);
+        return items
+      }
+      return newItems.reverse()
+    }
+
+    const fetch = flow(function*() {
       if (self.status === "pending") return
       self.setStatus("pending")
       try {
@@ -49,7 +71,9 @@ export const SuperLikeFeedModel = types
             const items = result.data.map(
               self.readerStore.parseSuperLikeFeedItemToModel,
             )
+            // HACK: For getting identifier references
             self.items.replace(items)
+            self.items.replace(removeDuplicatedFeedItems(self.items))
           }
           self.setStatus("done")
         } else {
@@ -59,8 +83,13 @@ export const SuperLikeFeedModel = types
         logError(error)
         self.setStatus("error")
       }
-    }),
-  }))
+    })
+
+    return {
+      reset,
+      fetch,
+    }
+  })
 
 type SuperLikeFeedType = Instance<typeof SuperLikeFeedModel>
 export interface SuperLikeFeed extends SuperLikeFeedType {}
