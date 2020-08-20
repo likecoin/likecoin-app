@@ -1,7 +1,7 @@
 import { getEnv, IStateTreeNode } from "mobx-state-tree"
 import { Environment } from "../environment"
 
-import { AppConfigParamKey } from "../../services/app-config"
+import { AppConfigKey } from "../../services/app-config"
 
 /**
  * Adds a environment property to the node for accessing our
@@ -18,14 +18,14 @@ export const withEnvironment = (self: IStateTreeNode) => ({
     /**
      * Shortcut for getting the app config.
      */
-    getConfig(key: AppConfigParamKey) {
+    getConfig(key: AppConfigKey) {
       return this.env.appConfig.getValue(key)
     },
 
     /**
      * Shortcut for getting the app config in number.
      */
-    getNumericConfig(key: AppConfigParamKey, defaultValue?: number): number {
+    getNumericConfig(key: AppConfigKey, defaultValue?: number): number {
       return this.env.appConfig.getNumericValue(key, defaultValue)
     },
   },
