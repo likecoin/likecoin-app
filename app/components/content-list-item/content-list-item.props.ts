@@ -3,9 +3,7 @@ import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
-import {
-  SuperLikedContent,
-} from "../../models/super-liked-content"
+import { SuperLike } from "../../models/super-like"
 
 export interface ContentListItemStyleProps {
   /**
@@ -81,10 +79,10 @@ export interface ContentListItemProps extends ContentListItemBaseProps {
 }
 
 export interface SuperLikedContentListItemProps extends ContentListItemBaseProps {
-  content: SuperLikedContent
+  content: SuperLike
 
   /**
    * A callback when the item is pressed.
    */
-  onPress?: (item: SuperLikedContent) => void
+  onPress?: (item: SuperLike) => void
 }

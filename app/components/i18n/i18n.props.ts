@@ -12,6 +12,11 @@ export interface I18nProps extends ReactNativeTextProps {
   tx: string
 
   /**
+   * Translate options.
+   */
+  txOptions?: object
+
+  /**
    * The interpolated contents from <Text/>.
    */
   children?: React.ReactElement<TextProps> | React.ReactElement<TextProps>[]

@@ -18,6 +18,7 @@ import {
   StatisticsRewardedStoreModel,
   StatisticsSupportedStoreModel,
 } from "../statistics-store"
+import { SuperLikeFollowingStoreModel } from "../../models/super-like-following-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
 
@@ -43,6 +44,7 @@ export const RootStoreModel = types
     stakingUnbondingDelegationStore: types.optional(StakingUnbondingDelegationStoreModel, {}),
     statisticsRewardedStore: types.optional(StatisticsRewardedStoreModel, {}),
     statisticsSupportedStore: types.optional(StatisticsSupportedStoreModel, {}),
+    superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
     readerStore: types.optional(ReaderStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),

@@ -36,7 +36,8 @@ export class ContentList extends React.Component<Props> {
 
   private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
 
-  private onEndReach = () => {
+  private onEndReach = (info: { distanceFromEnd: number }) => {
+    if (this.props.onEndReached) this.props.onEndReached(info)
     if (
       this.props.onFetchMore &&
       this.props.hasFetched &&
@@ -83,6 +84,7 @@ export class ContentList extends React.Component<Props> {
         contentContainerStyle={this.props.data.length > 0 ? null : Style.Full}
         style={[Style.Full, this.props.style]}
         onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
@@ -105,6 +107,7 @@ export class ContentList extends React.Component<Props> {
         style={[Style.Full, this.props.style]}
         stickySectionHeadersEnabled={false}
         onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )

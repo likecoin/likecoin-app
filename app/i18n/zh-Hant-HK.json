@@ -106,7 +106,11 @@
     "Title": "閱讀列表",
     "emptyLabel": "沒有內容",
     "followingLabel": "你的追蹤列表",
-    "SuperLikeFromLabel": "%{liker} 分享了"
+    "SuperLikeFromLabel":  {
+      "zero": "%{liker} 分享了",
+      "one": "%{liker} 及 {{count}} 位分享了",
+      "other": "%{liker} 及 {{count}} 位分享了"
+    }
   },
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"

@@ -1,15 +1,9 @@
-import { SectionBase } from "react-native"
+import { NavigationScreenProps } from "react-navigation"
 
-import {
-  ContentListScreenProps,
-} from "../../components/content-list-screen"
+import { ReaderStore } from "../../models/reader-store"
+import { UserStore } from "../../models/user-store"
 
-import { User } from "../../models/user"
-
-export interface ReaderScreenProps extends ContentListScreenProps {
-  currentUser: User
-}
-
-export interface ReaderSectionListData<T> extends SectionBase<T> {
-  title: string
+export interface ReaderScreenProps extends NavigationScreenProps {
+  readerStore: ReaderStore
+  userStore: UserStore
 }

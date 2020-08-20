@@ -12,10 +12,10 @@ import {
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
 import {
-  SuperLikedContent,
-  SuperLikedContentModel,
-  SuperLikedContentsGroupedByDay,
-} from "../super-liked-content"
+  SuperLike,
+  SuperLikeModel,
+  SuperLikesGroupedByDay,
+} from "../super-like"
 
 import {
   BookmarkListResult,
@@ -26,11 +26,8 @@ import {
 } from "../../services/api/api.types"
 import * as LikerLandTypes from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
-import moment from "moment"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
-
-const SLOT_HOURS = 12
 
 type FetchStatus =
   "unfetch" |
@@ -49,8 +46,7 @@ export const ReaderStoreModel = types
     creators: types.map(types.late(() => CreatorModel)),
     followedList: ContentList,
     bookmarkList: ContentList,
-    globalSuperLikedFeed: types.array(types.late(() => SuperLikedContentModel)),
-    followedSuperLikedFeed: types.array(types.late(() => SuperLikedContentModel)),
+    globalSuperLikedFeed: types.array(types.late(() => SuperLikeModel)),
     followingCreators: types.array(types.safeReference(CreatorModel)),
     unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
@@ -63,7 +59,7 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
-    followingSuperLikePages: {} as SuperLikedContentsGroupedByDay,
+    followingSuperLikePages: {} as SuperLikesGroupedByDay,
     isFetchingBookmarkList: false,
     hasFetchedBookmarkList: false,
     globalSuperLikedFeedStatus: "unfetch" as FetchStatus,
@@ -71,20 +67,6 @@ export const ReaderStoreModel = types
   }))
   .extend(withEnvironment)
   .views(self => ({
-    calcaluteSlotStartingTimestamp(timestamp: number) {
-      const date = moment(timestamp)
-      const noon = moment(date).startOf("day").add(SLOT_HOURS, "hours")
-      return (date.isBefore(noon) ? date.startOf("day") : noon).valueOf()
-    },
-    getCurrentSlotStartingTimestamp() {
-      return this.calcaluteSlotStartingTimestamp(Date.now())
-    },
-    get isReachedFollowingSuperLikePageMax() {
-      return (
-        Object.keys(self.followingSuperLikePages).length >=
-        parseInt(self.getConfig("MAX_FOLLOWING_SUPERLIKE_PAGE"))
-      )
-    },
     getShouldRefreshFollowingFeed() {
       return (
         Date.now() - self.followedListLastFetchedDate.getTime() >=
@@ -103,7 +85,7 @@ export const ReaderStoreModel = types
       self.isFetchingMoreFollowedList = false
       self.hasReachedEndOfFollowedList = false
       self.followedSet = new Set<string>()
-      self.followingSuperLikePages = {} as SuperLikedContentsGroupedByDay
+      self.followingSuperLikePages = {} as SuperLikesGroupedByDay
       self.isFetchingBookmarkList = false
       self.hasFetchedBookmarkList = false
       self.globalSuperLikedFeedStatus = "unfetch"
@@ -163,12 +145,12 @@ export const ReaderStoreModel = types
       user: likee,
       ts,
     }: LikerLandTypes.SuperLikeFeedItem) {
-      const superLike = SuperLikedContentModel.create({
+      const superLike = SuperLikeModel.create({
         id: superLikeID,
         timestamp: ts,
       }, self.env)
 
-      superLike.setLiker(this.createCreatorFromLikerId(liker))
+      superLike.addLiker(this.createCreatorFromLikerId(liker))
 
       // Find content reference for this Super Like
       const contentURL = referrer || url
@@ -257,66 +239,6 @@ export const ReaderStoreModel = types
         logError(error.message)
       } finally {
         self.isFetchingMoreFollowedList = false
-      }
-    }),
-    fetchFollowedSuperLikedFeed: flow(function * (options: {
-      isMore?: boolean
-    } = {}) {
-      self.isFetchingFollowedList = true
-      try {
-        const result: LikerLandTypes.SuperLikeFeedResult =
-          yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed({
-            before: (
-              options.isMore
-                ? self.followedSuperLikedFeed[self.followedSuperLikedFeed.length - 1].timestamp
-                : self.getCurrentSlotStartingTimestamp()
-            ) - 1
-          })
-
-        if (result.kind === "ok") {
-          if (!options.isMore) {
-            self.followingSuperLikePages = {}
-          }
-
-          const superLikedContents: SuperLikedContent[] = []
-          for (let i = 0; i < result.data.length; i++) {
-            const data = result.data[i]
-            const superLikedContent = self.parseSuperLikeFeedItemToModel(data)
-
-            const timestamp = Math.min(superLikedContent.timestamp, Date.now())
-            const dayTs = moment(self.calcaluteSlotStartingTimestamp(timestamp))
-              .add(SLOT_HOURS, "hours")
-              .startOf("day")
-              .valueOf()
-              .toString()
-            if (!self.followingSuperLikePages[dayTs]) {
-              if (self.isReachedFollowingSuperLikePageMax) {
-                continue
-              }
-              self.followingSuperLikePages[dayTs] = []
-            }
-            self.followingSuperLikePages[dayTs].push(superLikedContent)
-
-            superLikedContents.push(superLikedContent)
-          }
-
-          if (options.isMore) {
-            if (superLikedContents.length) {
-              self.followedSuperLikedFeed.push(...superLikedContents)
-            } else {
-              self.hasReachedEndOfFollowedList = true
-            }
-          } else {
-            self.followedSuperLikedFeed.replace(superLikedContents)
-            self.hasReachedEndOfFollowedList = false
-          }
-        }
-      } catch (error) {
-        logError(error.message)
-      } finally {
-        self.isFetchingFollowedList = false
-        self.hasFetchedFollowedList = true
-        self.followedListLastFetchedDate = new Date()
       }
     }),
     fetchBookmarkList: flow(function * () {
@@ -411,7 +333,7 @@ export const ReaderStoreModel = types
                 : undefined
           })
         if (result.kind === "ok") {
-          let superLikes: SuperLikedContent[] = []
+          let superLikes: SuperLike[] = []
           result.data.forEach(data => {
             superLikes.push(self.parseSuperLikeFeedItemToModel(data))
           })

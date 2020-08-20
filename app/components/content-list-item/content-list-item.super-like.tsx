@@ -22,7 +22,7 @@ import { color } from "../../theme"
 export class SuperLikeContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
 
-  isPrevFollow = this.props.content.liker.isFollowing
+  isPrevFollow = this.props.content.liker?.isFollowing
 
   constructor(props: Props) {
     super(props)
@@ -59,7 +59,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
     if (this.props.content.content.shouldFetchCreatorDetails) {
       this.props.content.content.creator.fetchDetails()
     }
-    if (!this.props.content.liker.hasFetchedDetails) {
+    if (this.props.content.liker && !this.props.content.liker.hasFetchedDetails) {
       this.props.content.liker.fetchDetails()
     }
   }
@@ -142,7 +142,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         <ContentListItemBack
           isShowFollowToggle={!!this.props.content.liker}
           isBookmarked={isBookmarked}
-          isFollowingCreator={this.props.content.liker.isFollowing}
+          isFollowingCreator={!!this.props.content.liker?.isFollowing}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
         />
@@ -176,13 +176,14 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
           <View style={Style.HeaderView}>
             <I18n
               tx="readerScreen.SuperLikeFromLabel"
+              txOptions={{ count: content.otherLikersCount }}
               style={Style.ShareByLabel}
             >
               <Text
                 color="likeGreen"
                 size="default"
                 weight="600"
-                text={content.liker.displayName}
+                text={content.liker?.displayName || content.liker?.likerID || ""}
                 place="liker"
               />
             </I18n>
@@ -248,7 +249,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         <View style={LegacyStyle.UndoTextWrapper}>
           <Text
             text={translate("common.unfollowSuccess", {
-              creator: this.props.content.liker.displayName,
+              creator: this.props.content.liker?.displayName,
             })}
             weight="600"
             color="grey9b"

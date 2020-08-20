@@ -17,6 +17,7 @@ import { color } from "../../theme"
 export const I18n = (props: Props) => {
   const {
     tx,
+    txOptions: inputTxOptions = {},
     children,
     ...rest
   } = props
@@ -29,7 +30,7 @@ export const I18n = (props: Props) => {
   const txOptions = Object.keys(interpolations).reduce((pv, key) => {
     pv[key] = `%{${key}}`
     return pv
-  }, {})
+  }, inputTxOptions)
 
   const text: string = translate(tx, txOptions)
 

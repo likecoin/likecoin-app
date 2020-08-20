@@ -11,17 +11,18 @@ import { ContentListItemSkeleton, SuperLikeContentListItem } from "../content-li
 import { wrapScrollViewShadow } from "../wrap-scrollview-shadow"
 import { Text } from "../text"
 
-import { SuperLikedContent } from "../../models/super-liked-content"
+import { SuperLike } from "../../models/super-like"
 
-const ContentSectionList: SectionListStatic<SuperLikedContent> = SectionListBase
+const ContentSectionList: SectionListStatic<SuperLike> = SectionListBase
 
 @observer
 class SuperLikeContentListBase extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
-  private keyExtractor = (content: SuperLikedContent) => `${this.props.lastFetched}${content.id}`
+  private keyExtractor = (content: SuperLike) => `${this.props.lastFetched}${content.id}`
 
-  private onEndReach = () => {
+  private onEndReach = (info: { distanceFromEnd: number }) => {
+    if (this.props.onEndReached) this.props.onEndReached(info)
     if (this.props.onFetchMore && this.props.hasFetched && !this.props.hasFetchedAll) {
       this.props.onFetchMore()
     }
@@ -51,7 +52,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
       return this.renderSections()
     }
     return (
-      <FlatList<SuperLikedContent>
+      <FlatList<SuperLike>
         data={this.props.data}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderContent}
@@ -65,6 +66,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
         style={[Style.Full, this.props.style]}
         onScroll={this.props.onScroll}
         onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
@@ -88,6 +90,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
         stickySectionHeadersEnabled={false}
         onScroll={this.props.onScroll}
         onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
@@ -113,7 +116,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
       />
     ) : null
 
-  private renderContent: ListRenderItem<SuperLikedContent> = ({ item: content }) => (
+  private renderContent: ListRenderItem<SuperLike> = ({ item: content }) => (
     <SuperLikeContentListItem
       content={content}
       isShowBookmarkIcon={this.props.isShowBookmarkIcon}

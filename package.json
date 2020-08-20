@@ -25,7 +25,6 @@
     "@eva-design/eva": "^1.0.1",
     "@lunie/cosmos-api": "^0.2.1",
     "@react-native-community/async-storage": "^1.5.1",
-    "@react-native-community/viewpager": "^4.1.3",
     "@react-native-firebase/analytics": "6.1.0",
     "@react-native-firebase/app": "6.1.0",
     "@react-native-firebase/crashlytics": "6.1.0",
@@ -193,6 +192,7 @@
     },
     "rules": {
       "comma-dangle": 0,
+      "generator-star-spacing": 0,
       "no-array-constructor": 0,
       "no-unused-vars": 0,
       "no-undef": 0,
