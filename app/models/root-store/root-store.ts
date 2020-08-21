@@ -101,6 +101,7 @@ export const RootStoreModel = types
       self.stakingUnbondingDelegationStore.reset()
       self.statisticsRewardedStore.reset()
       self.statisticsSupportedStore.reset()
+      self.superLikeFollowingStore.reset()
       self.transferStore.reset()
       self.readerStore.reset()
     }),

@@ -38,7 +38,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   } as Partial<Props>
 
   componentDidMount() {
-    if (this.props.content.content.shouldFetchDetails) {
+    if (this.props.content.content?.shouldFetchDetails) {
       this.props.content.content.fetchDetails()
     }
     this.fetchCreatorDependedDetails()
@@ -53,10 +53,10 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   }
 
   private fetchCreatorDependedDetails() {
-    if (this.props.content.content.shouldFetchLikeStat) {
+    if (this.props.content.content?.shouldFetchLikeStat) {
       this.props.content.content.fetchLikeStat()
     }
-    if (this.props.content.content.shouldFetchCreatorDetails) {
+    if (this.props.content.content?.shouldFetchCreatorDetails) {
       this.props.content.content.creator.fetchDetails()
     }
     if (this.props.content.liker && !this.props.content.liker.hasFetchedDetails) {
@@ -140,9 +140,9 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         onRowClose={this.onRowClose}
       >
         <ContentListItemBack
-          isShowFollowToggle={!!this.props.content.liker}
+          isShowFollowToggle={!!this.props.content?.liker}
           isBookmarked={isBookmarked}
-          isFollowingCreator={!!this.props.content.liker?.isFollowing}
+          isFollowingCreator={!!this.props.content?.liker?.isFollowing}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
         />
@@ -153,8 +153,6 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
 
   private renderFront() {
     const { backgroundColor, content, style } = this.props
-
-    const { normalizedTitle } = content.content
 
     const rootStyle = {
       ...LegacyStyle.Root,
@@ -176,14 +174,14 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
           <View style={Style.HeaderView}>
             <I18n
               tx="readerScreen.SuperLikeFromLabel"
-              txOptions={{ count: content.otherLikersCount }}
+              txOptions={{ count: content?.otherLikersCount || 0 }}
               style={Style.ShareByLabel}
             >
               <Text
                 color="likeGreen"
                 size="default"
                 weight="600"
-                text={content.liker?.displayName || content.liker?.likerID || ""}
+                text={content?.liker?.displayName || content?.liker?.likerID || ""}
                 place="liker"
               />
             </I18n>
@@ -196,17 +194,17 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
               onPress={this.onPressMoreButton}
             />
           </View>
-          <Text text={normalizedTitle} style={Style.Title} />
+          <Text text={content?.content?.normalizedTitle || ""} style={Style.Title} />
           <View style={Style.FooterView}>
             <Text
-              text={content.content.creatorDisplayName}
+              text={content?.content?.creatorDisplayName || ""}
               size="small"
               color="grey9b"
             />
             <View style={Style.AccessoryView}>
               {this.props.isShowFollowToggle &&
-                this.renderFollowToggle(content.liker.isFollowing)}
-              {this.renderBookmarkButton(content.content.isBookmarked)}
+                this.renderFollowToggle(!!content?.liker?.isFollowing)}
+              {this.renderBookmarkButton(!!content?.content?.isBookmarked)}
             </View>
           </View>
         </View>
@@ -249,7 +247,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         <View style={LegacyStyle.UndoTextWrapper}>
           <Text
             text={translate("common.unfollowSuccess", {
-              creator: this.props.content.liker?.displayName,
+              creator: this.props.content?.liker?.normalizedName || "",
             })}
             weight="600"
             color="grey9b"
