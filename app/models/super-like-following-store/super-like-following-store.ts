@@ -1,4 +1,4 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { applySnapshot, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import {
   SuperLikeDailyFeedModel,
@@ -64,6 +64,10 @@ export const SuperLikeFollowingStoreModel = types
     },
   }))
   .actions(self => {
+    function reset() {
+      applySnapshot(self, {})
+    }
+
     function getPage(pageIndex: number) {
       const id = moment()
         .startOf("day")
@@ -97,6 +101,7 @@ export const SuperLikeFollowingStoreModel = types
     }
 
     return {
+      reset,
       refreshPage() {
         if (self.pageCount === 0 || !self.pagedFeeds[0].isToday()) {
           const pagedFeeds = [] as SuperLikeDailyFeed[]
