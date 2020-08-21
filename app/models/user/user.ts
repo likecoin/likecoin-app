@@ -24,6 +24,9 @@ export const UserModel = types
         skipToConfirm: false,
       })
     },
+    get normalizedName() {
+      return self.likerID || self.displayName || ""
+    },
   }))
 
 type UserType = Instance<typeof UserModel>

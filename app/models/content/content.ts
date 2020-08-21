@@ -63,8 +63,7 @@ export const ContentModel = types
       return self.creator && !self.hasFetchedLikeStats
     },
     get creatorDisplayName() {
-      if (!self.creator) return ""
-      return self.creator.displayName || self.creator.likerID
+      return self.creator?.normalizedName || ""
     },
     get normalizedTitle() {
       return self.title || decodeURI(self.url).split("?")[0]
