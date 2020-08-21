@@ -84,7 +84,7 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback = {}
 
-  async setup(baseURL: string, cosmosChainId: string, refreshToken?: string, accessToken?: string) {
+  setup(baseURL: string, cosmosChainId: string, refreshToken?: string, accessToken?: string) {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
@@ -92,9 +92,6 @@ export class AuthCoreAPI {
       language: findBestAvailableLanguage(),
     })
     this.cosmosChainId = cosmosChainId
-    if (refreshToken) {
-      await this.setupModules(refreshToken, accessToken)
-    }
   }
 
   async setupModules(refreshToken: string, accessToken?: string) {
@@ -119,12 +116,17 @@ export class AuthCoreAPI {
     if (!accessToken) {
       return {
         accessToken: "",
-        addresses: [],
       }
     }
 
     this.client.auth.client.bearer = `Bearer ${accessToken}`
 
+    return {
+      accessToken,
+    }
+  }
+
+  async setupWallet(accessToken: string) {
     __DEV__ && console.tron.log("Initializing AuthCore Key Vault Client")
     this.keyVaultClient = await new AuthcoreVaultClient({
       apiBaseURL: this.baseURL,
@@ -139,7 +141,6 @@ export class AuthCoreAPI {
     // Getting Cosmos addresses, it will be created if not exists
     const addresses = await this.getCosmosAddresses()
     return {
-      accessToken,
       addresses,
     }
   }
@@ -176,6 +177,7 @@ export class AuthCoreAPI {
 
   async cosmosSign(payload: Record<string, any>, address: string) {
     let signed
+    if (!this.cosmosProvider) throw new Error('WALLET_NOT_INITED');
     try {
       signed = await this.cosmosProvider.sign(payload, address)
     } catch (error) {

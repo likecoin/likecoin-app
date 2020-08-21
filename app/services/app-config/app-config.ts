@@ -19,6 +19,7 @@ import {
   APP_REFERRAL_ENABLE,
   LIKECO_API_URL,
   LIKERLAND_API_URL,
+  LIKERLAND_SIGNIN_RETRY_COUNT,
   LIKECOIN_BUTTON_BASE_URL,
   MIN_VERSION,
   SENTRY_DSN,
@@ -51,6 +52,7 @@ export interface AppConfigParams {
   APP_REFERRAL_ENABLE: string
   LIKECO_API_URL: string
   LIKERLAND_API_URL: string
+  LIKERLAND_SIGNIN_RETRY_COUNT: string
   LIKECOIN_BUTTON_BASE_URL: string
   MIN_VERSION: string
   SENTRY_DSN: string
@@ -96,6 +98,7 @@ export class AppConfig {
       APP_REFERRAL_ENABLE,
       LIKECO_API_URL,
       LIKERLAND_API_URL,
+      LIKERLAND_SIGNIN_RETRY_COUNT,
       LIKECOIN_BUTTON_BASE_URL,
       MIN_VERSION,
       SENTRY_DSN,
@@ -149,7 +152,11 @@ export class AppConfig {
     return this.config[key]
   }
 
+  getNumericValue(key: AppConfigParamKey, defaultValue?: number) {
+    return parseInt(this.getValue(key)) || defaultValue
+  }
+
   getIsDeprecatedAppVersion() {
-    return parseInt(this.getValue("MIN_VERSION")) > parseInt(this.getValue(APP_VERSION))
+    return this.getNumericValue("MIN_VERSION") > this.getNumericValue(APP_VERSION)
   }
 }

@@ -13,6 +13,7 @@ import { UserAppMetaModel } from "../user-app-meta"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
+import { translate } from "../../i18n"
 import {
   updateAnalyticsUser,
   logoutAnalyticsUser,
@@ -220,7 +221,6 @@ export const UserStoreModel = types
             displayName,
             email,
             primaryPhone,
-            oAuthFactors: self.env.authCoreAPI.getOAuthFactors(),
             cosmosWallet,
             authCoreUserId,
             userPIISalt,
@@ -254,7 +254,7 @@ export const UserStoreModel = types
       const result: UserResult = yield self.env.likerLandAPI.fetchCurrentUserInfo(opts)
       switch (result.kind) {
         case "ok":
-          self.updateUserFromResultData(result.data)
+          // Do nothing, store like.co user instead of liker.land
           break
 
         case "unauthorized":
@@ -328,7 +328,15 @@ export const UserStoreModel = types
       if (appReferrer) yield self.env.likerLandAPI.followLiker(appReferrer)
     }),
     generateUserAppReferralLink: flow(function * () {
-      const url = yield self.env.branchIO.generateAppReferralLink(self.currentUser.likerID)
+      const url = yield self.env.branchIO.generateAppReferralLink(
+        self.currentUser.likerID, {
+          title: translate(
+            "ReferralScreen.OgTitle",
+            { displayName: self.currentUser.displayName },
+          ),
+          description: translate("ReferralScreen.OgDescription")
+        }
+      )
       self.userAppReferralLink = url
     }),
   }))

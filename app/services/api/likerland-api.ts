@@ -68,7 +68,7 @@ export class LikerLandAPI {
    * Fetch the current user info
    */
   async fetchCurrentUserInfo(opts: Types.APIOptions = {}): Promise<Types.UserResult> {
-    const response: ApiResponse<any> = await this.apisauce.get("/users/self")
+    const response: ApiResponse<any> = await this.apisauce.get("/users/self/min")
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -132,7 +132,7 @@ export class LikerLandAPI {
     }
 
     try {
-      const data: Types.Content[] = response.data.list
+      const data: Types.Content[] = response.data?.list || []
       return { kind: "ok", data }
     } catch {
       return { kind: "bad-data" }

@@ -107,6 +107,7 @@ export const ContentModel = types
       }
     }),
     fetchLikeStat: flow(function * () {
+      if (!self.creator) return
       self.isFetchingLikeStats = true
       try {
         const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(

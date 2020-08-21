@@ -217,6 +217,12 @@ export const ChainStoreModel = types
       self.currentWallet = undefined
     },
     setupWallet(address: string) {
+      if (!address) {
+        throw Error("MISSING_WALLET_ADDRESS")
+      }
+      if (typeof address !== "string") {
+        throw Error("INVALID_WALLET_ADDRESS")
+      }
       let wallet = self.wallets.get(address)
       if (!wallet) {
         wallet = WalletModel.create({ address })
@@ -303,7 +309,7 @@ export const ChainStoreModel = types
       validator.isFetchingDelegation = true
       try {
         const result: CosmosDelegation = yield self.env.cosmosAPI.getDelegation(self.wallet.address, validator.operatorAddress)
-        self.setDelegation("shares", validator.operatorAddress, new BigNumber(result.shares))
+        self.setDelegation("shares", validator.operatorAddress, new BigNumber(result?.shares || 0))
       } catch (error) {
         logError(`Error occurs in ChainStore.fetchDelegation: ${error}`)
       } finally {
