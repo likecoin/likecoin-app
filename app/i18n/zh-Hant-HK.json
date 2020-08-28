@@ -106,6 +106,7 @@
     "Title": "閱讀列表",
     "emptyLabel": "沒有內容",
     "followingLabel": "你的追蹤列表",
+    "ReadLabel": "已閱讀",
     "SuperLikeFromLabel":  {
       "zero": "%{liker} 分享了",
       "one": "%{liker} 及 {{count}} 位分享了",

@@ -107,6 +107,7 @@
     "Title": "Reading",
     "emptyLabel": "No content",
     "followingLabel": "Your following list",
+    "ReadLabel": "VIEWED",
     "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} and {{count}} liker Super Liked",

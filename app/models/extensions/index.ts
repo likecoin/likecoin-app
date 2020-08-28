@@ -1,3 +1,4 @@
+export * from "./with-current-user"
 export * from "./with-environment"
 export * from "./with-reader-store"
 export * from "./with-root-store"

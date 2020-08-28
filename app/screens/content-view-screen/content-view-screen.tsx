@@ -25,6 +25,7 @@ export interface ContentViewScreenProps extends NavigationScreenProps<ContentVie
 
 export class ContentViewScreen extends React.Component<ContentViewScreenProps, {}> {
   componentDidMount() {
+    this.content.read()
     if (!this.content.hasFetchedDetails) {
       this.content.fetchDetails()
     }

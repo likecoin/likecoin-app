@@ -6,7 +6,6 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { mergeAll, flatten } from "ramda"
 
 import { presets } from "./text.presets"
 import { TextProps } from "./text.props"
@@ -19,29 +18,48 @@ const TEXT_WRAPPER: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
 }
+const WRAPPED_CHILD: ViewStyle = {
+  marginTop: spacing[0],
+  marginBottom: spacing[0],
+  marginLeft: spacing[0],
+  marginRight: spacing[0],
+  paddingTop: spacing[0],
+  paddingBottom: spacing[0],
+  paddingLeft: spacing[0],
+  paddingRight: spacing[0],
+}
 const PREPEND: ViewStyle = {
-  margin: spacing[0],
+  ...WRAPPED_CHILD,
   marginRight: spacing[1],
-  padding: spacing[0],
+}
+const APPEND: ViewStyle = {
+  ...WRAPPED_CHILD,
+  marginLeft: spacing[1],
 }
 
 /**
- * Render a prepend element
+ * Render a prepend or append element
  *
- * @param element The prepend element
+ * @param position The position of the element
+ * @param element The prepend or append element
  * @param size The size of the element
  */
-function _renderPrependChild(
+function _renderChild(
+  position: "prepend" | "append",
   element: React.ReactElement,
   textStyle: TextStyle | TextStyle[],
 ) {
   const { style, ...rest } = element.props
   const size = StyleSheet.flatten(textStyle).fontSize
   const props = {
-    style: [PREPEND, style, textStyle] as ViewStyle,
+    style: [
+      position === "prepend" ? PREPEND : APPEND,
+      style,
+      textStyle,
+    ] as ViewStyle,
     width: size,
     height: size,
-    ...rest
+    ...rest,
   }
   return React.cloneElement(element, props)
 }
@@ -59,6 +77,7 @@ export function Text(props: TextProps) {
     txOptions,
     text,
     prepend: prependChild,
+    append: appendChild,
     children,
     color: colorName,
     size,
@@ -92,24 +111,22 @@ export function Text(props: TextProps) {
     styleList.push({ opacity: 0.3 })
   }
 
-  const style = mergeAll(flatten(styleList))
+  const style = StyleSheet.flatten(styleList)
 
-  const textElement = (
+  if (prependChild || appendChild) {
+    return (
+      <View style={[style, TEXT_WRAPPER]}>
+        {!!prependChild && _renderChild("prepend", prependChild, style)}
+        <ReactNativeText {...rest} style={StyleSheet.flatten([style, WRAPPED_CHILD])}>
+          {content}
+        </ReactNativeText>
+        {!!appendChild && _renderChild("append", appendChild, style)}
+      </View>
+    )
+  }
+  return (
     <ReactNativeText {...rest} style={style}>
       {content}
     </ReactNativeText>
   )
-
-  if (prependChild) {
-    return (
-      <View style={TEXT_WRAPPER}>
-        {_renderPrependChild(
-          prependChild,
-          style,
-        )}
-        {textElement}
-      </View>
-    )
-  }
-  return textElement
 }

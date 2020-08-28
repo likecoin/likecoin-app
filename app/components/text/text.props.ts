@@ -10,6 +10,11 @@ export interface TextProps extends TextProperties {
   prepend?: React.ReactElement
 
   /**
+   * A prepended element.
+   */
+  append?: React.ReactElement
+
+  /**
    * Children components.
    */
   children?: React.ReactNode
