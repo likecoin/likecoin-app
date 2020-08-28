@@ -5,6 +5,7 @@ import {
   SnapshotOut,
   types,
 } from "mobx-state-tree"
+import { partition } from "ramda"
 
 import {
   ContentModel,
@@ -49,6 +50,35 @@ export const ReaderStoreModel = types
     globalSuperLikedFeed: types.array(types.late(() => SuperLikeModel)),
     followingCreators: types.array(types.safeReference(CreatorModel)),
     unfollowedCreators: types.array(types.safeReference(CreatorModel)),
+  })
+  .postProcessSnapshot(snapshot => {
+    const { bookmarkList } = snapshot
+    const toBePersistedContentURLs = new Set(
+      [].concat(bookmarkList, snapshot.followedList.slice(0, 20)),
+    )
+    const [toBePersistedContents, restContents] = partition(
+      c => toBePersistedContentURLs.has(c.url),
+      Object.values(snapshot.contents),
+    )
+    const contents = {}
+    const creators = {}
+    restContents
+      .sort((a, b) => b.timestamp - a.timestamp)
+      // Cache 1,000 contents at max and
+      .slice(0, 1000)
+      // Cache preferred contents
+      .concat(toBePersistedContents)
+      .forEach(content => {
+        contents[content.url] = content
+        if (snapshot.creators[content.creator]) {
+          creators[content.creator] = snapshot.creators[content.creator]
+        }
+      })
+    return {
+      contents,
+      creators,
+      bookmarkList,
+    }
   })
   .volatile(() => ({
     isFetchingCreatorList: false,

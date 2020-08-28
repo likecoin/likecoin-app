@@ -33,6 +33,19 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
     selectedWeek: types.safeReference(StatisticsSupportedWeekModel),
     topSupportedCreators: types.array(types.safeReference(CreatorModel)),
   })
+  .postProcessSnapshot(({ weeks, ...restSnapshot }) => {
+    return {
+      weeks: Object.keys(weeks)
+        .sort()
+        .reverse()
+        .slice(0, 5)
+        .reduce((newWeeks, weekID) => {
+          newWeeks[weekID] = weeks[weekID]
+          return newWeeks
+        }, {}),
+      ...restSnapshot,
+    }
+  })
   .views(self => ({
     get weekList() {
       return [...self.weeks.values()].sort((weekA, weekB) => {
@@ -128,18 +141,3 @@ type StatisticsSupportedStoreType = Instance<typeof StatisticsSupportedStoreMode
 export interface StatisticsSupportedStore extends StatisticsSupportedStoreType {}
 type StatisticsSupportedStoreSnapshotType = SnapshotOut<typeof StatisticsSupportedStoreModel>
 export interface StatisticsSupportedStoreSnapshot extends StatisticsSupportedStoreSnapshotType {}
-
-export function handleStatisticsSupportedStoreSnapshot(
-  {
-    weeks,
-    ...snapshot
-  }: StatisticsSupportedStoreSnapshot
-): StatisticsSupportedStoreSnapshot {
-  return {
-    weeks: Object.keys(weeks).sort().reverse().slice(0, 5).reduce((newWeeks, weekID) => {
-      newWeeks[weekID] = weeks[weekID]
-      return newWeeks
-    }, {}),
-    ...snapshot
-  }
-}
