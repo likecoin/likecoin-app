@@ -1,5 +1,5 @@
 import * as React from "react"
-import { observer, inject } from "mobx-react"
+import { inject } from "mobx-react"
 import {
   Linking,
   View,
@@ -11,21 +11,18 @@ import {
   VERSION,
   SETTINGS_MENU,
   SettingScreenStyle as Style,
-  SettingScreenUserInfoStyle as UserInfoStyle,
 } from "./settings-screen.style"
 
 import { SettingsScreenStatisticsPanel } from "./settings-screen-statistics-panel"
+import { SettingsScreenUserInfoPanel } from "./settings-screen-user-info-panel"
 import { SettingsScreenWalletPanel } from "./settings-screen-wallet-panel"
 
 import { AppVersionLabel } from "../../components/app-version-label"
-import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
 import { ExtendedView } from "../../components/extended-view"
 import { Screen } from "../../components/screen"
-import { Text } from "../../components/text"
 
 import { RootStore } from "../../models/root-store"
-import { UserStore } from "../../models/user-store"
 
 import { color } from "../../theme"
 
@@ -33,21 +30,18 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
   rootStore: RootStore
-  userStore: UserStore
 }
 
 @inject((allStores: any) => ({
   rootStore: allStores.rootStore as RootStore,
-  userStore: allStores.userStore as UserStore,
 }))
-@observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressSubscription = () => {
     this.props.navigation.navigate("Subscription")
   }
 
   private onPressAuthcoreSettings = () => {
-    this.props.userStore.authCore.openSettingsWidget({
+    this.props.rootStore.userStore.authCore.openSettingsWidget({
       company: "Liker ID",
       logo: "https://like.co/favicon.png",
       primaryColour: color.primary,
@@ -106,7 +100,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
 
   private onPressRateApp = () => {
     logAnalyticsEvent('SettingsClickRateApp')
-    this.props.userStore.rateApp()
+    this.props.rootStore.userStore.rateApp()
   }
 
   render () {
@@ -129,34 +123,8 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         backgroundColor={color.primary}
         style={Style.Header}
       >
-        {this.renderUserInfo()}
+        <SettingsScreenUserInfoPanel />
       </ExtendedView>
-    )
-  }
-
-  renderUserInfo() {
-    const { currentUser: user } = this.props.userStore
-    if (!user) return null
-    return (
-      <View style={UserInfoStyle.Root}>
-        <Avatar
-          src={user.avatarURL}
-          isCivicLiker={user.isCivicLiker}
-        />
-        <View style={UserInfoStyle.Identity}>
-          <Text
-            style={UserInfoStyle.UserID}
-            text={`ID: ${user.likerID}`}
-          />
-          <Text
-            style={UserInfoStyle.DisplayName}
-            text={user.displayName}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-            adjustsFontSizeToFit
-          />
-        </View>
-      </View>
     )
   }
 
@@ -168,7 +136,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
       iapStore: {
         isEnabled: isIAPEnabled
       },
-    } = this.props.userStore
+    } = this.props.rootStore.userStore
     return (
       <View style={Style.Body}>
         <SettingsScreenWalletPanel
