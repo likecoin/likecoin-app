@@ -189,7 +189,7 @@ export const ReaderStoreModel = types
       const contentURL = referrer || url
       let content = self.contents.get(contentURL)
       if (!content) {
-        content = ContentModel.create({ url: contentURL })
+        content = ContentModel.create({ url: contentURL, timestamp: ts })
         self.contents.put(content)
         if (likee) {
           content.creator = this.createCreatorFromLikerId(likee)
