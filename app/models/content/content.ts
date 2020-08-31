@@ -33,8 +33,19 @@ export const ContentModel = types
 
     hasCached: types.optional(types.boolean, false),
 
-    readUsers: types.map(types.boolean),
+    readUsers: types.map(types.number),
   })
+  .postProcessSnapshot(({ readUsers, ...restSnapshot }) => ({
+    // Store last 5 users only
+    readUsers: Object.keys(readUsers)
+      .sort((aID, bID) => readUsers[bID] - readUsers[aID])
+      .slice(0, 5) 
+      .reduce((acc, id) => {
+        acc[id] = true
+        return acc
+      }, {}),
+    ...restSnapshot,
+  }))
   .volatile(() => ({
     hasFetchedDetails: false,
     hasFetchedLikeStats: false,
@@ -81,7 +92,7 @@ export const ContentModel = types
     },
     read() {
       if (self.currentUser) {
-        self.readUsers.set(self.currentUserID, true)
+        self.readUsers.set(self.currentUserID, Date.now())
       }
     },
     fetchDetails: flow(function * () {
