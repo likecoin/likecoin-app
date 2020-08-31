@@ -53,19 +53,13 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
 
   render() {
     return (
-      <View style={Style.Root}>
-        <Text
-          tx="Statistics.Period.Week.This"
-          style={Style.Label}
-        />
-        <View style={[SETTINGS_MENU.TABLE, Style.Table]}>
-          {this.props.isCivicLiker ? (
-            this.renderSupportedSection()
-          ) : (
-            this.renderTopSupportedCreator()
-          )}
-          {this.renderRewardedSection()}
-        </View>
+      <View style={[SETTINGS_MENU.TABLE, Style.Table]}>
+        {this.props.isCivicLiker ? (
+          this.renderSupportedSection()
+        ) : (
+          this.renderTopSupportedCreator()
+        )}
+        {this.renderRewardedSection()}
       </View>
     )
   }

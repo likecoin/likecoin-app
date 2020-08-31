@@ -52,9 +52,6 @@ export const SettingsScreenStatisticsPanelStyle = StyleSheet.create({
     fontSize: sizes.small,
     color: color.palette.white,
   } as TextStyle,
-  Root: {
-    marginTop: -spacing[7],
-  } as ViewStyle,
   Table: {
     marginTop: spacing[2],
   } as ViewStyle,
