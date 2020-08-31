@@ -1,5 +1,4 @@
 import {
-  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
@@ -106,7 +105,11 @@ export const ReaderStoreModel = types
   }))
   .actions(self => ({
     reset() {
-      applySnapshot(self, {})
+      self.followedList.replace([])
+      self.bookmarkList.replace([])
+      self.globalSuperLikedFeed.replace([])
+      self.followingCreators.replace([])
+      self.unfollowedCreators.replace([])
       self.isFetchingCreatorList = false
       self.hasFetchedCreatorList = false
       self.isFetchingFollowedList = false
