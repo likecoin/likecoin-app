@@ -33,12 +33,16 @@ export const SuperLikeContentListItemStyle = StyleSheet.create({
   MoreButton: {
     marginLeft: spacing[2],
   } as ViewStyle,
+  ReadLabel: {
+    marginHorizontal: spacing[1],
+  } as TextStyle,
   ShareByLabel: {
     color: color.palette.grey9b,
     fontWeight: "500",
   } as TextStyle,
   Title: {
     marginTop: spacing[1],
+    marginRight: spacing[5] + spacing[1],
     color: color.palette.grey4a,
     fontSize: fontSize.medium,
     lineHeight: fontSize.medium * 1.5,

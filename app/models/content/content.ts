@@ -7,7 +7,7 @@ import {
 } from "mobx-state-tree"
 
 import { CreatorModel } from "../creator"
-import { withEnvironment } from "../extensions"
+import { withCurrentUser, withEnvironment } from "../extensions"
 import { ReaderStore, ReaderStoreModel } from "../reader-store"
 import { ContentResult, LikeStatResult } from "../../services/api"
 import { logError } from "../../utils/error"
@@ -32,7 +32,20 @@ export const ContentModel = types
     timestamp: types.optional(types.integer, 0),
 
     hasCached: types.optional(types.boolean, false),
+
+    readUsers: types.map(types.number),
   })
+  .postProcessSnapshot(({ readUsers, ...restSnapshot }) => ({
+    // Store last 5 users only
+    readUsers: Object.keys(readUsers)
+      .sort((aID, bID) => readUsers[bID] - readUsers[aID])
+      .slice(0, 5) 
+      .reduce((acc, id) => {
+        acc[id] = true
+        return acc
+      }, {}),
+    ...restSnapshot,
+  }))
   .volatile(() => ({
     hasFetchedDetails: false,
     hasFetchedLikeStats: false,
@@ -40,6 +53,7 @@ export const ContentModel = types
     isFetchingDetails: false,
     isFetchingLikeStats: false,
   }))
+  .extend(withCurrentUser)
   .extend(withEnvironment)
   .views(self => ({
     get coverImageURL() {
@@ -68,10 +82,18 @@ export const ContentModel = types
     get normalizedTitle() {
       return self.title || decodeURI(self.url).split("?")[0]
     },
+    hasRead() {
+      return !!self.readUsers.get(self.currentUserID)
+    },
   }))
   .actions(self => ({
     setTimestamp(timestamp: number) {
       if (timestamp) self.timestamp = timestamp
+    },
+    read() {
+      if (self.currentUser) {
+        self.readUsers.set(self.currentUserID, Date.now())
+      }
     },
     fetchDetails: flow(function * () {
       self.isFetchingDetails = true

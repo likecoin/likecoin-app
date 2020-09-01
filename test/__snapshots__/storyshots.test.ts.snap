@@ -7377,11 +7377,18 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                     </Text>
                     <View
                       style={
-                        Object {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        }
+                        Array [
+                          Object {
+                            "color": "#a9c1c5",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          },
+                          Object {
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "center",
+                          },
+                        ]
                       }
                     >
                       <RNSVGSvgView
@@ -7402,9 +7409,14 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             },
                             Array [
                               Object {
-                                "margin": 0,
+                                "marginBottom": 0,
+                                "marginLeft": 0,
                                 "marginRight": 4,
-                                "padding": 0,
+                                "marginTop": 0,
+                                "paddingBottom": 0,
+                                "paddingLeft": 0,
+                                "paddingRight": 0,
+                                "paddingTop": 0,
                               },
                               Object {
                                 "marginRight": 4,
@@ -7458,6 +7470,14 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             "color": "#a9c1c5",
                             "fontFamily": "System",
                             "fontSize": 12,
+                            "marginBottom": 0,
+                            "marginLeft": 0,
+                            "marginRight": 0,
+                            "marginTop": 0,
+                            "paddingBottom": 0,
+                            "paddingLeft": 0,
+                            "paddingRight": 0,
+                            "paddingTop": 0,
                           }
                         }
                       >
@@ -7488,11 +7508,18 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                     </Text>
                     <View
                       style={
-                        Object {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        }
+                        Array [
+                          Object {
+                            "color": "#a9c1c5",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          },
+                          Object {
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "center",
+                          },
+                        ]
                       }
                     >
                       <RNSVGSvgView
@@ -7513,9 +7540,14 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             },
                             Array [
                               Object {
-                                "margin": 0,
+                                "marginBottom": 0,
+                                "marginLeft": 0,
                                 "marginRight": 4,
-                                "padding": 0,
+                                "marginTop": 0,
+                                "paddingBottom": 0,
+                                "paddingLeft": 0,
+                                "paddingRight": 0,
+                                "paddingTop": 0,
                               },
                               Object {
                                 "marginRight": 4,
@@ -7569,6 +7601,14 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
                             "color": "#a9c1c5",
                             "fontFamily": "System",
                             "fontSize": 12,
+                            "marginBottom": 0,
+                            "marginLeft": 0,
+                            "marginRight": 0,
+                            "marginTop": 0,
+                            "paddingBottom": 0,
+                            "paddingLeft": 0,
+                            "paddingRight": 0,
+                            "paddingTop": 0,
                           }
                         }
                       >

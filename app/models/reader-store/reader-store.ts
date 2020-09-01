@@ -1,10 +1,10 @@
 import {
-  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
   types,
 } from "mobx-state-tree"
+import { partition } from "ramda"
 
 import {
   ContentModel,
@@ -50,6 +50,35 @@ export const ReaderStoreModel = types
     followingCreators: types.array(types.safeReference(CreatorModel)),
     unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
+  .postProcessSnapshot(snapshot => {
+    const { bookmarkList } = snapshot
+    const toBePersistedContentURLs = new Set(
+      [].concat(bookmarkList, snapshot.followedList.slice(0, 20)),
+    )
+    const [toBePersistedContents, restContents] = partition(
+      c => toBePersistedContentURLs.has(c.url),
+      Object.values(snapshot.contents),
+    )
+    const contents = {}
+    const creators = {}
+    restContents
+      .sort((a, b) => b.timestamp - a.timestamp)
+      // Cache 1,000 contents at max and
+      .slice(0, 1000)
+      // Cache preferred contents
+      .concat(toBePersistedContents)
+      .forEach(content => {
+        contents[content.url] = content
+        if (snapshot.creators[content.creator]) {
+          creators[content.creator] = snapshot.creators[content.creator]
+        }
+      })
+    return {
+      contents,
+      creators,
+      bookmarkList,
+    }
+  })
   .volatile(() => ({
     isFetchingCreatorList: false,
     hasFetchedCreatorList: false,
@@ -76,7 +105,11 @@ export const ReaderStoreModel = types
   }))
   .actions(self => ({
     reset() {
-      applySnapshot(self, {})
+      self.followedList.replace([])
+      self.bookmarkList.replace([])
+      self.globalSuperLikedFeed.replace([])
+      self.followingCreators.replace([])
+      self.unfollowedCreators.replace([])
       self.isFetchingCreatorList = false
       self.hasFetchedCreatorList = false
       self.isFetchingFollowedList = false
@@ -156,7 +189,7 @@ export const ReaderStoreModel = types
       const contentURL = referrer || url
       let content = self.contents.get(contentURL)
       if (!content) {
-        content = ContentModel.create({ url: contentURL })
+        content = ContentModel.create({ url: contentURL, timestamp: ts })
         self.contents.put(content)
         if (likee) {
           content.creator = this.createCreatorFromLikerId(likee)
