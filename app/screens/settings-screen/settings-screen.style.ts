@@ -62,8 +62,8 @@ export const SETTINGS_MENU = StyleSheet.create({
     borderBottomRightRadius: TABLE_BORDER_RADIUS,
   } as ViewStyle,
   TABLE_CELL_TEXT: {
-    padding: spacing[2],
     paddingVertical: spacing[1],
+    paddingHorizontal: spacing[4],
     color: color.palette.grey4a,
     textAlign: "left",
     fontWeight: "normal",
