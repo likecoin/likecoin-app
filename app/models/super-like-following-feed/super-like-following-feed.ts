@@ -7,10 +7,10 @@ import { withEnvironment, withReaderStore, withStatus } from "../extensions"
 import { SuperLike, SuperLikeModel } from "../super-like"
 
 /**
- * Model description here for TypeScript hints.
+ * Following Super Like feed.
  */
-export const SuperLikeFeedModel = types
-  .model("SuperLikeFeed")
+export const SuperLikeFollowingFeedModel = types
+  .model("SuperLikeFollowingFeed")
   .props({
     /**
      * Start time of the feed in ms.
@@ -91,7 +91,7 @@ export const SuperLikeFeedModel = types
     }
   })
 
-type SuperLikeFeedType = Instance<typeof SuperLikeFeedModel>
-export interface SuperLikeFeed extends SuperLikeFeedType {}
-type SuperLikeFeedSnapshotType = SnapshotOut<typeof SuperLikeFeedModel>
-export interface SuperLikeFeedSnapshot extends SuperLikeFeedSnapshotType {}
+type SuperLikeFollowingFeedType = Instance<typeof SuperLikeFollowingFeedModel>
+export interface SuperLikeFollowingFeed extends SuperLikeFollowingFeedType {}
+type SuperLikeFollowingFeedSnapshotType = SnapshotOut<typeof SuperLikeFollowingFeedModel>
+export interface SuperLikeFollowingFeedSnapshot extends SuperLikeFollowingFeedSnapshotType {}
