@@ -8,12 +8,12 @@ import { wrapContentListScreen } from "../../components/content-list-screen"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
 
-import { GlobalSuperLikedFeedScreenProps as Props } from "./global-superliked-feed-screen.props"
-import { GlobalSuperLikedFeedScreenStyle as Style } from "./global-superliked-feed-screen.style"
+import { SuperLikeGlobalFeedScreenProps as Props } from "./super-like-global-feed-screen.props"
+import { SuperLikeGlobalFeedScreenStyle as Style } from "./super-like-global-feed-screen.style"
 
 @inject("superLikeGlobalStore")
 @observer
-class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
+class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
   componentDidMount() {
     this.fetch()
   }
@@ -70,6 +70,6 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
   }
 }
 
-export const GlobalSuperLikedFeedScreen = wrapContentListScreen(
-  GlobalSuperLikedFeedScreenBase,
+export const SuperLikeGlobalFeedScreen = wrapContentListScreen(
+  SuperLikeGlobalFeedScreenBase,
 )

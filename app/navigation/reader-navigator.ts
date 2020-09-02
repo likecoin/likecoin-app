@@ -1,21 +1,19 @@
 import { createStackNavigator } from "react-navigation"
 
-import {
-  GlobalSuperLikedFeedScreen,
-} from "../screens/global-superliked-feed-screen"
+import { SuperLikeGlobalFeedScreen } from "../screens/super-like-global-feed-screen"
 import { ReaderScreen } from "../screens/reader-screen"
 
 export const ReaderNavigator = createStackNavigator(
   {
-    GlobalSuperLikedFeed: {
-      screen: GlobalSuperLikedFeedScreen,
+    SuperLikeGlobalFeed: {
+      screen: SuperLikeGlobalFeedScreen,
     },
-    PersonalFeed: {
+    FollowingFeed: {
       screen: ReaderScreen,
     },
   },
   {
     headerMode: "none",
-    initialRouteName: "PersonalFeed",
+    initialRouteName: "FollowingFeed",
   },
 )

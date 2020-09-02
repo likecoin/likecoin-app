@@ -1,11 +1,8 @@
-import {
-  StyleSheet,
-  ViewStyle,
-} from "react-native"
+import { StyleSheet, ViewStyle } from "react-native"
 
 import { color } from "../../theme"
 
-export const GlobalSuperLikedFeedScreenStyle = StyleSheet.create({
+export const SuperLikeGlobalFeedScreenStyle = StyleSheet.create({
   List: {
     flex: 1,
     backgroundColor: color.palette.lightGreen,

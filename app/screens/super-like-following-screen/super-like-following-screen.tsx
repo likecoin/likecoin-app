@@ -58,7 +58,7 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
 
   private onPressGlobalIcon = () => {
     logAnalyticsEvent("GoToGlobalSuperLikedFeed")
-    this.props.navigation.navigate("GlobalSuperLikedFeed")
+    this.props.navigation.navigate("SuperLikeGlobalFeed")
   }
 
   private onPressTodayButton = () => {
