@@ -3,14 +3,14 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { SuperLikeFeedResult } from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 
-import { withEnvironment, withReaderStore, withStatus } from "../extensions"
-import { SuperLike, SuperLikeModel } from "../super-like"
+import { SuperLike } from "../super-like"
+import { SuperLikeFeedModel } from "../super-like-feed"
 
 /**
  * Following Super Like feed.
  */
-export const SuperLikeFollowingFeedModel = types
-  .model("SuperLikeFollowingFeed")
+export const SuperLikeFollowingFeedModel = SuperLikeFeedModel
+  .named("SuperLikeFollowingFeed")
   .props({
     /**
      * Start time of the feed in ms.
@@ -20,14 +20,7 @@ export const SuperLikeFollowingFeedModel = types
      * End time of the feed in ms.
      */
     end: types.number,
-    /**
-     * Super Like items.
-     */
-    items: types.array(SuperLikeModel),
   })
-  .extend(withEnvironment)
-  .extend(withStatus)
-  .extend(withReaderStore)
   .actions(self => {
     function reset() {
       self.items.replace([])
