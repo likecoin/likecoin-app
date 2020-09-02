@@ -1,30 +1,29 @@
 import * as React from "react"
-
-import {
-  GlobalSuperLikedFeedScreenProps as Props,
-} from "./global-superliked-feed-screen.props"
-import {
-  GlobalSuperLikedFeedScreenStyle as Style,
-} from "./global-superliked-feed-screen.style"
-
-import {
-  SuperLikeContentList,
-} from "../../components/content-list"
-import {
-  wrapContentListScreen,
-} from "../../components/content-list-screen"
-import { Header } from "../../components/header"
-import { Screen } from "../../components/screen"
+import { observer, inject } from "mobx-react"
 
 import { color } from "../../theme"
 
+import { SuperLikeContentList } from "../../components/content-list"
+import { wrapContentListScreen } from "../../components/content-list-screen"
+import { Header } from "../../components/header"
+import { Screen } from "../../components/screen"
+
+import { GlobalSuperLikedFeedScreenProps as Props } from "./global-superliked-feed-screen.props"
+import { GlobalSuperLikedFeedScreenStyle as Style } from "./global-superliked-feed-screen.style"
+
+@inject("superLikeGlobalStore")
+@observer
 class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
   componentDidMount() {
-    this.props.readerStore.fetchGlobalSuperLikedFeed()
+    this.fetch()
+  }
+
+  private fetch = () => {
+    this.props.superLikeGlobalStore.fetch()
   }
 
   private fetchMore = () => {
-    this.props.readerStore.fetchGlobalSuperLikedFeed({ isMore: true })
+    this.props.superLikeGlobalStore.fetchMore()
   }
 
   private goBack = () => {
@@ -33,10 +32,7 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
 
   render() {
     return (
-      <Screen
-        style={Style.Root}
-        preset="fixed"
-      >
+      <Screen style={Style.Root} preset="fixed">
         <Header
           headerTx="GlobalSuperLikedFeedScreen.Title"
           leftIcon="back"
@@ -48,15 +44,16 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
   }
 
   private renderList = () => {
+    const { status, lastFetchedTimestamp } = this.props.superLikeGlobalStore
     return (
       <SuperLikeContentList
-        data={this.props.readerStore.globalSuperLikedFeed}
+        data={this.props.superLikeGlobalStore.items}
         creators={this.props.readerStore.creators}
-        isLoading={this.props.readerStore.globalSuperLikedFeedStatus === "fetching"}
-        isFetchingMore={this.props.readerStore.globalSuperLikedFeedStatus === "fetching-more"}
-        hasFetched={this.props.readerStore.globalSuperLikedFeedStatus === "fetched"}
-        hasFetchedAll={this.props.readerStore.globalSuperLikedFeedStatus === "fetched-more"}
-        lastFetched={this.props.readerStore.globalSuperLikedFeedLastFetchedDate.getTime()}
+        isLoading={status === "pending"}
+        isFetchingMore={status === "pending-more"}
+        hasFetched={status === "done"}
+        hasFetchedAll={status === "done-more"}
+        lastFetched={lastFetchedTimestamp}
         backgroundColor={color.palette.lightGreen}
         underlayColor={color.palette.darkerGreen}
         skeletonPrimaryColor={color.palette.darkerGreen}
@@ -66,7 +63,7 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
         onPressItem={this.props.onPressSuperLikeItem}
         onToggleBookmark={this.props.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
-        onRefresh={this.props.readerStore.fetchGlobalSuperLikedFeed}
+        onRefresh={this.fetch}
         style={Style.List}
       />
     )
@@ -74,5 +71,5 @@ class GlobalSuperLikedFeedScreenBase extends React.Component<Props> {
 }
 
 export const GlobalSuperLikedFeedScreen = wrapContentListScreen(
-  GlobalSuperLikedFeedScreenBase
+  GlobalSuperLikedFeedScreenBase,
 )

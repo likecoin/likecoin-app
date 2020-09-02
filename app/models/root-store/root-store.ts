@@ -19,6 +19,7 @@ import {
   StatisticsSupportedStoreModel,
 } from "../statistics-store"
 import { SuperLikeFollowingStoreModel } from "../../models/super-like-following-store"
+import { SuperLikeGlobalStoreModel } from "../../models/super-like-global-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
 
@@ -45,6 +46,7 @@ export const RootStoreModel = types
     statisticsRewardedStore: types.optional(StatisticsRewardedStoreModel, {}),
     statisticsSupportedStore: types.optional(StatisticsSupportedStoreModel, {}),
     superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
+    superLikeGlobalStore: types.optional(SuperLikeGlobalStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
     readerStore: types.optional(ReaderStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),
@@ -102,6 +104,7 @@ export const RootStoreModel = types
       self.statisticsRewardedStore.reset()
       self.statisticsSupportedStore.reset()
       self.superLikeFollowingStore.reset()
+      self.superLikeGlobalStore.reset()
       self.transferStore.reset()
       self.readerStore.reset()
     }),
