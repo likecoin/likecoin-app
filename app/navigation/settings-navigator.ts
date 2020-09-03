@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation"
 import { WalletNavigator } from "./wallet-navigator"
 
 import { FollowSettingsScreen } from "../screens/follow-settings-screen"
+import { LanguageSettingsScreen } from "../screens/language-settings-screen"
 import {
   StatisticsSupportedScreen,
   StatisticsRewardedScreen,
@@ -15,6 +16,7 @@ import { WebsiteSignInWebviewScreen } from "../screens/website-signin-webview-sc
 
 export const SettingsNavigator = createStackNavigator({
   FollowSettings: FollowSettingsScreen,
+  LanguageSettings: LanguageSettingsScreen,
   Referral: ReferralScreen,
   Settings: SettingsScreen,
   StatisticsSupported: StatisticsSupportedScreen,

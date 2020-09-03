@@ -9,6 +9,7 @@ import {
 
 import { withEnvironment } from "../extensions"
 import { ChainStoreModel } from "../chain-store"
+import { LanguageSettingsStoreModel } from "../../models/language-settings-store"
 import { ReaderStoreModel } from "../reader-store"
 import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-store"
 import { StakingDelegationStoreModel } from "../staking-delegation-store"
@@ -38,6 +39,7 @@ export const RootStoreModel = types
   .model("RootStore")
   .props({
     chainStore: types.maybe(ChainStoreModel),
+    languageSettingsStore: types.optional(LanguageSettingsStoreModel, {}),
     notificationStore: types.optional(NotificationStoreModel, {}),
     stakingRewardsWithdrawStore: types.optional(StakingRewardsWithdrawStoreModel, {}),
     stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
