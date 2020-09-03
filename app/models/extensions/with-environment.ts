@@ -15,18 +15,19 @@ export const withEnvironment = (self: IStateTreeNode) => ({
     get env() {
       return getEnv(self) as Environment
     },
+
     /**
      * Shortcut for getting the app config.
      */
     getConfig(key: AppConfigKey) {
-      return this.env.appConfig.getValue(key)
+      return this.env.appConfig?.getValue(key) || ""
     },
 
     /**
      * Shortcut for getting the app config in number.
      */
     getNumericConfig(key: AppConfigKey, defaultValue?: number): number {
-      return this.env.appConfig.getNumericValue(key, defaultValue)
+      return this.env.appConfig?.getNumericValue(key, defaultValue)
     },
   },
 })
