@@ -102,6 +102,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     logAnalyticsEvent('SettingsClickRateApp')
     this.props.rootStore.userStore.rateApp()
   }
+  
+  private onPressLanguageSettings = () => {
+    logAnalyticsEvent('SettingsClickLanguageSettings')
+    this.props.navigation.navigate("LanguageSettings")
+  }
 
   render () {
     return (
@@ -185,6 +190,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
             onPress={this.onPressAuthcoreSettings}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.LanguageSettings"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+            onPress={this.onPressLanguageSettings}
           />
           <Button
             preset="plain"

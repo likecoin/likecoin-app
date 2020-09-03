@@ -41,10 +41,27 @@ export interface CosmosValidator {
   /* eslint-enable camelcase */
 }
 
+export interface CosmosLogResult {
+  msg_index: number
+  success: boolean
+  log: string
+}
+
+export interface CosmosTxQueryResult {
+  height: string
+  txhash: string
+  data: string
+  raw_log: string
+  logs: CosmosLogResult[]
+  gas_wanted: string
+  gas_used: string
+  timestamp: string
+}
+
 export interface CosmosSendResult {
   hash: string
   sequence: any
-  included: () => Promise<any>
+  included: () => Promise<CosmosTxQueryResult>
 }
 
 export interface CosmosSignature {

@@ -77,6 +77,15 @@
   "I18nStory": {
     "UseCase1": "%{liker} sent you %{amount}."
   },
+  "Language": {
+    "en": "English",
+    "zh-Hant-HK": "Chinese (Hong Kong)",
+    "zh-Hant-TW": "Chinese (Taiwan)",
+    "zh-Hants-CN": "Chinese (China)"
+  },
+  "LanguageSettingsScreen": {
+    "Title": "Language Settings"
+  },
   "Notification": {
     "Type": {
       "send": "Send",
@@ -239,6 +248,7 @@
     "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
     "followSettings": "Following / Unfollow",
+    "LanguageSettings": "Language Settings",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
     "RateApp": "Rate The Liker Land App",
