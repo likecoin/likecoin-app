@@ -20,8 +20,8 @@ export class SuperLikeDailyFeedView extends React.Component<
       <SuperLikeContentList
         data={feed.items}
         isLoading={feed.isFetching}
-        hasFetched={!!feed.items.length}
-        hasFetchedAll={feed.hasFetchedAll}
+        hasFetched={!feed.isFetching}
+        hasFetchedAll={feed.hasFetchedAll()}
         onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
         onPressItem={this.props.onPressItem}
         onToggleBookmark={this.props.onToggleBookmark}

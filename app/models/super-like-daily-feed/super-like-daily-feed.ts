@@ -47,10 +47,11 @@ export const SuperLikeDailyFeedModel = types
         self.eveningFeed.status === "pending"
       )
     },
-    get hasFetchedAll() {
-      return (
-        self.morningFeed.status === "done" && self.eveningFeed.status === "done"
-      )
+    hasFetchedAll() {
+      return !this.isEveningFeedFetchable()
+        ? self.morningFeed.status === "done"
+        : self.morningFeed.status === "done" &&
+            self.eveningFeed.status === "done"
     },
     isToday() {
       const now = moment()

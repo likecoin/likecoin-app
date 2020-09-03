@@ -1,30 +1,19 @@
 import * as React from "react"
 import { AppState, AppStateStatus } from "react-native"
-import { inject, observer } from "mobx-react"
+import { inject } from "mobx-react"
 
 import {
   SuperLikeFollowingScreen,
   SuperLikeFollowingScreenBase,
 } from "../super-like-following-screen"
-import {
-  ContentFollowingScreen,
-  ContentFollowingScreenBase,
-} from "../content-following-screen"
 
 import { ReaderScreenProps as Props } from "./reader-screen.props"
 
-@inject("userStore", "readerStore")
-@observer
+@inject("readerStore")
 export class ReaderScreen extends React.Component<Props, {}> {
   appState = AppState.currentState
 
   superLikeScreen = React.createRef<SuperLikeFollowingScreenBase>()
-
-  contentScreen = React.createRef<ContentFollowingScreenBase>()
-
-  get isShowSuperLike() {
-    return !!this.props.userStore?.currentUser?.isSuperLiker
-  }
 
   componentDidMount() {
     this.props.readerStore.fetchCreatorList()
@@ -41,23 +30,14 @@ export class ReaderScreen extends React.Component<Props, {}> {
       this.appState.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
-      if (this.isShowSuperLike) {
-        if (this.superLikeScreen.current?.onResume) {
-          this.superLikeScreen.current.onResume()
-        }
-      } else if (this.props.readerStore?.getShouldRefreshFollowingFeed()) {
-        if (this.contentScreen.current?.onResume) {
-          this.contentScreen.current.onResume()
-        }
+      if (this.superLikeScreen.current?.onResume) {
+        this.superLikeScreen.current.onResume()
       }
     }
     this.appState = nextAppState
   }
 
   render() {
-    if (this.isShowSuperLike) {
-      return <SuperLikeFollowingScreen navigation={this.props.navigation} />
-    }
-    return <ContentFollowingScreen navigation={this.props.navigation} />
+    return <SuperLikeFollowingScreen navigation={this.props.navigation} />
   }
 }
