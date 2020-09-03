@@ -11,6 +11,7 @@ import { withEnvironment } from "../extensions"
 import {
   CosmosMessage,
   CosmosSendResult,
+  CosmosTxQueryResult,
 } from "../../services/cosmos"
 import { parseCosmosCoin } from "../../services/cosmos/cosmos.utils"
 import { logError } from "../../utils/error"
@@ -70,6 +71,9 @@ export const TxStoreModel = types
   .actions(self => ({
     reset() {
       applySnapshot(self, {})
+    },
+    setErrorMessage(message: string) {
+      self.errorMessage = message
     },
     setError: (error: Error) => {
       const errorMessage = error.message || error.toString()
@@ -140,10 +144,26 @@ export const TxStoreModel = types
           const { hash, included }: CosmosSendResult = yield message.send(self.getMeta(), signer)
           self.txHash = hash
           // TODO: Store hash for history
-          yield included()
-          self.isSuccess = true
+          const response: CosmosTxQueryResult = yield included()
+          if (response?.logs[0]?.success) {
+            self.isSuccess = true
+            return
+          }
+          const error = new Error("COSMOS_TX_FAILED")
+          error["response"] = response
+          throw error
         } catch (error) {
           logError(error)
+          if (error.response) {
+            try {
+              const response: CosmosTxQueryResult = yield error.response.json()
+              const message = JSON.parse(response.logs[0]?.log)
+              self.setErrorMessage(message)
+              return
+            } catch {
+              // Do nothing
+            }
+          }
           self.setError(error)
         } finally {
           self.isSigningTx = false
