@@ -1,6 +1,6 @@
-const en = require("./en")
-const zhHantHK = require("./zh-Hant-HK")
-const zhHantTW = require("./zh-Hant-TW")
+const en = require("./translations/en")
+const zhHantHK = require("./translations/zh-Hant-HK")
+const zhHantTW = require("./translations/zh-Hant-TW")
 
 export const LANGUAGES = [
   { key: "en", name: "English", translation: en, canSet: true },
