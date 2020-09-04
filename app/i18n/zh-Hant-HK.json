@@ -1,10 +1,10 @@
 {
   "AppRatingPrompt": {
-    "Title": "你對 Liker Land 滿意嗎?",
-    "DenialTitle": "可以給我們一些改善建議嗎?"
+    "Title": "你滿意 Liker Land 嗎?",
+    "DenialTitle": "可否給我們一些改善建議?"
   },
   "BookmarkScreen": {
-    "title": "書籤"
+    "title": "閱讀列表"
   },
   "common": {
     "back": "返回",
@@ -13,24 +13,24 @@
     "copy": "複製",
     "copied": "已複製",
     "done": "完成",
-    "follow": "追踪",
-    "Following": "追踪中",
-    "followSuccess": "已追踪 %{creator}",
+    "follow": "追蹤",
+    "Following": "追蹤中",
+    "followSuccess": "已追蹤 %{creator}",
     "next": "下一步",
     "No": "否",
     "ok": "好",
     "Skip": "略過",
-    "viewOnBlockExplorer": "在 Big Dipper 查看",
+    "viewOnBlockExplorer": "在 Big Dipper 查看開放數據",
     "undo": "復原",
-    "unfollow": "取消追踪",
-    "unfollowSuccess": "已取消追踪 %{creator}",
+    "unfollow": "取消追蹤",
+    "unfollowSuccess": "已取消追蹤 %{creator}",
     "Yes": "是"
   },
   "ContentListItem": {
     "Back": {
-      "Bookmark": "加到書籤",
-      "Follow": "追踨作者",
-      "Unbookmark": "移除書籤",
+      "Bookmark": "加到閱讀列表",
+      "Follow": "追蹤",
+      "Unbookmark": "從閱讀列表移除",
       "Unfollow": "取消追蹤"
     },
     "likeStatsLabel": {
@@ -43,35 +43,36 @@
   },
   "error": {
     "DEPRECATED_APP": "新版本已推出，請立即更新。",
-    "IAP_PURCHASE_RECEIPT_ERROR": "購買出現錯誤",
+    "IAP_PURCHASE_RECEIPT_ERROR": "購買時出現錯誤",
     "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
     "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
     "REDELEGATE_AMOUNT_EXCEED_MAX": "數目已超出可重新委託的上限",
-    "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
     "REGISTRATION_BAD_DATA": "註冊資料錯誤",
     "REGISTRATION_EMAIL_ALREADY_USED": "電郵已被註冊",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註冊",
     "REWARDS_WITHDRAW_BELOW_MIN": "收益少於可提取下限",
     "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
-    "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超出可轉帳的上限",
-    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "TRANSFER_INPUT_TARGET_INVALID": "輸入的 Liker ID 或錢包地址不正確",
     "TRANSFER_TARGET_NO_WALLET": "收款人沒有錢包地址",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超出可取回委託的上限",
-    "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於0",
+    "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
+    "STAKE_AMOUNT_EXCEED_MAX": "數目已超出可委託的上限",
     "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
   },
   "FollowSettingsScreen": {
-    "Title": "追踪 / 取消追踪",
+    "Title": "設定 Content Jockey",
     "TabTitle": {
-      "Following": "追踪中",
-      "Unfollowed": "已取消追踪"
+      "Following": "追蹤中",
+      "Unfollowed": "已取消追蹤"
     }
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "所有已 Super Like 的內容"
+    "Title": "所有 Content Jockey 的 Super Like"
   },
   "I18nStory": {
     "UseCase1": "%{liker} 傳送了 %{amount} 給你。"
@@ -91,21 +92,21 @@
       "receive": "轉入",
       "civic-like": "讚賞公民",
       "super-like": "Super Like",
-      "daily-rewards": "化讚為賞基金",
+      "daily-rewards": "配對基金",
       "referral": "推薦奬賞"
     },
     "Message": {
       "send": "你已轉帳 %{amount} 給 %{to}。",
       "receive": "你已從 %{from} 收到 %{amount}。",
-      "civic-like": "%{from} 已讚賞你的內容。你獲得了 %{amount}。",
-      "super-like": "%{from} 已 Super Like 你的內容。你獲得了 %{amount}。",
-      "daily-rewards": "今天有 %{likers} 讚賞你的內容。你共獲得 %{amount}。",
-      "referral": "%{from} 已安裝 Liker Land App。你們分別獲得 %{amount}。"
+      "civic-like": "%{from} 讚賞你的內容，你獲得 %{amount}。",
+      "super-like": "%{from} Super Like 你的內容，你獲得 %{amount}。",
+      "daily-rewards": "今天有 %{likers} 讚賞你的內容，你共獲得 %{amount}。",
+      "referral": "%{from} 已安裝 Liker Land app，你們分別獲得 %{amount}。"
     }
   },
   "NotificationScreen": {
     "Title": "通知",
-    "EmptyLabel": "沒有通知"
+    "EmptyLabel": "暫時沒有通知"
   },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
@@ -113,28 +114,28 @@
   },
   "readerScreen": {
     "Title": "閱讀列表",
-    "emptyLabel": "沒有內容",
-    "followingLabel": "你的追蹤列表",
-    "ReadLabel": "已閱讀",
+    "emptyLabel": "沒有內容，追蹤一些 Content Jockey 吧",
+    "followingLabel": "你的 Content Jockey",
+    "ReadLabel": "已讀",
     "SuperLikeFromLabel":  {
-      "zero": "%{liker} 分享了",
-      "one": "%{liker} 及 {{count}} 位分享了",
-      "other": "%{liker} 及 {{count}} 位分享了"
+      "zero": "%{liker} Super Like",
+      "one": "%{liker} 及 {{count}} 位 Super Like",
+      "other": "%{liker} 及 {{count}} 位 Super Like"
     }
   },
   "receiveScreen": {
     "shareYourAddress": "分享你的地址"
   },
   "ReferralCTAView": {
-    "Title": "立即領取 100 LIKE 推薦奬金",
+    "Title": "立即領取 5 美元推薦獎賞",
     "ButtonTitle": "詳情"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓讀者追縱自己的更新。趕快邀請朋友下載 Liker Land 吧！",
+    "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時讓對方追蹤自己的更新。趕快邀請朋友下載 Liker Land 吧！",
     "HeaderTitle": "推薦奬賞",
-    "Title": "推薦愈多，奬金愈多",
+    "Title": "推薦愈多，獎賞愈多",
     "OgTitle": "接受 {{displayName}} 邀請，以文會友",
-    "OgDescription": "下載 Liker Land，追縱文友和媒體，化讚為賞，回饋創作。"
+    "OgDescription": "下載 Liker Land，追蹤 {{displayName}}，化讚為賞，回饋創作。"
   },
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID 為 7 至 20 位小寫英文字母、數字、「-」及「_」字元",
@@ -149,9 +150,9 @@
   "SaveToBookmarkScreen": {
     "DismissButtonText": "按此關閉",
     "Error": {
-      "forbidden": "請在 App 重新登入。",
-      "invalid-url": "未能成功辨識連結。",
-      "unknown": "未能成功把連結加到書籤。"
+      "forbidden": "請重新登入 Liker Land。",
+      "invalid-url": "未能成功辨識鏈接。",
+      "unknown": "未能成功把鏈接加到 Liker Land。"
     }
   },
   "stakingDelegationAmountInputScreen": {
@@ -195,16 +196,16 @@
   },
   "StatisticsRewardedScreen": {
     "Empty": {
-      "Content": "沒有獲得讚賞的作品"
+      "Content": "沒有獲得讚賞的作品，繼續努力！"
     },
     "Dashboard": {
       "Empty": {
         "ButtonTitle": "獲得讚賞",
-        "Title": "你在本週沒有獲得任何讚賞"
+        "Title": "你在本週沒有獲得讚賞，繼續努力！"
       },
       "Legends": {
         "CivicLiker": "讚賞公民",
-        "CreatorFunds": "化讚為賞基金"
+        "CreatorFunds": "配對基金"
       }
     },
     "ListTitle": {
@@ -212,14 +213,14 @@
     },
     "Summary": {
       "CivicLiker": "讚賞公民",
-      "Liker": "讚賞人"
+      "Liker": "一般 Liker"
     },
     "Title": "已獲讚賞"
   },
   "StatisticsSupportedScreen": {
     "Empty": {
-      "Content": "你還沒有支持作品",
-      "Creator": "你還沒有支持作者"
+      "Content": "你沒有支持作品，多讚賞好文吧！",
+      "Creator": "你沒有支持作者，多回饋創作吧！"
     },
     "Title": "已支持",
     "ListTitle": {
@@ -228,10 +229,10 @@
     }
   },
   "settingsScreen": {
-    "authcoreSettings": "帳戶設定",
+    "authcoreSettings": "設定 Liker ID",
     "contactUs": "聯絡我們",
-    "followSettings": "追踪 / 取消追踪",
-    "LanguageSettings": "語言設定",
+    "followSettings": "設定 Content Jockey",
+    "LanguageSettings": "設定語言",
     "openSourceLicense": "開源授權",
     "privacyPolicy": "隱私權政策",
     "RateApp": "為 Liker Land 評分",
@@ -252,25 +253,25 @@
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
     "title": "設定",
-    "WebsiteSignIn": "網站登入"
+    "WebsiteSignIn": "設定媒體登錄帳號"
   },
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
   },
   "signInScreen": {
-    "error": "登入出現錯誤",
+    "error": "登入錯誤",
     "errorAuthCore": "登入 AuthCore 錯誤",
     "errorLikeCo": "登入 like.co 錯誤",
     "errorLikerLand": "登入 liker.land 錯誤",
-    "heading": "讚賞公民共和國，每個 Like 都是對創作者的實質回報",
+    "heading": "不是瀏覽，而是閱讀。",
     "LoadingTakesLonger": "載入需時，請稍等⋯",
     "signIn": "登入",
     "signUp": "註冊"
   },
   "subscriptionFeature": {
     "com.oice.membership": [
-      "解鎖 700 個媒體所有文章",
+      "解鎖 1300 個媒體所有文章",
       "不設免費試用",
       "每月於訂閱當日自動續約"
     ]
@@ -302,12 +303,12 @@
     "InputLabel": "輸入 Memo (可省略）"
   },
   "transferSigningScreen": {
-    "completed": "已完成轉帳",
+    "completed": "已轉帳",
     "details": "詳細資料",
     "Memo": "Memo",
     "title": "轉帳",
     "totalAmount": "總額",
-    "transactionFee": "轉帳費用"
+    "transactionFee": "手續費"
   },
   "validator": {
     "delegatorShare": "Liker 分成",
@@ -324,7 +325,7 @@
     "redelegateButtonText": "轉移委託",
     "RedelegationLockAlert": {
       "title": "轉移委託已被鎖上",
-      "message": "你最近曾轉移委託至這驗證人，轉移委託後21天將會被解鎖。"
+      "message": "你最近曾轉移委託至這驗證人，轉移委託後21天將會解鎖。"
     },
     "Status": {
       "Active": "活躍",
@@ -332,10 +333,10 @@
     },
     "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人地址 (按下複製)",
-    "validatorAddressCopied": "驗證人地址 (已複製)"
+    "validatorAddressCopied": "已複製驗證人地址"
   },
   "ValidatorListScreen": {
-    "Title": "所有驗證人"
+    "Title": "驗證人"
   },
   "UnauthenticatedAlert": {
     "title": "登入階段已失效 [{{type}}]",
@@ -345,7 +346,7 @@
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
     "allUnbondingBalanceLabel": "解綁中",
-    "AllValidatorsButtonText": "所有驗證人",
+    "AllValidatorsButtonText": "驗證人",
     "send": "轉帳",
     "stakeLabel": "委託",
     "receive": "收款",
@@ -354,7 +355,7 @@
   "WebsiteSignInScreen": {
     "Alert": {
       "Title": "現正登入",
-      "Message": "使用瀏覽器登入你的帳戶。當登入完成後，點「✕」，Liker Land 會記住你的登入狀態。"
+      "Message": "登錄你的帳號，然後點「✕」退出，Liker Land 就能記住你的登入狀態，無需每次登錄，但並不會儲存你的密碼。"
     },
     "Item": {
       "Appledailyhk": "香港蘋果日報",
