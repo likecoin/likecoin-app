@@ -1,7 +1,13 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import i18n from "i18n-js"
 
-import { LANGUAGES, SYSTEM_LANGUAGE } from "../../i18n"
+import {
+  AppLanguageKey,
+  LANGUAGES,
+  LANGUAGE_KEY_LIST,
+  SYSTEM_LANGUAGE,
+  setI18nLocale,
+} from "../../i18n"
+import { logError } from "../../utils/error"
 
 /**
  * Language settings.
@@ -13,26 +19,32 @@ export const LanguageSettingsStoreModel = types
   })
   .views(self => ({
     get items() {
-      return LANGUAGES.filter(language => language.canSet).map(language => ({
-        ...language,
-        isActive: self.activeLanguageKey === language.key,
+      return LANGUAGE_KEY_LIST.map(key => ({
+        ...LANGUAGES[key],
+        key,
+        isActive: self.activeLanguageKey === key,
       }))
     },
   }))
   .actions(self => {
-    let onChangeCallback: (languageKey?: string) => void
+    let onChangeCallback: (languageKey?: AppLanguageKey) => void
 
     return {
       afterCreate() {
-        i18n.locale = self.activeLanguageKey
+        setI18nLocale(self.activeLanguageKey as AppLanguageKey)
       },
-      listenChange(callback: (languageKey?: string) => void) {
+      listenChange(callback: (languageKey?: AppLanguageKey) => void) {
         onChangeCallback = callback
       },
-      setLanguage(languageKey: string) {
-        self.activeLanguageKey = languageKey
-        i18n.locale = languageKey
-        if (onChangeCallback) onChangeCallback(languageKey)
+      setLanguage(languageKey: AppLanguageKey) {
+        self.activeLanguageKey = setI18nLocale(languageKey)
+        if (onChangeCallback) {
+          try {
+            onChangeCallback(languageKey)
+          } catch (error) {
+            logError(error)
+          }
+        }
       },
     }
   })

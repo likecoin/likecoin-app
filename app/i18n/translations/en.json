@@ -81,7 +81,7 @@
     "en": "English",
     "zh-Hant-HK": "Chinese (Hong Kong)",
     "zh-Hant-TW": "Chinese (Taiwan)",
-    "zh-Hants-CN": "Chinese (China)"
+    "zh-Hans-CN": "Chinese (China)"
   },
   "LanguageSettingsScreen": {
     "Title": "Language Settings"
