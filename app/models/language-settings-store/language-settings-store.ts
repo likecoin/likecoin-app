@@ -2,6 +2,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import i18n from "i18n-js"
 
 import { LANGUAGES, SYSTEM_LANGUAGE } from "../../i18n"
+import { logError } from "../../utils/error"
 
 /**
  * Language settings.
@@ -32,7 +33,13 @@ export const LanguageSettingsStoreModel = types
       setLanguage(languageKey: string) {
         self.activeLanguageKey = languageKey
         i18n.locale = languageKey
-        if (onChangeCallback) onChangeCallback(languageKey)
+        if (onChangeCallback) {
+          try {
+            onChangeCallback(languageKey)
+          } catch (error) {
+            logError(error)
+          }
+        }
       },
     }
   })
