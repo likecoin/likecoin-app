@@ -55,13 +55,13 @@
     "REWARDS_WITHDRAW_BELOW_MIN": "收益少於可提取下限",
     "STAKE_AMOUNT_EXCEED_MAX": "數目已超過可委託的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
-    "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超過可轉帳的上限",
-    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
+    "TRANSFER_AMOUNT_EXCEED_MAX": "LIKE pay 數目已超過上限",
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "LIKE pay 數目不可少於 0",
     "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或錢包地址不正確",
     "TRANSFER_TARGET_NO_WALLET": "收款人尚無錢包地址",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超過可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
-    "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
+    "UNSTAKE_NOT_ENOUGH_FEE": "手續費不足"
   },
   "FollowSettingsScreen": {
     "Title": "設定 Content Jockey",
@@ -87,8 +87,8 @@
   },
   "Notification": {
     "Type": {
-      "send": "轉出",
-      "receive": "轉入",
+      "send": "LIKE pay",
+      "receive": "收款",
       "civic-like": "讚賞公民",
       "super-like": "Super Like",
       "daily-rewards": "配對基金",
@@ -117,16 +117,16 @@
     "followingLabel": "你的 Content Jockey",
     "ReadLabel": "已讀",
     "SuperLikeFromLabel":  {
-      "zero": "%{liker} Super Like",
-      "one": "%{liker} 及 {{count}} 位 Super Like",
-      "other": "%{liker} 及 {{count}} 位 Super Like"
+      "zero": "%{liker} Super Liked",
+      "one": "%{liker} 及 {{count}} 位 Super Liked",
+      "other": "%{liker} 及 {{count}} 位 Super Liked"
     }
   },
   "receiveScreen": {
     "shareYourAddress": "分享你的錢包地址"
   },
   "ReferralCTAView": {
-    "Title": "立即領取 5 美元推薦獎賞",
+    "Title": "立即領取 100 LIKE 推薦獎賞",
     "ButtonTitle": "詳情"
   },
   "ReferralScreen": {
@@ -291,7 +291,7 @@
     "to": "至"
   },
   "transferTargetInputScreen": {
-    "targetInputLabel": "轉帳至",
+    "targetInputLabel": "LIKE pay 至",
     "targetInputPlaceholder": "收款人的 Liker ID 或錢包地址"
   },
   "transferAmountInputScreen": {
@@ -302,10 +302,10 @@
     "InputLabel": "輸入 Memo (可省略）"
   },
   "transferSigningScreen": {
-    "completed": "已轉帳",
+    "completed": "LIKE pay 完成",
     "details": "詳細資料",
     "Memo": "Memo",
-    "title": "轉帳",
+    "title": "LIKE pay",
     "totalAmount": "總額",
     "transactionFee": "手續費"
   },
@@ -346,7 +346,7 @@
     "allDelegatorRewardsLabel": "未領取收益",
     "allUnbondingBalanceLabel": "解綁中",
     "AllValidatorsButtonText": "所有驗證人",
-    "send": "轉帳",
+    "send": "LIKE pay",
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"

@@ -4,7 +4,7 @@
     "DenialTitle": "Can you give us some feedback?"
   },
   "BookmarkScreen": {
-    "title": "Bookmarks"
+    "title": "Reading list"
   },
   "common": {
     "back": "Back",
@@ -20,7 +20,7 @@
     "No": "No",
     "ok": "OK",
     "Skip": "Skip",
-    "viewOnBlockExplorer": "View on Big Dipper",
+    "viewOnBlockExplorer": "View on Big Dipper open data browser",
     "undo": "Undo",
     "unfollow": "Unfollow",
     "unfollowSuccess": "You have unfollowed %{creator}",
@@ -28,9 +28,9 @@
   },
   "ContentListItem": {
     "Back": {
-      "Bookmark": "Bookmark",
+      "Bookmark": "Add to reading list",
       "Follow": "Follow",
-      "Unbookmark": "Unsave",
+      "Unbookmark": "Remove to reading list",
       "Unfollow": "Unfollow"
     },
     "likeStatsLabel": {
@@ -39,68 +39,68 @@
     }
   },
   "Date": {
-    "Today": "Today",
-    "Yesterday": "Yesterday"
+    "Today": "Today's headlines",
+    "Yesterday": "Yesterday's headlines"
   },
   "error": {
-    "DEPRECATED_APP": "New version is available. Please update the App.",
-    "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchasing",
+    "DEPRECATED_APP": "New version is available. Please update Liker Land.",
+    "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchase",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
-    "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be less than %{count}",
+    "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be fewer than %{count}",
     "LIKER_ID_LENGTH_LIMIT_MAX": "The length of the Liker ID must not be more than %{count}",
     "REDELEGATE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "REGISTRATION_BAD_DATA": "Registration data invalid",
-    "REGISTRATION_EMAIL_ALREADY_USED": "The email is already used",
-    "REGISTRATION_LIKER_ID_ALREADY_USED": "The Liker ID is already used",
+    "REGISTRATION_EMAIL_ALREADY_USED": "The email is already taken",
+    "REGISTRATION_LIKER_ID_ALREADY_USED": "The Liker ID is already taken",
     "REWARDS_WITHDRAW_BELOW_MIN": "The rewards are below the minimum withdraw amount",
     "STAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_INPUT_TARGET_INVALID": "The Liker ID or address is invalid",
-    "TRANSFER_TARGET_NO_WALLET": "Receiver does not have a address",
+    "TRANSFER_TARGET_NO_WALLET": "Receiver does not have an address",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum undelegation amount",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
-    "UNSTAKE_NOT_ENOUGH_FEE": "Not enough to pay for transaction fee"
+    "UNSTAKE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee"
   },
   "FollowSettingsScreen": {
-    "Title": "Following / Unfollow",
+    "Title": "Content Jockey",
     "TabTitle": {
       "Following": "Following",
       "Unfollowed": "Unfollowed"
     }
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "All Super Liked Feed"
+    "Title": "The world has Super Liked"
   },
   "I18nStory": {
-    "UseCase1": "%{liker} sent you %{amount}."
+    "UseCase1": "%{liker} LIKE pay you %{amount}."
   },
   "Language": {
     "en": "English",
     "zh-Hant-HK": "Chinese (Hong Kong)",
     "zh-Hant-TW": "Chinese (Taiwan)",
-    "zh-Hans-CN": "Chinese (China)"
+    "zh-Hans-CN": "Chinese (Simplified)"
   },
   "LanguageSettingsScreen": {
     "Title": "Language Settings"
   },
   "Notification": {
     "Type": {
-      "send": "Send",
+      "send": "LIKE pay",
       "receive": "Receive",
       "civic-like": "Civic Liker",
       "super-like": "Super Like",
-      "daily-rewards": "Daily Rewards",
+      "daily-rewards": "Matching Fund",
       "referral": "Referral Reward"
     },
     "Message": {
       "send": "You sent %{amount} to %{to}.",
-      "receive": "You receive %{amount} from %{from}.",
-      "civic-like": "%{from} liked your work. You received %{amount}.",
+      "receive": "You received %{amount} from %{from}.",
+      "civic-like": "%{from} Liked your work. You received %{amount}.",
       "super-like": "%{from} Super Liked your work. You received %{amount}.",
-      "daily-rewards": "%{likers} liked your contents today. You received %{amount} in total.",
+      "daily-rewards": "%{likers} Liked your work today. You received %{amount} in total.",
       "referral": "%{from} has installed Liker Land app. You both received %{amount}."
     }
   },
@@ -113,9 +113,9 @@
     "showMyQRCode": "Show my QR Code"
   },
   "readerScreen": {
-    "Title": "Reading",
-    "emptyLabel": "No content",
-    "followingLabel": "Your following list",
+    "Title": "Reading list",
+    "emptyLabel": "No headlines. Please pick some Content Jockeys you trust.",
+    "followingLabel": "Your Content Jockey",
     "ReadLabel": "VIEWED",
     "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
@@ -131,28 +131,28 @@
     "ButtonTitle": "More"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards, and accumulate your followers number as well. Let's share now!",
+    "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards. You will also become your friend's Content Jockey. Let's spread the words.",
     "HeaderTitle": "Referral Bonus",
-    "Title": "Share and Earn More Rewards",
+    "Title": "Share and Earn Rewards",
     "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
-    "OgDescription": "Follow your favourite creators and media, enjoy the best content."
+    "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading."
   },
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
-    "referrerIdLabel": "(Optional) Input your referrer's Liker ID",
-    "emailVerificationHint": "You will have to verify your email to receive referral bonus"
+    "referrerIdLabel": "(Optional) input your referrer's Liker ID",
+    "emailVerificationHint": "You will have to verify your email and phone to receive referral bonus"
   },
   "RegistrationScreen": {
     "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
     "likerIdLabel": "Create your Liker ID",
-    "shouldSignInOnDesktop": "Please retry after signing in to http://like.co on desktop"
+    "shouldSignInOnDesktop": "Please retry after logging in to http://like.co on desktop"
   },
   "SaveToBookmarkScreen": {
     "DismissButtonText": "Click to close",
     "Error": {
       "forbidden": "Please sign-in again in the app.",
       "invalid-url": "Cannot save this link.",
-      "unknown": "Unable to save to bookmark."
+      "unknown": "Unable to save to Liker Land."
     }
   },
   "signInScreen": {
@@ -160,7 +160,7 @@
     "errorAuthCore": "Error occurs when signing in to AuthCore",
     "errorLikeCo": "Error occurs when signing in to like.co",
     "errorLikerLand": "Error occurs when signing in to liker.land",
-    "heading": "At Republic of Liker Land, every Like is a reward to creators",
+    "heading": "Less browsing. More reading.",
     "LoadingTakesLonger": "This is taking longer than usual...",
     "signIn": "Sign In",
     "signUp": "Sign Up"
@@ -217,11 +217,11 @@
     "Dashboard": {
       "Empty": {
         "ButtonTitle": "Get Rewards",
-        "Title": "You don’t have any reward in this week"
+        "Title": "You don’t have any reward this week. Let's work harder."
       },
       "Legends": {
         "CivicLiker": "Civic Liker",
-        "CreatorFunds": "Creator Funds"
+        "CreatorFunds": "Matching Fund"
       }
     },
     "ListTitle": {
@@ -235,8 +235,8 @@
   },
   "StatisticsSupportedScreen": {
     "Empty": {
-      "Content": "You haven't support any content",
-      "Creator": "You haven't support any creator"
+      "Content": "You haven't supported any content. Do utilize your LIKE!",
+      "Creator": "You haven't supported any creator. Do utilize your LIKE!"
     },
     "Title": "Supported",
     "ListTitle": {
@@ -245,13 +245,13 @@
     }
   },
   "settingsScreen": {
-    "authcoreSettings": "Account Settings",
+    "authcoreSettings": "Liker ID Settings",
     "contactUs": "Contact Us",
-    "followSettings": "Following / Unfollow",
+    "followSettings": "Content Jockey",
     "LanguageSettings": "Language Settings",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
-    "RateApp": "Rate The Liker Land App",
+    "RateApp": "Rate the Liker Land app",
     "Referral": "Referral Bonus",
     "StatisticsPanel": {
       "Rewarded": {
@@ -263,7 +263,7 @@
       },
       "TopSupportedCreator": {
         "BecomeCivicLiker": "Become a Civic Liker",
-        "SupportMore": "Support more to {{creator}}"
+        "SupportMore": "Support {{creator}}"
       }
     },
     "subscription": "Subscription",
@@ -277,7 +277,7 @@
   },
   "subscriptionFeature": {
     "com.oice.membership": [
-      "Unlock unlimited articles from 700 media",
+      "Unlock unlimited articles from 1300 media",
       "No free trial",
       "Automatically renew every month on the same day of subscription"
     ]
@@ -295,21 +295,21 @@
     "to": "To"
   },
   "transferTargetInputScreen": {
-    "targetInputLabel": "Send to",
+    "targetInputLabel": "LIKE pay",
     "targetInputPlaceholder": "Receiver's Liker ID or address"
   },
   "transferAmountInputScreen": {
     "available": "Available"
   },
   "TransferMemoInputScreen": {
-    "DiscardInputAlert": "You have already inputted memo, do you want to discard?",
+    "DiscardInputAlert": "Do you want to discard the memo?",
     "InputLabel": "Input memo (optional)"
   },
   "transferSigningScreen": {
-    "completed": "Transaction Completed",
+    "completed": "LIKE pay succeeded.",
     "details": "Details",
     "Memo": "Memo",
-    "title": "Send",
+    "title": "LIKE pay",
     "totalAmount": "Total",
     "transactionFee": "Transaction fee"
   },
@@ -357,8 +357,8 @@
   },
   "WebsiteSignInScreen": {
     "Alert": {
-      "Title": "Signing in",
-      "Message": "Use the browser to sign in to your account. After you've signed in, click '✕' and Liker Land will remember the account for you."
+      "Title": "Media accounts",
+      "Message": "Sign in to the media with your own account, then click '✕' and Liker Land will keep the login state, without saving your credentials."
     },
     "Item": {
       "Appledailyhk": "Apply Daily (Hong Kong)",
@@ -368,8 +368,8 @@
       "Nytimes": "The New York Times",
       "Substack": "Substack"
     },
-    "OtherLabel": "Other (Please specify URL)",
-    "Title": "Website Sign-in"
+    "OtherLabel": "Others (please specify URL)",
+    "Title": "Media accounts"
   },
   "Week": [
     "Sun",

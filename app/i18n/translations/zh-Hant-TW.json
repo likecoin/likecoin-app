@@ -18,7 +18,7 @@
     "followSuccess": "已追蹤 %{creator}",
     "next": "下一步",
     "No": "否",
-    "ok": "確定",
+    "ok": "好",
     "Skip": "略過",
     "viewOnBlockExplorer": "在 Big Dipper 查看開放數據",
     "undo": "復原",
@@ -43,35 +43,35 @@
   },
   "error": {
     "DEPRECATED_APP": "有新的版本可用，請立即更新。",
-    "IAP_PURCHASE_RECEIPT_ERROR": "購買時發生錯誤",
+    "IAP_PURCHASE_RECEIPT_ERROR": "購買時出現錯誤",
     "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
     "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
-    "REDELEGATE_AMOUNT_EXCEED_MAX": "數目已超過重新委託的最大值",
+    "REDELEGATE_AMOUNT_EXCEED_MAX": "數目已超過可重新委託的上限",
     "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
-    "REGISTRATION_BAD_DATA": "註冊資料有誤",
-    "REGISTRATION_EMAIL_ALREADY_USED": "此電子郵件已被註冊",
+    "REGISTRATION_BAD_DATA": "註冊資料錯誤",
+    "REGISTRATION_EMAIL_ALREADY_USED": "此電郵已被註冊",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註冊",
-    "REWARDS_WITHDRAW_BELOW_MIN": "收益少於可提取最低值",
-    "STAKE_AMOUNT_EXCEED_MAX": "數目已超過可委託的最大值",
+    "REWARDS_WITHDRAW_BELOW_MIN": "收益少於可提取下限",
+    "STAKE_AMOUNT_EXCEED_MAX": "數目已超過可委託的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
-    "TRANSFER_AMOUNT_EXCEED_MAX": "數目已超過可轉帳的最大值",
-    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
+    "TRANSFER_AMOUNT_EXCEED_MAX": "LIKE pay 數目已超過上限",
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "LIKE pay 數目不可少於 0",
     "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或錢包地址不正確",
     "TRANSFER_TARGET_NO_WALLET": "收款人尚無錢包地址",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超過可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
-    "UNSTAKE_NOT_ENOUGH_FEE": "轉帳費用不足"
+    "UNSTAKE_NOT_ENOUGH_FEE": "手續費不足"
   },
   "FollowSettingsScreen": {
-    "Title": "設定 Content Jockey",
+    "Title": "設定內容伯樂",
     "TabTitle": {
       "Following": "追蹤中",
       "Unfollowed": "已取消追蹤"
     }
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "所有 Content Jockey 的 Super Like"
+    "Title": "所有內容伯樂的 Super Like"
   },
   "I18nStory": {
     "UseCase1": "%{liker} 傳送了 %{amount} 給你。"
@@ -87,8 +87,8 @@
   },
   "Notification": {
     "Type": {
-      "send": "轉出",
-      "receive": "轉入",
+      "send": "LIKE pay",
+      "receive": "收款",
       "civic-like": "讚賞公民",
       "super-like": "Super Like",
       "daily-rewards": "配對基金",
@@ -108,25 +108,25 @@
     "EmptyLabel": "暫時沒有通知"
   },
   "qrcodeScannerScreen": {
-    "hintText": "掃描 QR 碼",
-    "showMyQRCode": "我的 QR 碼"
+    "hintText": "掃描二維碼",
+    "showMyQRCode": "我的二維碼"
   },
   "readerScreen": {
     "Title": "閱讀列表",
-    "emptyLabel": "沒有內容，追蹤一些 Content Jockey 吧",
-    "followingLabel": "你的 Content Jockey",
+    "emptyLabel": "沒有內容，追蹤一些內容伯樂吧",
+    "followingLabel": "你的內容伯樂",
     "ReadLabel": "已讀",
     "SuperLikeFromLabel":  {
-      "zero": "%{liker} Super Like",
-      "one": "%{liker} 及 {{count}} 位 Super Like",
-      "other": "%{liker} 及 {{count}} 位 Super Like"
+      "zero": "%{liker} Super Liked",
+      "one": "%{liker} 及 {{count}} 位 Super Liked",
+      "other": "%{liker} 及 {{count}} 位 Super Liked"
     }
   },
   "receiveScreen": {
     "shareYourAddress": "分享你的錢包地址"
   },
   "ReferralCTAView": {
-    "Title": "立即領取 5 美元推薦獎賞",
+    "Title": "立即領取 100 LIKE 推薦獎賞",
     "ButtonTitle": "詳情"
   },
   "ReferralScreen": {
@@ -139,19 +139,19 @@
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID 為 7 至 20 位小寫英文字母、數字、「-」及「_」字元組成的",
     "referrerIdLabel": "（如有）輸入推薦人的 Liker ID",
-    "emailVerificationHint": "必須驗證電子郵件地址後才能獲得推薦獎賞"
+    "emailVerificationHint": "必須驗證電郵地址後才能獲得推薦獎賞"
   },
   "RegistrationScreen": {
-    "likerIdHint": "僅允許7至20位小寫英文字母、數字、「-」及「_」字元",
+    "likerIdHint": "只允許7至20位小寫英文字母、數字、「-」及「_」字元",
     "likerIdLabel": "建立 Liker ID",
     "shouldSignInOnDesktop": "請在電腦上登入 http://like.co 後再試一遍"
   },
   "SaveToBookmarkScreen": {
     "DismissButtonText": "按此關閉",
     "Error": {
-      "forbidden": "請在 App 重新登入。",
-      "invalid-url": "識別連結失敗。",
-      "unknown": "將連結新增至書籤失敗。"
+      "forbidden": "請重新登入 Liker Land。",
+      "invalid-url": "未能成功辨識鏈接。",
+      "unknown": "未能成功把鏈接加到 Liker Land。"
     }
   },
   "stakingDelegationAmountInputScreen": {
@@ -218,7 +218,7 @@
   },
   "StatisticsSupportedScreen": {
     "Empty": {
-      "Content": "你沒有支持作品，多讚賞好文吧！",
+      "Content": "你沒有支持作品，多讚賞好文章吧！",
       "Creator": "你沒有支持作者，多回饋創作吧！"
     },
     "Title": "已支持",
@@ -230,9 +230,9 @@
   "settingsScreen": {
     "authcoreSettings": "設定 Liker ID",
     "contactUs": "聯絡我們",
-    "followSettings": "設定 Content Jockey",
+    "followSettings": "設定內容伯樂",
     "LanguageSettings": "設定語言",
-    "openSourceLicense": "開放原始碼授權",
+    "openSourceLicense": "開源授權",
     "privacyPolicy": "隱私權政策",
     "RateApp": "為 Liker Land 評分",
     "Referral": "推薦奬賞",
@@ -259,24 +259,24 @@
     "field": "Field"
   },
   "signInScreen": {
-    "error": "登入時發生錯誤",
+    "error": "登入錯誤",
     "errorAuthCore": "登入 AuthCore 錯誤",
     "errorLikeCo": "登入 like.co 錯誤",
     "errorLikerLand": "登入 liker.land 錯誤",
     "heading": "不是瀏覽，而是閱讀。",
-    "LoadingTakesLonger": "資源載入中，請稍後⋯",
+    "LoadingTakesLonger": "載入需時，請稍等⋯",
     "signIn": "登入",
     "signUp": "註冊"
   },
   "subscriptionFeature": {
     "com.oice.membership": [
       "解鎖 1300 個媒體所有文章",
-      "無免費試用",
+      "不設免費試用",
       "每月於訂閱當日自動續約"
     ]
   },
   "subscriptionScreen": {
-    "footnote": "如需取消訂閱：1) 於 iPhone/iPad 打開 設定 >【你的名字】> iTunes 與 App Store。2) 於頂部選取你的 Apple ID。3) 選「檢視 Apple ID」，然後登入。4) 選「訂閱項目」。5) 選「oice Backer」的訂閱。6) 選擇「取消訂閱」。",
+    "footnote": "如需取消訂閱：1) 於 iPhone/iPad 打開 設定 >【你的名字】> iTunes 與 App Store。2) 於頂部選取你的 Apple ID。3) 選 檢視 Apple ID，然後登錄。4) 選 訂閱項目。5) 選 oice Backer 的訂閱。6) 選擇 取消訂閱。",
     "restorePurchasesButtonText": "恢復已購買項目",
     "subscribeButtonText": "訂閱",
     "subscribedButtonText": "已訂閱",
@@ -291,7 +291,7 @@
     "to": "至"
   },
   "transferTargetInputScreen": {
-    "targetInputLabel": "轉帳至",
+    "targetInputLabel": "LIKE pay 至",
     "targetInputPlaceholder": "收款人的 Liker ID 或錢包地址"
   },
   "transferAmountInputScreen": {
@@ -302,12 +302,12 @@
     "InputLabel": "輸入 Memo (可省略）"
   },
   "transferSigningScreen": {
-    "completed": "已完成轉帳",
-    "details": "詳細資訊",
+    "completed": "LIKE pay 完成",
+    "details": "詳細資料",
     "Memo": "Memo",
-    "title": "轉帳",
+    "title": "LIKE pay",
     "totalAmount": "總額",
-    "transactionFee": "轉帳費用"
+    "transactionFee": "手續費"
   },
   "validator": {
     "delegatorShare": "Liker 分成",
@@ -338,7 +338,7 @@
     "Title": "所有驗證人"
   },
   "UnauthenticatedAlert": {
-    "title": "工作階段過期 [{{type}}]",
+    "title": "登入階段已失效 [{{type}}]",
     "message": "請重新登入。"
   },
   "walletDashboardScreen": {
@@ -346,7 +346,7 @@
     "allDelegatorRewardsLabel": "未領取收益",
     "allUnbondingBalanceLabel": "解綁中",
     "AllValidatorsButtonText": "所有驗證人",
-    "send": "轉帳",
+    "send": "LIKE pay",
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
