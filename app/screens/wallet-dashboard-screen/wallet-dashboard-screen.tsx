@@ -102,7 +102,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
               <Text
                 style={Style.UserIDLabel}
                 align="center"
-                text={`ID: ${currentUser.likerID}`}
+                text={`Liker ID: ${currentUser.likerID}`}
               />
             }
           </View>
