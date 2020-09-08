@@ -30,7 +30,7 @@
     "Back": {
       "Bookmark": "Add to reading list",
       "Follow": "Follow",
-      "Unbookmark": "Remove to reading list",
+      "Unbookmark": "Remove from reading list",
       "Unfollow": "Unfollow"
     },
     "likeStatsLabel": {
@@ -39,12 +39,12 @@
     }
   },
   "Date": {
-    "Today": "Today's headlines",
-    "Yesterday": "Yesterday's headlines"
+    "Today": "Today",
+    "Yesterday": "Yesterday"
   },
   "error": {
-    "DEPRECATED_APP": "New version is available. Please update Liker Land.",
-    "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchase",
+    "DEPRECATED_APP": "Sorry, this version of Liker Land is too old. Please update in order to proceed.",
+    "IAP_PURCHASE_RECEIPT_ERROR": "Error occurred at purchase",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
     "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be fewer than %{count}",
     "LIKER_ID_LENGTH_LIMIT_MAX": "The length of the Liker ID must not be more than %{count}",
@@ -65,7 +65,7 @@
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee"
   },
   "FollowSettingsScreen": {
-    "Title": "Content Jockey",
+    "Title": "My Content Jockey",
     "TabTitle": {
       "Following": "Following",
       "Unfollowed": "Unfollowed"
@@ -100,7 +100,7 @@
       "receive": "You received %{amount} from %{from}.",
       "civic-like": "%{from} Liked your work. You received %{amount}.",
       "super-like": "%{from} Super Liked your work. You received %{amount}.",
-      "daily-rewards": "%{likers} Liked your work today. You received %{amount} in total.",
+      "daily-rewards": "%{likers} Liked your work(s) today. You received %{amount} in total.",
       "referral": "%{from} has installed Liker Land app. You both received %{amount}."
     }
   },
@@ -114,20 +114,24 @@
   },
   "readerScreen": {
     "Title": "Reading list",
-    "emptyLabel": "No headlines. Please pick some Content Jockeys you trust.",
-    "followingLabel": "Your Content Jockey",
+    "emptyLabel": "When browsing the headlines, you may tap the bookmark button to add the content here. You may then take your time to read them.",
+    "followingLabel": "My Content Jockey",
     "ReadLabel": "VIEWED",
     "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
-      "one": "%{liker} and {{count}} liker Super Liked",
-      "other": "%{liker} and {{count}} likers Super Liked"
+      "one": "%{liker} and {{count}} Liker Super Liked",
+      "other": "%{liker} and {{count}} Likers Super Liked"
+    },
+    "Date": {
+      "Today": "Today's headlines",
+      "Yesterday": "Yesterday's headlines"
     }
   },
   "receiveScreen": {
-    "shareYourAddress": "Share your address"
+    "shareYourAddress": "Share my address"
   },
   "ReferralCTAView": {
-    "Title": "Get the 100 LIKE affiliate bonus now",
+    "Title": "Get 100 LIKE referral bonus now",
     "ButtonTitle": "More"
   },
   "ReferralScreen": {
@@ -140,7 +144,7 @@
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
     "referrerIdLabel": "(Optional) input your referrer's Liker ID",
-    "emailVerificationHint": "You will have to verify your email and phone to receive referral bonus"
+    "emailVerificationHint": "You will have to verify your email and phone number to receive referral bonus"
   },
   "RegistrationScreen": {
     "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
@@ -221,7 +225,7 @@
     "Dashboard": {
       "Empty": {
         "ButtonTitle": "Get Rewards",
-        "Title": "You don’t have any reward this week. Let's work harder."
+        "Title": "Haven't received any reward this week. Let's work harder."
       },
       "Legends": {
         "CivicLiker": "Civic Liker",
@@ -239,8 +243,8 @@
   },
   "StatisticsSupportedScreen": {
     "Empty": {
-      "Content": "You haven't supported any content. Do utilize your LIKE!",
-      "Creator": "You haven't supported any creator. Do utilize your LIKE!"
+      "Content": "You haven't rewarded any content. Do utilize your LIKE!",
+      "Creator": "You haven't rewarded any creator. Do utilize your LIKE!"
     },
     "Title": "Supported",
     "ListTitle": {
@@ -262,7 +266,7 @@
           "Title": "Rewarded"
         },
         "Supported": {
-          "Title": "Supported (Civic Liker)"
+          "Title": "Civic Liker monthly sponsor"
         },
         "TopSupportedCreator": {
           "BecomeCivicLiker": "Become a Civic Liker",
@@ -270,10 +274,10 @@
         }
       },
       "Wallet": {
-        "Title": "Your Wallet"
+        "Title": "My Wallet"
       }
     },
-    "RateApp": "Rate the Liker Land app",
+    "RateApp": "Rate Liker Land",
     "Referral": "Referral Bonus",
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
@@ -344,8 +348,8 @@
       "Inactive": "Inactive"
     },
     "undelegateButtonText": "Undelegate",
-    "validatorAddress": "Validator Address (Click to copy)",
-    "validatorAddressCopied": "Validator Address (Copied)"
+    "validatorAddress": "Validator Address (click to copy)",
+    "validatorAddressCopied": "Validator Address (copied)"
   },
   "ValidatorListScreen": {
     "Title": "All validators"
@@ -367,7 +371,7 @@
   "WebsiteSignInScreen": {
     "Alert": {
       "Title": "Media accounts",
-      "Message": "Sign in to the media with your own account, then click '✕' and Liker Land will keep the login state, without saving your credentials."
+      "Message": "Sign in to the media with your own account, then click '✕'. Liker Land will then keep your login state, without saving your credentials."
     },
     "Item": {
       "Appledailyhk": "Apply Daily (Hong Kong)",
