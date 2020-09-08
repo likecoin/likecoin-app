@@ -55,7 +55,10 @@ export class SettingsScreenWalletPanel extends React.Component<
                   width={16}
                   height={16}
                 />
-                <Text text="Your Wallet" style={Style.HeaderText} />
+                <Text
+                  tx="settingsScreen.Panel.Wallet.Title"
+                  style={Style.HeaderText}
+                />
                 <Icon
                   name="arrow-right"
                   color="likeGreen"

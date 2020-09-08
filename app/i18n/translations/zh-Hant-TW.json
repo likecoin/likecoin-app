@@ -248,6 +248,9 @@
           "BecomeCivicLiker": "成為讚賞公民",
           "SupportMore": "給予 {{creator}} 更多支持"
         }
+      },
+      "Wallet": {
+        "Title": "你的錢包"
       }
     },
     "RateApp": "為 Liker Land 評分",
