@@ -251,21 +251,23 @@
     "LanguageSettings": "Language Settings",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
-    "RateApp": "Rate the Liker Land app",
-    "Referral": "Referral Bonus",
-    "StatisticsPanel": {
-      "Rewarded": {
-        "GetRewardsButtonTitle": "Get rewards",
-        "Title": "Rewarded"
-      },
-      "Supported": {
-        "Title": "Supported (Civic Liker)"
-      },
-      "TopSupportedCreator": {
-        "BecomeCivicLiker": "Become a Civic Liker",
-        "SupportMore": "Support {{creator}}"
+    "Panel": {
+      "Statistics": {
+        "Rewarded": {
+          "GetRewardsButtonTitle": "Get rewards",
+          "Title": "Rewarded"
+        },
+        "Supported": {
+          "Title": "Supported (Civic Liker)"
+        },
+        "TopSupportedCreator": {
+          "BecomeCivicLiker": "Become a Civic Liker",
+          "SupportMore": "Support {{creator}}"
+        }
       }
     },
+    "RateApp": "Rate the Liker Land app",
+    "Referral": "Referral Bonus",
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
     "title": "Settings",

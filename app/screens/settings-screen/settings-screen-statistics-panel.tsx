@@ -102,7 +102,7 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
               />
             </View>
             <Text
-              text={translate("settingsScreen.StatisticsPanel.TopSupportedCreator.SupportMore", {
+              text={translate("settingsScreen.Panel.Statistics.TopSupportedCreator.SupportMore", {
                 creator: displayName
               })}
               color="grey4a"
@@ -111,7 +111,7 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
               style={Style.ButtonTitle}
             />
             <Text
-              tx="settingsScreen.StatisticsPanel.TopSupportedCreator.BecomeCivicLiker"
+              tx="settingsScreen.Panel.Statistics.TopSupportedCreator.BecomeCivicLiker"
               color="likeGreen"
               size="default"
               weight="500"
@@ -137,7 +137,7 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
         <View style={Style.Button}>
           <View style={Style.ButtonContent}>
             <Text
-              tx="settingsScreen.StatisticsPanel.Supported.Title"
+              tx="settingsScreen.Panel.Statistics.Supported.Title"
               style={Style.ButtonTitle}
             />
             <View style={Style.ButtonStatsDetails}>
@@ -183,7 +183,7 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
         <View style={Style.Button}>
           <View style={Style.ButtonContent}>
             <Text
-              tx="settingsScreen.StatisticsPanel.Rewarded.Title"
+              tx="settingsScreen.Panel.Statistics.Rewarded.Title"
               style={Style.ButtonTitle}
             />
             <View style={Style.ButtonStatsDetails}>
@@ -202,7 +202,7 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
           {totalRewardedLikeAmount === 0 && (
             <Button
               preset="plain"
-              tx="settingsScreen.StatisticsPanel.Rewarded.GetRewardsButtonTitle"
+              tx="settingsScreen.Panel.Statistics.Rewarded.GetRewardsButtonTitle"
               color="likeCyan"
               weight="500"
               onPress={this.props.onPressGetRewardsButton}

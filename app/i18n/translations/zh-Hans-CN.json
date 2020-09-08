@@ -234,21 +234,23 @@
     "LanguageSettings": "设定语言",
     "openSourceLicense": "开源授权",
     "privacyPolicy": "隐私权政策",
-    "RateApp": "为 Liker Land 评分",
-    "Referral": "推荐奬赏",
-    "StatisticsPanel": {
-      "Rewarded": {
-        "GetRewardsButtonTitle": "获得赞赏",
-        "Title": "已获赞赏"
-      },
-      "Supported": {
-        "Title": "已支持（赞赏公民）"
-      },
-      "TopSupportedCreator": {
-        "BecomeCivicLiker": "成为赞赏公民",
-        "SupportMore": "给予 {{creator}} 更多支持"
+    "Panel": {
+      "Statistics": {
+        "Rewarded": {
+          "GetRewardsButtonTitle": "获得赞赏",
+          "Title": "已获赞赏"
+        },
+        "Supported": {
+          "Title": "已支持（赞赏公民）"
+        },
+        "TopSupportedCreator": {
+          "BecomeCivicLiker": "成为赞赏公民",
+          "SupportMore": "给予 {{creator}} 更多支持"
+        }
       }
     },
+    "RateApp": "为 Liker Land 评分",
+    "Referral": "推荐奬赏",
     "subscription": "订阅",
     "termsOfUse": "使用条款",
     "title": "设定",
