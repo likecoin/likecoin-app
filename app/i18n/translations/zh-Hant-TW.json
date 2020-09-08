@@ -183,6 +183,7 @@
   },
   "Statistics": {
     "Work": "作品",
+    "WorkWithCount": "{{count}} 個作品",
     "Creator": "創作者",
     "Period": {
       "Week": {

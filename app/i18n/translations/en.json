@@ -197,6 +197,10 @@
       "one": "Work",
       "other": "Works"
     },
+    "WorkWithCount": {
+      "one": "{{count}} work",
+      "other": "{{count}} works"
+    },
     "Creator": {
       "one": "Creator",
       "other": "Creators"

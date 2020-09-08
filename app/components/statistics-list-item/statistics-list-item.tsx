@@ -83,7 +83,8 @@ export function StatisticsListItem(props: Props) {
               <Text text={`${likeCount}`} style={Style.SubDetailsText} />
               {type === "supported-creator" && numOfWorks > 0 && (
                 <Text
-                  text={`${numOfWorks} Works`}
+                  tx="Statistics.WorkWithCount"
+                  txOptions={{ count: numOfWorks }}
                   style={[Style.SubDetailsText, Style.WorkCountText]}
                 />
               )}

@@ -5934,7 +5934,7 @@ exports[`Storyshots StatisticsListItem Type 1`] = `
                             }
                           }
                         >
-                          1 Works
+                          Statistics.WorkWithCount.test
                         </Text>
                       </View>
                     </View>
