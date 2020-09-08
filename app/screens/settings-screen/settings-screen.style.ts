@@ -6,6 +6,8 @@ import {
 
 import { spacing, color } from "../../theme"
 
+const BODY_OVERLAP = spacing[6]
+
 export const SettingScreenStyle = StyleSheet.create({
   Body: {
     flexGrow: 1,
@@ -13,34 +15,13 @@ export const SettingScreenStyle = StyleSheet.create({
     paddingTop: spacing[0],
   } as ViewStyle,
   Header: {
+    marginBottom: -BODY_OVERLAP,
     paddingTop: spacing[5],
-    paddingBottom: spacing[7] + spacing[5],
+    paddingBottom: BODY_OVERLAP + spacing[5],
   } as ViewStyle,
   Root: {
     flexGrow: 1,
   } as ViewStyle,
-})
-
-export const SettingScreenUserInfoStyle = StyleSheet.create({
-  DisplayName: {
-    color: color.palette.white,
-    fontSize: 28,
-    fontWeight: "500",
-  } as TextStyle,
-  Identity: {
-    flex: 1,
-    marginLeft: 12,
-  } as ViewStyle,
-  Root: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: spacing[5],
-  } as ViewStyle,
-  UserID: {
-    color: color.palette.white,
-    opacity: 0.6,
-    fontSize: 12,
-  } as TextStyle,
 })
 
 export const LOGOUT: ViewStyle = {
@@ -81,8 +62,8 @@ export const SETTINGS_MENU = StyleSheet.create({
     borderBottomRightRadius: TABLE_BORDER_RADIUS,
   } as ViewStyle,
   TABLE_CELL_TEXT: {
-    padding: spacing[2],
     paddingVertical: spacing[1],
+    paddingHorizontal: spacing[4],
     color: color.palette.grey4a,
     textAlign: "left",
     fontWeight: "normal",

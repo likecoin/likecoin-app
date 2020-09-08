@@ -1,20 +1,25 @@
 import * as RNLocalize from "react-native-localize"
 import i18n from "i18n-js"
 
-const en = require("./en")
-const zhHantHK = require("./zh-Hant-HK")
+import { AppLanguageKey, LANGUAGES, translationGetters } from "./languages"
 
 i18n.fallbacks = true
-i18n.translations = {
-  en,
-  'zh-Hant-HK': zhHantHK,
-  'zh-Hant-TW': zhHantHK,
-  'zh-Hant-CN': zhHantHK,
+i18n.missingTranslationPrefix = "Missing Translation: "
+i18n.missingBehaviour = "guess"
+
+export function setI18nLocale(key: AppLanguageKey) {
+  const language = LANGUAGES[key]
+  if (language) {
+    i18n.translations = {
+      [key]: translationGetters[language.translationKey || key](),
+    }
+    i18n.locale = key
+  }
+  return i18n.locale as AppLanguageKey
 }
 
 const fallback = { languageTag: "en", isRTL: false }
 const { languageTag } =
-  RNLocalize.findBestAvailableLanguage(Object.keys(i18n.translations)) || fallback
-i18n.locale = languageTag
-i18n.missingTranslationPrefix = "Missing Translation: "
-i18n.missingBehaviour = "guess"
+  RNLocalize.findBestAvailableLanguage(Object.keys(LANGUAGES)) || fallback
+export const SYSTEM_LANGUAGE = languageTag as AppLanguageKey
+setI18nLocale(SYSTEM_LANGUAGE)

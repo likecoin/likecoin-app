@@ -36,11 +36,11 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
   }
 
   private onPressCloseButton = () => {
-    this.props.onClose && this.props.onClose()
+    if (this.props.onClose) this.props.onClose()
   }
 
   private onAmountInputChange = (amount: string) => {
-    this.props.onChange && this.props.onChange(amount)
+    if (this.props.onChange) this.props.onChange(amount)
   }
 
   private onPressFinishButton = () => {
@@ -51,16 +51,16 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
       onErrorLessThanZero,
     } = this.props
     if (amount.isZero()) {
-      onErrorLessThanZero && onErrorLessThanZero()
+      if (onErrorLessThanZero) onErrorLessThanZero()
       return
     }
 
     if (amount.isGreaterThan(maxAmount)) {
-      onErrorExceedMax && onErrorExceedMax()
+      if (onErrorExceedMax) onErrorExceedMax()
       return
     }
 
-    this.props.onClose && this.props.onConfirm()
+    if (this.props.onClose) this.props.onConfirm()
   }
 
   render () {

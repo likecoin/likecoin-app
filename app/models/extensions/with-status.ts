@@ -1,6 +1,6 @@
 import { observable, IObservableValue } from "mobx"
 
-export type StatusType = "idle" | "pending" | "done" | "error"
+export type StatusType = "idle" | "pending" | "pending-more" | "done" | "done-more" | "error"
 
 /**
  * Adds a status field to the model often for tracking api access.

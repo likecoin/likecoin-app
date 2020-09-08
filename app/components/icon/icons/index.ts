@@ -4,9 +4,11 @@ import ArrowDownIcon from "./arrow-down.svg"
 import ArrowLeftIcon from "./arrow-left.svg"
 import ArrowRightIcon from "./arrow-right.svg"
 import ArrowUpIcon from "./arrow-up.svg"
+import Bell from "./bell.svg"
 import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import CrossIcon from "./cross.svg"
+import GlobalEye from "./global-eye.svg"
 import LikeClap from "./like-clap.svg"
 import Lock from "./lock.svg"
 import Person from "./person.svg"
@@ -31,9 +33,11 @@ export const icons = {
   "arrow-right": ArrowRightIcon,
   "arrow-up": ArrowUpIcon,
   back: ArrowLeftIcon,
+  bell: Bell,
   "bookmark-filled": BookmarkFilledIcon,
   "bookmark-outlined": BookmarkOutlinedIcon,
   close: CrossIcon,
+  "global-eye": GlobalEye,
   "like-clap": LikeClap,
   lock: Lock,
   person: Person,

@@ -28,8 +28,18 @@ const TITLE_MIDDLE: ViewStyle = {
   justifyContent: "center",
   padding: spacing[2],
 }
-const LEFT: ViewStyle = { width: 40 }
-const RIGHT: ViewStyle = { width: 40 }
+const SIDE_VIEW_BASE: ViewStyle = {
+  width: 60,
+  justifyContent: "center",
+}
+const LEFT: ViewStyle = {
+  ...SIDE_VIEW_BASE,
+  alignItems: "flex-start",
+}
+const RIGHT: ViewStyle = {
+  ...SIDE_VIEW_BASE,
+  alignItems: "flex-end",
+}
 
 /**
  * Header that appears on many screens. Will hold navigation buttons and screen title.
@@ -40,40 +50,53 @@ export class Header extends React.Component<HeaderProps, {}> {
       onLeftPress,
       onRightPress,
       rightIcon,
+      rightIconColor = "white",
+      rightView,
       leftIcon,
+      leftIconColor = "white",
+      leftView,
       headerText,
       headerTx,
       titleStyle,
+      children,
     } = this.props
     const header = headerText || (headerTx && translate(headerTx)) || ""
 
     return (
       <View style={{ ...ROOT, ...this.props.style }}>
-        {leftIcon ? (
-          <Button
-            preset="icon"
-            icon={leftIcon}
-            onPress={onLeftPress}
-          />
-        ) : (
-          <View style={LEFT} />
-        )}
-        <View style={TITLE_MIDDLE}>
-          <Text
-            style={{ ...TITLE, ...titleStyle }}
-            text={header}
-            numberOfLines={1}
-          />
+        <View style={LEFT}>
+          {leftIcon ? (
+            <Button
+              preset="icon"
+              icon={leftIcon}
+              color={leftIconColor}
+              onPress={onLeftPress}
+            />
+          ) : (
+            leftView
+          )}
         </View>
-        {rightIcon ? (
-          <Button
-            preset="icon"
-            icon={rightIcon}
-            onPress={onRightPress}
-          />
-        ) : (
-          <View style={RIGHT} />
-        )}
+        <View style={TITLE_MIDDLE}>
+          {children || (
+            <Text
+              style={{ ...TITLE, ...titleStyle }}
+              text={header}
+              numberOfLines={1}
+            />
+          )}
+        </View>
+        <View style={RIGHT}>
+          {rightIcon ? (
+            <Button
+              preset="icon"
+              icon={rightIcon}
+              color={rightIconColor}
+              onPress={onRightPress}
+            />
+          ) : (
+            rightView
+          )}
+        </View>
       </View>
     )
   }

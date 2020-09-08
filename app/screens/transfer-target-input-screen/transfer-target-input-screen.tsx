@@ -218,6 +218,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
           <Button
             preset="icon"
             icon="close"
+            color="white"
             onPress={this.onPressCloseButton}
           />
         </View>
@@ -254,6 +255,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
               {
                 key: "scan",
                 preset: "icon",
+                color: "white",
                 icon: "qrcode-scan",
                 onPress: this.onPressQRCodeButton,
               },

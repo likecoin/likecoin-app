@@ -137,5 +137,35 @@ export type UserAppMetaResult = {
     android?: boolean
     ios?: boolean
   }
-
 } | GeneralApiProblem
+
+export type SuperLikeStatusResult = {
+  kind: "ok"
+  data: {
+    isSuperLiker: boolean
+    canSuperLike: boolean
+    nextSuperLikeTs: number
+    cooldown: number
+  },
+} | GeneralApiProblem
+
+export interface NotificationResult {
+  id: string
+  type: string
+  ts: number
+  isRead?: boolean
+
+  from?: string
+  to?: string
+  LIKE?: string | number
+  txHash?: string
+
+  sourceURL?: string
+}
+
+export type NotificationsResult =
+  | {
+      kind: "ok"
+      data: NotificationResult[]
+    }
+  | GeneralApiProblem

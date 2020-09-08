@@ -1,6 +1,6 @@
 {
   "name": "likecoin-app",
-  "version": "0.18.5",
+  "version": "0.19.0",
   "private": true,
   "scripts": {
     "start": "react-native start",
@@ -192,6 +192,8 @@
     },
     "rules": {
       "comma-dangle": 0,
+      "generator-star-spacing": 0,
+      "no-array-constructor": 0,
       "no-unused-vars": 0,
       "no-undef": 0,
       "no-unused-expressions": 0,

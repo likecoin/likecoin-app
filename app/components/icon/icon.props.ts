@@ -7,7 +7,7 @@ export interface IconProps extends SvgProps {
   /**
    * An optional text color override for fast styling.
    */
-  color?: Color
+  color?: Color | string
 
   /**
    * The name of the icon

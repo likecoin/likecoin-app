@@ -14,6 +14,7 @@
     "copied": "Copied",
     "done": "Done",
     "follow": "Follow",
+    "Following": "Following",
     "followSuccess": "You are now following %{creator}",
     "next": "Next",
     "No": "No",
@@ -36,7 +37,11 @@
       "one": "1 Like",
       "other": "{{count}} Likes"
     }
-  },  
+  },
+  "Date": {
+    "Today": "Today",
+    "Yesterday": "Yesterday"
+  },
   "error": {
     "DEPRECATED_APP": "New version is available. Please update the App.",
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurs at purchasing",
@@ -66,13 +71,57 @@
       "Unfollowed": "Unfollowed"
     }
   },
+  "GlobalSuperLikedFeedScreen": {
+    "Title": "All Super Liked Feed"
+  },
+  "I18nStory": {
+    "UseCase1": "%{liker} sent you %{amount}."
+  },
+  "Language": {
+    "en": "English",
+    "zh-Hant-HK": "Chinese (Hong Kong)",
+    "zh-Hant-TW": "Chinese (Taiwan)",
+    "zh-Hans-CN": "Chinese (China)"
+  },
+  "LanguageSettingsScreen": {
+    "Title": "Language Settings"
+  },
+  "Notification": {
+    "Type": {
+      "send": "Send",
+      "receive": "Receive",
+      "civic-like": "Civic Liker",
+      "super-like": "Super Like",
+      "daily-rewards": "Daily Rewards",
+      "referral": "Referral Reward"
+    },
+    "Message": {
+      "send": "You sent %{amount} to %{to}.",
+      "receive": "You receive %{amount} from %{from}.",
+      "civic-like": "%{from} liked your work. You received %{amount}.",
+      "super-like": "%{from} Super Liked your work. You received %{amount}.",
+      "daily-rewards": "%{likers} liked your contents today. You received %{amount} in total.",
+      "referral": "%{from} has installed Liker Land app. You both received %{amount}."
+    }
+  },
+  "NotificationScreen": {
+    "Title": "Notifications",
+    "EmptyLabel": "No notification"
+  },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
     "showMyQRCode": "Show my QR Code"
   },
   "readerScreen": {
+    "Title": "Reading",
     "emptyLabel": "No content",
-    "followingLabel": "Your following list"
+    "followingLabel": "Your following list",
+    "ReadLabel": "VIEWED",
+    "SuperLikeFromLabel": {
+      "zero": "%{liker} Super Liked",
+      "one": "%{liker} and {{count}} liker Super Liked",
+      "other": "%{liker} and {{count}} likers Super Liked"
+    }
   },
   "receiveScreen": {
     "shareYourAddress": "Share your address"
@@ -91,7 +140,7 @@
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
     "referrerIdLabel": "(Optional) Input your referrer's Liker ID",
-    "emailVerificationHint": "You will have to verify your email to receive referreal bonus"
+    "emailVerificationHint": "You will have to verify your email to receive referral bonus"
   },
   "RegistrationScreen": {
     "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
@@ -199,10 +248,11 @@
     "authcoreSettings": "Account Settings",
     "contactUs": "Contact Us",
     "followSettings": "Following / Unfollow",
+    "LanguageSettings": "Language Settings",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
     "RateApp": "Rate The Liker Land App",
-    "Referral": "推薦奬賞",
+    "Referral": "Referral Bonus",
     "StatisticsPanel": {
       "Rewarded": {
         "GetRewardsButtonTitle": "Get rewards",

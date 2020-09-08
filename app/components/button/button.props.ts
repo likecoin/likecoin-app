@@ -1,8 +1,14 @@
 import { ViewStyle, TextStyle, TouchableOpacityProps } from "react-native"
-import { ButtonPresetNames } from "./button.presets"
-import { Color } from "../../theme"
-import { TextSize } from "../text/text.sizes"
+
+import {
+  ButtonPreset,
+  ButtonSize,
+} from "./button.presets"
+
 import { IconTypes } from "../icon"
+import { TextSize } from "../text/text.sizes"
+
+import { Color } from "../../theme"
 
 export interface ButtonProps extends TouchableOpacityProps {
   /**
@@ -28,12 +34,12 @@ export interface ButtonProps extends TouchableOpacityProps {
   /**
    * An optional text color override for fast styling.
    */
-  color?: Color
+  color?: Color | string
 
   /**
    * An optional font size override for fast styling.
    */
-  size?: TextSize
+  fontSize?: TextSize
 
   /**
    * An optional font weight override for fast styling.
@@ -43,7 +49,12 @@ export interface ButtonProps extends TouchableOpacityProps {
   /**
    * One of the different types of text presets.
    */
-  preset?: ButtonPresetNames
+  preset?: ButtonPreset
+
+  /**
+   * Size of buton
+   */
+  size?: ButtonSize
 
   /**
    * The children prepend to the button

@@ -134,6 +134,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
                   {
                     key: "scan",
                     preset: "icon",
+                    color: "white",
                     icon: "qrcode-scan",
                     style: Style.QRCodeButton,
                     onPress: this.onPressQRCodeButton,

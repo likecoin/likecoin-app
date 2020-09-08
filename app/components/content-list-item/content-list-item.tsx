@@ -4,6 +4,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
 import ReactNativeSvg from "react-native-svg"
@@ -83,7 +84,9 @@ export class ContentListItem extends React.Component<Props, State> {
 
   private onToggleFollow = () => {
     this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleFollow) this.props.onToggleFollow(this.props.content)
+    if (this.props.onToggleFollow) {
+      this.props.onToggleFollow(this.props.content.creator)
+    }
   }
 
   private onPressMoreButton = () => {
@@ -99,8 +102,8 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private onPressUndoButton = () => {
-    if (this.props.onPressUndoButton) {
-      this.props.onPressUndoButton(this.props.content)
+    if (this.props.onPressUndoUnfollowButton) {
+      this.props.onPressUndoUnfollowButton(this.props.content.creator)
     }
   }
 
@@ -112,10 +115,15 @@ export class ContentListItem extends React.Component<Props, State> {
     } = this.props.content
 
     if (isLoading) {
-      return <ContentListItemSkeleton />
+      return (
+        <ContentListItemSkeleton
+          primaryColor={this.props.skeletonPrimaryColor}
+          secondaryColor={this.props.skeletonSecondaryColor}
+        />
+      )
     } else if (
       this.props.content.creator &&
-      this.props.onPressUndoButton &&
+      this.props.onPressUndoUnfollowButton &&
       this.isPrevFollow &&
       !isFollowingCreator
     ) {
@@ -144,6 +152,7 @@ export class ContentListItem extends React.Component<Props, State> {
 
   private renderFront() {
     const {
+      backgroundColor,
       content,
       style,
     } = this.props
@@ -158,11 +167,15 @@ export class ContentListItem extends React.Component<Props, State> {
       ...Style.Root,
       ...style,
       transform: [{ translateX: this.state.offsetX }],
+    } as ViewStyle
+
+    if (backgroundColor) {
+      rootStyle.backgroundColor = backgroundColor
     }
 
     return (
       <TouchableHighlight
-        underlayColor={color.palette.greyf2}
+        underlayColor={this.props.underlayColor || color.palette.greyf2}
         style={rootStyle}
         onPress={this.onPress}
       >
@@ -288,7 +301,7 @@ export class ContentListItem extends React.Component<Props, State> {
         <Button
           preset="plain"
           tx="common.undo"
-          size="default"
+          fontSize="default"
           append={
             <Icon
               name="undo"

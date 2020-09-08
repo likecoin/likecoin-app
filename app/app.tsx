@@ -2,7 +2,6 @@
 //
 // In this file, we'll be kicking off our app or storybook.
 
-import { translate } from "./i18n"
 import * as React from "react"
 import {
   Alert,
@@ -19,6 +18,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { Provider } from "mobx-react"
 import { contains } from "ramda"
 
+import { translate } from "./i18n"
 import { StatefulNavigator } from "./navigation"
 import { BackButtonHandler } from "./navigation/back-button-handler"
 import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
@@ -56,6 +56,7 @@ Object.defineProperty(ReactNative, "AsyncStorage", {
 
 interface AppState {
   rootStore?: RootStore
+  languageKey?: string
 }
 
 /**
@@ -67,9 +68,15 @@ export class App extends React.Component<{}, AppState> {
    * re-renders when we're good to go.
    */
   async componentDidMount() {
+    const rootStore = await setupRootStore()
     this.setState({
-      rootStore: await setupRootStore(),
+      rootStore,
+      languageKey: rootStore.languageSettingsStore.activeLanguageKey
     })
+
+    this.state.rootStore.languageSettingsStore.listenChange(
+      this.handleLanguageChange,
+    )
 
     if (this.state.rootStore.isDeprecatedAppVersion) {
       Alert.alert("", translate("error.DEPRECATED_APP"), [{
@@ -116,6 +123,10 @@ export class App extends React.Component<{}, AppState> {
     }
   }
 
+  private handleLanguageChange = (languageKey: string) => {
+    this.setState({ languageKey })
+  }
+
   render() {
     const rootStore = this.state && this.state.rootStore
 
@@ -141,7 +152,7 @@ export class App extends React.Component<{}, AppState> {
         <ApplicationProvider mapping={mapping} theme={lightTheme}>
           <IconRegistry icons={EvaIconsPack}/>
           <BackButtonHandler canExit={this.canExit}>
-            <StatefulNavigator />
+            <StatefulNavigator key={this.state.languageKey} />
           </BackButtonHandler>
         </ApplicationProvider>
       </Provider>

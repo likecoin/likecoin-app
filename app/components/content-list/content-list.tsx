@@ -2,14 +2,23 @@ import * as React from "react"
 import {
   ListRenderItem,
   RefreshControl,
+  SectionListStatic,
   View,
-  ViewStyle,
 } from "react-native"
-import { FlatList } from 'react-navigation'
+import {
+  FlatList,
+  SectionList as SectionListBase,
+} from 'react-navigation'
 import { observer } from "mobx-react"
 import { SwipeRow } from "react-native-swipe-list-view"
 
-import { ContentListProps } from "./content-list.props"
+import {
+  ContentListProps as Props,
+} from "./content-list.props"
+import {
+  ContentListStyle as Style,
+  RefreshControlColors,
+} from "./content-list.style"
 
 import {
   ContentListItem,
@@ -19,31 +28,16 @@ import { Text } from "../../components/text"
 
 import { Content } from "../../models/content"
 
-import { spacing, color } from "../../theme"
-
-const FULL: ViewStyle = {
-  flex: 1,
-}
-const HEADER: ViewStyle = {
-  paddingTop: spacing[4],
-  paddingBottom: spacing[2],
-}
-const EMPTY: ViewStyle = {
-  ...FULL,
-  justifyContent: "center",
-  alignItems: "center",
-}
-const FOOTER: ViewStyle = {
-  paddingBottom: spacing[4],
-}
+const ContentSectionList: SectionListStatic<Content> = SectionListBase
 
 @observer
-export class ContentList extends React.Component<ContentListProps> {
+export class ContentList extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
   private keyExtractor = (content: Content) => `${this.props.lastFetched}${content.url}`
 
-  private onEndReach = () => {
+  private onEndReach = (info: { distanceFromEnd: number }) => {
+    if (this.props.onEndReached) this.props.onEndReached(info)
     if (
       this.props.onFetchMore &&
       this.props.hasFetched &&
@@ -73,47 +67,82 @@ export class ContentList extends React.Component<ContentListProps> {
   }
 
   render() {
+    if (this.props.sections) {
+      return this.renderSections()
+    }
     return (
       <FlatList<Content>
         data={this.props.data}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderContent}
-        refreshControl={
-          <RefreshControl
-            colors={[color.primary]}
-            refreshing={this.props.hasFetched && this.props.isLoading}
-            onRefresh={this.props.onRefresh}
-          />
-        }
+        refreshControl={this.renderRefreshControl()}
         initialNumToRender={8}
         maxToRenderPerBatch={10}
         ListEmptyComponent={this.renderEmpty}
-        ListHeaderComponent={this.props.titleLabelTx ? (
-          <Text
-            tx={this.props.titleLabelTx}
-            color="likeGreen"
-            align="center"
-            weight="600"
-            style={HEADER}
-          />
-        ) : null}
+        ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-        contentContainerStyle={this.props.data.length > 0 ? null : FULL}
-        style={[FULL, this.props.style]}
+        contentContainerStyle={this.props.data.length > 0 ? null : Style.Full}
+        style={[Style.Full, this.props.style]}
         onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
   }
 
+  private renderSections() {
+    return (
+      <ContentSectionList
+        sections={this.props.sections}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderContent}
+        renderSectionHeader={this.props.renderSectionHeader}
+        refreshControl={this.renderRefreshControl()}
+        initialNumToRender={8}
+        maxToRenderPerBatch={10}
+        ListEmptyComponent={this.renderEmpty}
+        ListHeaderComponent={this.renderHeader}
+        ListFooterComponent={this.renderFooter}
+        contentContainerStyle={this.props.sections.length > 0 ? null : Style.Full}
+        style={[Style.Full, this.props.style]}
+        stickySectionHeadersEnabled={false}
+        onEndReached={this.onEndReach}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
+        onScrollBeginDrag={this.onScrollBeginDrag}
+      />
+    )
+  }
+
+  private renderHeader = () => this.props.titleLabelTx ? (
+    <Text
+      tx={this.props.titleLabelTx}
+      color="likeGreen"
+      align="center"
+      weight="600"
+      style={Style.Header}
+    />
+  ) : null
+
+  private renderRefreshControl = () => (
+    <RefreshControl
+      colors={RefreshControlColors}
+      refreshing={this.props.hasFetched && this.props.isLoading}
+      onRefresh={this.props.onRefresh}
+    />
+  )
+
   private renderContent: ListRenderItem<Content> = ({ item: content }) => (
     <ContentListItem
       content={content}
       isShowBookmarkIcon={this.props.isShowBookmarkIcon}
+      backgroundColor={this.props.backgroundColor}
+      underlayColor={this.props.underlayColor}
+      skeletonPrimaryColor={this.props.skeletonPrimaryColor}
+      skeletonSecondaryColor={this.props.skeletonSecondaryColor}
       onToggleBookmark={this.props.onToggleBookmark}
       onToggleFollow={this.props.onToggleFollow}
       onPress={this.props.onPressItem}
-      onPressUndoButton={this.props.onPressUndoButton}
+      onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
       onSwipeOpen={this.onItemSwipeOpen}
       onSwipeClose={this.onItemSwipeClose}
     />
@@ -122,7 +151,7 @@ export class ContentList extends React.Component<ContentListProps> {
   private renderEmpty = () => {
     if (this.props.hasFetched) {
       return (
-        <View style={EMPTY}>
+        <View style={Style.Empty}>
           <Text
             tx="readerScreen.emptyLabel"
             color="grey9b"
@@ -136,15 +165,24 @@ export class ContentList extends React.Component<ContentListProps> {
 
     return (
       <View>
-        {[...Array(7)].map((_, i) => <ContentListItemSkeleton key={`${i}`} />)}
+        {[...Array(7)].map((_, i) => (
+          <ContentListItemSkeleton
+            key={`${i}`}
+            primaryColor={this.props.skeletonPrimaryColor}
+            secondaryColor={this.props.skeletonSecondaryColor}
+          />
+        ))}
       </View>
     )
   }
 
   private renderFooter = () => {
     return this.props.isFetchingMore ? (
-      <View style={FOOTER}>
-        <ContentListItemSkeleton />
+      <View style={Style.Footer}>
+        <ContentListItemSkeleton
+          primaryColor={this.props.skeletonPrimaryColor}
+          secondaryColor={this.props.skeletonSecondaryColor}
+        />
       </View>
     ) : null
   }

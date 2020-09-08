@@ -9,11 +9,11 @@ import {
 } from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 
-import { viewPresets, textPresets } from "./button.presets"
+import { viewPresets, textPresets, viewSizePresets, textSizePresets, iconSizePresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
 import { Icon } from "../icon"
 import { Text } from "../text"
-import { sizes } from "../text/text.sizes"
+import { sizes as fontSizes } from "../text/text.sizes"
 import {
   color,
   gradient,
@@ -57,6 +57,7 @@ export function Button(props: ButtonProps) {
     prepend,
     append,
     preset = "primary",
+    fontSize,
     size,
     style: styleOverride,
     text,
@@ -67,6 +68,7 @@ export function Button(props: ButtonProps) {
   } = props
   const viewStyleList = [
     viewPresets[preset] || viewPresets.primary,
+    viewSizePresets[size] || viewSizePresets.default,
     styleOverride,
   ]
 
@@ -81,8 +83,8 @@ export function Button(props: ButtonProps) {
   const viewStyle = StyleSheet.flatten(viewStyleList)
 
   const textStyleFromProps: TextStyle = {}
-  if (size) {
-    textStyleFromProps.fontSize = sizes[size]
+  if (fontSize) {
+    textStyleFromProps.fontSize = fontSizes[fontSize]
   }
   if (weight) {
     textStyleFromProps.fontWeight = weight
@@ -92,15 +94,20 @@ export function Button(props: ButtonProps) {
   }
   const textStyleList = [
     textPresets[preset] || textPresets.primary,
+    textSizePresets[size] || textSizePresets.default,
     textStyleFromProps,
     textStyleOverride
   ]
   const textStyle = StyleSheet.flatten(textStyleList)
 
+  const iconSize: number = iconSizePresets[size] || iconSizePresets.default
+
   let content = children || (icon ? (
     <Icon
       name={icon}
-      color={colorName}
+      color={textStyle.color}
+      width={iconSize}
+      height={iconSize}
     />
   ) : (
     <Text

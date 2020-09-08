@@ -1,12 +1,7 @@
 import { onSnapshot } from "mobx-state-tree"
-import { partition } from "ramda"
 
 import { Environment } from "../environment"
 import { RootStoreModel, RootStore } from "./root-store"
-import {
-  handleStatisticsRewardedStoreSnapshot,
-  handleStatisticsSupportedStoreSnapshot,
-} from "../statistics-store"
 
 import * as storage from "../../utils/storage"
 import { logError } from "../../utils/error"
@@ -115,50 +110,9 @@ export async function setupRootStore() {
     ({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       navigationStore,
-      readerStore: {
-        contents,
-        creators,
-        followedList, // Never cache
-        bookmarkList,
-      },
-      statisticsRewardedStore,
-      statisticsSupportedStore,
       ...snapshot
     }) => {
-      const toBePersistedContentURLs = new Set([].concat(
-        bookmarkList,
-        followedList.slice(0, 20)
-      ))
-      const [toBePersistedContents, restContents] = partition(
-        c => toBePersistedContentURLs.has(c.url),
-        Object.values(contents)
-      )
-      const snContents = {}
-      const snCreators = {}
-      restContents
-        .sort((a, b) => b.timestamp - a.timestamp)
-        // Cache 1,000 contents at max and
-        .slice(0, 1000)
-        // Cache preferred contents
-        .concat(toBePersistedContents)
-        .forEach(c => {
-          snContents[c.url] = c
-          if (creators[c.creator]) {
-            snCreators[c.creator] = creators[c.creator]
-          }
-        })
-      return storage.save(ROOT_STATE_STORAGE_KEY, {
-        ...snapshot,
-        readerStore: {
-          contents: snContents,
-          creators: snCreators,
-          bookmarkList,
-        },
-        statisticsRewardedStore:
-          handleStatisticsRewardedStoreSnapshot(statisticsRewardedStore),
-        statisticsSupportedStore:
-          handleStatisticsSupportedStoreSnapshot(statisticsSupportedStore),
-      })
+      return storage.save(ROOT_STATE_STORAGE_KEY, snapshot)
     }
   )
 

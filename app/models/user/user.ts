@@ -12,6 +12,10 @@ export const UserModel = types
     avatarURL: types.maybe(types.string),
     cosmosWallet: types.maybe(types.string),
     isCivicLiker: types.optional(types.boolean, false),
+    isSuperLiker: types.optional(types.boolean, false),
+    canSuperLike: types.optional(types.boolean, false),
+    nextSuperLikeTimestamp: types.optional(types.number, -1),
+    superLikeCooldown: types.optional(types.number, 0),
   })
   .views(self => ({
     get qrCodeContentForPayment() {
@@ -19,6 +23,9 @@ export const UserModel = types
         likerId: self.likerID,
         skipToConfirm: false,
       })
+    },
+    get normalizedName() {
+      return self.likerID || self.displayName || ""
     },
   }))
 

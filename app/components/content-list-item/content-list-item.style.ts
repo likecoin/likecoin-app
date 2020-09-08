@@ -8,11 +8,13 @@ import {
 import { sizes } from "../text/text.sizes"
 import { spacing, color } from "../../theme"
 
+export const DEFAULT_INSET = spacing[5]
+
 export const ContentListItemStyle = StyleSheet.create({
   BOOKMARK_FLAG: {
     position: "absolute",
     top: -spacing[1],
-    right: spacing[0],
+    right: DEFAULT_INSET,
     width: 32,
     height: 32,
     alignItems: "flex-end",
@@ -29,10 +31,11 @@ export const ContentListItemStyle = StyleSheet.create({
     flex: 1,
   } as ViewStyle,
   FOOTER: {
-    marginTop: spacing[2],
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginTop: spacing[2],
+    paddingHorizontal: DEFAULT_INSET,
   } as ViewStyle,
   IMAGE_VIEW: {
     flex: 0,
@@ -48,17 +51,17 @@ export const ContentListItemStyle = StyleSheet.create({
   ROW: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: DEFAULT_INSET,
   } as ViewStyle,
   Root: {
     position: "relative",
     paddingVertical: spacing[4],
-    paddingHorizontal: spacing[5],
     backgroundColor: color.palette.white,
   } as ViewStyle,
   RootUndo: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: spacing[5],
+    paddingHorizontal: DEFAULT_INSET,
     backgroundColor: color.palette.greyf7,
   } as ViewStyle,
   Underlay: {

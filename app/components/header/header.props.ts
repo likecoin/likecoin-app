@@ -1,5 +1,6 @@
 import { ViewStyle, TextStyle } from "react-native"
 import { IconTypes } from "../icon"
+import { Color } from "../../theme"
 
 export interface HeaderProps {
   /**
@@ -18,9 +19,19 @@ export interface HeaderProps {
   leftIcon?: IconTypes
 
   /**
+   * Left icon color. Default is white.
+   */
+  leftIconColor?: Color | string
+
+  /**
    * What happens when you press the left icon
    */
   onLeftPress?(): void
+
+  /**
+   * Custom view that should appear on the right
+   */
+  leftView?: React.ReactNode
 
   /**
    * Icon that should appear on the right
@@ -28,9 +39,19 @@ export interface HeaderProps {
   rightIcon?: IconTypes
 
   /**
+   * Right icon color. Default is white.
+   */
+  rightIconColor?: Color | string
+
+  /**
    * What happens when you press the right icon
    */
   onRightPress?(): void
+
+  /**
+   * Custom view that should appear on the right
+   */
+  rightView?: React.ReactNode
 
   /**
    * Container style overrides.
@@ -41,4 +62,9 @@ export interface HeaderProps {
    * Title style overrides.
    */
   titleStyle?: TextStyle
+
+  /**
+   * Title view overrides.
+   */
+  children?: React.ReactNode
 }

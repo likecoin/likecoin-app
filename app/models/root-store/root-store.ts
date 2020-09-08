@@ -1,3 +1,4 @@
+import { NotificationStoreModel } from "../../models/notification-store"
 import { Alert } from "react-native"
 import {
   flow,
@@ -8,6 +9,7 @@ import {
 
 import { withEnvironment } from "../extensions"
 import { ChainStoreModel } from "../chain-store"
+import { LanguageSettingsStoreModel } from "../../models/language-settings-store"
 import { ReaderStoreModel } from "../reader-store"
 import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-store"
 import { StakingDelegationStoreModel } from "../staking-delegation-store"
@@ -17,6 +19,8 @@ import {
   StatisticsRewardedStoreModel,
   StatisticsSupportedStoreModel,
 } from "../statistics-store"
+import { SuperLikeFollowingStoreModel } from "../../models/super-like-following-store"
+import { SuperLikeGlobalStoreModel } from "../../models/super-like-global-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
 
@@ -35,12 +39,16 @@ export const RootStoreModel = types
   .model("RootStore")
   .props({
     chainStore: types.maybe(ChainStoreModel),
+    languageSettingsStore: types.optional(LanguageSettingsStoreModel, {}),
+    notificationStore: types.optional(NotificationStoreModel, {}),
     stakingRewardsWithdrawStore: types.optional(StakingRewardsWithdrawStoreModel, {}),
     stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
     stakingRedelegationStore: types.optional(StakingRedelegationStoreModel, {}),
     stakingUnbondingDelegationStore: types.optional(StakingUnbondingDelegationStoreModel, {}),
     statisticsRewardedStore: types.optional(StatisticsRewardedStoreModel, {}),
     statisticsSupportedStore: types.optional(StatisticsSupportedStoreModel, {}),
+    superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
+    superLikeGlobalStore: types.optional(SuperLikeGlobalStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
     readerStore: types.optional(ReaderStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),
@@ -97,6 +105,8 @@ export const RootStoreModel = types
       self.stakingUnbondingDelegationStore.reset()
       self.statisticsRewardedStore.reset()
       self.statisticsSupportedStore.reset()
+      self.superLikeFollowingStore.reset()
+      self.superLikeGlobalStore.reset()
       self.transferStore.reset()
       self.readerStore.reset()
     }),

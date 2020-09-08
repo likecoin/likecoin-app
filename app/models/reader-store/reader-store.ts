@@ -1,14 +1,20 @@
 import {
-  applySnapshot,
   flow,
   Instance,
   SnapshotOut,
   types,
 } from "mobx-state-tree"
+import { partition } from "ramda"
 
-import { ContentModel } from "../content"
+import {
+  ContentModel,
+} from "../content"
 import { CreatorModel } from "../creator"
 import { withEnvironment } from "../extensions"
+import {
+  SuperLikeModel,
+  SuperLikesGroupedByDay,
+} from "../super-like"
 
 import {
   BookmarkListResult,
@@ -17,6 +23,7 @@ import {
   GeneralResult,
   ReaderCreatorsResult,
 } from "../../services/api/api.types"
+import * as LikerLandTypes from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
@@ -34,6 +41,35 @@ export const ReaderStoreModel = types
     followingCreators: types.array(types.safeReference(CreatorModel)),
     unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
+  .postProcessSnapshot(snapshot => {
+    const { bookmarkList } = snapshot
+    const toBePersistedContentURLs = new Set(
+      [].concat(bookmarkList, snapshot.followedList.slice(0, 20)),
+    )
+    const [toBePersistedContents, restContents] = partition(
+      c => toBePersistedContentURLs.has(c.url),
+      Object.values(snapshot.contents),
+    )
+    const contents = {}
+    const creators = {}
+    restContents
+      .sort((a, b) => b.timestamp - a.timestamp)
+      // Cache 1,000 contents at max and
+      .slice(0, 1000)
+      // Cache preferred contents
+      .concat(toBePersistedContents)
+      .forEach(content => {
+        contents[content.url] = content
+        if (snapshot.creators[content.creator]) {
+          creators[content.creator] = snapshot.creators[content.creator]
+        }
+      })
+    return {
+      contents,
+      creators,
+      bookmarkList,
+    }
+  })
   .volatile(() => ({
     isFetchingCreatorList: false,
     hasFetchedCreatorList: false,
@@ -43,13 +79,36 @@ export const ReaderStoreModel = types
     isFetchingMoreFollowedList: false,
     hasReachedEndOfFollowedList: false,
     followedSet: new Set<string>(),
+    followingSuperLikePages: {} as SuperLikesGroupedByDay,
     isFetchingBookmarkList: false,
     hasFetchedBookmarkList: false,
   }))
   .extend(withEnvironment)
+  .views(self => ({
+    getShouldRefreshFollowingFeed() {
+      return (
+        Date.now() - self.followedListLastFetchedDate.getTime() >=
+        parseInt(self.getConfig("READING_FEED_RESUME_REFRESH_DEBOUNCE")) * 1000
+      )
+    },
+  }))
   .actions(self => ({
     reset() {
-      applySnapshot(self, {})
+      self.followedList.replace([])
+      self.bookmarkList.replace([])
+      self.followingCreators.replace([])
+      self.unfollowedCreators.replace([])
+      self.isFetchingCreatorList = false
+      self.hasFetchedCreatorList = false
+      self.isFetchingFollowedList = false
+      self.hasFetchedFollowedList = false
+      self.followedListLastFetchedDate = new Date()
+      self.isFetchingMoreFollowedList = false
+      self.hasReachedEndOfFollowedList = false
+      self.followedSet = new Set<string>()
+      self.followingSuperLikePages = {} as SuperLikesGroupedByDay
+      self.isFetchingBookmarkList = false
+      self.hasFetchedBookmarkList = false
     },
     createCreatorFromLikerId(likerId: string) {
       let creator = self.creators.get(likerId)
@@ -96,6 +155,36 @@ export const ReaderStoreModel = types
         self.followedSet.add(content.url)
         self.followedList.push(content)
       }
+    },
+    parseSuperLikeFeedItemToModel({
+      superLikeID,
+      url,
+      referrer,
+      liker,
+      user: likee,
+      ts,
+    }: LikerLandTypes.SuperLikeFeedItem) {
+      const superLike = SuperLikeModel.create({
+        id: superLikeID,
+        timestamp: ts,
+      }, self.env)
+
+      superLike.addLiker(this.createCreatorFromLikerId(liker))
+
+      // Find content reference for this Super Like
+      const contentURL = referrer || url
+      let content = self.contents.get(contentURL)
+      if (!content) {
+        content = ContentModel.create({ url: contentURL, timestamp: ts })
+        self.contents.put(content)
+        if (likee) {
+          content.creator = this.createCreatorFromLikerId(likee)
+        }
+      }
+
+      superLike.setContent(content)
+
+      return superLike
     },
     getContentByURL(url: string) {
       if (url) {

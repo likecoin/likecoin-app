@@ -10,6 +10,11 @@ export interface TextProps extends TextProperties {
   prepend?: React.ReactElement
 
   /**
+   * A prepended element.
+   */
+  append?: React.ReactElement
+
+  /**
    * Children components.
    */
   children?: React.ReactNode
@@ -64,6 +69,11 @@ export interface TextProps extends TextProperties {
    * Determine the component should hide or not
    */
   isHidden?: boolean
+
+  /**
+   * For i18n interpolation
+   */
+  place?: string
 
   /**
    * An optional style override useful for padding & margin.

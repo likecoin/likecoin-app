@@ -149,7 +149,12 @@ export class TransferMemoInputScreen extends React.Component<
         style={ROOT}
       >
         <View style={TOP_BAR}>
-          <Button preset="icon" icon="back" onPress={this.onPressBackButton} />
+          <Button
+            preset="icon"
+            icon="back"
+            color="white"
+            onPress={this.onPressBackButton}
+          />
           <Button
             preset="plain"
             tx="common.Skip"

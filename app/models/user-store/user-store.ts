@@ -27,6 +27,7 @@ import {
   UserResult,
   UserRegisterParams,
   UserAppMetaResult,
+  SuperLikeStatusResult,
 } from "../../services/api"
 
 import { throwProblem } from "../../services/api/api-problem"
@@ -170,26 +171,44 @@ export const UserStoreModel = types
         avatar: avatarURL,
         isSubscribedCivicLiker: isCivicLiker,
       } = data
-      self.currentUser = UserModel.create({
-        likerID,
-        displayName,
-        email,
-        avatarURL,
-        isCivicLiker,
-      })
+      if (!self.currentUser || self.currentUser.likerID !== likerID) {
+        self.currentUser = UserModel.create({
+          likerID,
+          displayName,
+          email,
+          avatarURL,
+          isCivicLiker,
+        })
+      } else {
+        self.currentUser.displayName = displayName
+        self.currentUser.email = email
+        self.currentUser.avatarURL = avatarURL
+        self.currentUser.isCivicLiker = isCivicLiker
+      }
     },
   }))
   .actions(self => ({
     fetchUserInfo: flow(function * () {
-      const result: UserResult = yield self.env.likeCoAPI.fetchCurrentUserInfo()
-      switch (result.kind) {
+      const timezone = (new Date().getTimezoneOffset() / -60).toString()
+      const [
+        userResult,
+        superLikeStatusResult
+      ]: [
+        UserResult,
+        SuperLikeStatusResult,
+      ] = yield Promise.all([
+        self.env.likeCoAPI.fetchCurrentUserInfo(),
+        self.env.likeCoAPI.getMySuperLikeStatus(timezone)
+      ])
+
+      switch (userResult.kind) {
         case "ok": {
           const {
             user: likerID,
             displayName,
             email,
-          } = result.data
-          self.updateUserFromResultData(result.data)
+          } = userResult.data
+          self.updateUserFromResultData(userResult.data)
           const userPIISalt = self.env.appConfig.getValue("USER_PII_SALT")
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
@@ -206,6 +225,24 @@ export const UserStoreModel = types
             authCoreUserId,
             userPIISalt,
           })
+
+          switch (superLikeStatusResult.kind) {
+            case "ok":
+              const {
+                isSuperLiker,
+                canSuperLike,
+                nextSuperLikeTs = -1,
+                cooldown = 0,
+              } = superLikeStatusResult.data
+              self.currentUser.isSuperLiker = !!isSuperLiker
+              self.currentUser.canSuperLike = !!canSuperLike
+              self.currentUser.nextSuperLikeTimestamp = nextSuperLikeTs
+              self.currentUser.superLikeCooldown = cooldown
+              break
+
+            default:
+              throwProblem(superLikeStatusResult)
+          }
           break
         }
         case "unauthorized": {
@@ -301,7 +338,7 @@ export const UserStoreModel = types
         }
       )
       self.userAppReferralLink = url
-    })
+    }),
   }))
 
 type UserStoreType = Instance<typeof UserStoreModel>

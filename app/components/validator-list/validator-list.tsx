@@ -18,7 +18,7 @@ export class ValidatorList extends React.Component<Props> {
   } as Partial<Props>
 
   private onPressItem = (validator: Validator) => {
-    this.props.onPressItem && this.props.onPressItem(validator)
+    if (this.props.onPressItem) this.props.onPressItem(validator)
   }
 
   private filterList = (validator: Validator) => {

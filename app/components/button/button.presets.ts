@@ -1,9 +1,22 @@
 import { ViewStyle, TextStyle } from "react-native"
-import { color, spacing } from "../../theme"
+
 import { sizes } from "../text/text.sizes"
 
+import { color, spacing } from "../../theme"
+
+const SIZE = {
+  default: 44,
+  small: 36,
+  tiny: 24,
+}
+
 /**
- * All text will start off looking like this.
+ * A list of sizes.
+ */
+export type ButtonSize = keyof typeof SIZE
+
+/**
+ * All view will start off looking like this.
  */
 const BASE_VIEW: ViewStyle = {
   flexDirection: "row",
@@ -11,18 +24,17 @@ const BASE_VIEW: ViewStyle = {
   alignItems: "center",
 }
 
-const BASE_BLOCK_VIEW: ViewStyle = {
-  minHeight: 44,
-  borderRadius: 12,
-  paddingVertical: spacing[3],
+/**
+ * All text will start off looking like this.
+ */
+const BASE_TEXT: TextStyle = {
+  fontWeight: "bold",
   paddingHorizontal: spacing[2],
 }
 
-const BASE_TEXT: TextStyle = {
-  fontSize: sizes.medium,
-  fontWeight: "bold",
-}
-
+/**
+ * All link will start off looking like this.
+ */
 const BASE_TEXT_LINK: TextStyle = {
   ...BASE_TEXT,
   paddingHorizontal: 0,
@@ -32,8 +44,6 @@ const BASE_TEXT_LINK: TextStyle = {
 
 /**
  * All the variations of text styling within the app.
- *
- * You want to customize these to whatever you need in your app.
  */
 export const viewPresets = {
   /**
@@ -41,7 +51,6 @@ export const viewPresets = {
    */
   plain: {
     ...BASE_VIEW,
-    ...BASE_BLOCK_VIEW,
   } as ViewStyle,
 
   /**
@@ -49,8 +58,12 @@ export const viewPresets = {
    */
   primary: {
     ...BASE_VIEW,
-    ...BASE_BLOCK_VIEW,
     backgroundColor: color.palette.lighterCyan,
+  } as ViewStyle,
+
+  secondary: {
+    ...BASE_VIEW,
+    backgroundColor: color.palette.grey9b + "33",
   } as ViewStyle,
 
   /**
@@ -58,7 +71,6 @@ export const viewPresets = {
    */
   outlined: {
     ...BASE_VIEW,
-    ...BASE_BLOCK_VIEW,
     backgroundColor: "transparent",
     borderColor: color.palette.lighterCyan,
     borderWidth: 1,
@@ -69,7 +81,6 @@ export const viewPresets = {
    */
   gradient: {
     ...BASE_VIEW,
-    ...BASE_BLOCK_VIEW,
   },
 
   /**
@@ -99,10 +110,50 @@ export const viewPresets = {
   },
 }
 
+export const viewSizePresets = {
+  default: {
+    minWidth: SIZE.default,
+    minHeight: SIZE.default,
+    borderRadius: 12,
+  } as ViewStyle,
+  small: {
+    minWidth: SIZE.small,
+    minHeight: SIZE.small,
+    borderRadius: 12,
+  } as ViewStyle,
+  tiny: {
+    minWidth: SIZE.tiny,
+    minHeight: SIZE.tiny,
+    borderRadius: 8,
+  } as ViewStyle,
+}
+
+export const textSizePresets = {
+  default: {
+    fontSize: sizes.medium,
+  } as TextStyle,
+  small: {
+    fontSize: sizes.default,
+  } as TextStyle,
+  tiny: {
+    fontSize: sizes.small,
+  } as TextStyle,
+}
+
+export const iconSizePresets = {
+  default: 28,
+  small: 24,
+  tiny: 20,
+}
+
 export const textPresets = {
   primary: {
     ...BASE_TEXT,
     color: color.palette.likeGreen,
+  } as TextStyle,
+  secondary: {
+    ...BASE_TEXT,
+    color: color.palette.grey4a,
   } as TextStyle,
   gradient: {
     ...BASE_TEXT,
@@ -132,4 +183,4 @@ export const textPresets = {
 /**
  * A list of preset names.
  */
-export type ButtonPresetNames = keyof typeof viewPresets
+export type ButtonPreset = keyof typeof viewPresets
