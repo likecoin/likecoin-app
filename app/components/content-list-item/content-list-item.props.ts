@@ -46,7 +46,7 @@ export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   /**
    * A callback when the bookmark button is pressed.
    */
-  onToggleBookmark?: (url: string) => void
+  onToggleBookmark?: (content: Content) => void
 
   /**
    * A callback when the follow button is pressed.

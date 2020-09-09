@@ -82,7 +82,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   private onToggleBookmark = () => {
     this.swipeRowRef.current.closeRow()
     if (this.props.onToggleBookmark) {
-      this.props.onToggleBookmark(this.props.content.content.url)
+      this.props.onToggleBookmark(this.props.content.content)
     }
   }
 

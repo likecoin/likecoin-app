@@ -1,5 +1,9 @@
 import * as React from "react"
 
+import { logAnalyticsEvent } from "../../utils/analytics"
+
+import { Content } from "../../models/content"
+
 import {
   BookmarkScreenProps as Props,
 } from "./bookmark-screen.props"
@@ -21,6 +25,14 @@ class BookmarkScreenBase extends React.Component<Props> {
     }
   }
 
+  private onToggleBookmark = (content: Content) => {
+    if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
+    logAnalyticsEvent(
+      `BookmarkList${content.isBookmarked ? "Remove" : "Add"}Bookmark`,
+      { url: content.url },
+    )
+  }
+
   render() {
     return (
       <Screen
@@ -35,7 +47,7 @@ class BookmarkScreenBase extends React.Component<Props> {
           isLoading={this.props.readerStore.isFetchingBookmarkList}
           isShowBookmarkIcon={false}
           onPressItem={this.props.onPressContentItem}
-          onToggleBookmark={this.props.onToggleBookmark}
+          onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.props.onToggleFollow}
           onRefresh={this.props.readerStore.fetchBookmarkList}
           style={Style.List}
