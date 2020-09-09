@@ -3,6 +3,7 @@ import { View } from "react-native"
 import ShareExtension from "react-native-share-extension"
 
 import { SaveToBookmarkScreenStyle as Style } from "./save-to-bookmark-screen.style"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { Button } from "../../components/button"
 import { Text } from "../../components/text"
@@ -37,6 +38,7 @@ export class SaveToBookmarkScreen extends React.Component {
       }
       const url = results[0]
       this.setState({ url })
+      logAnalyticsEvent("SaveToBookmarkAddBookmark", { url })
       const response = await this.likerLandAPI.addBookmark(url)
       switch (response.kind) {
         case "ok":

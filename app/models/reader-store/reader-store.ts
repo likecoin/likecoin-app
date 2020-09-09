@@ -25,6 +25,7 @@ import {
 } from "../../services/api/api.types"
 import * as LikerLandTypes from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 const ContentList = types.array(types.safeReference(types.late(() => ContentModel)))
 
@@ -294,12 +295,14 @@ export const ReaderStoreModel = types
           if (result.kind !== "ok") {
             throw new Error("READER_BOOKMARK_ADD_FAILED")
           }
+          logAnalyticsEvent("ToggleBookmarkAddBookmark", { url })
         } else {
           self.bookmarkList.remove(content)
           const result: GeneralResult = yield self.env.likerLandAPI.removeBookmark(content.url)
           if (result.kind !== "ok") {
             throw new Error("READER_BOOKMARK_REMOVE_FAILED")
           }
+          logAnalyticsEvent("ToggleBookmarkRemoveBookmark", { url })
         }
       } catch (error) {
         logError(error.message)
