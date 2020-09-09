@@ -38,7 +38,7 @@ export class SaveToBookmarkScreen extends React.Component {
       }
       const url = results[0]
       this.setState({ url })
-      logAnalyticsEvent("SaveToBookmarkAddBookmark", { url })
+      logAnalyticsEvent("ShareExtensionAddBookmark", { url })
       const response = await this.likerLandAPI.addBookmark(url)
       switch (response.kind) {
         case "ok":
