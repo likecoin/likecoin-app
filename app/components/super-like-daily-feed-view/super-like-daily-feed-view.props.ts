@@ -1,5 +1,6 @@
 import { ViewStyle } from "react-native"
 
+import { Content } from "../../models/content";
 import { Creator } from "../../models/creator";
 import { SuperLike } from "../../models/super-like";
 import { SuperLikeDailyFeed } from "../../models/super-like-daily-feed";
@@ -16,7 +17,7 @@ export interface SuperLikeDailyFeedViewProps {
   style?: ViewStyle
 
   onPressItem?: (superLike: SuperLike) => void
-  onToggleBookmark?: (url: string) => void
+  onToggleBookmark?: (content: Content) => void
   onToggleFollow?: (creator: Creator) => void
   onPressUndoUnfollowButton?: (creator: Creator) => void
 }

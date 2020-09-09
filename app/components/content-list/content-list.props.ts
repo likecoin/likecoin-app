@@ -29,7 +29,7 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
    */
   isShowFollowToggle?: boolean
 
-  onToggleBookmark?: (url: string) => void
+  onToggleBookmark?: (content: Content) => void
   onToggleFollow?: (creator: Creator) => void
   onPressUndoUnfollowButton?: (creator: Creator) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null

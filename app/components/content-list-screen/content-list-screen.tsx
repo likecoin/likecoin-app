@@ -5,6 +5,7 @@ import {
   ContentListScreenProps as Props,
 } from "./content-list-screen.props"
 
+import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
 
@@ -44,8 +45,8 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
       this.props.readerStore.toggleFollow(likerID)
     }
 
-    onToggleBookmark = (url: string) => {
-      this.props.readerStore.toggleBookmark(url)
+    onToggleBookmark = (content: Content) => {
+      this.props.readerStore.toggleBookmark(content.url)
     }
 
     render() {
