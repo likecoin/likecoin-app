@@ -6,6 +6,7 @@ import moment from "moment"
 import { translate } from "../../i18n"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
+import { Content } from "../../models/content"
 import { SuperLikeDailyFeed } from "../../models/super-like-daily-feed"
 
 import { Button } from "../../components/button"
@@ -77,6 +78,14 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
   private onPressPreviousPageButton = () => {
     const index = this.props.superLikeFollowingStore.goToPreviousPage()
     this.pageList.current.scrollToIndex({ index })
+  }
+
+  private onToggleBookmark = (content: Content) => {
+    if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
+    logAnalyticsEvent(
+      `SLFollowingFeed${content.isBookmarked ? "Remove" : "Add"}Bookmark`,
+      { url: content.url },
+    )
   }
 
   private renderHeader = () => {
@@ -157,7 +166,7 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
         feed={feed}
         onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
         onPressItem={this.props.onPressSuperLikeItem}
-        onToggleBookmark={this.props.onToggleBookmark}
+        onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
         style={Style.Page}
       />

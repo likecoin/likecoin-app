@@ -2,6 +2,9 @@ import * as React from "react"
 import { observer, inject } from "mobx-react"
 
 import { color } from "../../theme"
+import { logAnalyticsEvent } from "../../utils/analytics"
+
+import { Content } from "../../models/content"
 
 import { SuperLikeContentList } from "../../components/content-list"
 import { wrapContentListScreen } from "../../components/content-list-screen"
@@ -28,6 +31,14 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
 
   private goBack = () => {
     this.props.navigation.goBack()
+  }
+
+  private onToggleBookmark = (content: Content) => {
+    if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
+    logAnalyticsEvent(
+      `SLGlobalFeed${content.isBookmarked ? "Remove" : "Add"}Bookmark`,
+      { url: content.url },
+    )
   }
 
   render() {
@@ -61,7 +72,7 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
         isShowFollowToggle={true}
         onFetchMore={this.fetchMore}
         onPressItem={this.props.onPressSuperLikeItem}
-        onToggleBookmark={this.props.onToggleBookmark}
+        onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
         onRefresh={this.fetch}
         style={Style.List}
