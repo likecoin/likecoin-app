@@ -1,4 +1,5 @@
 import branch from "react-native-branch"
+import { logError } from "../../utils/error"
 
 type BranchUniversalObjectProperties = {
   contentImageUrl: string
@@ -12,6 +13,10 @@ type BranchUniversalObjectProperties = {
   contentDescription?: string
 }
 
+export type BranchDeepLinkEventType = 'app_referral'
+
+type BranchDeepLinkHandler = (param: any) => void | undefined
+
 export class BranchIO {
   /**
    * The config object
@@ -22,17 +27,18 @@ export class BranchIO {
 
   private isClickedBranchLink = false
 
-  private handleAppReferrerEvent(params: any) {
+  private deepLinkHandler: BranchDeepLinkHandler = undefined
+
+  parseAppReferrerEvent(params: any) {
     if (!params) return undefined
     if (params.event === "app_referral" && params.referrer) {
-      this.appReferrer = params.referrer
-      return this.appReferrer
+      return params.referrer
     }
     return undefined
   }
 
   async setup() {
-    branch.subscribe(({ error, params }) => {
+    branch.subscribe(async ({ error, params }) => {
       if (error) {
         console.error("Error from Branch: " + error)
         return
@@ -49,8 +55,21 @@ export class BranchIO {
       }
       this.isClickedBranchLink = true
       this.params = params
-      this.handleAppReferrerEvent(params)
+      if (params.event === "app_referral") {
+        this.appReferrer = this.parseAppReferrerEvent(params)
+      }
+      if (this.deepLinkHandler) {
+        try {
+          this.deepLinkHandler(params);
+        } catch (err) {
+          logError(err);
+        }
+      }
     })
+  }
+
+  setDeepLinkHandler(deepLinkHandler: BranchDeepLinkHandler) {
+    this.deepLinkHandler = deepLinkHandler;
   }
 
   setUserIdentity(userId?: string) {
@@ -65,10 +84,12 @@ export class BranchIO {
     return branch
   }
 
-  async getAppReferrer() {
+  async getAppReferrer({ latest = false } = {}) {
     if (this.appReferrer) return this.appReferrer
-    const [latestParams, installParams] = await Promise.all([this.getLatestParams(), this.getInstallParams()])
-    const referrer = this.handleAppReferrerEvent(latestParams || installParams)
+    const promises = [this.getLatestParams()]
+    if (!latest) promises.push(this.getInstallParams());
+    const [latestParams, installParams] = await Promise.all(promises)
+    const referrer = this.parseAppReferrerEvent(latestParams || installParams)
     return referrer
   }
 

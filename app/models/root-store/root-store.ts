@@ -94,6 +94,27 @@ export const RootStoreModel = types
       }
     },
 
+    handleBranchDeepLink: flow(function * (params) {
+      if (!self.userStore.currentUser) {
+        return; // TODO: defered handling?
+      }
+      if (params.event === "app_referral") {
+        const referrer = self.env.branchIO.parseAppReferrerEvent(params)
+        if (referrer && !self.readerStore.followingCreators.includes(referrer)) {
+          logAnalyticsEvent("DeepLinkFollowLiker", { likerID: referrer })
+          yield self.readerStore.addFollow(referrer);
+        }
+      }
+    }),
+
+    handleAfterLikerLandSignIn: flow(function * () {
+      const referrer = yield self.env.branchIO.getAppReferrer({ latest: true })
+      if (referrer && !self.readerStore.followingCreators.includes(referrer)) {
+        logAnalyticsEvent("DeepLinkFollowLiker", { likerID: referrer })
+        yield self.readerStore.addFollow(referrer);
+      }
+    }),
+
     signOut: flow(function * () {
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")

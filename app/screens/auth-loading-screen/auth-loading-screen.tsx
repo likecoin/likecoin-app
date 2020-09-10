@@ -5,15 +5,21 @@ import { inject, observer } from "mobx-react"
 
 import { LoadingScreen } from "../../components/loading-screen"
 
+import { RootStore } from "../../models/root-store"
 import { UserStore } from "../../models/user-store"
 
 import { translate } from "../../i18n"
+import { logError } from "../../utils/error"
 
 export interface AuthLoadingScreenProps extends NavigationScreenProps<{}> {
+  rootStore: RootStore
   userStore: UserStore
 }
 
-@inject("userStore")
+@inject((allStore: any) => ({
+  rootStore: allStore.rootStore as RootStore,
+  userStore: allStore.rootStore.userStore as UserStore,
+}))
 @observer
 export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {}> {
   componentDidMount() {
@@ -34,6 +40,11 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
     } = this.props.userStore
     if ((getIsSettingUpAuthcore() || authcoreUser) && likeCoUser) {
       try {
+        try {
+          await this.props.rootStore.handleAfterLikerLandSignIn()
+        } catch (err) {
+          logError(err)
+        }
         await Promise.all([
           this.props.userStore.authCore.fetchCurrentUser(),
           this.props.userStore.fetchUserInfo(),

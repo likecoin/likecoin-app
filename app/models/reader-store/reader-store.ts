@@ -307,6 +307,23 @@ export const ReaderStoreModel = types
         self.bookmarkList.replace(prevBookmarkList)
       }
     }),
+    addFollow: flow(function * (likerID: string) {
+      const creator = self.creators.get(likerID);
+      if (!creator) {
+        const newCreator = self.createCreatorFromLikerId(likerID)
+        newCreator.isFollowing = true
+        self.followingCreators.push(newCreator)
+      } else {
+        const prevIsFollow = creator.isFollowing
+        if (prevIsFollow) return;
+        self.unfollowedCreators.remove(creator)
+        self.followingCreators.push(creator)
+      }
+      const result: GeneralResult = yield self.env.likerLandAPI.followLiker(likerID)
+      if (result.kind !== "ok") {
+        throw new Error("READER_FOLLOW_FAILED")
+      }
+    }),
     toggleFollow: flow(function * (likerID: string) {
       const creator = self.creators.get(likerID)
       if (!creator) return
