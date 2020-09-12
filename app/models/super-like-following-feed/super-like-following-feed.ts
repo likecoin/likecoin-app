@@ -62,7 +62,7 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel
         if (result.kind === "ok") {
           if (result.data?.length) {
             const items = result.data.map(
-              self.readerStore.parseSuperLikeFeedItemToModel,
+              self.readerStore.parseSuperLikeFollowingFeedItemToModel,
             )
             // HACK: For getting identifier references
             self.items.replace(items)

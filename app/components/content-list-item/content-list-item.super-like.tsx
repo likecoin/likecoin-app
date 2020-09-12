@@ -23,8 +23,6 @@ import { color } from "../../theme"
 export class SuperLikeContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
 
-  isPrevFollow = this.props.content.liker?.isFollowing
-
   constructor(props: Props) {
     super(props)
 
@@ -114,9 +112,13 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   }
 
   render() {
-    const { isBookmarked, isLoading } = this.props.content.content
-
-    if (isLoading) {
+    const { isBookmarked, isLoading } = this.props.content?.content || {}
+    const {
+      isFetchingDetails: isFetchingSuperLikerDetails,
+      hasFetchedDetails: hasFetchedSuperLikerDetails,
+      isFollowing: isFollowingSuperLiker,
+    } = this.props.content?.liker || {}
+    if (isLoading || !this.props.content?.liker) {
       return (
         <ContentListItemSkeleton
           primaryColor={this.props.skeletonPrimaryColor}
@@ -124,10 +126,11 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         />
       )
     } else if (
-      this.props.content.liker &&
       this.props.onPressUndoUnfollowButton &&
-      this.isPrevFollow &&
-      !this.props.content.liker.isFollowing
+      !isFetchingSuperLikerDetails &&
+      hasFetchedSuperLikerDetails &&
+      isFollowingSuperLiker !== undefined &&
+      !isFollowingSuperLiker
     ) {
       return this.renderUndo()
     }
@@ -141,9 +144,9 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         onRowClose={this.onRowClose}
       >
         <ContentListItemBack
-          isShowFollowToggle={!!this.props.content?.liker}
+          isShowFollowToggle={true}
           isBookmarked={isBookmarked}
-          isFollowingCreator={!!this.props.content?.liker?.isFollowing}
+          isFollowingCreator={!!isFollowingSuperLiker}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
         />

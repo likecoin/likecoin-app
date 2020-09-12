@@ -23,7 +23,7 @@ export const CreatorModel = UserModel
   .volatile(() => ({
     hasFetchedDetails: false,
     isFetchingDetails: false,
-    isFollowing: false,
+    isFollowing: undefined as boolean,
   }))
   .views(self => ({
     get isLoading() {

@@ -156,22 +156,48 @@ export const ReaderStoreModel = types
         self.followedList.push(content)
       }
     },
-    parseSuperLikeFeedItemToModel({
-      superLikeID,
-      superLikeShortID,
-      url,
-      referrer,
-      liker,
-      user: likee,
-      ts,
-    }: LikerLandTypes.SuperLikeFeedItem) {
+    getContentByURL(url: string) {
+      if (url) {
+        return this.parseContentResult({ url })
+      }
+      return undefined
+    },
+  }))
+  /**
+   * Action for parsing Super Like feed item
+   */
+  .actions(self => {
+    /**
+     * Deserialize Super Like feed item response to model
+     * @param item Serialized Super Like feed item 
+     * @param options Optional extra options for creating model
+     * @return A Super Like model
+     */
+    function parseSuperLikeFeedItemToModel(
+      {
+        superLikeID,
+        superLikeShortID,
+        url,
+        referrer,
+        liker,
+        user: likee,
+        ts,
+      }: LikerLandTypes.SuperLikeFeedItem,
+      options: {
+        isFollowing?: boolean
+      } = {}
+    ) {
       const superLike = SuperLikeModel.create({
         id: superLikeID,
         shortId: superLikeShortID,
         timestamp: ts,
       }, self.env)
 
-      superLike.addLiker(this.createCreatorFromLikerId(liker))
+      const superLiker = self.createCreatorFromLikerId(liker)
+      if (options.isFollowing) {
+        superLiker.isFollowing = true
+      }
+      superLike.addLiker(superLiker)
 
       // Find content reference for this Super Like
       const contentURL = referrer || url
@@ -180,21 +206,22 @@ export const ReaderStoreModel = types
         content = ContentModel.create({ url: contentURL, timestamp: ts })
         self.contents.put(content)
         if (likee) {
-          content.creator = this.createCreatorFromLikerId(likee)
+          content.creator = self.createCreatorFromLikerId(likee)
         }
       }
 
       superLike.setContent(content)
 
       return superLike
-    },
-    getContentByURL(url: string) {
-      if (url) {
-        return this.parseContentResult({ url })
-      }
-      return undefined
-    },
-  }))
+    }
+
+    return {
+      parseSuperLikeFeedItemToModel,
+      parseSuperLikeFollowingFeedItemToModel(item: LikerLandTypes.SuperLikeFeedItem) {
+        return parseSuperLikeFeedItemToModel(item, { isFollowing: true })
+      },
+    }
+  })
   .actions(self => ({
     fetchCreatorList: flow(function * () {
       if (self.isFetchingCreatorList) return
