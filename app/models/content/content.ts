@@ -41,7 +41,7 @@ export const ContentModel = types
       .sort((aID, bID) => readUsers[bID] - readUsers[aID])
       .slice(0, 5) 
       .reduce((acc, id) => {
-        acc[id] = true
+        acc[id] = readUsers[id]
         return acc
       }, {}),
     ...restSnapshot,
