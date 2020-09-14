@@ -158,6 +158,7 @@ export const ReaderStoreModel = types
     },
     parseSuperLikeFeedItemToModel({
       superLikeID,
+      superLikeShortID,
       url,
       referrer,
       liker,
@@ -166,6 +167,7 @@ export const ReaderStoreModel = types
     }: LikerLandTypes.SuperLikeFeedItem) {
       const superLike = SuperLikeModel.create({
         id: superLikeID,
+        shortId: superLikeShortID,
         timestamp: ts,
       }, self.env)
 

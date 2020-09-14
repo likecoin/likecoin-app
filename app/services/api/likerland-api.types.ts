@@ -3,6 +3,7 @@ import { GeneralApiProblem } from "./api-problem"
 
 export interface SuperLikeFeedItem extends Content {
   superLikeID: string
+  superLikeShortID?: string
   liker?: string
 }
 

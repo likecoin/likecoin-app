@@ -17,6 +17,7 @@ export const SuperLikeModel = types
   .extend(withEnvironment)
   .props({
     id: types.identifier,
+    shortId: types.maybe(types.string),
     content: types.safeReference(types.late(() => ContentModel)),
     likers: types.array(types.safeReference(types.late(() => CreatorModel))),
     timestamp: types.maybe(types.number),
@@ -32,7 +33,7 @@ export const SuperLikeModel = types
       return Math.max(self.likers.length - 1, 0)
     },
     get redirectURL() {
-      return `${self.getConfig("LIKECOIN_BUTTON_BASE_URL")}/in/redirect/superlike/${self.id}`
+      return `${self.getConfig("SUPERLIKE_BASE_URL")}/${self.shortId || self.id}`
     },
   }))
   .actions(self => ({
