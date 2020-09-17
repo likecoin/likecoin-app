@@ -5,7 +5,7 @@ import {
 } from "mobx-state-tree"
 import moment from "moment"
 
-import { withEnvironment, withReaderStore } from "../extensions"
+import { withCreatorsStore, withEnvironment } from "../extensions"
 
 export interface StatisticsStoreFetchWeekOptions {
   shouldSelect?: boolean
@@ -21,7 +21,7 @@ export interface StatisticsStoreFetchLatestOptions {
 export const StatisticsStoreModel = types
   .model("StatisticsStore")
   .extend(withEnvironment)
-  .extend(withReaderStore)
+  .extend(withCreatorsStore)
   .volatile(() => ({
     selectedDayOfWeek: -1,
   }))

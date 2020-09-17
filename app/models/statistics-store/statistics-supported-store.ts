@@ -97,7 +97,7 @@ export const StatisticsSupportedStoreModel = StatisticsStoreModel
         const creators: Creator[] = []
         const fetchDetailsPromises = []
         result.data.ids.forEach(likerID => {
-          const creator = self.readerStore.createCreatorFromLikerId(likerID)
+          const creator = self.createCreatorFromLikerID(likerID)
           creators.push(creator)
           if (!creator.hasFetchedDetails) {
             fetchDetailsPromises.push(creator.fetchDetails())

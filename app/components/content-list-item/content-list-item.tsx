@@ -28,8 +28,6 @@ import { ContentListItemBack } from "./content-list-item.back"
 export class ContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
 
-  isPrevFollow = this.props.content.creator && this.props.content.creator.isFollowing
-
   constructor(props: Props) {
     super(props)
 
@@ -108,24 +106,22 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      isBookmarked,
-      isFollowingCreator,
-      isLoading,
-    } = this.props.content
-
-    if (isLoading) {
+    if (!this.props.content || this.props.content.isLoading) {
       return (
         <ContentListItemSkeleton
           primaryColor={this.props.skeletonPrimaryColor}
           secondaryColor={this.props.skeletonSecondaryColor}
         />
       )
-    } else if (
-      this.props.content.creator &&
+    }
+
+    const {
+      isBookmarked,
+      isFollowingCreator,
+    } = this.props.content
+    if (
       this.props.onPressUndoUnfollowButton &&
-      this.isPrevFollow &&
-      !isFollowingCreator
+      this.props.content.creator?.isShowUndoUnfollow
     ) {
       return this.renderUndo()
     }

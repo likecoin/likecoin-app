@@ -117,6 +117,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
       isFetchingDetails: isFetchingSuperLikerDetails,
       hasFetchedDetails: hasFetchedSuperLikerDetails,
       isFollowing: isFollowingSuperLiker,
+      isShowUndoUnfollow,
     } = this.props.content?.liker || {}
     if (isLoading || !this.props.content?.liker) {
       return (
@@ -129,8 +130,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
       this.props.onPressUndoUnfollowButton &&
       !isFetchingSuperLikerDetails &&
       hasFetchedSuperLikerDetails &&
-      isFollowingSuperLiker !== undefined &&
-      !isFollowingSuperLiker
+      isShowUndoUnfollow
     ) {
       return this.renderUndo()
     }

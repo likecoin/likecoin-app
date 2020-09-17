@@ -17,7 +17,7 @@ import { Creator } from "../../models/creator"
 import { logAnalyticsEvent } from "../../utils/analytics"
 import { color } from "../../theme"
 
-@inject("readerStore")
+@inject("creatorsStore")
 @observer
 export class FollowSettingsScreen extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -25,23 +25,6 @@ export class FollowSettingsScreen extends React.Component<Props, State> {
 
     this.state = {
       currentTab: "follow",
-      hasUpdated: false,
-    }
-  }
-
-  componentDidMount() {
-    if (!this.props.readerStore.hasFetchedCreatorList) {
-      this.props.readerStore.fetchCreatorList()
-    }
-
-    this.props.navigation.addListener("willBlur", this.onWillBlur)
-  }
-
-  private onWillBlur = () => {
-    // Update following list if any change has made
-    if (this.state.hasUpdated) {
-      this.props.readerStore.fetchFollowingList()
-      this.setState({ hasUpdated: false })
     }
   }
 
@@ -58,14 +41,12 @@ export class FollowSettingsScreen extends React.Component<Props, State> {
   }
 
   private onFollow = (creator: Creator) => {
-    this.props.readerStore.toggleFollow(creator.likerID)
-    this.setState({ hasUpdated: true })
+    creator.follow()
     logAnalyticsEvent('FollowSettingsClickFollow')
   }
 
   private onUnfollow = (creator: Creator) => {
-    this.props.readerStore.toggleFollow(creator.likerID)
-    this.setState({ hasUpdated: true })
+    creator.unfollow()
     logAnalyticsEvent('FollowSettingsClickUnfollow')
   }
 
@@ -73,8 +54,8 @@ export class FollowSettingsScreen extends React.Component<Props, State> {
 
   render() {
     const creators = this.state.currentTab === "follow"
-      ? this.props.readerStore.followingCreators
-      : this.props.readerStore.unfollowedCreators
+      ? this.props.creatorsStore.followingCreators
+      : this.props.creatorsStore.unfollowedCreators
     return (
       <Screen
         style={Style.Root}
@@ -91,8 +72,8 @@ export class FollowSettingsScreen extends React.Component<Props, State> {
           refreshControl={
             <RefreshControl
               colors={[color.primary]}
-              refreshing={this.props.readerStore.isFetchingCreatorList}
-              onRefresh={this.props.readerStore.fetchCreatorList}
+              refreshing={this.props.creatorsStore.isFetching}
+              onRefresh={this.props.creatorsStore.fetchCreators}
             />
           }
           style={Style.List}

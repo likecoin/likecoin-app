@@ -1,14 +1,11 @@
-import {
-  flow,
-  getParentOfType,
-  Instance,
-  SnapshotOut,
-  types,
-} from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { CreatorModel } from "../creator"
-import { withCurrentUser, withEnvironment } from "../extensions"
-import { ReaderStore, ReaderStoreModel } from "../reader-store"
+import {
+  withCreatorsStore,
+  withCurrentUser,
+  withEnvironment,
+} from "../extensions"
 import { ContentResult, LikeStatResult } from "../../services/api"
 import { logError } from "../../utils/error"
 
@@ -39,7 +36,7 @@ export const ContentModel = types
     // Store last 5 users only
     readUsers: Object.keys(readUsers)
       .sort((aID, bID) => readUsers[bID] - readUsers[aID])
-      .slice(0, 5) 
+      .slice(0, 5)
       .reduce((acc, id) => {
         acc[id] = readUsers[id]
         return acc
@@ -53,6 +50,7 @@ export const ContentModel = types
     isFetchingDetails: false,
     isFetchingLikeStats: false,
   }))
+  .extend(withCreatorsStore)
   .extend(withCurrentUser)
   .extend(withEnvironment)
   .views(self => ({
@@ -63,9 +61,11 @@ export const ContentModel = types
       return self.creator && self.creator.isFollowing
     },
     get isLoading() {
-      return !(self.hasCached || self.hasFetchedDetails) ||
+      return (
+        !(self.hasCached || self.hasFetchedDetails) ||
         (!self.hasCached && self.isFetchingDetails) ||
         (self.creator && self.creator.isLoading)
+      )
     },
     get shouldFetchDetails() {
       return !self.hasFetchedDetails || !self.hasCached
@@ -95,10 +95,12 @@ export const ContentModel = types
         self.readUsers.set(self.currentUserID, Date.now())
       }
     },
-    fetchDetails: flow(function * () {
+    fetchDetails: flow(function*() {
       self.isFetchingDetails = true
       try {
-        const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(self.url)
+        const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(
+          self.url,
+        )
         switch (result.kind) {
           case "ok": {
             const {
@@ -109,8 +111,7 @@ export const ContentModel = types
               like,
             } = result.data
             if (!self.creator && likerId) {
-              const readerStore: ReaderStore = getParentOfType(self, ReaderStoreModel)
-              self.creator = readerStore.createCreatorFromLikerId(likerId)
+              self.creator = self.createCreatorFromLikerID(likerId)
             }
             self.description = description
             self.title = title
@@ -128,13 +129,13 @@ export const ContentModel = types
         self.hasFetchedDetails = true
       }
     }),
-    fetchLikeStat: flow(function * () {
+    fetchLikeStat: flow(function*() {
       if (!self.creator) return
       self.isFetchingLikeStats = true
       try {
         const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
           self.creator.likerID,
-          self.url
+          self.url,
         )
         switch (result.kind) {
           case "ok": {

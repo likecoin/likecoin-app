@@ -9,8 +9,7 @@ import { partition } from "ramda"
 import {
   ContentModel,
 } from "../content"
-import { CreatorModel } from "../creator"
-import { withEnvironment } from "../extensions"
+import { withEnvironment, withCreatorsStore } from "../extensions"
 import {
   SuperLikeModel,
   SuperLikesGroupedByDay,
@@ -21,7 +20,6 @@ import {
   ContentListResult,
   Content as ContentResultData,
   GeneralResult,
-  ReaderCreatorsResult,
 } from "../../services/api/api.types"
 import * as LikerLandTypes from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
@@ -35,11 +33,8 @@ export const ReaderStoreModel = types
   .model("ReaderStore")
   .props({
     contents: types.map(types.late(() => ContentModel)),
-    creators: types.map(types.late(() => CreatorModel)),
     followedList: ContentList,
     bookmarkList: ContentList,
-    followingCreators: types.array(types.safeReference(CreatorModel)),
-    unfollowedCreators: types.array(types.safeReference(CreatorModel)),
   })
   .postProcessSnapshot(snapshot => {
     const { bookmarkList } = snapshot
@@ -60,27 +55,12 @@ export const ReaderStoreModel = types
       .forEach(content => {
         contents[content.url] = content
       })
-    
-    const creators = {}
-    Object.keys(snapshot.creators).sort((idA, idB) => {
-      const creatorA = snapshot.creators[idA]
-      const creatorB = snapshot.creators[idB]
-      if (creatorA.lastFetchedAt === undefined) return -1
-      if (creatorB.lastFetchedAt === undefined) return 1
-      return creatorB.lastFetchedAt - creatorA.lastFetchedAt
-    }).slice(0, 1000).forEach(id => {
-      creators[id] = snapshot.creators[id]
-    })
-
     return {
       contents,
-      creators,
       bookmarkList,
     }
   })
   .volatile(() => ({
-    isFetchingCreatorList: false,
-    hasFetchedCreatorList: false,
     isFetchingFollowedList: false,
     hasFetchedFollowedList: false,
     followedListLastFetchedDate: new Date(),
@@ -92,6 +72,7 @@ export const ReaderStoreModel = types
     hasFetchedBookmarkList: false,
   }))
   .extend(withEnvironment)
+  .extend(withCreatorsStore)
   .views(self => ({
     getShouldRefreshFollowingFeed() {
       return (
@@ -99,15 +80,14 @@ export const ReaderStoreModel = types
         parseInt(self.getConfig("READING_FEED_RESUME_REFRESH_DEBOUNCE")) * 1000
       )
     },
+    get creators() {
+      return self.creatorsStore.creators
+    },
   }))
   .actions(self => ({
     reset() {
       self.followedList.replace([])
       self.bookmarkList.replace([])
-      self.followingCreators.replace([])
-      self.unfollowedCreators.replace([])
-      self.isFetchingCreatorList = false
-      self.hasFetchedCreatorList = false
       self.isFetchingFollowedList = false
       self.hasFetchedFollowedList = false
       self.followedListLastFetchedDate = new Date()
@@ -117,14 +97,6 @@ export const ReaderStoreModel = types
       self.followingSuperLikePages = {} as SuperLikesGroupedByDay
       self.isFetchingBookmarkList = false
       self.hasFetchedBookmarkList = false
-    },
-    createCreatorFromLikerId(likerId: string) {
-      let creator = self.creators.get(likerId)
-      if (!creator) {
-        creator = CreatorModel.create({ likerID: likerId }, self.env)
-        self.creators.put(creator)
-      }
-      return creator
     },
     createContentFromContentResultData(data: ContentResultData) {
       const {
@@ -145,7 +117,7 @@ export const ReaderStoreModel = types
       })
       self.contents.put(content)
       if (likerId) {
-        content.creator = this.createCreatorFromLikerId(likerId)
+        content.creator = self.createCreatorFromLikerID(likerId)
       }
       return content
     },
@@ -201,10 +173,9 @@ export const ReaderStoreModel = types
         timestamp: ts,
       }, self.env)
 
-      const superLiker = self.createCreatorFromLikerId(liker)
-      if (options.isFollowing) {
-        superLiker.isFollowing = true
-      }
+      const superLiker = self.createCreatorFromLikerID(liker, {
+        isFollowing: options.isFollowing,
+      })
       superLike.addLiker(superLiker)
 
       // Find content reference for this Super Like
@@ -214,7 +185,7 @@ export const ReaderStoreModel = types
         content = ContentModel.create({ url: contentURL, timestamp: ts })
         self.contents.put(content)
         if (likee) {
-          content.creator = self.createCreatorFromLikerId(likee)
+          content.creator = self.createCreatorFromLikerID(likee)
         }
       }
 
@@ -232,50 +203,10 @@ export const ReaderStoreModel = types
   })
   .actions(self => ({
     fetchCreatorList: flow(function * () {
-      if (self.isFetchingCreatorList) return
-      self.isFetchingCreatorList = true
-      try {
-        const result: ReaderCreatorsResult = yield self.env.likerLandAPI.fetchReaderCreators()
-        switch (result.kind) {
-          case "ok":
-            self.followingCreators.replace([])
-            result.following.forEach(likerID => {
-              const creator = self.createCreatorFromLikerId(likerID)
-              creator.isFollowing = true
-              self.followingCreators.push(creator)
-            })
-            self.unfollowedCreators.replace([])
-            result.unfollowed.forEach(likerID => {
-              const creator = self.createCreatorFromLikerId(likerID)
-              creator.isFollowing = false
-              self.unfollowedCreators.push(creator)
-            })
-        }
-      } catch (error) {
-        logError(error.message)
-      } finally {
-        self.isFetchingCreatorList = false
-        self.hasFetchedCreatorList = true
-      }
+      yield self.creatorsStore.fetchCreators()
     }),
     fetchFollowingList: flow(function * () {
-      self.isFetchingFollowedList = true
-      try {
-        const result: ContentListResult = yield self.env.likerLandAPI.fetchReaderFollowing()
-        switch (result.kind) {
-          case "ok":
-            self.followedSet = new Set()
-            self.followedList.replace([])
-            result.data.forEach(self.handleFollowedContentResultData)
-        }
-      } catch (error) {
-        logError(error.message)
-      } finally {
-        self.isFetchingFollowedList = false
-        self.hasFetchedFollowedList = true
-        self.followedListLastFetchedDate = new Date()
-        self.hasReachedEndOfFollowedList = false
-      }
+      self.creatorsStore.fetchCreators()
     }),
     fetchMoreFollowedList: flow(function * () {
       self.isFetchingMoreFollowedList = true
@@ -342,37 +273,6 @@ export const ReaderStoreModel = types
         logError(error.message)
         content.isBookmarked = prevIsBookmarked
         self.bookmarkList.replace(prevBookmarkList)
-      }
-    }),
-    toggleFollow: flow(function * (likerID: string) {
-      const creator = self.creators.get(likerID)
-      if (!creator) return
-      const prevIsFollow = creator.isFollowing
-      const prevFollowingCreators = self.followingCreators
-      const prevUnfollowedCreators = self.unfollowedCreators
-      creator.isFollowing = !creator.isFollowing
-
-      try {
-        if (creator.isFollowing) {
-          self.unfollowedCreators.remove(creator)
-          self.followingCreators.push(creator)
-          const result: GeneralResult = yield self.env.likerLandAPI.followLiker(likerID)
-          if (result.kind !== "ok") {
-            throw new Error("READER_FOLLOW_FAILED")
-          }
-        } else {
-          self.followingCreators.remove(creator)
-          self.unfollowedCreators.push(creator)
-          const result: GeneralResult = yield self.env.likerLandAPI.unfollowLiker(likerID)
-          if (result.kind !== "ok") {
-            throw new Error("READER_UNFOLLOW_FAILED")
-          }
-        }
-      } catch (error) {
-        logError(error.message)
-        creator.isFollowing = prevIsFollow
-        self.followingCreators.replace(prevFollowingCreators)
-        self.unfollowedCreators.replace(prevUnfollowedCreators)
       }
     }),
   }))

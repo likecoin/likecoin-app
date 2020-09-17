@@ -30,19 +30,19 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
     }
 
     onPressUndoUnfollowButton = (creator: Creator) => {
-      const { likerID } = creator
-      logAnalyticsEvent('UndoUnfollow', { likerID })
-      this.props.readerStore.toggleFollow(likerID)
+      logAnalyticsEvent('UndoUnfollow', { likerID: creator.likerID })
+      creator.follow()
     }
 
     onToggleFollow = (creator: Creator) => {
       const { isFollowing, likerID } = creator
       if (isFollowing) {
         logAnalyticsEvent("UnfollowLiker", { likerID })
+        creator.unfollow()
       } else {
         logAnalyticsEvent("FollowLiker", { likerID })
+        creator.follow()
       }
-      this.props.readerStore.toggleFollow(likerID)
     }
 
     onToggleBookmark = (content: Content) => {

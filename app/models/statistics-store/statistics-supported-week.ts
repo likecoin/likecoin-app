@@ -63,7 +63,7 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
             worksCount: workCount,
           }, self.env)
           if (likee) {
-            creator.setInfo(self.readerStore.createCreatorFromLikerId(likee))
+            creator.setInfo(self.readerStore.createCreatorFromLikerID(likee))
           }
           return creator
         }))
