@@ -17,7 +17,8 @@ import { logError } from "../../utils/error"
 export const CreatorModel = UserModel
   .named("Creator")
   .props({
-    hasCached: types.optional(types.boolean, false)
+    hasCached: types.optional(types.boolean, false),
+    lastFetchedAt: types.maybe(types.number),
   })
   .extend(withEnvironment)
   .volatile(() => ({
@@ -55,6 +56,7 @@ export const CreatorModel = UserModel
       } finally {
         self.hasFetchedDetails = true
         self.isFetchingDetails = false
+        self.lastFetchedAt = Date.now()
       }
     }),
   }))

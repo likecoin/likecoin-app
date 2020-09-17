@@ -51,7 +51,6 @@ export const ReaderStoreModel = types
       Object.values(snapshot.contents),
     )
     const contents = {}
-    const creators = {}
     restContents
       .sort((a, b) => b.timestamp - a.timestamp)
       // Cache 1,000 contents at max and
@@ -60,10 +59,19 @@ export const ReaderStoreModel = types
       .concat(toBePersistedContents)
       .forEach(content => {
         contents[content.url] = content
-        if (snapshot.creators[content.creator]) {
-          creators[content.creator] = snapshot.creators[content.creator]
-        }
       })
+    
+    const creators = {}
+    Object.keys(snapshot.creators).sort((idA, idB) => {
+      const creatorA = snapshot.creators[idA]
+      const creatorB = snapshot.creators[idB]
+      if (creatorA.lastFetchedAt === undefined) return -1
+      if (creatorB.lastFetchedAt === undefined) return 1
+      return creatorB.lastFetchedAt - creatorA.lastFetchedAt
+    }).slice(0, 1000).forEach(id => {
+      creators[id] = snapshot.creators[id]
+    })
+
     return {
       contents,
       creators,
