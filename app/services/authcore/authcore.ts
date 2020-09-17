@@ -3,6 +3,7 @@ import "crypto"
 import i18n from "i18n-js"
 import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
+import { color } from "../../theme"
 
 /**
  * AuthCore callback functions to-be called
@@ -90,6 +91,11 @@ export class AuthCoreAPI {
       baseUrl: baseURL,
       socialLoginPaneStyle: "top",
       language: findBestAvailableLanguage(),
+      company: "Liker Land",
+      initialScreen: "register",
+      primaryColour: color.primary,
+      successColour: color.primary,
+      dangerColour: color.palette.angry,
     })
     this.cosmosChainId = cosmosChainId
   }
