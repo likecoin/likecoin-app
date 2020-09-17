@@ -114,9 +114,13 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     if (signInParams) this._signIn(signInParams)
   }
 
-  _signInWithAuthCore = async () => {
+  _authWithAuthCore = async ({ isSignUp }) => {
     try {
-      await this.props.userStore.authCore.signIn()
+      if (isSignUp) {
+        await this.props.userStore.authCore.register()
+      } else {
+        await this.props.userStore.authCore.signIn()
+      }
       this.props.chain.setupWallet(this.props.userStore.authCore.primaryCosmosAddress)
     } catch (error) {
       if (
@@ -175,11 +179,11 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     this.props.navigation.navigate('LikerLandOAuth')
   }
 
-  _onPressAuthCoreButton = async () => {
+  private _onPressAuthCoreAuthButton = async ({ isSignUp }) => {
     try {
       this.props.userStore.setIsSigningIn(true)
-      logAnalyticsEvent('AuthCoreSignInTry')
-      await this._signInWithAuthCore()
+      logAnalyticsEvent(isSignUp ? 'AuthCoreSignUpTry' : 'AuthCoreSignInTry')
+      await this._authWithAuthCore({ isSignUp })
     } catch (error) {
       logError(`Error occurs when signing in: ${error}`)
       Alert.alert(translate("signInScreen.error"), `${error}`)
@@ -188,6 +192,15 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
       this.props.userStore.setIsSigningIn(false)
     }
   }
+
+  _onPressAuthCoreSignUpButton = () => {
+    this._onPressAuthCoreAuthButton({ isSignUp: true })
+  }
+
+  _onPressAuthCoreSignInButton = () => {
+    this._onPressAuthCoreAuthButton({ isSignUp: false })
+  }
+
 
   private getSlogan() {
     switch (i18n.locale) {
@@ -249,7 +262,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
                 tx="signInScreen.signUp"
                 preset="primary"
                 isHidden={isLoading}
-                onPress={this._onPressAuthCoreButton}
+                onPress={this._onPressAuthCoreSignUpButton}
               />
               <Button
                 tx="signInScreen.signIn"
@@ -257,7 +270,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
                 color="likeCyan"
                 isHidden={isLoading}
                 style={Style.SignInButton}
-                onPress={this._onPressAuthCoreButton}
+                onPress={this._onPressAuthCoreSignInButton}
               />
             </View>
           </Animated.View>

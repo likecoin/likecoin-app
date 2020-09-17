@@ -216,22 +216,33 @@ export class AuthCoreAPI {
     return oAuthFactors
   }
 
-  /**
-   * Sign in AuthCore
-   */
-  async signIn() {
+  private async _internalSignIn({ initialScreen }: { initialScreen: string }) {
     const {
       accessToken,
       refreshToken,
       idToken,
       currentUser,
-    } = await this.client.webAuth.signin()
+    } = await this.client.webAuth.signin({ initialScreen })
     return {
       accessToken,
       refreshToken,
       idToken,
       currentUser: parseAuthCoreUser(currentUser),
     }
+  }
+
+  /**
+   * Register AuthCore
+   */
+  async register() {
+    return this._internalSignIn({ initialScreen: 'register' })
+  }
+
+  /**
+   * Sign in AuthCore
+   */
+  async signIn() {
+    return this._internalSignIn({ initialScreen: 'signin' })
   }
 
   /**

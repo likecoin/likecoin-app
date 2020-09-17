@@ -100,7 +100,34 @@ export const AuthCoreStoreModel = types
       yield init(refreshToken, accessToken, idToken)
       self.setHasSignedIn(true)
     })
-
+    const postSignIn = flow(function*(result) {
+      const {
+        accessToken,
+        refreshToken,
+        idToken,
+        currentUser,
+      } = result;
+      self.setHasSignedIn(true)
+      yield Promise.all([
+        init(refreshToken, accessToken, idToken, currentUser),
+        initWallet(accessToken),
+        Keychain.save(
+          "authcore_refresh_token",
+          refreshToken,
+          self.getCredentialKeyFor("refresh_token"),
+        ),
+        Keychain.save(
+          "authcore_access_token",
+          accessToken,
+          self.getCredentialKeyFor("access_token"),
+        ),
+        Keychain.save(
+          "authcore_id_token",
+          idToken,
+          self.getCredentialKeyFor("id_token"),
+        ),
+      ])
+    })
     return {
       views: {
         getIsSettingUp() {
@@ -109,32 +136,12 @@ export const AuthCoreStoreModel = types
       },
       actions: {
         signIn: flow(function*() {
-          const {
-            accessToken,
-            refreshToken,
-            idToken,
-            currentUser,
-          }: any = yield self.env.authCoreAPI.signIn()
-          self.setHasSignedIn(true)
-          yield Promise.all([
-            init(refreshToken, accessToken, idToken, currentUser),
-            initWallet(accessToken),
-            Keychain.save(
-              "authcore_refresh_token",
-              refreshToken,
-              self.getCredentialKeyFor("refresh_token"),
-            ),
-            Keychain.save(
-              "authcore_access_token",
-              accessToken,
-              self.getCredentialKeyFor("access_token"),
-            ),
-            Keychain.save(
-              "authcore_id_token",
-              idToken,
-              self.getCredentialKeyFor("id_token"),
-            ),
-          ])
+          const result  = yield self.env.authCoreAPI.signIn()
+          yield postSignIn(result);
+        }),
+        register: flow(function*() {
+          const result  = yield self.env.authCoreAPI.register()
+          yield postSignIn(result);
         }),
         resume: flow(function*() {
           pendingInitPromise = resume()
