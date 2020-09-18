@@ -77,7 +77,9 @@ export class ContentListItem extends React.Component<Props, State> {
 
   private onToggleBookmark = () => {
     this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleBookmark) this.props.onToggleBookmark(this.props.content)
+    if (this.props.onToggleBookmark && this.props.content) {
+      this.props.onToggleBookmark(this.props.content)
+    }
   }
 
   private onToggleFollow = () => {
