@@ -42,7 +42,6 @@ class BookmarkScreenBase extends React.Component<Props> {
         <Header headerTx="BookmarkScreen.title" />
         <ContentList
           data={this.props.readerStore.bookmarkList}
-          creators={this.props.readerStore.creators}
           hasFetched={this.props.readerStore.hasFetchedBookmarkList}
           isLoading={this.props.readerStore.isFetchingBookmarkList}
           isShowBookmarkIcon={false}

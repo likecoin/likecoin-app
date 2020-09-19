@@ -1,11 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { ContentModel } from "../content"
-import {
-  withContentsStore,
-  withCreatorsStore,
-  withEnvironment,
-} from "../extensions"
+import { withContentsStore, withEnvironment } from "../extensions"
 
 import { BookmarkListResult, GeneralResult } from "../../services/api/api.types"
 import { logError } from "../../utils/error"
@@ -25,13 +21,7 @@ export const ReaderStoreModel = types
     hasFetchedBookmarkList: false,
   }))
   .extend(withEnvironment)
-  .extend(withCreatorsStore)
   .extend(withContentsStore)
-  .views(self => ({
-    get creators() {
-      return self.creatorsStore.creators
-    },
-  }))
   .actions(self => ({
     reset() {
       self.bookmarkList.replace([])
@@ -40,12 +30,6 @@ export const ReaderStoreModel = types
     },
   }))
   .actions(self => ({
-    fetchCreatorList: flow(function*() {
-      yield self.creatorsStore.fetchCreators()
-    }),
-    fetchFollowingList: flow(function*() {
-      self.creatorsStore.fetchCreators()
-    }),
     fetchBookmarkList: flow(function*() {
       if (self.isFetchingBookmarkList) return
       self.isFetchingBookmarkList = true
