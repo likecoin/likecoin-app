@@ -39,13 +39,13 @@ export const SuperLikeGlobalStoreModel = SuperLikeFeedModel.named(
           const superLikes: SuperLike[] = []
           result.data.forEach(data => {
             superLikes.push(
-              self.readerStore.parseSuperLikeFeedItemToModel(data),
+              self.createSuperLikeFeedItemFromData(data),
             )
           })
           self.items.replace(superLikes)
         }
       } catch (error) {
-        logError(error.message)
+        logError(error)
       } finally {
         self.setStatus("done")
         self.lastFetchedTimestamp = Date.now()
@@ -66,7 +66,7 @@ export const SuperLikeGlobalStoreModel = SuperLikeFeedModel.named(
           let superLikes: SuperLike[] = []
           result.data.forEach(data => {
             superLikes.push(
-              self.readerStore.parseSuperLikeFeedItemToModel(data),
+              self.createSuperLikeFeedItemFromData(data),
             )
           })
 

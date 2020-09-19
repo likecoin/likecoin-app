@@ -66,7 +66,7 @@ export interface ContentListProps extends ContentListBaseProps {
     section: SectionListData<Content>
   }) => React.ReactElement | null
 
-  onPressItem?: (url: string) => void
+  onPressItem?: (content: Content) => void
 }
 
 export interface SuperLikedContentListProps

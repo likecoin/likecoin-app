@@ -16,10 +16,9 @@ export const wrapContentListScreen = <P extends Props>(WrappedComponent: React.C
 
   @inject("readerStore")
   class ContentListScreen extends React.Component<P & Props> {
-    onPressContentItem = (url: string) => {
-      const content = this.props.readerStore.contents.get(url)
-      logAnalyticsEvent('select_content', { contentType: 'content', itemId: url })
-      logAnalyticsEvent('OpenArticle', { url })
+    onPressContentItem = (content: Content) => {
+      logAnalyticsEvent('select_content', { contentType: 'content', itemId: content.url })
+      logAnalyticsEvent('OpenArticle', { url: content.url })
       this.props.navigation.navigate('ContentView', { content })
     }
 

@@ -5,6 +5,7 @@ import {
   types,
 } from "mobx-state-tree"
 
+import { withCreatorsStore } from "../extensions"
 import {
   StatisticsSupportedCreatorModel,
 } from "./statistics-supported-creator"
@@ -39,6 +40,7 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
       return self.creators.length
     },
   }))
+  .extend(withCreatorsStore)
   .actions(self => ({
     fetchData: flow(function * () {
       self.setFetching()
@@ -63,7 +65,7 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
             worksCount: workCount,
           }, self.env)
           if (likee) {
-            creator.setInfo(self.readerStore.createCreatorFromLikerID(likee))
+            creator.setInfo(self.createCreatorFromLikerID(likee))
           }
           return creator
         }))
@@ -82,7 +84,7 @@ export const StatisticsSupportedWeekModel = StatisticsWeekModel
                   likesCount: likeCount,
                 }, self.env)
                 if (url) {
-                  content.setInfo(self.readerStore.getContentByURL(url))
+                  content.setInfo(self.createContentFromURL(url))
                 }
                 contents.push(content)
               })

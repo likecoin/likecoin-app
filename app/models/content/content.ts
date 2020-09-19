@@ -1,6 +1,6 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
-import { CreatorModel } from "../creator"
+import { Creator, CreatorModel } from "../creator"
 import {
   withCreatorsStore,
   withCurrentUser,
@@ -31,6 +31,8 @@ export const ContentModel = types
     hasCached: types.optional(types.boolean, false),
 
     readUsers: types.map(types.number),
+
+    lastFetchedAt: types.maybe(types.number),
   })
   .postProcessSnapshot(({ readUsers, ...restSnapshot }) => ({
     // Store last 5 users only
@@ -85,74 +87,91 @@ export const ContentModel = types
       return !!self.readUsers.get(self.currentUserID)
     },
   }))
-  .actions(self => ({
-    setTimestamp(timestamp: number) {
-      if (timestamp) self.timestamp = timestamp
-    },
-    read() {
-      if (self.currentUser) {
-        self.readUsers.set(self.currentUserID, Date.now())
+  .actions(self => {
+    function updateLastFetchedAt() {
+      const now = Date.now()
+      if (now > self.lastFetchedAt) {
+        self.lastFetchedAt = now
       }
-    },
-    fetchDetails: flow(function*() {
-      self.isFetchingDetails = true
-      try {
-        const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(
-          self.url,
-        )
-        switch (result.kind) {
-          case "ok": {
-            const {
-              user: likerId,
-              description,
-              title,
-              image,
-              like,
-            } = result.data
-            if (!self.creator && likerId) {
-              self.creator = self.createCreatorFromLikerID(likerId)
-            }
-            self.description = description
-            self.title = title
-            self.imageURL = image
-            if (self.likeCount < like) {
-              self.likeCount = like
-            }
-            self.hasCached = true
-          }
+    }
+
+    return {
+      setTimestamp(timestamp: number) {
+        if (timestamp) self.timestamp = timestamp
+      },
+      setCreator(creator: Creator) {
+        self.creator = creator
+      },
+      setIsBookmark(value: boolean) {
+        self.isBookmarked = value
+      },
+      read() {
+        if (self.currentUser) {
+          self.readUsers.set(self.currentUserID, Date.now())
         }
-      } catch (error) {
-        logError(error.message)
-      } finally {
-        self.isFetchingDetails = false
-        self.hasFetchedDetails = true
-      }
-    }),
-    fetchLikeStat: flow(function*() {
-      if (!self.creator) return
-      self.isFetchingLikeStats = true
-      try {
-        const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
-          self.creator.likerID,
-          self.url,
-        )
-        switch (result.kind) {
-          case "ok": {
-            const { total, totalLiker } = result.data
-            if (self.likeCount < total) {
-              self.likeCount = total
+      },
+      fetchDetails: flow(function*() {
+        self.isFetchingDetails = true
+        try {
+          const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(
+            self.url,
+          )
+          switch (result.kind) {
+            case "ok": {
+              const {
+                user: likerId,
+                description,
+                title,
+                image,
+                like,
+              } = result.data
+              if (!self.creator && likerId) {
+                self.creator = self.createCreatorFromLikerID(likerId)
+              }
+              self.description = description
+              self.title = title
+              self.imageURL = image
+              if (self.likeCount < like) {
+                self.likeCount = like
+              }
+              self.hasCached = true
             }
-            self.likerCount = totalLiker
           }
+        } catch (error) {
+          logError(error.message)
+        } finally {
+          self.isFetchingDetails = false
+          self.hasFetchedDetails = true
+          updateLastFetchedAt()
         }
-      } catch (error) {
-        logError(error.message)
-      } finally {
-        self.isFetchingLikeStats = false
-        self.hasFetchedLikeStats = true
-      }
-    }),
-  }))
+      }),
+      fetchLikeStat: flow(function*() {
+        if (!self.creator) return
+        self.isFetchingLikeStats = true
+        try {
+          const result: LikeStatResult = yield self.env.likeCoAPI.fetchContentLikeStat(
+            self.creator.likerID,
+            self.url,
+          )
+          switch (result.kind) {
+            case "ok": {
+              const { total, totalLiker } = result.data
+              if (self.likeCount < total) {
+                self.likeCount = total
+              }
+              self.likerCount = totalLiker
+            }
+          }
+        } catch (error) {
+          logError(error.message)
+        } finally {
+          self.isFetchingLikeStats = false
+          self.hasFetchedLikeStats = true
+          updateLastFetchedAt()
+        }
+      }),
+    }
+  })
 
 type ContentType = Instance<typeof ContentModel>
 export interface Content extends ContentType {}

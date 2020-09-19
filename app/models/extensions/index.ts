@@ -1,3 +1,4 @@
+export * from "./with-contents-store"
 export * from "./with-creators-store"
 export * from "./with-creators-follow-store"
 export * from "./with-current-user"

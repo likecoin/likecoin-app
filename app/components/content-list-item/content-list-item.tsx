@@ -98,7 +98,9 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private onPress = () => {
-    if (this.props.onPress) this.props.onPress(this.props.content.url)
+    if (this.props.onPress && this.props.content) {
+      this.props.onPress(this.props.content)
+    }
   }
 
   private onPressUndoButton = () => {

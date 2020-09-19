@@ -115,7 +115,7 @@ export const StatisticsRewardedWeekModel = StatisticsWeekModel
                 basicLikersCount,
                 civicLikersCount,
               }, self.env)
-              const contentInfo = self.readerStore.getContentByURL(url)
+              const contentInfo = self.createContentFromURL(url)
               if (contentInfo) {
                 dailyContent.setInfo(contentInfo)
               }

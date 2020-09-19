@@ -8,6 +8,7 @@ import {
 
 import { withEnvironment } from "../extensions"
 import { ChainStoreModel } from "../chain-store"
+import { ContentsStoreModel } from "../contents-store"
 import { CreatorsFollowStoreModel } from "../creators-follow-store"
 import { CreatorsStoreModel } from "../creators-store"
 import { LanguageSettingsStoreModel } from "../language-settings-store"
@@ -41,6 +42,7 @@ export const RootStoreModel = types
   .model("RootStore")
   .props({
     chainStore: types.maybe(ChainStoreModel),
+    contentsStore: types.optional(ContentsStoreModel, {}),
     creatorsStore: types.optional(CreatorsStoreModel, {}),
     creatorsFollowStore: types.optional(CreatorsFollowStoreModel, {}),
     languageSettingsStore: types.optional(LanguageSettingsStoreModel, {}),
@@ -87,7 +89,7 @@ export const RootStoreModel = types
             type: "Navigation/PUSH",
             routeName: "ContentView",
             params: {
-              content: self.readerStore.getContentByURL(url),
+              content: self.contentsStore.createItemFromURL(url),
             },
           })
         }
