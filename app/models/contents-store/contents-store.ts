@@ -14,11 +14,15 @@ const ContentsStoreBaseModel = types
     items: types.map(types.late(() => ContentModel)),
   })
   .extend(withCreatorsStore)
+  .views(self => ({
+    getContentFromURL(url: string) {
+      return self.items.get(url)
+    },
+  }))
   .actions(self => {
     function createItemFromData(data: ContentResultData) {
       const {
         image: imageURL,
-        ts: timestamp,
         like: likeCount,
         referrer,
         url,
@@ -32,7 +36,6 @@ const ContentsStoreBaseModel = types
         content = ContentModel.create({
           url: contentURL,
           imageURL,
-          timestamp,
           likeCount,
           ...rest,
         })
@@ -41,8 +44,6 @@ const ContentsStoreBaseModel = types
           content.setCreator(self.createCreatorFromLikerID(likerID))
         }
       }
-
-      content.setTimestamp(data.ts)
 
       return content
     }

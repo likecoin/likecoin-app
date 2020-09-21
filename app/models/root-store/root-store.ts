@@ -9,11 +9,12 @@ import {
 import { withEnvironment } from "../extensions"
 import { ChainStoreModel } from "../chain-store"
 import { ContentsStoreModel } from "../contents-store"
+import { ContentBookmarksStoreModel } from "../content-bookmarks-store"
+import { ContentBookmarksListStoreModel } from "../content-bookmarks-list-store"
 import { CreatorsFollowStoreModel } from "../creators-follow-store"
 import { CreatorsStoreModel } from "../creators-store"
 import { LanguageSettingsStoreModel } from "../language-settings-store"
 import { NotificationStoreModel } from "../notification-store"
-import { ReaderStoreModel } from "../reader-store"
 import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-store"
 import { StakingDelegationStoreModel } from "../staking-delegation-store"
 import { StakingRedelegationStoreModel } from "../staking-redelegation-store"
@@ -42,6 +43,8 @@ export const RootStoreModel = types
   .model("RootStore")
   .props({
     chainStore: types.maybe(ChainStoreModel),
+    contentBookmarksStore: types.optional(ContentBookmarksStoreModel, {}),
+    contentBookmarksListStore: types.optional(ContentBookmarksListStoreModel, {}),
     contentsStore: types.optional(ContentsStoreModel, {}),
     creatorsStore: types.optional(CreatorsStoreModel, {}),
     creatorsFollowStore: types.optional(CreatorsFollowStoreModel, {}),
@@ -56,7 +59,6 @@ export const RootStoreModel = types
     superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
     superLikeGlobalStore: types.optional(SuperLikeGlobalStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
-    readerStore: types.optional(ReaderStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),
     userStore: types.optional(UserStoreModel, {}),
     /**
@@ -106,6 +108,7 @@ export const RootStoreModel = types
       yield self.userStore.logout()
       self.chainStore.reset()
       self.creatorsFollowStore.reset()
+      self.contentBookmarksStore.reset()
       self.stakingRewardsWithdrawStore.reset()
       self.stakingDelegationStore.reset()
       self.stakingRedelegationStore.reset()
@@ -115,7 +118,6 @@ export const RootStoreModel = types
       self.superLikeFollowingStore.reset()
       self.superLikeGlobalStore.reset()
       self.transferStore.reset()
-      self.readerStore.reset()
     }),
   }))
   .actions(self => ({

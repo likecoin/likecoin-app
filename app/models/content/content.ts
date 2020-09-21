@@ -1,13 +1,19 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
+import {
+  BookmarkAddResult,
+  ContentResult,
+  LikeStatResult,
+} from "../../services/api"
+import { logError } from "../../utils/error"
+
 import { Creator, CreatorModel } from "../creator"
 import {
   withCreatorsStore,
+  withContentBookmarksStore,
   withCurrentUser,
   withEnvironment,
 } from "../extensions"
-import { ContentResult, LikeStatResult } from "../../services/api"
-import { logError } from "../../utils/error"
 
 /**
  * Likeable Content
@@ -26,7 +32,6 @@ export const ContentModel = types
     creator: types.maybe(types.safeReference(types.late(() => CreatorModel))),
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
-    timestamp: types.optional(types.integer, 0),
 
     hasCached: types.optional(types.boolean, false),
 
@@ -48,11 +53,12 @@ export const ContentModel = types
   .volatile(() => ({
     hasFetchedDetails: false,
     hasFetchedLikeStats: false,
-    isBookmarked: false,
     isFetchingDetails: false,
     isFetchingLikeStats: false,
+    isUpdatingBookmark: false,
   }))
   .extend(withCreatorsStore)
+  .extend(withContentBookmarksStore)
   .extend(withCurrentUser)
   .extend(withEnvironment)
   .views(self => ({
@@ -64,7 +70,8 @@ export const ContentModel = types
     },
     get isLoading() {
       return (
-        (!self.hasCached && (!self.hasFetchedDetails || self.isFetchingDetails)) ||
+        (!self.hasCached &&
+          (!self.hasFetchedDetails || self.isFetchingDetails)) ||
         (self.creator && self.creator.isLoading)
       )
     },
@@ -86,6 +93,12 @@ export const ContentModel = types
     hasRead() {
       return !!self.readUsers.get(self.currentUserID)
     },
+    get isBookmarked() {
+      return self.checkIsBookmarkedURL(self.url)
+    },
+    get bookmarkedTimestamp() {
+      return self.getBookmarkByURL(self.url)?.timestamp
+    },
   }))
   .actions(self => {
     function updateLastFetchedAt() {
@@ -96,14 +109,8 @@ export const ContentModel = types
     }
 
     return {
-      setTimestamp(timestamp: number) {
-        if (timestamp) self.timestamp = timestamp
-      },
       setCreator(creator: Creator) {
         self.creator = creator
-      },
-      setIsBookmark(value: boolean) {
-        self.isBookmarked = value
       },
       read() {
         if (self.currentUser) {
@@ -168,6 +175,43 @@ export const ContentModel = types
           self.isFetchingLikeStats = false
           self.hasFetchedLikeStats = true
           updateLastFetchedAt()
+        }
+      }),
+      addBookmark: flow(function*() {
+        if (self.isUpdatingBookmark || self.isBookmarked) return
+        self.isUpdatingBookmark = true
+        try {
+          const response: BookmarkAddResult = yield self.env.likeCoinAPI.users.bookmarks.add(
+            self.url,
+          )
+          if (response.kind === "ok") {
+            const id = response.data
+            self.contentBookmarksStore.add({
+              id,
+              url: self.url,
+              timestamp: Date.now(),
+            })
+          }
+        } catch (error) {
+          logError(error)
+        } finally {
+          self.isUpdatingBookmark = false
+        }
+      }),
+      removeBookmark: flow(function*() {
+        if (self.isUpdatingBookmark || !self.isBookmarked) return
+        self.isUpdatingBookmark = true
+        try {
+          const response: BookmarkAddResult = yield self.env.likeCoinAPI.users.bookmarks.remove(
+            self.url,
+          )
+          if (response.kind === "ok") {
+            self.contentBookmarksStore.remove(self.url)
+          }
+        } catch (error) {
+          logError(error)
+        } finally {
+          self.isUpdatingBookmark = false
         }
       }),
     }

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { TouchableHighlight, View, ViewStyle } from "react-native"
+import { ActivityIndicator, TouchableHighlight, View, ViewStyle } from "react-native"
 import Svg, { Path } from "react-native-svg"
 import { SwipeRow } from "react-native-swipe-list-view"
 import { observer } from "mobx-react"
@@ -185,7 +185,9 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
                 color="likeGreen"
                 size="default"
                 weight="600"
-                text={content?.liker?.displayName || content?.liker?.likerID || ""}
+                text={
+                  content?.liker?.displayName || content?.liker?.likerID || ""
+                }
                 place="liker"
               />
             </I18n>
@@ -198,7 +200,10 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
               onPress={this.onPressMoreButton}
             />
           </View>
-          <Text text={content?.content?.normalizedTitle || ""} style={Style.Title} />
+          <Text
+            text={content?.content?.normalizedTitle || ""}
+            style={Style.Title}
+          />
           <View style={Style.FooterView}>
             <Text
               text={content?.content?.creatorDisplayName || ""}
@@ -206,7 +211,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
               color="grey9b"
             />
             <View style={Style.AccessoryView}>
-              {!!content?.content?.hasRead() &&
+              {!!content?.content?.hasRead() && (
                 <Text
                   tx="readerScreen.ReadLabel"
                   size="small"
@@ -227,10 +232,13 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
                   }
                   style={Style.ReadLabel}
                 />
-              }
+              )}
               {this.props.isShowFollowToggle &&
                 this.renderFollowToggle(!!content?.liker?.isFollowing)}
-              {this.renderBookmarkButton(!!content?.content?.isBookmarked)}
+              {this.renderBookmarkButton(
+                !!content?.content?.isBookmarked,
+                !!content?.content?.isUpdatingBookmark,
+              )}
             </View>
           </View>
         </View>
@@ -252,9 +260,21 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
     )
   }
 
-  private renderBookmarkButton(isBookmarked: boolean) {
+  private renderBookmarkButton(isBookmarked: boolean, isUpdating: boolean) {
     const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
     const buttonPreset = isBookmarked ? "primary" : "secondary"
+    if (isUpdating) {
+      return (
+        <Button
+          preset="plain"
+          size="tiny"
+          disabled={true}
+          style={Style.AccessoryButton}
+        >
+          <ActivityIndicator size="small" />
+        </Button>
+      )
+    }
     return (
       <Button
         preset={buttonPreset}

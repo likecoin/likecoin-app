@@ -15,6 +15,9 @@ export const withContentsStore = (self: IStateTreeNode) => ({
     get contentsStore() {
       return getRoot(self).contentsStore as ContentsStore
     },
+    getContentFromURL(url: string) {
+      return this.contentsStore.getContentFromURL(url)
+    },
   },
   actions: {
     createContentFromData(data: Content) {

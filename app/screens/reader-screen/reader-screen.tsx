@@ -9,7 +9,7 @@ import {
 
 import { ReaderScreenProps as Props } from "./reader-screen.props"
 
-@inject("readerStore", "creatorsStore")
+@inject("contentBookmarksListStore", "creatorsStore")
 export class ReaderScreen extends React.Component<Props, {}> {
   appState = AppState.currentState
 
@@ -17,7 +17,7 @@ export class ReaderScreen extends React.Component<Props, {}> {
 
   componentDidMount() {
     this.props.creatorsStore.fetchCreators()
-    this.props.readerStore.fetchBookmarkList()
+    this.props.contentBookmarksListStore.fetch()
     AppState.addEventListener("change", this.handleAppStateChange)
   }
 

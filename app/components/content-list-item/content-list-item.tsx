@@ -1,5 +1,6 @@
 import * as React from "react"
 import {
+  ActivityIndicator,
   Image,
   TouchableHighlight,
   TouchableOpacity,
@@ -196,36 +197,31 @@ export class ContentListItem extends React.Component<Props, State> {
                 style={Style.DETAIL_TEXT}
               />
             </View>
-            {!!coverImageURL &&
-              <Image
-                source={{ uri: coverImageURL }}
-                style={Style.IMAGE_VIEW}
-              />
-            }
+            {!!coverImageURL && (
+              <Image source={{ uri: coverImageURL }} style={Style.IMAGE_VIEW} />
+            )}
             {content.isBookmarked &&
               this.props.isShowBookmarkIcon &&
-              this.renderBookmarkFlag()
-            }
+              this.renderBookmarkFlag()}
           </View>
           <View style={Style.FOOTER}>
             <View>
-              {likeCount > 0 &&
+              {likeCount > 0 && (
                 <Text
-                  text={translate("ContentListItem.likeStatsLabel", { count: likeCount })}
+                  text={translate("ContentListItem.likeStatsLabel", {
+                    count: likeCount,
+                  })}
                   size="medium"
-                  prepend={(
-                    <Icon
-                      name="like-clap"
-                      width={24}
-                      color="grey9b"
-                    />
-                  )}
+                  prepend={<Icon name="like-clap" width={24} color="grey9b" />}
                   color="grey9b"
                 />
-              }
+              )}
             </View>
             <View style={Style.BOTTOM_BUTTON_CONTAINER}>
-              {this.renderBookmarkButton(content.isBookmarked)}
+              {this.renderBookmarkButton(
+                content.isBookmarked,
+                content.isUpdatingBookmark,
+              )}
               {this.renderMoreButton()}
             </View>
           </View>
@@ -234,17 +230,16 @@ export class ContentListItem extends React.Component<Props, State> {
     )
   }
 
-  private renderBookmarkButton(isBookmarked: boolean) {
+  private renderBookmarkButton(isBookmarked: boolean, isUpdating: boolean) {
     const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
     const iconColor = isBookmarked ? "likeCyan" : "grey4a"
     return (
       <TouchableOpacity onPress={this.onToggleBookmark}>
-        <Icon
-          name={iconName}
-          width={24}
-          height={24}
-          color={iconColor}
-        />
+        {isUpdating ? (
+          <ActivityIndicator size="small" color={color.palette.grey4a} />
+        ) : (
+          <Icon name={iconName} width={24} height={24} color={iconColor} />
+        )}
       </TouchableOpacity>
     )
   }
