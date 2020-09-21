@@ -23,7 +23,7 @@ export class StatisticsRewardedContentListItem extends
   React.Component<StatisticsContentListItemProps> {
   componentDidMount() {
     const { content } = this.props
-    if (content.info && !content.info.hasFetchedDetails) {
+    if (content.info?.checkShouldFetchDetails()) {
       content.info.fetchDetails()
     }
   }

@@ -33,8 +33,6 @@ export const ContentModel = types
     likeCount: types.optional(types.integer, 0),
     likerCount: types.optional(types.integer, 0),
 
-    hasCached: types.optional(types.boolean, false),
-
     readUsers: types.map(types.number),
 
     lastFetchedAt: types.maybe(types.number),
@@ -51,8 +49,6 @@ export const ContentModel = types
     ...restSnapshot,
   }))
   .volatile(() => ({
-    hasFetchedDetails: false,
-    hasFetchedLikeStats: false,
     isFetchingDetails: false,
     isFetchingLikeStats: false,
     isUpdatingBookmark: false,
@@ -70,19 +66,20 @@ export const ContentModel = types
     },
     get isLoading() {
       return (
-        (!self.hasCached &&
-          (!self.hasFetchedDetails || self.isFetchingDetails)) ||
-        (self.creator && self.creator.isLoading)
+        self.lastFetchedAt === undefined ||
+        self.isFetchingDetails ||
+        !!self.creator?.isLoading
       )
     },
-    get shouldFetchDetails() {
-      return !self.hasFetchedDetails || !self.hasCached
+    checkShouldFetchDetails() {
+      return (
+        self.lastFetchedAt === undefined ||
+        Date.now() - self.lastFetchedAt >
+          self.getNumericConfig("META_FETCHING_INTERVAL") * 1000
+      )
     },
-    get shouldFetchCreatorDetails() {
-      return self.creator && !self.creator.hasFetchedDetails
-    },
-    get shouldFetchLikeStat() {
-      return self.creator && !self.hasFetchedLikeStats
+    checkShouldFetchCreatorDetails() {
+      return self.creator && self.creator.checkShouldFetchDetails()
     },
     get creatorDisplayName() {
       return self.creator?.normalizedName || ""
@@ -103,7 +100,7 @@ export const ContentModel = types
   .actions(self => {
     function updateLastFetchedAt() {
       const now = Date.now()
-      if (now > self.lastFetchedAt) {
+      if (self.lastFetchedAt === undefined || now > self.lastFetchedAt) {
         self.lastFetchedAt = now
       }
     }
@@ -141,14 +138,12 @@ export const ContentModel = types
               if (self.likeCount < like) {
                 self.likeCount = like
               }
-              self.hasCached = true
             }
           }
         } catch (error) {
           logError(error.message)
         } finally {
           self.isFetchingDetails = false
-          self.hasFetchedDetails = true
           updateLastFetchedAt()
         }
       }),
@@ -173,7 +168,6 @@ export const ContentModel = types
           logError(error.message)
         } finally {
           self.isFetchingLikeStats = false
-          self.hasFetchedLikeStats = true
           updateLastFetchedAt()
         }
       }),

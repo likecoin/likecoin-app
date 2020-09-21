@@ -43,7 +43,7 @@ export class ContentListItem extends React.Component<Props, State> {
   } as Partial<Props>
 
   componentDidMount() {
-    if (this.props.content.shouldFetchDetails) {
+    if (this.props.content.checkShouldFetchDetails()) {
       this.props.content.fetchDetails()
     }
     this.fetchCreatorDependedDetails()
@@ -58,10 +58,7 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private fetchCreatorDependedDetails() {
-    if (this.props.content.shouldFetchLikeStat) {
-      this.props.content.fetchLikeStat()
-    }
-    if (this.props.content.shouldFetchCreatorDetails) {
+    if (this.props.content.checkShouldFetchCreatorDetails()) {
       this.props.content.creator.fetchDetails()
     }
   }

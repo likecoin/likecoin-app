@@ -11,7 +11,6 @@ import { logError } from "../../utils/error"
  */
 export const CreatorModel = UserModel.named("Creator")
   .props({
-    hasCached: types.optional(types.boolean, false),
     lastFetchedAt: types.maybe(types.number),
   })
   .extend(withCreatorsFollowStore)
@@ -23,10 +22,17 @@ export const CreatorModel = UserModel.named("Creator")
   }))
   .views(self => ({
     get isLoading() {
-      return !self.hasCached && self.isFetchingDetails
+      return self.lastFetchedAt === undefined || self.isFetchingDetails
     },
     get isFollowing() {
       return !!self.creatorsFollowStore.settings.get(self.likerID)
+    },
+    checkShouldFetchDetails() {
+      return (
+        self.lastFetchedAt === undefined ||
+        Date.now() - self.lastFetchedAt >
+          self.getNumericConfig("META_FETCHING_INTERVAL") * 1000
+      )
     },
   }))
   .actions(self => {
@@ -46,7 +52,6 @@ export const CreatorModel = UserModel.named("Creator")
                 avatar: avatarURL,
                 cosmosWallet,
               } = result.data
-              self.hasCached = true
               self.displayName = displayName
               self.avatarURL = avatarURL
               self.cosmosWallet = cosmosWallet

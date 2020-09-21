@@ -37,7 +37,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   } as Partial<Props>
 
   componentDidMount() {
-    if (this.props.content.content?.shouldFetchDetails) {
+    if (this.props.content.content?.checkShouldFetchDetails()) {
       this.props.content.content.fetchDetails()
     }
     this.fetchCreatorDependedDetails()
@@ -52,13 +52,10 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   }
 
   private fetchCreatorDependedDetails() {
-    if (this.props.content.content?.shouldFetchLikeStat) {
-      this.props.content.content.fetchLikeStat()
-    }
-    if (this.props.content.content?.shouldFetchCreatorDetails) {
+    if (this.props.content.content?.checkShouldFetchCreatorDetails()) {
       this.props.content.content.creator.fetchDetails()
     }
-    if (this.props.content.liker && !this.props.content.liker.hasFetchedDetails) {
+    if (this.props.content.liker?.checkShouldFetchDetails()) {
       this.props.content.liker.fetchDetails()
     }
   }

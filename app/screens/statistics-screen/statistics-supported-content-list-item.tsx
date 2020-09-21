@@ -21,7 +21,7 @@ export class StatisticsSupportedContentListItem extends
   React.Component<StatisticsSupportedContentListItemProps> {
   componentDidMount() {
     const { content } = this.props
-    if (content.info && !content.info.hasFetchedDetails) {
+    if (content.info?.checkShouldFetchDetails()) {
       content.info.fetchDetails()
     }
   }
