@@ -1,21 +1,17 @@
 import * as React from "react"
 import {
-  ActivityIndicator,
   Image,
   TouchableHighlight,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
-import ReactNativeSvg from "react-native-svg"
 import { observer } from "mobx-react"
 
 import { ContentListItemProps as Props } from "./content-list-item.props"
 import { ContentListItemState as State } from "./content-list-item.state"
 import { ContentListItemStyle as Style } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
-import BookmarkIcon from "./bookmark.svg"
 
 import { Button } from "../button"
 import { Icon } from "../icon"
@@ -156,7 +152,6 @@ export class ContentListItem extends React.Component<Props, State> {
     } = this.props
 
     const {
-      likeCount,
       coverImageURL,
       normalizedTitle,
     } = content
@@ -177,96 +172,37 @@ export class ContentListItem extends React.Component<Props, State> {
         style={rootStyle}
         onPress={this.onPress}
       >
-        <View>
-          <View style={Style.ROW}>
-            <View style={Style.DETAIL_VIEW}>
-              <Text
-                color="likeGreen"
-                size="default"
-                weight="600"
-                text={content.creatorDisplayName}
-              />
-              <Text
-                color="grey4a"
-                size="medium"
-                weight="600"
-                text={normalizedTitle}
-                style={Style.DETAIL_TEXT}
-              />
-            </View>
+        <View style={Style.Inset}>
+          <View style={Style.Layout}>
             {!!coverImageURL && (
-              <Image source={{ uri: coverImageURL }} style={Style.IMAGE_VIEW} />
+              <Image source={{ uri: coverImageURL }} style={Style.ImageView} />
             )}
-            {content.isBookmarked &&
-              this.props.isShowBookmarkIcon &&
-              this.renderBookmarkFlag()}
-          </View>
-          <View style={Style.FOOTER}>
-            <View>
-              {likeCount > 0 && (
+            <View style={Style.RightDetails}>
+              <Text
+                text={normalizedTitle}
+                style={Style.Title}
+              />
+              <View style={Style.FooterView}>
                 <Text
-                  text={translate("ContentListItem.likeStatsLabel", {
-                    count: likeCount,
-                  })}
-                  size="medium"
-                  prepend={<Icon name="like-clap" width={24} color="grey9b" />}
+                  size="small"
                   color="grey9b"
+                  text={content.creatorDisplayName}
                 />
-              )}
-            </View>
-            <View style={Style.BOTTOM_BUTTON_CONTAINER}>
-              {this.renderBookmarkButton(
-                content.isBookmarked,
-                content.isUpdatingBookmark,
-              )}
-              {this.renderMoreButton()}
+                <View style={Style.AccessoryView}>
+                  <Button
+                    preset="plain"
+                    icon="three-dot-horizontal"
+                    size="tiny"
+                    color="grey4a"
+                    style={Style.MoreButton}
+                    onPress={this.onPressMoreButton}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </View>
       </TouchableHighlight>
-    )
-  }
-
-  private renderBookmarkButton(isBookmarked: boolean, isUpdating: boolean) {
-    const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
-    const iconColor = isBookmarked ? "likeCyan" : "grey4a"
-    return (
-      <TouchableOpacity onPress={this.onToggleBookmark}>
-        {isUpdating ? (
-          <ActivityIndicator size="small" color={color.palette.grey4a} />
-        ) : (
-          <Icon name={iconName} width={24} height={24} color={iconColor} />
-        )}
-      </TouchableOpacity>
-    )
-  }
-
-  private renderMoreButton() {
-    return (
-      <TouchableOpacity
-        style={Style.MORE_BUTTON}
-        onPress={this.onPressMoreButton}
-      >
-        <Icon
-          name="three-dot-horizontal"
-          width={24}
-          height={24}
-          color="grey4a"
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  private renderBookmarkFlag() {
-    if (typeof BookmarkIcon !== "function") {
-      return <ReactNativeSvg style={Style.BOOKMARK_FLAG} />
-    }
-    return (
-      <BookmarkIcon
-        width={24}
-        height={24}
-        style={Style.BOOKMARK_FLAG}
-      />
     )
   }
 

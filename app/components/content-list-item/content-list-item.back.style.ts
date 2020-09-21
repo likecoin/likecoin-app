@@ -9,6 +9,7 @@ import { color, spacing } from "../../theme"
 
 const ButtonBase: ViewStyle = {
   alignItems: "center",
+  padding: spacing[2],
   justifyContent: "center",
   width: 64,
   height: "100%",
@@ -29,6 +30,7 @@ export const ContentListItemBackStyle = StyleSheet.create({
   ButtonTitle: {
     fontSize: sizes.small,
     fontWeight: "bold",
+    textAlign: "center",
     color: color.palette.white,
   } as TextStyle,
   ButtonUnbookmark: {
