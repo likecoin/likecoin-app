@@ -18,14 +18,13 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
   render() {
     const { focused, routeName, user } = this.props
     let name: IconTypes
-    let size = 24
+    const size = 24
     switch (routeName) {
       case "Bookmark":
-        name = "tab-bookmark"
+        name = "bookmarks"
         break
       case "Reader":
-        name = "tab-reader"
-        size = 32
+        name = "super-like"
         break
       case "Notification":
         name = "bell"
