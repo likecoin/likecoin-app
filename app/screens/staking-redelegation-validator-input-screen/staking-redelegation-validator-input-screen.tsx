@@ -54,6 +54,7 @@ export class StakingRedelegationValidatorInputScreen extends React.Component<Pro
           <Button
             preset="icon"
             icon="close"
+            color="white"
             onPress={this.onPressCloseButton}
           />
         </View>
