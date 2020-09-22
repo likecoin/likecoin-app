@@ -1,5 +1,6 @@
 export * from "./with-current-user"
 export * from "./with-environment"
 export * from "./with-reader-store"
+export * from "./with-language-settings-store"
 export * from "./with-root-store"
 export * from "./with-status"
