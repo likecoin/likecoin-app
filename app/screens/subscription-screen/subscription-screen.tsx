@@ -17,6 +17,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import { Button } from "../../components/button"
 import { Header } from "../../components/header"
+import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
@@ -28,7 +29,6 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { UserStore } from "../../models/user-store"
 import { translate } from "../../i18n"
-import { Icon } from "react-native-ui-kitten"
 
 const CONTENT_VIEW: ViewStyle = {
   padding: spacing[4],
@@ -214,8 +214,8 @@ export class SubscriptionScreen extends React.Component<SubscriptionScreenProps,
                 style={PRODUCT_VIEW.FEATURE_LIST_ITEM}
               >
                 <Icon
-                  name="checkmark-outline"
-                  fill={color.palette.green}
+                  name="checkmark"
+                  color="green"
                   style={PRODUCT_VIEW.FEATURE_LIST_BULLET}
                 />
                 <Text text={featureText} />

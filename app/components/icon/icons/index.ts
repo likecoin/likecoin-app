@@ -1,3 +1,4 @@
+import AlertCircle from "./alert-circle.svg"
 import ArrowIncrease from "./arrow-increase.svg"
 import ArrowDecrease from "./arrow-decrease.svg"
 import ArrowDownIcon from "./arrow-down.svg"
@@ -8,6 +9,7 @@ import Bell from "./bell.svg"
 import BookmarksIcon from "./bookmarks.svg"
 import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
+import Checkmark from "./checkmark.svg"
 import CrossIcon from "./cross.svg"
 import GlobalEye from "./global-eye.svg"
 import LikeClap from "./like-clap.svg"
@@ -26,6 +28,7 @@ import ThreeDotVertical from "./three-dot-vertical.svg"
 import UndoIcon from "./undo.svg"
 
 export const icons = {
+  "alert-circle": AlertCircle,
   "arrow-increase": ArrowIncrease,
   "arrow-decrease": ArrowDecrease,
   "arrow-down": ArrowDownIcon,
@@ -37,6 +40,7 @@ export const icons = {
   "bookmarks": BookmarksIcon,
   "bookmark-filled": BookmarkFilledIcon,
   "bookmark-outlined": BookmarkOutlinedIcon,
+  checkmark: Checkmark,
   close: CrossIcon,
   "global-eye": GlobalEye,
   "like-clap": LikeClap,

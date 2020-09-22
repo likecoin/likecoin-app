@@ -9,7 +9,6 @@ import {
   ViewStyle,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
 import { ChainStore } from "../../models/chain-store"
@@ -20,6 +19,7 @@ import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
+import { Icon } from "../../components/icon"
 import { LoadingScreen } from "../../components/loading-screen"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
@@ -286,7 +286,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
           prepend={
             <Icon
               name="alert-circle"
-              fill={color.error}
+              color="angry"
               width={sizes.medium}
               height={sizes.medium}
             />

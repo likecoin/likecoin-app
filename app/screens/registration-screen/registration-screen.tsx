@@ -10,7 +10,6 @@ import {
   Alert,
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
 import { UserStore } from "../../models/user-store"
@@ -18,6 +17,7 @@ import { UserLoginParams } from "../../services/api"
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
+import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
@@ -260,7 +260,7 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
           prepend={
             <Icon
               name="alert-circle"
-              fill={color.error}
+              color="angry"
               width={sizes.medium}
               height={sizes.medium}
             />

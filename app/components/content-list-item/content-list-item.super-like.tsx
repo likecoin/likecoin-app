@@ -1,6 +1,5 @@
 import * as React from "react"
 import { ActivityIndicator, TouchableHighlight, View, ViewStyle } from "react-native"
-import Svg, { Path } from "react-native-svg"
 import { SwipeRow } from "react-native-swipe-list-view"
 import { observer } from "mobx-react"
 
@@ -209,17 +208,13 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
             />
             <View style={Style.AccessoryView}>
               {!!content?.content?.hasRead() && (
-                <Svg width={9} viewBox="0 0 8.115 6.804" style={Style.ReadIcon}>
-                  <Path
-                    d="M7.061 1.054l-4 5-2-2"
-                    fill="none"
-                    stroke={color.palette.green}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeMiterlimit={10}
-                    strokeWidth={1.5}
-                  />
-                </Svg>
+                <Icon
+                  name="checkmark"
+                  color="green"
+                  width={16}
+                  height={16}
+                  style={Style.ReadIcon}
+                />
               )}
               {this.props.isShowFollowToggle &&
                 this.renderFollowToggle(!!content?.liker?.isFollowing)}

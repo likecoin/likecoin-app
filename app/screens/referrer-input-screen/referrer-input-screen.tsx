@@ -5,7 +5,6 @@ import {
   TextInputChangeEventData,
   View,
 } from "react-native"
-import { Icon } from "react-native-ui-kitten"
 import { inject, observer } from "mobx-react"
 
 import {
@@ -18,6 +17,7 @@ import {
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
+import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
@@ -171,7 +171,7 @@ export class ReferrerInputScreen extends React.Component<Props, State> {
           prepend={
             <Icon
               name="alert-circle"
-              fill={color.palette.orange}
+              color="orange"
               width={sizes.medium}
               height={sizes.medium}
             />
@@ -193,7 +193,7 @@ export class ReferrerInputScreen extends React.Component<Props, State> {
           prepend={
             <Icon
               name="alert-circle"
-              fill={color.error}
+              color="angry"
               width={sizes.medium}
               height={sizes.medium}
             />

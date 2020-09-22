@@ -11,21 +11,23 @@ import {
   YellowBox,
 } from "react-native"
 import { enableScreens } from "react-native-screens"
-import { mapping, light as lightTheme } from '@eva-design/eva'
-import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten'
 import RNExitApp from 'react-native-exit-app'
-import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { Provider } from "mobx-react"
 import { contains } from "ramda"
 
 import { translate } from "./i18n"
+import { logError } from "./utils/error"
+
 import { StatefulNavigator } from "./navigation"
 import { BackButtonHandler } from "./navigation/back-button-handler"
 import { DEFAULT_NAVIGATION_CONFIG } from "./navigation/navigation-config"
+
 import { RootStore, setupRootStore } from "./models/root-store"
-import { logError } from "./utils/error"
+
 import { LoadingScreen } from "./components/loading-screen"
+
 import { SaveToBookmarkScreen } from "./screens/save-to-bookmark-screen"
+
 import { StorybookUIRoot } from "../storybook"
 
 if (Platform.OS === "ios") {
@@ -149,12 +151,9 @@ export class App extends React.Component<{}, AppState> {
 
     return (
       <Provider rootStore={rootStore} navigationStore={navigationStore} {...otherStores}>
-        <ApplicationProvider mapping={mapping} theme={lightTheme}>
-          <IconRegistry icons={EvaIconsPack}/>
-          <BackButtonHandler canExit={this.canExit}>
-            <StatefulNavigator key={this.state.languageKey} />
-          </BackButtonHandler>
-        </ApplicationProvider>
+        <BackButtonHandler canExit={this.canExit}>
+          <StatefulNavigator key={this.state.languageKey} />
+        </BackButtonHandler>
       </Provider>
     )
   }

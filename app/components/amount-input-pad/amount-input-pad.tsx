@@ -5,14 +5,14 @@ import {
   StyleSheet,
   TextStyle,
 } from "react-native"
-import { Icon } from "react-native-ui-kitten"
 import { splitEvery } from "ramda"
 
 import { AmountInputPadKey } from "./amount-input-pad.key"
 import DeleteIcon from "./delete-key.svg"
 
-import { Text } from "../../components/text"
-import { sizes } from "../../components/text/text.sizes"
+import { Icon } from "../icon"
+import { Text } from "../text"
+import { sizes } from "../text/text.sizes"
 import { spacing, color } from "../../theme"
 
 const KEY_LIST = [
@@ -125,7 +125,7 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
             prepend={
               <Icon
                 name="alert-circle"
-                fill={color.error}
+                color="angry"
                 width={sizes.medium}
                 height={sizes.medium}
               />
