@@ -1,10 +1,7 @@
 import * as React from "react"
-import {
-  Alert,
-  View,
-} from "react-native"
+import { Alert, View } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
-import { WebViewNavigation } from 'react-native-webview'
+import { WebViewNavigation } from "react-native-webview"
 import {
   WebViewErrorEvent,
   WebViewHttpErrorEvent,
@@ -16,18 +13,22 @@ import { Style } from "./likerland-oauth-screen.style"
 import { LikeCoinWebView } from "../../components/likecoin-webview"
 import { LoadingScreen } from "../../components/loading-screen"
 
-import { RootStore } from "../../models/root-store"
+import { UserStore } from "../../models/user-store"
+import { DeepLinkHandleStore } from "../../models/deep-link-handle-store"
 
 import { translate } from "../../i18n"
 import { COMMON_API_CONFIG } from "../../services/api/api-config"
 import { logError } from "../../utils/error"
 
 export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
-  rootStore: RootStore,
+  userStore: UserStore
+  deepLinkHandleStore: DeepLinkHandleStore
 }
 
-@inject("rootStore")
-export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenProps> {
+@inject("deepLinkHandleStore", "userStore")
+export class LikerLandOAuthScreen extends React.Component<
+  LikerLandOAuthScreenProps
+> {
   redirectTimer?: NodeJS.Timeout
 
   patientTimer?: NodeJS.Timeout
@@ -56,11 +57,14 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
   }
 
   get maxVerifySignInRetryCount() {
-    return this.props.rootStore.getNumericConfig("LIKERLAND_SIGNIN_RETRY_COUNT", 5)
+    return this.props.userStore.getNumericConfig(
+      "LIKERLAND_SIGNIN_RETRY_COUNT",
+      5,
+    )
   }
 
   private handleError = async () => {
-    this.props.rootStore.signOut()
+    this.props.userStore.logout()
   }
 
   private handlePostSignIn = async () => {
@@ -71,18 +75,19 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.redirectTimer = undefined
     }
     await Promise.all([
-      this.props.rootStore.userStore.handleAfterLikerLandSignIn(),
-      this.props.rootStore.userStore.fetchUserInfo(),
-      this.props.rootStore.userStore.fetchUserAppMeta(),
+      this.props.deepLinkHandleStore.handleAppReferrer(),
+      this.props.userStore.fetchUserInfo(),
+      this.props.userStore.fetchUserAppMeta(),
     ])
-    if (this.props.rootStore.userStore.shouldPromptForReferrer) {
+    if (this.props.userStore.shouldPromptForReferrer) {
       this.props.navigation.navigate("ReferrerInputScreen")
     } else {
       this.props.navigation.navigate("App")
     }
 
+    await this.props.deepLinkHandleStore.handleBranchDeepLink()
     // Try to open the deferred deep link URL after sign in
-    this.props.rootStore.openDeepLink()
+    this.props.deepLinkHandleStore.openDeepLink()
   }
 
   private handleURLChange = (url: string) => {
@@ -94,14 +99,18 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.verifySignIn()
     } else if (url.includes("/in/register")) {
       this.handleError()
-      logError("Error when signing in to liker.land, like.co shows register page")
+      logError(
+        "Error when signing in to liker.land, like.co shows register page",
+      )
     }
   }
 
   private verifySignIn = async () => {
     if (this.hasHandledRedirect || this.isVerifyingSignIn) return
     this.isVerifyingSignIn = true
-    const response = await this.props.rootStore.env.likerLandAPI.fetchCurrentUserInfo({ isSlient: true })
+    const response = await this.props.userStore.env.likerLandAPI.fetchCurrentUserInfo(
+      { isSlient: true },
+    )
     this.isVerifyingSignIn = false
     if (this.hasHandledRedirect) return
     if (response.kind === "ok") {
@@ -111,7 +120,9 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
       this.redirectTimer = setTimeout(this.verifySignIn, 1000)
     } else {
       this.handleError()
-      logError("Error when signing in to liker.land, verification retry timeout")
+      logError(
+        "Error when signing in to liker.land, verification retry timeout",
+      )
     }
   }
 
@@ -128,26 +139,32 @@ export class LikerLandOAuthScreen extends React.Component<LikerLandOAuthScreenPr
           text: translate("common.back"),
           onPress: this.handleError,
         },
-      ]
+      ],
     )
   }
 
   private onError = (event: WebViewErrorEvent) => {
     this.onWebviewError()
     const { code, description, url } = event.nativeEvent
-    logError(`Error occurs inside webview when signing in to liker.land ${JSON.stringify({ code, description, url })}`)
+    logError(
+      `Error occurs inside webview when signing in to liker.land ${JSON.stringify(
+        { code, description, url },
+      )}`,
+    )
   }
 
   private onHttpError = (event: WebViewHttpErrorEvent) => {
     this.onWebviewError()
     const { description, statusCode, url } = event.nativeEvent
-    logError(`HTTP error occurs inside webview when signing in to liker.land ${JSON.stringify({ description, statusCode, url })}`)
+    logError(
+      `HTTP error occurs inside webview when signing in to liker.land ${JSON.stringify(
+        { description, statusCode, url },
+      )}`,
+    )
   }
 
-  render () {
-    const {
-      signInURL,
-    } = this.props.rootStore.userStore
+  render() {
+    const { signInURL } = this.props.userStore
     return (
       <React.Fragment>
         <View style={Style.WebViewWrapper}>

@@ -21,11 +21,6 @@ export const SuperLikeGlobalStoreModel = SuperLikeFeedModel.named(
     )
     const ITEMS_LIMIT_PER_FETCH = 7
 
-    function reset() {
-      self.items.replace([])
-      self.lastFetchedTimestamp = undefined
-    }
-
     const fetch = flow(function*() {
       if (self.status === "pending") return
       self.setStatus("pending")
@@ -99,7 +94,6 @@ export const SuperLikeGlobalStoreModel = SuperLikeFeedModel.named(
     })
 
     return {
-      reset,
       fetch,
       fetchMore,
     }

@@ -23,26 +23,24 @@ import { ExtendedView } from "../../components/extended-view"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 
-import { RootStore } from "../../models/root-store"
+import { UserStore } from "../../models/user-store"
 
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 export interface SettingsScreenProps extends NavigationScreenProps<{}> {
-  rootStore: RootStore
+  userStore: UserStore
 }
 
-@inject((allStores: any) => ({
-  rootStore: allStores.rootStore as RootStore,
-}))
+@inject("userStore")
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressSubscription = () => {
     this.props.navigation.navigate("Subscription")
   }
 
   private onPressAuthcoreSettings = () => {
-    this.props.rootStore.userStore.authCore.openSettingsWidget({
+    this.props.userStore.authCore.openSettingsWidget({
       company: "Liker ID",
       logo: "https://like.co/favicon.png",
       primaryColour: color.primary,
@@ -52,7 +50,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onClickLogout = async () => {
-    this.props.rootStore.signOut()
+    this.props.userStore.logout()
     logAnalyticsEvent('SignOut')
   }
 
@@ -101,7 +99,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
 
   private onPressRateApp = () => {
     logAnalyticsEvent('SettingsClickRateApp')
-    this.props.rootStore.userStore.rateApp()
+    this.props.userStore.rateApp()
   }
   
   private onPressLanguageSettings = () => {
@@ -136,15 +134,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
 
   renderBody() {
     const {
-      currentUser: {
-        isCivicLiker,
-      },
-      iapStore: {
-        isEnabled: isIAPEnabled
-      },
-    } = this.props.rootStore.userStore
+      currentUser: { isCivicLiker },
+      iapStore: { isEnabled: isIAPEnabled },
+    } = this.props.userStore
     const isShowReferral =
-      this.props.rootStore.getConfig("APP_REFERRAL_ENABLE") === "true"
+      this.props.userStore.getConfig("APP_REFERRAL_ENABLE") === "true"
     return (
       <View style={Style.Body}>
         <SettingsScreenWalletPanel

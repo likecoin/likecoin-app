@@ -2,6 +2,7 @@ import Rate, { AndroidMarket } from "react-native-rate"
 import {
   applySnapshot,
   flow,
+  getRoot,
   Instance,
   SnapshotOut,
   types,
@@ -148,6 +149,7 @@ export const UserStoreModel = types
       self.isSigningOut = true
       self.currentUser = undefined
       try {
+        getRoot(self).reset()
         self.iapStore.clear()
         yield Promise.all([
           self.env.likeCoAPI.logout(),
@@ -322,10 +324,6 @@ export const UserStoreModel = types
         default:
           throwProblem(result)
       }
-    }),
-    handleAfterLikerLandSignIn: flow(function * () {
-      const appReferrer = yield self.env.branchIO.getAppReferrer()
-      if (appReferrer) yield self.env.likerLandAPI.followLiker(appReferrer)
     }),
     generateUserAppReferralLink: flow(function * () {
       const url = yield self.env.branchIO.generateAppReferralLink(

@@ -5,15 +5,18 @@ import { inject, observer } from "mobx-react"
 
 import { LoadingScreen } from "../../components/loading-screen"
 
+import { DeepLinkHandleStore } from "../../models/deep-link-handle-store"
 import { UserStore } from "../../models/user-store"
 
 import { translate } from "../../i18n"
+import { logError } from "../../utils/error"
 
 export interface AuthLoadingScreenProps extends NavigationScreenProps<{}> {
+  deepLinkHandleStore: DeepLinkHandleStore
   userStore: UserStore
 }
 
-@inject("userStore")
+@inject("deepLinkHandleStore", "userStore")
 @observer
 export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {}> {
   componentDidMount() {
@@ -34,6 +37,12 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
     } = this.props.userStore
     if ((getIsSettingUpAuthcore() || authcoreUser) && likeCoUser) {
       try {
+        try {
+          await this.props.deepLinkHandleStore.handleAppReferrer()
+          await this.props.deepLinkHandleStore.handleBranchDeepLink()
+        } catch (err) {
+          logError(err)
+        }
         await Promise.all([
           this.props.userStore.authCore.fetchCurrentUser(),
           this.props.userStore.fetchUserInfo(),

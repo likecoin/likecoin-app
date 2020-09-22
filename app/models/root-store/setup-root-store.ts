@@ -51,6 +51,10 @@ function createRootStore(env: Environment, data: any = {}) {
   env.likerLandAPI.config.onUnauthenticated = (error: any) => {
     rootStore.handleUnauthenticatedError("liker.land", error)
   }
+  env.branchIO.setDeepLinkHandler((params: any) => {
+    rootStore.deepLinkHandleStore.handleBranchDeepLink(params)
+  })
+
 
   // Start app rating cooldown if necessary
   if (

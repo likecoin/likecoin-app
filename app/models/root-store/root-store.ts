@@ -1,10 +1,5 @@
 import { Alert } from "react-native"
-import {
-  flow,
-  Instance,
-  SnapshotOut,
-  types,
-} from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { withEnvironment } from "../extensions"
 import { ChainStoreModel } from "../chain-store"
@@ -13,6 +8,7 @@ import { ContentBookmarksStoreModel } from "../content-bookmarks-store"
 import { ContentBookmarksListStoreModel } from "../content-bookmarks-list-store"
 import { CreatorsFollowStoreModel } from "../creators-follow-store"
 import { CreatorsStoreModel } from "../creators-store"
+import { DeepLinkHandleStoreModel } from "../deep-link-handle-store"
 import { LanguageSettingsStoreModel } from "../language-settings-store"
 import { NotificationStoreModel } from "../notification-store"
 import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-store"
@@ -33,9 +29,6 @@ import { NavigationStoreModel } from "../../navigation/navigation-store"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-// eslint-disable-next-line no-useless-escape
-const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
-
 /**
  * An RootStore model.
  */
@@ -44,16 +37,26 @@ export const RootStoreModel = types
   .props({
     chainStore: types.maybe(ChainStoreModel),
     contentBookmarksStore: types.optional(ContentBookmarksStoreModel, {}),
-    contentBookmarksListStore: types.optional(ContentBookmarksListStoreModel, {}),
+    contentBookmarksListStore: types.optional(
+      ContentBookmarksListStoreModel,
+      {},
+    ),
     contentsStore: types.optional(ContentsStoreModel, {}),
     creatorsStore: types.optional(CreatorsStoreModel, {}),
     creatorsFollowStore: types.optional(CreatorsFollowStoreModel, {}),
+    deepLinkHandleStore: types.optional(DeepLinkHandleStoreModel, {}),
     languageSettingsStore: types.optional(LanguageSettingsStoreModel, {}),
     notificationStore: types.optional(NotificationStoreModel, {}),
-    stakingRewardsWithdrawStore: types.optional(StakingRewardsWithdrawStoreModel, {}),
+    stakingRewardsWithdrawStore: types.optional(
+      StakingRewardsWithdrawStoreModel,
+      {},
+    ),
     stakingDelegationStore: types.optional(StakingDelegationStoreModel, {}),
     stakingRedelegationStore: types.optional(StakingRedelegationStoreModel, {}),
-    stakingUnbondingDelegationStore: types.optional(StakingUnbondingDelegationStoreModel, {}),
+    stakingUnbondingDelegationStore: types.optional(
+      StakingUnbondingDelegationStoreModel,
+      {},
+    ),
     statisticsRewardedStore: types.optional(StatisticsRewardedStoreModel, {}),
     statisticsSupportedStore: types.optional(StatisticsSupportedStoreModel, {}),
     superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
@@ -61,10 +64,6 @@ export const RootStoreModel = types
     transferStore: types.optional(TransferStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),
     userStore: types.optional(UserStoreModel, {}),
-    /**
-     * The URL of the deep link to be used later
-     */
-    deferredDeepLink: types.maybe(types.string),
   })
   .volatile(() => ({
     isShowUnauthenticatedAlert: false,
@@ -76,33 +75,10 @@ export const RootStoreModel = types
     },
   }))
   .actions(self => ({
-    deferDeepLink(url: string) {
-      self.deferredDeepLink = url
-    },
     /**
-     * Try to open a deep link
-     * @param url The optional URL of the deep link, if not provided, the deferred deep link is used instead
+     * Reset user related stores
      */
-    openDeepLink(url: string = self.deferredDeepLink) {
-      if (!url) return
-      if (!self.env.branchIO.getIsClickedBranchLink()) {
-        if (URL_REGEX.test(url)) {
-          self.navigationStore.dispatch({
-            type: "Navigation/PUSH",
-            routeName: "ContentView",
-            params: {
-              content: self.contentsStore.createItemFromURL(url),
-            },
-          })
-        }
-      }
-
-      if (self.deferredDeepLink) {
-        self.deferredDeepLink = undefined
-      }
-    },
-
-    signOut: flow(function * () {
+    reset: flow(function*() {
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")
       self.chainStore.reset()
@@ -115,7 +91,6 @@ export const RootStoreModel = types
       self.statisticsRewardedStore.reset()
       self.statisticsSupportedStore.reset()
       self.superLikeFollowingStore.reset()
-      self.superLikeGlobalStore.reset()
       self.transferStore.reset()
     }),
   }))
@@ -133,10 +108,10 @@ export const RootStoreModel = types
         [
           {
             text: translate("common.confirm"),
-            onPress: self.signOut,
-          }
+            onPress: self.reset,
+          },
         ],
-        { cancelable: false }
+        { cancelable: false },
       )
     },
   }))

@@ -117,11 +117,11 @@ export class App extends React.Component<{}, AppState> {
   }
 
   _handleDeepLinkURL = (url: string) => {
-    const rootStore = this.state && this.state.rootStore
-    if (rootStore && rootStore.userStore.currentUser) {
-      rootStore.openDeepLink(url)
+    const { rootStore } = this.state
+    if (rootStore?.userStore?.currentUser) {
+      rootStore.deepLinkHandleStore.openDeepLink(url)
     } else {
-      rootStore.deferDeepLink(url)
+      rootStore.deepLinkHandleStore.deferDeepLink(url)
     }
   }
 
