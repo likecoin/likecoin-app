@@ -73,6 +73,7 @@ export const ContentModel = types
     },
     checkShouldFetchDetails() {
       return (
+        !self.creator ||
         self.lastFetchedAt === undefined ||
         Date.now() - self.lastFetchedAt >
           self.getNumericConfig("META_FETCHING_INTERVAL") * 1000

@@ -38,6 +38,7 @@ export const ContentBookmarksListStoreModel = types
       results.forEach(result => {
         const { id, url, ts: timestamp } = result
         let bookmark: ContentBookmark
+        self.createContentFromURL(url)
         if (!self.checkIsBookmarkedURL(url)) {
           bookmark = ContentBookmarkModel.create({
             id,

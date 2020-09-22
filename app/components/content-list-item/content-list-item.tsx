@@ -39,22 +39,21 @@ export class ContentListItem extends React.Component<Props, State> {
   } as Partial<Props>
 
   componentDidMount() {
-    if (this.props.content.checkShouldFetchDetails()) {
-      this.props.content.fetchDetails()
-    }
-    this.fetchCreatorDependedDetails()
-  }
-
-  componentDidUpdate() {
-    this.fetchCreatorDependedDetails()
+    this.fetchDetails()
   }
 
   private getSwipeRowWidth() {
     return -(this.props.content.creator ? 128 : 64)
   }
 
-  private fetchCreatorDependedDetails() {
-    if (this.props.content.checkShouldFetchCreatorDetails()) {
+  private async fetchDetails() {
+    if (this.props.content.checkShouldFetchDetails()) {
+      const promise = this.props.content.fetchDetails()
+      if (!this.props.content.creator) {
+        await promise
+      }
+    }
+    if (this.props.content.creator?.checkShouldFetchDetails()) {
       this.props.content.creator.fetchDetails()
     }
   }
