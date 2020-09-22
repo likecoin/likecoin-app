@@ -3,10 +3,8 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
 import { withEnvironment, withLanguageSettingsStore } from "../extensions"
 
-import {
-  AuthcoreScreenOptions,
-  findBestAvailableLanguage,
-} from "../../services/authcore"
+import { AuthcoreScreenOptions } from "../../services/authcore"
+import { findBestAvailableLanguage } from "../../services/authcore/authcore.utils"
 import * as Keychain from "../../utils/keychain"
 
 /**

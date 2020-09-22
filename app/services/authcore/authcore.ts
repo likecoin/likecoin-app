@@ -1,9 +1,11 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
-import i18n from "i18n-js"
 import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
+
 import { color } from "../../theme"
+
+import { findBestAvailableLanguage } from "./authcore.utils"
 
 /**
  * AuthCore callback functions to-be called
@@ -40,15 +42,6 @@ function parseAuthCoreUser({
     createdAt,
     primaryEmailVerified,
     primaryPhoneVerified,
-  }
-}
-
-export function findBestAvailableLanguage(language = i18n.locale) {
-  switch (language) {
-    case "en":
-      return "en"
-    default:
-      return "zh-hk"
   }
 }
 
