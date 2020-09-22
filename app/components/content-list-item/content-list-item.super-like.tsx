@@ -181,9 +181,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
                 color="likeGreen"
                 size="default"
                 weight="600"
-                text={
-                  content?.liker?.displayName || content?.liker?.likerID || ""
-                }
+                text={content?.liker?.normalizedName || ""}
                 place="liker"
               />
             </I18n>
@@ -203,8 +201,9 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
           <View style={Style.FooterView}>
             <Text
               text={content?.content?.creatorDisplayName || ""}
-              size="small"
               color="grey9b"
+              size="default"
+              weight="600"
             />
             <View style={Style.AccessoryView}>
               {!!content?.content?.hasRead() && (

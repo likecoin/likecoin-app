@@ -9,6 +9,7 @@ import {
 import { I18nProps as Props } from "./i18n.props"
 
 import { TextProps } from "../text"
+import { sizes as fontSizes } from "../text/text.sizes"
 
 import { translate } from "../../i18n"
 
@@ -44,6 +45,7 @@ export const I18n = (props: Props) => {
           color: colorName,
           style,
           weight,
+          size: fontSize,
           text: textValue,
           ...restTextProps
         } = interpolations[part].props
@@ -52,6 +54,9 @@ export const I18n = (props: Props) => {
         }
         if (colorName) {
           overridedStyle.color = color.palette[colorName]
+        }
+        if (fontSize) {
+          overridedStyle.fontSize = fontSizes[fontSize]
         }
         if (weight) {
           overridedStyle.fontWeight = weight

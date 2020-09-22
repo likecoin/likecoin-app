@@ -3,7 +3,7 @@ import { StyleSheet, ViewStyle, TextStyle } from "react-native"
 import { color, spacing } from "../../theme"
 
 import { DEFAULT_INSET } from "./content-list-item.style"
-import { sizes as fontSize } from "../text/text.sizes"
+import { sizes as fontSize, sizes } from "../text/text.sizes"
 
 export const SuperLikeContentListItemStyle = StyleSheet.create({
   AccessoryButton: {
@@ -40,7 +40,7 @@ export const SuperLikeContentListItemStyle = StyleSheet.create({
   } as ViewStyle,
   ShareByLabel: {
     color: color.palette.grey9b,
-    fontWeight: "500",
+    fontSize: sizes.small,
   } as TextStyle,
   Title: {
     marginTop: spacing[1],

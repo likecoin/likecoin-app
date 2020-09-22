@@ -183,7 +183,8 @@ export class ContentListItem extends React.Component<Props, State> {
               />
               <View style={Style.FooterView}>
                 <Text
-                  size="small"
+                  size="default"
+                  weight="600"
                   color="grey9b"
                   text={content.creatorDisplayName}
                 />
