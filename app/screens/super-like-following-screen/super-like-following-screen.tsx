@@ -28,10 +28,10 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
     const { selectedFeed } = this.props.superLikeFollowingStore
     if (selectedFeed) {
       if (selectedFeed.isToday()) {
-        return translate("Date.Today") as string
+        return translate("readerScreen.Date.Today") as string
       }
       if (selectedFeed.isYesterday()) {
-        return translate("Date.Yesterday") as string
+        return translate("readerScreen.Date.Yesterday") as string
       }
       return moment(selectedFeed.start).format("DD-MM-YYYY")
     }

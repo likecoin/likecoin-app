@@ -1,0 +1,393 @@
+{
+  "AppRatingPrompt": {
+    "Title": "你满意 Liker Land 吗?",
+    "DenialTitle": "可否给我们一些改善建议?"
+  },
+  "BookmarkScreen": {
+    "title": "阅读列表"
+  },
+  "common": {
+    "back": "返回",
+    "cancel": "取消",
+    "confirm": "确认",
+    "copy": "複製",
+    "copied": "已複製",
+    "done": "完成",
+    "follow": "追踪",
+    "Following": "追踪中",
+    "followSuccess": "已追踪 %{creator}",
+    "next": "下一步",
+    "No": "否",
+    "ok": "好",
+    "Skip": "略过",
+    "viewOnBlockExplorer": "在 Big Dipper 查看开放数据",
+    "undo": "復原",
+    "unfollow": "取消追踪",
+    "unfollowSuccess": "已取消追踪 %{creator}",
+    "Yes": "是"
+  },
+  "ContentListItem": {
+    "Back": {
+      "Bookmark": "加到阅读列表",
+      "Follow": "追踪",
+      "Unbookmark": "从阅读列表移除",
+      "Unfollow": "取消追踪"
+    },
+    "likeStatsLabel": {
+      "other": "{{count}} 个赞"
+    }
+  },
+  "Date": {
+    "Today": "今日",
+    "Yesterday": "昨日"
+  },
+  "error": {
+    "DEPRECATED_APP": "Liker Land 版本过旧，无法兼容，请立即更新。",
+    "IAP_PURCHASE_RECEIPT_ERROR": "购买时出现错误",
+    "LIKER_ID_FORMAT_INVALID": "请以英文字、数字、「-」或「_」组成你的 Liker ID",
+    "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少于 %{count} 个字元",
+    "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多于 %{count} 个字元",
+    "REDELEGATE_AMOUNT_EXCEED_MAX": "数目已超过可重新委託的上限",
+    "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "数目不可小于 0",
+    "REGISTRATION_BAD_DATA": "註册资料错误",
+    "REGISTRATION_EMAIL_ALREADY_USED": "此电邮地址已被註册",
+    "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註册",
+    "REWARDS_WITHDRAW_BELOW_MIN": "收益少于可提取下限",
+    "STAKE_AMOUNT_EXCEED_MAX": "数目超过可委託的上限",
+    "STAKE_AMOUNT_LESS_THAN_ZERO": "数目不可少于 0",
+    "TRANSFER_AMOUNT_EXCEED_MAX": "LIKE pay 数目超过上限",
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "LIKE pay 数目不可小于 0",
+    "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或钱包地址不正确",
+    "TRANSFER_TARGET_NO_WALLET": "收款人尚无钱包地址",
+    "UNSTAKE_AMOUNT_EXCEED_MAX": "数目已超过可取回委託的上限",
+    "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "数目不可小于 0",
+    "UNSTAKE_NOT_ENOUGH_FEE": "手续费不足"
+  },
+  "FollowSettingsScreen": {
+    "Title": "设定内容伯乐",
+    "TabTitle": {
+      "Following": "追踪中",
+      "Unfollowed": "已取消追踪"
+    }
+  },
+  "GlobalSuperLikedFeedScreen": {
+    "Title": "所有内容伯乐 的 Super Like"
+  },
+  "I18nStory": {
+    "UseCase1": "%{liker} 转账了 %{amount} 给你。"
+  },
+  "Language": {
+    "en": "英文",
+    "zh-Hant-HK": "中文(香港)",
+    "zh-Hant-TW": "中文(台湾)",
+    "zh-Hans-CN": "中文(简体)"
+  },
+  "LanguageSettingsScreen": {
+    "Title": "介面语言设定"
+  },
+  "Notification": {
+    "Type": {
+      "send": "LIKE pay",
+      "receive": "收款",
+      "civic-like": "赞赏公民",
+      "super-like": "Super Like",
+      "daily-rewards": "配对基金",
+      "referral": "推荐奬赏"
+    },
+    "Message": {
+      "send": "你已转账 %{amount} 给 %{to}。",
+      "receive": "你已从 %{from} 收到 %{amount}。",
+      "civic-like": "%{from} 赞赏你的作品，你获得 %{amount}。",
+      "super-like": "%{from} Super Like 你的作品，你获得 %{amount}。",
+      "daily-rewards": "今天有 %{likers} 赞赏你的作品，你共获得 %{amount}。",
+      "referral": "%{from} 已安装 Liker Land app，你们分别获得 %{amount}。"
+    }
+  },
+  "NotificationScreen": {
+    "Title": "通知",
+    "EmptyLabel": "暂时没有通知"
+  },
+  "qrcodeScannerScreen": {
+    "hintText": "扫描 QR 码",
+    "showMyQRCode": "我的 QR 码"
+  },
+  "readerScreen": {
+    "Title": "阅读列表",
+    "emptyLabel": "浏览头条时，按书籤图标，可把作品加入阅读列表，方便往后细阅。",
+    "followingLabel": "我的内容伯乐",
+    "ReadLabel": "",
+    "SuperLikeFromLabel":  {
+      "zero": "%{liker} Super Liked",
+      "one": "%{liker} 及 {{count}} 人 Super Liked",
+      "other": "%{liker} 及 {{count}} 人 Super Liked"
+    },
+    "Date": {
+      "Today": "今日头条",
+      "Yesterday": "昨日头条"
+    }
+  },
+  "receiveScreen": {
+    "shareYourAddress": "分享你的钱包地址"
+  },
+  "ReferralCTAView": {
+    "Title": "立即领取 100 LIKE 推荐奖赏",
+    "ButtonTitle": "详情"
+  },
+  "ReferralScreen": {
+    "DescriptionLabel": "分享你的推荐链结给朋友，大家同获奬赏，同时成为对方的内容伯乐，让对方追踪自己的 Super Like。赶快邀请朋友下载 Liker Land 吧！",
+    "HeaderTitle": "推荐奬赏",
+    "Title": "推荐愈多，奖赏愈多",
+    "OgTitle": "接受 {{displayName}} 邀请，以文会友",
+    "OgDescription": "下载 Liker Land，追踪 {{displayName}}。不是浏览，而是阅读。"
+  },
+  "ReferrerInputScreen": {
+    "referrerIdHint": "Liker ID 为 7 至 20 位小写英文字母、数字、「-」及「_」字元组成的",
+    "referrerIdLabel": "（如有）输入推荐人的 Liker ID",
+    "emailVerificationHint": "必须验证电邮地址后才能获得推荐奖赏"
+  },
+  "RegistrationScreen": {
+    "likerIdHint": "只允许 7 至 20 位小写英文字母、数字、「-」及「_」字元",
+    "likerIdLabel": "建立 Liker ID",
+    "shouldSignInOnDesktop": "请在电脑上登入 http://like.co 后再试一遍"
+  },
+  "SaveToBookmarkScreen": {
+    "DismissButtonText": "按此关闭",
+    "Error": {
+      "forbidden": "请重新登入 Liker Land。",
+      "invalid-url": "未能成功辨识链接。",
+      "unknown": "未能成功把网页加到 Liker Land 阅读列表。"
+    }
+  },
+  "stakingDelegationAmountInputScreen": {
+    "available": "可委託"
+  },
+  "stakingDelegationSigningScreen": {
+    "aboutLinkText": "关于委託",
+    "title": "委託"
+  },
+  "StakingRedelegationAmountInputScreen": {
+    "availableLabelText": "可转移"
+  },
+  "StakingRedelegationSigningScreen": {
+    "aboutLinkText": "关于转移委託",
+    "title": "转移委託"
+  },
+  "StakingRedelegationValidatorInputScreen": {
+    "title": "转移委託至"
+  },
+  "stakingRewardsWithdrawScreen": {
+    "title": "取回收益"
+  },
+  "stakingUnbondingDelegationAmountInputScreen": {
+    "available": "已委託"
+  },
+  "stakingUnbondingDelegationSigningScreen": {
+    "aboutLinkText": "关于取回委託",
+    "title": "取回委託"
+  },
+  "Statistics": {
+    "Work": "作品",
+    "WorkWithCount": "{{count}} 份作品",
+    "Creator": "创作者",
+    "Period": {
+      "Week": {
+        "Last": "上週",
+        "Previous": "上週",
+        "This": "本週"
+      }
+    },
+    "UnknownSource": "未知来源"
+  },
+  "StatisticsRewardedScreen": {
+    "Empty": {
+      "Content": "没有作品获得赞赏。不打紧，继续努力！"
+    },
+    "Dashboard": {
+      "Empty": {
+        "ButtonTitle": "获得赞赏",
+        "Title": "你在本週没有获得赞赏。不打紧，继续努力！"
+      },
+      "Legends": {
+        "CivicLiker": "赞赏公民",
+        "CreatorFunds": "配对基金"
+      }
+    },
+    "ListTitle": {
+      "Content": "获赞赏作品"
+    },
+    "Summary": {
+      "CivicLiker": "赞赏公民",
+      "Liker": "一般 Liker"
+    },
+    "Title": "所获赞赏"
+  },
+  "StatisticsSupportedScreen": {
+    "Empty": {
+      "Content": "你没有回馈作品，多赞赏优秀作品吧！",
+      "Creator": "你没有回馈作者，多鼓励创作吧！"
+    },
+    "Title": "赞赏公民月费回馈明细",
+    "ListTitle": {
+      "Content": "回馈作品",
+      "Creator": "回馈作者"
+    }
+  },
+  "settingsScreen": {
+    "authcoreSettings": "设定 Liker ID",
+    "contactUs": "联络我们",
+    "followSettings": "设定内容伯乐",
+    "LanguageSettings": "设定语言",
+    "openSourceLicense": "开源授权",
+    "privacyPolicy": "隐私权政策",
+    "Panel": {
+      "Statistics": {
+        "Rewarded": {
+          "GetRewardsButtonTitle": "获得赞赏",
+          "Title": "所获赞赏"
+        },
+        "Supported": {
+          "Title": "赞赏公民月费已回馈"
+        },
+        "TopSupportedCreator": {
+          "BecomeCivicLiker": "成为赞赏公民",
+          "SupportMore": "给予 {{creator}} 更多支持"
+        }
+      },
+      "Wallet": {
+        "Title": "我的钱包"
+      }
+    },
+    "RateApp": "为 Liker Land 评分",
+    "Referral": "推荐奬赏",
+    "subscription": "订阅",
+    "termsOfUse": "使用条款",
+    "title": "设定",
+    "WebsiteSignIn": "设定媒体登录帐号"
+  },
+  "storybook": {
+    "placeholder": "Placeholder",
+    "field": "Field"
+  },
+  "signInScreen": {
+    "error": "登入错误",
+    "errorAuthCore": "登入 AuthCore 错误",
+    "errorLikeCo": "登入 like.co 错误",
+    "errorLikerLand": "登入 liker.land 错误",
+    "heading": "不是浏览，而是阅读。",
+    "LoadingTakesLonger": "载入需时，请稍等⋯",
+    "signIn": "登入",
+    "signUp": "註册"
+  },
+  "subscriptionFeature": {
+    "com.oice.membership": [
+      "解锁 1300 个媒体所有文章",
+      "不设免费试用",
+      "每月于订阅当日自动续约"
+    ]
+  },
+  "subscriptionScreen": {
+    "footnote": "如需取消订阅：1) 于 iPhone/iPad 打开 设定 >【你的名字】> iTunes 与 App Store。2) 于顶部选取你的 Apple ID。3) 选 检视 Apple ID，然后登录。4) 选 订阅项目。5) 选 oice Backer 的订阅。6) 选择 取消订阅。",
+    "restorePurchasesButtonText": "恢復已购买项目",
+    "subscribeButtonText": "订阅",
+    "subscribedButtonText": "已订阅",
+    "title": "订阅"
+  },
+  "transaction": {
+    "fee": "手续费",
+    "from": "从",
+    "to": "至"
+  },
+  "transfer": {
+    "to": "至"
+  },
+  "transferTargetInputScreen": {
+    "targetInputLabel": "LIKE pay 至",
+    "targetInputPlaceholder": "收款人的 Liker ID 或钱包地址"
+  },
+  "transferAmountInputScreen": {
+    "available": "可转账"
+  },
+  "TransferMemoInputScreen": {
+    "DiscardInputAlert": "你已输入 memo，是否要放弃修改？",
+    "InputLabel": "输入 memo (可省略)"
+  },
+  "transferSigningScreen": {
+    "completed": "LIKE pay 完成",
+    "details": "详细资料",
+    "Memo": "Memo",
+    "title": "LIKE pay",
+    "totalAmount": "总额",
+    "transactionFee": "手续费"
+  },
+  "validator": {
+    "delegatorShare": "Liker 分成",
+    "description": "介绍",
+    "rewards": "收益",
+    "votingPower": "投票权",
+    "website": "网站"
+  },
+  "validatorScreen": {
+    "delegatorShareLabel": "委託中",
+    "delegatorUnbondingShareLabel": "解绑中",
+    "delegatorRewardsLabel": "未领取收益",
+    "delegateButtonText": "委託",
+    "redelegateButtonText": "转移委託",
+    "RedelegationLockAlert": {
+      "title": "转移委託已被锁上",
+      "message": "你最近曾转移委託至这验证人，转移委託后21天将会解锁。"
+    },
+    "Status": {
+      "Active": "活跃",
+      "Inactive": "閒置"
+    },
+    "undelegateButtonText": "取回委託",
+    "validatorAddress": "验证人钱包地址 (按一下複製)",
+    "validatorAddressCopied": "验证人钱包地址 (已複製)"
+  },
+  "ValidatorListScreen": {
+    "Title": "所有验证人"
+  },
+  "UnauthenticatedAlert": {
+    "title": "登入阶段已失效 [{{type}}]",
+    "message": "请重新登入。"
+  },
+  "walletDashboardScreen": {
+    "availableBalanceLabel": "可用",
+    "allDelegatorRewardsLabel": "未领取收益",
+    "allUnbondingBalanceLabel": "解绑中",
+    "AllValidatorsButtonText": "所有验证人",
+    "send": "LIKE pay",
+    "stakeLabel": "委託",
+    "receive": "收款",
+    "withdrawRewardsButtonText": "领取收益"
+  },
+  "WebsiteSignInScreen": {
+    "Alert": {
+      "Title": "正在登入",
+      "Message": "登录你的帐号，然后点「✕」退出。Liker Land 会记住你的登入状态，免除每次登录，但并不会储存你的密码。"
+    },
+    "Item": {
+      "Appledailyhk": "香港苹果日报",
+      "Appledailytw": "台湾苹果日报",
+      "Daodu": "科技岛读",
+      "Matters": "Matters",
+      "Nytimes": "纽约时报",
+      "Substack": "Substack"
+    },
+    "OtherLabel": "其他（请输入网址）",
+    "Title": "网站登入"
+  },
+  "Week": [
+    "日",
+    "一",
+    "二",
+    "三",
+    "四",
+    "五",
+    "六"
+  ],
+  "welcomeScreen": {
+    "welcome": "欢迎！",
+    "logout": "登出"
+  }
+}

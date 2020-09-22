@@ -32,7 +32,7 @@ export class SettingsScreenUserInfoPanel extends React.Component<
         <View style={Style.Identity}>
           <Text
             style={Style.UserID}
-            text={`ID: ${user.likerID}`}
+            text={`Liker ID: ${user.likerID}`}
           />
           <Text
             style={Style.DisplayName}
