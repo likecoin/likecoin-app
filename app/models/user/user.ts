@@ -25,7 +25,7 @@ export const UserModel = types
       })
     },
     get normalizedName() {
-      return self.likerID || self.displayName || ""
+      return self.displayName || self.likerID || ""
     },
   }))
 
