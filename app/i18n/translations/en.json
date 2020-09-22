@@ -140,6 +140,9 @@
     "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
     "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading."
   },
+  "ReferrerFollowScreen": {
+    "Heading": "Now Following"
+  },
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
     "referrerIdLabel": "(Optional) input your referrer's Liker ID",

@@ -139,6 +139,9 @@
     "OgTitle": "接受 {{displayName}} 邀請，以文會友",
     "OgDescription": "下載 Liker Land，追蹤 {{displayName}}。不是瀏覽，而是閱讀。"
   },
+  "ReferrerFollowScreen": {
+    "Heading": "現已追蹤"
+  },
   "ReferrerInputScreen": {
     "referrerIdHint": "Liker ID 為 7 至 20 位小寫英文字母、數字、「-」及「_」字元組成的",
     "referrerIdLabel": "（如有）輸入推薦人的 Liker ID",

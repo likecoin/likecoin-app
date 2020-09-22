@@ -25,7 +25,7 @@ export const DeepLinkHandleStoreModel = types
     deferredDeepLink: types.maybe(types.string),
   })
   .volatile(() => ({
-    deferredBranchParams: undefined
+    deferredBranchParams: undefined,
   }))
   .extend(withCreatorsStore)
   .extend(withContentsStore)
@@ -39,9 +39,16 @@ export const DeepLinkHandleStoreModel = types
       if (!liker.isFollowing) {
         logAnalyticsEvent("DeepLinkFollowLiker", { likerID })
         yield liker.follow()
+        self.navigationStore.dispatch({
+          type: "Navigation/PUSH",
+          routeName: "ReferrerFollow",
+          params: {
+            referrer: liker,
+          },
+        })
       }
     })
-    
+
     const handleBranchDeepLink = flow(function*(params) {
       if (params.event === "app_referral") {
         const referrer = self.env.branchIO.parseAppReferralEvent(params)

@@ -17,6 +17,7 @@ import { BookmarkScreen } from "../screens/bookmark-screen"
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { CrispSupportScreen } from "../screens/crisp-support-screen"
 // import { NotificationScreen } from "../screens/notification-screen"
+import { ReferrerFollowScreen } from "../screens/referrer-follow-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
 import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
@@ -51,6 +52,7 @@ export const AppNavigator = createStackNavigator({
   CrispSupport: CrispSupportScreen,
   QRCodeScan: QrcodeScannerScreen,
   Receive: ReceiveScreen,
+  ReferrerFollow: ReferrerFollowScreen,
   StakingDelegation: StakingDelegationNavigator,
   StakingRedelegation: StakingRedelegationNavigator,
   StakingUnbondingDelegation: StakingUnbondingDelegationNavigator,
