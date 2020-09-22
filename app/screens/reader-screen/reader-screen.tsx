@@ -9,15 +9,15 @@ import {
 
 import { ReaderScreenProps as Props } from "./reader-screen.props"
 
-@inject("readerStore")
+@inject("contentBookmarksListStore", "creatorsStore")
 export class ReaderScreen extends React.Component<Props, {}> {
   appState = AppState.currentState
 
   superLikeScreen = React.createRef<SuperLikeFollowingScreenBase>()
 
   componentDidMount() {
-    this.props.readerStore.fetchCreatorList()
-    this.props.readerStore.fetchBookmarkList()
+    this.props.creatorsStore.fetchCreators()
+    this.props.contentBookmarksListStore.fetch()
     AppState.addEventListener("change", this.handleAppStateChange)
   }
 

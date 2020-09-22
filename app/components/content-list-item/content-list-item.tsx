@@ -2,19 +2,16 @@ import * as React from "react"
 import {
   Image,
   TouchableHighlight,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from "react-native"
 import { SwipeRow } from "react-native-swipe-list-view"
-import ReactNativeSvg from "react-native-svg"
 import { observer } from "mobx-react"
 
 import { ContentListItemProps as Props } from "./content-list-item.props"
 import { ContentListItemState as State } from "./content-list-item.state"
 import { ContentListItemStyle as Style } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
-import BookmarkIcon from "./bookmark.svg"
 
 import { Button } from "../button"
 import { Icon } from "../icon"
@@ -27,8 +24,6 @@ import { ContentListItemBack } from "./content-list-item.back"
 @observer
 export class ContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
-
-  isPrevFollow = this.props.content.creator && this.props.content.creator.isFollowing
 
   constructor(props: Props) {
     super(props)
@@ -44,25 +39,21 @@ export class ContentListItem extends React.Component<Props, State> {
   } as Partial<Props>
 
   componentDidMount() {
-    if (this.props.content.shouldFetchDetails) {
-      this.props.content.fetchDetails()
-    }
-    this.fetchCreatorDependedDetails()
-  }
-
-  componentDidUpdate() {
-    this.fetchCreatorDependedDetails()
+    this.fetchDetails()
   }
 
   private getSwipeRowWidth() {
     return -(this.props.content.creator ? 128 : 64)
   }
 
-  private fetchCreatorDependedDetails() {
-    if (this.props.content.shouldFetchLikeStat) {
-      this.props.content.fetchLikeStat()
+  private async fetchDetails() {
+    if (this.props.content.checkShouldFetchDetails()) {
+      const promise = this.props.content.fetchDetails()
+      if (!this.props.content.creator) {
+        await promise
+      }
     }
-    if (this.props.content.shouldFetchCreatorDetails) {
+    if (this.props.content.creator?.checkShouldFetchDetails()) {
       this.props.content.creator.fetchDetails()
     }
   }
@@ -79,7 +70,9 @@ export class ContentListItem extends React.Component<Props, State> {
 
   private onToggleBookmark = () => {
     this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleBookmark) this.props.onToggleBookmark(this.props.content)
+    if (this.props.onToggleBookmark && this.props.content) {
+      this.props.onToggleBookmark(this.props.content)
+    }
   }
 
   private onToggleFollow = () => {
@@ -98,7 +91,9 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   private onPress = () => {
-    if (this.props.onPress) this.props.onPress(this.props.content.url)
+    if (this.props.onPress && this.props.content) {
+      this.props.onPress(this.props.content)
+    }
   }
 
   private onPressUndoButton = () => {
@@ -108,24 +103,22 @@ export class ContentListItem extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      isBookmarked,
-      isFollowingCreator,
-      isLoading,
-    } = this.props.content
-
-    if (isLoading) {
+    if (!this.props.content || this.props.content.isLoading) {
       return (
         <ContentListItemSkeleton
           primaryColor={this.props.skeletonPrimaryColor}
           secondaryColor={this.props.skeletonSecondaryColor}
         />
       )
-    } else if (
-      this.props.content.creator &&
+    }
+
+    const {
+      isBookmarked,
+      isFollowingCreator,
+    } = this.props.content
+    if (
       this.props.onPressUndoUnfollowButton &&
-      this.isPrevFollow &&
-      !isFollowingCreator
+      this.props.content.creator?.isShowUndoUnfollow
     ) {
       return this.renderUndo()
     }
@@ -158,7 +151,6 @@ export class ContentListItem extends React.Component<Props, State> {
     } = this.props
 
     const {
-      likeCount,
       coverImageURL,
       normalizedTitle,
     } = content
@@ -179,102 +171,37 @@ export class ContentListItem extends React.Component<Props, State> {
         style={rootStyle}
         onPress={this.onPress}
       >
-        <View>
-          <View style={Style.ROW}>
-            <View style={Style.DETAIL_VIEW}>
+        <View style={Style.Inset}>
+          <View style={Style.Layout}>
+            {!!coverImageURL && (
+              <Image source={{ uri: coverImageURL }} style={Style.ImageView} />
+            )}
+            <View style={Style.RightDetails}>
               <Text
-                color="likeGreen"
-                size="default"
-                weight="600"
-                text={content.creatorDisplayName}
-              />
-              <Text
-                color="grey4a"
-                size="medium"
-                weight="600"
                 text={normalizedTitle}
-                style={Style.DETAIL_TEXT}
+                style={Style.Title}
               />
-            </View>
-            {!!coverImageURL &&
-              <Image
-                source={{ uri: coverImageURL }}
-                style={Style.IMAGE_VIEW}
-              />
-            }
-            {content.isBookmarked &&
-              this.props.isShowBookmarkIcon &&
-              this.renderBookmarkFlag()
-            }
-          </View>
-          <View style={Style.FOOTER}>
-            <View>
-              {likeCount > 0 &&
+              <View style={Style.FooterView}>
                 <Text
-                  text={translate("ContentListItem.likeStatsLabel", { count: likeCount })}
-                  size="medium"
-                  prepend={(
-                    <Icon
-                      name="like-clap"
-                      width={24}
-                      color="grey9b"
-                    />
-                  )}
+                  size="small"
                   color="grey9b"
+                  text={content.creatorDisplayName}
                 />
-              }
-            </View>
-            <View style={Style.BOTTOM_BUTTON_CONTAINER}>
-              {this.renderBookmarkButton(content.isBookmarked)}
-              {this.renderMoreButton()}
+                <View style={Style.AccessoryView}>
+                  <Button
+                    preset="plain"
+                    icon="three-dot-horizontal"
+                    size="tiny"
+                    color="grey4a"
+                    style={Style.MoreButton}
+                    onPress={this.onPressMoreButton}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </View>
       </TouchableHighlight>
-    )
-  }
-
-  private renderBookmarkButton(isBookmarked: boolean) {
-    const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
-    const iconColor = isBookmarked ? "likeCyan" : "grey4a"
-    return (
-      <TouchableOpacity onPress={this.onToggleBookmark}>
-        <Icon
-          name={iconName}
-          width={24}
-          height={24}
-          color={iconColor}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  private renderMoreButton() {
-    return (
-      <TouchableOpacity
-        style={Style.MORE_BUTTON}
-        onPress={this.onPressMoreButton}
-      >
-        <Icon
-          name="three-dot-horizontal"
-          width={24}
-          height={24}
-          color="grey4a"
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  private renderBookmarkFlag() {
-    if (typeof BookmarkIcon !== "function") {
-      return <ReactNativeSvg style={Style.BOOKMARK_FLAG} />
-    }
-    return (
-      <BookmarkIcon
-        width={24}
-        height={24}
-        style={Style.BOOKMARK_FLAG}
-      />
     )
   }
 

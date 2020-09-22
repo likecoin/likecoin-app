@@ -169,3 +169,24 @@ export type NotificationsResult =
       data: NotificationResult[]
     }
   | GeneralApiProblem
+
+export interface BookmarkResult {
+  id: string
+  url: string
+  ts: number
+  isArchived?: boolean
+}
+
+export type BookmarksResult =
+  | {
+      kind: "ok"
+      data: BookmarkResult[]
+    }
+  | GeneralApiProblem
+
+export type BookmarkAddResult =
+  | {
+    kind: "ok"
+    data: string
+  }
+  | GeneralApiProblem

@@ -10,8 +10,6 @@ import {
 } from "../wrap-scrollview-shadow/wrap-scrollview-shadow.props"
 
 export interface ContentListBaseProps extends ContentListItemStyleProps {
-  creators?: Map<string, Creator>
-
   titleLabelTx?: string
   isLoading?: boolean
   isFetchingMore?: boolean
@@ -66,7 +64,7 @@ export interface ContentListProps extends ContentListBaseProps {
     section: SectionListData<Content>
   }) => React.ReactElement | null
 
-  onPressItem?: (url: string) => void
+  onPressItem?: (content: Content) => void
 }
 
 export interface SuperLikedContentListProps

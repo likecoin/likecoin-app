@@ -26,15 +26,8 @@ export interface ContentViewScreenProps extends NavigationScreenProps<ContentVie
 export class ContentViewScreen extends React.Component<ContentViewScreenProps, {}> {
   componentDidMount() {
     this.content.read()
-    if (!this.content.hasFetchedDetails) {
+    if (this.content.checkShouldFetchDetails()) {
       this.content.fetchDetails()
-    }
-  }
-
-  componentWillUnmount() {
-    // Update like count incase user has liked the content
-    if (this.content.shouldFetchLikeStat) {
-      this.content.fetchLikeStat()
     }
   }
 

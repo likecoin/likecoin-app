@@ -59,7 +59,6 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
     return (
       <SuperLikeContentList
         data={this.props.superLikeGlobalStore.items}
-        creators={this.props.readerStore.creators}
         isLoading={status === "pending"}
         isFetchingMore={status === "pending-more"}
         hasFetched={status === "done"}

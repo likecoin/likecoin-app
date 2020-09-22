@@ -1,6 +1,9 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
-import { SuperLikeFeedResult } from "../../services/api/likerland-api.types"
+import {
+  SuperLikeFeedItem,
+  SuperLikeFeedResult,
+} from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 
 import { SuperLike } from "../super-like"
@@ -9,8 +12,9 @@ import { SuperLikeFeedModel } from "../super-like-feed"
 /**
  * Following Super Like feed.
  */
-export const SuperLikeFollowingFeedModel = SuperLikeFeedModel
-  .named("SuperLikeFollowingFeed")
+export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
+  "SuperLikeFollowingFeed",
+)
   .props({
     /**
      * Start time of the feed in ms.
@@ -24,6 +28,10 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel
   .actions(self => {
     function reset() {
       self.items.replace([])
+    }
+
+    function createSuperLikeFollowingFeedItemFromData(item: SuperLikeFeedItem) {
+      return self.createSuperLikeFeedItemFromData(item, { isFollowing: true })
     }
 
     function removeDuplicatedFeedItems(items: SuperLike[]) {
@@ -41,7 +49,7 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel
           }
         }
       } catch (error) {
-        logError(error);
+        logError(error)
         return items
       }
       return newItems.reverse()
@@ -62,8 +70,9 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel
         if (result.kind === "ok") {
           if (result.data?.length) {
             const items = result.data.map(
-              self.readerStore.parseSuperLikeFeedItemToModel,
+              createSuperLikeFollowingFeedItemFromData,
             )
+
             // HACK: For getting identifier references
             self.items.replace(items)
             self.items.replace(removeDuplicatedFeedItems(self.items))
@@ -86,5 +95,8 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel
 
 type SuperLikeFollowingFeedType = Instance<typeof SuperLikeFollowingFeedModel>
 export interface SuperLikeFollowingFeed extends SuperLikeFollowingFeedType {}
-type SuperLikeFollowingFeedSnapshotType = SnapshotOut<typeof SuperLikeFollowingFeedModel>
-export interface SuperLikeFollowingFeedSnapshot extends SuperLikeFollowingFeedSnapshotType {}
+type SuperLikeFollowingFeedSnapshotType = SnapshotOut<
+  typeof SuperLikeFollowingFeedModel
+>
+export interface SuperLikeFollowingFeedSnapshot
+  extends SuperLikeFollowingFeedSnapshotType {}

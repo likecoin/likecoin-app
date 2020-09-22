@@ -75,7 +75,7 @@ export interface ContentListItemProps extends ContentListItemBaseProps {
   /**
    * A callback when the item is pressed.
    */
-  onPress?: (url: string) => void
+  onPress?: (content: Content) => void
 }
 
 export interface SuperLikedContentListItemProps extends ContentListItemBaseProps {

@@ -1,7 +1,9 @@
 import { NavigationScreenProps } from "react-navigation"
 
-import { ReaderStore } from "../../models/reader-store"
+import { ContentBookmarksListStore } from "../../models/content-bookmarks-list-store"
+import { CreatorsStore } from "../../models/creators-store"
 
 export interface ReaderScreenProps extends NavigationScreenProps {
-  readerStore: ReaderStore
+  creatorsStore: CreatorsStore
+  contentBookmarksListStore: ContentBookmarksListStore
 }

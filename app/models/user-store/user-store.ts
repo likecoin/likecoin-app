@@ -179,7 +179,7 @@ export const UserStoreModel = types
           avatarURL,
           isCivicLiker,
         })
-      } else {
+      } else if (self.currentUser) {
         self.currentUser.displayName = displayName
         self.currentUser.email = email
         self.currentUser.avatarURL = avatarURL

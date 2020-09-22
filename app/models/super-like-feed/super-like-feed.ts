@@ -1,6 +1,7 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 
-import { withEnvironment, withReaderStore, withStatus } from "../extensions"
+import { SuperLikeFeedItem } from "../../services/api/likerland-api.types"
+import { withContentsStore, withCreatorsStore, withEnvironment, withStatus } from "../extensions"
 import { SuperLikeModel } from "../super-like"
 
 /**
@@ -16,7 +17,62 @@ export const SuperLikeFeedModel = types
   })
   .extend(withEnvironment)
   .extend(withStatus)
-  .extend(withReaderStore)
+  .extend(withContentsStore)
+  .extend(withCreatorsStore)
+  .actions(self => {
+    /**
+     * Deserialize Super Like feed item response to model
+     * @param item Serialized Super Like feed item
+     * @param options Optional extra options for creating model
+     * @return A Super Like model
+     */
+    function createSuperLikeFeedItemFromData(
+      {
+        superLikeID,
+        superLikeShortID,
+        url,
+        referrer,
+        liker,
+        user: likee,
+        ts,
+      }: SuperLikeFeedItem,
+      options: {
+        isFollowing?: boolean
+      } = {},
+    ) {
+      const superLike = SuperLikeModel.create(
+        {
+          id: superLikeID,
+          shortId: superLikeShortID,
+          timestamp: ts,
+        },
+        self.env,
+      )
+
+      const superLiker = self.createCreatorFromLikerID(liker, {
+        isFollowing: options.isFollowing,
+      })
+      superLike.addLiker(superLiker)
+
+      // Find content reference for this Super Like
+      const contentURL = referrer || url
+      let content = self.contentsStore.items.get(contentURL)
+      if (!content) {
+        content = self.createContentFromData({
+          url: contentURL,
+          user: likee,
+        })
+      }
+
+      superLike.setContent(content)
+
+      return superLike
+    }
+
+    return {
+      createSuperLikeFeedItemFromData,
+    }
+  })
 
 type SuperLikeFeedType = Instance<typeof SuperLikeFeedModel>
 export interface SuperLikeFeed extends SuperLikeFeedType {}

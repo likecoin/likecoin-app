@@ -1,5 +1,5 @@
 import * as React from "react"
-import { TouchableHighlight, View, ViewStyle } from "react-native"
+import { ActivityIndicator, TouchableHighlight, View, ViewStyle } from "react-native"
 import Svg, { Path } from "react-native-svg"
 import { SwipeRow } from "react-native-swipe-list-view"
 import { observer } from "mobx-react"
@@ -23,8 +23,6 @@ import { color } from "../../theme"
 export class SuperLikeContentListItem extends React.Component<Props, State> {
   swipeRowRef = React.createRef<SwipeRow<{}>>()
 
-  isPrevFollow = this.props.content.liker?.isFollowing
-
   constructor(props: Props) {
     super(props)
 
@@ -39,7 +37,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   } as Partial<Props>
 
   componentDidMount() {
-    if (this.props.content.content?.shouldFetchDetails) {
+    if (this.props.content.content?.checkShouldFetchDetails()) {
       this.props.content.content.fetchDetails()
     }
     this.fetchCreatorDependedDetails()
@@ -54,13 +52,10 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   }
 
   private fetchCreatorDependedDetails() {
-    if (this.props.content.content?.shouldFetchLikeStat) {
-      this.props.content.content.fetchLikeStat()
-    }
-    if (this.props.content.content?.shouldFetchCreatorDetails) {
+    if (this.props.content.content?.checkShouldFetchCreatorDetails()) {
       this.props.content.content.creator.fetchDetails()
     }
-    if (this.props.content.liker && !this.props.content.liker.hasFetchedDetails) {
+    if (this.props.content.liker?.checkShouldFetchDetails()) {
       this.props.content.liker.fetchDetails()
     }
   }
@@ -81,14 +76,14 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
 
   private onToggleBookmark = () => {
     this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleBookmark) {
+    if (this.props.onToggleBookmark && this.props.content?.content) {
       this.props.onToggleBookmark(this.props.content.content)
     }
   }
 
   private onToggleFollow = () => {
     this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleFollow) {
+    if (this.props.onToggleFollow && this.props.content?.liker) {
       this.props.onToggleFollow(this.props.content.liker)
     }
   }
@@ -114,9 +109,14 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
   }
 
   render() {
-    const { isBookmarked, isLoading } = this.props.content.content
-
-    if (isLoading) {
+    const { isBookmarked, isLoading } = this.props.content?.content || {}
+    const {
+      isFetchingDetails: isFetchingSuperLikerDetails,
+      hasFetchedDetails: hasFetchedSuperLikerDetails,
+      isFollowing: isFollowingSuperLiker,
+      isShowUndoUnfollow,
+    } = this.props.content?.liker || {}
+    if (isLoading || !this.props.content?.liker) {
       return (
         <ContentListItemSkeleton
           primaryColor={this.props.skeletonPrimaryColor}
@@ -124,10 +124,10 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         />
       )
     } else if (
-      this.props.content.liker &&
       this.props.onPressUndoUnfollowButton &&
-      this.isPrevFollow &&
-      !this.props.content.liker.isFollowing
+      !isFetchingSuperLikerDetails &&
+      hasFetchedSuperLikerDetails &&
+      isShowUndoUnfollow
     ) {
       return this.renderUndo()
     }
@@ -141,9 +141,9 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         onRowClose={this.onRowClose}
       >
         <ContentListItemBack
-          isShowFollowToggle={!!this.props.content?.liker}
+          isShowFollowToggle={true}
           isBookmarked={isBookmarked}
-          isFollowingCreator={!!this.props.content?.liker?.isFollowing}
+          isFollowingCreator={!!isFollowingSuperLiker}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
         />
@@ -182,7 +182,9 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
                 color="likeGreen"
                 size="default"
                 weight="600"
-                text={content?.liker?.displayName || content?.liker?.likerID || ""}
+                text={
+                  content?.liker?.displayName || content?.liker?.likerID || ""
+                }
                 place="liker"
               />
             </I18n>
@@ -195,7 +197,10 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
               onPress={this.onPressMoreButton}
             />
           </View>
-          <Text text={content?.content?.normalizedTitle || ""} style={Style.Title} />
+          <Text
+            text={content?.content?.normalizedTitle || ""}
+            style={Style.Title}
+          />
           <View style={Style.FooterView}>
             <Text
               text={content?.content?.creatorDisplayName || ""}
@@ -203,7 +208,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
               color="grey9b"
             />
             <View style={Style.AccessoryView}>
-              {!!content?.content?.hasRead() &&
+              {!!content?.content?.hasRead() && (
                 <Text
                   tx="readerScreen.ReadLabel"
                   size="small"
@@ -224,10 +229,13 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
                   }
                   style={Style.ReadLabel}
                 />
-              }
+              )}
               {this.props.isShowFollowToggle &&
                 this.renderFollowToggle(!!content?.liker?.isFollowing)}
-              {this.renderBookmarkButton(!!content?.content?.isBookmarked)}
+              {this.renderBookmarkButton(
+                !!content?.content?.isBookmarked,
+                !!content?.content?.isUpdatingBookmark,
+              )}
             </View>
           </View>
         </View>
@@ -249,9 +257,21 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
     )
   }
 
-  private renderBookmarkButton(isBookmarked: boolean) {
+  private renderBookmarkButton(isBookmarked: boolean, isUpdating: boolean) {
     const iconName = isBookmarked ? "bookmark-filled" : "bookmark-outlined"
     const buttonPreset = isBookmarked ? "primary" : "secondary"
+    if (isUpdating) {
+      return (
+        <Button
+          preset="plain"
+          size="tiny"
+          disabled={true}
+          style={Style.AccessoryButton}
+        >
+          <ActivityIndicator size="small" />
+        </Button>
+      )
+    }
     return (
       <Button
         preset={buttonPreset}

@@ -1,4 +1,3 @@
-import { NotificationStoreModel } from "../../models/notification-store"
 import { Alert } from "react-native"
 import {
   flow,
@@ -9,8 +8,13 @@ import {
 
 import { withEnvironment } from "../extensions"
 import { ChainStoreModel } from "../chain-store"
-import { LanguageSettingsStoreModel } from "../../models/language-settings-store"
-import { ReaderStoreModel } from "../reader-store"
+import { ContentsStoreModel } from "../contents-store"
+import { ContentBookmarksStoreModel } from "../content-bookmarks-store"
+import { ContentBookmarksListStoreModel } from "../content-bookmarks-list-store"
+import { CreatorsFollowStoreModel } from "../creators-follow-store"
+import { CreatorsStoreModel } from "../creators-store"
+import { LanguageSettingsStoreModel } from "../language-settings-store"
+import { NotificationStoreModel } from "../notification-store"
 import { StakingRewardsWithdrawStoreModel } from "../staking-rewards-withdraw-store"
 import { StakingDelegationStoreModel } from "../staking-delegation-store"
 import { StakingRedelegationStoreModel } from "../staking-redelegation-store"
@@ -19,8 +23,8 @@ import {
   StatisticsRewardedStoreModel,
   StatisticsSupportedStoreModel,
 } from "../statistics-store"
-import { SuperLikeFollowingStoreModel } from "../../models/super-like-following-store"
-import { SuperLikeGlobalStoreModel } from "../../models/super-like-global-store"
+import { SuperLikeFollowingStoreModel } from "../super-like-following-store"
+import { SuperLikeGlobalStoreModel } from "../super-like-global-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
 
@@ -39,6 +43,11 @@ export const RootStoreModel = types
   .model("RootStore")
   .props({
     chainStore: types.maybe(ChainStoreModel),
+    contentBookmarksStore: types.optional(ContentBookmarksStoreModel, {}),
+    contentBookmarksListStore: types.optional(ContentBookmarksListStoreModel, {}),
+    contentsStore: types.optional(ContentsStoreModel, {}),
+    creatorsStore: types.optional(CreatorsStoreModel, {}),
+    creatorsFollowStore: types.optional(CreatorsFollowStoreModel, {}),
     languageSettingsStore: types.optional(LanguageSettingsStoreModel, {}),
     notificationStore: types.optional(NotificationStoreModel, {}),
     stakingRewardsWithdrawStore: types.optional(StakingRewardsWithdrawStoreModel, {}),
@@ -50,7 +59,6 @@ export const RootStoreModel = types
     superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
     superLikeGlobalStore: types.optional(SuperLikeGlobalStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
-    readerStore: types.optional(ReaderStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),
     userStore: types.optional(UserStoreModel, {}),
     /**
@@ -83,7 +91,7 @@ export const RootStoreModel = types
             type: "Navigation/PUSH",
             routeName: "ContentView",
             params: {
-              content: self.readerStore.getContentByURL(url),
+              content: self.contentsStore.createItemFromURL(url),
             },
           })
         }
@@ -99,6 +107,8 @@ export const RootStoreModel = types
       self.navigationStore.navigateTo("Auth")
       yield self.userStore.logout()
       self.chainStore.reset()
+      self.creatorsFollowStore.reset()
+      self.contentBookmarksStore.reset()
       self.stakingRewardsWithdrawStore.reset()
       self.stakingDelegationStore.reset()
       self.stakingRedelegationStore.reset()
@@ -108,7 +118,6 @@ export const RootStoreModel = types
       self.superLikeFollowingStore.reset()
       self.superLikeGlobalStore.reset()
       self.transferStore.reset()
-      self.readerStore.reset()
     }),
   }))
   .actions(self => ({

@@ -1,7 +1,7 @@
 import { NavigationScreenProps } from "react-navigation"
 
-import { ReaderStore } from "../../models/reader-store"
+import { CreatorsStore } from "../../models/creators-store"
 
 export interface FollowSettingsScreenProps extends NavigationScreenProps<{}> {
-  readerStore: ReaderStore,
+  creatorsStore: CreatorsStore,
 }
