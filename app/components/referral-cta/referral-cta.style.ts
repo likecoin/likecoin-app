@@ -17,6 +17,7 @@ export const ReferralCTAStyle = StyleSheet.create({
     paddingHorizontal: spacing[4],
     backgroundColor: color.primary,
     flexDirection: "row",
+    alignItems: "center",
   } as ViewStyle,
   Text: {
     flexGrow: 1,
