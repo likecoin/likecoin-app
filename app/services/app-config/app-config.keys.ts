@@ -1,4 +1,5 @@
 import {
+  ROOT_STATE_STORAGE_KEY,
   APP_RATING_COOLDOWN,
   APP_RATING_MIN_VERSION,
   APP_VERSION,
@@ -34,6 +35,7 @@ import {
 } from "react-native-dotenv"
 
 export default {
+  ROOT_STATE_STORAGE_KEY,
   APP_RATING_COOLDOWN,
   APP_RATING_MIN_VERSION,
   APP_VERSION,

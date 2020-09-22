@@ -7,11 +7,6 @@ import * as storage from "../../utils/storage"
 import { logError } from "../../utils/error"
 
 /**
- * The key we'll be saving our state as within async storage.
- */
-const ROOT_STATE_STORAGE_KEY = "root"
-
-/**
  * Setup the environment that all the models will be sharing.
  *
  * The environment includes other functions that will be picked from some
@@ -79,9 +74,10 @@ export async function setupRootStore() {
 
   // prepare the environment that will be associated with the RootStore.
   const env = await createEnvironment()
+  const storageKey = env.appConfig.getValue("ROOT_STATE_STORAGE_KEY")
   try {
     // load data from storage
-    data = await storage.load(ROOT_STATE_STORAGE_KEY) || {}
+    data = await storage.load(storageKey) || {}
     rootStore = createRootStore(env, data)
 
     if (rootStore.userStore.currentUser) {
@@ -112,7 +108,7 @@ export async function setupRootStore() {
       navigationStore,
       ...snapshot
     }) => {
-      return storage.save(ROOT_STATE_STORAGE_KEY, snapshot)
+      return storage.save(storageKey, snapshot)
     }
   )
 
