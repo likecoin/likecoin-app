@@ -20,6 +20,7 @@ export interface AuthcoreScreenOptions {
   primaryColour?: string
   dangerColour?: string
   successColour?: string
+  language?: string
 }
 
 function parseAuthCoreUser({
@@ -42,8 +43,8 @@ function parseAuthCoreUser({
   }
 }
 
-function findBestAvailableLanguage() {
-  switch (i18n.locale) {
+export function findBestAvailableLanguage(language = i18n.locale) {
+  switch (language) {
     case "en":
       return "en"
     default:
@@ -216,33 +217,26 @@ export class AuthCoreAPI {
     return oAuthFactors
   }
 
-  private async _internalSignIn({ initialScreen }: { initialScreen: string }) {
+
+  /**
+   * Sign in AuthCore
+   */
+  async signIn(options: {
+    initialScreen?: string
+    language?: string
+  }) {
     const {
       accessToken,
       refreshToken,
       idToken,
       currentUser,
-    } = await this.client.webAuth.signin({ initialScreen })
+    } = await this.client.webAuth.signin(options)
     return {
       accessToken,
       refreshToken,
       idToken,
       currentUser: parseAuthCoreUser(currentUser),
     }
-  }
-
-  /**
-   * Register AuthCore
-   */
-  async register() {
-    return this._internalSignIn({ initialScreen: 'register' })
-  }
-
-  /**
-   * Sign in AuthCore
-   */
-  async signIn() {
-    return this._internalSignIn({ initialScreen: 'signin' })
   }
 
   /**

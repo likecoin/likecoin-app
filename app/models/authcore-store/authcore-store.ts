@@ -1,9 +1,12 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { AuthCoreUserModel, AuthCoreUser } from "../authcore-user"
-import { withEnvironment } from "../extensions"
+import { withEnvironment, withLanguageSettingsStore } from "../extensions"
 
-import { AuthcoreScreenOptions } from "../../services/authcore"
+import {
+  AuthcoreScreenOptions,
+  findBestAvailableLanguage,
+} from "../../services/authcore"
 import * as Keychain from "../../utils/keychain"
 
 /**
@@ -22,6 +25,7 @@ export const AuthCoreStoreModel = types
     hasSignedIn: false,
   }))
   .extend(withEnvironment)
+  .extend(withLanguageSettingsStore)
   .views(self => ({
     get primaryCosmosAddress() {
       return self.cosmosAddresses.length ? self.cosmosAddresses[0] : null
@@ -32,6 +36,9 @@ export const AuthCoreStoreModel = types
     getCredentialKeyFor(path: "access_token" | "refresh_token" | "id_token") {
       return `${this.credentialKeyPrefix}/${path}`
     },
+    get normalizedLanguage() {
+      return findBestAvailableLanguage(self.activeLanguageKey)
+    },
   }))
   .actions(self => ({
     setHasSignedIn(value: boolean) {
@@ -40,6 +47,7 @@ export const AuthCoreStoreModel = types
     openSettingsWidget(options: AuthcoreScreenOptions) {
       self.env.authCoreAPI.openSettingsWidget({
         ...options,
+        language: self.normalizedLanguage,
         accessToken: self.accessToken,
       })
     },
@@ -137,11 +145,17 @@ export const AuthCoreStoreModel = types
       },
       actions: {
         signIn: flow(function*() {
-          const result  = yield self.env.authCoreAPI.signIn()
+          const result = yield self.env.authCoreAPI.signIn({
+            language: self.normalizedLanguage,
+            initialScreen: 'signin',
+          })
           yield postSignIn(result);
         }),
         register: flow(function*() {
-          const result  = yield self.env.authCoreAPI.register()
+          const result = yield self.env.authCoreAPI.signIn({
+            language: self.normalizedLanguage,
+            initialScreen: 'register',
+          })
           yield postSignIn(result);
         }),
         resume: flow(function*() {
