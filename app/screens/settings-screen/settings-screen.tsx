@@ -20,6 +20,7 @@ import { SettingsScreenWalletPanel } from "./settings-screen-wallet-panel"
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
 import { ExtendedView } from "../../components/extended-view"
+import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 
 import { RootStore } from "../../models/root-store"
@@ -142,6 +143,8 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         isEnabled: isIAPEnabled
       },
     } = this.props.rootStore.userStore
+    const isShowReferral =
+      this.props.rootStore.getConfig("APP_REFERRAL_ENABLE") === "true"
     return (
       <View style={Style.Body}>
         <SettingsScreenWalletPanel
@@ -154,35 +157,29 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           onPressRewardedSection={this.onPressStatisticsRewardedSection}
           onPressSupportedSection={this.onPressStatisticsSupportedSection}
         />
-        <View style={SETTINGS_MENU.TABLE}>
-          <Button
-            preset="plain"
-            tx="settingsScreen.followSettings"
-            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-            style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-            onPress={this.onPressFollowSettings}
-          />
-          {this.props.rootStore.getConfig("APP_REFERRAL_ENABLE") === "true" &&
-            <Button
-              preset="plain"
-              tx="settingsScreen.Referral"
-              textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-              style={SETTINGS_MENU.TABLE_CELL}
-              onPress={this.onPressReferral}
-            />
-          }
-        </View>
-        {isIAPEnabled &&
+        {(isShowReferral || isIAPEnabled) && (
           <View style={SETTINGS_MENU.TABLE}>
-            <Button
-              preset="plain"
-              tx="settingsScreen.subscription"
-              textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-              style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-              onPress={this.onPressSubscription}
-            />
+            {isIAPEnabled && (
+              <Button
+                preset="plain"
+                tx="settingsScreen.subscription"
+                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+                onPress={this.onPressSubscription}
+              />
+            )}
+            {isShowReferral && (
+              <Button
+                preset="plain"
+                tx="settingsScreen.Referral"
+                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+                style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+                onPress={this.onPressReferral}
+              />
+            )}
           </View>
-        }
+        )}
+        <Text tx="settingsScreen.SubHeader.Settings" style={Style.SubHeader} />
         <View style={SETTINGS_MENU.TABLE}>
           <Button
             preset="plain"
@@ -193,10 +190,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
           />
           <Button
             preset="plain"
-            tx="settingsScreen.LanguageSettings"
+            tx="settingsScreen.followSettings"
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL}
-            onPress={this.onPressLanguageSettings}
+            onPress={this.onPressFollowSettings}
           />
           <Button
             preset="plain"
@@ -204,6 +201,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL}
             onPress={this.onPressWebsiteSignIn}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.LanguageSettings"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+            onPress={this.onPressLanguageSettings}
           />
         </View>
         <View style={SETTINGS_MENU.TABLE}>

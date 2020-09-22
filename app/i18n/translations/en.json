@@ -252,12 +252,15 @@
     }
   },
   "settingsScreen": {
-    "authcoreSettings": "Liker ID Settings",
+    "authcoreSettings": "Liker ID",
     "contactUs": "Contact Us",
     "followSettings": "Content Jockey",
-    "LanguageSettings": "Language Settings",
+    "LanguageSettings": "Language",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
+    "SubHeader": {
+      "Settings": "Settings"
+    },
     "Panel": {
       "Statistics": {
         "Rewarded": {

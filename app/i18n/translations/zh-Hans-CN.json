@@ -232,12 +232,15 @@
     }
   },
   "settingsScreen": {
-    "authcoreSettings": "设定 Liker ID",
+    "authcoreSettings": "Liker ID",
     "contactUs": "联络我们",
-    "followSettings": "设定内容伯乐",
-    "LanguageSettings": "设定语言",
+    "followSettings": "内容伯乐",
+    "LanguageSettings": "语言",
     "openSourceLicense": "开源授权",
     "privacyPolicy": "隐私权政策",
+    "SubHeader": {
+      "Settings": "设定"
+    },
     "Panel": {
       "Statistics": {
         "Rewarded": {
@@ -261,7 +264,7 @@
     "subscription": "订阅",
     "termsOfUse": "使用条款",
     "title": "设定",
-    "WebsiteSignIn": "设定媒体登录帐号"
+    "WebsiteSignIn": "媒体登录帐号"
   },
   "storybook": {
     "placeholder": "Placeholder",

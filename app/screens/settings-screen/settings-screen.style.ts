@@ -6,6 +6,8 @@ import {
 
 import { spacing, color } from "../../theme"
 
+import { sizes as fontSizes } from "../../components/text/text.sizes"
+
 const BODY_OVERLAP = spacing[6]
 
 export const SettingScreenStyle = StyleSheet.create({
@@ -22,6 +24,14 @@ export const SettingScreenStyle = StyleSheet.create({
   Root: {
     flexGrow: 1,
   } as ViewStyle,
+  SubHeader: {
+    marginTop: spacing[3],
+    marginBottom: spacing[0],
+    paddingHorizontal: spacing[2],
+    fontSize: fontSizes["medium-large"],
+    fontWeight: "600",
+    color: color.palette.grey9b,
+  } as TextStyle,
 })
 
 export const LOGOUT: ViewStyle = {
@@ -48,7 +58,8 @@ export const SETTINGS_MENU = StyleSheet.create({
   TABLE: {
     borderRadius: TABLE_BORDER_RADIUS,
     backgroundColor: color.palette.white,
-    marginVertical: spacing[4],
+    marginTop: spacing[2],
+    marginBottom: spacing[4],
   } as ViewStyle,
   TABLE_CELL,
   TABLE_CELL_FIRST_CHILD: {
