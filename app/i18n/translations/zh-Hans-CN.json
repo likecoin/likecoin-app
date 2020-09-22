@@ -115,7 +115,6 @@
     "Title": "阅读列表",
     "emptyLabel": "浏览头条时，按书籤图标，可把作品加入阅读列表，方便往后细阅。",
     "followingLabel": "我的内容伯乐",
-    "ReadLabel": "",
     "SuperLikeFromLabel":  {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} 及 {{count}} 人 Super Liked",

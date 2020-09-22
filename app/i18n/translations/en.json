@@ -116,7 +116,6 @@
     "Title": "Reading list",
     "emptyLabel": "When browsing the headlines, you may tap the bookmark button to add the content here. You may then take your time to read them.",
     "followingLabel": "My Content Jockey",
-    "ReadLabel": "VIEWED",
     "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} and {{count}} Liker Super Liked",

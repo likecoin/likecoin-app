@@ -115,7 +115,6 @@
     "Title": "閱讀列表",
     "emptyLabel": "瀏覽頭條時，按書籤圖標，可把作品加入閱讀列表，方便往後細閱。",
     "followingLabel": "我的 Content Jockey",
-    "ReadLabel": "",
     "SuperLikeFromLabel":  {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} 及 {{count}} 人 Super Liked",

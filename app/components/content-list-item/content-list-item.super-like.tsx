@@ -209,26 +209,17 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
             />
             <View style={Style.AccessoryView}>
               {!!content?.content?.hasRead() && (
-                <Text
-                  tx="readerScreen.ReadLabel"
-                  size="small"
-                  weight="600"
-                  color="green"
-                  append={
-                    <Svg width={9} viewBox="0 0 8.115 6.804">
-                      <Path
-                        d="M7.061 1.054l-4 5-2-2"
-                        fill="none"
-                        stroke={color.palette.green}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeMiterlimit={10}
-                        strokeWidth={1.5}
-                      />
-                    </Svg>
-                  }
-                  style={Style.ReadLabel}
-                />
+                <Svg width={9} viewBox="0 0 8.115 6.804" style={Style.ReadIcon}>
+                  <Path
+                    d="M7.061 1.054l-4 5-2-2"
+                    fill="none"
+                    stroke={color.palette.green}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeMiterlimit={10}
+                    strokeWidth={1.5}
+                  />
+                </Svg>
               )}
               {this.props.isShowFollowToggle &&
                 this.renderFollowToggle(!!content?.liker?.isFollowing)}
