@@ -5,6 +5,7 @@ import ArrowLeftIcon from "./arrow-left.svg"
 import ArrowRightIcon from "./arrow-right.svg"
 import ArrowUpIcon from "./arrow-up.svg"
 import Bell from "./bell.svg"
+import BookmarksIcon from "./bookmarks.svg"
 import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import CrossIcon from "./cross.svg"
@@ -17,8 +18,7 @@ import ReaderFeatured from "./reader-featured.svg"
 import ReaderFollowing from "./reader-following.svg"
 import ShareIcon from "./share.svg"
 import SeenIcon from "./seen.svg"
-import TabBookmark from "./tab-bookmark.svg"
-import TabReader from "./tab-reader.svg"
+import SuperLikeIcon from "./super-like.svg"
 import TabSettings from "./tab-settings.svg"
 import TabWallet from "./tab-wallet.svg"
 import ThreeDotHorizontal from "./three-dot-horizontal.svg"
@@ -34,6 +34,7 @@ export const icons = {
   "arrow-up": ArrowUpIcon,
   back: ArrowLeftIcon,
   bell: Bell,
+  "bookmarks": BookmarksIcon,
   "bookmark-filled": BookmarkFilledIcon,
   "bookmark-outlined": BookmarkOutlinedIcon,
   close: CrossIcon,
@@ -46,8 +47,7 @@ export const icons = {
   "reader-following": ReaderFollowing,
   share: ShareIcon,
   seen: SeenIcon,
-  "tab-bookmark": TabBookmark,
-  "tab-reader": TabReader,
+  "super-like": SuperLikeIcon,
   "tab-settings": TabSettings,
   "tab-wallet": TabWallet,
   "three-dot-horizontal": ThreeDotHorizontal,
