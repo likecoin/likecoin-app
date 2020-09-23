@@ -105,7 +105,6 @@ export const RootStoreModel = types
     signOut: flow(function * () {
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")
-      yield self.userStore.logout()
       self.chainStore.reset()
       self.creatorsFollowStore.reset()
       self.contentBookmarksStore.reset()
