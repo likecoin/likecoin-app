@@ -38,7 +38,11 @@ export const DeepLinkHandleStoreModel = types
       const liker = self.creatorsStore.createCreatorFromLikerID(likerID)
       if (!liker.isFollowing) {
         logAnalyticsEvent("DeepLinkFollowLiker", { likerID })
-        yield liker.follow()
+        const promises: Promise<void>[] = [liker.follow()]
+        if (liker.checkShouldFetchDetails()) {
+          promises.push(liker.fetchDetails())
+        }
+        yield Promise.all(promises)
         self.navigationStore.dispatch({
           type: "Navigation/PUSH",
           routeName: "ReferrerFollow",

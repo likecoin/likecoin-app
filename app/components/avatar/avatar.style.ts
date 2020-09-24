@@ -11,11 +11,9 @@ export const AvatarStyle = StyleSheet.create({
   } as ViewStyle,
   GradientLarge: {
     borderWidth: spacing[1],
-    margin: spacing[1],
   } as ViewStyle,
   GradientSmall: {
     borderWidth: 2,
-    margin: 2,
   } as ViewStyle,
   Halo: {
     position: "absolute",
@@ -26,8 +24,11 @@ export const AvatarStyle = StyleSheet.create({
   } as ViewStyle,
   Image: {
     overflow: "hidden",
+    backgroundColor: color.palette.white,
   } as ImageStyle,
   Root: {
     position: "relative",
+    alignItems: "center",
+    justifyContent: "center",
   } as ViewStyle,
 })
