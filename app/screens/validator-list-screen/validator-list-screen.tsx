@@ -47,6 +47,7 @@ export class ValidatorListScreen extends React.Component<Props> {
           <Button
             preset="icon"
             icon="close"
+            color="white"
             onPress={this.onPressCloseButton}
           />
         </View>
