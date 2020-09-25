@@ -71,6 +71,21 @@
                     android:host="likerland.app.link"
                     android:scheme="https" />
             </intent-filter>
+
+            <!-- Super Like short links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="s.like.co"
+                    android:scheme="https" />
+                <data
+                    android:host="s.rinkeby.like.co"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <activity

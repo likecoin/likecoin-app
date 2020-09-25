@@ -6,11 +6,9 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:bchai.cc</string>
-		<string>applinks:ckxpress.com</string>
+		<string>applinks:s.like.co</string>
+		<string>applinks:s.rinkeby.like.co</string>
 		<string>applinks:oice.com</string>
-		<string>applinks:ngwingt.at</string>
-		<string>applinks:zombicide-invader-helper.netlify.com</string>
 		<string>applinks:likecoin.page.link</string>
 		<string>applinks:likerland.app.link</string>
 		<string>applinks:likerland-alternate.app.link</string>
