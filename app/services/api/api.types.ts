@@ -190,3 +190,18 @@ export type BookmarkAddResult =
     data: string
   }
   | GeneralApiProblem
+
+export interface SuperLikeMeta {
+  id: string
+  shortId: string
+  liker: string
+  likee: string
+  ts: number
+  url: string
+}
+export type SuperLikeMetaResult =
+  | {
+    kind: "ok"
+    data: SuperLikeMeta
+  }
+  | GeneralApiProblem
