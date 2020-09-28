@@ -85,8 +85,8 @@ export class LikerLandOAuthScreen extends React.Component<
       this.props.navigation.navigate("App")
     }
 
-    await this.props.deepLinkHandleStore.handleBranchDeepLink()
     // Try to open the deferred deep link URL after sign in
+    await this.props.deepLinkHandleStore.openBranchDeepLink()
     this.props.deepLinkHandleStore.openDeepLink()
   }
 

@@ -16,13 +16,22 @@ type BranchUniversalObjectProperties = {
 
 export type BranchDeepLinkEventType = "app_referral"
 
-type BranchDeepLinkHandler = (param: any) => void | undefined
+export interface BranchDeepLinkParams {
+  "~referring_link": string
+  "+clicked_branch_link": boolean
+  "~id": number
+  "+match_guaranteed": boolean
+  "+click_timestamp": number
+  "~creation_source": number
+  "+is_first_session": boolean
+  event?: BranchDeepLinkEventType
+  referrer?: string
+}
+
+type BranchDeepLinkHandler = (params: BranchDeepLinkParams) => void
 
 export class BranchIO {
-  /**
-   * The config object
-   */
-  private params: any
+  private params: BranchDeepLinkParams
 
   private appReferrer: string
 
@@ -30,43 +39,50 @@ export class BranchIO {
 
   private deepLinkHandler: BranchDeepLinkHandler = undefined
 
-  parseAppReferralEvent(params: any) {
-    if (!params) return undefined
-    if (params.event === "app_referral" && params.referrer) {
+  parseAppReferralEvent(params: BranchDeepLinkParams) {
+    if (params?.event === "app_referral" && params.referrer) {
       return params.referrer
     }
     return undefined
   }
 
   async setup() {
-    branch.subscribe(async ({ error, params }) => {
-      if (error) {
-        logError(error)
-        return
-      }
+    branch.subscribe(this.listener)
+  }
 
-      if (params["+non_branch_link"]) {
-        // non-Branch URL if appropriate.
-        return
-      }
+  private listener = async ({
+    error,
+    params,
+  }: {
+    error: Error
+    params: BranchDeepLinkParams
+  }) => {
+    if (error) {
+      logError(error)
+      return
+    }
 
-      if (!params["+clicked_branch_link"]) {
-        this.isClickedBranchLink = false
-        return
+    if (params["+non_branch_link"]) {
+      // non-Branch URL if appropriate.
+      return
+    }
+
+    if (!params["+clicked_branch_link"]) {
+      this.isClickedBranchLink = false
+      return
+    }
+    this.isClickedBranchLink = true
+    this.params = params
+    if (params.event === "app_referral") {
+      this.appReferrer = this.parseAppReferralEvent(params)
+    }
+    if (this.deepLinkHandler) {
+      try {
+        this.deepLinkHandler(params)
+      } catch (err) {
+        logError(err)
       }
-      this.isClickedBranchLink = true
-      this.params = params
-      if (params.event === "app_referral") {
-        this.appReferrer = this.parseAppReferralEvent(params)
-      }
-      if (this.deepLinkHandler) {
-        try {
-          this.deepLinkHandler(params)
-        } catch (err) {
-          logError(err)
-        }
-      }
-    })
+    }
   }
 
   setDeepLinkHandler(deepLinkHandler: BranchDeepLinkHandler) {
