@@ -167,4 +167,22 @@ export class LikeCoinAPI {
       },
     },
   }
+
+  like = {
+    share: {
+      get: async (id: string): Promise<Types.SuperLikeMetaResult> => {
+        const response: ApiResponse<Types.SuperLikeMeta> = await this.apisauce.get(`/like/share/${id}`)
+
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+
+        return {
+          kind: "ok",
+          data: response.data,
+        }
+      },
+    },
+  }
 }

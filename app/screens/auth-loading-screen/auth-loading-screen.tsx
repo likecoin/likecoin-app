@@ -39,7 +39,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
       try {
         try {
           await this.props.deepLinkHandleStore.handleAppReferrer()
-          await this.props.deepLinkHandleStore.handleBranchDeepLink()
+          await this.props.deepLinkHandleStore.openBranchDeepLink()
         } catch (err) {
           logError(err)
         }

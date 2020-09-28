@@ -52,7 +52,7 @@ function createRootStore(env: Environment, data: any = {}) {
     rootStore.handleUnauthenticatedError("liker.land", error)
   }
   env.branchIO.setDeepLinkHandler((params: any) => {
-    rootStore.deepLinkHandleStore.handleBranchDeepLink(params)
+    rootStore.deepLinkHandleStore.openBranchDeepLink(params)
   })
 
 
