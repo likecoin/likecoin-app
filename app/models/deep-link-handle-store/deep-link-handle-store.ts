@@ -43,14 +43,14 @@ const BaseModel = types
 
     const followAppReferrer = flow(function*(likerID: string) {
       if (!likerID) return
+      // Create barebone Liker model with Liker ID
       const liker = self.creatorsStore.createCreatorFromLikerID(likerID)
-      if (!liker.isFollowing) {
+      // Fetch the Liker's details for validation
+      yield liker.fetchDetails()
+      // Validate the Liker by checking the existence of the liker's display name
+      if (liker.displayName && !liker.isFollowing) {
         logAnalyticsEvent("DeepLinkFollowLiker", { likerID })
-        const promises: Promise<void>[] = [liker.follow()]
-        if (liker.checkShouldFetchDetails()) {
-          promises.push(liker.fetchDetails())
-        }
-        yield Promise.all(promises)
+        yield liker.follow()
         self.navigationStore.dispatch({
           type: "Navigation/PUSH",
           routeName: "ReferrerFollow",
