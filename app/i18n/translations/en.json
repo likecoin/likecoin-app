@@ -156,8 +156,9 @@
   "SaveToBookmarkScreen": {
     "DismissButtonText": "Click to close",
     "Error": {
-      "forbidden": "Please sign-in again in the app.",
+      "unauthorized": "Please sign-in again in the app.",
       "invalid-url": "Cannot save this link.",
+      "conflict": "The link already exist",
       "unknown": "Unable to save to Liker Land."
     }
   },

@@ -26,6 +26,10 @@ export type GeneralApiProblem =
    */
   | { kind: "not-found" }
   /**
+   * Conlict states between client and server. This is a 409.
+   */
+  | { kind: "conflict" }
+  /**
    * All other 4xx series errors.
    */
   | { kind: "rejected", data?: any }
@@ -65,6 +69,8 @@ export function getGeneralApiProblem(response: ApiResponse<any>): GeneralApiProb
           return { kind: "forbidden" }
         case 404:
           return { kind: "not-found" }
+        case 409:
+          return { kind: "conflict" }
         default:
           return { kind: "rejected", data: response.data }
       }
