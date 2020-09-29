@@ -155,8 +155,9 @@
   "SaveToBookmarkScreen": {
     "DismissButtonText": "按此关闭",
     "Error": {
-      "forbidden": "请重新登入 Liker Land。",
+      "unauthorized": "请重新登入 Liker Land。",
       "invalid-url": "未能成功辨识链接。",
+      "conflict": "阅读列表内已存有此网页",
       "unknown": "未能成功把网页加到 Liker Land 阅读列表。"
     }
   },
