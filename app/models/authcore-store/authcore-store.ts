@@ -6,6 +6,7 @@ import { withEnvironment, withLanguageSettingsStore } from "../extensions"
 import { AuthcoreScreenOptions } from "../../services/authcore"
 import { findBestAvailableLanguage } from "../../services/authcore/authcore.utils"
 import * as Keychain from "../../utils/keychain"
+import { color } from "../../theme"
 
 /**
  * AuthCore store
@@ -37,13 +38,23 @@ export const AuthCoreStoreModel = types
     get normalizedLanguage() {
       return findBestAvailableLanguage(self.activeLanguageKey)
     },
+    getDefaultWidgetOptions() {
+      return {
+        company: "Liker ID",
+        logo: "https://like.co/favicon.png",
+        primaryColour: color.primary,
+        successColour: color.primary,
+        dangerColour: color.palette.angry,
+      }
+    },
   }))
   .actions(self => ({
     setHasSignedIn(value: boolean) {
       self.hasSignedIn = value
     },
-    openSettingsWidget(options: AuthcoreScreenOptions) {
+    openSettingsWidget(options?: AuthcoreScreenOptions) {
       self.env.authCoreAPI.openSettingsWidget({
+        ...self.getDefaultWidgetOptions(),
         ...options,
         language: self.normalizedLanguage,
         accessToken: self.accessToken,
@@ -86,10 +97,12 @@ export const AuthCoreStoreModel = types
       pendingInitPromise = undefined
     })
 
-    const initWallet = flow(function*(
-      accessToken: string
-    ) {
-      const { addresses }: { addresses: string[] } = yield self.env.authCoreAPI.setupWallet(accessToken)
+    const initWallet = flow(function*(accessToken: string) {
+      const {
+        addresses,
+      }: { addresses: string[] } = yield self.env.authCoreAPI.setupWallet(
+        accessToken,
+      )
       self.cosmosAddresses.replace(addresses)
     })
 
@@ -108,12 +121,7 @@ export const AuthCoreStoreModel = types
     })
 
     const postSignIn = flow(function*(result) {
-      const {
-        accessToken,
-        refreshToken,
-        idToken,
-        currentUser,
-      } = result;
+      const { accessToken, refreshToken, idToken, currentUser } = result
       self.setHasSignedIn(true)
       yield Promise.all([
         init(refreshToken, accessToken, idToken, currentUser),
@@ -145,21 +153,21 @@ export const AuthCoreStoreModel = types
         signIn: flow(function*() {
           const result = yield self.env.authCoreAPI.signIn({
             language: self.normalizedLanguage,
-            initialScreen: 'signin',
+            initialScreen: "signin",
           })
-          yield postSignIn(result);
+          yield postSignIn(result)
         }),
         register: flow(function*() {
           const result = yield self.env.authCoreAPI.signIn({
             language: self.normalizedLanguage,
-            initialScreen: 'register',
+            initialScreen: "register",
           })
-          yield postSignIn(result);
+          yield postSignIn(result)
         }),
         resume: flow(function*() {
           pendingInitPromise = resume()
           yield pendingInitPromise
-          yield initWallet(self.accessToken);
+          yield initWallet(self.accessToken)
         }),
         fetchCurrentUser: flow(function*() {
           if (pendingInitPromise) yield pendingInitPromise
