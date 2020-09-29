@@ -153,8 +153,9 @@ export class BranchIO {
       payload,
     )
     const linkProperties = {
-      feature: "share",
-      channel: "referral",
+      campaign: "App referral link",
+      feature: "referral",
+      channel: "app",
     }
     const controlParams = {
       /* eslint-disable @typescript-eslint/camelcase */
