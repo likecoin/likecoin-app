@@ -3,6 +3,9 @@
     "Title": "Are you satisfied with Liker Land?",
     "DenialTitle": "Can you give us some feedback?"
   },
+  "ProfileSettingsScreen": {
+    "Title": "Profile Settings"
+  },
   "BookmarkScreen": {
     "title": "Reading list"
   },
@@ -256,16 +259,18 @@
     }
   },
   "settingsScreen": {
-    "authcoreSettings": "Liker ID",
     "contactUs": "Contact Us",
-    "followSettings": "Content Jockey",
-    "LanguageSettings": "Language",
     "openSourceLicense": "Open Source License",
     "privacyPolicy": "Privacy Policy",
-    "SubHeader": {
-      "Settings": "Settings"
-    },
     "Panel": {
+      "Settings": {
+        "Header": "Settings",
+        "ContentJockey": "Content Jockey",
+        "Language": "Language",
+        "Profile": "Profile",
+        "Security": "Security",
+        "WebsitesSignIn": "Website Sign-in"
+      },
       "Statistics": {
         "Rewarded": {
           "GetRewardsButtonTitle": "Get rewards",
@@ -287,8 +292,7 @@
     "Referral": "Referral Bonus",
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
-    "title": "Settings",
-    "WebsiteSignIn": "Website Sign-in"
+    "title": "Settings"
   },
   "storybook": {
     "placeholder": "Placeholder",

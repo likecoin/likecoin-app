@@ -3,6 +3,9 @@
     "Title": "你满意 Liker Land 吗?",
     "DenialTitle": "可否给我们一些改善建议?"
   },
+  "ProfileSettingsScreen": {
+    "Title": "个人资料设定"
+  },
   "BookmarkScreen": {
     "title": "阅读列表"
   },
@@ -236,16 +239,18 @@
     }
   },
   "settingsScreen": {
-    "authcoreSettings": "Liker ID",
     "contactUs": "联络我们",
-    "followSettings": "内容伯乐",
-    "LanguageSettings": "语言",
     "openSourceLicense": "开源授权",
     "privacyPolicy": "隐私权政策",
-    "SubHeader": {
-      "Settings": "设定"
-    },
     "Panel": {
+      "Settings": {
+        "Header": "设定",
+        "ContentJockey": "内容伯乐",
+        "Language": "语言",
+        "Profile": "个人资料",
+        "Security": "安全",
+        "WebsitesSignIn": "媒体登录帐号"
+      },
       "Statistics": {
         "Rewarded": {
           "GetRewardsButtonTitle": "获得赞赏",
@@ -267,8 +272,7 @@
     "Referral": "推荐奬赏",
     "subscription": "订阅",
     "termsOfUse": "使用条款",
-    "title": "设定",
-    "WebsiteSignIn": "媒体登录帐号"
+    "title": "设定"
   },
   "storybook": {
     "placeholder": "Placeholder",

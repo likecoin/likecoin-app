@@ -9,6 +9,7 @@ import {
   StatisticsRewardedScreen,
 } from "../screens/statistics-screen"
 import { ReferralScreen } from "../screens/referral-screen"
+import { ProfileSettingsScreen } from "../screens/profile-settings-screen"
 import { SettingsScreen } from "../screens/settings-screen"
 import { SubscriptionScreen } from "../screens/subscription-screen"
 import { WebsiteSignInScreen } from "../screens/website-signin-screen"
@@ -17,6 +18,7 @@ import { WebsiteSignInWebviewScreen } from "../screens/website-signin-webview-sc
 export const SettingsNavigator = createStackNavigator({
   FollowSettings: FollowSettingsScreen,
   LanguageSettings: LanguageSettingsScreen,
+  ProfileSettings: ProfileSettingsScreen,
   Referral: ReferralScreen,
   Settings: SettingsScreen,
   StatisticsSupported: StatisticsSupportedScreen,
