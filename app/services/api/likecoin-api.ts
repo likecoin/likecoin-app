@@ -51,7 +51,7 @@ export class LikeCoinAPI {
     bookmarks: {
       get: async (
         opts: {
-          archived: 0 | 1
+          archived: 0 | 1 | ""
           before?: number
           after?: number
           limit?: number
@@ -95,6 +95,18 @@ export class LikeCoinAPI {
           "/users/bookmarks",
           undefined,
           { params: { url } },
+        )
+
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+
+        return { kind: "ok" }
+      },
+      archive: async (id: string): Promise<Types.GeneralResult> => {
+        const response: ApiResponse<any> = await this.apisauce.post(
+          `/users/bookmarks/${id}/archive`,
         )
 
         if (!response.ok) {

@@ -9,7 +9,13 @@ export const ContentBookmarkModel = types
     url: types.identifier,
     id: types.maybe(types.string),
     timestamp: types.number,
+    isArchived: types.optional(types.boolean, false),
   })
+  .actions(self => ({
+    setIsArchived(value: boolean) {
+      self.isArchived = value
+    },
+  }))
 
 type ContentBookmarkType = Instance<typeof ContentBookmarkModel>
 export interface ContentBookmark extends ContentBookmarkType {}

@@ -3,6 +3,7 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BookmarkResult, BookmarksResult } from "../../services/api"
 import { logError } from "../../utils/error"
 
+import { Content } from "../content"
 import { ContentBookmark, ContentBookmarkModel } from "../content-bookmark"
 import {
   withContentBookmarksStore,
@@ -22,14 +23,30 @@ export const ContentBookmarksListStoreModel = types
   .extend(withContentBookmarksStore)
   .extend(withStatus)
   .views(self => ({
-    get contents() {
+    get list() {
       return [...self.contentBookmarksStore.items.values()]
+    },
+  }))
+  .views(self => ({
+    get contents() {
+      const bookmarks: Content[] = []
+      const archives: Content[] = []
+      self.list
         .sort(
           (bookmarkA, bookmarkB) => bookmarkB.timestamp - bookmarkA.timestamp,
         )
-        .map(bookmark => {
-          return self.getContentFromURL(bookmark.url)
+        .forEach(bookmark => {
+          const content = self.getContentFromURL(bookmark.url)
+          if (content.isArchived) {
+            archives.push(content)
+          } else {
+            bookmarks.push(content)
+          }
         })
+      return {
+        bookmarks,
+        archives,
+      }
     },
   }))
   .actions(self => {
@@ -59,7 +76,7 @@ export const ContentBookmarksListStoreModel = types
           self.status = "pending"
           const result: BookmarksResult = yield self.env.likeCoinAPI.users.bookmarks.get(
             {
-              archived: 0,
+              archived: "",
             },
           )
           if (result.kind === "ok") {
@@ -77,9 +94,9 @@ export const ContentBookmarksListStoreModel = types
           self.status = "pending-more"
           const result: BookmarksResult = yield self.env.likeCoinAPI.users.bookmarks.get(
             {
-              archived: 0,
+              archived: "",
               after:
-                self.contents[self.contents.length - 1].bookmarkedTimestamp,
+                self.list[self.list.length - 1].timestamp,
             },
           )
           if (result.kind === "ok") {

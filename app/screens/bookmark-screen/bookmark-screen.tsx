@@ -45,7 +45,7 @@ class BookmarkScreenBase extends React.Component<Props> {
       >
         <Header headerTx="BookmarkScreen.title" />
         <ContentList
-          data={this.props.contentBookmarksListStore.contents}
+          data={this.props.contentBookmarksListStore.contents.bookmarks}
           hasFetched={status !== "idle"}
           isLoading={status === "pending"}
           isShowBookmarkIcon={false}

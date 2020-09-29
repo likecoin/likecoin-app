@@ -1,4 +1,5 @@
 import AlertCircle from "./alert-circle.svg"
+import ArchiveIcon from "./archive.svg"
 import ArrowIncrease from "./arrow-increase.svg"
 import ArrowDecrease from "./arrow-decrease.svg"
 import ArrowDownIcon from "./arrow-down.svg"
@@ -29,6 +30,7 @@ import UndoIcon from "./undo.svg"
 
 export const icons = {
   "alert-circle": AlertCircle,
+  "archive": ArchiveIcon,
   "arrow-increase": ArrowIncrease,
   "arrow-decrease": ArrowDecrease,
   "arrow-down": ArrowDownIcon,

@@ -82,6 +82,10 @@ export class ContentListItem extends React.Component<Props, State> {
     }
   }
 
+  private onPressArchiveButton = () => {
+    this.props.content.archiveBookmark()
+  }
+
   private onPressMoreButton = () => {
     if (this.state.isRowOpen) {
       this.swipeRowRef.current.closeRow()
@@ -153,6 +157,8 @@ export class ContentListItem extends React.Component<Props, State> {
     const {
       coverImageURL,
       normalizedTitle,
+      isArchived,
+      isUpdatingBookmarkArchive,
     } = content
 
     const rootStyle = {
@@ -189,6 +195,16 @@ export class ContentListItem extends React.Component<Props, State> {
                   text={content.creatorDisplayName}
                 />
                 <View style={Style.AccessoryView}>
+                  <Button
+                    key={`archive-${isArchived}`}
+                    preset="secondary"
+                    size="tiny"
+                    icon="archive"
+                    isLoading={isUpdatingBookmarkArchive}
+                    disabled={isArchived}
+                    style={Style.MoreButton}
+                    onPress={this.onPressArchiveButton}
+                  />
                   <Button
                     preset="plain"
                     icon="three-dot-horizontal"

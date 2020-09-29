@@ -3,6 +3,7 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import {
   BookmarkAddResult,
   ContentResult,
+  GeneralResult,
   LikeStatResult,
 } from "../../services/api"
 import { logError } from "../../utils/error"
@@ -52,6 +53,7 @@ export const ContentModel = types
     isFetchingDetails: false,
     isFetchingLikeStats: false,
     isUpdatingBookmark: false,
+    isUpdatingBookmarkArchive: false,
   }))
   .extend(withCreatorsStore)
   .extend(withContentBookmarksStore)
@@ -91,11 +93,17 @@ export const ContentModel = types
     hasRead() {
       return !!self.readUsers.get(self.currentUserID)
     },
+    get bookmark() {
+      return self.getBookmarkByURL(self.url)
+    },
     get isBookmarked() {
       return self.checkIsBookmarkedURL(self.url)
     },
+    get isArchived() {
+      return !!this.bookmark?.isArchived
+    },
     get bookmarkedTimestamp() {
-      return self.getBookmarkByURL(self.url)?.timestamp
+      return this.bookmark?.timestamp
     },
   }))
   .actions(self => {
@@ -185,6 +193,7 @@ export const ContentModel = types
               id,
               url: self.url,
               timestamp: Date.now(),
+              isArchived: false,
             })
           }
         } catch (error) {
@@ -207,6 +216,29 @@ export const ContentModel = types
           logError(error)
         } finally {
           self.isUpdatingBookmark = false
+        }
+      }),
+      archiveBookmark: flow(function*() {
+        console.tron.log(!self.isBookmarked, self.isArchived)
+        if (
+          self.isUpdatingBookmarkArchive ||
+          !self.isBookmarked ||
+          self.isArchived
+        ) {
+          return
+        }
+        self.isUpdatingBookmarkArchive = true
+        try {
+          const response: GeneralResult = yield self.env.likeCoinAPI.users.bookmarks.archive(
+            self.bookmark.id,
+          )
+          if (response.kind === "ok") {
+            self.updateBookmarkIsArchived(self.url, true)
+          }
+        } catch (error) {
+          logError(error)
+        } finally {
+          self.isUpdatingBookmarkArchive = false
         }
       }),
     }
