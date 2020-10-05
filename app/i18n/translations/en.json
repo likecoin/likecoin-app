@@ -6,6 +6,9 @@
   "BookmarkScreen": {
     "title": "Reading list"
   },
+  "BookmarkArchivesScreen": {
+    "title": "Archives"
+  },
   "common": {
     "back": "Back",
     "cancel": "Cancel",

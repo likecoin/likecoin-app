@@ -85,6 +85,7 @@ export class ContentList extends React.Component<Props> {
         style={[Style.Full, this.props.style]}
         onEndReached={this.onEndReach}
         onEndReachedThreshold={this.props.onEndReachedThreshold}
+        onScroll={this.props.onScroll}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )
@@ -108,6 +109,7 @@ export class ContentList extends React.Component<Props> {
         stickySectionHeadersEnabled={false}
         onEndReached={this.onEndReach}
         onEndReachedThreshold={this.props.onEndReachedThreshold}
+        onScroll={this.props.onScroll}
         onScrollBeginDrag={this.onScrollBeginDrag}
       />
     )

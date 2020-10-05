@@ -6,9 +6,8 @@ import { WrapScrollViewShadowStyle as Style } from "./wrap-scrollview-shadow.sty
 
 export const wrapScrollViewShadow = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
-) => {
-  // eslint-disable-next-line react/display-name
-  return class extends React.Component<P & Props> {
+) =>
+  class WrappedScrollView extends React.Component<P & Props> {
     state = {
       scrollY: new Animated.Value(0),
     }
@@ -45,4 +44,3 @@ export const wrapScrollViewShadow = <P extends object>(
       )
     }
   }
-}

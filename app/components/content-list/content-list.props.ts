@@ -1,13 +1,16 @@
-import { SectionListData, StyleProp, ViewStyle } from "react-native"
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  SectionListData,
+  StyleProp,
+  ViewStyle,
+} from "react-native"
 
 import { ContentListItemStyleProps } from "../content-list-item"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
-import {
-  WrapScrollViewShadowProps,
-} from "../wrap-scrollview-shadow/wrap-scrollview-shadow.props"
 
 export interface ContentListBaseProps extends ContentListItemStyleProps {
   titleLabelTx?: string
@@ -34,9 +37,15 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
   onRefresh?: () => void
 
   /**
+   * Fires at most once per frame during scrolling.
+   * The frequency of the events can be contolled using the scrollEventThrottle prop.
+   */
+  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
+
+  /**
    * Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
    */
-  onEndReached?: ((info: { distanceFromEnd: number }) => void) | null;
+  onEndReached?: ((info: { distanceFromEnd: number }) => void) | null
 
   /**
    * How far from the end (in units of visible length of the list) the bottom edge of the
@@ -44,7 +53,7 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
    * Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
    * within half the visible length of the list.
    */
-  onEndReachedThreshold?: number | null;
+  onEndReachedThreshold?: number | null
 
   style?: StyleProp<ViewStyle>
 }
@@ -67,9 +76,7 @@ export interface ContentListProps extends ContentListBaseProps {
   onPressItem?: (content: Content) => void
 }
 
-export interface SuperLikedContentListProps
-  extends ContentListBaseProps,
-    WrapScrollViewShadowProps {
+export interface SuperLikedContentListProps extends ContentListBaseProps {
   data?: ReadonlyArray<SuperLike>
 
   /**

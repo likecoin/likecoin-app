@@ -8,7 +8,6 @@ import { SuperLikedContentListProps as Props } from "./content-list.props"
 import { ContentListStyle as Style, RefreshControlColors } from "./content-list.style"
 
 import { ContentListItemSkeleton, SuperLikeContentListItem } from "../content-list-item"
-import { wrapScrollViewShadow } from "../wrap-scrollview-shadow"
 import { Text } from "../text"
 
 import { SuperLike } from "../../models/super-like"
@@ -16,7 +15,7 @@ import { SuperLike } from "../../models/super-like"
 const ContentSectionList: SectionListStatic<SuperLike> = SectionListBase
 
 @observer
-class SuperLikeContentListBase extends React.Component<Props> {
+export class SuperLikeContentList extends React.Component<Props> {
   listItemRefs = {} as { [key: string]: React.RefObject<SwipeRow<{}>> }
 
   private keyExtractor = (content: SuperLike) => `${this.props.lastFetched}${content.id}`
@@ -173,5 +172,3 @@ class SuperLikeContentListBase extends React.Component<Props> {
     ) : null
   }
 }
-
-export const SuperLikeContentList = wrapScrollViewShadow(SuperLikeContentListBase)

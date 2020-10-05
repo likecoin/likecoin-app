@@ -195,16 +195,18 @@ export class ContentListItem extends React.Component<Props, State> {
                   text={content.creatorDisplayName}
                 />
                 <View style={Style.AccessoryView}>
-                  <Button
-                    key={`archive-${isArchived}`}
-                    preset="secondary"
-                    size="tiny"
-                    icon="archive"
-                    isLoading={isUpdatingBookmarkArchive}
-                    disabled={isArchived}
-                    style={Style.MoreButton}
-                    onPress={this.onPressArchiveButton}
-                  />
+                  {!isArchived &&
+                    <Button
+                      key={`archive-${isArchived}`}
+                      preset="secondary"
+                      size="tiny"
+                      icon="archive"
+                      isLoading={isUpdatingBookmarkArchive}
+                      disabled={isArchived}
+                      style={Style.MoreButton}
+                      onPress={this.onPressArchiveButton}
+                    />
+                  }
                   <Button
                     preset="plain"
                     icon="three-dot-horizontal"

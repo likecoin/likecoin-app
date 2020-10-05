@@ -4,7 +4,10 @@
     "DenialTitle": "可否给我们一些改善建议?"
   },
   "BookmarkScreen": {
-    "title": "阅读列表"
+    "Title": "阅读列表"
+  },
+  "BookmarkArchivesScreen": {
+    "Title": "收藏列表"
   },
   "common": {
     "back": "返回",
