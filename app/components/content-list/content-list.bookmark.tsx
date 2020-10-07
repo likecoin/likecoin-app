@@ -3,28 +3,28 @@ import { ListRenderItemInfo, RefreshControl, View } from "react-native"
 import { observer } from "mobx-react"
 import { RowMap, SwipeListView } from "react-native-swipe-list-view"
 
-import { SuperLike } from "../../models/super-like"
-
-import {
-  BUTTON_BASE,
-  ContentListItemSkeleton,
-  SuperLikeContentListItem,
-  SuperLikeContentListItemBack,
-} from "../content-list-item"
-import { Text } from "../text"
-
+import { BookmarkedContentListProps as Props } from "./content-list.props"
 import {
   ContentListStyle as Style,
   RefreshControlColors,
 } from "./content-list.style"
-import { SuperLikeContentListProps as Props } from "./content-list.props"
+
+import {
+  BUTTON_BASE,
+  BookmarkedContentListItem,
+  BookmarkedContentListItemBack,
+  ContentListItemSkeleton,
+} from "../content-list-item"
+import { Text } from "../text"
+
+import { Content } from "../../models/content"
 
 @observer
-export class SuperLikeContentList extends React.Component<Props> {
+export class BookmarkedContentList extends React.Component<Props> {
   private rowOpenSet = new Set<string>()
 
-  private keyExtractor = (item: SuperLike) =>
-    `${this.props.lastFetched}${item.id}`
+  private keyExtractor = (content: Content) =>
+    `${this.props.lastFetched}${content.url}`
 
   private handleRowOpen = (rowKey: string) => {
     this.rowOpenSet.add(rowKey)
@@ -45,7 +45,7 @@ export class SuperLikeContentList extends React.Component<Props> {
     }
   }
 
-  private toggleItemBack = (rowMap: RowMap<SuperLike>, rowKey: string) => {
+  private toggleItemBack = (rowMap: RowMap<Content>, rowKey: string) => {
     if (rowMap[rowKey]) {
       if (this.rowOpenSet.has(rowKey)) {
         rowMap[rowKey].closeRow()
@@ -55,22 +55,20 @@ export class SuperLikeContentList extends React.Component<Props> {
     }
   }
 
-  private renderRefreshControl = () =>
-    this.props.onRefresh ? (
-      <RefreshControl
-        colors={RefreshControlColors}
-        refreshing={this.props.hasFetched && this.props.isLoading}
-        onRefresh={this.props.onRefresh}
-      />
-    ) : null
+  private renderRefreshControl = () => (
+    <RefreshControl
+      colors={RefreshControlColors}
+      refreshing={this.props.hasFetched && this.props.isLoading}
+      onRefresh={this.props.onRefresh}
+    />
+  )
 
   private renderItem = (
-    { item }: ListRenderItemInfo<SuperLike>,
-    rowMap: RowMap<SuperLike>,
+    { item }: ListRenderItemInfo<Content>,
+    rowMap: RowMap<Content>,
   ) => (
-    <SuperLikeContentListItem
+    <BookmarkedContentListItem
       item={item}
-      isShowFollowToggle={this.props.isShowFollowToggle}
       backgroundColor={this.props.backgroundColor}
       underlayColor={this.props.underlayColor}
       skeletonPrimaryColor={this.props.skeletonPrimaryColor}
@@ -79,24 +77,24 @@ export class SuperLikeContentList extends React.Component<Props> {
       onPressMoreButton={() =>
         this.toggleItemBack(rowMap, this.keyExtractor(item))
       }
-      onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
+      onPressUndoRemoveBookmarkButton={this.props.onToggleBookmark}
       onToggleBookmark={this.props.onToggleBookmark}
       onToggleFollow={this.props.onToggleFollow}
     />
   )
 
   private renderHiddenItem = (
-    { item }: ListRenderItemInfo<SuperLike>,
-    rowMap: RowMap<SuperLike>,
+    { item }: ListRenderItemInfo<Content>,
+    rowMap: RowMap<Content>,
   ) => {
     return (
-      <SuperLikeContentListItemBack
+      <BookmarkedContentListItemBack
         item={item}
+        onRemove={this.props.onToggleBookmark}
+        onToggleArchive={this.props.onToggleArchive}
         onTriggerAction={() =>
           this.toggleItemBack(rowMap, this.keyExtractor(item))
         }
-        onToggleBookmark={this.props.onToggleBookmark}
-        onToggleFollow={this.props.onToggleFollow}
       />
     )
   }
@@ -136,7 +134,7 @@ export class SuperLikeContentList extends React.Component<Props> {
 
   render() {
     return (
-      <SwipeListView<SuperLike>
+      <SwipeListView<Content>
         data={this.props.data}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}

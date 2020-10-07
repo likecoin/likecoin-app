@@ -7,7 +7,7 @@
     "Title": "閱讀列表"
   },
   "BookmarkArchivesScreen": {
-    "Title": "收藏列表"
+    "Title": "封存列表"
   },
   "common": {
     "back": "返回",
@@ -31,11 +31,15 @@
   },
   "ContentListItem": {
     "Back": {
+      "Archive": "封存",
       "Bookmark": "加到閱讀列表",
       "Follow": "追蹤",
+      "Remove": "移除",
+      "Unarchive": "從封存列表移除",
       "Unbookmark": "從閱讀列表移除",
       "Unfollow": "取消追蹤"
     },
+    "BookmarkRemoveLabel": "已移除",
     "likeStatsLabel": {
       "other": "{{count}} 個讚"
     }

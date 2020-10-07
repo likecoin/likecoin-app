@@ -1,43 +1,25 @@
 import * as React from "react"
 import { ActivityIndicator, TouchableHighlight, View, ViewStyle } from "react-native"
-import { SwipeRow } from "react-native-swipe-list-view"
 import { observer } from "mobx-react"
 
-import { SuperLikedContentListItemProps as Props } from "./content-list-item.props"
-import { SuperLikeContentListItemStyle as Style } from "./content-list-item.super-like.style"
-import { ContentListItemState as State } from "./content-list-item.state"
-import { ContentListItemStyle as LegacyStyle } from "./content-list-item.style"
-import { ContentListItemSkeleton } from "./content-list-item.skeleton"
-import { ContentListItemBack } from "./content-list-item.back"
+import { translate } from "../../i18n"
+import { color } from "../../theme"
 
 import { Button } from "../button"
 import { Icon } from "../icon"
 import { I18n } from "../i18n"
 import { Text } from "../text"
 
-import { translate } from "../../i18n"
-import { color } from "../../theme"
+import { SuperLikeContentListItemProps as Props } from "./content-list-item.props"
+import { SuperLikeContentListItemStyle as Style } from "./content-list-item.super-like.style"
+import { ContentListItemStyle as LegacyStyle } from "./content-list-item.style"
+import { ContentListItemSkeleton } from "./content-list-item.skeleton"
 
 @observer
-export class SuperLikeContentListItem extends React.Component<Props, State> {
-  swipeRowRef = React.createRef<SwipeRow<{}>>()
-
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isRowOpen: false,
-      offsetX: 0,
-    }
-  }
-
-  static defaultProps = {
-    isShowBookmarkIcon: true,
-  } as Partial<Props>
-
+export class SuperLikeContentListItem extends React.Component<Props, {}> {
   componentDidMount() {
-    if (this.props.content.content?.checkShouldFetchDetails()) {
-      this.props.content.content.fetchDetails()
+    if (this.props.item.content?.checkShouldFetchDetails()) {
+      this.props.item.content.fetchDetails()
     }
     this.fetchCreatorDependedDetails()
   }
@@ -46,128 +28,52 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
     this.fetchCreatorDependedDetails()
   }
 
-  private getSwipeRowWidth() {
-    return -(this.props.content.liker ? 128 : 64)
-  }
-
   private fetchCreatorDependedDetails() {
-    if (this.props.content.content?.checkShouldFetchCreatorDetails()) {
-      this.props.content.content.creator.fetchDetails()
+    if (this.props.item.content?.checkShouldFetchCreatorDetails()) {
+      this.props.item.content.creator.fetchDetails()
     }
-    if (this.props.content.liker?.checkShouldFetchDetails()) {
-      this.props.content.liker.fetchDetails()
+    if (this.props.item.liker?.checkShouldFetchDetails()) {
+      this.props.item.liker.fetchDetails()
     }
-  }
-
-  private onRowOpen = () => {
-    if (this.props.onSwipeOpen) {
-      this.props.onSwipeOpen(this.props.content.content.url, this.swipeRowRef)
-    }
-    this.setState({ isRowOpen: true })
-  }
-
-  private onRowClose = () => {
-    if (this.props.onSwipeClose) {
-      this.props.onSwipeClose(this.props.content.content.url)
-    }
-    this.setState({ isRowOpen: false })
   }
 
   private onToggleBookmark = () => {
-    this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleBookmark && this.props.content?.content) {
-      this.props.onToggleBookmark(this.props.content.content)
+    if (this.props.onToggleBookmark && this.props.item?.content) {
+      this.props.onToggleBookmark(this.props.item.content)
     }
   }
 
   private onToggleFollow = () => {
-    this.swipeRowRef.current.closeRow()
-    if (this.props.onToggleFollow && this.props.content?.liker) {
-      this.props.onToggleFollow(this.props.content.liker)
+    if (this.props.onToggleFollow && this.props.item?.liker) {
+      this.props.onToggleFollow(this.props.item.liker)
     }
   }
 
   private onPressMoreButton = () => {
-    if (this.state.isRowOpen) {
-      this.swipeRowRef.current.closeRow()
-    } else {
-      this.swipeRowRef.current.manuallySwipeRow(this.getSwipeRowWidth())
+    if (this.props.onPressMoreButton) {
+      this.props.onPressMoreButton()
     }
   }
 
   private onPress = () => {
     if (this.props.onPress) {
-      this.props.onPress(this.props.content)
+      this.props.onPress(this.props.item)
     }
   }
 
   private onPressUndoButton = () => {
     if (this.props.onPressUndoUnfollowButton) {
-      this.props.onPressUndoUnfollowButton(this.props.content.liker)
+      this.props.onPressUndoUnfollowButton(this.props.item.liker)
     }
   }
 
-  render() {
-    const { isBookmarked, isLoading } = this.props.content?.content || {}
-    const {
-      isFetchingDetails: isFetchingSuperLikerDetails,
-      hasFetchedDetails: hasFetchedSuperLikerDetails,
-      isFollowing: isFollowingSuperLiker,
-      isShowUndoUnfollow,
-    } = this.props.content?.liker || {}
-    if (isLoading || !this.props.content?.liker) {
-      return (
-        <ContentListItemSkeleton
-          primaryColor={this.props.skeletonPrimaryColor}
-          secondaryColor={this.props.skeletonSecondaryColor}
-        />
-      )
-    } else if (
-      this.props.onPressUndoUnfollowButton &&
-      !isFetchingSuperLikerDetails &&
-      hasFetchedSuperLikerDetails &&
-      isShowUndoUnfollow
-    ) {
-      return this.renderUndo()
-    }
-
-    return (
-      <SwipeRow
-        ref={this.swipeRowRef}
-        rightOpenValue={this.getSwipeRowWidth()}
-        stopLeftSwipe={0}
-        onRowOpen={this.onRowOpen}
-        onRowClose={this.onRowClose}
-      >
-        <ContentListItemBack
-          isShowFollowToggle={true}
-          isBookmarked={isBookmarked}
-          isFollowingCreator={!!isFollowingSuperLiker}
-          onToggleBookmark={this.onToggleBookmark}
-          onToggleFollow={this.onToggleFollow}
-        />
-        {this.renderFront()}
-      </SwipeRow>
-    )
-  }
-
-  private renderFront() {
-    const { backgroundColor, content, style } = this.props
-
-    const rootStyle = {
-      ...LegacyStyle.Root,
-      ...style,
-      transform: [{ translateX: this.state.offsetX }],
-    } as ViewStyle
-
-    if (backgroundColor) {
-      rootStyle.backgroundColor = backgroundColor
-    }
+  private renderContent() {
+    const { item: content } = this.props
 
     return (
       <TouchableHighlight
         underlayColor={this.props.underlayColor || color.palette.greyf2}
-        style={rootStyle}
+        style={LegacyStyle.Root}
         onPress={this.onPress}
       >
         <View style={Style.Inset}>
@@ -204,6 +110,8 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
               color="grey9b"
               size="default"
               weight="600"
+              numberOfLines={1}
+              ellipsizeMode="tail"
             />
             <View style={Style.AccessoryView}>
               {!!content?.content?.hasRead() && (
@@ -275,7 +183,7 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
         <View style={LegacyStyle.UndoTextWrapper}>
           <Text
             text={translate("common.unfollowSuccess", {
-              creator: this.props.content?.liker?.normalizedName || "",
+              creator: this.props.item?.liker?.normalizedName || "",
             })}
             weight="600"
             color="grey9b"
@@ -302,4 +210,42 @@ export class SuperLikeContentListItem extends React.Component<Props, State> {
       </View>
     )
   }
+
+  renderSubView() {
+    const { isLoading } = this.props.item?.content || {}
+    const {
+      isFetchingDetails: isFetchingSuperLikerDetails,
+      hasFetchedDetails: hasFetchedSuperLikerDetails,
+      isShowUndoUnfollow,
+    } = this.props.item?.liker || {}
+    if (isLoading || !this.props.item?.liker) {
+      return (
+        <ContentListItemSkeleton
+          primaryColor={this.props.skeletonPrimaryColor}
+          secondaryColor={this.props.skeletonSecondaryColor}
+        />
+      )
+    } else if (
+      this.props.onPressUndoUnfollowButton &&
+      !isFetchingSuperLikerDetails &&
+      hasFetchedSuperLikerDetails &&
+      isShowUndoUnfollow
+    ) {
+      return this.renderUndo()
+    }
+
+    return this.renderContent()
+  }
+
+  render() {
+    const style: ViewStyle = {
+      backgroundColor: this.props.backgroundColor || color.palette.white,
+      ...this.props.style,
+    }
+    return (
+      <View style={style}>
+        {this.renderSubView()}
+      </View>
+    )
+  } 
 }

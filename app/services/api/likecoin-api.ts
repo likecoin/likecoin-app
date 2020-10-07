@@ -116,6 +116,18 @@ export class LikeCoinAPI {
 
         return { kind: "ok" }
       },
+      unarchive: async (id: string): Promise<Types.GeneralResult> => {
+        const response: ApiResponse<any> = await this.apisauce.delete(
+          `/users/bookmarks/${id}/archive`,
+        )
+
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+
+        return { kind: "ok" }
+      },
     },
     notifications: {
       get: async (

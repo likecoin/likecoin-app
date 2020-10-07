@@ -193,7 +193,6 @@ export const ContentModel = types
               id,
               url: self.url,
               timestamp: Date.now(),
-              isArchived: false,
             })
           }
         } catch (error) {
@@ -219,7 +218,6 @@ export const ContentModel = types
         }
       }),
       archiveBookmark: flow(function*() {
-        console.tron.log(!self.isBookmarked, self.isArchived)
         if (
           self.isUpdatingBookmarkArchive ||
           !self.isBookmarked ||
@@ -234,6 +232,28 @@ export const ContentModel = types
           )
           if (response.kind === "ok") {
             self.updateBookmarkIsArchived(self.url, true)
+          }
+        } catch (error) {
+          logError(error)
+        } finally {
+          self.isUpdatingBookmarkArchive = false
+        }
+      }),
+      unarchiveBookmark: flow(function*() {
+        if (
+          self.isUpdatingBookmarkArchive ||
+          !self.isBookmarked ||
+          !self.isArchived
+        ) {
+          return
+        }
+        self.isUpdatingBookmarkArchive = true
+        try {
+          const response: GeneralResult = yield self.env.likeCoinAPI.users.bookmarks.unarchive(
+            self.bookmark.id,
+          )
+          if (response.kind === "ok") {
+            self.updateBookmarkIsArchived(self.url, false)
           }
         } catch (error) {
           logError(error)

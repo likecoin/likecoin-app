@@ -17,6 +17,9 @@ export const ContentListItemStyle = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
   } as ViewStyle,
+  CreatorDisplayName: {
+    flex: 1,
+  } as TextStyle,
   FooterView: {
     marginTop: spacing[1],
     flexDirection: "row",
@@ -49,7 +52,6 @@ export const ContentListItemStyle = StyleSheet.create({
   Root: {
     position: "relative",
     paddingVertical: spacing[4],
-    backgroundColor: color.palette.white,
   } as ViewStyle,
   RootUndo: {
     flexDirection: "row",
@@ -58,7 +60,6 @@ export const ContentListItemStyle = StyleSheet.create({
     backgroundColor: color.palette.greyf7,
   } as ViewStyle,
   Title: {
-    flex: 1,
     color: color.palette.grey4a,
     fontSize: fontSize.medium,
     lineHeight: fontSize.medium * 1.5,

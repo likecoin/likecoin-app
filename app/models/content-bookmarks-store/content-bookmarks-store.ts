@@ -24,12 +24,22 @@ const ContentBookmarksStoreBaseModel = types
     reset() {
       self.items.replace({})
     },
-    add(snapshot: ContentBookmarkSnapshot) {
-      self.items.put(ContentBookmarkModel.create(snapshot))
+    add(snapshot: Partial<ContentBookmarkSnapshot>) {
+      const bookmark = self.items.get(snapshot.url)
+      if (bookmark && bookmark.willBeDeleted) {
+        bookmark.setWillBeDeleted(false)
+      } else {
+        self.items.put(ContentBookmarkModel.create(snapshot))
+      }
     },
     remove(url: string) {
-      self.items.delete(url)
+      const bookmark = self.items.get(url)
+      if (bookmark) {
+        bookmark.setWillBeDeleted(true)
+      }
     },
+  }))
+  .actions(self => ({
     addAll(bookmarks: ContentBookmark[]) {
       bookmarks.forEach(bookmark => {
         self.items.put(bookmark)
@@ -43,6 +53,7 @@ export const ContentBookmarksStoreModel = types.snapshotProcessor(
     postProcessor(snapshot) {
       const items: ContentBookmarksMapSnapshot = {}
       Object.keys(snapshot.items)
+        .filter(id => !snapshot.items[id].willBeDeleted)
         .sort((idA, idB) => {
           const bookmarkA = snapshot.items[idA]
           const bookmarkB = snapshot.items[idB]

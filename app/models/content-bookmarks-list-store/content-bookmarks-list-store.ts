@@ -50,10 +50,16 @@ export const ContentBookmarksListStoreModel = types
     },
   }))
   .actions(self => {
-    function createContentBookmarksFromResultList(results: BookmarkResult[]) {
+    function createContentBookmarksFromResultList(
+      results: BookmarkResult[],
+      opts?: { shouldReset: boolean },
+    ) {
+      if (opts?.shouldReset) {
+        self.contentBookmarksStore.reset()
+      }
       const bookmarks: ContentBookmark[] = []
       results.forEach(result => {
-        const { id, url, ts: timestamp } = result
+        const { id, url, ts: timestamp, isArchived } = result
         let bookmark: ContentBookmark
         self.createContentFromURL(url)
         if (!self.checkIsBookmarkedURL(url)) {
@@ -61,6 +67,7 @@ export const ContentBookmarksListStoreModel = types
             id,
             timestamp,
             url,
+            isArchived,
           })
           bookmarks.push(bookmark)
         }
@@ -80,7 +87,9 @@ export const ContentBookmarksListStoreModel = types
             },
           )
           if (result.kind === "ok") {
-            createContentBookmarksFromResultList(result.data)
+            createContentBookmarksFromResultList(result.data, {
+              shouldReset: true,
+            })
           }
         } catch (error) {
           logError(error)
@@ -95,8 +104,7 @@ export const ContentBookmarksListStoreModel = types
           const result: BookmarksResult = yield self.env.likeCoinAPI.users.bookmarks.get(
             {
               archived: "",
-              after:
-                self.list[self.list.length - 1].timestamp,
+              after: self.list[self.list.length - 1].timestamp,
             },
           )
           if (result.kind === "ok") {

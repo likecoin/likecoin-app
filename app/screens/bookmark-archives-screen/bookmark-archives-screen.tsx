@@ -5,7 +5,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { Content } from "../../models/content"
 
-import { ContentList } from "../../components/content-list"
+import { BookmarkedContentList } from "../../components/content-list"
 import { wrapContentListScreen } from "../../components/content-list-screen"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
@@ -17,11 +17,19 @@ import { BookmarkArchivesScreenStyle as Style } from "./bookmark-archives-screen
 @observer
 class BookmarkArchivesScreenBase extends React.Component<Props> {
   private onToggleBookmark = (content: Content) => {
-    if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
     logAnalyticsEvent(
       `ArchivesList${content.isBookmarked ? "Remove" : "Add"}Bookmark`,
       { url: content.url },
     )
+    if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
+  }
+
+  private onToggleArchive = (content: Content) => {
+    logAnalyticsEvent(
+      `ArchivesList${content.isArchived ? "Archive" : "Unarchive"}`,
+      { url: content.url },
+    )
+    if (this.props.onToggleArchive) this.props.onToggleArchive(content)
   }
 
   private onPressBackButton = () => {
@@ -37,12 +45,13 @@ class BookmarkArchivesScreenBase extends React.Component<Props> {
           leftIcon="back"
           onLeftPress={this.onPressBackButton}
         />
-        <ContentList
+        <BookmarkedContentList
           data={this.props.contentBookmarksListStore.contents.archives}
           hasFetched={status !== "idle"}
           isLoading={status === "pending"}
           isShowBookmarkIcon={false}
           onPressItem={this.props.onPressContentItem}
+          onToggleArchive={this.onToggleArchive}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.props.onToggleFollow}
           onRefresh={this.props.contentBookmarksListStore.fetch}

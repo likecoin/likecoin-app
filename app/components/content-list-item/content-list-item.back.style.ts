@@ -7,40 +7,48 @@ import {
 import { sizes } from "../text/text.sizes"
 import { color, spacing } from "../../theme"
 
-const ButtonBase: ViewStyle = {
+export const BUTTON_BASE: ViewStyle = {
   alignItems: "center",
   padding: spacing[2],
   justifyContent: "center",
-  width: 64,
+  width: 88,
   height: "100%",
 }
 
+const BUTTON_TITLE_BASE: TextStyle = {
+  fontSize: sizes.small,
+  fontWeight: "bold",
+  textAlign: "center",
+}
+
 export const ContentListItemBackStyle = StyleSheet.create({
-  ButtonBookmark: {
-    ...ButtonBase,
-    backgroundColor: color.palette.likeCyan,
-  } as ViewStyle,
-  ButtonFollow: {
-    ...ButtonBase,
-    backgroundColor: color.primary,
+  ButtonDanger: {
+    ...BUTTON_BASE,
+    backgroundColor: color.palette.angry,
   } as ViewStyle,
   ButtonIcon: {
     marginBottom: spacing[2],
   } as ViewStyle,
-  ButtonTitle: {
-    fontSize: sizes.small,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: color.palette.white,
-  } as TextStyle,
-  ButtonUnbookmark: {
-    ...ButtonBase,
-    backgroundColor: color.palette.angry,
-  } as ViewStyle,
-  ButtonUnfollow: {
-    ...ButtonBase,
+  ButtonNeutral: {
+    ...BUTTON_BASE,
     backgroundColor: color.palette.grey9b,
   } as ViewStyle,
+  ButtonPrimary: {
+    ...BUTTON_BASE,
+    backgroundColor: color.primary,
+  } as ViewStyle,
+  ButtonPrimaryTitle: {
+    ...BUTTON_TITLE_BASE,
+    color: color.palette.white,
+  } as TextStyle,
+  ButtonSecondary: {
+    ...BUTTON_BASE,
+    backgroundColor: color.palette.lighterCyan,
+  } as ViewStyle,
+  ButtonSecondaryTitle: {
+    ...BUTTON_TITLE_BASE,
+    color: color.primary,
+  } as TextStyle,
   Root: {
     flex: 1,
     flexDirection: "row-reverse",
@@ -51,6 +59,5 @@ export const ContentListItemBackStyle = StyleSheet.create({
 export const ICON_PROPS = {
   width: 24,
   height: 24,
-  fill: color.palette.white,
   style: ContentListItemBackStyle.ButtonIcon,
 }

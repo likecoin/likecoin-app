@@ -1,5 +1,4 @@
 import { ViewStyle } from "react-native"
-import { SwipeRow } from "react-native-swipe-list-view"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
@@ -29,16 +28,6 @@ export interface ContentListItemStyleProps {
 
 export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   /**
-   * Set to false to hide the bookmark icon. Default is true.
-   */
-  isShowBookmarkIcon?: boolean
-
-  /**
-   * Set to true to show the follow toggle. Default is false.
-   */
-  isShowFollowToggle?: boolean
-
-  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle
@@ -54,35 +43,40 @@ export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   onToggleFollow?: (creator: Creator) => void
 
   /**
-   * A callback when the undo button is pressed.
+   * A callback when the more button is pressed.
    */
-  onPressUndoUnfollowButton?: (creator: Creator) => void
-
-  /**
-   * A callback when the list item is swiped to open.
-   */
-  onSwipeOpen?: (key: string, ref: React.RefObject<SwipeRow<{}>>) => void
-
-  /**
-   * A callback when the list item is swiped to close.
-   */
-  onSwipeClose?: (key: string) => void
+  onPressMoreButton?: () => void
 }
 
-export interface ContentListItemProps extends ContentListItemBaseProps {
-  content: Content
+export interface BookmarkedContentListItemProps extends ContentListItemBaseProps {
+  item: Content
 
   /**
    * A callback when the item is pressed.
    */
   onPress?: (content: Content) => void
+
+  /**
+   * A callback when the undo remove bookmark button is pressed.
+   */
+  onPressUndoRemoveBookmarkButton?: (content: Content) => void
 }
 
-export interface SuperLikedContentListItemProps extends ContentListItemBaseProps {
-  content: SuperLike
+export interface SuperLikeContentListItemProps extends ContentListItemBaseProps {
+  item: SuperLike
+
+  /**
+   * Set to true to show the follow toggle. Default is false.
+   */
+  isShowFollowToggle?: boolean
 
   /**
    * A callback when the item is pressed.
    */
   onPress?: (item: SuperLike) => void
+
+  /**
+   * A callback when the undo button is pressed.
+   */
+  onPressUndoUnfollowButton?: (creator: Creator) => void
 }

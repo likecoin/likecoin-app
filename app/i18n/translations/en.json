@@ -4,10 +4,10 @@
     "DenialTitle": "Can you give us some feedback?"
   },
   "BookmarkScreen": {
-    "title": "Reading list"
+    "Title": "Reading list"
   },
   "BookmarkArchivesScreen": {
-    "title": "Archives"
+    "Title": "Archives"
   },
   "common": {
     "back": "Back",
@@ -31,11 +31,15 @@
   },
   "ContentListItem": {
     "Back": {
+      "Archive": "Archive",
       "Bookmark": "Add to reading list",
       "Follow": "Follow",
+      "Remove": "Remove",
+      "Unarchive": "Unarchive",
       "Unbookmark": "Remove from reading list",
       "Unfollow": "Unfollow"
     },
+    "BookmarkRemoveLabel": "Removed",
     "likeStatsLabel": {
       "one": "1 Like",
       "other": "{{count}} Likes"

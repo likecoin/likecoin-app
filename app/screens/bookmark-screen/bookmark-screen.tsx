@@ -7,7 +7,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 import { Content } from "../../models/content"
 
 import { Button } from "../../components/button"
-import { ContentList } from "../../components/content-list"
+import { BookmarkedContentList as BookmarkedContentListBase } from "../../components/content-list"
 import { wrapContentListScreen } from "../../components/content-list-screen"
 import { Header } from "../../components/header"
 import { Screen } from "../../components/screen"
@@ -17,7 +17,7 @@ import { wrapScrollViewShadow } from "../../components/wrap-scrollview-shadow"
 import { BookmarkScreenProps as Props } from "./bookmark-screen.props"
 import { BookmarkScreenStyle as Style } from "./bookmark-screen.style"
 
-const BookmarkContentList = wrapScrollViewShadow(ContentList)
+const BookmarkedContentList = wrapScrollViewShadow(BookmarkedContentListBase)
 
 @inject("contentBookmarksListStore")
 @observer
@@ -29,11 +29,19 @@ class BookmarkScreenBase extends React.Component<Props> {
   }
 
   private onToggleBookmark = (content: Content) => {
-    if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
     logAnalyticsEvent(
       `BookmarkList${content.isBookmarked ? "Remove" : "Add"}Bookmark`,
       { url: content.url },
     )
+    if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
+  }
+
+  private onToggleArchive = (content: Content) => {
+    logAnalyticsEvent(
+      `BookmarkList${content.isArchived ? "Archive" : "Unarchive"}`,
+      { url: content.url },
+    )
+    if (this.props.onToggleArchive) this.props.onToggleArchive(content)
   }
 
   private onPressArchivesListButton = () => {
@@ -64,12 +72,13 @@ class BookmarkScreenBase extends React.Component<Props> {
   private renderList = () => {
     const { status } = this.props.contentBookmarksListStore
     return (
-      <BookmarkContentList
+      <BookmarkedContentList
         data={this.props.contentBookmarksListStore.contents.bookmarks}
         hasFetched={status !== "idle"}
         isLoading={status === "pending"}
         isShowBookmarkIcon={false}
         onPressItem={this.props.onPressContentItem}
+        onToggleArchive={this.onToggleArchive}
         onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
         onRefresh={this.props.contentBookmarksListStore.fetch}

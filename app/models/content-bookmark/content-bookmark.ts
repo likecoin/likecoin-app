@@ -10,10 +10,14 @@ export const ContentBookmarkModel = types
     id: types.maybe(types.string),
     timestamp: types.number,
     isArchived: types.optional(types.boolean, false),
+    willBeDeleted: types.optional(types.boolean, false),
   })
   .actions(self => ({
     setIsArchived(value: boolean) {
       self.isArchived = value
+    },
+    setWillBeDeleted(value: boolean) {
+      self.willBeDeleted = value
     },
   }))
 

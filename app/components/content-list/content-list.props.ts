@@ -13,7 +13,6 @@ import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
 
 export interface ContentListBaseProps extends ContentListItemStyleProps {
-  titleLabelTx?: string
   isLoading?: boolean
   isFetchingMore?: boolean
   hasFetched?: boolean
@@ -31,6 +30,7 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
   isShowFollowToggle?: boolean
 
   onToggleBookmark?: (content: Content) => void
+  onToggleArchive?: (content: Content) => void
   onToggleFollow?: (creator: Creator) => void
   onPressUndoUnfollowButton?: (creator: Creator) => void
   onFetchMore?: ((info?: { distanceFromEnd: number }) => void) | null
@@ -58,13 +58,8 @@ export interface ContentListBaseProps extends ContentListItemStyleProps {
   style?: StyleProp<ViewStyle>
 }
 
-export interface ContentListProps extends ContentListBaseProps {
+export interface BookmarkedContentListProps extends ContentListBaseProps {
   data?: Content[]
-
-  /**
-   * Set this to show content list in sections
-   */
-  sections?: SectionListData<Content>[]
 
   /**
    * Rendered at the top of each section.
@@ -76,13 +71,8 @@ export interface ContentListProps extends ContentListBaseProps {
   onPressItem?: (content: Content) => void
 }
 
-export interface SuperLikedContentListProps extends ContentListBaseProps {
+export interface SuperLikeContentListProps extends ContentListBaseProps {
   data?: ReadonlyArray<SuperLike>
-
-  /**
-   * Set this to show content list in sections
-   */
-  sections?: SectionListData<SuperLike>[]
 
   /**
    * Rendered at the top of each section.

@@ -42,6 +42,9 @@ export const SuperLikeContentListItemStyle = StyleSheet.create({
     color: color.palette.grey9b,
     fontSize: sizes.small,
   } as TextStyle,
+  Skeleton: {
+    backgroundColor: color.palette.white,
+  } as ViewStyle,
   Title: {
     marginTop: spacing[1],
     marginRight: spacing[5] + spacing[1],
