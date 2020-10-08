@@ -7,10 +7,12 @@
     "Title": "Profile Settings"
   },
   "BookmarkScreen": {
-    "Title": "Reading list"
+    "Title": "Reading list",
+    "EmptyLabel": "Your reading list is empty"
   },
   "BookmarkArchivesScreen": {
-    "Title": "Archives"
+    "Title": "Archives",
+    "EmptyLabel": "You can archive a content in reading list"
   },
   "common": {
     "back": "Back",
@@ -82,7 +84,8 @@
     }
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "The world has Super Liked"
+    "Title": "The world has Super Liked",
+    "EmptyLabel": "No content"
   },
   "I18nStory": {
     "UseCase1": "%{liker} LIKE pay you %{amount}."

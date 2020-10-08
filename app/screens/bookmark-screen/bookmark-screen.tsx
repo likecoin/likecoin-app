@@ -74,6 +74,7 @@ class BookmarkScreenBase extends React.Component<Props> {
     return (
       <BookmarkedContentList
         data={this.props.contentBookmarksListStore.contents.bookmarks}
+        emptyTx="BookmarkScreen.EmptyLabel"
         hasFetched={status !== "idle"}
         isLoading={status === "pending"}
         isShowBookmarkIcon={false}

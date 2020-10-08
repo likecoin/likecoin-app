@@ -1,17 +1,11 @@
 import * as React from "react"
-import { TouchableOpacity, View } from "react-native"
+import { View } from "react-native"
 import { observer } from "mobx-react"
 
 import { Content } from "../../models/content"
 
-import { Text } from "../text"
-
-import {
-  ContentListItemBackStyle as Style,
-  ICON_PROPS,
-} from "./content-list-item.back.style"
-
-import { ArchiveIcon, UnbookmarkIcon, UnarchiveIcon } from "./icons"
+import { ContentListItemBackStyle as Style } from "./content-list-item-back.style"
+import { ContentListItemBackButton as BackButton } from "./content-list-item-back-button"
 
 export interface PureBookmarkedContentListItemBackProps {
   isArchived?: boolean
@@ -25,44 +19,26 @@ function PureBookmarkedContentListItemBack(
   return (
     <View style={Style.Root}>
       {props.isArchived ? (
-        <TouchableOpacity
-          style={Style.ButtonPrimary}
+        <BackButton
+          preset="primary"
+          tx="ContentListItem.Back.Unarchive"
+          icon="unarchive"
           onPress={props.onToggleArchive}
-        >
-          <UnarchiveIcon
-            color={Style.ButtonPrimaryTitle.color}
-            {...ICON_PROPS}
-          />
-          <Text
-            tx="ContentListItem.Back.Unarchive"
-            style={Style.ButtonPrimaryTitle}
-          />
-        </TouchableOpacity>
+        />
       ) : (
-        <TouchableOpacity
-          style={Style.ButtonSecondary}
+        <BackButton
+          preset="secondary"
+          tx="ContentListItem.Back.Archive"
+          icon="archive"
           onPress={props.onToggleArchive}
-        >
-          <ArchiveIcon
-            color={Style.ButtonSecondaryTitle.color}
-            {...ICON_PROPS}
-          />
-          <Text
-            tx="ContentListItem.Back.Archive"
-            style={Style.ButtonSecondaryTitle}
-          />
-        </TouchableOpacity>
+        />
       )}
-      <TouchableOpacity style={Style.ButtonNeutral} onPress={props.onRemove}>
-        <UnbookmarkIcon
-          color={Style.ButtonPrimaryTitle.color}
-          {...ICON_PROPS}
-        />
-        <Text
-          tx="ContentListItem.Back.Remove"
-          style={Style.ButtonPrimaryTitle}
-        />
-      </TouchableOpacity>
+      <BackButton
+        preset="neutral"
+        tx="ContentListItem.Back.Remove"
+        icon="unbookmark"
+        onPress={props.onRemove}
+      />
     </View>
   )
 }

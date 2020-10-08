@@ -11,6 +11,9 @@ import { spacing, color } from "../../theme"
 export const DEFAULT_INSET = spacing[5]
 
 export const ContentListItemStyle = StyleSheet.create({
+  AccessoryButton: {
+    marginLeft: spacing[1],
+  } as ViewStyle,
   AccessoryView: {
     flexShrink: 1,
     flexDirection: "row",
@@ -19,6 +22,9 @@ export const ContentListItemStyle = StyleSheet.create({
   } as ViewStyle,
   CreatorDisplayName: {
     flex: 1,
+    color: color.palette.grey9b,
+    fontSize: fontSize.default,
+    fontWeight: "600",
   } as TextStyle,
   FooterView: {
     marginTop: spacing[1],
@@ -49,41 +55,10 @@ export const ContentListItemStyle = StyleSheet.create({
   RightDetails: {
     flex: 1,
   } as ViewStyle,
-  Root: {
-    position: "relative",
-    paddingVertical: spacing[4],
-  } as ViewStyle,
-  RootUndo: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: DEFAULT_INSET,
-    backgroundColor: color.palette.greyf7,
-  } as ViewStyle,
   Title: {
     color: color.palette.grey4a,
     fontSize: fontSize.medium,
     lineHeight: fontSize.medium * 1.5,
     fontWeight: "600",
   } as TextStyle,
-  Underlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: color.palette.grey4a,
-  } as ViewStyle,
-  UndoButton: {
-    flexShrink: 0,
-    marginLeft: spacing[2],
-    paddingHorizontal: 0,
-  } as ViewStyle,
-  UndoButtonIcon: {
-    marginLeft: 0,
-  } as ViewStyle,
-  UndoTextWrapper: {
-    flexShrink: 1,
-    flexGrow: 1,
-    overflow: "hidden",
-  } as ViewStyle,
 })

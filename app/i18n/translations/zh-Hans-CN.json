@@ -7,10 +7,12 @@
     "Title": "个人资料设定"
   },
   "BookmarkScreen": {
-    "Title": "阅读列表"
+    "Title": "阅读列表",
+    "EmptyLabel": "你的阅读列表是空的"
   },
   "BookmarkArchivesScreen": {
-    "Title": "封存列表"
+    "Title": "封存列表",
+    "EmptyLabel": "你可從阅读列表封存內容"
   },
   "common": {
     "back": "返回",
@@ -81,7 +83,8 @@
     }
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "所有内容伯乐 的 Super Like"
+    "Title": "所有内容伯乐 的 Super Like",
+    "EmptyLabel": "沒有內容"
   },
   "I18nStory": {
     "UseCase1": "%{liker} 转账了 %{amount} 给你。"

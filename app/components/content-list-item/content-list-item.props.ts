@@ -4,6 +4,8 @@ import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
 
+import { WithContentListItemHelperProps } from "./content-list-item.with-helper"
+
 export interface ContentListItemStyleProps {
   /**
    * The background color of the list item. Default is white.
@@ -48,7 +50,9 @@ export interface ContentListItemBaseProps extends ContentListItemStyleProps {
   onPressMoreButton?: () => void
 }
 
-export interface BookmarkedContentListItemProps extends ContentListItemBaseProps {
+export interface BookmarkedContentListItemProps
+  extends ContentListItemBaseProps,
+    WithContentListItemHelperProps {
   item: Content
 
   /**
@@ -57,12 +61,19 @@ export interface BookmarkedContentListItemProps extends ContentListItemBaseProps
   onPress?: (content: Content) => void
 
   /**
+   * A callback when the archive button is pressed.
+   */
+  onPressArchiveButton?: (content: Content) => void
+
+  /**
    * A callback when the undo remove bookmark button is pressed.
    */
   onPressUndoRemoveBookmarkButton?: (content: Content) => void
 }
 
-export interface SuperLikeContentListItemProps extends ContentListItemBaseProps {
+export interface SuperLikeContentListItemProps
+  extends ContentListItemBaseProps,
+    WithContentListItemHelperProps {
   item: SuperLike
 
   /**

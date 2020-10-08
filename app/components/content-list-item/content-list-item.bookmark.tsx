@@ -5,38 +5,24 @@ import { observer } from "mobx-react"
 import { color } from "../../theme"
 
 import { Button } from "../button"
-import { Icon } from "../icon"
 import { Text } from "../text"
 
 import { BookmarkedContentListItemProps as Props } from "./content-list-item.props"
-import { ContentListItemStyle as Style } from "./content-list-item.style"
+import { ContentListItemStyle as StyleCommon } from "./content-list-item.style"
+import { BookmarkedContentListItemStyle as Style } from "./content-list-item.bookmark.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
+import { withContentListItemHelper } from "./content-list-item.with-helper"
+import { ContentListItemUndoView } from "./content-list-item-undo-view"
 
 @observer
-export class BookmarkedContentListItem extends React.Component<Props, {}> {
+class BookmarkedContentListItemBase extends React.Component<Props, {}> {
   componentDidMount() {
-    this.fetchDetails()
-  }
-
-  private async fetchDetails() {
-    if (this.props.item.checkShouldFetchDetails()) {
-      const promise = this.props.item.fetchDetails()
-      if (!this.props.item.creator) {
-        await promise
-      }
-    }
-    if (this.props.item.creator?.checkShouldFetchDetails()) {
-      this.props.item.creator.fetchDetails()
-    }
+    this.props.fetchContentDetails(this.props.item)
   }
 
   private onPressArchiveButton = () => {
-    this.props.item.archiveBookmark()
-  }
-
-  private onPressMoreButton = () => {
-    if (this.props.onPressMoreButton) {
-      this.props.onPressMoreButton()
+    if (this.props.onPressArchiveButton) {
+      this.props.onPressArchiveButton(this.props.item)
     }
   }
 
@@ -65,27 +51,23 @@ export class BookmarkedContentListItem extends React.Component<Props, {}> {
     return (
       <TouchableHighlight
         underlayColor={this.props.underlayColor || color.palette.greyf2}
-        style={Style.Root}
         onPress={this.onPress}
       >
-        <View style={Style.Inset}>
+        <View style={StyleCommon.Inset}>
           <View style={Style.Layout}>
             {!!coverImageURL && (
-              <Image source={{ uri: coverImageURL }} style={Style.ImageView} />
+              <Image source={{ uri: coverImageURL }} style={StyleCommon.ImageView} />
             )}
-            <View style={Style.RightDetails}>
-              <Text text={normalizedTitle} style={Style.Title} />
-              <View style={Style.FooterView}>
+            <View style={StyleCommon.RightDetails}>
+              <Text text={normalizedTitle} style={StyleCommon.Title} />
+              <View style={StyleCommon.FooterView}>
                 <Text
-                  size="default"
-                  weight="600"
-                  color="grey9b"
                   text={content.creatorDisplayName}
                   numberOfLines={1}
                   ellipsizeMode="tail"
-                  style={Style.CreatorDisplayName}
+                  style={StyleCommon.CreatorDisplayName}
                 />
-                <View style={Style.AccessoryView}>
+                <View style={StyleCommon.AccessoryView}>
                   {!isArchived && (
                     <Button
                       key={`archive-${isArchived}`}
@@ -94,18 +76,11 @@ export class BookmarkedContentListItem extends React.Component<Props, {}> {
                       icon="archive"
                       isLoading={isUpdatingBookmarkArchive}
                       disabled={isArchived}
-                      style={Style.MoreButton}
+                      style={StyleCommon.MoreButton}
                       onPress={this.onPressArchiveButton}
                     />
                   )}
-                  <Button
-                    preset="plain"
-                    icon="three-dot-horizontal"
-                    size="tiny"
-                    color="grey4a"
-                    style={Style.MoreButton}
-                    onPress={this.onPressMoreButton}
-                  />
+                  {this.props.renderMoreButton()}
                 </View>
               </View>
             </View>
@@ -117,33 +92,10 @@ export class BookmarkedContentListItem extends React.Component<Props, {}> {
 
   private renderUndo() {
     return (
-      <View style={Style.RootUndo}>
-        <View style={Style.UndoTextWrapper}>
-          <Text
-            tx="ContentListItem.BookmarkRemoveLabel"
-            weight="600"
-            color="grey9b"
-            numberOfLines={1}
-            ellipsizeMode="middle"
-          />
-        </View>
-        <Button
-          preset="plain"
-          tx="common.undo"
-          fontSize="default"
-          append={
-            <Icon
-              name="undo"
-              width={16}
-              height={16}
-              fill={color.primary}
-              style={Style.UndoButtonIcon}
-            />
-          }
-          style={Style.UndoButton}
-          onPress={this.onPressUndoButton}
-        />
-      </View>
+      <ContentListItemUndoView
+        tx="ContentListItem.BookmarkRemoveLabel"
+        onPress={this.onPressUndoButton}
+      />
     )
   }
 
@@ -172,10 +124,10 @@ export class BookmarkedContentListItem extends React.Component<Props, {}> {
       backgroundColor: this.props.backgroundColor || color.palette.white,
       ...this.props.style,
     }
-    return (
-      <View style={style}>
-        {this.renderSubView()}
-      </View>
-    )
+    return <View style={style}>{this.renderSubView()}</View>
   }
 }
+
+export const BookmarkedContentListItem = withContentListItemHelper(
+  BookmarkedContentListItemBase,
+)

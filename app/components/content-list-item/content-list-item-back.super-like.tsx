@@ -1,23 +1,17 @@
 import * as React from "react"
-import { TouchableOpacity, View } from "react-native"
+import { View } from "react-native"
 import { observer } from "mobx-react"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
 
-import { Text } from "../text"
-
-import {
-  ContentListItemBackStyle as Style,
-  ICON_PROPS,
-} from "./content-list-item.back.style"
-
-import { BookmarkIcon, FollowIcon, UnbookmarkIcon, UnfollowIcon } from "./icons"
+import { ContentListItemBackStyle as Style } from "./content-list-item-back.style"
+import { ContentListItemBackButton as BackButton } from "./content-list-item-back-button"
 
 export interface PureSuperLikeContentListItemBackProps {
   isBookmarked?: boolean
-  isFollowingCreator?: boolean
+  isFollowing?: boolean
   onToggleBookmark?: () => void
   onToggleFollow?: () => void
 }
@@ -28,59 +22,34 @@ export function PureSuperLikeContentListItemBack(
   return (
     <View style={Style.Root}>
       {props.isBookmarked ? (
-        <TouchableOpacity
-          style={Style.ButtonDanger}
+        <BackButton
+          preset="danger"
+          tx="ContentListItem.Back.Unbookmark"
+          icon="unbookmark"
           onPress={props.onToggleBookmark}
-        >
-          <UnbookmarkIcon
-            {...ICON_PROPS}
-            color={Style.ButtonPrimaryTitle.color}
-          />
-          <Text
-            tx="ContentListItem.Back.Unbookmark"
-            style={Style.ButtonPrimaryTitle}
-          />
-        </TouchableOpacity>
+        />
       ) : (
-        <TouchableOpacity
-          style={Style.ButtonSecondary}
+        <BackButton
+          preset="secondary"
+          tx="ContentListItem.Back.Bookmark"
+          icon="bookmark"
           onPress={props.onToggleBookmark}
-        >
-          <BookmarkIcon
-            {...ICON_PROPS}
-            color={Style.ButtonSecondaryTitle.color}
-          />
-          <Text
-            tx="ContentListItem.Back.Bookmark"
-            style={Style.ButtonSecondaryTitle}
-          />
-        </TouchableOpacity>
+        />
       )}
-      {props.isFollowingCreator ? (
-        <TouchableOpacity
-          style={Style.ButtonNeutral}
+      {props.isFollowing ? (
+        <BackButton
+          preset="primary"
+          tx="ContentListItem.Back.Unfollow"
+          icon="unfollow"
           onPress={props.onToggleFollow}
-        >
-          <UnfollowIcon
-            {...ICON_PROPS}
-            color={Style.ButtonPrimaryTitle.color}
-          />
-          <Text
-            tx="ContentListItem.Back.Unfollow"
-            style={Style.ButtonPrimaryTitle}
-          />
-        </TouchableOpacity>
+        />
       ) : (
-        <TouchableOpacity
-          style={Style.ButtonPrimary}
+        <BackButton
+          preset="primary"
+          tx="ContentListItem.Back.Follow"
+          icon="follow"
           onPress={props.onToggleFollow}
-        >
-          <FollowIcon
-            {...ICON_PROPS}
-            color={Style.ButtonPrimaryTitle.color}
-          />
-          <Text tx="ContentListItem.Back.Follow" style={Style.ButtonPrimary} />
-        </TouchableOpacity>
+        />
       )}
     </View>
   )
@@ -126,7 +95,7 @@ export class SuperLikeContentListItemBack extends React.Component<
     return (
       <PureSuperLikeContentListItemBack
         isBookmarked={isBookmarked}
-        isFollowingCreator={!!isFollowingSuperLiker}
+        isFollowing={!!isFollowingSuperLiker}
         onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.onToggleFollow}
       />
