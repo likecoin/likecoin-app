@@ -20,10 +20,18 @@ export const withContentBookmarksStore = (self: IStateTreeNode) => ({
      * @return boolean
      */
     checkIsBookmarkedURL(url: string) {
-      return this.contentBookmarksStore.items.has(url)
+      const bookmark = this.contentBookmarksStore.items.get(url)
+      return bookmark && !bookmark.willBeDeleted
     },
     getBookmarkByURL(url: string) {
       return this.contentBookmarksStore.items.get(url)
-    }
+    },
+  },
+  actions: {
+    updateBookmarkIsArchived(url: string, value: boolean) {
+      ;(getRoot(self).contentBookmarksStore as ContentBookmarksStore).items
+        .get(url)
+        ?.setIsArchived(value)
+    },
   },
 })

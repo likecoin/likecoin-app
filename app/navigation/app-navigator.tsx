@@ -4,6 +4,7 @@ import {
   createBottomTabNavigator,
 } from "react-navigation"
 
+import { BookmarksNavigator } from "./bookmarks-navigator"
 import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { TransferNavigator } from "./transfer-navigator"
@@ -13,7 +14,6 @@ import { StakingUnbondingDelegationNavigator } from "./staking-unbonding-delegat
 
 import { MainTabBarIcon } from "../components/main-tab-bar"
 
-import { BookmarkScreen } from "../screens/bookmark-screen"
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { CrispSupportScreen } from "../screens/crisp-support-screen"
 // import { NotificationScreen } from "../screens/notification-screen"
@@ -26,7 +26,7 @@ import { color } from "../theme"
 
 const MainTabs = createBottomTabNavigator({
   Reader: ReaderNavigator,
-  Bookmark: BookmarkScreen,
+  Bookmark: BookmarksNavigator,
   // Notification: NotificationScreen,
   Settings: SettingsNavigator,
 }, {

@@ -54,6 +54,14 @@ export const wrapContentListScreen = <P extends Props>(
       }
     }
 
+    onToggleArchive = (content: Content) => {
+      if (content.isArchived) {
+        content.unarchiveBookmark()
+      } else {
+        content.archiveBookmark()
+      }
+    }
+
     render() {
       return (
         <WrappedComponent
@@ -61,6 +69,7 @@ export const wrapContentListScreen = <P extends Props>(
           onPressContentItem={this.onPressContentItem}
           onPressSuperLikeItem={this.onPressSuperLikeItem}
           onPressUndoUnfollowButton={this.onPressUndoUnfollowButton}
+          onToggleArchive={this.onToggleArchive}
           onToggleBookmark={this.onToggleBookmark}
           onToggleFollow={this.onToggleFollow}
         />

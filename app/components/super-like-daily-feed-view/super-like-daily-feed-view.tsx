@@ -4,6 +4,9 @@ import { observer } from "mobx-react"
 import { SuperLikeContentList } from "../../components/content-list"
 
 import { SuperLikeDailyFeedViewProps } from "./super-like-daily-feed-view.props"
+import { wrapScrollViewShadow } from "../wrap-scrollview-shadow"
+
+const WrappedSuperLikeContentList = wrapScrollViewShadow(SuperLikeContentList)
 
 @observer
 export class SuperLikeDailyFeedView extends React.Component<
@@ -17,7 +20,7 @@ export class SuperLikeDailyFeedView extends React.Component<
   render() {
     const { feed } = this.props
     return (
-      <SuperLikeContentList
+      <WrappedSuperLikeContentList
         data={feed.items}
         isLoading={feed.isFetching}
         hasFetched={!feed.isFetching}

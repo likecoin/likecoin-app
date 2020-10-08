@@ -3,6 +3,7 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BookmarkResult, BookmarksResult } from "../../services/api"
 import { logError } from "../../utils/error"
 
+import { Content } from "../content"
 import { ContentBookmark, ContentBookmarkModel } from "../content-bookmark"
 import {
   withContentBookmarksStore,
@@ -22,21 +23,43 @@ export const ContentBookmarksListStoreModel = types
   .extend(withContentBookmarksStore)
   .extend(withStatus)
   .views(self => ({
-    get contents() {
+    get list() {
       return [...self.contentBookmarksStore.items.values()]
+    },
+  }))
+  .views(self => ({
+    get contents() {
+      const bookmarks: Content[] = []
+      const archives: Content[] = []
+      self.list
         .sort(
           (bookmarkA, bookmarkB) => bookmarkB.timestamp - bookmarkA.timestamp,
         )
-        .map(bookmark => {
-          return self.getContentFromURL(bookmark.url)
+        .forEach(bookmark => {
+          const content = self.getContentFromURL(bookmark.url)
+          if (content.isArchived) {
+            archives.push(content)
+          } else {
+            bookmarks.push(content)
+          }
         })
+      return {
+        bookmarks,
+        archives,
+      }
     },
   }))
   .actions(self => {
-    function createContentBookmarksFromResultList(results: BookmarkResult[]) {
+    function createContentBookmarksFromResultList(
+      results: BookmarkResult[],
+      opts?: { shouldReset: boolean },
+    ) {
+      if (opts?.shouldReset) {
+        self.contentBookmarksStore.reset()
+      }
       const bookmarks: ContentBookmark[] = []
       results.forEach(result => {
-        const { id, url, ts: timestamp } = result
+        const { id, url, ts: timestamp, isArchived } = result
         let bookmark: ContentBookmark
         self.createContentFromURL(url)
         if (!self.checkIsBookmarkedURL(url)) {
@@ -44,6 +67,7 @@ export const ContentBookmarksListStoreModel = types
             id,
             timestamp,
             url,
+            isArchived,
           })
           bookmarks.push(bookmark)
         }
@@ -59,11 +83,13 @@ export const ContentBookmarksListStoreModel = types
           self.status = "pending"
           const result: BookmarksResult = yield self.env.likeCoinAPI.users.bookmarks.get(
             {
-              archived: 0,
+              archived: "",
             },
           )
           if (result.kind === "ok") {
-            createContentBookmarksFromResultList(result.data)
+            createContentBookmarksFromResultList(result.data, {
+              shouldReset: true,
+            })
           }
         } catch (error) {
           logError(error)
@@ -77,9 +103,8 @@ export const ContentBookmarksListStoreModel = types
           self.status = "pending-more"
           const result: BookmarksResult = yield self.env.likeCoinAPI.users.bookmarks.get(
             {
-              archived: 0,
-              after:
-                self.contents[self.contents.length - 1].bookmarkedTimestamp,
+              archived: "",
+              after: self.list[self.list.length - 1].timestamp,
             },
           )
           if (result.kind === "ok") {
