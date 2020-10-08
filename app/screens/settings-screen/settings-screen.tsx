@@ -1,9 +1,6 @@
 import * as React from "react"
 import { inject } from "mobx-react"
-import {
-  Linking,
-  View,
-} from "react-native"
+import { Linking, View } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
 import {
@@ -39,19 +36,19 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("Subscription")
   }
 
-  private onPressAuthcoreSettings = () => {
-    this.props.userStore.authCore.openSettingsWidget({
-      company: "Liker ID",
-      logo: "https://like.co/favicon.png",
-      primaryColour: color.primary,
-      successColour: color.primary,
-      dangerColour: color.palette.angry,
-    })
+  private onPressProfileSettings = () => {
+    this.props.navigation.navigate("ProfileSettings")
+    logAnalyticsEvent("SettingsClickProfileSettings")
+  }
+
+  private onPressSecuritySettings = () => {
+    this.props.userStore.authCore.openSettingsWidget()
+    logAnalyticsEvent("SettingsClickSecuritySettings")
   }
 
   private onClickLogout = async () => {
     this.props.userStore.logout()
-    logAnalyticsEvent('SignOut')
+    logAnalyticsEvent("SignOut")
   }
 
   private onPressContactUs = () => {
@@ -59,33 +56,33 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressFollowSettings = () => {
-    logAnalyticsEvent('SettingsClickFollowSettings')
     this.props.navigation.navigate("FollowSettings")
+    logAnalyticsEvent("SettingsClickFollowSettings")
   }
 
   private onPressReferral = () => {
-    logAnalyticsEvent('SettingsClickReferral')
     this.props.navigation.navigate("Referral")
+    logAnalyticsEvent("SettingsClickReferral")
   }
 
   private onPressQRCodeButton = () => {
-    logAnalyticsEvent('SettingsClickQRCodeScan')
     this.props.navigation.navigate("QRCodeScan")
+    logAnalyticsEvent("SettingsClickQRCodeScan")
   }
 
   private onPressWalletButton = () => {
-    logAnalyticsEvent('SettingsClickWallet')
     this.props.navigation.navigate("Wallet")
+    logAnalyticsEvent("SettingsClickWallet")
   }
 
   private onPressStatisticsSupportedSection = () => {
-    logAnalyticsEvent('SettingsClickStatsSupported')
     this.props.navigation.navigate("StatisticsSupported")
+    logAnalyticsEvent("SettingsClickStatsSupported")
   }
 
   private onPressStatisticsRewardedSection = () => {
-    logAnalyticsEvent('SettingsClickStatsRewarded')
     this.props.navigation.navigate("StatisticsRewarded")
+    logAnalyticsEvent("SettingsClickStatsRewarded")
   }
 
   private onPressGetRewardsButton = () => {
@@ -93,21 +90,21 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressWebsiteSignIn = () => {
-    logAnalyticsEvent('SettingsClickWebsiteSignIn')
     this.props.navigation.navigate("WebsiteSignIn")
+    logAnalyticsEvent("SettingsClickWebsiteSignIn")
   }
 
   private onPressRateApp = () => {
-    logAnalyticsEvent('SettingsClickRateApp')
     this.props.userStore.rateApp()
-  }
-  
-  private onPressLanguageSettings = () => {
-    logAnalyticsEvent('SettingsClickLanguageSettings')
-    this.props.navigation.navigate("LanguageSettings")
+    logAnalyticsEvent("SettingsClickRateApp")
   }
 
-  render () {
+  private onPressLanguageSettings = () => {
+    this.props.navigation.navigate("LanguageSettings")
+    logAnalyticsEvent("SettingsClickLanguageSettings")
+  }
+
+  render() {
     return (
       <Screen
         preset="scroll"
@@ -123,10 +120,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
 
   renderHeader() {
     return (
-      <ExtendedView
-        backgroundColor={color.primary}
-        style={Style.Header}
-      >
+      <ExtendedView backgroundColor={color.primary} style={Style.Header}>
         <SettingsScreenUserInfoPanel />
       </ExtendedView>
     )
@@ -167,38 +161,48 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 preset="plain"
                 tx="settingsScreen.Referral"
                 textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
+                style={SETTINGS_MENU.TABLE_CELL}
                 onPress={this.onPressReferral}
               />
             )}
           </View>
         )}
-        <Text tx="settingsScreen.SubHeader.Settings" style={Style.SubHeader} />
+        <Text
+          tx="settingsScreen.Panel.Settings.Header"
+          style={Style.SubHeader}
+        />
         <View style={SETTINGS_MENU.TABLE}>
           <Button
             preset="plain"
-            tx="settingsScreen.authcoreSettings"
+            tx="settingsScreen.Panel.Settings.Profile"
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-            onPress={this.onPressAuthcoreSettings}
+            onPress={this.onPressProfileSettings}
           />
           <Button
             preset="plain"
-            tx="settingsScreen.followSettings"
+            tx="settingsScreen.Panel.Settings.Security"
+            textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
+            style={SETTINGS_MENU.TABLE_CELL}
+            onPress={this.onPressSecuritySettings}
+          />
+          <Button
+            preset="plain"
+            tx="settingsScreen.Panel.Settings.ContentJockey"
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL}
             onPress={this.onPressFollowSettings}
           />
           <Button
             preset="plain"
-            tx="settingsScreen.WebsiteSignIn"
+            tx="settingsScreen.Panel.Settings.WebsitesSignIn"
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL}
             onPress={this.onPressWebsiteSignIn}
           />
           <Button
             preset="plain"
-            tx="settingsScreen.LanguageSettings"
+            tx="settingsScreen.Panel.Settings.Language"
             textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
             style={SETTINGS_MENU.TABLE_CELL}
             onPress={this.onPressLanguageSettings}
