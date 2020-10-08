@@ -143,6 +143,7 @@ export class SuperLikeContentList extends React.Component<Props> {
         renderHiddenItem={this.renderHiddenItem}
         rightOpenValue={-BUTTON_BASE.width * 2}
         disableRightSwipe={true}
+        recalculateHiddenLayout={true}
         refreshControl={this.renderRefreshControl()}
         initialNumToRender={8}
         maxToRenderPerBatch={10}
