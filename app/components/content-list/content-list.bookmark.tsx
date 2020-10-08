@@ -10,7 +10,7 @@ import {
 } from "./content-list.style"
 
 import {
-  BUTTON_BASE,
+  BACK_BUTTON_BASE,
   BookmarkedContentListItem,
   BookmarkedContentListItemBack,
   ContentListItemSkeleton,
@@ -50,7 +50,7 @@ export class BookmarkedContentList extends React.Component<Props> {
       if (this.rowOpenSet.has(rowKey)) {
         rowMap[rowKey].closeRow()
       } else {
-        rowMap[rowKey].manuallySwipeRow(-BUTTON_BASE.width * 2)
+        rowMap[rowKey].manuallySwipeRow(-BACK_BUTTON_BASE.width * 2)
       }
     }
   }
@@ -140,8 +140,9 @@ export class BookmarkedContentList extends React.Component<Props> {
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
         renderHiddenItem={this.renderHiddenItem}
-        rightOpenValue={-BUTTON_BASE.width * 2}
+        rightOpenValue={-BACK_BUTTON_BASE.width * 2}
         disableRightSwipe={true}
+        useNativeDriver={true}
         recalculateHiddenLayout={true}
         refreshControl={this.renderRefreshControl()}
         initialNumToRender={8}

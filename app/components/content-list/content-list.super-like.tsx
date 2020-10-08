@@ -6,7 +6,7 @@ import { RowMap, SwipeListView } from "react-native-swipe-list-view"
 import { SuperLike } from "../../models/super-like"
 
 import {
-  BUTTON_BASE,
+  BACK_BUTTON_BASE,
   ContentListItemSkeleton,
   SuperLikeContentListItem,
   SuperLikeContentListItemBack,
@@ -50,7 +50,7 @@ export class SuperLikeContentList extends React.Component<Props> {
       if (this.rowOpenSet.has(rowKey)) {
         rowMap[rowKey].closeRow()
       } else {
-        rowMap[rowKey].manuallySwipeRow(-BUTTON_BASE.width * 2)
+        rowMap[rowKey].manuallySwipeRow(-BACK_BUTTON_BASE.width * 2)
       }
     }
   }
@@ -141,8 +141,9 @@ export class SuperLikeContentList extends React.Component<Props> {
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
         renderHiddenItem={this.renderHiddenItem}
-        rightOpenValue={-BUTTON_BASE.width * 2}
+        rightOpenValue={-BACK_BUTTON_BASE.width * 2}
         disableRightSwipe={true}
+        useNativeDriver={true}
         recalculateHiddenLayout={true}
         refreshControl={this.renderRefreshControl()}
         initialNumToRender={8}

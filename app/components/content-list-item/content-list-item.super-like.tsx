@@ -1,8 +1,12 @@
 import * as React from "react"
-import { ActivityIndicator, TouchableHighlight, View, ViewStyle } from "react-native"
+import {
+  ActivityIndicator,
+  TouchableHighlight,
+  View,
+  ViewStyle,
+} from "react-native"
 import { observer } from "mobx-react"
 
-import { translate } from "../../i18n"
 import { color } from "../../theme"
 
 import { Button } from "../button"
@@ -12,29 +16,16 @@ import { Text } from "../text"
 
 import { SuperLikeContentListItemProps as Props } from "./content-list-item.props"
 import { SuperLikeContentListItemStyle as Style } from "./content-list-item.super-like.style"
-import { ContentListItemStyle as LegacyStyle } from "./content-list-item.style"
+import { ContentListItemStyle as StyleCommon } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
+import { ContentListItemUndoView } from "./content-list-item-undo-view"
+import { withContentListItemHelper } from "./content-list-item.with-helper"
 
 @observer
-export class SuperLikeContentListItem extends React.Component<Props, {}> {
+class SuperLikeContentListItemBase extends React.Component<Props, {}> {
   componentDidMount() {
-    if (this.props.item.content?.checkShouldFetchDetails()) {
-      this.props.item.content.fetchDetails()
-    }
-    this.fetchCreatorDependedDetails()
-  }
-
-  componentDidUpdate() {
-    this.fetchCreatorDependedDetails()
-  }
-
-  private fetchCreatorDependedDetails() {
-    if (this.props.item.content?.checkShouldFetchCreatorDetails()) {
-      this.props.item.content.creator.fetchDetails()
-    }
-    if (this.props.item.liker?.checkShouldFetchDetails()) {
-      this.props.item.liker.fetchDetails()
-    }
+    this.props.fetchContentDetails(this.props.item?.content)
+    this.props.fetchCreatorDetails(this.props.item?.liker)
   }
 
   private onToggleBookmark = () => {
@@ -49,12 +40,6 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
     }
   }
 
-  private onPressMoreButton = () => {
-    if (this.props.onPressMoreButton) {
-      this.props.onPressMoreButton()
-    }
-  }
-
   private onPress = () => {
     if (this.props.onPress) {
       this.props.onPress(this.props.item)
@@ -62,7 +47,7 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
   }
 
   private onPressUndoButton = () => {
-    if (this.props.onPressUndoUnfollowButton) {
+    if (this.props.onPressUndoUnfollowButton && this.props.item?.liker) {
       this.props.onPressUndoUnfollowButton(this.props.item.liker)
     }
   }
@@ -73,10 +58,10 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
     return (
       <TouchableHighlight
         underlayColor={this.props.underlayColor || color.palette.greyf2}
-        style={LegacyStyle.Root}
+        style={StyleCommon.Root}
         onPress={this.onPress}
       >
-        <View style={Style.Inset}>
+        <View style={StyleCommon.Inset}>
           <View style={Style.HeaderView}>
             <I18n
               tx="readerScreen.SuperLikeFromLabel"
@@ -84,36 +69,25 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
               style={Style.ShareByLabel}
             >
               <Text
-                color="likeGreen"
-                size="default"
-                weight="600"
                 text={content?.liker?.normalizedName || ""}
                 place="liker"
+                style={Style.LikerDisplayName}
               />
             </I18n>
-            <Button
-              preset="plain"
-              icon="three-dot-horizontal"
-              size="tiny"
-              color="grey4a"
-              style={Style.MoreButton}
-              onPress={this.onPressMoreButton}
-            />
+            {this.props.renderMoreButton()}
           </View>
           <Text
             text={content?.content?.normalizedTitle || ""}
             style={Style.Title}
           />
-          <View style={Style.FooterView}>
+          <View style={StyleCommon.FooterView}>
             <Text
               text={content?.content?.creatorDisplayName || ""}
-              color="grey9b"
-              size="default"
-              weight="600"
               numberOfLines={1}
               ellipsizeMode="tail"
+              style={StyleCommon.CreatorDisplayName}
             />
-            <View style={Style.AccessoryView}>
+            <View style={StyleCommon.AccessoryView}>
               {!!content?.content?.hasRead() && (
                 <Icon
                   name="checkmark"
@@ -144,7 +118,7 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
         preset={buttonPreset}
         size="tiny"
         tx={tx}
-        style={Style.AccessoryButton}
+        style={StyleCommon.AccessoryButton}
         onPress={this.onToggleFollow}
       />
     )
@@ -159,7 +133,7 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
           preset="plain"
           size="tiny"
           disabled={true}
-          style={Style.AccessoryButton}
+          style={StyleCommon.AccessoryButton}
         >
           <ActivityIndicator size="small" />
         </Button>
@@ -170,7 +144,7 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
         preset={buttonPreset}
         size="tiny"
         icon={iconName}
-        style={Style.AccessoryButton}
+        style={StyleCommon.AccessoryButton}
         onPress={this.onToggleBookmark}
       />
     )
@@ -178,40 +152,25 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
 
   private renderUndo() {
     return (
-      <View style={LegacyStyle.RootUndo}>
-        <Icon name="seen" width={24} height={24} fill={color.palette.grey9b} />
-        <View style={LegacyStyle.UndoTextWrapper}>
-          <Text
-            text={translate("common.unfollowSuccess", {
-              creator: this.props.item?.liker?.normalizedName || "",
-            })}
-            weight="600"
-            color="grey9b"
-            numberOfLines={1}
-            ellipsizeMode="middle"
+      <ContentListItemUndoView
+        tx="common.unfollowSuccess"
+        txOptions={{
+          creator: this.props.item?.liker?.normalizedName || "",
+        }}
+        append={
+          <Icon
+            name="seen"
+            width={24}
+            height={24}
+            fill={color.palette.grey9b}
           />
-        </View>
-        <Button
-          preset="plain"
-          tx="common.undo"
-          fontSize="default"
-          append={
-            <Icon
-              name="undo"
-              width={16}
-              height={16}
-              fill={color.primary}
-              style={LegacyStyle.UndoButtonIcon}
-            />
-          }
-          style={LegacyStyle.UndoButton}
-          onPress={this.onPressUndoButton}
-        />
-      </View>
+        }
+        onPress={this.onPressUndoButton}
+      />
     )
   }
 
-  renderSubView() {
+  private renderSubView() {
     const { isLoading } = this.props.item?.content || {}
     const {
       isFetchingDetails: isFetchingSuperLikerDetails,
@@ -242,10 +201,10 @@ export class SuperLikeContentListItem extends React.Component<Props, {}> {
       backgroundColor: this.props.backgroundColor || color.palette.white,
       ...this.props.style,
     }
-    return (
-      <View style={style}>
-        {this.renderSubView()}
-      </View>
-    )
-  } 
+    return <View style={style}>{this.renderSubView()}</View>
+  }
 }
+
+export const SuperLikeContentListItem = withContentListItemHelper(
+  SuperLikeContentListItemBase,
+)
