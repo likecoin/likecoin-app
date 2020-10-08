@@ -4,10 +4,12 @@
     "DenialTitle": "可否給我們一些改善建議?"
   },
   "BookmarkScreen": {
-    "Title": "閱讀列表"
+    "Title": "閱讀列表",
+    "EmptyLabel": "你的閱讀列表是空的"
   },
   "BookmarkArchivesScreen": {
-    "Title": "封存列表"
+    "Title": "封存列表",
+    "EmptyLabel": "你可從閱讀列表封存內容"
   },
   "common": {
     "back": "返回",
@@ -78,7 +80,8 @@
     }
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "所有內容伯樂 的 Super Like"
+    "Title": "所有內容伯樂 的 Super Like",
+    "EmptyLabel": "沒有內容"
   },
   "I18nStory": {
     "UseCase1": "%{liker} 轉賬了 %{amount} 給你。"

@@ -22,6 +22,7 @@ export class SuperLikeDailyFeedView extends React.Component<
     return (
       <WrappedSuperLikeContentList
         data={feed.items}
+        emptyTx="readerScreen.emptyLabel"
         isLoading={feed.isFetching}
         hasFetched={!feed.isFetching}
         hasFetchedAll={feed.hasFetchedAll()}
