@@ -8,7 +8,8 @@ import { Button } from "../button"
 import { Text } from "../text"
 
 import { BookmarkedContentListItemProps as Props } from "./content-list-item.props"
-import { ContentListItemStyle as Style } from "./content-list-item.style"
+import { ContentListItemStyle as StyleCommon } from "./content-list-item.style"
+import { BookmarkedContentListItemStyle as Style } from "./content-list-item.bookmark.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
 import { withContentListItemHelper } from "./content-list-item.with-helper"
 import { ContentListItemUndoView } from "./content-list-item-undo-view"
@@ -50,24 +51,23 @@ class BookmarkedContentListItemBase extends React.Component<Props, {}> {
     return (
       <TouchableHighlight
         underlayColor={this.props.underlayColor || color.palette.greyf2}
-        style={Style.Root}
         onPress={this.onPress}
       >
-        <View style={Style.Inset}>
+        <View style={StyleCommon.Inset}>
           <View style={Style.Layout}>
             {!!coverImageURL && (
-              <Image source={{ uri: coverImageURL }} style={Style.ImageView} />
+              <Image source={{ uri: coverImageURL }} style={StyleCommon.ImageView} />
             )}
-            <View style={Style.RightDetails}>
-              <Text text={normalizedTitle} style={Style.Title} />
-              <View style={Style.FooterView}>
+            <View style={StyleCommon.RightDetails}>
+              <Text text={normalizedTitle} style={StyleCommon.Title} />
+              <View style={StyleCommon.FooterView}>
                 <Text
                   text={content.creatorDisplayName}
                   numberOfLines={1}
                   ellipsizeMode="tail"
-                  style={Style.CreatorDisplayName}
+                  style={StyleCommon.CreatorDisplayName}
                 />
-                <View style={Style.AccessoryView}>
+                <View style={StyleCommon.AccessoryView}>
                   {!isArchived && (
                     <Button
                       key={`archive-${isArchived}`}
@@ -76,7 +76,7 @@ class BookmarkedContentListItemBase extends React.Component<Props, {}> {
                       icon="archive"
                       isLoading={isUpdatingBookmarkArchive}
                       disabled={isArchived}
-                      style={Style.MoreButton}
+                      style={StyleCommon.MoreButton}
                       onPress={this.onPressArchiveButton}
                     />
                   )}

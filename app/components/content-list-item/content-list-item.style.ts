@@ -55,10 +55,6 @@ export const ContentListItemStyle = StyleSheet.create({
   RightDetails: {
     flex: 1,
   } as ViewStyle,
-  Root: {
-    position: "relative",
-    paddingVertical: spacing[4],
-  } as ViewStyle,
   Title: {
     color: color.palette.grey4a,
     fontSize: fontSize.medium,

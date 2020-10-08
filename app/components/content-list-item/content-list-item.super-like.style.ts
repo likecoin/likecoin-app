@@ -24,6 +24,9 @@ export const SuperLikeContentListItemStyle = StyleSheet.create({
     flexShrink: 0,
     marginHorizontal: spacing[1],
   } as ViewStyle,
+  Root: {
+    paddingVertical: spacing[4],
+  } as ViewStyle,
   ShareByLabel: {
     color: color.palette.grey9b,
     fontSize: sizes.small,

@@ -58,7 +58,7 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
     return (
       <TouchableHighlight
         underlayColor={this.props.underlayColor || color.palette.greyf2}
-        style={StyleCommon.Root}
+        style={Style.Root}
         onPress={this.onPress}
       >
         <View style={StyleCommon.Inset}>
