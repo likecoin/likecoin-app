@@ -57,6 +57,11 @@ export interface BookmarkedContentListItemProps extends ContentListItemBaseProps
   onPress?: (content: Content) => void
 
   /**
+   * A callback when the archive button is pressed.
+   */
+  onPressArchiveButton?: (content: Content) => void
+
+  /**
    * A callback when the undo remove bookmark button is pressed.
    */
   onPressUndoRemoveBookmarkButton?: (content: Content) => void

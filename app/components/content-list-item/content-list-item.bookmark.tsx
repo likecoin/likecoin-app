@@ -31,7 +31,9 @@ export class BookmarkedContentListItem extends React.Component<Props, {}> {
   }
 
   private onPressArchiveButton = () => {
-    this.props.item.archiveBookmark()
+    if (this.props.onPressArchiveButton) {
+      this.props.onPressArchiveButton(this.props.item)
+    }
   }
 
   private onPressMoreButton = () => {

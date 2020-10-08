@@ -77,6 +77,7 @@ export class BookmarkedContentList extends React.Component<Props> {
       onPressMoreButton={() =>
         this.toggleItemBack(rowMap, this.keyExtractor(item))
       }
+      onPressArchiveButton={this.props.onToggleArchive}
       onPressUndoRemoveBookmarkButton={this.props.onToggleBookmark}
       onToggleBookmark={this.props.onToggleBookmark}
       onToggleFollow={this.props.onToggleFollow}
