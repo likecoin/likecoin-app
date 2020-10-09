@@ -6,6 +6,7 @@ import {
 } from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 
+import { withUserAppMetaStore } from "../extensions"
 import { SuperLike } from "../super-like"
 import { SuperLikeFeedModel } from "../super-like-feed"
 
@@ -24,7 +25,10 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
      * End time of the feed in ms.
      */
     end: types.number,
+    isToday: types.optional(types.boolean, false),
+    isMorning: types.optional(types.boolean, false),
   })
+  .extend(withUserAppMetaStore)
   .actions(self => {
     function reset() {
       self.items.replace([])
@@ -68,7 +72,15 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
           },
         )
         if (result.kind === "ok") {
-          if (result.data?.length) {
+          const resultData = result.data || [];
+          const { shouldShowIntroContent, getIntroContent } = self.userAppMetaStore
+          if (self.isToday && self.isMorning && shouldShowIntroContent && getIntroContent) {
+            if (getIntroContent) result.data.unshift({
+              ts: self.start,
+              ...getIntroContent,
+            } as SuperLikeFeedItem)
+          }
+          if (resultData.length) {
             const items = result.data.map(
               createSuperLikeFollowingFeedItemFromData,
             )

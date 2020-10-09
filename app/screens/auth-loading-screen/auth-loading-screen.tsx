@@ -53,6 +53,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
         if (isEnabledIAP && hasSubscription) {
           await this.props.userStore.iapStore.restorePurchases()
         }
+        await this.props.userStore.postResume()
 
         if (this.props.userStore.shouldPromptAppRating) {
           this.promptAppRating()

@@ -1,7 +1,6 @@
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
 import moment from "moment"
 
-import { withEnvironment } from "../extensions"
 import { SuperLikeFollowingFeedModel } from "../super-like-following-feed"
 
 const SLOT_INTERVAL = 12 // In hours
@@ -31,7 +30,6 @@ export const SuperLikeDailyFeedModel = types
      */
     lastFetched: types.optional(types.number, 0),
   })
-  .extend(withEnvironment)
   .views(self => ({
     get start() {
       return moment(self.id).valueOf()
@@ -82,12 +80,16 @@ export const SuperLikeDailyFeedModel = types
         self.morningFeed = SuperLikeFollowingFeedModel.create({
           start: self.start - 3600000 * SLOT_INTERVAL,
           end: self.start - 1,
+          isToday: self.isToday(),
+          isMorning: true,
         })
       }
       if (!self.eveningFeed) {
         self.eveningFeed = SuperLikeFollowingFeedModel.create({
           start: self.start,
           end: self.start + 3600000 * SLOT_INTERVAL - 1,
+          isToday: self.isToday(),
+          isMorning: false,
         })
       }
     },

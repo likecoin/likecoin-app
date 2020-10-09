@@ -1,7 +1,7 @@
-import { UserAppMetaModel, UserAppMeta } from "./user-app-meta"
+import { UserAppMetaModel, UserAppMetaStore } from "./user-app-meta"
 
 test("can be created", () => {
-  const instance: UserAppMeta = UserAppMetaModel.create({
+  const instance: UserAppMetaStore = UserAppMetaModel.create({
     isNew: false,
   })
 

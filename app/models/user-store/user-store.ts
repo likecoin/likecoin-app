@@ -300,10 +300,14 @@ export const UserStoreModel = types
             android: hasAndroid,
             ios: hasIOS,
           } = result.data
+          const { lastIntroContentUpdateTs, introContentIndex } = self.appMeta || {};
+          const index = introContentIndex === undefined ? -1 : introContentIndex;
           self.appMeta = UserAppMetaModel.create({
             isNew,
             isEmailVerified,
             firstOpenTs,
+            lastIntroContentUpdateTs,
+            introContentIndex: index,
             hasAndroid,
             hasIOS,
           })
@@ -324,6 +328,9 @@ export const UserStoreModel = types
         default:
           throwProblem(result)
       }
+    }),
+    postResume: flow(function * () {
+      self.appMeta.postResume();
     }),
     generateUserAppReferralLink: flow(function * () {
       const { likerID, displayName } = self.currentUser

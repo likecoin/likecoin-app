@@ -9,7 +9,7 @@ export class AppConfig {
   /**
    * The config object
    */
-  private config: Partial<Record<AppConfigKey, string>>
+  private config: Partial<Record<AppConfigKey, any>>
 
   /**
    * The Firebase Remote Config module
