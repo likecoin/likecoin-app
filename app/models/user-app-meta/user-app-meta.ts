@@ -52,6 +52,6 @@ export const UserAppMetaModel = types
   }))
 
 type UserAppMetaType = Instance<typeof UserAppMetaModel>
-export interface UserAppMetaStore extends UserAppMetaType {}
+export interface UserAppMeta extends UserAppMetaType {}
 type UserAppMetaSnapshotType = SnapshotOut<typeof UserAppMetaModel>
 export interface UserAppMetaSnapshot extends UserAppMetaSnapshotType {}
