@@ -1,6 +1,6 @@
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
 
-import { withDateUtils, withUserAppMetaStore } from "../extensions"
+import { withDateUtils, withUserAppMeta } from "../extensions"
 
 import { SuperLikeFollowingFeedModel } from "../super-like-following-feed"
 
@@ -32,7 +32,7 @@ export const SuperLikeDailyFeedModel = types
     lastFetched: types.optional(types.number, 0),
   })
   .extend(withDateUtils)
-  .extend(withUserAppMetaStore)
+  .extend(withUserAppMeta)
   .views(self => ({
     get start() {
       return self.getDateInMs(self.id)
@@ -93,7 +93,7 @@ export const SuperLikeDailyFeedModel = types
         const {
           getShouldShowIntroContent,
           currentIntroContent,
-        } = self.userAppMetaStore
+        } = self.userAppMeta
         promises.push(
           self.morningFeed.fetch({
             extraItem:
