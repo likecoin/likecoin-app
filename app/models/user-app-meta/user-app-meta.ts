@@ -21,7 +21,7 @@ export const UserAppMetaModel = types
   })
   .extend(withEnvironment)
   .views(self => ({
-    get shouldShowIntroContent() {
+    shouldShowIntroContent() {
       const { firstOpenTs } = self;
       const now = Date.now()
       if (now - ONE_DAY_IN_MS * 7 > firstOpenTs) return false;

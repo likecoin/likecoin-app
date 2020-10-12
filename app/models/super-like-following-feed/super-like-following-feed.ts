@@ -74,7 +74,7 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
         if (result.kind === "ok") {
           const resultData = result.data || [];
           const { shouldShowIntroContent, getIntroContent } = self.userAppMetaStore
-          if (self.isToday && self.isMorning && shouldShowIntroContent && getIntroContent) {
+          if (self.isToday && self.isMorning && shouldShowIntroContent() && getIntroContent) {
             if (getIntroContent) result.data.unshift({
               ts: self.start,
               ...getIntroContent,
