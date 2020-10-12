@@ -90,17 +90,14 @@ export const SuperLikeDailyFeedModel = types
         promises.push(self.eveningFeed.fetch())
       }
       if (self.morningFeed.status !== "pending") {
-        const {
-          getShouldShowIntroContent,
-          currentIntroContent,
-        } = self.userAppMeta
+        const { current: extraContent } = self.userAppMeta.introContent
         promises.push(
           self.morningFeed.fetch({
             extraItem:
               self.isToday() &&
-              getShouldShowIntroContent() &&
-              currentIntroContent
-                ? currentIntroContent
+              self.userAppMeta.getShouldShowIntroContent() &&
+              extraContent
+                ? extraContent
                 : null,
           }),
         )
