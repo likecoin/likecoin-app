@@ -27,7 +27,6 @@ import {
   UserLoginParams,
   UserResult,
   UserRegisterParams,
-  UserAppMetaResult,
   SuperLikeStatusResult,
 } from "../../services/api"
 
@@ -289,34 +288,6 @@ export const UserStoreModel = types
         logError(error)
       }
     }),
-    fetchUserAppMeta: flow(function * () {
-      const result: UserAppMetaResult = yield self.env.likeCoAPI.fetchUserAppMeta()
-      switch (result.kind) {
-        case "ok": {
-          const {
-            isNew,
-            isEmailVerified,
-            ts: firstOpenTs,
-            android: hasAndroid,
-            ios: hasIOS,
-          } = result.data
-          const { introContentLastUpdateTs, introContentIndex } = self.appMeta || {};
-          const index = introContentIndex === undefined ? -1 : introContentIndex;
-          self.appMeta = UserAppMetaModel.create({
-            isNew,
-            isEmailVerified,
-            firstOpenTs,
-            introContentLastUpdateTs,
-            introContentIndex: index,
-            hasAndroid,
-            hasIOS,
-          })
-          break
-        }
-        default:
-          throwProblem(result)
-      }
-    }),
     postUserAppReferrer: flow(function * (likerID: string) {
       const result: GeneralResult = yield self.env.likeCoAPI.addUserAppReferrer(likerID)
       switch (result.kind) {
@@ -330,7 +301,7 @@ export const UserStoreModel = types
       }
     }),
     postResume: flow(function * () {
-      self.appMeta.postResume();
+      yield self.appMeta.postResume();
     }),
     generateUserAppReferralLink: flow(function * () {
       const { likerID, displayName } = self.currentUser

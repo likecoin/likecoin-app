@@ -77,7 +77,7 @@ export class LikerLandOAuthScreen extends React.Component<
     await Promise.all([
       this.props.deepLinkHandleStore.handleAppReferrer(),
       this.props.userStore.fetchUserInfo(),
-      this.props.userStore.fetchUserAppMeta(),
+      this.props.userStore.appMeta.fetch(),
     ])
     if (this.props.userStore.shouldPromptForReferrer) {
       this.props.navigation.navigate("ReferrerInputScreen")
