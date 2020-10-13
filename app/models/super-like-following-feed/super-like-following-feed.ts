@@ -55,7 +55,9 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
       return newItems.reverse()
     }
 
-    const fetch = flow(function*() {
+    const fetch = flow(function*(opts?: {
+      extraItem?: SuperLikeFeedItem
+    }) {
       if (self.status === "pending") return
       self.setStatus("pending")
       try {
@@ -68,7 +70,14 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
           },
         )
         if (result.kind === "ok") {
-          if (result.data?.length) {
+          const resultData = result.data || []
+          if (opts?.extraItem) {
+            result.data.unshift({
+              ts: self.end,
+              ...opts.extraItem,
+            } as SuperLikeFeedItem)
+          }
+          if (resultData.length) {
             const items = result.data.map(
               createSuperLikeFollowingFeedItemFromData,
             )

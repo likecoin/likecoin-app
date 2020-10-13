@@ -1,7 +1,7 @@
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
-import moment from "moment"
 
-import { withEnvironment } from "../extensions"
+import { withDateUtils, withUserAppMeta } from "../extensions"
+
 import { SuperLikeFollowingFeedModel } from "../super-like-following-feed"
 
 const SLOT_INTERVAL = 12 // In hours
@@ -31,10 +31,11 @@ export const SuperLikeDailyFeedModel = types
      */
     lastFetched: types.optional(types.number, 0),
   })
-  .extend(withEnvironment)
+  .extend(withDateUtils)
+  .extend(withUserAppMeta)
   .views(self => ({
     get start() {
-      return moment(self.id).valueOf()
+      return self.getDateInMs(self.id)
     },
     get items() {
       return (self.eveningFeed?.items || []).concat(
@@ -54,25 +55,13 @@ export const SuperLikeDailyFeedModel = types
             self.eveningFeed.status === "done"
     },
     isToday() {
-      const now = moment()
-      const start = moment(this.start)
-      return (
-        start.isSameOrAfter(now.startOf("day")) &&
-        start.isSameOrBefore(now.endOf("day"))
-      )
+      return self.getIsToday(this.start)
     },
     isYesterday() {
-      const yesterday = moment().subtract(1, "day")
-      const start = moment(this.start)
-      return (
-        start.isSameOrAfter(yesterday.startOf("day")) &&
-        start.isSameOrBefore(yesterday.endOf("day"))
-      )
+      return self.getIsYesterday(this.start)
     },
     isEveningFeedFetchable() {
-      const now = moment()
-      const noon = moment(this.start).add(12, "hours")
-      return now.isSameOrAfter(noon)
+      return self.getIsAfternoon(Date.now())
     },
   }))
   .actions(self => ({
@@ -101,7 +90,17 @@ export const SuperLikeDailyFeedModel = types
         promises.push(self.eveningFeed.fetch())
       }
       if (self.morningFeed.status !== "pending") {
-        promises.push(self.morningFeed.fetch())
+        const { current: extraContent } = self.userAppMeta.introContent
+        promises.push(
+          self.morningFeed.fetch({
+            extraItem:
+              self.isToday() &&
+              self.userAppMeta.getShouldShowIntroContent() &&
+              extraContent
+                ? extraContent
+                : null,
+          }),
+        )
       }
       yield Promise.all(promises)
     }),

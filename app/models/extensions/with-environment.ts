@@ -19,8 +19,8 @@ export const withEnvironment = (self: IStateTreeNode) => ({
     /**
      * Shortcut for getting the app config.
      */
-    getConfig(key: AppConfigKey) {
-      return this.env.appConfig?.getValue(key) || ""
+    getConfig<T = string>(key: AppConfigKey, defaultValue?: T) {
+      return (this.env.appConfig?.getValue(key) || defaultValue) as T
     },
 
     /**
