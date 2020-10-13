@@ -35,11 +35,11 @@
     "Back": {
       "Archive": "封存",
       "Bookmark": "加到閱讀列表",
-      "Follow": "追蹤",
+      "Follow": "追蹤\n%{followee}",
       "Remove": "移除",
       "Unarchive": "從封存列表移除",
       "Unbookmark": "從閱讀列表移除",
-      "Unfollow": "取消追蹤"
+      "Unfollow": "取消追蹤\n%{followee}"
     },
     "BookmarkRemoveLabel": "已移除",
     "likeStatsLabel": {

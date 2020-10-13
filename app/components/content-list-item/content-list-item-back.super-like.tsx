@@ -10,6 +10,7 @@ import { ContentListItemBackStyle as Style } from "./content-list-item-back.styl
 import { ContentListItemBackButton as BackButton } from "./content-list-item-back-button"
 
 export interface PureSuperLikeContentListItemBackProps {
+  followee?: string
   isBookmarked?: boolean
   isFollowing?: boolean
   onToggleBookmark?: () => void
@@ -19,9 +20,10 @@ export interface PureSuperLikeContentListItemBackProps {
 export function PureSuperLikeContentListItemBack(
   props: PureSuperLikeContentListItemBackProps,
 ) {
+  const { followee, isBookmarked, isFollowing } = props
   return (
     <View style={Style.Root}>
-      {props.isBookmarked ? (
+      {isBookmarked ? (
         <BackButton
           preset="danger"
           tx="ContentListItem.Back.Unbookmark"
@@ -36,10 +38,11 @@ export function PureSuperLikeContentListItemBack(
           onPress={props.onToggleBookmark}
         />
       )}
-      {props.isFollowing ? (
+      {isFollowing ? (
         <BackButton
           preset="primary"
           tx="ContentListItem.Back.Unfollow"
+          txOptions={{ followee }}
           icon="unfollow"
           onPress={props.onToggleFollow}
         />
@@ -47,6 +50,7 @@ export function PureSuperLikeContentListItemBack(
         <BackButton
           preset="primary"
           tx="ContentListItem.Back.Follow"
+          txOptions={{ followee }}
           icon="follow"
           onPress={props.onToggleFollow}
         />
@@ -89,11 +93,12 @@ export class SuperLikeContentListItemBack extends React.Component<
 
   render() {
     const {
-      liker: { isFollowing: isFollowingSuperLiker },
+      liker: { displayName, isFollowing: isFollowingSuperLiker },
       content: { isBookmarked },
     } = this.props.item
     return (
       <PureSuperLikeContentListItemBack
+        followee={displayName}
         isBookmarked={isBookmarked}
         isFollowing={!!isFollowingSuperLiker}
         onToggleBookmark={this.onToggleBookmark}
