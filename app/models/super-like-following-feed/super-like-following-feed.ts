@@ -1,4 +1,4 @@
-import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types, getParent } from "mobx-state-tree"
 
 import {
   SuperLikeFeedItem,
@@ -25,8 +25,6 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
      * End time of the feed in ms.
      */
     end: types.number,
-    isToday: types.optional(types.boolean, false),
-    isMorning: types.optional(types.boolean, false),
   })
   .extend(withUserAppMetaStore)
   .actions(self => {
@@ -74,7 +72,8 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
         if (result.kind === "ok") {
           const resultData = result.data || [];
           const { shouldShowIntroContent, getIntroContent } = self.userAppMetaStore
-          if (self.isToday && self.isMorning && shouldShowIntroContent() && getIntroContent) {
+          const { isToday, morningFeed } = getParent(self)
+          if (isToday() && morningFeed === self && shouldShowIntroContent() && getIntroContent) {
             if (getIntroContent) result.data.unshift({
               ts: self.start,
               ...getIntroContent,

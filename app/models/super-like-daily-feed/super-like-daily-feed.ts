@@ -80,16 +80,12 @@ export const SuperLikeDailyFeedModel = types
         self.morningFeed = SuperLikeFollowingFeedModel.create({
           start: self.start - 3600000 * SLOT_INTERVAL,
           end: self.start - 1,
-          isToday: self.isToday(),
-          isMorning: true,
         })
       }
       if (!self.eveningFeed) {
         self.eveningFeed = SuperLikeFollowingFeedModel.create({
           start: self.start,
           end: self.start + 3600000 * SLOT_INTERVAL - 1,
-          isToday: self.isToday(),
-          isMorning: false,
         })
       }
     },
