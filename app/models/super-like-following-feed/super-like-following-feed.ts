@@ -1,4 +1,4 @@
-import { flow, Instance, SnapshotOut, types, getParent } from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import {
   SuperLikeFeedItem,
@@ -6,7 +6,6 @@ import {
 } from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 
-import { withUserAppMetaStore } from "../extensions"
 import { SuperLike } from "../super-like"
 import { SuperLikeFeedModel } from "../super-like-feed"
 
@@ -26,7 +25,6 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
      */
     end: types.number,
   })
-  .extend(withUserAppMetaStore)
   .actions(self => {
     function reset() {
       self.items.replace([])
@@ -57,7 +55,9 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
       return newItems.reverse()
     }
 
-    const fetch = flow(function*() {
+    const fetch = flow(function*(opts?: {
+      extraItem?: SuperLikeFeedItem
+    }) {
       if (self.status === "pending") return
       self.setStatus("pending")
       try {
@@ -70,13 +70,11 @@ export const SuperLikeFollowingFeedModel = SuperLikeFeedModel.named(
           },
         )
         if (result.kind === "ok") {
-          const resultData = result.data || [];
-          const { shouldShowIntroContent, getIntroContent } = self.userAppMetaStore
-          const { isToday, morningFeed } = getParent(self)
-          if (isToday() && morningFeed === self && shouldShowIntroContent() && getIntroContent) {
-            if (getIntroContent) result.data.unshift({
-              ts: self.start,
-              ...getIntroContent,
+          const resultData = result.data || []
+          if (opts?.extraItem) {
+            result.data.unshift({
+              ts: self.end,
+              ...opts.extraItem,
             } as SuperLikeFeedItem)
           }
           if (resultData.length) {
