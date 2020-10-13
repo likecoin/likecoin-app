@@ -38,11 +38,11 @@
     "Back": {
       "Archive": "Archive",
       "Bookmark": "Add to reading list",
-      "Follow": "Follow",
+      "Follow": "Follow\n%{followee}",
       "Remove": "Remove",
       "Unarchive": "Unarchive",
       "Unbookmark": "Remove from reading list",
-      "Unfollow": "Unfollow"
+      "Unfollow": "Unfollow\n%{followee}"
     },
     "BookmarkRemoveLabel": "Removed",
     "likeStatsLabel": {

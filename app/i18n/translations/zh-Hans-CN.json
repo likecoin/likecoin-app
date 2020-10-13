@@ -38,11 +38,11 @@
     "Back": {
       "Archive": "封存",
       "Bookmark": "加到阅读列表",
-      "Follow": "追踪",
+      "Follow": "追踪\n%{followee}",
       "Remove": "移除",
       "Unarchive": "从阅封存表移除",
       "Unbookmark": "从阅读列表移除",
-      "Unfollow": "取消追踪"
+      "Unfollow": "取消追踪\n%{followee}"
     },
     "BookmarkRemoveLabel": "已移除",
     "likeStatsLabel": {
