@@ -300,13 +300,13 @@ export const UserStoreModel = types
             android: hasAndroid,
             ios: hasIOS,
           } = result.data
-          const { lastIntroContentUpdateTs, introContentIndex } = self.appMeta || {};
+          const { introContentLastUpdateTs, introContentIndex } = self.appMeta || {};
           const index = introContentIndex === undefined ? -1 : introContentIndex;
           self.appMeta = UserAppMetaModel.create({
             isNew,
             isEmailVerified,
             firstOpenTs,
-            lastIntroContentUpdateTs,
+            introContentLastUpdateTs,
             introContentIndex: index,
             hasAndroid,
             hasIOS,

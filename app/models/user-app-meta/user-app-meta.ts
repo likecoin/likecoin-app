@@ -1,9 +1,11 @@
 import { Instance, SnapshotOut, flow, types } from "mobx-state-tree"
-import { IntroContentList } from "../../services/app-config/app-config.type";
+
+import { IntroContentList } from "../../services/app-config/app-config.type"
+
 import { withEnvironment } from "../extensions"
 
-const ONE_DAY_IN_MS = 86400000;
-const ONE_HOUR_IN_MS = 3600000;
+const ONE_DAY_IN_MS = 86400000
+const ONE_HOUR_IN_MS = 3600000
 
 /**
  * App Meta
@@ -17,37 +19,37 @@ export const UserAppMetaModel = types
     hasAndroid: types.optional(types.boolean, false),
     hasIOS: types.optional(types.boolean, false),
     introContentIndex: types.optional(types.number, 0),
-    lastIntroContentUpdateTs: types.optional(types.number, 0),
+    introContentLastUpdateTs: types.optional(types.number, 0),
   })
   .extend(withEnvironment)
   .views(self => ({
-    shouldShowIntroContent() {
-      const { firstOpenTs } = self;
-      const now = Date.now()
-      if (now - ONE_DAY_IN_MS * 7 > firstOpenTs) return false;
-      const list = self.env.appConfig.getValue("INTRO_CONTENT_SUPERLIKE_ID_LIST") as IntroContentList
-      return (list && list.length > self.introContentIndex)
+    get introContentList() {
+      return (self.env.appConfig.getValue("INTRO_CONTENT_SUPERLIKE_ID_LIST") ||
+        []) as IntroContentList
     },
-    get getIntroContent() {
-      const list = self.env.appConfig.getValue("INTRO_CONTENT_SUPERLIKE_ID_LIST") as IntroContentList
-      if (list && list.length <= self.introContentIndex) return null;
-      return list[self.introContentIndex];
+  }))
+  .views(self => ({
+    getShouldShowIntroContent() {
+      if (Date.now() - ONE_DAY_IN_MS * 7 > self.firstOpenTs) return false
+      return self.introContentList.length > self.introContentIndex
+    },
+    get currentIntroContent() {
+      if (self.introContentList.length <= self.introContentIndex) return null
+      return self.introContentList[self.introContentIndex]
     },
   }))
   .actions(self => ({
-    postResume: flow( function * () {
-      const { firstOpenTs, lastIntroContentUpdateTs } = self;
+    postResume: flow(function*() {
+      const { firstOpenTs, introContentLastUpdateTs: lastIntroContentUpdateTs } = self
       const now = Date.now()
-      if (now - ONE_DAY_IN_MS * 7 > firstOpenTs) return;
-      if (now - ONE_HOUR_IN_MS * 18 < lastIntroContentUpdateTs) return;
-      const list = self.env.appConfig.getValue("INTRO_CONTENT_SUPERLIKE_ID_LIST") as IntroContentList
-      if (list && list.length > self.introContentIndex) {
+      if (now - ONE_DAY_IN_MS * 7 > firstOpenTs) return
+      if (now - ONE_HOUR_IN_MS * 18 < lastIntroContentUpdateTs) return
+      if (self.introContentList.length > self.introContentIndex) {
         self.introContentIndex += 1
-        self.lastIntroContentUpdateTs = Date.now()
+        self.introContentLastUpdateTs = Date.now()
       }
     }),
-  })
-)
+  }))
 
 type UserAppMetaType = Instance<typeof UserAppMetaModel>
 export interface UserAppMetaStore extends UserAppMetaType {}
