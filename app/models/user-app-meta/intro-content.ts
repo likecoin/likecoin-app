@@ -13,7 +13,7 @@ export const IntroContentModel = types
     /**
      * Current content index
      */
-    index: types.optional(types.number, 0),
+    index: types.optional(types.number, -1),
     /**
      * Last update timestamp
      */

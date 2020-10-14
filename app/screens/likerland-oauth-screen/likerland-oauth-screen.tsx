@@ -79,6 +79,7 @@ export class LikerLandOAuthScreen extends React.Component<
       this.props.userStore.fetchUserInfo(),
       this.props.userStore.appMeta.fetch(),
     ])
+    await this.props.userStore.postResume()
     if (this.props.userStore.shouldPromptForReferrer) {
       this.props.navigation.navigate("ReferrerInputScreen")
     } else {
