@@ -1,9 +1,9 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { UserAppMetaResult } from "../../services/api"
-import { ONE_DAY_IN_MS, ONE_HOUR_IN_MS } from "../../utils/date"
+import { ONE_DAY_IN_MS } from "../../utils/date"
 
-import { withEnvironment } from "../extensions"
+import { withDateUtils, withEnvironment } from "../extensions"
 
 import { IntroContentModel } from "./intro-content"
 
@@ -20,6 +20,7 @@ export const UserAppMetaModel = types
     hasIOS: types.optional(types.boolean, false),
     introContent: types.optional(IntroContentModel, {}),
   })
+  .extend(withDateUtils)
   .extend(withEnvironment)
   .views(self => ({
     getShouldShowIntroContent() {
@@ -51,7 +52,7 @@ export const UserAppMetaModel = types
       const now = Date.now()
       if (
         now - self.firstOpenTs < ONE_DAY_IN_MS * 7 &&
-        now - self.introContent.lastUpdateTs >= ONE_HOUR_IN_MS * 18
+        !self.getIsWithinTheDay(self.introContent.lastUpdateTs, now)
       ) {
         self.introContent.increment()
       }
