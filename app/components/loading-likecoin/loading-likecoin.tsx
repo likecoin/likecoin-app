@@ -1,71 +1,42 @@
 import * as React from "react"
-import {
-  Animated,
-  Easing,
-  ViewProps,
-  ViewStyle,
-} from "react-native"
+import { View, ViewProps, ViewStyle } from "react-native"
+import ImageSequence from "react-native-image-sequence"
 
-import { Icon } from "../icon"
+// TODO: Better way to import these
+const images = [
+  require("./frames/1.png"),
+  require("./frames/2.png"),
+  require("./frames/3.png"),
+  require("./frames/4.png"),
+  require("./frames/5.png"),
+  require("./frames/6.png"),
+  require("./frames/7.png"),
+  require("./frames/8.png"),
+  require("./frames/9.png"),
+]
 
 const ROOT: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
 }
 
-export class LoadingLikeCoin extends React.PureComponent<ViewProps> {
-  state = {
-    fillAnim: new Animated.Value(0.25),
-  }
+const SIZE = 48;
 
-  animation = Animated.loop(
-    Animated.sequence([
-      Animated.timing(
-        this.state.fillAnim,
-        {
-          toValue: 1,
-          easing: Easing.linear,
-          duration: 750,
-        }
-      ),
-      Animated.timing(
-        this.state.fillAnim,
-        {
-          toValue: 0.25,
-          easing: Easing.linear,
-          duration: 750,
-        }
-      )
-    ])
+const IMAGE: ViewStyle = {
+  width: SIZE,
+  height: SIZE,
+}
+
+export function LoadingLikeCoin(props: ViewProps) {
+  const { style, ...restProps } = props
+  const rootStyle = [ROOT, style]
+  return (
+    <View style={rootStyle} {...restProps}>
+      <ImageSequence
+        images={images}
+        framesPerSecond={12}
+        {...{ style: IMAGE }}
+      />
+    </View>
   )
-
-  componentDidMount() {
-    this.animation.start()
-  }
-
-  componentWillUnmount() {
-    this.animation.stop()
-  }
-
-  render() {
-    const { style, ...restProps } = this.props
-    const rootStyle = [
-      ROOT,
-      style,
-      { opacity: this.state.fillAnim } as any as ViewStyle,
-    ]
-    return (
-      <Animated.View
-        {...restProps}
-        style={rootStyle}
-      >
-        <Icon
-          name="like-clap"
-          width={72}
-          height={72}
-          color="white"
-        />
-      </Animated.View>
-    )
-  }
 }
