@@ -30,12 +30,10 @@ export class ProfileSettingsScreen extends React.Component<
 
   render() {
     const {
-      accessToken,
-      getDefaultWidgetOptions,
-      env: {
-        authCoreAPI: { client: authcore },
-      },
+      defaultWidgetOptions,
+      getClient,
     } = this.props.userStore.authCore
+    const { ProfileScreen } = getClient()
     return (
       <Screen preset="fixed" backgroundColor={color.primary} style={Full}>
         <Header
@@ -43,10 +41,9 @@ export class ProfileSettingsScreen extends React.Component<
           leftIcon="back"
           onLeftPress={this.onPressCloseButton}
         />
-        <authcore.ProfileScreen
+        <ProfileScreen
           containerStyle={Full}
-          {...getDefaultWidgetOptions()}
-          accessToken={accessToken}
+          {...defaultWidgetOptions}
         />
       </Screen>
     )

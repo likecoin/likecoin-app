@@ -26,6 +26,9 @@ export const AuthCoreStoreModel = types
   .extend(withEnvironment)
   .extend(withLanguageSettingsStore)
   .views(self => ({
+    getClient() {
+      return self.env.authCoreAPI.client
+    },
     get primaryCosmosAddress() {
       return self.cosmosAddresses.length ? self.cosmosAddresses[0] : null
     },
@@ -38,13 +41,17 @@ export const AuthCoreStoreModel = types
     get normalizedLanguage() {
       return findBestAvailableLanguage(self.activeLanguageKey)
     },
-    getDefaultWidgetOptions() {
+  }))
+  .views(self => ({
+    get defaultWidgetOptions() {
       return {
+        accessToken: self.accessToken,
         company: "Liker ID",
         logo: "https://like.co/favicon.png",
         primaryColour: color.primary,
         successColour: color.primary,
         dangerColour: color.palette.angry,
+        language: self.normalizedLanguage,
       }
     },
   }))
@@ -54,10 +61,8 @@ export const AuthCoreStoreModel = types
     },
     openSettingsWidget(options?: AuthcoreScreenOptions) {
       self.env.authCoreAPI.openSettingsWidget({
-        ...self.getDefaultWidgetOptions(),
+        ...self.defaultWidgetOptions,
         ...options,
-        language: self.normalizedLanguage,
-        accessToken: self.accessToken,
       })
     },
   }))
