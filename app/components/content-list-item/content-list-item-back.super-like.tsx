@@ -93,8 +93,11 @@ export class SuperLikeContentListItemBack extends React.Component<
 
   render() {
     const {
-      liker: { displayName, isFollowing: isFollowingSuperLiker },
-      content: { isBookmarked },
+      liker: {
+        displayName = "",
+        isFollowing: isFollowingSuperLiker = false,
+      } = {},
+      content: { isBookmarked = false } = {},
     } = this.props.item
     return (
       <PureSuperLikeContentListItemBack
