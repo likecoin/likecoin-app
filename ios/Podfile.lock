@@ -308,9 +308,9 @@ PODS:
     - React
   - RNScreens (2.7.0):
     - React
-  - RNSentry (1.1.0):
-    - React
-    - Sentry (~> 4.4.0)
+  - RNSentry (2.0.0):
+    - React-Core
+    - Sentry (~> 6.0.3)
   - RNSVG (12.0.3):
     - React
   - SDWebImage (5.9.1):
@@ -319,9 +319,9 @@ PODS:
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
-  - Sentry (4.4.3):
-    - Sentry/Core (= 4.4.3)
-  - Sentry/Core (4.4.3)
+  - Sentry (6.0.7):
+    - Sentry/Core (= 6.0.7)
+  - Sentry/Core (6.0.7)
   - yoga (0.60.4.React)
 
 DEPENDENCIES:
@@ -516,9 +516,9 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Branch: 9b299693ee54b308ff8c18146afe1f711c2069ec
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  Crashlytics: a33af323773f73904037dc2e684cd2f0d29f4fe2
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  Fabric: 09ef2d9b99b104702bede1acaf469fb8f20a9146
   FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
   FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
   FBSDKShareKit: abc29e1bb4f9f59f679adf1ae191006d68455f96
@@ -588,11 +588,11 @@ SPEC CHECKSUMS:
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
   RNRate: a39ac26dc9daf3f9b639ce274b7f80672ae36db1
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
-  RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7
+  RNSentry: cb4ef23400fb6690f6ac8f6acef0c023a8a4f37d
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   SDWebImage: a990c053fff71e388a10f3357edb0be17929c9c5
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
-  Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
+  Sentry: e2c691627ae1dc0029acebbd1b0b4af4df12af73
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
 PODFILE CHECKSUM: 0d74d8cc43fe663e5879690564d616bb8811043e
