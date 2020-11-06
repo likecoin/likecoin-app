@@ -7,7 +7,11 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { IUseFlatListProps, IUseSectionListProps, RowMap } from "react-native-swipe-list-view"
+import {
+  IUseFlatListProps,
+  IUseSectionListProps,
+  RowMap,
+} from "react-native-swipe-list-view"
 import {
   BACK_BUTTON_BASE,
   ContentListItemSkeleton,
@@ -20,8 +24,9 @@ import {
   RefreshControlColors,
 } from "./content-list.style"
 
-
-type ListViewProps = Partial<IUseSectionListProps<any>> | Partial<IUseFlatListProps<any>>
+type ListViewProps =
+  | Partial<IUseSectionListProps<any>>
+  | Partial<IUseFlatListProps<any>>
 
 export interface WithContentListHelperProps extends ContentListItemStyleProps {
   emptyTx?: string
@@ -33,9 +38,6 @@ export interface WithContentListHelperProps extends ContentListItemStyleProps {
   hasFetchedAll?: boolean
 
   listViewProps?: ListViewProps
-
-  renderFooter?: () => React.ReactElement
-  renderEmpty?: () => React.ReactElement
 
   toggleItemBack?: (rowMap: RowMap<any>, rowKey: string) => void
 
@@ -74,9 +76,7 @@ export const withContentListHelper = <P extends object>(
         if (this.rowOpenSet.has(rowKey)) {
           rowMap[rowKey].closeRow()
         } else {
-          rowMap[rowKey].manuallySwipeRow(
-            this.listViewProps.rightOpenValue,
-          )
+          rowMap[rowKey].manuallySwipeRow(this.listViewProps.rightOpenValue)
         }
       }
     }
@@ -102,39 +102,6 @@ export const withContentListHelper = <P extends object>(
       />
     )
 
-    private renderEmpty = () => {
-      if (this.props.hasFetched) {
-        return (
-          <View style={Style.Empty}>
-            <Text tx={this.props.emptyTx} style={Style.EmptyLabel} />
-          </View>
-        )
-      }
-
-      return (
-        <View>
-          {[...Array(7)].map((_, i) => (
-            <ContentListItemSkeleton
-              key={`${i}`}
-              primaryColor={this.props.skeletonPrimaryColor}
-              secondaryColor={this.props.skeletonSecondaryColor}
-            />
-          ))}
-        </View>
-      )
-    }
-
-    private renderFooter = () => {
-      return this.props.isFetchingMore ? (
-        <View style={Style.Footer}>
-          <ContentListItemSkeleton
-            primaryColor={this.props.skeletonPrimaryColor}
-            secondaryColor={this.props.skeletonSecondaryColor}
-          />
-        </View>
-      ) : null
-    }
-
     private listViewProps: ListViewProps = {
       rightOpenValue: -BACK_BUTTON_BASE.width * 2,
       disableRightSwipe: true,
@@ -144,10 +111,7 @@ export const withContentListHelper = <P extends object>(
       maxToRenderPerBatch: 10,
       onEndReachedThreshold: 0.5,
       contentContainerStyle: Style.ContentContainer,
-      style: [Style.Full, this.props.style],
       refreshControl: this.renderRefreshControl(),
-      ListEmptyComponent: this.renderEmpty,
-      ListFooterComponent: this.renderFooter,
       onScroll: this.props.onScroll,
       onEndReached: this.onEndReached,
       onRowOpen: this.handleRowOpen,
@@ -159,7 +123,33 @@ export const withContentListHelper = <P extends object>(
       return (
         <WrappedComponent
           {...(props as P)}
-          listViewProps={this.listViewProps}
+          listViewProps={{
+            ...this.listViewProps,
+            style: [Style.Full, this.props.style],
+            ListEmptyComponent: this.props.hasFetched ? (
+              <View style={Style.Empty}>
+                <Text tx={this.props.emptyTx} style={Style.EmptyLabel} />
+              </View>
+            ) : (
+              <View>
+                {[...Array(7)].map((_, i) => (
+                  <ContentListItemSkeleton
+                    key={`${i}`}
+                    primaryColor={this.props.skeletonPrimaryColor}
+                    secondaryColor={this.props.skeletonSecondaryColor}
+                  />
+                ))}
+              </View>
+            ),
+            ListFooterComponent: this.props.isFetchingMore ? (
+              <View style={Style.Footer}>
+                <ContentListItemSkeleton
+                  primaryColor={this.props.skeletonPrimaryColor}
+                  secondaryColor={this.props.skeletonSecondaryColor}
+                />
+              </View>
+            ) : null,
+          }}
           toggleItemBack={this.toggleItemBack}
         />
       )
