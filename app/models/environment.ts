@@ -39,6 +39,7 @@ export class Environment {
       LIKERLAND_API_URL,
       BIG_DIPPER_URL,
       SENTRY_DSN,
+      SENTRY_ENV,
     } = this.appConfig.getAllParams()
     this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID)
     this.likeCoAPI.setup(LIKECO_API_URL)
@@ -47,7 +48,7 @@ export class Environment {
     this.cosmosAPI.setup(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
     this.bigDipper.setup(BIG_DIPPER_URL)
     if (SENTRY_DSN) {
-      initSentry(SENTRY_DSN)
+      initSentry(SENTRY_DSN, SENTRY_ENV)
     }
   }
 

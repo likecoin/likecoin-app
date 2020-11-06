@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/react-native'
 
-export function initSentry(dsn: string) {
+export function initSentry(dsn: string, environment: string) {
   return Sentry.init({
     dsn,
+    environment,
     debug: __DEV__,
     blacklistUrls: ['debuggerWorker.js'],
   })
