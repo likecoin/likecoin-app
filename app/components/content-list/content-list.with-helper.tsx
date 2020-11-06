@@ -39,8 +39,6 @@ export interface WithContentListHelperProps extends ContentListItemStyleProps {
 
   listViewProps?: ListViewProps
 
-  renderFooter?: () => React.ReactElement
-
   toggleItemBack?: (rowMap: RowMap<any>, rowKey: string) => void
 
   onRefresh?: () => void
