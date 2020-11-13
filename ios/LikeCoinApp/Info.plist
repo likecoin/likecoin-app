@@ -80,6 +80,8 @@
 	<string>The app requires camera for scanning QR code</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app requires your permission to access your photos</string>
+	<key>NSCrossWebsiteTrackingUsageDescription</key>
+	<string>Allow Liker Land to use cross-site cookie to check your login status. This allows you to use like button in webpage without the need of popups</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
