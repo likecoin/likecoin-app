@@ -1,4 +1,4 @@
-import { sentryCaptureError } from './sentry'
+import { sentryCaptureError, sentryCaptureMessage } from './sentry'
 
 export function logError(err: any) {
   if (__DEV__) {
@@ -6,5 +6,14 @@ export function logError(err: any) {
   } else {
     console.error(err)
     sentryCaptureError(err)
+  }
+}
+
+export function logMessage(msg: string) {
+  if (__DEV__) {
+    console.tron.warn(msg)
+  } else {
+    console.warn(msg)
+    sentryCaptureMessage(msg)
   }
 }

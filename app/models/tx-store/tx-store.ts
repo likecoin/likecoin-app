@@ -14,7 +14,7 @@ import {
   CosmosTxQueryResult,
 } from "../../services/cosmos"
 import { parseCosmosCoin } from "../../services/cosmos/cosmos.utils"
-import { logError } from "../../utils/error"
+import { logError, logMessage } from "../../utils/error"
 
 import { translateWithFallbackText } from "../../i18n"
 
@@ -128,6 +128,7 @@ export const TxStoreModel = types
           let estimatedGas: number = yield message.simulate({ memo: self.memo })
           if (estimatedGas === 0) {
             estimatedGas = 200000
+            logMessage('[TxStore] Estimated gas is 0')
           }
           self.gas = new BigNumber(estimatedGas)
         } catch (error) {
