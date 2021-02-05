@@ -2047,46 +2047,40 @@
     shell-quote "1.6.1"
     ws "^1.1.0"
 
-"@react-native-firebase/analytics@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-6.1.0.tgz#bfddbbed50430d927c7d65bc74d4a5d7da557b53"
-  integrity sha512-De56IftEF9nhDTCU6nRctPt2xnFfa6jXfdF3mSah60Lzj/0PChBmDtFXEOvWlP5ePX0HGmQzXFc04wV2invF7A==
+"@react-native-firebase/analytics@10.6.3":
+  version "10.6.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-10.6.3.tgz#ec74ddffc97c3acdaef88d07abdf0a46397a69b4"
+  integrity sha512-NeuQ8sUZ4M8y0qI5XOvIjbJEr4WJExR/rka91G9cdTxByRR+Vk4xg9Fo6iUz/L5YkNALgOe1Svd3mcDcNVE10Q==
 
-"@react-native-firebase/app-types@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-types/-/app-types-6.1.0.tgz#b7a2cd678e7c54f0b17d1e2faa7b8131333facdb"
-  integrity sha512-w5VxtgMyqx0DU5y2vKzBT8f313ruaykC4T14P/vp8sQwVeitUolLrD7SLOZW9SUm7epExrQDPrdW7M3SFeze0g==
-
-"@react-native-firebase/app@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-6.1.0.tgz#c7b9b70f9aea65ba3fa68d9a25005ee5a746424a"
-  integrity sha512-ZNnb9kgJxpohW+S5zGF3HECSdktmFuozIiuK5rkghpnzO9ZMgPIudIjOYX4P/wdm8w1gj5wXH4sQDtyJ2ryE9w==
+"@react-native-firebase/app@10.6.3":
+  version "10.6.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-10.6.3.tgz#9f79a3ad6ab8aa7b7ac3604d70f3fc9335ecc54b"
+  integrity sha512-lSuAkdjvqJeBYkJ6idnlnsDuUYpHJTs2LiWOd7m58w+eNwn+wfkjE5UITxjNfIlnIEabWVSHOrkLBv1gPs2BXA==
   dependencies:
-    "@react-native-firebase/app-types" "6.1.0"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/crashlytics@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-6.1.0.tgz#137a15055d75b6cb662059fed21800f4437370cd"
-  integrity sha512-5R4mrxR5glhKiXU30l8tu5uH+V0ftDSkpUtoH84D6bn+N2jZhb1A+JwiQZIb7Z+A4an//luClwr4dX30wLs20g==
+"@react-native-firebase/crashlytics@10.6.3":
+  version "10.6.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-10.6.3.tgz#65c1b215ef0739593508daefbe9fe50feca9ef31"
+  integrity sha512-ruqNmapHu6i/VxwpdVzn1HTb7+Wciqeuk6AydICtASC+FKVGQY9vf1CzSBSsR2D+3FvxfFccZVDY9ZV1wGZheQ==
   dependencies:
     stacktrace-js "^2.0.0"
 
-"@react-native-firebase/dynamic-links@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-6.1.0.tgz#da644df204a72da4f6d4f9b89030472391788361"
-  integrity sha512-7XUYUdGdGPJS/g41OjYVmfir6YUx8uChlO7banRyqyTTYHtVPFV6s6zkr3jn/6Dmo7EsTmt/vFPX9pVosOmcBQ==
+"@react-native-firebase/dynamic-links@10.6.3":
+  version "10.6.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-10.6.3.tgz#2352d4e26ace387d4bcaf59f91b78d7685521b9c"
+  integrity sha512-tj5x7YMc2Rly8YB9SSsAk/w2aEOu91QQ9oaZIg3K/7qLE4qNPBEkKgZY7PxmpuQB+7xKlESjKrzJE9JC80npLQ==
 
-"@react-native-firebase/perf@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-6.1.0.tgz#a757a9978af28c8c89bd8cfc51b846da9a57fe07"
-  integrity sha512-gaXpS2qd7rKytlo2aBGGTIZ46zz9DoHltrBf5cpcc3rmNHIH7BdrxH/MOvDR9bwtbCCODa55+YWFzKespHQGRA==
+"@react-native-firebase/perf@10.6.3":
+  version "10.6.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-10.6.3.tgz#24c796924828d2e271ec5b2898aa1f468ab5524d"
+  integrity sha512-EI86Reh71v9IJURL2pwLDR60KEYqVe6sj95yK1B7LBc+rBzaN/m9ZKYv7hbCGflVZ+oR5TAQFuU70B4GP2trdw==
 
-"@react-native-firebase/remote-config@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-6.1.0.tgz#690d63fabc4f6b5d8a94eae1099d55070303b7c9"
-  integrity sha512-QMBzxf8UP3ZUsyHaCu0/Y7H14WmVYEuNYby+EVZeG4zTa1DsJ7DENgP33J8DUVdRg9/vBP23m8mYBrNqp5Xd0w==
+"@react-native-firebase/remote-config@10.6.3":
+  version "10.6.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-10.6.3.tgz#fd7c3cbfcbdd96f30dd026805f0d5098b72c45c9"
+  integrity sha512-iXO8CyVU6jE9eRTywDNe9dkD2EgSZRv7o4m7iOKi2TZkIpXAkay+BUSARLbEaNr3slEWReWewt8G6LHfVX9lIQ==
 
 "@react-navigation/core@^3.7.6":
   version "3.7.6"
