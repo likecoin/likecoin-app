@@ -278,7 +278,7 @@ export const UserStoreModel = types
               // This technically only tells us if the user successfully went to the Review Page.
               // Whether they actually did anything, we do not know.
               self.didPromptAppRating()
-              resolve()
+              resolve(true)
             } else {
               reject(new Error("APP_RATE_ERROR"))
             }

@@ -62,7 +62,7 @@
     "react-native-localize": "^1.0.0",
     "react-native-qrcode-svg": "^5.2.0",
     "react-native-randombytes": "^3.5.3",
-    "react-native-rate": "^1.2.1",
+    "react-native-rate": "^1.2.4",
     "react-native-screens": "^2.7.0",
     "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#244989a267e4d1beb41779228ad905e5211f6bf7",
     "react-native-snap-carousel": "^3.9.0",
