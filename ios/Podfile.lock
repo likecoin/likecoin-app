@@ -304,7 +304,7 @@ PODS:
     - React
   - RNLocalize (1.1.4):
     - React
-  - RNRate (1.2.1):
+  - RNRate (1.2.4):
     - React
   - RNScreens (2.7.0):
     - React
@@ -586,7 +586,7 @@ SPEC CHECKSUMS:
   RNIap: e75200c18ed318479a52db633dc2db2facce77ea
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
-  RNRate: a39ac26dc9daf3f9b639ce274b7f80672ae36db1
+  RNRate: 15b861025a7821730761fce7f44561ce7e0b2de0
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNSentry: cb4ef23400fb6690f6ac8f6acef0c023a8a4f37d
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
@@ -597,4 +597,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0d74d8cc43fe663e5879690564d616bb8811043e
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1
