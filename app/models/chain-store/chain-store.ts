@@ -231,14 +231,14 @@ export const ChainStoreModel = types
       self.currentWallet = wallet
     },
     setDelegation(
-      type: "shares" | "unbonding" | "rewards",
+      type: "balance" | "shares" | "unbonding" | "rewards",
       validatorAddress: string,
       value: BigNumber
     ) {
       self.wallet.getDelegation(validatorAddress, false)[type] = value
     },
     setDelegations(
-      type: "shares" | "unbonding" | "rewards",
+      type: "balance" | "shares" | "unbonding" | "rewards",
       results: any[] = [],
       reducer: (acc: Map<string, BigNumber>, result: typeof results[0]) => typeof acc
     ) {
@@ -291,6 +291,12 @@ export const ChainStoreModel = types
       try {
         const results: CosmosDelegation[] = yield self.env.cosmosAPI.getDelegations(self.wallet.address)
         self.setDelegations(
+          "balance",
+          results,
+          (delegations, { validator_address: id, balance }: CosmosDelegation) =>
+            delegations.set(id, new BigNumber(balance))
+        )
+        self.setDelegations(
           "shares",
           results,
           (delegations, { validator_address: id, shares }: CosmosDelegation) =>
@@ -309,6 +315,7 @@ export const ChainStoreModel = types
       validator.isFetchingDelegation = true
       try {
         const result: CosmosDelegation = yield self.env.cosmosAPI.getDelegation(self.wallet.address, validator.operatorAddress)
+        self.setDelegation("balance", validator.operatorAddress, new BigNumber(result?.balance || 0))
         self.setDelegation("shares", validator.operatorAddress, new BigNumber(result?.shares || 0))
       } catch (error) {
         logError(`Error occurs in ChainStore.fetchDelegation: ${error}`)

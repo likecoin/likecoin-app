@@ -59,7 +59,7 @@ export const WalletModel = types
     },
     get delegatedBalance() {
       return self.delegationList.reduce(
-        (total, delegation) => total.plus(delegation.shares),
+        (total, delegation) => total.plus(delegation.balance),
         new BigNumber(0)
       )
     },

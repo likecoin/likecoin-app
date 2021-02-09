@@ -6,6 +6,7 @@ export const DelegationModel = types
   .props({
     validatorAddress: types.identifier,
     shares: types.optional(BigNumberPrimitive, "0"),
+    balance: types.optional(BigNumberPrimitive, "0"),
     rewards: types.optional(BigNumberPrimitive, "0"),
     unbonding: types.optional(BigNumberPrimitive, "0"),
   })

@@ -27,7 +27,7 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
       const { address } = this.props.chain.wallet
       await this.props.txStore.createRedelegateTx(address)
       const { from, totalAmount } = this.props.txStore
-      const delegatedAmount = this.props.chain.wallet.getDelegation(from).shares
+      const delegatedAmount = this.props.chain.wallet.getDelegation(from).balance
       if (totalAmount.isGreaterThan(delegatedAmount)) {
         throw new Error("REDELEGATE_AMOUNT_EXCEED_MAX")
       }
@@ -69,7 +69,7 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
       from,
       isCreatingTx,
     } = this.props.txStore
-    const delegatedAmount = this.props.chain.wallet.getDelegation(from).shares
+    const delegatedAmount = this.props.chain.wallet.getDelegation(from).balance
     return (
       <AmountInputView
         value={inputAmount}

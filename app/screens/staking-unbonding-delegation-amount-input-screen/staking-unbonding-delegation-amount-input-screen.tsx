@@ -48,7 +48,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
       const { address } = this.props.chain.wallet
       await this.props.txStore.createUnbondingDelegateTx(address)
       const { target, totalAmount } = this.props.txStore
-      const delegatedAmount = this.props.chain.wallet.getDelegation(target).shares
+      const delegatedAmount = this.props.chain.wallet.getDelegation(target).balance
       if (totalAmount.isGreaterThan(delegatedAmount)) {
         throw new Error("UNSTAKE_NOT_ENOUGH_FEE")
       }
@@ -95,7 +95,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
       <AmountInputView
         value={inputAmount}
         amount={amount}
-        maxAmount={delegation.shares}
+        maxAmount={delegation.balance}
         error={errorMessage}
         availableLabelTx="stakingUnbondingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
