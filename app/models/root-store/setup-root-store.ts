@@ -25,7 +25,6 @@ function createRootStore(env: Environment, data: any = {}) {
     COSMOS_DENOM,
     COSMOS_FRACTION_DENOM,
     COSMOS_FRACTION_DIGITS,
-    COSMOS_GAS_PRICE,
   } = env.appConfig.getAllParams()
   if (!data.chainStore) {
     data.chainStore = {
@@ -33,7 +32,6 @@ function createRootStore(env: Environment, data: any = {}) {
       denom: COSMOS_DENOM,
       fractionDenom: COSMOS_FRACTION_DENOM,
       fractionDigits: parseInt(COSMOS_FRACTION_DIGITS),
-      gasPrice: COSMOS_GAS_PRICE,
     }
   } else if (data.chainStore.id !== COSMOS_CHAIN_ID) {
     throw new Error("CHAIN_HAS_CHANGED")

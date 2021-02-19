@@ -33,14 +33,13 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
     const {
       fractionDenom,
       fractionDigits,
-      gasPrice,
       wallet: {
         address,
         rewardsBalance,
         validatorAddressListWithRewards: validatorAddresses,
       },
     } = props.chain
-    props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
+    props.txStore.initialize(fractionDenom, fractionDigits)
     props.txStore.createRewardsWithdrawTx(address, validatorAddresses, rewardsBalance)
   }
 

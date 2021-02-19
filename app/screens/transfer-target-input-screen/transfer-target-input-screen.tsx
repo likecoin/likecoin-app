@@ -99,8 +99,8 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
   }
 
   componentDidMount() {
-    const { fractionDenom, fractionDigits, gasPrice } = this.props.chain
-    this.props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
+    const { fractionDenom, fractionDigits } = this.props.chain
+    this.props.txStore.initialize(fractionDenom, fractionDigits)
     this.handleParams()
   }
 

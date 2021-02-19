@@ -29,8 +29,8 @@ export interface StakingUnbondingDelegationAmountInputScreenProps extends Naviga
 export class StakingUnbondingDelegationAmountInputScreen extends React.Component<StakingUnbondingDelegationAmountInputScreenProps, {}> {
   constructor(props: StakingUnbondingDelegationAmountInputScreenProps) {
     super(props)
-    const { fractionDenom, fractionDigits, gasPrice } = props.chain
-    props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
+    const { fractionDenom, fractionDigits } = props.chain
+    props.txStore.initialize(fractionDenom, fractionDigits)
     props.txStore.setTarget(props.navigation.getParam("target"))
   }
 
