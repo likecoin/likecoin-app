@@ -40,7 +40,6 @@ export const ChainStoreModel = types
     denom: types.frozen(types.string),
     fractionDenom: types.frozen(types.string),
     fractionDigits: types.frozen(types.number),
-    gasPrice: BigNumberPrimitive,
 
     annualProvision: types.optional(BigNumberPrimitive, "0"),
     validators: types.optional(types.map(types.late(() => ValidatorModel)), {}),

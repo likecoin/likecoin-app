@@ -28,8 +28,8 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 export class StakingRedelegationValidatorInputScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props)
-    const { fractionDenom, fractionDigits, gasPrice } = props.chain
-    props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
+    const { fractionDenom, fractionDigits } = props.chain
+    props.txStore.initialize(fractionDenom, fractionDigits)
     props.txStore.setFrom(props.navigation.getParam("from"))
   }
 

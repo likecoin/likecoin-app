@@ -101,9 +101,9 @@ export const TxStoreModel = types
     let message: CosmosMessage
 
     return {
-      initialize(fractionDenom: string, fractionDigits: number, gasPrice: BigNumber) {
+      initialize(fractionDenom: string, fractionDigits: number) {
         self.fractionDigits = fractionDigits
-        self.gasPrice = gasPrice
+        self.gasPrice = new BigNumber(self.getConfig("COSMOS_GAS_PRICE"))
         self.fractionDenom = fractionDenom
 
         self.errorMessage = ""
