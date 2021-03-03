@@ -12,7 +12,7 @@ export const DelegationModel = types
   })
   .views(self => ({
     get hasDelegated() {
-      return self.shares.isGreaterThan(0)
+      return self.balance.isGreaterThan(0)
     },
     get hasRewards() {
       return self.rewards.isGreaterThan(0)
