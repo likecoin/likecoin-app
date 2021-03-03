@@ -70,6 +70,7 @@
     "TRANSFER_AMOUNT_EXCEED_MAX": "LIKE pay 數目超過上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "LIKE pay 數目不可小於 0",
     "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或錢包地址不正確",
+    "TX_NOT_INCLUDED_YET": "交易尚未在區塊鏈上被確認，請於 Big Dipper 查看開放數據",
     "TRANSFER_TARGET_NO_WALLET": "收款人尚無錢包地址",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超過可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",

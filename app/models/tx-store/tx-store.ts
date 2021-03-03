@@ -158,6 +158,14 @@ export const TxStoreModel = types
           throw error
         } catch (error) {
           logError(error)
+
+          const errorMessage: string = error.message || error.toString()
+          if (errorMessage.startsWith('The transaction was still not included in a block.')) {
+            self.setError(new Error('TX_NOT_INCLUDED_YET'));
+            self.isSuccess = true
+            return;
+          }
+
           if (error.response) {
             try {
               const response: CosmosTxQueryResult = yield error.response.json()
