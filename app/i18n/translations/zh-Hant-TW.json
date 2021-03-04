@@ -126,7 +126,7 @@
   },
   "readerScreen": {
     "Title": "閱讀列表",
-    "emptyLabel": "瀏覽頭條時，點選書籤圖標，可把作品加入閱讀列表，方便往後閱讀。",
+    "emptyLabel": "瀏覽頭條時，點選書籤圖標，可把作品加入閱讀列表，方便稍後閱讀。",
     "followingLabel": "我的內容伯樂",
     "SuperLikeFromLabel":  {
       "zero": "%{liker} Super Liked",
