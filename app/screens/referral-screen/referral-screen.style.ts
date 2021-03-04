@@ -43,7 +43,7 @@ export const ReferralScreenStyle = StyleSheet.create({
   } as ViewStyle,
   SheetContent: {
     paddingHorizontal: spacing[5],
-    paddingTop: spacing[4],
+    paddingVertical: spacing[4],
   } as ViewStyle,
   Title: {
     color: color.primary,

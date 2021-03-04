@@ -24,6 +24,7 @@
     "follow": "Follow",
     "Following": "Following",
     "followSuccess": "You are now following %{creator}",
+    "learnMore": "Learn more",
     "next": "Next",
     "No": "No",
     "ok": "OK",
@@ -143,8 +144,7 @@
     "shareYourAddress": "Share my address"
   },
   "ReferralCTAView": {
-    "Title": "Get 100 LIKE referral bonus now",
-    "ButtonTitle": "More"
+    "ButtonTitle": "Copy and Share your Civic Liker sponsor link"
   },
   "ReferralScreen": {
     "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards. You will also become your friend's Content Jockey. Let's spread the words.",

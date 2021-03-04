@@ -24,6 +24,7 @@
     "follow": "追蹤",
     "Following": "追蹤中",
     "followSuccess": "已追蹤 %{creator}",
+    "learnMore": "了解更多",
     "next": "下一步",
     "No": "否",
     "ok": "好",
@@ -142,8 +143,7 @@
     "shareYourAddress": "分享你的錢包地址"
   },
   "ReferralCTAView": {
-    "Title": "立即領取 100 LIKE 推薦獎賞",
-    "ButtonTitle": "詳情"
+    "ButtonTitle": "複製並分享你的讚賞公民贊助連結"
   },
   "ReferralScreen": {
     "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時成為對方的內容伯樂，讓對方追蹤自己的 Super Like。趕快邀請朋友下載 Liker Land 吧！",

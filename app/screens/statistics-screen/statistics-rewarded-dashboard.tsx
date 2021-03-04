@@ -1,8 +1,5 @@
 import * as React from "react"
-import {
-  Linking,
-  View,
-} from "react-native"
+import { View } from "react-native"
 import { observer } from "mobx-react"
 import moment from "moment"
 
@@ -40,10 +37,6 @@ import {
 
 @observer
 export class StatisticsRewardedDashbaord extends React.Component<Props> {
-  private onPressGetRewardsButton = () => {
-    Linking.openURL("https://like.co/in/creator")
-  }
-
   render() {
     const {
       index: weekIndex,
@@ -174,7 +167,7 @@ export class StatisticsRewardedDashbaord extends React.Component<Props> {
               <Button
                 tx="StatisticsRewardedScreen.Dashboard.Empty.ButtonTitle"
                 style={Style.GetRewardsButton}
-                onPress={this.onPressGetRewardsButton}
+                onPress={this.props.onPressGetRewardsButton}
               />
             </View>
           )}

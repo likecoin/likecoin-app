@@ -66,7 +66,7 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
     )
 
     onPressReferralCTA = () => {
-      this.props.navigation.navigate("Referral")
+      this.props.navigation.navigate("Referral", { action: "copy" })
       logAnalyticsEvent("StatisticsClickReferralCTA")
     }
 

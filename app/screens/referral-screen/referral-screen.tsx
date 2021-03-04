@@ -1,6 +1,7 @@
 import * as React from "react"
 import {
   Clipboard,
+  Linking,
   Share,
   TouchableOpacity,
   View,
@@ -44,6 +45,10 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
     if (!this.props.userStore.userAppReferralLink) {
       this.props.userStore.generateUserAppReferralLink()
     }
+    const action = this.props.navigation.getParam("action")
+    if (action === "copy") {
+      this.onPressCopyButton()
+    }
   }
 
   private onPressShareButton = () => {
@@ -61,6 +66,10 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
 
   private onPressCloseButton = () => {
     this.props.navigation.goBack()
+  }
+
+  private onPressLearnMore = () => {
+    Linking.openURL(`${this.props.userStore.getConfig("LIKERLAND_URL")}/creators`)
   }
 
   render () {
@@ -110,6 +119,12 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
             </View>
             <Graph style={Style.Graph} />
           </Sheet>
+
+          <Button
+            preset="link-dark"
+            tx="common.learnMore"
+            onPress={this.onPressLearnMore}
+          />
         </ScrollView>
       </Screen>
     )
