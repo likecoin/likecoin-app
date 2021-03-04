@@ -147,9 +147,9 @@
     "ButtonTitle": "Copy and Share your Civic Liker sponsor link"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards. You will also become your friend's Content Jockey. Let's spread the words.",
+    "DescriptionLabel": "Call out to your fans to join as your Civic Likers and support your work now.",
     "HeaderTitle": "Referral Bonus",
-    "Title": "Share and Earn Rewards",
+    "Title": "Your creativity are deserved to be rewarded.",
     "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
     "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading."
   },
@@ -184,6 +184,10 @@
     "LoadingTakesLonger": "This is taking longer than usual...",
     "signIn": "Sign In",
     "signUp": "Sign Up"
+  },
+  "SponsorLinkCTA": {
+    "Line1": "Copy and Share",
+    "Line2": "your Civic Liker sponsor link"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "Available"

@@ -146,9 +146,9 @@
     "ButtonTitle": "複製並分享你的讚賞公民贊助連結"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "分享你的推薦鏈結給朋友，大家同獲奬賞，同時成為對方的 Content Jockey，讓對方追蹤自己的 Super Like。留意雙方必須都通過電郵地址及短訊驗證後才能獲得推薦獎賞。趕快邀請朋友下載 Liker Land 吧！",
+    "DescriptionLabel": "立即呼籲你的讀者加入讚賞公民計劃，支持你自由地創作吧。",
     "HeaderTitle": "推薦奬賞",
-    "Title": "推薦愈多，獎賞愈多",
+    "Title": "創意無價，創作有價。",
     "OgTitle": "接受 {{displayName}} 邀請，以文會友",
     "OgDescription": "下載 Liker Land，追蹤 {{displayName}}。不是瀏覽，而是閱讀。"
   },
@@ -173,6 +173,10 @@
       "conflict": "閱讀列表內已存有此網頁",
       "unknown": "未能成功把網頁加到 Liker Land 閱讀列表。"
     }
+  },
+  "SponsorLinkCTA": {
+    "Line1": "複製並分享",
+    "Line2": "你的讚賞公民贊助連結"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"

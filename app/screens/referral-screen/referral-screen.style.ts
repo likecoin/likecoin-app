@@ -9,22 +9,25 @@ import { sizes } from "../../components/text/text.sizes"
 
 export const ReferralScreenStyle = StyleSheet.create({
   CopyButton: {
-    marginVertical: spacing[2],
+    minWidth: 144,
   } as TextStyle,
+  CopyButtonWrapper: {
+    alignItems: "center",
+    marginVertical: spacing[3],
+  } as ViewStyle,
   DescriptionLabel: {
     fontSize: sizes.default,
-    marginTop: spacing[4],
+    marginVertical: spacing[4],
+    lineHeight: sizes.default * 1.5,
   } as TextStyle,
   Graph: {
-    aspectRatio: 1.35,
-    width: "100%",
-    height: undefined,
+    marginHorizontal: -20,
   } as ViewStyle,
   LinkWrapper: {
     borderColor: color.palette.grey9b,
     borderRadius: 12,
     borderWidth: StyleSheet.hairlineWidth,
-    marginTop: spacing[5],
+    marginTop: spacing[3],
     paddingHorizontal: spacing[4],
     paddingVertical: spacing[3],
   } as ViewStyle,

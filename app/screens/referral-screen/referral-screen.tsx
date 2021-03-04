@@ -26,7 +26,7 @@ import { Text } from "../../components/text"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-import Graph from "./graph.svg"
+import ReferralBanner from "./referral-banner"
 
 export interface ReferralScreenProps extends NavigationScreenProps {
   userStore: UserStore
@@ -73,7 +73,7 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
   }
 
   render () {
-    const appReferralLink = this.props.userStore.userAppReferralLink
+    const { sponsorLink } = this.props.userStore
 
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
@@ -104,20 +104,23 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
                 tx="ReferralScreen.DescriptionLabel"
                 style={Style.DescriptionLabel}
               />
+              <ReferralBanner style={Style.Graph} />
               <TouchableOpacity
                 style={Style.LinkWrapper}
                 onPress={this.onPressCopyButton}
               >
-                <Text text={appReferralLink} />
+                <Text text={sponsorLink} />
               </TouchableOpacity>
-              <Button
-                preset="link-dark"
-                tx={copyButtonTx}
-                style={Style.CopyButton}
-                onPress={this.onPressCopyButton}
-              />
+              <View style={Style.CopyButtonWrapper}>
+                <Button
+                  preset="primary"
+                  size="small"
+                  tx={copyButtonTx}
+                  style={Style.CopyButton}
+                  onPress={this.onPressCopyButton}
+                />
+              </View>
             </View>
-            <Graph style={Style.Graph} />
           </Sheet>
 
           <Button
