@@ -83,6 +83,9 @@ export const UserStoreModel = types
     get shouldPromptForReferrer() {
       return !self.appReferrer && self.appMeta.isNew
     },
+    get sponsorLink() {
+      return `${self.getConfig("LIKERLAND_URL")}/${self.currentUser.likerID}/civic`
+    },
   }))
   .views(self => ({
     get shouldPromptAppRating() {
