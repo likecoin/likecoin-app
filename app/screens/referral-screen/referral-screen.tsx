@@ -1,6 +1,7 @@
 import * as React from "react"
 import {
   Clipboard,
+  Linking,
   Share,
   TouchableOpacity,
   View,
@@ -25,7 +26,7 @@ import { Text } from "../../components/text"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-import Graph from "./graph.svg"
+import ReferralBanner from "./referral-banner"
 
 export interface ReferralScreenProps extends NavigationScreenProps {
   userStore: UserStore
@@ -43,6 +44,10 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
   componentDidMount() {
     if (!this.props.userStore.userAppReferralLink) {
       this.props.userStore.generateUserAppReferralLink()
+    }
+    const action = this.props.navigation.getParam("action")
+    if (action === "copy") {
+      this.onPressCopyButton()
     }
   }
 
@@ -63,8 +68,12 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
     this.props.navigation.goBack()
   }
 
+  private onPressLearnMore = () => {
+    Linking.openURL(`${this.props.userStore.getConfig("LIKERLAND_URL")}/creators`)
+  }
+
   render () {
-    const appReferralLink = this.props.userStore.userAppReferralLink
+    const { sponsorLink } = this.props.userStore
 
     const copyButtonTx = this.state.isCopied ? "common.copied" : "common.copy"
 
@@ -95,21 +104,30 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
                 tx="ReferralScreen.DescriptionLabel"
                 style={Style.DescriptionLabel}
               />
+              <ReferralBanner style={Style.Graph} />
               <TouchableOpacity
                 style={Style.LinkWrapper}
                 onPress={this.onPressCopyButton}
               >
-                <Text text={appReferralLink} />
+                <Text text={sponsorLink} />
               </TouchableOpacity>
-              <Button
-                preset="link-dark"
-                tx={copyButtonTx}
-                style={Style.CopyButton}
-                onPress={this.onPressCopyButton}
-              />
+              <View style={Style.CopyButtonWrapper}>
+                <Button
+                  preset="primary"
+                  size="small"
+                  tx={copyButtonTx}
+                  style={Style.CopyButton}
+                  onPress={this.onPressCopyButton}
+                />
+              </View>
             </View>
-            <Graph style={Style.Graph} />
           </Sheet>
+
+          <Button
+            preset="link-dark"
+            tx="common.learnMore"
+            onPress={this.onPressLearnMore}
+          />
         </ScrollView>
       </Screen>
     )

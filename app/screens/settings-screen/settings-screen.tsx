@@ -1,6 +1,6 @@
 import * as React from "react"
 import { inject } from "mobx-react"
-import { Linking, View } from "react-native"
+import { View } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
 import {
@@ -86,7 +86,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   }
 
   private onPressGetRewardsButton = () => {
-    Linking.openURL("https://like.co/in/creator")
+    this.props.navigation.navigate("Referral")
   }
 
   private onPressWebsiteSignIn = () => {
