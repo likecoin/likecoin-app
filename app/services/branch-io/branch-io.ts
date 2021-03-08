@@ -2,18 +2,6 @@ import branch from "react-native-branch"
 
 import { logError } from "../../utils/error"
 
-type BranchUniversalObjectProperties = {
-  contentImageUrl: string
-  contentMetadata: {
-    customMetadata: {
-      event: string
-      referrer: string
-    }
-  }
-  title?: string
-  contentDescription?: string
-}
-
 export type BranchDeepLinkEventType = "app_referral"
 
 export interface BranchDeepLinkParams {
@@ -124,52 +112,5 @@ export class BranchIO {
 
   getInstallParams() {
     return branch.getFirstReferringParams()
-  }
-
-  async generateAppReferralLink(
-    userId: string,
-    {
-      description,
-      title,
-    }: {
-      description?: string
-      title?: string
-    } = {},
-  ) {
-    if (!userId) return ""
-    const payload: BranchUniversalObjectProperties = {
-      contentImageUrl: "https://static.like.co/og/app/referral.png",
-      contentMetadata: {
-        customMetadata: {
-          event: "app_referral",
-          referrer: userId,
-        },
-      },
-    }
-    if (title) payload.title = title
-    if (description) payload.contentDescription = description
-    const appReferralBUO = await branch.createBranchUniversalObject(
-      `app_referral/${userId}`,
-      payload,
-    )
-    const linkProperties = {
-      campaign: "App referral link",
-      feature: "referral",
-      channel: "app",
-    }
-    const controlParams = {
-      /* eslint-disable @typescript-eslint/camelcase */
-      $desktop_url: "https://like.co/in/getapp",
-      custom_data: {
-        event: "app_referral",
-        referrer: userId,
-      },
-      /* eslint-enable @typescript-eslint/camelcase */
-    }
-    const { url } = await appReferralBUO.generateShortUrl(
-      linkProperties,
-      controlParams,
-    )
-    return url
   }
 }

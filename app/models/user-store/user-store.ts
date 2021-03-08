@@ -306,14 +306,6 @@ export const UserStoreModel = types
     postResume: flow(function * () {
       yield self.appMeta.postResume();
     }),
-    generateUserAppReferralLink: flow(function * () {
-      const { likerID, displayName } = self.currentUser
-      const url = yield self.env.branchIO.generateAppReferralLink(likerID, {
-        title: translate("ReferralScreen.OgTitle", { displayName }),
-        description: translate("ReferralScreen.OgDescription", { displayName }),
-      })
-      self.userAppReferralLink = url
-    }),
   }))
 
 type UserStoreType = Instance<typeof UserStoreModel>
