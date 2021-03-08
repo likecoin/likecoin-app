@@ -1,6 +1,6 @@
 {
   "name": "likecoin-app",
-  "version": "0.20.5",
+  "version": "0.20.6",
   "private": true,
   "scripts": {
     "start": "react-native start",
