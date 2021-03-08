@@ -42,9 +42,6 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
   }
 
   componentDidMount() {
-    if (!this.props.userStore.userAppReferralLink) {
-      this.props.userStore.generateUserAppReferralLink()
-    }
     const action = this.props.navigation.getParam("action")
     if (action === "copy") {
       this.onPressCopyButton()
@@ -52,13 +49,13 @@ export class ReferralScreen extends React.Component<ReferralScreenProps, {}> {
   }
 
   private onPressShareButton = () => {
-    const url = this.props.userStore.userAppReferralLink
+    const url = this.props.userStore.sponsorLink
     logAnalyticsEvent('share', { contentType: 'app_referral', itemId: url })
     Share.share({ url, message: url })
   }
 
   private onPressCopyButton = () => {
-    const url = this.props.userStore.userAppReferralLink
+    const url = this.props.userStore.sponsorLink
     Clipboard.setString(url)
     logAnalyticsEvent('share', { contentType: 'app_referral_copy', itemId: url })
     this.setState({ isCopied: true })
