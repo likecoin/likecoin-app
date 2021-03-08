@@ -14,7 +14,6 @@ import { UserAppMetaModel } from "../user-app-meta"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
-import { translate } from "../../i18n"
 import {
   updateAnalyticsUser,
   logoutAnalyticsUser,
