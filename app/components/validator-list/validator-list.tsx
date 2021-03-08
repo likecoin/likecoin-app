@@ -47,7 +47,7 @@ export class ValidatorList extends React.Component<Props> {
     const { formatBalance, formatRewards } = this.props.chain
     const delegation = this.props.chain.wallet.delegations.get(validator.operatorAddress)
     const delegatedAmount = formatBalance(delegation ? delegation.balance : undefined)
-    const rewards = delegation && delegation.hasRewards ? formatRewards(delegation.rewards) : ""
+    const rewards = delegation && delegation.hasDelegated && delegation.hasRewards ? formatRewards(delegation.rewards) : ""
     const hasDelegated = !!delegation && delegation.hasDelegated
     return (
       <ValidatorListItem
