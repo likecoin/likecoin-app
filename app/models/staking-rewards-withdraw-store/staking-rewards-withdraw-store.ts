@@ -5,7 +5,7 @@ import {
 } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
 
-import { TxStoreModel } from "../tx-store"
+import { TxStoreModel, TxInsufficientGasFeeError } from "../tx-store"
 
 /**
  * Staking rewards withdraw store
@@ -25,6 +25,7 @@ export const StakingRewardsWithdrawStoreModel = TxStoreModel
       fromAddress: string,
       validatorAddresses: string[],
       rewardsBalance: BigNumber,
+      availableBalance: BigNumber,
     ) {
       self.rewardsBalance = rewardsBalance
       if (self.canWithdraw) {
@@ -32,6 +33,10 @@ export const StakingRewardsWithdrawStoreModel = TxStoreModel
           fromAddress,
           validatorAddresses
         ))
+        if (self.fee.isGreaterThan(availableBalance)) {
+          const diff = self.fee.minus(availableBalance).shiftedBy(-self.fractionDigits).toFixed()
+          self.setError(new TxInsufficientGasFeeError(diff));
+        }
       } else {
         self.setError(new Error("REWARDS_WITHDRAW_BELOW_MIN"))
       }
