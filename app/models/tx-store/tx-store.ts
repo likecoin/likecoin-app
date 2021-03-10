@@ -18,6 +18,8 @@ import { logError, logMessage } from "../../utils/error"
 
 import { translateWithFallbackText } from "../../i18n"
 
+import { TxError, TxInsufficientGasFeeError } from "./tx-error"
+
 /**
  * Base Tx store
  */
@@ -77,7 +79,11 @@ export const TxStoreModel = types
     },
     setError: (error: Error) => {
       const errorMessage = error.message || error.toString()
-      self.errorMessage = translateWithFallbackText(`error.${errorMessage}`, errorMessage)
+      const opts: any = {}
+      if (error.message === 'TX_INSUFFICIENT_GAS_FEE') {
+        opts.diff = (error as TxInsufficientGasFeeError).diff
+      }
+      self.errorMessage = translateWithFallbackText(`error.${errorMessage}`, errorMessage, opts)
       return false
     },
     setTarget: (newTarget = "") => {
@@ -99,6 +105,32 @@ export const TxStoreModel = types
   }))
   .actions(self => {
     let message: CosmosMessage
+
+    function handleKnownError(error: Error) {
+      const message: string = error.message || error.toString()
+
+      const [
+        isInsufficientAmount = false,
+        availableBalance = '0',
+        gasFee = '0',
+      ] = message.match(/insufficient funds to pay for fees; (\d+)nanolike < (\d+)nanolike/) || []
+      if (isInsufficientAmount) {
+        const diff = new BigNumber(gasFee)
+          .minus(new BigNumber(availableBalance))
+          .shiftedBy(-self.fractionDigits)
+          .toFixed()
+        self.setError(new TxInsufficientGasFeeError(diff));
+        return true
+      }
+
+      if (message.startsWith('The transaction was still not included in a block.')) {
+        self.setError(new TxError('TX_NOT_INCLUDED_YET'));
+        self.isSuccess = true
+        return true
+      }
+
+      return false
+    }
 
     return {
       initialize(fractionDenom: string, fractionDigits: number) {
@@ -156,15 +188,12 @@ export const TxStoreModel = types
           const error = new Error("COSMOS_TX_FAILED")
           error["response"] = response
           throw error
-        } catch (error) {
-          logError(error)
-
-          const errorMessage: string = error.message || error.toString()
-          if (errorMessage.startsWith('The transaction was still not included in a block.')) {
-            self.setError(new Error('TX_NOT_INCLUDED_YET'));
-            self.isSuccess = true
-            return;
+        } catch (error) {          
+          if (handleKnownError(error)) {
+            return
           }
+
+          logError(error)
 
           if (error.response) {
             try {
