@@ -30,7 +30,7 @@ const MainTabs = createBottomTabNavigator({
   // Notification: NotificationScreen,
   Settings: SettingsNavigator,
 }, {
-  initialRouteName: "Reader",
+  initialRouteName: "Settings",
   tabBarOptions: {
     activeTintColor: color.primary,
     showLabel: false,
