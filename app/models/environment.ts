@@ -41,15 +41,15 @@ export class Environment {
       SENTRY_DSN,
       SENTRY_ENV,
     } = this.appConfig.getAllParams()
+    if (SENTRY_DSN) {
+      initSentry(SENTRY_DSN, SENTRY_ENV)
+    }
     this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID)
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likeCoinAPI.setup(LIKECOIN_API_URL)
     this.likerLandAPI.setup(LIKERLAND_API_URL)
     this.cosmosAPI.setup(COSMOS_LCD_URL, COSMOS_CHAIN_ID)
     this.bigDipper.setup(BIG_DIPPER_URL)
-    if (SENTRY_DSN) {
-      initSentry(SENTRY_DSN, SENTRY_ENV)
-    }
   }
 
   /**
