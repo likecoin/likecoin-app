@@ -294,9 +294,9 @@ PODS:
     - React
   - RNScreens (2.7.0):
     - React
-  - RNSentry (2.0.0):
+  - RNSentry (2.4.0):
     - React-Core
-    - Sentry (~> 6.0.3)
+    - Sentry (= 6.1.4)
   - RNSVG (12.0.3):
     - React
   - SDWebImage (5.9.1):
@@ -305,9 +305,9 @@ PODS:
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
-  - Sentry (6.0.7):
-    - Sentry/Core (= 6.0.7)
-  - Sentry/Core (6.0.7)
+  - Sentry (6.1.4):
+    - Sentry/Core (= 6.1.4)
+  - Sentry/Core (6.1.4)
   - yoga (0.60.4.React)
 
 DEPENDENCIES:
@@ -562,11 +562,11 @@ SPEC CHECKSUMS:
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
   RNRate: 15b861025a7821730761fce7f44561ce7e0b2de0
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
-  RNSentry: cb4ef23400fb6690f6ac8f6acef0c023a8a4f37d
+  RNSentry: b0d55027200c96f52e26b9bfb20296d47fc5051d
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   SDWebImage: a990c053fff71e388a10f3357edb0be17929c9c5
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
-  Sentry: e2c691627ae1dc0029acebbd1b0b4af4df12af73
+  Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
 PODFILE CHECKSUM: 0d74d8cc43fe663e5879690564d616bb8811043e
