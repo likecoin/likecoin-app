@@ -29,8 +29,8 @@ export interface StakingDelegationAmountInputScreenProps extends NavigationScree
 export class StakingDelegationAmountInputScreen extends React.Component<StakingDelegationAmountInputScreenProps, {}> {
   constructor(props: StakingDelegationAmountInputScreenProps) {
     super(props)
-    const { fractionDenom, fractionDigits, gasPrice } = props.chain
-    props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
+    const { fractionDenom, fractionDigits } = props.chain
+    props.txStore.initialize(fractionDenom, fractionDigits)
     props.txStore.setTarget(props.navigation.getParam("target"))
   }
 

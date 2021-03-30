@@ -108,6 +108,7 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         await analytics.logShare({
           content_type: contentType,
           item_id: itemId.toString().substring(0, VALUE_LENGTH_LIMIT),
+          method: 'app',
         })
         break
       }

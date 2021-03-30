@@ -14,7 +14,6 @@ import { UserAppMetaModel } from "../user-app-meta"
 import { AuthCoreStoreModel } from "../authcore-store"
 import { IAPStoreModel } from "../iapStore"
 
-import { translate } from "../../i18n"
 import {
   updateAnalyticsUser,
   logoutAnalyticsUser,
@@ -82,6 +81,9 @@ export const UserStoreModel = types
     },
     get shouldPromptForReferrer() {
       return !self.appReferrer && self.appMeta.isNew
+    },
+    get sponsorLink() {
+      return `${self.getConfig("LIKERLAND_URL")}/${self.currentUser.likerID}/civic`
     },
   }))
   .views(self => ({
@@ -278,7 +280,7 @@ export const UserStoreModel = types
               // This technically only tells us if the user successfully went to the Review Page.
               // Whether they actually did anything, we do not know.
               self.didPromptAppRating()
-              resolve()
+              resolve(true)
             } else {
               reject(new Error("APP_RATE_ERROR"))
             }
@@ -302,14 +304,6 @@ export const UserStoreModel = types
     }),
     postResume: flow(function * () {
       yield self.appMeta.postResume();
-    }),
-    generateUserAppReferralLink: flow(function * () {
-      const { likerID, displayName } = self.currentUser
-      const url = yield self.env.branchIO.generateAppReferralLink(likerID, {
-        title: translate("ReferralScreen.OgTitle", { displayName }),
-        description: translate("ReferralScreen.OgDescription", { displayName }),
-      })
-      self.userAppReferralLink = url
     }),
   }))
 

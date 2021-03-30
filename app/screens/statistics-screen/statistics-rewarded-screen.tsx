@@ -63,6 +63,10 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
     this.props.dataStore.selectWeek(weekIndex)
   }
 
+  private onPressGetRewardsButton = () => {
+    this.props.navigation.navigate("Referral", { action: "copy" })
+  }
+
   render() {
     const {
       selectedWeek: week,
@@ -143,6 +147,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
         week={weekData}
         index={index}
         onPressBarInChart={this.props.onSelectDay}
+        onPressGetRewardsButton={this.onPressGetRewardsButton}
       />
     )
   }

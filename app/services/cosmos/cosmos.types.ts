@@ -91,6 +91,7 @@ export interface CosmosDelegation {
   delegator_address: string
   validator_address: string
   shares: string
+  balance: string
   height: number
   /* eslint-enable camelcase */
 }

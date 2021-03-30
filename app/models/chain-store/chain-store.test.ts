@@ -6,7 +6,6 @@ test("can be created", () => {
     denom: "Like",
     fractionDenom: "like",
     fractionDigits: 10,
-    gasPrice: "0",
   })
 
   expect(instance).toBeTruthy()

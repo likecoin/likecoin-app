@@ -7,6 +7,8 @@ jobs:
     name: Upload dsyms
     runs-on: macOS-latest
     steps:
+    - name: Select Xcode version
+      run: sudo xcode-select -s "/Applications/Xcode_11.7.app"
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
@@ -110,6 +112,8 @@ jobs:
           ${{ runner.os }}-gradle-
     - name: Set Release keystore
       run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
+    - name: Set sentry.properties
+      run: echo ${{ secrets.SENTRY_PROPERTIES }} > android/sentry.properties
     - name: Build Release APK
       run: bundle exec fastlane apk
       working-directory: android

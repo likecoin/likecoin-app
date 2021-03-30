@@ -28,17 +28,19 @@ export class AppConfig {
 
   async setup() {
     try {
-      await this.remoteConfig.setConfigSettings({
-        isDeveloperModeEnabled: __DEV__,
-      })
+      if (__DEV__) {
+        await this.remoteConfig.setConfigSettings({
+          minimumFetchIntervalMillis: 0,
+        });
+      }
       await this.remoteConfig.fetch()
       await this.remoteConfig.activate()
-      const { value: remoteConfigJSONString } = this.remoteConfig.getValue(
+      const remoteConfigJSONString = this.remoteConfig.getValue(
         "api_config",
       )
       let remoteConfig = {}
       try {
-        remoteConfig = JSON.parse(remoteConfigJSONString as string)
+        remoteConfig = JSON.parse(remoteConfigJSONString.asString())
       } catch (err) {
         console.error(err)
       }

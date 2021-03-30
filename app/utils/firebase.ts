@@ -19,7 +19,12 @@ export async function resetAnalyticsUser() {
 }
 
 export async function setAnalyticsCurrentScreen(currentRouteName: string) {
-  return analytics().setCurrentScreen(currentRouteName, currentRouteName)
+  return analytics().logScreenView({
+    /* eslint-disable @typescript-eslint/camelcase */
+    screen_class: currentRouteName,
+    screen_name: currentRouteName,
+    /* eslint-enable @typescript-eslint/camelcase */
+  })
 }
 
 export async function setCrashlyticsUserId(userId: string) {

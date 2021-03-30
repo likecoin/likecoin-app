@@ -24,6 +24,7 @@
     "follow": "追蹤",
     "Following": "追蹤中",
     "followSuccess": "已追蹤 %{creator}",
+    "learnMore": "了解更多",
     "next": "下一步",
     "No": "否",
     "ok": "確定",
@@ -71,6 +72,8 @@
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "LIKE pay 數目不可小於 0",
     "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或錢包地址不正確",
     "TRANSFER_TARGET_NO_WALLET": "收款人尚無錢包地址",
+    "TX_NOT_INCLUDED_YET": "交易尚未在區塊鏈上被確認，請於 Big Dipper 查看開放數據",
+    "TX_INSUFFICIENT_GAS_FEE": "錢包餘額不足以支付 Gas 費用，還需要 %{diff} LIKE",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超過可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手續費不足"
@@ -142,13 +145,12 @@
     "shareYourAddress": "分享錢包地址"
   },
   "ReferralCTAView": {
-    "Title": "立即領取 100 LIKE 推薦獎賞",
-    "ButtonTitle": "詳情"
+    "ButtonTitle": "複製並分享你的讚賞公民贊助連結"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "分享您的推薦連結給朋友，一起獲得奬賞，同時成為對方的內容伯樂，讓對方追蹤自己 Super Like 的文章。現在就邀請朋友下載 Liker Land 吧！",
+    "DescriptionLabel": "立即呼籲你的讀者加入讚賞公民計劃，支持你自由地創作吧。",
     "HeaderTitle": "推薦奬賞",
-    "Title": "推薦愈多，獎賞愈多",
+    "Title": "創意無價，創作有價。",
     "OgTitle": "接受 {{displayName}} 邀請，以文會友",
     "OgDescription": "下載 Liker Land，追蹤 {{displayName}}。不是瀏覽，而是閱讀。"
   },
@@ -173,6 +175,10 @@
       "conflict": "閱讀列表內已存有此網頁",
       "unknown": "無法將網頁加到 Liker Land 閱讀列表。"
     }
+  },
+  "SponsorLinkCTA": {
+    "Line1": "複製並分享",
+    "Line2": "你的讚賞公民贊助連結"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"

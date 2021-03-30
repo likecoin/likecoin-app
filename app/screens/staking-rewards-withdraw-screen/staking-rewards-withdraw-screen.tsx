@@ -33,15 +33,15 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
     const {
       fractionDenom,
       fractionDigits,
-      gasPrice,
       wallet: {
         address,
         rewardsBalance,
+        availableBalance,
         validatorAddressListWithRewards: validatorAddresses,
       },
     } = props.chain
-    props.txStore.initialize(fractionDenom, fractionDigits, gasPrice)
-    props.txStore.createRewardsWithdrawTx(address, validatorAddresses, rewardsBalance)
+    props.txStore.initialize(fractionDenom, fractionDigits)
+    props.txStore.createRewardsWithdrawTx(address, validatorAddresses, rewardsBalance, availableBalance)
   }
 
   private sendTransaction = async () => {
@@ -92,7 +92,7 @@ export class StakingRewardsWithdrawScreen extends React.Component<StakingRewards
         fee={formatDenom(fee)}
         graph={<Graph />}
         graphStyle={GRAPH}
-        isConfirmButtonDisabled={!canWithdraw}
+        isConfirmButtonDisabled={!!errorMessage || !canWithdraw}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressConfirmButton}
       />

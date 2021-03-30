@@ -9,6 +9,10 @@ export function initSentry(dsn: string, environment: string) {
   })
 }
 
+export function sentryCaptureMessage(msg: string) {
+  return Sentry.captureMessage(msg)
+}
+
 export function sentryCaptureError(err: unknown) {
   return Sentry.captureException(err)
 }

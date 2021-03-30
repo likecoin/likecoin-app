@@ -8,4 +8,5 @@ export interface StatisticsRewardedDashboardProps {
   store: StatisticsRewardedStore
   week: StatisticsRewardedWeek
   onPressBarInChart: (index: number) => void
+  onPressGetRewardsButton?: () => void
 }

@@ -88,7 +88,14 @@ export const ContentModel = types
       return self.creator?.normalizedName || ""
     },
     get normalizedTitle() {
-      return self.title || decodeURI(self.url).split("?")[0]
+      let url = ''
+      if (self.title) return self.title
+      try {
+        url = decodeURI(self.url).split("?")[0]
+      } catch (error) {
+        logError(error)
+      }
+      return url
     },
     hasRead() {
       return !!self.readUsers.get(self.currentUserID)
@@ -150,7 +157,7 @@ export const ContentModel = types
             }
           }
         } catch (error) {
-          logError(error.message)
+          logError(error)
         } finally {
           self.isFetchingDetails = false
           updateLastFetchedAt()

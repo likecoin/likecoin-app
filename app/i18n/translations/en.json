@@ -24,6 +24,7 @@
     "follow": "Follow",
     "Following": "Following",
     "followSuccess": "You are now following %{creator}",
+    "learnMore": "Learn more",
     "next": "Next",
     "No": "No",
     "ok": "OK",
@@ -72,6 +73,8 @@
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_INPUT_TARGET_INVALID": "The Liker ID or address is invalid",
     "TRANSFER_TARGET_NO_WALLET": "Receiver does not have an address",
+    "TX_NOT_INCLUDED_YET": "The transaction was still not included in a block. Please verify it on Big Dipper open data browser",
+    "TX_INSUFFICIENT_GAS_FEE": "Your wallet available balance is not enough for gas fee, need %{diff} more LIKE",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum undelegation amount",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee"
@@ -143,13 +146,12 @@
     "shareYourAddress": "Share my address"
   },
   "ReferralCTAView": {
-    "Title": "Get 100 LIKE referral bonus now",
-    "ButtonTitle": "More"
+    "ButtonTitle": "Copy and Share your Civic Liker sponsor link"
   },
   "ReferralScreen": {
-    "DescriptionLabel": "Share your referral link, both you and your friends get 100 LIKE rewards. You will also become your friend's Content Jockey. Let's spread the words.",
+    "DescriptionLabel": "Call out to your fans to join as your Civic Likers and support your work now.",
     "HeaderTitle": "Referral Bonus",
-    "Title": "Share and Earn Rewards",
+    "Title": "Your creativity are deserved to be rewarded.",
     "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
     "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading."
   },
@@ -184,6 +186,10 @@
     "LoadingTakesLonger": "This is taking longer than usual...",
     "signIn": "Sign In",
     "signUp": "Sign Up"
+  },
+  "SponsorLinkCTA": {
+    "Line1": "Copy and Share",
+    "Line2": "your Civic Liker sponsor link"
   },
   "stakingDelegationAmountInputScreen": {
     "available": "Available"

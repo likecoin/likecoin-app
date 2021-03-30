@@ -243,7 +243,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         {delegation.hasDelegated &&
           <React.Fragment>
             <ValidatorScreenGridItem
-              value={formatBalance(delegation.shares)}
+              value={formatBalance(delegation.balance)}
               labelTx="validatorScreen.delegatorShareLabel"
               isShowSeparator={false}
               isPaddingLess

@@ -11,6 +11,8 @@ jobs:
   build-ios:
     runs-on: macOS-latest
     steps:
+    - name: Select Xcode version
+      run: sudo xcode-select -s "/Applications/Xcode_11.7.app"
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
@@ -47,6 +49,8 @@ jobs:
       working-directory: ios
     - name: Set Release certificate
       run: mkdir -p ios/builds && echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/builds/apple_dist_cert.p12
+    - name: Set sentry.properties
+      run: echo ${{ secrets.SENTRY_PROPERTIES }} > ios/sentry.properties
     - name: Build to testflight
       run: bundle exec fastlane ci_beta
       working-directory: ios
@@ -102,6 +106,8 @@ jobs:
           ${{ runner.os }}-gradle-
     - name: Set Release keystore
       run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
+    - name: Set sentry.properties
+      run: echo ${{ secrets.SENTRY_PROPERTIES }} > android/sentry.properties
     - name: Set Google Play service account key
       run: echo ${{ secrets.ANDROID_GOOGLE_PLAY_SERVICE_ACCOUNT }} | base64 -d > android/key.json
     - name: Build to Google Play internal test
