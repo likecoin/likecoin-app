@@ -7,7 +7,7 @@ import {
   StatisticsDashboardStyle as Style,
 } from "./statistics-dashboard.style"
 import {
-  StatisticsSupportedDashbaordProps as Props,
+  StatisticsSupportedDashboardProps as Props,
 } from "./statistics-supported-dashboard.props"
 
 import {
@@ -24,7 +24,7 @@ import {
 import { translate } from "../../i18n"
 
 @observer
-export class StatisticsSupportedDashbaord extends React.Component<Props> {
+export class StatisticsSupportedDashboard extends React.Component<Props> {
   render() {
     const {
       index: weekIndex,

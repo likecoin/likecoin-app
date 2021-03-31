@@ -36,7 +36,7 @@ import {
 } from "../../utils/number"
 
 @observer
-export class StatisticsRewardedDashbaord extends React.Component<Props> {
+export class StatisticsRewardedDashboard extends React.Component<Props> {
   render() {
     const {
       index: weekIndex,
