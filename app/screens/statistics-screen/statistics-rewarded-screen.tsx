@@ -24,7 +24,7 @@ import {
   StatisticsRewardedContentListItem,
 } from "./statistics-rewarded-content-list-item"
 import {
-  StatisticsRewardedDashbaord,
+  StatisticsRewardedDashboard,
 } from "./statistics-rewarded-dashboard"
 
 import { Icon } from "../../components/icon"
@@ -142,7 +142,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
     index: number
   }) => {
     return (
-      <StatisticsRewardedDashbaord
+      <StatisticsRewardedDashboard
         store={this.props.dataStore}
         week={weekData}
         index={index}

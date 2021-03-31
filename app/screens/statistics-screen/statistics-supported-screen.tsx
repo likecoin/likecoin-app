@@ -24,7 +24,7 @@ import {
   StatisticsSupportedCreatorListItem,
 } from "./statistics-supported-creator-list-item"
 import {
-  StatisticsSupportedDashbaord,
+  StatisticsSupportedDashboard,
 } from "./statistics-supported-dashboard"
 
 import {
@@ -81,7 +81,7 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
     index: number
   }) => {
     return (
-      <StatisticsSupportedDashbaord
+      <StatisticsSupportedDashboard
         store={this.props.dataStore}
         week={weekData}
         index={index}
