@@ -150,7 +150,7 @@
   },
   "ReferralScreen": {
     "DescriptionLabel": "Call out to your fans to join as your Civic Likers and support your work now.",
-    "HeaderTitle": "Referral Bonus",
+    "HeaderTitle": "Sponsor Link",
     "Title": "Your creativity are deserved to be rewarded.",
     "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
     "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading."
@@ -305,7 +305,7 @@
       }
     },
     "RateApp": "Rate Liker Land",
-    "Referral": "Referral Bonus",
+    "Referral": "Sponsor Link",
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
     "title": "Settings"
