@@ -67,7 +67,6 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
       fee,
       signingState: state,
       target,
-      totalAmount,
     } = this.props.txStore
     const { formatDenom } = this.props.chain
     const { avatar, moniker: name }: Validator = this.props.chain.validators.get(target)
@@ -82,7 +81,6 @@ export class StakingUnbondingDelegationSigningScreen extends React.Component<Sta
         error={errorMessage}
         fee={formatDenom(fee)}
         from={{ avatar, name }}
-        totalAmount={formatDenom(totalAmount)}
         graph={<Graph />}
         graphStyle={GRAPH}
         bottomNavigationAppendChildren={(

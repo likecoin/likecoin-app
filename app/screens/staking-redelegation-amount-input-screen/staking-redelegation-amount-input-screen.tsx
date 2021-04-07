@@ -24,12 +24,11 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
    */
   private createTransactionForSigning = async () => {
     try {
-      const { address } = this.props.chain.wallet
+      const { address, availableBalance } = this.props.chain.wallet
       await this.props.txStore.createRedelegateTx(address)
-      const { from, totalAmount } = this.props.txStore
-      const delegatedAmount = this.props.chain.wallet.getDelegation(from).balance
-      if (totalAmount.isGreaterThan(delegatedAmount)) {
-        throw new Error("REDELEGATE_AMOUNT_EXCEED_MAX")
+      const { fee } = this.props.txStore
+      if (fee.isGreaterThan(availableBalance)) {
+        throw new Error("REDELEGATE_NOT_ENOUGH_FEE")
       }
       return true
     } catch (error) {
