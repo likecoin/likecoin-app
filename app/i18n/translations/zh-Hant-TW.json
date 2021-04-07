@@ -62,6 +62,7 @@
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
     "REDELEGATE_AMOUNT_EXCEED_MAX": "數目已超過可重新委託的上限",
     "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
+    "REDELEGATE_NOT_ENOUGH_FEE": "手續費不足",
     "REGISTRATION_BAD_DATA": "註冊資料錯誤",
     "REGISTRATION_EMAIL_ALREADY_USED": "此電郵地址已被註冊",
     "REGISTRATION_LIKER_ID_ALREADY_USED": "此 Liker ID 已被註冊",

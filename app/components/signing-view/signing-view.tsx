@@ -245,13 +245,15 @@ export class SigningView extends React.Component<SigningViewProps, {}> {
               />
               <Text text={fee} weight="600" />
             </View>
-            <View style={DETAIL.ITEM}>
-              <Text
-                tx="transferSigningScreen.totalAmount"
-                style={STYLE.LABEL}
-              />
-              <Text text={totalAmount} weight="600" />
-            </View>
+            {!!totalAmount && (
+              <View style={DETAIL.ITEM}>
+                <Text
+                  tx="transferSigningScreen.totalAmount"
+                  style={STYLE.LABEL}
+                />
+                <Text text={totalAmount} weight="600" />
+              </View>
+            )}
             {!!memo && (
               <View style={DETAIL.ITEM}>
                 <Text

@@ -45,11 +45,10 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
    */
   private createTransactionForSigning = async () => {
     try {
-      const { address } = this.props.chain.wallet
+      const { address, availableBalance } = this.props.chain.wallet
       await this.props.txStore.createUnbondingDelegateTx(address)
-      const { target, totalAmount } = this.props.txStore
-      const delegatedAmount = this.props.chain.wallet.getDelegation(target).balance
-      if (totalAmount.isGreaterThan(delegatedAmount)) {
+      const { fee } = this.props.txStore
+      if (fee.isGreaterThan(availableBalance)) {
         throw new Error("UNSTAKE_NOT_ENOUGH_FEE")
       }
       return true
