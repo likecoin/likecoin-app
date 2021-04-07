@@ -149,7 +149,7 @@
   },
   "ReferralScreen": {
     "DescriptionLabel": "立即呼籲你的讀者加入讚賞公民計劃，支持你自由地創作吧。",
-    "HeaderTitle": "推薦奬賞",
+    "HeaderTitle": "贊助連結",
     "Title": "創意無價，創作有價。",
     "OgTitle": "接受 {{displayName}} 邀請，以文會友",
     "OgDescription": "下載 Liker Land，追蹤 {{displayName}}。不是瀏覽，而是閱讀。"
@@ -285,7 +285,7 @@
       }
     },
     "RateApp": "為 Liker Land 評分",
-    "Referral": "推薦奬賞",
+    "Referral": "贊助連結",
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
     "title": "設定"
