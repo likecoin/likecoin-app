@@ -55,6 +55,7 @@ jobs:
       run: bundle exec fastlane ci_beta
       working-directory: ios
       env:
+        SENTRY_LOAD_DOTENV: 0
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
         APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
   build-android:
@@ -114,5 +115,6 @@ jobs:
       run: bundle exec fastlane beta
       working-directory: android
       env:
+        SENTRY_LOAD_DOTENV: 0
         ANDROID_RELEASE_KEY_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_STORE_PASSWORD }}
         ANDROID_RELEASE_KEY_KEY_PASSWORD: ${{  secrets.ANDROID_RELEASE_KEY_KEY_PASSWORD }}
