@@ -22,6 +22,13 @@ platform :ios do
     setup_ci(
       force: true
     )
+    app_store_connect_api_key(
+      key_id: ENV["APPLE_CONNECT_API_KEY_ID"] || "",
+      issuer_id: ENV["APPLE_CONNECT_API_ISSUER_ID"] || "",
+      key_filepath: "./builds/AuthKey.p8",
+      duration: 1200, # optional (maximum 1200)
+      in_house: false, # optional but may be required if using match/sigh
+    )
     import_certificate(
       certificate_path: "./builds/apple_dist_cert.p12",
       certificate_password: ENV["APPLE_CERTIFICATE_PASSWORD"] || "default",
@@ -86,6 +93,13 @@ platform :ios do
 
   desc "Pull dsyms from itunes and upload to crashlytics"
   lane :update_dsyms do
+    app_store_connect_api_key(
+      key_id: ENV["APPLE_CONNECT_API_KEY_ID"] || "",
+      issuer_id: ENV["APPLE_CONNECT_API_ISSUER_ID"] || "",
+      key_filepath: "./builds/AuthKey.p8",
+      duration: 1200, # optional (maximum 1200)
+      in_house: false, # optional but may be required if using match/sigh
+    )
     download_dsyms(
       version: ENV["VERSION_NAME"] || "latest",
       build_number: ENV["BUILD_NUMBER"],
