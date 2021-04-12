@@ -113,7 +113,7 @@ jobs:
     - name: Set Release keystore
       run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
     - name: Set sentry.properties
-      run: echo ${{ secrets.SENTRY_PROPERTIES }} > android/sentry.properties
+      run: echo ${{ secrets.SENTRY_PROPERTIES }} | base64 -d > android/sentry.properties
     - name: Build Release APK
       run: bundle exec fastlane apk
       working-directory: android
