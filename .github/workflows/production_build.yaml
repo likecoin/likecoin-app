@@ -47,8 +47,11 @@ jobs:
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
       working-directory: ios
-    - name: Set Release certificate
-      run: mkdir -p ios/builds && echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/builds/apple_dist_cert.p12
+    - name: Set Release secret
+      run: |
+        mkdir -p ios/builds
+        echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/builds/apple_dist_cert.p12
+        echo ${{ secrets.APPLE_CONNECT_API_KEY_SECRET }} | base64 -d > ios/builds/AuthKey.p8
     - name: Set sentry.properties
       run: echo ${{ secrets.SENTRY_PROPERTIES }} | base64 -d > ios/sentry.properties
     - name: Build to testflight
@@ -58,6 +61,8 @@ jobs:
         SENTRY_LOAD_DOTENV: 0
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
         APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        APPLE_CONNECT_API_KEY_ID: ${{ secrets.APPLE_CONNECT_API_KEY_ID }}
+        APPLE_CONNECT_API_ISSUER_ID: ${{ secrets.APPLE_CONNECT_API_ISSUER_ID }}
   build-android:
     runs-on: ubuntu-latest
     steps:
