@@ -50,7 +50,7 @@ jobs:
     - name: Set Release certificate
       run: mkdir -p ios/builds && echo ${{ secrets.APPLE_CERTIFICATE_P12 }} | base64 -d > ios/builds/apple_dist_cert.p12
     - name: Set sentry.properties
-      run: echo ${{ secrets.SENTRY_PROPERTIES }} > ios/sentry.properties
+      run: echo ${{ secrets.SENTRY_PROPERTIES }} | base64 -d > ios/sentry.properties
     - name: Build to testflight
       run: bundle exec fastlane ci_beta
       working-directory: ios
@@ -108,7 +108,7 @@ jobs:
     - name: Set Release keystore
       run: echo ${{ secrets.ANDROID_RELEASE_KEYSTORE }} | base64 -d > android/app/release.keystore
     - name: Set sentry.properties
-      run: echo ${{ secrets.SENTRY_PROPERTIES }} > android/sentry.properties
+      run: echo ${{ secrets.SENTRY_PROPERTIES }} | base64 -d > android/sentry.properties
     - name: Set Google Play service account key
       run: echo ${{ secrets.ANDROID_GOOGLE_PLAY_SERVICE_ACCOUNT }} | base64 -d > android/key.json
     - name: Build to Google Play internal test
