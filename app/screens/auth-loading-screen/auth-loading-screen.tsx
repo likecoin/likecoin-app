@@ -108,7 +108,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
 
   render() {
     return (
-      <LoadingScreen />
+      <LoadingScreen tx="signingIn" />
     )
   }
 }

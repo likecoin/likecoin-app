@@ -1,7 +1,7 @@
 import { sentryCaptureError, sentryCaptureMessage } from './sentry'
 
 export function logError(err: any) {
-  if (__DEV__) {
+  if (__DEV__ && console.tron) {
     console.tron.error(err.message || err, null)
   } else {
     console.error(err)
@@ -10,7 +10,7 @@ export function logError(err: any) {
 }
 
 export function logMessage(msg: string) {
-  if (__DEV__) {
+  if (__DEV__ && console.tron) {
     console.tron.warn(msg)
   } else {
     console.warn(msg)

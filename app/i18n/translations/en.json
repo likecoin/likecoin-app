@@ -1,4 +1,10 @@
 {
+  "closeApp": "Close App",
+  "initializing": "Initializing",
+  "initializingFailedAlertTitle": "Initialization Failed",
+  "initializingFailedAlertMessage": "Please restart the App",
+  "signingIn": "Signing in",
+  "signingOut": "Signing out",
   "AppRatingPrompt": {
     "Title": "Are you satisfied with Liker Land?",
     "DenialTitle": "Can you give us some feedback?"

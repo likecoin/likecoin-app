@@ -11,7 +11,9 @@ import {
   YellowBox,
 } from "react-native"
 import { enableScreens } from "react-native-screens"
-import RNExitApp from 'react-native-exit-app'
+import RNExitApp from "react-native-exit-app"
+import { INIT_APP_TIMEOUT } from "react-native-dotenv"
+
 import { Provider } from "mobx-react"
 import { contains } from "ramda"
 
@@ -65,22 +67,26 @@ interface AppState {
  * This is the root component of our app.
  */
 export class App extends React.Component<{}, AppState> {
+
+  initTimer?: NodeJS.Timeout
+
   /**
    * When the component is mounted. This happens asynchronously and simply
    * re-renders when we're good to go.
    */
   async componentDidMount() {
+    this.startInitTimer()
     const rootStore = await setupRootStore()
     this.setState({
       rootStore,
       languageKey: rootStore.languageSettingsStore.activeLanguageKey
-    })
+    }, this.clearInitTimer)
 
-    this.state.rootStore.languageSettingsStore.listenChange(
+    this.state.rootStore?.languageSettingsStore?.listenChange(
       this.handleLanguageChange,
     )
 
-    if (this.state.rootStore.isDeprecatedAppVersion) {
+    if (this.state.rootStore?.isDeprecatedAppVersion) {
       Alert.alert("", translate("error.DEPRECATED_APP"), [{
         text: translate("common.ok"),
         onPress: () => RNExitApp.exitApp(),
@@ -100,6 +106,31 @@ export class App extends React.Component<{}, AppState> {
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this._onOpenURL)
+  }
+
+  startInitTimer = () => {
+    const duration = parseInt(INIT_APP_TIMEOUT) || 10000
+    this.initTimer = setTimeout(() => {
+      logError(new Error("INIT_FAILED"))
+      Alert.alert(
+        translate("initializingFailedAlertTitle"),
+        translate("initializingFailedAlertMessage"),
+        [
+          {
+            style: "cancel",
+            text: translate("common.cancel"),
+          },
+          {
+            text: translate("closeApp"),
+            onPress: () => RNExitApp.exitApp(),
+          },
+        ]
+      )
+    }, duration)
+  }
+
+  clearInitTimer = () => {
+    if (this.initTimer) clearTimeout(this.initTimer)
   }
 
   /**
@@ -141,7 +172,7 @@ export class App extends React.Component<{}, AppState> {
     // You're welcome to swap in your own component to render if your boot up
     // sequence is too slow though.
     if (!rootStore || this.state.rootStore.isDeprecatedAppVersion) {
-      return <LoadingScreen />
+      return <LoadingScreen tx="initializing" />
     }
 
     // otherwise, we're ready to render the app
