@@ -224,7 +224,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     } = this.props
 
     if (isSigningOut) {
-      return <LoadingScreen />
+      return <LoadingScreen tx="signingOut" />
     }
 
     const isLoading = !!isSigningIn || hasSignedInToAuthcore

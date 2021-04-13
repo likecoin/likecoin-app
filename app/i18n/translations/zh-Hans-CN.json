@@ -1,4 +1,10 @@
 {
+  "closeApp": "结束 App",
+  "initializing": "初始化中",
+  "initializingFailedAlertTitle": "初始化失败",
+  "initializingFailedAlertMessage": "请重新启动 App",
+  "signingIn": "登录中",
+  "signingOut": "登出中",
   "AppRatingPrompt": {
     "Title": "你满意 Liker Land 吗?",
     "DenialTitle": "可否给我们一些改善建议?"

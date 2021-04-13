@@ -22,6 +22,11 @@ export interface LoadingScreenProps {
   text?: string
 
   /**
+   * Text which is looked up via i18n.
+   */
+  tx?: string
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
@@ -31,7 +36,7 @@ export interface LoadingScreenProps {
  * A loading screen.
  */
 export function LoadingScreen(props: LoadingScreenProps) {
-  const { style, ...restProps } = props
+  const { style, tx, text, ...restProps } = props
   const rootStyle = StyleSheet.flatten([Style.Screen, style])
   return (
     <Screen
@@ -42,7 +47,8 @@ export function LoadingScreen(props: LoadingScreenProps) {
     >
       <LoadingLikeCoin style={Style.Animation} />
       <Text
-        text={props.text}
+        tx={tx}
+        text={text}
         size="default"
         color="lightCyan"
         align="center"
