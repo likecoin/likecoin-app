@@ -5,12 +5,13 @@ import {
 } from "react-navigation"
 
 import { BookmarksNavigator } from "./bookmarks-navigator"
+import { DashboardNavigator } from "./dashboard-navigator"
 import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
-import { TransferNavigator } from "./transfer-navigator"
 import { StakingDelegationNavigator } from "./staking-delegation-navigator"
 import { StakingRedelegationNavigator } from "./staking-redelegation-navigator"
 import { StakingUnbondingDelegationNavigator } from "./staking-unbonding-delegation-navigator"
+import { TransferNavigator } from "./transfer-navigator"
 
 import { MainTabBarIcon } from "../components/main-tab-bar"
 
@@ -25,12 +26,13 @@ import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdra
 import { color } from "../theme"
 
 const MainTabs = createBottomTabNavigator({
+  Dashboard: DashboardNavigator,
   Reader: ReaderNavigator,
   Bookmark: BookmarksNavigator,
   // Notification: NotificationScreen,
   Settings: SettingsNavigator,
 }, {
-  initialRouteName: "Settings",
+  initialRouteName: "Dashboard",
   tabBarOptions: {
     activeTintColor: color.primary,
     showLabel: false,

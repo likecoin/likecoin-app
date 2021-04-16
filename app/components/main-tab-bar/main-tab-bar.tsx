@@ -20,16 +20,7 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
     let name: IconTypes
     const size = 24
     switch (routeName) {
-      case "Bookmark":
-        name = "bookmarks"
-        break
-      case "Reader":
-        name = "super-like"
-        break
-      case "Notification":
-        name = "bell"
-        break
-      case "Settings": {
+      case "Dashboard":
         if (user) {
           const { avatarURL: src, isCivicLiker } = user
           return (
@@ -41,6 +32,18 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
             />
           )
         }
+        name = "tab-wallet"
+        break;
+      case "Bookmark":
+        name = "bookmarks"
+        break
+      case "Reader":
+        name = "super-like"
+        break
+      case "Notification":
+        name = "bell"
+        break
+      case "Settings": {
         name = "tab-settings"
         break
       }

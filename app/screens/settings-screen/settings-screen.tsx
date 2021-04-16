@@ -10,13 +10,8 @@ import {
   SettingScreenStyle as Style,
 } from "./settings-screen.style"
 
-import { SettingsScreenStatisticsPanel } from "./settings-screen-statistics-panel"
-import { SettingsScreenUserInfoPanel } from "./settings-screen-user-info-panel"
-import { SettingsScreenWalletPanel } from "./settings-screen-wallet-panel"
-
 import { AppVersionLabel } from "../../components/app-version-label"
 import { Button } from "../../components/button"
-import { ExtendedView } from "../../components/extended-view"
 import { Text } from "../../components/text"
 import { Screen } from "../../components/screen"
 
@@ -32,10 +27,6 @@ export interface SettingsScreenProps extends NavigationScreenProps<{}> {
 
 @inject("userStore")
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
-  private onPressSubscription = () => {
-    this.props.navigation.navigate("Subscription")
-  }
-
   private onPressProfileSettings = () => {
     this.props.navigation.navigate("ProfileSettings")
     logAnalyticsEvent("SettingsClickProfileSettings")
@@ -58,35 +49,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressFollowSettings = () => {
     this.props.navigation.navigate("FollowSettings")
     logAnalyticsEvent("SettingsClickFollowSettings")
-  }
-
-  private onPressReferral = () => {
-    this.props.navigation.navigate("Referral")
-    logAnalyticsEvent("SettingsClickReferral")
-  }
-
-  private onPressQRCodeButton = () => {
-    this.props.navigation.navigate("QRCodeScan")
-    logAnalyticsEvent("SettingsClickQRCodeScan")
-  }
-
-  private onPressWalletButton = () => {
-    this.props.navigation.navigate("Wallet")
-    logAnalyticsEvent("SettingsClickWallet")
-  }
-
-  private onPressStatisticsSupportedSection = () => {
-    this.props.navigation.navigate("StatisticsSupported")
-    logAnalyticsEvent("SettingsClickStatsSupported")
-  }
-
-  private onPressStatisticsRewardedSection = () => {
-    this.props.navigation.navigate("StatisticsRewarded")
-    logAnalyticsEvent("SettingsClickStatsRewarded")
-  }
-
-  private onPressGetRewardsButton = () => {
-    this.props.navigation.navigate("Referral")
   }
 
   private onPressWebsiteSignIn = () => {
@@ -112,61 +74,14 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         wrapperBackgroundColor={color.primary}
         style={Style.Root}
       >
-        {this.renderHeader()}
         {this.renderBody()}
       </Screen>
     )
   }
 
-  renderHeader() {
-    return (
-      <ExtendedView backgroundColor={color.primary} style={Style.Header}>
-        <SettingsScreenUserInfoPanel />
-      </ExtendedView>
-    )
-  }
-
   renderBody() {
-    const {
-      currentUser: { isCivicLiker },
-      iapStore: { isEnabled: isIAPEnabled },
-    } = this.props.userStore
-    const isShowReferral =
-      this.props.userStore.getConfig("APP_REFERRAL_ENABLE") === "true"
     return (
       <View style={Style.Body}>
-        <SettingsScreenWalletPanel
-          onPress={this.onPressWalletButton}
-          onPressQRCodeButton={this.onPressQRCodeButton}
-        />
-        <SettingsScreenStatisticsPanel
-          isCivicLiker={isCivicLiker}
-          onPressGetRewardsButton={this.onPressGetRewardsButton}
-          onPressRewardedSection={this.onPressStatisticsRewardedSection}
-          onPressSupportedSection={this.onPressStatisticsSupportedSection}
-        />
-        {(isShowReferral || isIAPEnabled) && (
-          <View style={SETTINGS_MENU.TABLE}>
-            {isIAPEnabled && (
-              <Button
-                preset="plain"
-                tx="settingsScreen.subscription"
-                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-                onPress={this.onPressSubscription}
-              />
-            )}
-            {isShowReferral && (
-              <Button
-                preset="plain"
-                tx="settingsScreen.Referral"
-                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL}
-                onPress={this.onPressReferral}
-              />
-            )}
-          </View>
-        )}
         <Text
           tx="settingsScreen.Panel.Settings.Header"
           style={Style.SubHeader}
