@@ -51,20 +51,8 @@ export class LikeCoAPI {
   /**
    * Register a LikeCoin account
    */
-  async register(params: Types.UserRegisterParams): Promise<Types.GeneralResult> {
-    const formData = new FormData()
-    Object.keys(params).forEach((key) => {
-      if (typeof params[key] !== 'undefined') {
-        formData.append(key, params[key])
-      }
-    })
-    const response: ApiResponse<any> = await this.apisauce.post('/users/new', formData, {
-      headers: {
-        // FIXME: Don't hardcore
-        Cookie: '_csrf=unit_test',
-        'x-csrf-token': '73fb9061-W0SmQvlNKd0uKS4d2nKoZd0u7SA',
-      },
-    })
+  async register(body: Types.UserRegisterParams): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post('/users/new', body)
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
