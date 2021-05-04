@@ -197,7 +197,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation project(':react-native-share-extension')
     implementation 'org.conscrypt:conscrypt-android:2.5.1'
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:4.9.0"
