@@ -76,6 +76,7 @@
     "reactotron-react-native": "^5.0.0",
     "readable-stream": "^3.4.0",
     "secretd-js": "https://gitlab.com/blocksq/secretd-js.git",
+    "styled-components": "^5.2.3",
     "util": "^0.12.1",
     "validate.js": "0.13.1",
     "vm-browserify": "^1.1.2"
@@ -94,6 +95,8 @@
     "@types/react-native": "0.60.2",
     "@types/react-navigation": "3.4.0",
     "@types/react-test-renderer": "16.8.3",
+    "@types/styled-components": "^5.1.9",
+    "@types/styled-components-react-native": "^5.1.1",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "babel-core": "7.0.0-bridge.0",

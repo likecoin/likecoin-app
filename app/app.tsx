@@ -16,9 +16,11 @@ import { INIT_APP_TIMEOUT } from "react-native-dotenv"
 
 import { Provider } from "mobx-react"
 import { contains } from "ramda"
+import { ThemeProvider } from "styled-components/native"
 
 import { translate } from "./i18n"
 import { logError } from "./utils/error"
+import { defaultTheme } from "./theme"
 
 import { StatefulNavigator } from "./navigation"
 import { BackButtonHandler } from "./navigation/back-button-handler"
@@ -182,9 +184,11 @@ export class App extends React.Component<{}, AppState> {
 
     return (
       <Provider rootStore={rootStore} navigationStore={navigationStore} {...otherStores}>
-        <BackButtonHandler canExit={this.canExit}>
-          <StatefulNavigator key={this.state.languageKey} />
-        </BackButtonHandler>
+        <ThemeProvider theme={defaultTheme}>
+          <BackButtonHandler canExit={this.canExit}>
+            <StatefulNavigator key={this.state.languageKey} />
+          </BackButtonHandler>
+        </ThemeProvider>
       </Provider>
     )
   }

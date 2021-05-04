@@ -1,3 +1,4 @@
+require("../app/components/table-view/table-view.story")
 require("../app/components/avatar/avatar.story")
 require("../app/components/text/text.story")
 require("../app/components/button/button.story")

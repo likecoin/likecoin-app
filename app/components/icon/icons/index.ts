@@ -28,6 +28,8 @@ import ThreeDotHorizontal from "./three-dot-horizontal.svg"
 import ThreeDotVertical from "./three-dot-vertical.svg"
 import UndoIcon from "./undo.svg"
 
+import { PublicIcon } from "./PublicIcon"
+
 export const icons = {
   "alert-circle": AlertCircle,
   "archive": ArchiveIcon,
@@ -48,6 +50,7 @@ export const icons = {
   "like-clap": LikeClap,
   lock: Lock,
   person: Person,
+  "public": PublicIcon,
   "qrcode-scan": QRCodeScan,
   "reader-featured": ReaderFeatured,
   "reader-following": ReaderFollowing,

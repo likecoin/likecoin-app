@@ -16,5 +16,6 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules"],
-  "include": ["index.js", "app", "test", "storybook", "assets"]
+  "include": ["index.js", "app", "test", "storybook", "assets"],
+  "types": ["styled-components-react-native"],
 }
