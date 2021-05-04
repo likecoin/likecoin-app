@@ -29,9 +29,9 @@ export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
 export class LikerLandOAuthScreen extends React.Component<
   LikerLandOAuthScreenProps
 > {
-  redirectTimer?: NodeJS.Timeout
+  redirectTimer?: number
 
-  patientTimer?: NodeJS.Timeout
+  patientTimer?: number
 
   verifySignInRetryCount = 0
 

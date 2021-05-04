@@ -70,7 +70,7 @@ interface AppState {
  */
 export class App extends React.Component<{}, AppState> {
 
-  initTimer?: NodeJS.Timeout
+  initTimer?: number
 
   /**
    * When the component is mounted. This happens asynchronously and simply
