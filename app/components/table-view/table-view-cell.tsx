@@ -1,11 +1,8 @@
 import * as React from "react"
 import { TouchableOpacityProps } from "react-native";
-import styled from "styled-components/native"
+import styled, { css } from "styled-components/native"
 
 import { TableViewCellAccessoryIconType, TableViewCellAccessoryView } from "./table-view-cell-accessory";
-
-const CELL_BORDER_RADIUS = "14px";
-const CELL_PADDING = "16px";
 
 interface CellViewProps {
   isFirstCell?: boolean
@@ -14,28 +11,32 @@ interface CellViewProps {
 }
 
 interface CellViewComputedProps {
-  topRadius: string
-  bottomRadius: string
-  padding: string
-  paddingRight: string
+  cornerRadius: string
 }
 
-const CellView = styled.TouchableOpacity.attrs<CellViewProps, CellViewComputedProps>((props) => ({
-  padding: CELL_PADDING,
-  paddingRight: props.hasAccessoryView ? "12px" : CELL_PADDING,
-  topRadius: props.isFirstCell ? CELL_BORDER_RADIUS : '0px',
-  bottomRadius: props.isLastCell ? CELL_BORDER_RADIUS : '0px',
+const CellView = styled.TouchableOpacity.attrs<CellViewProps, CellViewComputedProps>(() => ({
+  cornerRadius: "14px",
 }))<CellViewProps>`
   flex-direction: row;
   flex: 1;
-  padding: ${props => props.padding};
-  padding-right: ${props => props.paddingRight};
+
   background-color: ${props => props.theme.palette.white};
   border-color: ${props => props.theme.palette.greyd8};
-  border-top-left-radius: ${props => props.topRadius};
-  border-top-right-radius: ${props => props.topRadius};
-  border-bottom-left-radius: ${props => props.bottomRadius};
-  border-bottom-right-radius: ${props => props.bottomRadius};
+
+  padding: 16px;
+  ${props => !!props.hasAccessoryView && css`
+    padding-right: 12px;
+  `}
+
+  ${({ isFirstCell, cornerRadius: radius }) => isFirstCell && css<CellViewComputedProps>`
+    border-top-left-radius: ${radius};
+    border-top-right-radius: ${radius};
+  `}
+
+  ${({ isLastCell, cornerRadius: radius }) => isLastCell && css<CellViewComputedProps>`
+    border-bottom-left-radius: ${radius};
+    border-bottom-right-radius: ${radius};
+  `}
 `
 
 const CellContentView = styled.View`
@@ -44,11 +45,11 @@ const CellContentView = styled.View`
   align-items: center;
 `
 
-const AppendWrapper = styled.View`
+const AppendContentWrapper = styled.View`
   margin-right: 10px;
 `
 
-const TextWrapper = styled.View`
+const TextContentWrapper = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
@@ -63,6 +64,7 @@ const CellTitle = styled.Text`
 
 const CellSubtitle = styled.Text`
   color: ${props => props.theme.palette.grey9b};
+  margin-left: 12px;
   font-size: 12px;
 `
 
@@ -94,12 +96,12 @@ export function TableViewCell({
       {...props}
     >
       <CellContentView>
-        {append && <AppendWrapper>{append}</AppendWrapper>}
+        {append && <AppendContentWrapper>{append}</AppendContentWrapper>}
         {children || (
-          <TextWrapper>
+          <TextContentWrapper>
             {!!title && <CellTitle>{title}</CellTitle>}
             {!!subtitle && <CellSubtitle>{subtitle}</CellSubtitle>}
-          </TextWrapper>
+          </TextContentWrapper>
         )}
       </CellContentView>
       {!!accessoryIcon && <TableViewCellAccessoryView icon={accessoryIcon}/>}
