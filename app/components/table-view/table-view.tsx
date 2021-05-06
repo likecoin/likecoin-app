@@ -12,10 +12,13 @@ interface TableViewProps {
   children: React.ReactElement | React.ReactElement[]
 }
 
-export function TableView(props: TableViewProps) {
+export function TableView({
+  children: originChildren,
+  ...props
+}: TableViewProps) {
   const children: React.ReactElement[] = []
-  const lastIndex = React.Children.count(props.children) - 1
-  React.Children.forEach(props.children, (child, index) => {
+  const lastIndex = React.Children.count(originChildren) - 1
+  React.Children.forEach(originChildren, (child, index) => {
     if (index > 0) {
       children.push(<Separator key={`separator-${index}`} />)
     }
@@ -32,7 +35,7 @@ export function TableView(props: TableViewProps) {
     )
   })
   return (
-    <View>
+    <View {...props}>
       {children}
     </View>
   )

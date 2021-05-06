@@ -23,6 +23,7 @@ export const textSize = {
 export const color = {
   background: {
     primary: "#fff",
+    secondary: "#f2f2f2",
   },
   text: {
     primary: "#4a4a4a",

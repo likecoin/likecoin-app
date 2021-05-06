@@ -1,6 +1,11 @@
 import * as React from "react"
-import { TouchableOpacityProps } from "react-native";
-import styled, { css } from "styled-components/native"
+import {
+  Linking,
+  TouchableOpacityProps,
+} from "react-native";
+import styled, { css, useTheme } from "styled-components/native"
+
+import { translate } from "../../i18n"
 
 import { TableViewCellAccessoryIconType, TableViewCellAccessoryView } from "./table-view-cell-accessory";
 
@@ -71,7 +76,28 @@ export interface TableViewCellProps extends TouchableOpacityProps {
   append?: React.ReactNode
   children?: React.ReactNode
   title?: string
+  /**
+   * Title text which is looked up via i18n.
+   */
+  titleTx?: string
+  /**
+   * Optional title options to pass to i18n. Useful for interpolation
+   * as well as explicitly setting locale or translation fallbacks.
+   */
+  titleTxOptions?: object
   subtitle?: string
+  /**
+   * Subtitle text which is looked up via i18n.
+   */
+  subtitleTx?: string
+  /**
+   * Optional subtitle options to pass to i18n. Useful for interpolation
+   * as well as explicitly setting locale or translation fallbacks.
+   */
+  subtitleTxOptions?: object
+
+  href?: string
+
   isFirstCell?: boolean
   isLastCell?: boolean
   accessoryIcon?: TableViewCellAccessoryIconType
@@ -81,12 +107,36 @@ export function TableViewCell({
   append,
   children,
   title,
+  titleTx,
+  titleTxOptions,
   subtitle,
+  subtitleTx,
+  subtitleTxOptions,
+  href,
   isFirstCell = true,
   isLastCell = true,
-  accessoryIcon,
+  accessoryIcon: accessoryIconOverride,
   ...props
 }: TableViewCellProps) {
+  const theme = useTheme()
+  const titleContent = title || titleTx && translate(titleTx, titleTxOptions)
+  const subtitleContent = subtitle || subtitleTx && translate(subtitleTx, subtitleTxOptions)
+
+  if (href && !props.onPress) {
+    props.onPress = () => {
+      Linking.openURL(href)
+    }
+  }
+
+  let accessoryIcon = accessoryIconOverride
+  if (!accessoryIcon) {
+    if (href) {
+      accessoryIcon = "launch"
+    } else if (props.onPress) {
+      accessoryIcon = "navigate-next"
+    }
+  }
+
   return (
     <CellView
       isFirstCell={isFirstCell}
@@ -98,8 +148,8 @@ export function TableViewCell({
         {append && <AppendContentWrapper>{append}</AppendContentWrapper>}
         {children || (
           <TextContentWrapper>
-            {!!title && <CellTitle>{title}</CellTitle>}
-            {!!subtitle && <CellSubtitle>{subtitle}</CellSubtitle>}
+            {!!titleContent && <CellTitle>{titleContent}</CellTitle>}
+            {!!subtitleContent && <CellSubtitle>{subtitleContent}</CellSubtitle>}
           </TextContentWrapper>
         )}
       </CellContentView>
