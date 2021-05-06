@@ -5,7 +5,7 @@ import { TableViewCellProps } from "./table-view-cell"
 
 const Separator = styled.View`
   height: 1px;
-  background-color: ${({ theme }) => theme.palette.greyd8};
+  background-color: ${({ theme }) => theme.color.separator};
 `
 
 interface TableViewProps {

@@ -20,7 +20,7 @@ import { ThemeProvider } from "styled-components/native"
 
 import { translate } from "./i18n"
 import { logError } from "./utils/error"
-import { defaultTheme } from "./theme"
+import { defaultTheme } from "./theme/styled"
 
 import { StatefulNavigator } from "./navigation"
 import { BackButtonHandler } from "./navigation/back-button-handler"

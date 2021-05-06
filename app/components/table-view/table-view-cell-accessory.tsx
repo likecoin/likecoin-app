@@ -76,7 +76,7 @@ export function TableViewCellAccessoryView(props: TableViewCellAccessoryViewProp
   return (
     <AccessoryView>
       {IconView && (
-        <IconView color={theme.palette.grey9b} />
+        <IconView color={theme.color.text.secondary} />
       )}
     </AccessoryView>
   )

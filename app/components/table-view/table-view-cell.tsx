@@ -20,12 +20,11 @@ const CellView = styled.TouchableOpacity.attrs<CellViewProps, CellViewComputedPr
   flex-direction: row;
   flex: 1;
 
-  background-color: ${props => props.theme.palette.white};
-  border-color: ${props => props.theme.palette.greyd8};
+  background-color: ${props => props.theme.color.background.primary};
 
-  padding: 16px;
+  padding: ${props => props.theme.spacing.lg};
   ${props => !!props.hasAccessoryView && css`
-    padding-right: 12px;
+    padding-right: ${props => props.theme.spacing.md};
   `}
 
   ${({ isFirstCell, cornerRadius: radius }) => isFirstCell && css<CellViewComputedProps>`
@@ -46,7 +45,7 @@ const CellContentView = styled.View`
 `
 
 const AppendContentWrapper = styled.View`
-  margin-right: 10px;
+  margin-right: ${props => props.theme.spacing.sm};
 `
 
 const TextContentWrapper = styled.View`
@@ -58,14 +57,14 @@ const TextContentWrapper = styled.View`
 
 const CellTitle = styled.Text`
   flex-grow: 1;
-  color: ${props => props.theme.palette.grey4a};
-  font-size: 14px;
+  color: ${props => props.theme.color.text.primary};
+  font-size: ${props => props.theme.text.size.md};
 `
 
 const CellSubtitle = styled.Text`
-  color: ${props => props.theme.palette.grey9b};
-  margin-left: 12px;
-  font-size: 12px;
+  color: ${props => props.theme.color.text.secondary};
+  margin-left: ${props => props.theme.spacing.md};
+  font-size: ${props => props.theme.text.size.sm};
 `
 
 export interface TableViewCellProps extends TouchableOpacityProps {
