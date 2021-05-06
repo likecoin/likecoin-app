@@ -41,6 +41,7 @@
     "unfollowSuccess": "You have unfollowed %{creator}",
     "Yes": "Yes"
   },
+  "community_links_label": "Join LikeCoin community",
   "ContentListItem": {
     "Back": {
       "Archive": "Archive",

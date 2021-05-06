@@ -41,6 +41,7 @@
     "unfollowSuccess": "已取消追踪 %{creator}",
     "Yes": "是"
   },
+  "community_links_label": "加入 LikeCoin 社群",
   "ContentListItem": {
     "Back": {
       "Archive": "封存",

@@ -2364,6 +2364,429 @@ exports[`Storyshots Checkbox Styling 1`] = `
 </View>
 `;
 
+exports[`Storyshots CommunityLinks Behavior 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <RCTScrollView>
+        <View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Default
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                The default usage
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View>
+                <Text
+                  style={
+                    Object {
+                      "color": "#9b9b9b",
+                      "fontFamily": "System",
+                      "fontSize": 14,
+                      "fontWeight": "600",
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  community_links_label.test
+                </Text>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    accessible={true}
+                    clickable={true}
+                    isTVSelectable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#9b9b9b",
+                        "borderRadius": 14,
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                        "marginBottom": 0,
+                        "marginLeft": 8,
+                        "marginRight": 8,
+                        "marginTop": 0,
+                        "minHeight": 28,
+                        "minWidth": 28,
+                        "opacity": 1,
+                      }
+                    }
+                  >
+                    <RNSVGSvgView
+                      align="xMidYMid"
+                      bbHeight={24}
+                      bbWidth={24}
+                      fill="#ffffff"
+                      focusable={false}
+                      height={24}
+                      meetOrSlice={0}
+                      minX={0}
+                      minY={0}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 24,
+                          },
+                        ]
+                      }
+                      vbHeight={28}
+                      vbWidth={28}
+                      width={24}
+                    >
+                      <RNSVGGroup
+                        fill={4294967295}
+                        propList={
+                          Array [
+                            "fill",
+                          ]
+                        }
+                      >
+                        <RNSVGPath
+                          d="M21.84 9.137a6.426 6.426 0 01-1.848.507 3.228 3.228 0 001.415-1.78 6.439 6.439 0 01-2.043.78 3.217 3.217 0 00-5.482 2.934 9.133 9.133 0 01-6.63-3.36 3.215 3.215 0 00.995 4.295 3.202 3.202 0 01-1.457-.403v.04a3.219 3.219 0 002.58 3.155 3.223 3.223 0 01-1.452.055 3.22 3.22 0 003.005 2.234 6.453 6.453 0 01-4.763 1.332 9.104 9.104 0 004.931 1.445c5.917 0 9.153-4.901 9.153-9.153 0-.14-.003-.278-.01-.416a6.533 6.533 0 001.606-1.665z"
+                        />
+                      </RNSVGGroup>
+                    </RNSVGSvgView>
+                  </View>
+                  <View
+                    accessible={true}
+                    clickable={true}
+                    isTVSelectable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#9b9b9b",
+                        "borderRadius": 14,
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                        "marginBottom": 0,
+                        "marginLeft": 8,
+                        "marginRight": 8,
+                        "marginTop": 0,
+                        "minHeight": 28,
+                        "minWidth": 28,
+                        "opacity": 1,
+                      }
+                    }
+                  >
+                    <RNSVGSvgView
+                      align="xMidYMid"
+                      bbHeight={24}
+                      bbWidth={24}
+                      fill="#ffffff"
+                      focusable={false}
+                      height={24}
+                      meetOrSlice={0}
+                      minX={0}
+                      minY={0}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 24,
+                          },
+                        ]
+                      }
+                      vbHeight={24}
+                      vbWidth={24}
+                      width={24}
+                    >
+                      <RNSVGGroup
+                        fill={4294967295}
+                        propList={
+                          Array [
+                            "fill",
+                          ]
+                        }
+                      >
+                        <RNSVGPath
+                          d="M14.48 16c.35.45.77.95.77.95a4.28 4.28 0 003.58-1.78 15.59 15.59 0 00-1.69-6.81 5.8 5.8 0 00-3.28-1.23l-.17.19a7.93 7.93 0 012.92 1.48 9.7 9.7 0 00-3.52-1.12 10.27 10.27 0 00-2.36 0 1.38 1.38 0 00-.2 0 8.54 8.54 0 00-2.66.73c-.43.2-.69.34-.69.34a7.93 7.93 0 013.08-1.53l-.12-.14a5.8 5.8 0 00-3.28 1.24 15.59 15.59 0 00-1.69 6.81 4.25 4.25 0 003.57 1.78l.78-1a3.66 3.66 0 01-2-1.38s.11.08.32.2l.11.06a6.43 6.43 0 00.85.4 9.64 9.64 0 001.72.5 8 8 0 003 0 7.24 7.24 0 001.7-.5 6.35 6.35 0 001.34-.69 3.65 3.65 0 01-2.08 1.5zm-4.67-1.95a1.31 1.31 0 010-2.6 1.3 1.3 0 010 2.6zm4.27 0a1.26 1.26 0 01-1.19-1.3 1.19 1.19 0 111.19 1.3z"
+                        />
+                      </RNSVGGroup>
+                    </RNSVGSvgView>
+                  </View>
+                  <View
+                    accessible={true}
+                    clickable={true}
+                    isTVSelectable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#9b9b9b",
+                        "borderRadius": 14,
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                        "marginBottom": 0,
+                        "marginLeft": 8,
+                        "marginRight": 8,
+                        "marginTop": 0,
+                        "minHeight": 28,
+                        "minWidth": 28,
+                        "opacity": 1,
+                      }
+                    }
+                  >
+                    <RNSVGSvgView
+                      align="xMidYMid"
+                      bbHeight={24}
+                      bbWidth={24}
+                      fill="#ffffff"
+                      focusable={false}
+                      height={24}
+                      meetOrSlice={0}
+                      minX={0}
+                      minY={0}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 24,
+                          },
+                        ]
+                      }
+                      vbHeight={28}
+                      vbWidth={28}
+                      width={24}
+                    >
+                      <RNSVGGroup
+                        fill={4294967295}
+                        propList={
+                          Array [
+                            "fill",
+                          ]
+                        }
+                      >
+                        <RNSVGPath
+                          d="M21.94 9.28h-.64a.72.72 0 00-.57.56v7.93a.67.67 0 00.57.52h.64v1.88h-5.78v-1.89h1.21V9.95h-.06l-2.82 10.21H12.3L9.52 10h-.07v8.33h1.21v1.88H5.82v-1.93h.62a.68.68 0 00.56-.51V9.84a.72.72 0 00-.59-.56h-.59V7.4h6.05l2 7.39h.05l2-7.39h6v1.88z"
+                        />
+                      </RNSVGGroup>
+                    </RNSVGSvgView>
+                  </View>
+                  <View
+                    accessible={true}
+                    clickable={true}
+                    isTVSelectable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#9b9b9b",
+                        "borderRadius": 14,
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                        "marginBottom": 0,
+                        "marginLeft": 8,
+                        "marginRight": 8,
+                        "marginTop": 0,
+                        "minHeight": 28,
+                        "minWidth": 28,
+                        "opacity": 1,
+                      }
+                    }
+                  >
+                    <RNSVGSvgView
+                      align="xMidYMid"
+                      bbHeight={24}
+                      bbWidth={24}
+                      fill="#ffffff"
+                      focusable={false}
+                      height={24}
+                      meetOrSlice={0}
+                      minX={0}
+                      minY={0}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 24,
+                          },
+                        ]
+                      }
+                      vbHeight={28}
+                      vbWidth={28}
+                      width={24}
+                    >
+                      <RNSVGGroup
+                        fill={4294967295}
+                        propList={
+                          Array [
+                            "fill",
+                          ]
+                        }
+                      >
+                        <RNSVGPath
+                          d="M14 6.354a7.84 7.84 0 00-2.478 15.279c.391.072.535-.17.535-.377 0-.187-.007-.805-.01-1.46-2.181.474-2.642-.925-2.642-.925-.356-.906-.87-1.147-.87-1.147-.712-.487.053-.477.053-.477.787.056 1.202.809 1.202.809.7 1.198 1.834.851 2.282.651.07-.507.273-.853.497-1.048-1.74-.199-3.572-.87-3.572-3.875 0-.856.307-1.555.808-2.104-.081-.198-.35-.995.076-2.075 0 0 .659-.21 2.157.804A7.518 7.518 0 0114 10.145a7.52 7.52 0 011.964.264c1.496-1.015 2.154-.804 2.154-.804.427 1.08.158 1.877.077 2.075.503.549.807 1.248.807 2.104 0 3.011-1.834 3.674-3.58 3.869.281.243.531.72.531 1.451 0 1.05-.008 1.893-.008 2.152 0 .208.14.453.538.376A7.841 7.841 0 0014 6.354z"
+                        />
+                      </RNSVGGroup>
+                    </RNSVGSvgView>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
 exports[`Storyshots FormRow Assembled 1`] = `
 <View
   onLayout={[Function]}
@@ -9610,7 +10033,7 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                   style={
                     Array [
                       Object {
-                        "backgroundColor": "#d8d8d8",
+                        "backgroundColor": "#e6e6e6",
                         "height": 1,
                       },
                     ]
@@ -9752,7 +10175,7 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                   style={
                     Array [
                       Object {
-                        "backgroundColor": "#d8d8d8",
+                        "backgroundColor": "#e6e6e6",
                         "height": 1,
                       },
                     ]
@@ -9907,7 +10330,7 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                   style={
                     Array [
                       Object {
-                        "backgroundColor": "#d8d8d8",
+                        "backgroundColor": "#e6e6e6",
                         "height": 1,
                       },
                     ]

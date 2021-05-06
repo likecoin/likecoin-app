@@ -6,6 +6,7 @@ import styled, { useTheme } from "styled-components/native"
 import { AppVersionLabel as AppVersionLabelBase } from "../../components/app-version-label"
 import { Avatar } from "../../components/avatar"
 import { Button } from "../../components/button"
+import { CommunityLinks as CommunityLinksBase } from "../../components/community-links"
 import { Icon } from "../../components/icon"
 import { Header } from "../../components/header"
 import { TableView } from "../../components/table-view/table-view"
@@ -58,9 +59,21 @@ const SecondarySectionTableView = styled(TableView)`
   margin-top: ${({ theme }) => theme.spacing["3xl"]};
 `
 
+const CommunityLinks = styled(CommunityLinksBase)`
+  margin-top: ${({ theme }) => theme.spacing["2xl"]};
+`
+
+const Separator = styled.View`
+  align-self: center;
+  width: 60px;
+  height: 1px;
+  margin-top: ${({ theme }) => theme.spacing.xl};
+  background-color: ${({ theme }) => theme.color.separator};
+`
+
 const LogoutButtonWrapper = styled.View`
   align-items: center;
-  margin-top: ${({ theme }) => theme.spacing["3xl"]};
+  margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
 const LogoutButton = styled(Button)`
@@ -181,6 +194,8 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 onPress={this.onPressRateApp}
               />
             </SecondarySectionTableView>
+            <CommunityLinks />
+            <Separator />
             <LogoutButtonWrapper>
               <LogoutButton
                 size="small"

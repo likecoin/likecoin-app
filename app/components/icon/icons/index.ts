@@ -28,7 +28,11 @@ import ThreeDotHorizontal from "./three-dot-horizontal.svg"
 import ThreeDotVertical from "./three-dot-vertical.svg"
 import UndoIcon from "./undo.svg"
 
+import { DiscordIcon } from "./discord"
+import { GitHubIcon } from "./github"
+import { MediumIcon } from "./medium"
 import { PublicIcon } from "./PublicIcon"
+import { TwitterIcon } from "./twitter"
 
 export const icons = {
   "alert-circle": AlertCircle,
@@ -46,9 +50,12 @@ export const icons = {
   "bookmark-outlined": BookmarkOutlinedIcon,
   checkmark: Checkmark,
   close: CrossIcon,
+  discord: DiscordIcon,
+  github: GitHubIcon,
   "global-eye": GlobalEye,
   "like-clap": LikeClap,
   lock: Lock,
+  medium: MediumIcon,
   person: Person,
   "public": PublicIcon,
   "qrcode-scan": QRCodeScan,
@@ -57,6 +64,7 @@ export const icons = {
   share: ShareIcon,
   seen: SeenIcon,
   "super-like": SuperLikeIcon,
+  twitter: TwitterIcon,
   "tab-settings": TabSettings,
   "tab-wallet": TabWallet,
   "three-dot-horizontal": ThreeDotHorizontal,

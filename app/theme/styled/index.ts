@@ -29,7 +29,7 @@ export const color = {
     primary: "#4a4a4a",
     secondary: "#9b9b9b",
   },
-  separator: "#d8d8d8",
+  separator: "#e6e6e6",
 }
 
 export const defaultTheme = {
