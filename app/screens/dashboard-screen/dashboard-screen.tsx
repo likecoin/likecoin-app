@@ -3,24 +3,28 @@ import { inject } from "mobx-react"
 import { View } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 
-import {
-  SETTINGS_MENU,
-  SettingScreenStyle as Style,
-} from "../settings-screen/settings-screen.style"
+import { SettingScreenStyle as Style } from "../settings-screen/settings-screen.style"
 
 import { SettingsScreenStatisticsPanel } from "../settings-screen/settings-screen-statistics-panel"
 import { SettingsScreenUserInfoPanel } from "../settings-screen/settings-screen-user-info-panel"
 import { SettingsScreenWalletPanel } from "../settings-screen/settings-screen-wallet-panel"
 
-import { Button } from "../../components/button"
 import { ExtendedView } from "../../components/extended-view"
 import { Screen } from "../../components/screen"
+import { SponsorLinkCTATableView as SponsorLinkCTATableViewBase } from "../../components/sponsor-link-cta-table-view"
+import { TableView } from "../../components/table-view/table-view"
+import { TableViewCell } from "../../components/table-view/table-view-cell"
 
 import { UserStore } from "../../models/user-store"
 
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
+import styled from "styled-components/native"
+
+const SponsorLinkCTATableView = styled(SponsorLinkCTATableViewBase)`
+  margin-top: ${({ theme }) => theme.spacing["2xl"]}
+`
 
 export interface DashboardScreenProps extends NavigationScreenProps<{}> {
   userStore: UserStore
@@ -30,11 +34,6 @@ export interface DashboardScreenProps extends NavigationScreenProps<{}> {
 export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
   private onPressSubscription = () => {
     this.props.navigation.navigate("Subscription")
-  }
-
-  private onPressReferral = () => {
-    this.props.navigation.navigate("Referral")
-    logAnalyticsEvent("SettingsClickReferral")
   }
 
   private onPressQRCodeButton = () => {
@@ -85,11 +84,9 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
 
   renderBody() {
     const {
-      currentUser: { isCivicLiker },
+      currentUser: { likerID, isCivicLiker },
       iapStore: { isEnabled: isIAPEnabled },
     } = this.props.userStore
-    const isShowReferral =
-      this.props.userStore.getConfig("APP_REFERRAL_ENABLE") === "true"
     return (
       <View style={Style.Body}>
         <SettingsScreenWalletPanel
@@ -102,28 +99,15 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
           onPressRewardedSection={this.onPressStatisticsRewardedSection}
           onPressSupportedSection={this.onPressStatisticsSupportedSection}
         />
-        {(isShowReferral || isIAPEnabled) && (
-          <View style={SETTINGS_MENU.TABLE}>
-            {isIAPEnabled && (
-              <Button
-                preset="plain"
-                tx="settingsScreen.subscription"
-                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL_FIRST_CHILD}
-                onPress={this.onPressSubscription}
-              />
-            )}
-            {isShowReferral && (
-              <Button
-                preset="plain"
-                tx="settingsScreen.Referral"
-                textStyle={SETTINGS_MENU.TABLE_CELL_TEXT}
-                style={SETTINGS_MENU.TABLE_CELL}
-                onPress={this.onPressReferral}
-              />
-            )}
-          </View>
+        {(isIAPEnabled) && (
+          <TableView>
+            <TableViewCell
+              titleTx="settingsScreen.subscription"
+              onPress={this.onPressSubscription}
+            />
+          </TableView>
         )}
+        <SponsorLinkCTATableView likerID={likerID} />
       </View>
     )
   }

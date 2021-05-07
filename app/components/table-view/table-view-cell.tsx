@@ -3,7 +3,7 @@ import {
   Linking,
   TouchableOpacityProps,
 } from "react-native";
-import styled, { css, useTheme } from "styled-components/native"
+import styled, { css } from "styled-components/native"
 
 import { translate } from "../../i18n"
 
@@ -118,7 +118,6 @@ export function TableViewCell({
   accessoryIcon: accessoryIconOverride,
   ...props
 }: TableViewCellProps) {
-  const theme = useTheme()
   const titleContent = title || titleTx && translate(titleTx, titleTxOptions)
   const subtitleContent = subtitle || subtitleTx && translate(subtitleTx, subtitleTxOptions)
 
@@ -135,6 +134,10 @@ export function TableViewCell({
     } else if (props.onPress) {
       accessoryIcon = "navigate-next"
     }
+  }
+
+  if (!props.disabled && !props.onPress) {
+    props.disabled = true
   }
 
   return (

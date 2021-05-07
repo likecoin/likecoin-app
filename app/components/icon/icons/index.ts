@@ -22,7 +22,6 @@ import ReaderFollowing from "./reader-following.svg"
 import ShareIcon from "./share.svg"
 import SeenIcon from "./seen.svg"
 import SuperLikeIcon from "./super-like.svg"
-import TabSettings from "./tab-settings.svg"
 import TabWallet from "./tab-wallet.svg"
 import ThreeDotHorizontal from "./three-dot-horizontal.svg"
 import ThreeDotVertical from "./three-dot-vertical.svg"
@@ -32,6 +31,7 @@ import { DiscordIcon } from "./discord"
 import { GitHubIcon } from "./github"
 import { MediumIcon } from "./medium"
 import { PublicIcon } from "./PublicIcon"
+import { TabSettingsIcon } from "./tab-settings"
 import { TwitterIcon } from "./twitter"
 
 export const icons = {
@@ -65,7 +65,7 @@ export const icons = {
   seen: SeenIcon,
   "super-like": SuperLikeIcon,
   twitter: TwitterIcon,
-  "tab-settings": TabSettings,
+  "tab-settings": TabSettingsIcon,
   "tab-wallet": TabWallet,
   "three-dot-horizontal": ThreeDotHorizontal,
   "three-dot-vertical": ThreeDotVertical,

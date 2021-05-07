@@ -199,6 +199,11 @@
     "Line1": "Copy and Share",
     "Line2": "your Civic Liker sponsor link"
   },
+  "sponsor_link_cta_header_label": "Earn with Civic Liker",
+  "sponsor_link_cta_header_button": "Learn More",
+  "sponsor_link_cta_description": "Build your fans network, get their monthly support.",
+  "sponsor_link_cta_button": "Share your sponsor link",
+  "sponsor_link_cta_share_message": "Be my Civic Liker, buy me a coffee for my work every month. {{url}}",
   "stakingDelegationAmountInputScreen": {
     "available": "Available"
   },

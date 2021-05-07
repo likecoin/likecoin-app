@@ -1,3 +1,4 @@
+require("../app/components/sponsor-link-cta-table-view/sponsor-link-cta-table-view.story")
 require("../app/components/community-links/community-links.story")
 require("../app/components/table-view/table-view.story")
 require("../app/components/avatar/avatar.story")

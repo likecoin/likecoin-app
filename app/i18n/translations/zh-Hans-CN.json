@@ -188,6 +188,11 @@
     "Line1": "复制并分享",
     "Line2": "你的赞赏公民赞助连结"
   },
+  "sponsor_link_cta_header_label": "从赞赏公民获得赞助",
+  "sponsor_link_cta_header_button": "了解更多",
+  "sponsor_link_cta_description": "建立您的订户群，每月获取赞助收入。",
+  "sponsor_link_cta_button": "分享你的赞助连结",
+  "sponsor_link_cta_share_message": "成為我的讚賞公民，每月贊助一杯咖啡，助我走得更遠。{{url}}",
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"
   },
