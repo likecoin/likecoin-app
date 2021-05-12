@@ -22,10 +22,21 @@ export const textSize = {
 
 export const color = {
   background: {
+    feature: {
+      primary: "#28646e",
+    },
     primary: "#fff",
     secondary: "#f2f2f2",
   },
   text: {
+    feature: {
+      highlight: {
+        primary: "#50e3c2",
+        secondary: "#aaf1e7",
+      },
+      primary: "#fff",
+      secondary: "#a9c1c5"
+    },
     primary: "#4a4a4a",
     secondary: "#9b9b9b",
   },

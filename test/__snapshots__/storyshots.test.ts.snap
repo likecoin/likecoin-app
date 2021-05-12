@@ -4522,6 +4522,560 @@ exports[`Storyshots Header Behavior 1`] = `
 </View>
 `;
 
+exports[`Storyshots HeaderTab Icon 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <RCTScrollView>
+        <View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Default
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "padding": 0,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "stretch",
+                      "backgroundColor": "#28646e",
+                      "flexDirection": "row",
+                    },
+                  ]
+                }
+              >
+                <View
+                  accessible={true}
+                  clickable={true}
+                  isTVSelectable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "flexBasis": 0,
+                          "flexGrow": 1,
+                          "flexShrink": 1,
+                          "justifyContent": "center",
+                          "paddingBottom": 16,
+                          "paddingLeft": 24,
+                          "paddingRight": 24,
+                          "paddingTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGSvgView
+                      bbHeight={24}
+                      bbWidth={24}
+                      focusable={false}
+                      height={24}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 24,
+                          },
+                        ]
+                      }
+                      width={24}
+                    >
+                      <RNSVGGroup />
+                    </RNSVGSvgView>
+                    <Text
+                      isActive={true}
+                      style={
+                        Object {
+                          "color": "#fff",
+                          "fontFamily": "System",
+                          "fontSize": 12,
+                        }
+                      }
+                    >
+                      Bookmarks
+                    </Text>
+                  </View>
+                  <View
+                    isActive={true}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#50e3c2",
+                          "height": 4,
+                        },
+                      ]
+                    }
+                  />
+                </View>
+                <View
+                  accessible={true}
+                  clickable={true}
+                  isTVSelectable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "flexBasis": 0,
+                          "flexGrow": 1,
+                          "flexShrink": 1,
+                          "justifyContent": "center",
+                          "paddingBottom": 16,
+                          "paddingLeft": 24,
+                          "paddingRight": 24,
+                          "paddingTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGSvgView
+                      bbHeight={24}
+                      bbWidth={24}
+                      focusable={false}
+                      height={24}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 24,
+                          },
+                        ]
+                      }
+                      width={24}
+                    >
+                      <RNSVGGroup />
+                    </RNSVGSvgView>
+                    <Text
+                      isActive={false}
+                      style={
+                        Object {
+                          "color": "#a9c1c5",
+                          "fontFamily": "System",
+                          "fontSize": 12,
+                        }
+                      }
+                    >
+                      Super Likes
+                    </Text>
+                  </View>
+                  <View
+                    isActive={false}
+                    style={
+                      Array [
+                        Object {
+                          "height": 4,
+                        },
+                      ]
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
+exports[`Storyshots HeaderTab Title & Subtitle 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <RCTScrollView>
+        <View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Default
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "padding": 0,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "stretch",
+                      "backgroundColor": "#28646e",
+                      "flexDirection": "row",
+                    },
+                  ]
+                }
+              >
+                <View
+                  accessible={true}
+                  clickable={true}
+                  isTVSelectable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "flexBasis": 0,
+                          "flexGrow": 1,
+                          "flexShrink": 1,
+                          "justifyContent": "center",
+                          "paddingBottom": 16,
+                          "paddingLeft": 24,
+                          "paddingRight": 24,
+                          "paddingTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      isActive={true}
+                      style={
+                        Object {
+                          "color": "#50e3c2",
+                          "fontFamily": "System",
+                          "fontSize": 24,
+                          "fontWeight": "500",
+                        }
+                      }
+                    >
+                      Title1
+                    </Text>
+                    <Text
+                      isActive={true}
+                      style={
+                        Object {
+                          "color": "#fff",
+                          "fontFamily": "System",
+                          "fontSize": 12,
+                        }
+                      }
+                    >
+                      Subtitle1
+                    </Text>
+                  </View>
+                  <View
+                    isActive={true}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#50e3c2",
+                          "height": 4,
+                        },
+                      ]
+                    }
+                  />
+                </View>
+                <View
+                  accessible={true}
+                  clickable={true}
+                  isTVSelectable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "flexBasis": 0,
+                          "flexGrow": 1,
+                          "flexShrink": 1,
+                          "justifyContent": "center",
+                          "paddingBottom": 16,
+                          "paddingLeft": 24,
+                          "paddingRight": 24,
+                          "paddingTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      isActive={false}
+                      style={
+                        Object {
+                          "color": "#aaf1e7",
+                          "fontFamily": "System",
+                          "fontSize": 24,
+                          "fontWeight": "500",
+                        }
+                      }
+                    >
+                      Title2
+                    </Text>
+                    <Text
+                      isActive={false}
+                      style={
+                        Object {
+                          "color": "#a9c1c5",
+                          "fontFamily": "System",
+                          "fontSize": 12,
+                        }
+                      }
+                    >
+                      Subtitle2
+                    </Text>
+                  </View>
+                  <View
+                    isActive={false}
+                    style={
+                      Array [
+                        Object {
+                          "height": 4,
+                        },
+                      ]
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
 exports[`Storyshots I18n Behavior 1`] = `
 <View
   onLayout={[Function]}
