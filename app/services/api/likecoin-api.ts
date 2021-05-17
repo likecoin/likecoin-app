@@ -4,6 +4,8 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 
+const getTimezone = () => ((new Date()).getTimezoneOffset() / -60).toString()
+
 /**
  * LikeCoin API.
  */
@@ -193,6 +195,41 @@ export class LikeCoinAPI {
   }
 
   like = {
+    self: async ({
+      id,
+      url,
+    }): Promise<Types.CurrentUserContentLikeStatResult> => {
+      const response: ApiResponse<Types.UserContentLikeStat> =
+        await this.apisauce.get(`/like/likebutton/${id}/self/like?referrer=${encodeURIComponent(url)}`)
+
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      return {
+        kind: "ok",
+        data: response.data,
+      }
+    },
+    post: async ({
+      id,
+      url,
+      count = 1,
+    }: {
+      id: string
+      url: string
+      count?: number
+    }): Promise<Types.GeneralResult> => {
+      const response: ApiResponse<any> =
+        await this.apisauce.post(`/like/likebutton/${id}/${count}?referrer=${encodeURIComponent(url)}`)
+
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      return { kind: "ok" }
+    },
     share: {
       get: async (id: string): Promise<Types.SuperLikeMetaResult> => {
         const response: ApiResponse<Types.SuperLikeMeta> = await this.apisauce.get(`/like/share/${id}`)
@@ -207,6 +244,41 @@ export class LikeCoinAPI {
           data: response.data,
         }
       },
+      self: async (url: string): Promise<Types.CurrentUserContentSuperLikeStatResult> => {
+        const timezone = getTimezone()
+        const response: ApiResponse<Types.UserContentSuperLikeStat> =
+          await this.apisauce.get(`/like/share/self?tz=${timezone}&referrer=${encodeURIComponent(url)}`)
+
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+
+        return {
+          kind: "ok",
+          data: response.data,
+        }
+      },
+      post: async ({
+        id,
+        url,
+      }: {
+        id: string
+        url: string
+      }): Promise<Types.GeneralResult> => {
+        const timezone = getTimezone()
+        const response: ApiResponse<any> =
+          await this.apisauce.post(`/like/share/${id}`, {
+            referrer: url,
+            tz: timezone,
+          })
+  
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+        return { kind: "ok" }
+      }
     },
   }
 }

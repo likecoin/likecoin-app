@@ -205,3 +205,27 @@ export type SuperLikeMetaResult =
     data: SuperLikeMeta
   }
   | GeneralApiProblem
+
+export interface UserContentLikeStat {
+  count: number
+}
+export type CurrentUserContentLikeStatResult =
+  | {
+    kind: "ok"
+    data: UserContentLikeStat
+  }
+  | GeneralApiProblem
+
+export interface UserContentSuperLikeStat {
+  isSuperLiker: boolean
+  canSuperLike: boolean
+  nextSuperLikeTs: number
+  lastSuperLikeInfos: any[]
+  cooldown: number
+}
+export type CurrentUserContentSuperLikeStatResult =
+  | {
+    kind: "ok"
+    data: UserContentSuperLikeStat
+  }
+  | GeneralApiProblem
