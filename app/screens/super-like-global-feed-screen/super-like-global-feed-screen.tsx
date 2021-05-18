@@ -65,10 +65,10 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
         hasFetchedAll={status === "done-more"}
         emptyTx="GlobalSuperLikedFeedScreen.EmptyLabel"
         lastFetched={lastFetchedTimestamp}
-        backgroundColor={color.palette.lightGreen}
-        underlayColor={color.palette.darkerGreen}
-        skeletonPrimaryColor={color.palette.darkerGreen}
-        skeletonSecondaryColor={color.palette.greyBlue}
+        backgroundColor={color.palette.greyf7}
+        underlayColor={color.palette.greyf2}
+        skeletonPrimaryColor={color.palette.greyd8}
+        skeletonSecondaryColor={color.palette.grey9b}
         isShowFollowToggle={true}
         onFetchMore={this.fetchMore}
         onPressItem={this.props.onPressSuperLikeItem}

@@ -11,8 +11,6 @@ export const SuperLikeContentListItemStyle = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: color.palette.greyd8,
   } as ViewStyle,
   LikerDisplayName: {
     color: color.primary,
@@ -34,7 +32,7 @@ export const SuperLikeContentListItemStyle = StyleSheet.create({
   Title: StyleSheet.flatten([
     StyleCommon.Title,
     {
-      marginTop: spacing[1],
+      marginTop: spacing[3],
       marginRight: spacing[5] + spacing[1],
     } as TextStyle,
   ]),

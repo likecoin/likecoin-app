@@ -1,10 +1,13 @@
 import * as React from "react"
 import { observer } from "mobx-react"
 
+import { color } from "../../theme"
+
 import { SuperLikeContentList } from "../../components/content-list"
 
-import { SuperLikeDailyFeedViewProps } from "./super-like-daily-feed-view.props"
 import { wrapScrollViewShadow } from "../wrap-scrollview-shadow"
+
+import { SuperLikeDailyFeedViewProps } from "./super-like-daily-feed-view.props"
 
 const WrappedSuperLikeContentList = wrapScrollViewShadow(SuperLikeContentList)
 
@@ -23,6 +26,8 @@ export class SuperLikeDailyFeedView extends React.Component<
       <WrappedSuperLikeContentList
         data={feed.items}
         emptyTx="readerScreen.emptyLabel"
+        backgroundColor={color.palette.greyf7}
+        underlayColor={color.palette.greyf2}
         isLoading={feed.isFetching}
         hasFetched={!feed.isFetching}
         hasFetchedAll={feed.hasFetchedAll()}

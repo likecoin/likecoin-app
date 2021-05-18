@@ -6,6 +6,7 @@ import {
   ViewStyle,
 } from "react-native"
 import { observer } from "mobx-react"
+import styled from "styled-components/native"
 
 import { color } from "../../theme"
 
@@ -20,6 +21,24 @@ import { ContentListItemStyle as StyleCommon } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
 import { ContentListItemUndoView } from "./content-list-item-undo-view"
 import { withContentListItemHelper } from "./content-list-item.with-helper"
+
+const CardView = styled.View`
+  margin-top: ${({ theme }) => theme.spacing.sm};
+  background-color: ${({ theme }) => theme.color.background.primary};
+  border-radius: 12px;
+  overflow: hidden;
+`
+
+const CardBodyView = styled.View`
+  padding: ${({ theme }) => theme.spacing.lg};
+  padding-top: 0;
+`
+
+const CoverImage = styled.Image`
+  flex: 0;
+  min-height: 100px;
+  aspect-ratio: 1.91;
+`
 
 @observer
 class SuperLikeContentListItemBase extends React.Component<Props, {}> {
@@ -55,6 +74,8 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
   private renderContent() {
     const { item: content } = this.props
 
+    console.tron.log(content?.content?.coverImageURL)
+
     return (
       <TouchableHighlight
         underlayColor={this.props.underlayColor || color.palette.greyf2}
@@ -74,37 +95,45 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
                 style={Style.LikerDisplayName}
               />
             </I18n>
-            {this.props.renderMoreButton()}
+            {this.props.isShowFollowToggle
+              ? this.renderFollowToggle(!!content?.liker?.isFollowing)
+              : this.props.renderMoreButton()
+            }
           </View>
-          <Text
-            text={content?.content?.normalizedTitle || ""}
-            style={Style.Title}
-          />
-          <View style={StyleCommon.FooterView}>
-            <Text
-              text={content?.content?.creatorDisplayName || ""}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              style={StyleCommon.CreatorDisplayName}
-            />
-            <View style={StyleCommon.AccessoryView}>
-              {!!content?.content?.hasRead() && (
-                <Icon
-                  name="checkmark"
-                  color="green"
-                  width={16}
-                  height={16}
-                  style={Style.ReadIcon}
+          <CardView>
+            {!!content?.content?.coverImageURL && 
+              <CoverImage source={{ uri: content?.content?.coverImageURL }} />
+            }
+            <CardBodyView>
+              <Text
+                text={content?.content?.normalizedTitle || ""}
+                style={Style.Title}
+              />
+              <View style={StyleCommon.FooterView}>
+                <Text
+                  text={content?.content?.creatorDisplayName || ""}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={StyleCommon.CreatorDisplayName}
                 />
-              )}
-              {this.props.isShowFollowToggle &&
-                this.renderFollowToggle(!!content?.liker?.isFollowing)}
-              {this.renderBookmarkButton(
-                !!content?.content?.isBookmarked,
-                !!content?.content?.isUpdatingBookmark,
-              )}
-            </View>
-          </View>
+                <View style={StyleCommon.AccessoryView}>
+                  {!!content?.content?.hasRead() && (
+                    <Icon
+                      name="checkmark"
+                      color="green"
+                      width={16}
+                      height={16}
+                      style={Style.ReadIcon}
+                    />
+                  )}
+                  {this.renderBookmarkButton(
+                    !!content?.content?.isBookmarked,
+                    !!content?.content?.isUpdatingBookmark,
+                  )}
+                </View>
+              </View>
+            </CardBodyView>
+          </CardView>
         </View>
       </TouchableHighlight>
     )
