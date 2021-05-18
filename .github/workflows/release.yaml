@@ -7,8 +7,6 @@ jobs:
     name: Upload dsyms
     runs-on: macOS-latest
     steps:
-    - name: Select Xcode version
-      run: sudo xcode-select -s "/Applications/Xcode_11.7.app"
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
