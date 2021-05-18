@@ -11,6 +11,7 @@ export const BookmarkScreenStyle = StyleSheet.create({
   } as ViewStyle,
   Header: {
     paddingHorizontal: spacing[3],
+    backgroundColor: color.primary,
   } as ViewStyle,
   HeaderMiddleView: {
     flexDirection: "row",
@@ -26,7 +27,7 @@ export const BookmarkScreenStyle = StyleSheet.create({
     backgroundColor: color.primary,
   } as ViewStyle,
   Title: {
-    color: color.primary,
+    color: color.palette.white,
     fontSize: fontSizes.medium,
     fontWeight: "600",
   } as TextStyle,

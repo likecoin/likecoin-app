@@ -6,7 +6,7 @@ import { sizes } from "../../components/text/text.sizes"
 
 export const SuperLikeFollowingScreenStyle = StyleSheet.create({
   ContentWrapper: {
-    backgroundColor: color.palette.white,
+    backgroundColor: color.palette.greyf7,
     flex: 1,
   } as ViewStyle,
   DateLabel: {
@@ -22,10 +22,8 @@ export const SuperLikeFollowingScreenStyle = StyleSheet.create({
   GlobalIcon: {
     marginRight: spacing[3],
   } as ViewStyle,
-  List: {
-    backgroundColor: color.palette.white,
-  } as ViewStyle,
   Page: {
+    backgroundColor: color.palette.greyf7,
     flex: 1,
     width: Dimensions.get("window").width,
   } as ViewStyle,

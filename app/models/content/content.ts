@@ -3,6 +3,8 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import {
   BookmarkAddResult,
   ContentResult,
+  CurrentUserContentLikeStatResult,
+  CurrentUserContentSuperLikeStatResult,
   GeneralResult,
   LikeStatResult,
 } from "../../services/api"
@@ -27,7 +29,8 @@ export const ContentModel = types
     description: types.maybe(types.string),
     imageURL: types.maybe(types.string),
     /**
-     * Deprecated. Use `creator.likerID` instead.
+     * @deprecated
+     * Use `creator.likerID` instead.
      */
     creatorLikerID: types.undefined,
     creator: types.maybe(types.safeReference(types.late(() => CreatorModel))),
@@ -50,6 +53,13 @@ export const ContentModel = types
     ...restSnapshot,
   }))
   .volatile(() => ({
+    currentUserLikeCount: 0,
+    isCurrentUserSuperLiker: false,
+    canCurrentUserSuperLike: false,
+    hasCurrentUserSuperLiked: false,
+    currentUserSuperLikeCooldown: 0,
+    currentUserSuperLikeCooldownEndTime: 0,
+
     isFetchingDetails: false,
     isFetchingLikeStats: false,
     isUpdatingBookmark: false,
@@ -121,6 +131,37 @@ export const ContentModel = types
       }
     }
 
+    const fetchCurrentUserSuperLikeStat = flow(function*() {
+      try {
+        const result: CurrentUserContentSuperLikeStatResult =
+          yield self.env.likeCoinAPI.like.share.self(self.url)
+        if (result.kind === "ok") {
+          const {
+            isSuperLiker,
+            canSuperLike,
+            nextSuperLikeTs,
+            lastSuperLikeInfos,
+            cooldown,
+          } = result.data
+          self.isCurrentUserSuperLiker = isSuperLiker
+          self.canCurrentUserSuperLike = canSuperLike
+          /**
+           * HACK: Assume if `hasSuperLiked` has set to `true`, don't override it as
+           * `lastSuperLikeInfos` may return empty array even the Super Like action is success
+           */
+          if (!self.hasCurrentUserSuperLiked) {
+            self.hasCurrentUserSuperLiked = !!lastSuperLikeInfos?.length;
+          }
+          self.currentUserSuperLikeCooldownEndTime = nextSuperLikeTs
+          self.currentUserSuperLikeCooldown = cooldown
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        updateLastFetchedAt()
+      }
+    })
+
     return {
       setCreator(creator: Creator) {
         self.creator = creator
@@ -185,6 +226,57 @@ export const ContentModel = types
         } finally {
           self.isFetchingLikeStats = false
           updateLastFetchedAt()
+        }
+      }),
+      fetchCurrentUserLikeStat: flow(function*() {
+        try {
+          const result: CurrentUserContentLikeStatResult =
+            yield self.env.likeCoinAPI.like.self({
+              id: self.creator.likerID,
+              url: self.url,
+            })
+          if (result.kind === "ok") {
+            self.currentUserLikeCount = result.data.count
+          }
+        } catch (error) {
+          logError(error.message)
+        } finally {
+          updateLastFetchedAt()
+        }
+      }), 
+      fetchCurrentUserSuperLikeStat,
+      like: flow(function*(count = 1) {
+        try {
+          const response: GeneralResult = yield self.env.likeCoinAPI.like.post({
+            id: self.creator.likerID,
+            url: self.url,
+            count,
+          })
+          if (response.kind === "ok") {
+            self.currentUserLikeCount = count
+          }
+        } catch (error) {
+          logError(error)
+        }
+      }),
+      superLike: flow(function*() {
+        const prevCooldown = self.currentUserSuperLikeCooldown
+        const prevHasSuperLiked = self.hasCurrentUserSuperLiked
+        self.hasCurrentUserSuperLiked = true
+        self.canCurrentUserSuperLike = false
+        self.currentUserSuperLikeCooldown = 1
+        try {
+          yield self.env.likeCoinAPI.like.share.post({
+            id: self.creator.likerID,
+            url: self.url,
+          })
+        } catch (error) {
+          self.hasCurrentUserSuperLiked = prevHasSuperLiked
+          self.canCurrentUserSuperLike = true
+          self.currentUserSuperLikeCooldown = prevCooldown
+          logError(error)
+        } finally {
+          yield fetchCurrentUserSuperLikeStat()
         }
       }),
       addBookmark: flow(function*() {
