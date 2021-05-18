@@ -54,7 +54,8 @@ class BookmarkScreenBase extends React.Component<Props> {
       <Header
         rightView={
           <Button
-            preset="secondary"
+            preset="plain"
+            color="likeCyan"
             icon="archive"
             size="small"
             onPress={this.onPressArchivesListButton}
