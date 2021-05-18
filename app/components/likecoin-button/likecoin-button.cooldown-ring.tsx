@@ -13,6 +13,7 @@ interface LikeCoinButtonCooldownRingProps {
   center?: number
   radius?: number
   color?: string
+  isTesting?: boolean
 }
 
 export function LikeCoinButtonCooldownRing({
@@ -21,6 +22,7 @@ export function LikeCoinButtonCooldownRing({
   center = 78,
   endTime,
   color,
+  isTesting = false
 }: LikeCoinButtonCooldownRingProps) {
   const circumference = Math.PI * radius * 2
 
@@ -37,18 +39,20 @@ export function LikeCoinButtonCooldownRing({
 
   const isShowProgress = value > 0
 
+  const getStrokeDashoffset = (v: number) => Math.min(1, Math.max(0, v)) * circumference
+
   React.useEffect(() => {
-    if (value === 0) return
+    if (isTesting || value === 0) return
     animateProgress(value).start(() => {
       if (!endTime) return
       animateProgress(0, endTime - Date.now()).start()
     })
-  }, [value, endTime])
+  }, [isTesting, value, endTime])
 
   React.useEffect(() => {
     progressAnim.addListener(({ value: animValue }) => {
       if (progressRef?.current) {
-        const strokeDashoffset = Math.min(1, Math.max(0, animValue)) * circumference
+        const strokeDashoffset = getStrokeDashoffset(animValue)
         progressRef.current.setNativeProps({ strokeDashoffset })
       }
     })
@@ -76,7 +80,7 @@ export function LikeCoinButtonCooldownRing({
         rotation={-90}
         stroke={color}
         strokeDasharray={circumference}
-        strokeDashoffset={circumference}
+        strokeDashoffset={isTesting ? getStrokeDashoffset(value) : circumference}
       />)}
     </G>
   )

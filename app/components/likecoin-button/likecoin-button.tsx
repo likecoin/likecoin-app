@@ -27,6 +27,7 @@ export function LikeCoinButton({
   canSuperLike = false,
   cooldownValue = 0,
   cooldownEndTime = 0,
+  isTesting = false,
   onPressLike,
   onPressSuperLike,
   ...props
@@ -65,6 +66,7 @@ export function LikeCoinButton({
           hasSuperLiked={hasSuperLiked}
           cooldownValue={cooldownValue}
           cooldownEndTime={cooldownEndTime}
+          isTesting={isTesting}
         />
       </TouchableOpacity>
     </View>

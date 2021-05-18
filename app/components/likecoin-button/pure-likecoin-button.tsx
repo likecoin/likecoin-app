@@ -61,6 +61,11 @@ export interface PureLikeCoinButtonProps {
    * Timestamp when cooldown end
    */
   cooldownEndTime?: number
+
+  /**
+   * For testing purpose
+   */
+  isTesting?: boolean
 }
 
 /**
@@ -74,6 +79,7 @@ export function PureLikeCoinButton({
   hasSuperLiked = false,
   cooldownValue = 0,
   cooldownEndTime = 0,
+  isTesting = false,
 }: PureLikeCoinButtonProps) {
   const margin = (VIEW_BOX_SIZE - BUTTON_SIZE) / 2 * size / BUTTON_SIZE
   const width = VIEW_BOX_SIZE * size / BUTTON_SIZE
@@ -168,6 +174,7 @@ export function PureLikeCoinButton({
           value={cooldownRingValue}
           color={cooldownRingColor}
           endTime={cooldownEndTime}
+          isTesting={isTesting}
         />
       </G>
 

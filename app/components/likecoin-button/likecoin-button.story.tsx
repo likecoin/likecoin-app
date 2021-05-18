@@ -11,13 +11,19 @@ storiesOf("LikeCoinButton", module)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="Default">
-        <LikeCoinButton />
+        <LikeCoinButton isTesting={true} />
       </UseCase>
       <UseCase text="1 like">
-        <LikeCoinButton likeCount={1} />
+        <LikeCoinButton
+          likeCount={1}
+          isTesting={true}
+        />
       </UseCase>
       <UseCase text="5 likes" usage="Disabled Super Like">
-        <LikeCoinButton likeCount={5} />
+        <LikeCoinButton
+          likeCount={5}
+          isTesting={true}
+        />
       </UseCase>
       <UseCase text="5 likes, enabled Super Like" usage="Cooling down">
         <LikeCoinButton
@@ -25,6 +31,7 @@ storiesOf("LikeCoinButton", module)
           isSuperLikeEnabled={true}
           canSuperLike={false}
           cooldownValue={0.33}
+          isTesting={true}
         />
       </UseCase>
       <UseCase text="5 likes, enabled Super Like" usage="Can Super Like">
@@ -33,6 +40,7 @@ storiesOf("LikeCoinButton", module)
           isSuperLikeEnabled={true}
           canSuperLike={true}
           cooldownValue={0}
+          isTesting={true}
         />
       </UseCase>
       <UseCase text="5 likes, enabled Super Like, has Super Like" usage="Cooling down">
@@ -42,6 +50,7 @@ storiesOf("LikeCoinButton", module)
           canSuperLike={false}
           hasSuperLiked={true}
           cooldownValue={0.33}
+          isTesting={true}
         />
       </UseCase>
       <UseCase text="5 likes, enabled Super Like, has Super Like" usage="Can Super Like">
@@ -51,6 +60,7 @@ storiesOf("LikeCoinButton", module)
           canSuperLike={true}
           hasSuperLiked={true}
           cooldownValue={0}
+          isTesting={true}
         />
       </UseCase>
     </Story>
