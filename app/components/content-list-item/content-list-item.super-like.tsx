@@ -74,8 +74,6 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
   private renderContent() {
     const { item: content } = this.props
 
-    console.tron.log(content?.content?.coverImageURL)
-
     return (
       <TouchableHighlight
         underlayColor={this.props.underlayColor || color.palette.greyf2}
