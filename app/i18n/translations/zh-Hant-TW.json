@@ -149,6 +149,12 @@
       "Yesterday": "昨日頭條"
     }
   },
+  "reader_screen_title_following": "我的內容伯樂",
+  "reader_screen_title_global": "所有內容伯樂",
+  "reader_screen_description_following": "我的內容伯樂的 Super Like",
+  "reader_screen_description_global": "所有內容伯樂 的 Super Like",
+  "reader_screen_tab_subtitle_following": "追蹤中",
+  "reader_screen_tab_subtitle_global": "所有",
   "receiveScreen": {
     "shareYourAddress": "分享錢包地址"
   },

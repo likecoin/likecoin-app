@@ -150,6 +150,12 @@
       "Yesterday": "Yesterday's headlines"
     }
   },
+  "reader_screen_title_following": "My Content Jockey",
+  "reader_screen_title_global": "The world has Super Liked",
+  "reader_screen_description_following": "My Content Jockeys' Super Likes",
+  "reader_screen_description_global": "The world has Super Liked",
+  "reader_screen_tab_subtitle_following": "Following",
+  "reader_screen_tab_subtitle_global": "Global",
   "receiveScreen": {
     "shareYourAddress": "Share my address"
   },

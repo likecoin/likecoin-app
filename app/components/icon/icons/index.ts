@@ -12,7 +12,6 @@ import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import Checkmark from "./checkmark.svg"
 import CrossIcon from "./cross.svg"
-import GlobalEye from "./global-eye.svg"
 import LikeClap from "./like-clap.svg"
 import Lock from "./lock.svg"
 import Person from "./person.svg"
@@ -29,6 +28,7 @@ import UndoIcon from "./undo.svg"
 
 import { DiscordIcon } from "./discord"
 import { GitHubIcon } from "./github"
+import { GlobalEyeIcon } from "./global-eye"
 import { MediumIcon } from "./medium"
 import { PublicIcon } from "./PublicIcon"
 import { TabSettingsIcon } from "./tab-settings"
@@ -52,7 +52,7 @@ export const icons = {
   close: CrossIcon,
   discord: DiscordIcon,
   github: GitHubIcon,
-  "global-eye": GlobalEye,
+  "global-eye": GlobalEyeIcon,
   "like-clap": LikeClap,
   lock: Lock,
   medium: MediumIcon,

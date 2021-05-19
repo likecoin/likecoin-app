@@ -1,127 +1,120 @@
-import { applySnapshot, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { SuperLikeFeedItem, SuperLikeFeedResult } from "../../services/api/likerland-api.types"
+import { logError } from "../../utils/error"
 
-import {
-  SuperLikeDailyFeedModel,
-  SuperLikeDailyFeed,
-} from "../super-like-daily-feed"
-import moment from "moment"
-import { withEnvironment } from "../extensions"
-
-const FETCHING_INTERVAL = 300000
+import { SuperLike } from "../super-like"
+import { SuperLikeFeedModel } from "../super-like-feed"
 
 /**
  * Store for Super Like feed from following creators.
  */
-export const SuperLikeFollowingStoreModel = types
-  .model("SuperLikeFollowingStore")
+export const SuperLikeFollowingStoreModel = SuperLikeFeedModel
+  .named("SuperLikeFollowingStore")
   .props({
-    /**
-     * Storing all daily feeds.
-     */
-    allDailyFeeds: types.map(SuperLikeDailyFeedModel),
-    /**
-     * List of pages with reference of the daily feeds.
-     */
-    pagedFeeds: types.array(types.safeReference(SuperLikeDailyFeedModel)),
+    lastFetchedTimestamp: types.maybe(types.number),
   })
-  .extend(withEnvironment)
-  .postProcessSnapshot((snapshot) => {
-    // Keep feeds of allDailyFeeds which exist in pagedFeeds only
-    const { pagedFeeds } = snapshot
-    const allDailyFeeds = {}
-    pagedFeeds.forEach(id => {
-      const feed = snapshot.allDailyFeeds[id]
-      if (feed) allDailyFeeds[id] = feed
-    })
-    return {
-      allDailyFeeds,
-      pagedFeeds,
-    }
-  })
-  .volatile(() => ({
-    selectedPageIndex: 0,
-  }))
-  .views(self => ({
-    get pageCount() {
-      return self.pagedFeeds.length
-    },
-    getMaxPageCount() {
-      return parseInt(self.getConfig("MAX_FOLLOWING_SUPERLIKE_PAGE"))
-    },
-    get isFirstPage() {
-      return self.selectedPageIndex === 0
-    },
-    get isLastPage() {
-      return self.selectedPageIndex === this.pageCount - 1
-    },
-    get firstFeed() {
-      return this.pageCount > 0 ? self.pagedFeeds[0] : undefined
-    },
-    get selectedFeed() {
-      return this.pageCount > 0
-        ? self.pagedFeeds[self.selectedPageIndex]
-        : undefined
-    },
-  }))
   .actions(self => {
+    const ITEMS_LIMIT_PER_FETCH = 7
+
     function reset() {
-      applySnapshot(self, {})
+      self.items.replace([])
     }
 
-    function getPage(pageIndex: number) {
-      const id = moment()
-        .startOf("day")
-        .subtract(pageIndex, "days")
-        .format()
-      if (self.allDailyFeeds.has(id)) {
-        return self.allDailyFeeds.get(id)
-      }
-      return self.allDailyFeeds.put(
-        SuperLikeDailyFeedModel.create({
-          id: moment()
-            .startOf("day")
-            .subtract(pageIndex, "days")
-            .format(),
-        }),
-      )
+    function createSuperLikeFollowingFeedItemFromData(item: SuperLikeFeedItem) {
+      return self.createSuperLikeFeedItemFromData(item, { isFollowing: true })
     }
 
-    function goToPage(pageIndex: number) {
-      if (pageIndex >= 0 && pageIndex <= self.pageCount - 1) {
-        if (
-          pageIndex >= self.pageCount - 2 &&
-          self.pageCount < self.getMaxPageCount()
-        ) {
-          // Preload page
-          self.pagedFeeds.push(getPage(self.pageCount))
+    function removeDuplicatedFeedItems(items: SuperLike[]) {
+      const urlIndexMap: { [key: string]: number } = {}
+      const newItems: SuperLike[] = []
+      try {
+        for (let i = items.length - 1; i >= 0; i--) {
+          const item = items[i]
+          const url = item.content.url
+          const index = urlIndexMap[url]
+          if (index !== undefined) {
+            newItems[index].addLiker(item.liker)
+          } else {
+            urlIndexMap[url] = newItems.push(items[i]) - 1
+          }
         }
-        self.selectedPageIndex = pageIndex
+      } catch (error) {
+        logError(error)
+        return items
       }
-      return self.selectedPageIndex
+      return newItems.reverse()
     }
+
+    const fetch = flow(function*() {
+      if (self.status === "pending") return
+      self.setStatus("pending")
+      try {
+        const result: SuperLikeFeedResult =
+          yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed(
+            {
+              limit: ITEMS_LIMIT_PER_FETCH,
+            },
+          )
+        if (result.kind === "ok") {
+          const resultData = result.data || []
+          if (resultData.length) {
+            const items = result.data.map(createSuperLikeFollowingFeedItemFromData)
+
+            self.items.replace(items) // HACK: For getting identifier references
+            self.items.replace(removeDuplicatedFeedItems(self.items))
+          }
+          self.setStatus("done")
+        } else {
+          self.setStatus("error")
+        }
+      } catch (error) {
+        logError(error)
+        self.setStatus("error")
+      } finally {
+        self.lastFetchedTimestamp = Date.now()
+      }
+    })
+
+    const fetchMore = flow(function*() {
+      if (["pending-more", "pending", "idle"].includes(self.status)) return
+
+      self.setStatus("pending-more")
+      try {
+        const result: SuperLikeFeedResult =
+          yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed(
+            {
+              before: self.items[self.items.length - 1].timestamp - 1,
+              limit: ITEMS_LIMIT_PER_FETCH,
+            },
+          )
+        if (result.kind === "ok") {
+          const resultData = result.data || []
+          if (resultData.length) {
+            const items = resultData.map(createSuperLikeFollowingFeedItemFromData)
+            if (items.length < ITEMS_LIMIT_PER_FETCH) {
+              self.setStatus("done-more")
+            } else {
+              self.setStatus("done")
+            }
+            self.items.push(...items)
+          } else {
+            self.setStatus("done-more")
+          }
+        }
+      } catch (error) {
+        logError(error.message)
+      } finally {
+        if (self.status !== "done-more") {
+          self.setStatus("done")
+        }
+        self.lastFetchedTimestamp = Date.now()
+      }
+    })
 
     return {
       reset,
-      refreshPage() {
-        if (self.pageCount === 0 || !self.pagedFeeds[0].isToday()) {
-          const pagedFeeds = [] as SuperLikeDailyFeed[]
-          for (let pageIndex = 0; pageIndex < 3; pageIndex += 1) {
-            pagedFeeds.push(getPage(pageIndex))
-          }
-          self.pagedFeeds.replace(pagedFeeds)
-          self.selectedPageIndex = 0
-        }
-        if (Date.now() - self.firstFeed?.lastFetched >= FETCHING_INTERVAL) {
-          self.firstFeed.fetch()
-        }
-      },
-      goToPage,
-      goToNextPage() {
-        return goToPage(self.selectedPageIndex + 1)
-      },
-      goToPreviousPage() {
-        return goToPage(self.selectedPageIndex - 1)
-      },
+      fetch,
+      fetchMore,
     }
   })
 

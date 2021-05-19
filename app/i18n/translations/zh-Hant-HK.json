@@ -149,6 +149,12 @@
       "Yesterday": "昨日頭條"
     }
   },
+  "reader_screen_title_following": "我的 Content Jockey",
+  "reader_screen_title_global": "所有 Content Jockey",
+  "reader_screen_description_following": "我的 Content Jockey 的 Super Like",
+  "reader_screen_description_global": "所有 Content Jockey 的 Super Like",
+  "reader_screen_tab_subtitle_following": "追蹤中",
+  "reader_screen_tab_subtitle_global": "所有",
   "receiveScreen": {
     "shareYourAddress": "分享我的錢包地址"
   },
