@@ -58,6 +58,10 @@
       "other": "{{count}} Likes"
     }
   },
+  "content_list_item_action_sheet_bookmark": "Add to reading list",
+  "content_list_item_action_sheet_follow": "Follow %{followee}",
+  "content_list_item_action_sheet_unbookmark": "Remove from reading list",
+  "content_list_item_action_sheet_unfollow": "Unfollow %{followee}",
   "Date": {
     "Today": "Today",
     "Yesterday": "Yesterday"

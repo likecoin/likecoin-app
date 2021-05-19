@@ -7,6 +7,7 @@ import {
 } from "react-native"
 import { observer } from "mobx-react"
 import styled from "styled-components/native"
+import ActionSheet from "react-native-actions-sheet"
 
 import { color } from "../../theme"
 
@@ -15,6 +16,7 @@ import { Icon } from "../icon"
 import { I18n } from "../i18n"
 import { Text } from "../text"
 
+import { SuperLikeContentListItemActionSheet } from "./content-list-item-action-sheet.super-like"
 import { SuperLikeContentListItemProps as Props } from "./content-list-item.props"
 import { SuperLikeContentListItemStyle as Style } from "./content-list-item.super-like.style"
 import { ContentListItemStyle as StyleCommon } from "./content-list-item.style"
@@ -42,6 +44,13 @@ const CoverImage = styled.Image`
 
 @observer
 class SuperLikeContentListItemBase extends React.Component<Props, {}> {
+  actionSheetRef: React.RefObject<ActionSheet>
+
+  constructor(props: Props) {
+    super(props)
+    this.actionSheetRef = React.createRef()
+  }
+
   componentDidMount() {
     this.props.fetchContentDetails(this.props.item?.content)
     this.props.fetchCreatorDetails(this.props.item?.liker)
@@ -71,6 +80,14 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
     }
   }
 
+  private onPressMoreButton = () => {
+    this.actionSheetRef?.current?.show()
+  }
+
+  private closeActionSheet = () => {
+    this.actionSheetRef?.current?.hide()
+  }
+
   private renderContent() {
     const { item: content } = this.props
 
@@ -95,7 +112,7 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
             </I18n>
             {this.props.isShowFollowToggle
               ? this.renderFollowToggle(!!content?.liker?.isFollowing)
-              : this.props.renderMoreButton()
+              : this.props.renderMoreButton(this.onPressMoreButton)
             }
           </View>
           <CardView>
@@ -223,12 +240,33 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
     return this.renderContent()
   }
 
+  private renderActionSheet = () => {
+    return (
+      <ActionSheet
+        ref={this.actionSheetRef}
+        containerStyle={Style.ActionSheet}
+      >
+        <SuperLikeContentListItemActionSheet
+          item={this.props.item}
+          onTriggerAction={this.closeActionSheet}
+          onToggleBookmark={this.onToggleBookmark}
+          onToggleFollow={this.onToggleFollow}
+        />
+      </ActionSheet>
+    )
+  }
+
   render() {
     const style: ViewStyle = {
       backgroundColor: this.props.backgroundColor || color.palette.white,
       ...this.props.style,
     }
-    return <View style={style}>{this.renderSubView()}</View>
+    return (
+      <View style={style}>
+        {this.renderSubView()}
+        {this.renderActionSheet()}
+      </View>
+    )
   }
 }
 

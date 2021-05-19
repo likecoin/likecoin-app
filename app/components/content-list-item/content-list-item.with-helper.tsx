@@ -9,7 +9,7 @@ import { ContentListItemStyle as Style } from "./content-list-item.style"
 
 export interface WithContentListItemHelperProps {
   onPressMoreButton?: () => void
-  renderMoreButton?: () => React.ComponentType
+  renderMoreButton?: (callback?: () => void) => React.ComponentType
   fetchCreatorDetails?: (content: Creator) => Promise<void>
   fetchContentDetails?: (content: Content) => Promise<void>
 }
@@ -36,21 +36,22 @@ export const withContentListItemHelper = <P extends object>(
       await this.fetchCreatorDetails(content?.creator)
     }
 
-    private renderMoreButton = () => (
+    private renderMoreButton = (callback: () => void) => (
       <Button
         preset="plain"
         icon="three-dot-horizontal"
         size="tiny"
         color="grey4a"
         style={Style.MoreButton}
-        onPress={this.props.onPressMoreButton}
+        onPress={callback || this.props.onPressMoreButton}
       />
     )
 
     render() {
       const { ...props } = this.props
-      return (<WrappedComponent
-        {...(props as P)}
+      return (
+        <WrappedComponent
+          {...(props as P)}
           renderMoreButton={this.renderMoreButton}
           fetchCreatorDetails={this.fetchCreatorDetails}
           fetchContentDetails={this.fetchContentDetails}
