@@ -40,6 +40,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
         data={this.props.data}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
+        contentInset={{ top: 80 }}
       />
     )
   }

@@ -64,6 +64,7 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
         onPressItem={this.props.onPressSuperLikeItem}
         onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
+        onScroll={this.props.onScroll}
       />
     )
   }

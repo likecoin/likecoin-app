@@ -61,6 +61,7 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
         onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
         onRefresh={this.fetch}
+        onScroll={this.props.onScroll}
       />
     )
   }
