@@ -13696,6 +13696,11 @@ react-native-rate@^1.2.4:
   resolved "https://registry.yarnpkg.com/react-native-rate/-/react-native-rate-1.2.4.tgz#bb4024bebc28f40cd4eed70b5c5cbfa733ea68aa"
   integrity sha512-lvmxu4UJ7/OfpNwww3AmTzAkKdD8z65VNguoKanRyBhrSm/IeNYLe482Vku9YodgWNkjZfl2AtJ51Sv9rhUu3A==
 
+react-native-safe-area-context@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.2.0.tgz#06113c6b208f982d68ab5c3cebd199ca93db6941"
+  integrity sha512-k2Nty4PwSnrg9HwrYeeE+EYqViYJoOFwEy9LxL5RIRfoqxAq/uQXNGwpUg2/u4gnKpBbEPa9eRh15KKMe/VHkA==
+
 react-native-safe-area-view@^0.14.1:
   version "0.14.7"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.14.7.tgz#e1dd1c4d25a90677df2c15347fdddb2306ba5971"

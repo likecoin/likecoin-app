@@ -1,29 +1,15 @@
 import * as React from "react"
 import { observer } from "mobx-react"
-import styled from "styled-components/native"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
 
-import { Button as UnstyledButton } from "../button"
-import { Text } from "../text"
-
-const RootView = styled.View`
-  padding: ${({ theme }) => theme.spacing.lg};
-`
-
-const Button = styled(UnstyledButton)`
-  /* justify-content: flex-start; */
-  padding: ${({ theme }) => theme.spacing.lg};
-  margin-top: ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.color.background.primary};
-`
-
-const ButtonTitle = styled(Text)`
-  font-size: ${({ theme }) => theme.text.size.md};
-  text-align: left;
-`
+import {
+  ActionSheetButton,
+  ActionSheetButtonTitle,
+  ContentListItemActionSheet,
+} from "./content-list-item-action-sheet"
 
 export interface PureSuperLikeContentListItemActionSheetProps {
   followee?: string
@@ -44,14 +30,14 @@ export function PureSuperLikeContentListItemActionSheet(
     ? "content_list_item_action_sheet_unfollow"
     : "content_list_item_action_sheet_follow" 
   return (
-    <RootView>
-      <Button onPress={props.onToggleBookmark}>
-        <ButtonTitle tx={bookmarkButtonTitleTx} />
-      </Button>
-      <Button onPress={props.onToggleFollow}>
-        <ButtonTitle tx={followingButtonTitleTx} txOptions={{ followee }} />
-      </Button>
-    </RootView>
+    <ContentListItemActionSheet>
+      <ActionSheetButton onPress={props.onToggleBookmark}>
+        <ActionSheetButtonTitle tx={bookmarkButtonTitleTx} />
+      </ActionSheetButton>
+      <ActionSheetButton onPress={props.onToggleFollow}>
+        <ActionSheetButtonTitle tx={followingButtonTitleTx} txOptions={{ followee }} />
+      </ActionSheetButton>
+    </ContentListItemActionSheet>
   )
 }
 

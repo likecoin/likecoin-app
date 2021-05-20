@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Image, TouchableHighlight, View, ViewStyle } from "react-native"
+import ActionSheet from "react-native-actions-sheet"
 import { observer } from "mobx-react"
 
 import { color } from "../../theme"
@@ -13,9 +14,17 @@ import { BookmarkedContentListItemStyle as Style } from "./content-list-item.boo
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
 import { withContentListItemHelper } from "./content-list-item.with-helper"
 import { ContentListItemUndoView } from "./content-list-item-undo-view"
+import { BookmarkedContentListItemActionSheet } from "./content-list-item-action-sheet.bookmark"
 
 @observer
 class BookmarkedContentListItemBase extends React.Component<Props, {}> {
+  actionSheetRef: React.RefObject<ActionSheet>
+
+  constructor(props: Props) {
+    super(props)
+    this.actionSheetRef = React.createRef()
+  }
+
   componentDidMount() {
     this.props.fetchContentDetails(this.props.item)
   }
@@ -36,6 +45,14 @@ class BookmarkedContentListItemBase extends React.Component<Props, {}> {
     if (this.props.onPressUndoRemoveBookmarkButton) {
       this.props.onPressUndoRemoveBookmarkButton(this.props.item)
     }
+  }
+
+  private onPressMoreButton = () => {
+    this.actionSheetRef?.current?.show()
+  }
+
+  private closeActionSheet = () => {
+    this.actionSheetRef?.current?.hide()
   }
 
   private renderContent() {
@@ -80,7 +97,7 @@ class BookmarkedContentListItemBase extends React.Component<Props, {}> {
                       onPress={this.onPressArchiveButton}
                     />
                   )}
-                  {this.props.renderMoreButton()}
+                  {this.props.renderMoreButton(this.onPressMoreButton)}
                 </View>
               </View>
             </View>
@@ -119,12 +136,33 @@ class BookmarkedContentListItemBase extends React.Component<Props, {}> {
     return this.renderContent()
   }
 
+  private renderActionSheet = () => {
+    return (
+      <ActionSheet
+        ref={this.actionSheetRef}
+        containerStyle={Style.ActionSheet}
+      >
+        <BookmarkedContentListItemActionSheet
+          item={this.props.item}
+          onRemove={this.props.onToggleBookmark}
+          onToggleArchive={this.onPressArchiveButton}
+          onTriggerAction={this.closeActionSheet}
+        />
+      </ActionSheet>
+    )
+  }
+
   render() {
     const style: ViewStyle = {
       backgroundColor: this.props.backgroundColor || color.palette.white,
       ...this.props.style,
     }
-    return <View style={style}>{this.renderSubView()}</View>
+    return (
+      <View style={style}>
+        {this.renderSubView()}
+        {this.renderActionSheet()}
+      </View>
+    )
   }
 }
 

@@ -26,7 +26,6 @@ class SuperLikeContentListBase extends React.Component<Props> {
       skeletonPrimaryColor={this.props.skeletonPrimaryColor}
       skeletonSecondaryColor={this.props.skeletonSecondaryColor}
       onPress={this.props.onPressItem}
-      onPressMoreButton={() => { /** Hi */ }}
       onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
       onToggleBookmark={this.props.onToggleBookmark}
       onToggleFollow={this.props.onToggleFollow}
@@ -40,7 +39,6 @@ class SuperLikeContentListBase extends React.Component<Props> {
         data={this.props.data}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
-        contentInset={{ top: 80 }}
       />
     )
   }

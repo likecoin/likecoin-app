@@ -1,5 +1,6 @@
 import React from "react"
 import {
+  ListViewProps,
   NativeScrollEvent,
   NativeSyntheticEvent,
   RefreshControl,
@@ -8,11 +9,6 @@ import {
   ViewStyle,
 } from "react-native"
 import {
-  IUseFlatListProps,
-  RowMap,
-} from "react-native-swipe-list-view"
-import {
-  BACK_BUTTON_BASE,
   ContentListItemSkeleton,
   ContentListItemStyleProps,
 } from "../content-list-item"
@@ -23,9 +19,6 @@ import {
   RefreshControlColors,
 } from "./content-list.style"
 
-type ListViewProps =
-  | Partial<IUseFlatListProps<any>>
-
 export interface WithContentListHelperProps extends ContentListItemStyleProps {
   emptyTx?: string
 
@@ -35,14 +28,12 @@ export interface WithContentListHelperProps extends ContentListItemStyleProps {
   hasFetched?: boolean
   hasFetchedAll?: boolean
 
-  listViewProps?: ListViewProps
-
-  toggleItemBack?: (rowMap: RowMap<any>, rowKey: string) => void
+  listViewProps?: Partial<ListViewProps>
 
   onRefresh?: () => void
   onFetchMore?: () => void
 
-  onEndReached?: ((info: { distanceFromEnd: number }) => void) | null
+  onEndReached?: () => void
 
   /**
    * Fires at most once per frame during scrolling.
@@ -59,29 +50,9 @@ export const withContentListHelper = <P extends object>(
   class WithContentListHelper extends React.Component<
     P & WithContentListHelperProps
   > {
-    private rowOpenSet = new Set<string>()
-
-    private handleRowOpen = (rowKey: string) => {
-      this.rowOpenSet.add(rowKey)
-    }
-
-    private handleRowClose = (rowKey: string) => {
-      this.rowOpenSet.delete(rowKey)
-    }
-
-    private toggleItemBack = (rowMap: RowMap<any>, rowKey: string) => {
-      if (rowMap[rowKey]) {
-        if (this.rowOpenSet.has(rowKey)) {
-          rowMap[rowKey].closeRow()
-        } else {
-          rowMap[rowKey].manuallySwipeRow(this.listViewProps.rightOpenValue)
-        }
-      }
-    }
-
-    private onEndReached = (info: { distanceFromEnd: number }) => {
+    private onEndReached = () => {
       if (this.props.onEndReached) {
-        this.props.onEndReached(info)
+        this.props.onEndReached()
       }
       if (
         this.props.onFetchMore &&
@@ -100,20 +71,12 @@ export const withContentListHelper = <P extends object>(
       />
     )
 
-    private listViewProps: ListViewProps = {
-      rightOpenValue: -BACK_BUTTON_BASE.width * 2,
-      disableRightSwipe: true,
-      useNativeDriver: true,
-      recalculateHiddenLayout: true,
-      initialNumToRender: 8,
-      maxToRenderPerBatch: 10,
+    private listViewProps: Partial<ListViewProps> = {
       onEndReachedThreshold: 0.5,
       contentContainerStyle: Style.ContentContainer,
       refreshControl: this.renderRefreshControl(),
       onScroll: this.props.onScroll,
       onEndReached: this.onEndReached,
-      onRowOpen: this.handleRowOpen,
-      onRowClose: this.handleRowClose,
     }
 
     render() {
@@ -147,8 +110,8 @@ export const withContentListHelper = <P extends object>(
                 />
               </View>
             ) : null,
+            ...this.props.listViewProps,
           }}
-          toggleItemBack={this.toggleItemBack}
         />
       )
     }
