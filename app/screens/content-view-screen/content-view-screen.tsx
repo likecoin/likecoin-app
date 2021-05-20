@@ -22,6 +22,10 @@ const Screen = styled(ScreenBase)`
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 
+const ContentView = styled.View`
+  flex: 1;
+`
+
 const WebView = styled(WebViewBase)`
   flex: 1;
 `
@@ -92,24 +96,26 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
           onLeftPress={this.goBack}
           onRightPress={this.onShare}
         />
-        <WebView
-          sharedCookiesEnabled={true}
-          source={{ uri: url }}
-          decelerationRate={0.998}
-          // TODO: remove HACK after applicationNameForUserAgent type is fixed
-          {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
-        />
-        <LikeCoinButton
-          size={64}
-          likeCount={content.currentUserLikeCount}
-          isSuperLikeEnabled={content.isCurrentUserSuperLiker}
-          canSuperLike={content.canCurrentUserSuperLike}
-          hasSuperLiked={content.hasCurrentUserSuperLiked}
-          cooldownValue={content.currentUserSuperLikeCooldown}
-          cooldownEndTime={content.currentUserSuperLikeCooldownEndTime}
-          onPressLike={this.onPressLike}
-          onPressSuperLike={this.onPressSuperLike}
-        />
+        <ContentView>
+          <WebView
+            sharedCookiesEnabled={true}
+            source={{ uri: url }}
+            decelerationRate={0.998}
+            // TODO: remove HACK after applicationNameForUserAgent type is fixed
+            {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
+          />
+          <LikeCoinButton
+            size={64}
+            likeCount={content.currentUserLikeCount}
+            isSuperLikeEnabled={content.isCurrentUserSuperLiker}
+            canSuperLike={content.canCurrentUserSuperLike}
+            hasSuperLiked={content.hasCurrentUserSuperLiked}
+            cooldownValue={content.currentUserSuperLikeCooldown}
+            cooldownEndTime={content.currentUserSuperLikeCooldownEndTime}
+            onPressLike={this.onPressLike}
+            onPressSuperLike={this.onPressSuperLike}
+          />
+        </ContentView>
       </Screen>
     )
   }
