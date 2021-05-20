@@ -41,6 +41,7 @@
     "unfollowSuccess": "已取消追蹤 %{creator}",
     "Yes": "是"
   },
+  "community_links_label": "加入 LikeCoin 社群",
   "ContentListItem": {
     "Back": {
       "Archive": "封存",
@@ -56,7 +57,10 @@
       "other": "{{count}} 個讚"
     }
   },
-  "community_links_label": "加入 LikeCoin 社群",
+  "content_list_item_action_sheet_bookmark": "加到閱讀列表",
+  "content_list_item_action_sheet_follow": "追蹤 %{followee}",
+  "content_list_item_action_sheet_unbookmark": "從閱讀列表移除",
+  "content_list_item_action_sheet_unfollow": "取消追蹤 %{followee}",
   "Date": {
     "Today": "今日",
     "Yesterday": "昨日"
@@ -149,6 +153,12 @@
       "Yesterday": "昨日頭條"
     }
   },
+  "reader_screen_title_following": "我的 Content Jockey",
+  "reader_screen_title_global": "所有 Content Jockey",
+  "reader_screen_description_following": "我的 Content Jockey 的 Super Like",
+  "reader_screen_description_global": "所有 Content Jockey 的 Super Like",
+  "reader_screen_tab_subtitle_following": "追蹤中",
+  "reader_screen_tab_subtitle_global": "所有",
   "receiveScreen": {
     "shareYourAddress": "分享我的錢包地址"
   },

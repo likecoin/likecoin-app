@@ -57,6 +57,10 @@
       "other": "{{count}} 个赞"
     }
   },
+  "content_list_item_action_sheet_bookmark": "加到閱讀列表",
+  "content_list_item_action_sheet_follow": "追蹤 %{followee}",
+  "content_list_item_action_sheet_unbookmark": "從閱讀列表移除",
+  "content_list_item_action_sheet_unfollow": "取消追蹤 %{followee}",
   "Date": {
     "Today": "今日",
     "Yesterday": "昨日"
@@ -149,6 +153,12 @@
       "Yesterday": "昨日头条"
     }
   },
+  "reader_screen_title_following": "我的内容伯乐",
+  "reader_screen_title_global": "所有内容伯乐",
+  "reader_screen_description_following": "我的内容伯乐的 Super Like",
+  "reader_screen_description_global": "所有内容伯乐 的 Super Like",
+  "reader_screen_tab_subtitle_following": "追踪中",
+  "reader_screen_tab_subtitle_global": "所有",
   "receiveScreen": {
     "shareYourAddress": "分享你的钱包地址"
   },

@@ -7,6 +7,9 @@ import { sizes as fontSize, sizes } from "../text/text.sizes"
 import { ContentListItemStyle as StyleCommon } from "./content-list-item.style"
 
 export const SuperLikeContentListItemStyle = StyleSheet.create({
+  ActionSheet: {
+    backgroundColor: color.transparent,
+  } as ViewStyle,
   HeaderView: {
     flexDirection: "row",
     justifyContent: "space-between",

@@ -1,6 +1,6 @@
 export { BACK_BUTTON_BASE } from "./content-list-item-back-button.style"
 export * from "./content-list-item-back.bookmark"
-export * from "./content-list-item-back.super-like"
+export * from "./content-list-item-action-sheet.super-like"
 export * from "./content-list-item.bookmark"
 export * from "./content-list-item.props"
 export * from "./content-list-item.skeleton"

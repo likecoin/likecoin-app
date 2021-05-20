@@ -6,7 +6,6 @@ import {
 
 import { BookmarksNavigator } from "./bookmarks-navigator"
 import { DashboardNavigator } from "./dashboard-navigator"
-import { ReaderNavigator } from "./reader-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { StakingDelegationNavigator } from "./staking-delegation-navigator"
 import { StakingRedelegationNavigator } from "./staking-redelegation-navigator"
@@ -21,13 +20,14 @@ import { CrispSupportScreen } from "../screens/crisp-support-screen"
 import { ReferrerFollowScreen } from "../screens/referrer-follow-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
+import { ReaderScreen } from "../screens/reader-screen"
 import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
 
 import { color } from "../theme"
 
 const MainTabs = createBottomTabNavigator({
   Dashboard: DashboardNavigator,
-  Reader: ReaderNavigator,
+  Reader: ReaderScreen,
   Bookmark: BookmarksNavigator,
   // Notification: NotificationScreen,
   Settings: SettingsNavigator,

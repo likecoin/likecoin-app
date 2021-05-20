@@ -1,15 +1,31 @@
 import * as React from "react"
-import { View } from "react-native"
 import { observer } from "mobx-react"
+import styled from "styled-components/native"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
 
-import { ContentListItemBackStyle as Style } from "./content-list-item-back.style"
-import { ContentListItemBackButton as BackButton } from "./content-list-item-back-button"
+import { Button as UnstyledButton } from "../button"
+import { Text } from "../text"
 
-export interface PureSuperLikeContentListItemBackProps {
+const RootView = styled.View`
+  padding: ${({ theme }) => theme.spacing.lg};
+`
+
+const Button = styled(UnstyledButton)`
+  /* justify-content: flex-start; */
+  padding: ${({ theme }) => theme.spacing.lg};
+  margin-top: ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.color.background.primary};
+`
+
+const ButtonTitle = styled(Text)`
+  font-size: ${({ theme }) => theme.text.size.md};
+  text-align: left;
+`
+
+export interface PureSuperLikeContentListItemActionSheetProps {
   followee?: string
   isBookmarked?: boolean
   isFollowing?: boolean
@@ -17,49 +33,29 @@ export interface PureSuperLikeContentListItemBackProps {
   onToggleFollow?: () => void
 }
 
-export function PureSuperLikeContentListItemBack(
-  props: PureSuperLikeContentListItemBackProps,
+export function PureSuperLikeContentListItemActionSheet(
+  props: PureSuperLikeContentListItemActionSheetProps,
 ) {
   const { followee, isBookmarked, isFollowing } = props
+  const bookmarkButtonTitleTx = isBookmarked
+    ? "content_list_item_action_sheet_unbookmark"
+    : "content_list_item_action_sheet_bookmark" 
+  const followingButtonTitleTx = isFollowing
+    ? "content_list_item_action_sheet_unfollow"
+    : "content_list_item_action_sheet_follow" 
   return (
-    <View style={Style.Root}>
-      {isBookmarked ? (
-        <BackButton
-          preset="danger"
-          tx="ContentListItem.Back.Unbookmark"
-          icon="unbookmark"
-          onPress={props.onToggleBookmark}
-        />
-      ) : (
-        <BackButton
-          preset="secondary"
-          tx="ContentListItem.Back.Bookmark"
-          icon="bookmark"
-          onPress={props.onToggleBookmark}
-        />
-      )}
-      {isFollowing ? (
-        <BackButton
-          preset="primary"
-          tx="ContentListItem.Back.Unfollow"
-          txOptions={{ followee }}
-          icon="unfollow"
-          onPress={props.onToggleFollow}
-        />
-      ) : (
-        <BackButton
-          preset="primary"
-          tx="ContentListItem.Back.Follow"
-          txOptions={{ followee }}
-          icon="follow"
-          onPress={props.onToggleFollow}
-        />
-      )}
-    </View>
+    <RootView>
+      <Button onPress={props.onToggleBookmark}>
+        <ButtonTitle tx={bookmarkButtonTitleTx} />
+      </Button>
+      <Button onPress={props.onToggleFollow}>
+        <ButtonTitle tx={followingButtonTitleTx} txOptions={{ followee }} />
+      </Button>
+    </RootView>
   )
 }
 
-export interface SuperLikeContentListItemBackProps {
+export interface SuperLikeContentListItemActionSheetProps {
   item: SuperLike
   onTriggerAction?: () => void
   onToggleBookmark?: (content: Content) => void
@@ -67,8 +63,8 @@ export interface SuperLikeContentListItemBackProps {
 }
 
 @observer
-export class SuperLikeContentListItemBack extends React.Component<
-  SuperLikeContentListItemBackProps,
+export class SuperLikeContentListItemActionSheet extends React.Component<
+  SuperLikeContentListItemActionSheetProps,
   {}
 > {
   private triggerAction = () => {
@@ -100,7 +96,7 @@ export class SuperLikeContentListItemBack extends React.Component<
       content: { isBookmarked = false } = {},
     } = this.props.item
     return (
-      <PureSuperLikeContentListItemBack
+      <PureSuperLikeContentListItemActionSheet
         followee={displayName}
         isBookmarked={isBookmarked}
         isFollowing={!!isFollowingSuperLiker}

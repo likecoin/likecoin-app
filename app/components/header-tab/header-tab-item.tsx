@@ -12,6 +12,7 @@ interface ChildProps {
 
 const TouchableOpacity = styled.TouchableOpacity`
   flex: 1;
+  min-height: 80px;
 `
 
 const ContentView = styled.View`
@@ -39,12 +40,13 @@ const TitleText = styled(Text)<ChildProps>`
 `
 
 const SubtitleText = styled(Text)<ChildProps>`
-color: ${
-  props => props.isActive
-    ? props.theme.color.text.feature.primary
-    : props.theme.color.text.feature.secondary
-};
-font-size: ${({ theme }) => theme.text.size.sm};
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  color: ${
+    props => props.isActive
+      ? props.theme.color.text.feature.primary
+      : props.theme.color.text.feature.secondary
+  };
+  font-size: ${({ theme }) => theme.text.size.sm};
 `
 
 export interface HeaderTabItemProps extends TouchableOpacityProps {
@@ -79,6 +81,16 @@ export interface HeaderTabItemProps extends TouchableOpacityProps {
   icon?: IconTypes
 
   /**
+   * The width of the icon
+   */
+  iconWidth?: number
+
+  /**
+   * The height of the icon
+   */
+  iconHeight?: number
+
+  /**
    * Display active state.
    */
   isActive?: boolean
@@ -95,6 +107,8 @@ export function HeaderTabItem(props: HeaderTabItemProps) {
     subtitleTx,
     isActive = false,
     icon,
+    iconWidth,
+    iconHeight,
     ...rest
   } = props
 
@@ -108,8 +122,8 @@ export function HeaderTabItem(props: HeaderTabItemProps) {
             color={isActive
               ? theme.color.text.feature.highlight.primary
               : theme.color.text.feature.highlight.secondary}
-            width={24}
-            height={24}
+            width={iconWidth || 24}
+            height={iconHeight || 24}
           />
         )}
         {!!(title || titleTx) && (

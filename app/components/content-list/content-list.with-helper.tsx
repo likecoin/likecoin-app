@@ -9,7 +9,6 @@ import {
 } from "react-native"
 import {
   IUseFlatListProps,
-  IUseSectionListProps,
   RowMap,
 } from "react-native-swipe-list-view"
 import {
@@ -25,7 +24,6 @@ import {
 } from "./content-list.style"
 
 type ListViewProps =
-  | Partial<IUseSectionListProps<any>>
   | Partial<IUseFlatListProps<any>>
 
 export interface WithContentListHelperProps extends ContentListItemStyleProps {

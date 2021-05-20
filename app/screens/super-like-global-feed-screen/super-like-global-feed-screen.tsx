@@ -1,18 +1,21 @@
 import * as React from "react"
 import { observer, inject } from "mobx-react"
+import styled from "styled-components/native"
 
 import { color } from "../../theme"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { Content } from "../../models/content"
 
-import { SuperLikeContentList } from "../../components/content-list"
+import { SuperLikeContentList as SuperLikeContentListBase } from "../../components/content-list"
 import { wrapContentListScreen } from "../../components/content-list-screen"
-import { Header } from "../../components/header"
-import { Screen } from "../../components/screen"
 
 import { SuperLikeGlobalFeedScreenProps as Props } from "./super-like-global-feed-screen.props"
-import { SuperLikeGlobalFeedScreenStyle as Style } from "./super-like-global-feed-screen.style"
+
+const SuperLikeContentList = styled(SuperLikeContentListBase)`
+  flex: 1;
+  background-color: ${({ theme }) => theme.color.background.secondary};
+`
 
 @inject("superLikeGlobalStore")
 @observer
@@ -29,10 +32,6 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
     this.props.superLikeGlobalStore.fetchMore()
   }
 
-  private goBack = () => {
-    this.props.navigation.goBack()
-  }
-
   private onToggleBookmark = (content: Content) => {
     if (this.props.onToggleBookmark) this.props.onToggleBookmark(content)
     logAnalyticsEvent(
@@ -42,19 +41,6 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
   }
 
   render() {
-    return (
-      <Screen style={Style.Root} preset="fixed">
-        <Header
-          headerTx="GlobalSuperLikedFeedScreen.Title"
-          leftIcon="back"
-          onLeftPress={this.goBack}
-        />
-        {this.renderList()}
-      </Screen>
-    )
-  }
-
-  private renderList = () => {
     const { status, lastFetchedTimestamp } = this.props.superLikeGlobalStore
     return (
       <SuperLikeContentList
@@ -65,8 +51,8 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
         hasFetchedAll={status === "done-more"}
         emptyTx="GlobalSuperLikedFeedScreen.EmptyLabel"
         lastFetched={lastFetchedTimestamp}
-        backgroundColor={color.palette.greyf7}
-        underlayColor={color.palette.greyf2}
+        backgroundColor={color.palette.greyf2}
+        underlayColor={color.palette.offWhite}
         skeletonPrimaryColor={color.palette.greyd8}
         skeletonSecondaryColor={color.palette.grey9b}
         isShowFollowToggle={true}
@@ -75,7 +61,7 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
         onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.props.onToggleFollow}
         onRefresh={this.fetch}
-        style={Style.List}
+        onScroll={this.props.onScroll}
       />
     )
   }
