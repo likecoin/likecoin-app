@@ -90,6 +90,7 @@
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "数目不可小于 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手续费不足"
   },
+  "fan_dashboard_screen_tab_supporter_title": "支持者",
   "FollowSettingsScreen": {
     "Title": "设定内容伯乐",
     "TabTitle": {
@@ -341,6 +342,8 @@
     "subscribedButtonText": "已订阅",
     "title": "订阅"
   },
+  "supporter_count": "{{count}} 支持者",
+  "supporter_list_quantity_unit": "美金/月",
   "transaction": {
     "fee": "手续费",
     "from": "从",

@@ -53,6 +53,16 @@ export type ReaderCreatorsResult = { kind: "ok"; following: string[], unfollowed
 export type ContentListResult = { kind: "ok"; data: Content[] } | GeneralApiProblem
 export type BookmarkListResult = { kind: "ok"; data: string[] } | GeneralApiProblem
 
+export interface Supporters {
+  id: string
+  quantity: number
+  ts?: number
+  lastEffectiveTs?: number
+  lastEffectiveQuantity?: number
+}
+
+export type SupporterListResult = { kind: "ok"; data: Supporters[] } | GeneralApiProblem
+
 export interface StatisticsSupportedCreatorResult {
   likee: string
   workCount: number
