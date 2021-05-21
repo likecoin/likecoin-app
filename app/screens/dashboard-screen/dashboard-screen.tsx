@@ -23,7 +23,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 import styled from "styled-components/native"
 
 const SponsorLinkCTATableView = styled(SponsorLinkCTATableViewBase)`
-  margin-top: ${({ theme }) => theme.spacing["2xl"]}
+  margin-top: ${({ theme }) => theme.spacing["2xl"]};
 `
 
 export interface DashboardScreenProps extends NavigationScreenProps<{}> {
@@ -32,6 +32,10 @@ export interface DashboardScreenProps extends NavigationScreenProps<{}> {
 
 @inject("userStore")
 export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
+  private onPressUserInfoPanel = () => {
+    this.props.navigation.navigate("FansDashboard")
+  }
+
   private onPressSubscription = () => {
     this.props.navigation.navigate("Subscription")
   }
@@ -77,7 +81,7 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
   renderHeader() {
     return (
       <ExtendedView backgroundColor={color.primary} style={Style.Header}>
-        <SettingsScreenUserInfoPanel />
+        <SettingsScreenUserInfoPanel onPress={this.onPressUserInfoPanel} />
       </ExtendedView>
     )
   }

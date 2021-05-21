@@ -1,5 +1,11 @@
 import * as React from "react"
-import { Animated, AppState, AppStateStatus } from "react-native"
+import {
+  Animated,
+  AppState,
+  AppStateStatus,
+  ListViewProps,
+  StyleSheet,
+} from "react-native"
 import { inject } from "mobx-react"
 import styled from "styled-components/native"
 
@@ -21,10 +27,23 @@ const Screen = styled(ScreenBase)`
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 
+const ScrollViewContainer = styled.View`
+  flex: 1;
+`
+
+const HeaderTabShadow = styled(Animated.View)`
+  position: absolute;
+  z-index: 11;
+  left: 0;
+  right: 0;
+  height: ${StyleSheet.hairlineWidth}px;
+  background-color: ${({ theme }) => theme.color.separator};
+`
+
 const HeaderTabWrapper = styled.View`
   position: absolute;
   overflow: hidden;
-  top: 64px;
+  z-index: 10;
   left: 0;
   right: 0;
   height: 80px;
@@ -82,8 +101,8 @@ export class ReaderScreen extends React.Component<Props, {}> {
           },
         },
       },
-    ])
-
+    ], { useNativeDriver: true })
+    
     const headerTabViewStyle = {
       transform: [
         {
@@ -102,40 +121,58 @@ export class ReaderScreen extends React.Component<Props, {}> {
       ]
     }
 
+    const listViewProps: Partial<ListViewProps> = {
+      contentInset: { top: 80 },
+      contentInsetAdjustmentBehavior: "always",
+    }
+
     return (
       <Screen preset="fixed">
         <Header headerTx={headerTx} />
-        {tabValue === "following" && (
-          <SuperLikeFollowingScreen
-            navigation={this.props.navigation}
-            onScroll={handleScroll}
+        <ScrollViewContainer>
+          <HeaderTabShadow
+            style={{
+              opacity: this.state.scrollY.interpolate({
+                inputRange: [0, 10, 11, 89.99, 90],
+                outputRange: [0, 0.5, 0.5, 0.5, 0],
+              }),
+            }}
           />
-        )}
-        {tabValue === "global" && (
-          <SuperLikeGlobalFeedScreen
-            navigation={this.props.navigation}
-            onScroll={handleScroll}
-          />
-        )}
-        <HeaderTabWrapper>
-          <Animated.View style={headerTabViewStyle}>
-            <HeaderTab
-              value={tabValue}
-              onChange={this.onTabChange}
-            >
-              <HeaderTabItem
-                value="following"
-                icon="super-like"
-                subtitleTx="reader_screen_tab_subtitle_following"
-              />
-              <HeaderTabItem
-                value="global"
-                icon="global-eye"
-                subtitleTx="reader_screen_tab_subtitle_global"
-              />
-            </HeaderTab>
-          </Animated.View>
-        </HeaderTabWrapper>
+          <HeaderTabWrapper>
+            <Animated.View style={headerTabViewStyle}>
+              <HeaderTab
+                value={tabValue}
+                onChange={this.onTabChange}
+              >
+                <HeaderTabItem
+                  value="following"
+                  icon="super-like"
+                  subtitleTx="reader_screen_tab_subtitle_following"
+                />
+                <HeaderTabItem
+                  value="global"
+                  icon="global-eye"
+                  subtitleTx="reader_screen_tab_subtitle_global"
+                />
+              </HeaderTab>
+            </Animated.View>
+          </HeaderTabWrapper>
+          
+          {tabValue === "following" && (
+            <SuperLikeFollowingScreen
+              navigation={this.props.navigation}
+              listViewProps={listViewProps}
+              onScroll={handleScroll}
+            />
+          )}
+          {tabValue === "global" && (
+            <SuperLikeGlobalFeedScreen
+              navigation={this.props.navigation}
+              listViewProps={listViewProps}
+              onScroll={handleScroll}
+            />
+          )}
+        </ScrollViewContainer>
       </Screen>
     )
   }

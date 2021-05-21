@@ -11791,6 +11791,344 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
 </View>
 `;
 
+exports[`Storyshots SupporterListItem Style Presets 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <RCTScrollView>
+        <View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Default
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                clickable={false}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#fff",
+                    "borderBottomLeftRadius": 14,
+                    "borderBottomRightRadius": 14,
+                    "borderTopLeftRadius": 14,
+                    "borderTopRightRadius": 14,
+                    "flexBasis": 0,
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                    "opacity": 1,
+                    "paddingBottom": 12,
+                    "paddingLeft": 16,
+                    "paddingRight": 16,
+                    "paddingTop": 12,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "flexBasis": 0,
+                        "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "marginRight": 8,
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "alignItems": "center",
+                            "justifyContent": "center",
+                            "position": "relative",
+                          },
+                          undefined,
+                        ]
+                      }
+                    >
+                      <BVLinearGradient
+                        colors={
+                          Array [
+                            4292014320,
+                            4293977780,
+                          ]
+                        }
+                        endPoint={
+                          Object {
+                            "x": 1,
+                            "y": 0,
+                          }
+                        }
+                        locations={null}
+                        startPoint={
+                          Object {
+                            "x": 0,
+                            "y": 1,
+                          }
+                        }
+                        style={
+                          Array [
+                            Object {
+                              "borderColor": "rgba(0, 0, 0, 0)",
+                            },
+                            Object {
+                              "borderWidth": 2,
+                            },
+                            Object {
+                              "borderRadius": 18,
+                              "margin": 3.0476190476190474,
+                            },
+                          ]
+                        }
+                      >
+                        <View
+                          style={
+                            Array [
+                              Object {
+                                "overflow": "hidden",
+                              },
+                              Object {
+                                "backgroundColor": "#ffffff",
+                                "borderRadius": 16,
+                                "height": 32,
+                                "overflow": "hidden",
+                                "width": 32,
+                              },
+                            ]
+                          }
+                        >
+                          <FastImageView
+                            resizeMode="cover"
+                            source={
+                              Object {
+                                "uri": undefined,
+                              }
+                            }
+                            style={
+                              Object {
+                                "bottom": 0,
+                                "left": 0,
+                                "position": "absolute",
+                                "right": 0,
+                                "top": 0,
+                              }
+                            }
+                          />
+                        </View>
+                      </BVLinearGradient>
+                      <View
+                        style={
+                          Object {
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "right": 0,
+                            "top": 0,
+                          }
+                        }
+                      >
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight="100%"
+                          bbWidth="100%"
+                          fill="#40BFA5"
+                          focusable={false}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
+                            Array [
+                              Object {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              Object {
+                                "flex": 0,
+                                "height": "100%",
+                                "width": "100%",
+                              },
+                            ]
+                          }
+                          vbHeight={42}
+                          vbWidth={42}
+                        >
+                          <RNSVGGroup
+                            fill={4282433445}
+                            propList={
+                              Array [
+                                "fill",
+                              ]
+                            }
+                          >
+                            <RNSVGPath
+                              d="M1.16 16.57a.3.3 0 01-.13 0 .56.56 0 01-.41-.68 20.41 20.41 0 011.47-4.09.56.56 0 01.75-.26.57.57 0 01.27.75 19.72 19.72 0 00-1.4 3.85.56.56 0 01-.55.43m5.16 19a.58.58 0 01-.41-.17A20.81 20.81 0 010 20.91a.57.57 0 01.56-.57.57.57 0 01.57.57 19.65 19.65 0 005.59 13.73.57.57 0 010 .8.59.59 0 01-.39.16m1.61 1.5a.54.54 0 01-.37-.1l-.41-.35a.56.56 0 01.74-.84l.39.33a.56.56 0 01.07.79.54.54 0 01-.43.21M38 32.51a.59.59 0 01-.31-.09.56.56 0 01-.16-.78A19.71 19.71 0 0039 12.79a.57.57 0 011-.47 20.82 20.82 0 01-1.54 19.93.56.56 0 01-.47.26m-17.07 9.32A20.68 20.68 0 018.89 38a.56.56 0 01-.14-.79.57.57 0 01.79-.13A19.63 19.63 0 0034.81 35a.57.57 0 01.8 0 .55.55 0 010 .79 20.76 20.76 0 01-14.68 6.08m16.88-31.75a.57.57 0 01-.47-.25 19.53 19.53 0 00-5.64-5.56.56.56 0 01.61-.95 20.77 20.77 0 016 5.88.56.56 0 01-.15.78.55.55 0 01-.32.1m-33.92.22a.5.5 0 01-.31-.1.56.56 0 01-.16-.78A20.87 20.87 0 0120.92 0a20.64 20.64 0 019.42 2.24.55.55 0 01.25.75.56.56 0 01-.76.25 19.85 19.85 0 00-18.16.18 19.91 19.91 0 00-7.31 6.66.56.56 0 01-.47.26"
+                            />
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                    </View>
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexBasis": 0,
+                          "flexDirection": "row",
+                          "flexGrow": 1,
+                          "flexShrink": 1,
+                          "justifyContent": "space-between",
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#4a4a4a",
+                            "flexGrow": 1,
+                            "fontSize": 14,
+                          },
+                        ]
+                      }
+                    >
+                      Example
+                    </Text>
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontSize": 12,
+                            "marginLeft": 12,
+                          },
+                        ]
+                      }
+                    >
+                      🍰 25 supporter_list_quantity_unit.test
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
 exports[`Storyshots Switch Behaviour 1`] = `
 <View
   onLayout={[Function]}

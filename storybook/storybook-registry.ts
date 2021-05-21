@@ -1,3 +1,4 @@
+require("../app/components/supporter-list-item/supporter-list-item.story")
 require("../app/components/likecoin-button/likecoin-button.story")
 require("../app/components/header-tab/header-tab.story")
 require("../app/components/sponsor-link-cta-table-view/sponsor-link-cta-table-view.story")

@@ -1,30 +1,57 @@
 import * as React from "react"
-import { View } from "react-native"
+import { View, TouchableOpacity } from "react-native"
 import { inject, observer } from "mobx-react"
+import styled from "styled-components/native"
 
 import { UserStore } from "../../models/user-store"
+import { SupportersStore } from "../../models/supporters-store"
 
 import { Avatar } from "../../components/avatar"
+import { Icon } from "../../components/icon"
 import { Text } from "../../components/text"
 
 import { SettingsScreenUserInfoPanelStyle as Style } from "./settings-screen-user-info-panel.style"
 
+const StatsContainer = styled.View`
+  flex-direction: row;
+  margin-top: ${({ theme }) => theme.spacing.sm};
+`
+
+const SupportersCountLabel = styled(Text)`
+  margin-right: ${({ theme }) => theme.spacing.md};
+  color: ${({ theme }) => theme.color.text.feature.highlight.primary};
+  font-size: ${({ theme }) => theme.text.size.sm};
+  font-weight: 500;
+`
+
 export interface SettingsScreenUserInfoPanelProps {
   userStore?: UserStore
+  supportersStore?: SupportersStore
   onPress?: () => void
-  onPressQRCodeButton?: () => void
 }
 
-@inject("userStore")
+@inject(
+  "userStore",
+  "supportersStore",
+)
 @observer
 export class SettingsScreenUserInfoPanel extends React.Component<
   SettingsScreenUserInfoPanelProps
 > {
+  componentDidMount() {
+    if (this.props.supportersStore.status === "idle") {
+      this.props.supportersStore.fetch()
+    }
+  }
+
   render() {
     const { currentUser: user } = this.props.userStore
     if (!user) return null
     return (
-      <View style={Style.Root}>
+      <TouchableOpacity 
+        style={Style.Root}
+        onPress={this.props.onPress}
+      >
         <Avatar
           src={user.avatarURL}
           isCivicLiker={user.isCivicLiker}
@@ -41,8 +68,21 @@ export class SettingsScreenUserInfoPanel extends React.Component<
             ellipsizeMode="tail"
             adjustsFontSizeToFit
           />
+          <StatsContainer>
+            <SupportersCountLabel
+              tx="supporter_count"
+              txOptions={{ count: this.props.supportersStore.items.length }}
+            />
+          </StatsContainer>
         </View>
-      </View>
+        <View>
+          <Icon
+            name="arrow-right"
+            width={24}
+            color="likeCyan"
+          />
+        </View>
+      </TouchableOpacity>
     )
   }
 }

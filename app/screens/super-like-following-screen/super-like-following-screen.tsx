@@ -59,6 +59,7 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
         underlayColor={color.palette.offWhite}
         skeletonPrimaryColor={color.palette.greyd8}
         skeletonSecondaryColor={color.palette.grey9b}
+        listViewProps={this.props.listViewProps}
         onFetchMore={this.fetchMore}
         onPressUndoUnfollowButton={this.props.onPressUndoUnfollowButton}
         onPressItem={this.props.onPressSuperLikeItem}

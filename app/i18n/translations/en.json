@@ -91,6 +91,7 @@
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee"
   },
+  "fan_dashboard_screen_tab_supporter_title": "Supporters",
   "FollowSettingsScreen": {
     "Title": "My Content Jockey",
     "TabTitle": {
@@ -351,6 +352,11 @@
     "subscribedButtonText": "Subscribed",
     "title": "Subscription"
   },
+  "supporter_count": {
+    "one": "{{count}} Supporter",
+    "other": "{{count}} Supporters"
+  },
+  "supporter_list_quantity_unit": "USD/mo",
   "transaction": {
     "fee": "Fee",
     "from": "From",

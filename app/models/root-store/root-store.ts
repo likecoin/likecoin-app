@@ -21,6 +21,7 @@ import {
 } from "../statistics-store"
 import { SuperLikeFollowingStoreModel } from "../super-like-following-store"
 import { SuperLikeGlobalStoreModel } from "../super-like-global-store"
+import { SupportersStoreModel } from "../supporters-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
 
@@ -60,6 +61,7 @@ export const RootStoreModel = types
     statisticsRewardedStore: types.optional(StatisticsRewardedStoreModel, {}),
     statisticsSupportedStore: types.optional(StatisticsSupportedStoreModel, {}),
     superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
+    supportersStore: types.optional(SupportersStoreModel, {}),
     superLikeGlobalStore: types.optional(SuperLikeGlobalStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),

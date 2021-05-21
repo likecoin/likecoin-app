@@ -90,6 +90,7 @@
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手續費不足"
   },
+  "fan_dashboard_screen_tab_supporter_title": "支持者",
   "FollowSettingsScreen": {
     "Title": "設定 Content Jockey",
     "TabTitle": {
@@ -341,6 +342,8 @@
     "subscribedButtonText": "已訂閱",
     "title": "訂閱"
   },
+  "supporter_count": "{{count}} 支持者",
+  "supporter_list_quantity_unit": "美金/月",
   "transaction": {
     "fee": "手續費",
     "from": "從",
