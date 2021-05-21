@@ -101,7 +101,7 @@ export class ReaderScreen extends React.Component<Props, {}> {
           },
         },
       },
-    ])
+    ], { useNativeDriver: true })
     
     const headerTabViewStyle = {
       transform: [
@@ -123,6 +123,7 @@ export class ReaderScreen extends React.Component<Props, {}> {
 
     const listViewProps: Partial<ListViewProps> = {
       contentInset: { top: 80 },
+      contentInsetAdjustmentBehavior: "always",
     }
 
     return (

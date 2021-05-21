@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ListRenderItemInfo } from "react-native"
+import { Animated, ListRenderItemInfo } from "react-native"
 import { FlatList } from "react-navigation"
 import { observer } from "mobx-react"
 
@@ -9,6 +9,8 @@ import { SuperLikeContentListItem } from "../content-list-item"
 
 import { withContentListHelper } from "./content-list.with-helper"
 import { SuperLikeContentListProps as Props } from "./content-list.props"
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 @observer
 class SuperLikeContentListBase extends React.Component<Props> {
@@ -34,7 +36,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
 
   render() {
     return (
-      <FlatList<SuperLike>
+      <AnimatedFlatList<SuperLike>
         {...this.props.listViewProps}
         data={this.props.data}
         keyExtractor={this.keyExtractor}
