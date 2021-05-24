@@ -13,7 +13,6 @@ import {
 import { enableScreens } from "react-native-screens"
 import RNExitApp from "react-native-exit-app"
 import { INIT_APP_TIMEOUT } from "react-native-dotenv"
-import { SafeAreaProvider } from "react-native-safe-area-context"
 
 import { Provider } from "mobx-react"
 import { contains } from "ramda"
@@ -187,9 +186,7 @@ export class App extends React.Component<{}, AppState> {
       <Provider rootStore={rootStore} navigationStore={navigationStore} {...otherStores}>
         <ThemeProvider theme={defaultTheme}>
           <BackButtonHandler canExit={this.canExit}>
-            <SafeAreaProvider>
-              <StatefulNavigator key={this.state.languageKey} />
-            </SafeAreaProvider>
+            <StatefulNavigator key={this.state.languageKey} />
           </BackButtonHandler>
         </ThemeProvider>
       </Provider>
