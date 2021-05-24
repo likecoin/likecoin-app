@@ -67,8 +67,8 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
     this.props.navigation.goBack()
   }
 
-  private onPressLike = (count: number) => {
-    this.content.like(count)
+  private onPressLike = (hits: number) => {
+    this.content.like(hits)
   }
 
   private onPressSuperLike = () => {

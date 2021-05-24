@@ -245,15 +245,15 @@ export const ContentModel = types
         }
       }), 
       fetchCurrentUserSuperLikeStat,
-      like: flow(function*(count = 1) {
+      like: flow(function*(hits = 1) {
         try {
           const response: GeneralResult = yield self.env.likeCoinAPI.like.post({
             id: self.creator.likerID,
             url: self.url,
-            count,
+            count: hits,
           })
           if (response.kind === "ok") {
-            self.currentUserLikeCount = count
+            self.currentUserLikeCount += hits
           }
         } catch (error) {
           logError(error)

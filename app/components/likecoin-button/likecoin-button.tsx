@@ -21,7 +21,7 @@ export interface LikecoinButtonProps extends PureLikeCoinButtonProps {
  */
 export function LikeCoinButton({
   size,
-  likeCount: likeCountProp = 0,
+  likeCount: prevLikeCount = 0,
   isSuperLikeEnabled = false,
   hasSuperLiked = false,
   canSuperLike = false,
@@ -32,14 +32,14 @@ export function LikeCoinButton({
   onPressSuperLike,
   ...props
 }: LikecoinButtonProps) {
-  const [likeCount, setLikeCount] = React.useState(likeCountProp)
+  const [likeCount, setLikeCount] = React.useState(prevLikeCount)
 
   React.useEffect(() => {
-    setLikeCount(likeCountProp)
-  }, [likeCountProp])
+    setLikeCount(prevLikeCount)
+  }, [prevLikeCount])
 
-  const handlePressLike = useDebouncedCallback((likeCount) => {
-    if (onPressLike) onPressLike(likeCount)
+  const handlePressLike = useDebouncedCallback((hits: number) => {
+    if (onPressLike) onPressLike(hits)
   }, 500)
 
   const handlePressSuperLike = useDebouncedCallback(() => {
@@ -50,7 +50,7 @@ export function LikeCoinButton({
     if (likeCount < 5) {
       const nextLikeCount = likeCount + 1
       setLikeCount(nextLikeCount)
-      handlePressLike(nextLikeCount)
+      handlePressLike(nextLikeCount - prevLikeCount)
     } else if (canSuperLike) {
       handlePressSuperLike()
     }
