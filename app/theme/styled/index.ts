@@ -27,6 +27,9 @@ export const color = {
     },
     primary: "#fff",
     secondary: "#f2f2f2",
+    image: {
+      placeholder: "#d8d8d8",
+    },
   },
   text: {
     feature: {
