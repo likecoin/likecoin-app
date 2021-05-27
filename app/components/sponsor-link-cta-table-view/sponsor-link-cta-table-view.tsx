@@ -61,10 +61,6 @@ const DescriptionGraph = styled(SponsorLinkCTAGraph)`
   height: 40px;
 `
 
-const ContentView = styled.View`
-  flex: 1;
-`
-
 const CTAButton = styled(Button)`
   flex-shrink: 1;
   align-self: center;
@@ -114,18 +110,16 @@ export function SponsorLinkCTATableView({
         </HeaderButton>
       </HeaderView>
       <TableView>
-        <TableViewCell>
-          <ContentView>
-            <DescriptionContainer>
-              <DescriptionGraph />
-              <DescriptionText tx="sponsor_link_cta_description" />
-            </DescriptionContainer>
-            <CTAButton
-              tx="sponsor_link_cta_button"
-              size="small"
-              onPress={handleCTAButtonPress}
-            />
-          </ContentView>
+        <TableViewCell isChildrenRaw={true}>
+          <DescriptionContainer>
+            <DescriptionGraph />
+            <DescriptionText tx="sponsor_link_cta_description" />
+          </DescriptionContainer>
+          <CTAButton
+            tx="sponsor_link_cta_button"
+            size="small"
+            onPress={handleCTAButtonPress}
+          />
         </TableViewCell>
       </TableView>
     </View>
