@@ -1,6 +1,6 @@
 import * as React from "react"
 import { observer } from "mobx-react"
-import { Platform, Share, StatusBar, StyleSheet } from "react-native"
+import { ActivityIndicator, Platform, Share, StatusBar, StyleSheet } from "react-native"
 import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import { WebView as WebViewBase, WebViewMessageEvent } from "react-native-webview"
 import styled from "styled-components/native"
@@ -107,6 +107,14 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
     }
   }
 
+  private onToggleBookmark = () => {
+    if (!this.content?.isBookmarked) {
+      this.content?.addBookmark()
+    } else {
+      this.content?.removeBookmark()
+    }
+  }
+
   private handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
       const { action } = JSON.parse(event.nativeEvent?.data)
@@ -131,6 +139,29 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
       if (error instanceof SyntaxError) return
       logError(error)
     }
+  }
+
+  private renderBookmarkButton() {
+    const iconName = this.content?.isBookmarked ? "bookmark-filled" : "bookmark-outlined"
+    if (this.content?.isUpdatingBookmark) {
+      return (
+        <Button
+          preset="plain"
+          size="default"
+          disabled={true}
+        >
+          <ActivityIndicator size="small" />
+        </Button>
+      )
+    }
+    return (
+      <Button
+        preset="plain"
+        size="default"
+        icon={iconName}
+        onPress={this.onToggleBookmark}
+      />
+    )
   }
 
   render() {
@@ -172,6 +203,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
               onPressLike={this.onPressLike}
               onPressSuperLike={this.onPressSuperLike}
             />
+            {this.renderBookmarkButton()}
             <Button
               preset="plain"
               size="default"
