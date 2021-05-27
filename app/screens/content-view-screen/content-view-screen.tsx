@@ -1,12 +1,12 @@
 import * as React from "react"
 import { observer } from "mobx-react"
-import { Platform, Share } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
-import { WebView as WebViewBase } from "react-native-webview"
+import { Platform, Share, StatusBar, StyleSheet } from "react-native"
+import { NavigationScreenProps, SafeAreaView } from "react-navigation"
+import { WebView as WebViewBase, WebViewMessageEvent } from "react-native-webview"
 import styled from "styled-components/native"
 
+import { Button } from "../../components/button"
 import { Header } from "../../components/header"
-import { Screen as ScreenBase } from "../../components/screen"
 import { LikeCoinButton as LikeCoinButtonBase } from "../../components/likecoin-button"
 
 import { Content } from "../../models/content"
@@ -17,8 +17,12 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { COMMON_API_CONFIG } from "../../services/api/api-config"
 
-const Screen = styled(ScreenBase)`
+const RootView = styled.View`
   flex: 1;
+  background-color: ${({ theme }) => theme.color.background.primary};
+`
+
+const HeaderView = styled.View`
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 
@@ -30,10 +34,19 @@ const WebView = styled(WebViewBase)`
   flex: 1;
 `
 
+const FooterView = styled.SafeAreaView`
+  border-top-width: ${StyleSheet.hairlineWidth};
+  border-top-color: ${({ theme }) => theme.color.separator};
+`
+
+const FooterInnerView = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 ${({ theme }) => theme.spacing.md};
+`
+
 const LikeCoinButton = styled(LikeCoinButtonBase)`
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
+  margin-top: -${({ theme }) => theme.spacing.sm};
 `
 
 export interface ContentViewNavigationStateParams {
@@ -42,8 +55,17 @@ export interface ContentViewNavigationStateParams {
 }
 export interface ContentViewScreenProps extends NavigationScreenProps<ContentViewNavigationStateParams> {}
 
+const injectedJavaScript = `${
+  /* Forward any post messages to WebView */ ""
+  }window.addEventListener('message', function(event) {
+    window.ReactNativeWebView.postMessage(JSON.stringify(event.data));
+  });
+  true;${/* NOTE: This is required, or you'll sometimes get silent failures */ ""}`
+
 @observer
 export class ContentViewScreen extends React.Component<ContentViewScreenProps, {}> {
+  webViewRef = React.createRef<WebViewBase>()
+
   componentDidMount() {
     this.content.read()
     if (this.content.checkShouldFetchDetails()) {
@@ -85,38 +107,80 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
     }
   }
 
+  private handleWebViewMessage = (event: WebViewMessageEvent) => {
+    try {
+      const { action } = JSON.parse(event.nativeEvent?.data)
+      switch (action) {
+        case "MOUNTED":
+          this.webViewRef?.current?.injectJavaScript(`
+            ${
+            // HACK:
+            // Since As we cannot determine which iframe(s) contain LikeCoin button,
+            // so we loop through and post message to all iframes
+            ""}
+            for (let i=0; i < window.frames.length; i+=1) {
+              let frame = frames[i];
+              frame.postMessage({ action: "DISABLE_BUTTON" }, '${this.content.getConfig('LIKECOIN_BUTTON_BASE_URL')}');
+            }
+          `)
+          break
+        default:
+          break
+      }
+    } catch (error) {
+      if (error instanceof SyntaxError) return
+      logError(error)
+    }
+  }
+
   render() {
     const { content, url } = this
     return (
-      <Screen preset="fixed">
-        <Header
-          headerText={content.normalizedTitle}
-          leftIcon="close"
-          rightIcon="share"
-          onLeftPress={this.goBack}
-          onRightPress={this.onShare}
-        />
+      <RootView>
+        <HeaderView>
+          <SafeAreaView>
+            <StatusBar barStyle="light-content" />
+            <Header
+              headerText={content?.normalizedTitle}
+              leftIcon="close"
+              onLeftPress={this.goBack}
+            />
+          </SafeAreaView>
+        </HeaderView>
         <ContentView>
           <WebView
+            ref={this.webViewRef}
             sharedCookiesEnabled={true}
             source={{ uri: url }}
             decelerationRate={0.998}
             // TODO: remove HACK after applicationNameForUserAgent type is fixed
             {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
-          />
-          <LikeCoinButton
-            size={64}
-            likeCount={content.currentUserLikeCount}
-            isSuperLikeEnabled={content.isCurrentUserSuperLiker}
-            canSuperLike={content.canCurrentUserSuperLike}
-            hasSuperLiked={content.hasCurrentUserSuperLiked}
-            cooldownValue={content.currentUserSuperLikeCooldown}
-            cooldownEndTime={content.currentUserSuperLikeCooldownEndTime}
-            onPressLike={this.onPressLike}
-            onPressSuperLike={this.onPressSuperLike}
+            injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
+            onMessage={this.handleWebViewMessage}
           />
         </ContentView>
-      </Screen>
+        <FooterView>
+          <FooterInnerView>
+            <LikeCoinButton
+              size={48}
+              likeCount={content?.currentUserLikeCount}
+              isSuperLikeEnabled={content?.isCurrentUserSuperLiker}
+              canSuperLike={content?.canCurrentUserSuperLike}
+              hasSuperLiked={content?.hasCurrentUserSuperLiked}
+              cooldownValue={content?.currentUserSuperLikeCooldown}
+              cooldownEndTime={content?.currentUserSuperLikeCooldownEndTime}
+              onPressLike={this.onPressLike}
+              onPressSuperLike={this.onPressSuperLike}
+            />
+            <Button
+              preset="plain"
+              size="default"
+              icon="share"
+              onPress={this.onShare}
+            />
+          </FooterInnerView>
+        </FooterView>
+      </RootView>
     )
   }
 }
