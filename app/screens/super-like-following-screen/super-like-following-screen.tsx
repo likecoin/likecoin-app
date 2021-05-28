@@ -54,6 +54,7 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
         hasFetched={status === "done"}
         hasFetchedAll={status === "done-more"}
         emptyTx="readerScreen.emptyLabel"
+        headerTx="super_like_following_feed_screen_header_text"
         lastFetched={lastFetchedTimestamp}
         backgroundColor={color.palette.greyf2}
         underlayColor={color.palette.offWhite}

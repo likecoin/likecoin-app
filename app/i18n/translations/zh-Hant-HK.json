@@ -342,6 +342,8 @@
     "subscribedButtonText": "已訂閱",
     "title": "訂閱"
   },
+  "super_like_global_feed_screen_header_text": "所有 Super Like 的內容",
+  "super_like_following_feed_screen_header_text": "你的 Content Jockey Super Like 的內容",
   "supporter_count": "{{count}} 支持者",
   "supporter_list_quantity_unit": "美金/月",
   "transaction": {

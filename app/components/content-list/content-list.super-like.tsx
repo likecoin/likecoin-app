@@ -2,15 +2,38 @@ import * as React from "react"
 import { Animated, ListRenderItemInfo } from "react-native"
 import { FlatList } from "react-navigation"
 import { observer } from "mobx-react"
+import styled from "styled-components/native"
 
 import { SuperLike } from "../../models/super-like"
 
 import { SuperLikeContentListItem } from "../content-list-item"
+import { Icon } from "../icon"
+import { Text } from "../text"
 
 import { withContentListHelper } from "./content-list.with-helper"
 import { SuperLikeContentListProps as Props } from "./content-list.props"
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+
+const HeaderView = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+`
+
+const HeaderIcon = styled(Icon)`
+  width: 24pxs;
+  height: 24px;
+  margin-right: ${({ theme }) => theme.spacing.md};
+`
+
+const HeaderText = styled(Text)`
+  color: ${({ theme }) => theme.color.text.secondary};
+  font-size: ${({ theme }) => theme.text.size.sm};
+  line-height: ${({ theme }) => theme.text.size.md};
+  max-width: 33%;
+`
 
 @observer
 class SuperLikeContentListBase extends React.Component<Props> {
@@ -41,6 +64,15 @@ class SuperLikeContentListBase extends React.Component<Props> {
         data={this.props.data}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
+        ListHeaderComponent={(
+          <HeaderView>
+            <HeaderIcon
+              name="super-like"
+              color="grey9b"
+            />
+            <HeaderText tx={this.props.headerTx} />
+          </HeaderView>
+        )}
       />
     )
   }
