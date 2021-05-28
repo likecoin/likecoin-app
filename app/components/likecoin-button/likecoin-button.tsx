@@ -35,6 +35,7 @@ export function LikeCoinButton({
   const [likeCount, setLikeCount] = React.useState(prevLikeCount)
 
   React.useEffect(() => {
+    if (likeCount > prevLikeCount) return
     setLikeCount(prevLikeCount)
   }, [prevLikeCount])
 

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View, TouchableOpacity } from "react-native"
+import { View } from "react-native"
 import { inject, observer } from "mobx-react"
 import styled from "styled-components/native"
 
@@ -11,6 +11,12 @@ import { Icon } from "../../components/icon"
 import { Text } from "../../components/text"
 
 import { SettingsScreenUserInfoPanelStyle as Style } from "./settings-screen-user-info-panel.style"
+
+const TouchableOpacity = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  padding: ${({ theme }) => theme.spacing.xl};
+`
 
 const StatsContainer = styled.View`
   flex-direction: row;
@@ -48,10 +54,7 @@ export class SettingsScreenUserInfoPanel extends React.Component<
     const { currentUser: user } = this.props.userStore
     if (!user) return null
     return (
-      <TouchableOpacity 
-        style={Style.Root}
-        onPress={this.props.onPress}
-      >
+      <TouchableOpacity onPress={this.props.onPress}>
         <Avatar
           src={user.avatarURL}
           isCivicLiker={user.isCivicLiker}

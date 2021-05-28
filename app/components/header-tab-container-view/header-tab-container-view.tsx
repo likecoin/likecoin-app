@@ -1,20 +1,12 @@
 import * as React from "react"
-import { Animated, ScrollViewProps, StyleSheet } from "react-native"
+import { Animated, ScrollViewProps } from "react-native"
 import styled from "styled-components/native"
 
 import { HeaderTab } from "../header-tab"
+import { ScrollViewShadow } from "../scroll-view"
 
 const View = styled.View`
   flex: 1;
-`
-
-const HeaderTabShadow = styled(Animated.View)`
-  position: absolute;
-  z-index: 11;
-  left: 0;
-  right: 0;
-  height: ${StyleSheet.hairlineWidth}px;
-  background-color: ${({ theme }) => theme.color.separator};
 `
 
 const HeaderTabWrapper = styled.View`
@@ -85,7 +77,7 @@ export function HeaderTabContainerView({
 
   return (
     <View {...props}>
-      <HeaderTabShadow
+      <ScrollViewShadow
         style={{
           opacity: headerTabViewTranslateY.interpolate({
             inputRange: [-80, 0],
