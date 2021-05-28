@@ -352,6 +352,8 @@
     "subscribedButtonText": "Subscribed",
     "title": "Subscription"
   },
+  "super_like_global_feed_screen_header_text": "All Super Likes",
+  "super_like_following_feed_screen_header_text": "Super Likes from your content jockeys",
   "supporter_count": {
     "one": "{{count}} Supporter",
     "other": "{{count}} Supporters"

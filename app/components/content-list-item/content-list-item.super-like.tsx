@@ -23,6 +23,7 @@ import { ContentListItemStyle as StyleCommon } from "./content-list-item.style"
 import { ContentListItemSkeleton } from "./content-list-item.skeleton"
 import { ContentListItemUndoView } from "./content-list-item-undo-view"
 import { withContentListItemHelper } from "./content-list-item.with-helper"
+import { ContentListItemCoverImage } from "./content-list-item.cover-image"
 
 const CardView = styled.View`
   margin-top: ${({ theme }) => theme.spacing.sm};
@@ -34,12 +35,6 @@ const CardView = styled.View`
 const CardBodyView = styled.View`
   padding: ${({ theme }) => theme.spacing.lg};
   padding-top: 0;
-`
-
-const CoverImage = styled.Image`
-  flex: 0;
-  min-height: 100px;
-  aspect-ratio: 1.91;
 `
 
 @observer
@@ -116,9 +111,7 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
             }
           </View>
           <CardView>
-            {!!content?.content?.coverImageURL && 
-              <CoverImage source={{ uri: content?.content?.coverImageURL }} />
-            }
+            <ContentListItemCoverImage url={content?.content?.coverImageURL} />
             <CardBodyView>
               <Text
                 text={content?.content?.normalizedTitle || ""}

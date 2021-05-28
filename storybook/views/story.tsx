@@ -6,15 +6,23 @@ import { defaultTheme } from "../../app/theme/styled"
 
 export interface StoryProps {
   children?: React.ReactNode
+  isScrolling?: boolean
 }
 
 const ROOT: ViewStyle = { flex: 1 }
 
-export function Story(props: StoryProps) {
+export function Story({
+  children,
+  isScrolling = true,
+}: StoryProps) {
   return (
     <ThemeProvider theme={defaultTheme}>
       <View style={ROOT}>
-        <ScrollView>{props.children}</ScrollView>
+        {isScrolling ? (
+          <ScrollView>{children}</ScrollView>
+        ) : (
+          children
+        )}
       </View>
     </ThemeProvider>
   )

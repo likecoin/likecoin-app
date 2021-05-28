@@ -5,7 +5,7 @@ import { StoryScreen, Story, UseCase } from "../../../storybook/views"
 
 import { HeaderTab, HeaderTabItem } from "./"
 
-declare var module
+declare let module
 
 function InteractiveHeaderTab() {
   const [value, setValue] = React.useState("item1")

@@ -12,6 +12,7 @@ import { TableViewCellAccessoryIconType, TableViewCellAccessoryView } from "./ta
 interface CellViewProps {
   isFirstCell?: boolean
   isLastCell?: boolean
+  isChildrenRaw?: boolean
   hasAccessoryView?: boolean
 }
 
@@ -22,10 +23,12 @@ interface CellViewComputedProps {
 const CellView = styled.TouchableOpacity.attrs<CellViewProps, CellViewComputedProps>(() => ({
   cornerRadius: "14px",
 }))<CellViewProps>`
-  flex-direction: row;
-  flex: 1;
-
   background-color: ${props => props.theme.color.background.primary};
+
+  ${({ isChildrenRaw }) => !isChildrenRaw && css<CellViewComputedProps>`
+    flex-direction: row;
+    flex: 1;
+  `}
 
   padding: ${props => props.theme.spacing.lg};
   ${props => !!props.hasAccessoryView && css`
@@ -100,6 +103,7 @@ export interface TableViewCellProps extends TouchableOpacityProps {
 
   isFirstCell?: boolean
   isLastCell?: boolean
+  isChildrenRaw?: boolean
   accessoryIcon?: TableViewCellAccessoryIconType
 }
 
@@ -115,6 +119,7 @@ export function TableViewCell({
   href,
   isFirstCell = true,
   isLastCell = true,
+  isChildrenRaw = false,
   accessoryIcon: accessoryIconOverride,
   ...props
 }: TableViewCellProps) {
@@ -144,19 +149,22 @@ export function TableViewCell({
     <CellView
       isFirstCell={isFirstCell}
       isLastCell={isLastCell}
+      isChildrenRaw={isChildrenRaw}
       hasAccessoryView={!!accessoryIcon}
       {...props}
     >
-      <CellContentView>
-        {append && <AppendContentWrapper>{append}</AppendContentWrapper>}
-        {children || (
-          <TextContentWrapper>
-            {!!titleContent && <CellTitle>{titleContent}</CellTitle>}
-            {!!subtitleContent && <CellSubtitle>{subtitleContent}</CellSubtitle>}
-          </TextContentWrapper>
-        )}
-      </CellContentView>
-      {!!accessoryIcon && <TableViewCellAccessoryView icon={accessoryIcon}/>}
+      {isChildrenRaw ? children : (
+        <CellContentView>
+          {append && <AppendContentWrapper>{append}</AppendContentWrapper>}
+          {children || (
+            <TextContentWrapper>
+              {!!titleContent && <CellTitle>{titleContent}</CellTitle>}
+              {!!subtitleContent && <CellSubtitle>{subtitleContent}</CellSubtitle>}
+            </TextContentWrapper>
+          )}
+        </CellContentView>
+      )}
+      {!isChildrenRaw && !!accessoryIcon && <TableViewCellAccessoryView icon={accessoryIcon}/>}
     </CellView>
   )
 }

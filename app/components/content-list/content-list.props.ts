@@ -32,5 +32,10 @@ export interface BookmarkedContentListProps extends ContentListBaseProps {
 export interface SuperLikeContentListProps extends ContentListBaseProps {
   data?: ReadonlyArray<SuperLike>
 
+  /**
+   * Translation key of the header text
+   */
+  headerTx?: string
+
   onPressItem?: (superLike: SuperLike) => void
 }

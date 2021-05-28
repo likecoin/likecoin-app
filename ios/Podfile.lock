@@ -227,8 +227,6 @@ PODS:
     - React
   - react-native-randombytes (3.5.3):
     - React
-  - react-native-safe-area-context (3.2.0):
-    - React-Core
   - react-native-splash-screen (3.1.1):
     - React
   - react-native-webview (8.1.2):
@@ -340,7 +338,6 @@ DEPENDENCIES:
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-image-sequence (from `../node_modules/react-native-image-sequence`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
-  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -441,8 +438,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-sequence"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
-  react-native-safe-area-context:
-    :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
@@ -551,7 +546,6 @@ SPEC CHECKSUMS:
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-image-sequence: b4cc7ce0ee9eeec7574b005e06059b3f7f818d96
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
-  react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-splash-screen: 353334c5ae82d8c74501ea7cbb916cb7cb20c8bf
   react-native-webview: fcb5f377aadc216273300f452ee0d321fb85809b
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
