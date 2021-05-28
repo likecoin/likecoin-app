@@ -5084,6 +5084,307 @@ exports[`Storyshots HeaderTab Title & Subtitle 1`] = `
 </View>
 `;
 
+exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flexBasis": 0,
+              "flexGrow": 1,
+              "flexShrink": 1,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "backgroundColor": "#e6e6e6",
+              "height": 0.5,
+              "left": 0,
+              "opacity": 0,
+              "position": "absolute",
+              "right": 0,
+              "zIndex": 11,
+            }
+          }
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "height": 80,
+                "left": 0,
+                "overflow": "hidden",
+                "position": "absolute",
+                "right": 0,
+                "zIndex": 10,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "transform": Array [
+                  Object {
+                    "translateY": -0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "stretch",
+                    "backgroundColor": "#28646e",
+                    "flexDirection": "row",
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                clickable={true}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "flexBasis": 0,
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                    "minHeight": 80,
+                    "opacity": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flexBasis": 0,
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "justifyContent": "center",
+                        "paddingBottom": 16,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 16,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    isActive={true}
+                    style={
+                      Object {
+                        "color": "#50e3c2",
+                        "fontFamily": "System",
+                        "fontSize": 24,
+                        "fontWeight": "500",
+                      }
+                    }
+                  >
+                    Tab 1
+                  </Text>
+                  <Text
+                    isActive={true}
+                    style={
+                      Object {
+                        "color": "#fff",
+                        "fontFamily": "System",
+                        "fontSize": 12,
+                        "marginTop": 4,
+                      }
+                    }
+                  >
+                    Tab One
+                  </Text>
+                </View>
+                <View
+                  isActive={true}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "#50e3c2",
+                        "height": 4,
+                      },
+                    ]
+                  }
+                />
+              </View>
+              <View
+                accessible={true}
+                clickable={true}
+                isTVSelectable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "flexBasis": 0,
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                    "minHeight": 80,
+                    "opacity": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flexBasis": 0,
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "justifyContent": "center",
+                        "paddingBottom": 16,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 16,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    isActive={false}
+                    style={
+                      Object {
+                        "color": "#aaf1e7",
+                        "fontFamily": "System",
+                        "fontSize": 24,
+                        "fontWeight": "500",
+                      }
+                    }
+                  >
+                    Tab 2
+                  </Text>
+                  <Text
+                    isActive={false}
+                    style={
+                      Object {
+                        "color": "#a9c1c5",
+                        "fontFamily": "System",
+                        "fontSize": 12,
+                        "marginTop": 4,
+                      }
+                    }
+                  >
+                    Tab Two
+                  </Text>
+                </View>
+                <View
+                  isActive={false}
+                  style={
+                    Array [
+                      Object {
+                        "height": 4,
+                      },
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <RCTScrollView
+          contentInset={
+            Object {
+              "top": 80,
+            }
+          }
+          contentInsetAdjustmentBehavior="always"
+          onScroll={[Function]}
+          scrollEventThrottle={0.0001}
+          style={
+            Object {
+              "flexBasis": 0,
+              "flexGrow": 1,
+              "flexShrink": 1,
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "palevioletred",
+                    "height": 300,
+                  },
+                ]
+              }
+            />
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "palegreen",
+                    "height": 500,
+                  },
+                ]
+              }
+            />
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "paleturquoise",
+                    "height": 700,
+                  },
+                ]
+              }
+            />
+          </View>
+        </RCTScrollView>
+      </View>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
 exports[`Storyshots I18n Behavior 1`] = `
 <View
   onLayout={[Function]}
