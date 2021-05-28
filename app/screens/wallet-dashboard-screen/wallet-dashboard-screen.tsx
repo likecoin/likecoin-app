@@ -4,6 +4,7 @@ import {
   RefreshControl,
 } from "react-native"
 import { observer, inject } from "mobx-react"
+import styled from "styled-components/native"
 
 import {
   WalletDashboardScreenProps as Props,
@@ -17,7 +18,8 @@ import {
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
-import { Screen } from "../../components/screen"
+import { Screen as ScreenBase } from "../../components/screen"
+import { ScrollView as ScrollViewBase } from "../../components/scroll-view"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { ValidatorList } from "../../components/validator-list"
@@ -29,6 +31,16 @@ import { Validator } from "../../models/validator"
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
+import { ExtendedView } from "../../components/extended-view"
+
+const Screen = styled(ScreenBase)`
+  flex: 1;
+  background-color: ${({ theme }) => theme.color.background.feature.primary};
+`
+
+const ScrollView = styled(ScrollViewBase)`
+  background-color: ${({ theme }) => theme.color.background.primary};
+`
 
 @inject((allStores: any) => ({
   chain: allStores.chainStore as ChainStore,
@@ -76,12 +88,9 @@ export class WalletDashboardScreen extends React.Component<Props> {
   render () {
     const { currentUser } = this.props.userStore
     return (
-      <View style={Style.Root}>
-        <View style={Style.TopUnderlay} />
-        <Screen
-          style={Style.Screen}
-          backgroundColor={color.transparent}
-          preset="scroll"
+      <Screen preset="fixed">
+        <ScrollView
+          isWithShadow={true}
           refreshControl={
             <RefreshControl
               tintColor={color.palette.lighterCyan}
@@ -91,58 +100,61 @@ export class WalletDashboardScreen extends React.Component<Props> {
             />
           }
         >
-          <View style={Style.TopNavigation}>
-            <Button
-              preset="icon"
-              icon="close"
-              color="white"
-              onPress={this.onPressCloseButton}
-            />
-            {currentUser &&
-              <Text
-                style={Style.UserIDLabel}
-                align="center"
-                text={`Liker ID: ${currentUser.likerID}`}
+          <ExtendedView backgroundColor={color.primary}>
+            <View style={Style.TopNavigation}>
+              <Button
+                preset="icon"
+                icon="close"
+                color="white"
+                onPress={this.onPressCloseButton}
               />
-            }
-          </View>
-          <View style={Style.BalanceContainer}>
-            {this.renderBalanceValue()}
-            <Text
-              text={this.props.chain.denom}
-              color="white"
-              size="medium"
-              weight="600"
-              align="center"
-              style={Style.BalanceUnitLabel}
-            />
-          </View>
-          <View style={Style.DashboardHeader}>
-            <View style={Style.DashboardHeaderButtonGroupWrapper}>
-              <ButtonGroup
-                buttons={[
-                  {
-                    key: "send",
-                    tx: "walletDashboardScreen.send",
-                    onPress: this.onPressSendButton,
-                  },
-                  {
-                    key: "receive",
-                    tx: "walletDashboardScreen.receive",
-                    onPress: this.onPressReceiveButton,
-                  },
-                  {
-                    key: "scan",
-                    preset: "icon",
-                    color: "white",
-                    icon: "qrcode-scan",
-                    style: Style.QRCodeButton,
-                    onPress: this.onPressQRCodeButton,
-                  },
-                ]}
+              {currentUser &&
+                <Text
+                  style={Style.UserIDLabel}
+                  align="center"
+                  text={`Liker ID: ${currentUser.likerID}`}
+                />
+              }
+            </View>
+            <View style={Style.BalanceContainer}>
+              {this.renderBalanceValue()}
+              <Text
+                text={this.props.chain.denom}
+                color="white"
+                size="medium"
+                weight="600"
+                align="center"
+                style={Style.BalanceUnitLabel}
               />
             </View>
-          </View>
+            <View style={Style.DashboardHeader}>
+              <View style={Style.DashboardHeaderButtonGroupWrapper}>
+                <ButtonGroup
+                  buttons={[
+                    {
+                      key: "send",
+                      tx: "walletDashboardScreen.send",
+                      onPress: this.onPressSendButton,
+                    },
+                    {
+                      key: "receive",
+                      tx: "walletDashboardScreen.receive",
+                      onPress: this.onPressReceiveButton,
+                    },
+                    {
+                      key: "scan",
+                      preset: "icon",
+                      color: "white",
+                      icon: "qrcode-scan",
+                      style: Style.QRCodeButton,
+                      onPress: this.onPressQRCodeButton,
+                    },
+                  ]}
+                />
+              </View>
+            </View>
+          </ExtendedView>
+
           <View style={Style.DashboardBodyWrapper}>
             <Sheet style={Style.DashboardBody}>
               {this.renderBalanceView()}
@@ -180,8 +192,8 @@ export class WalletDashboardScreen extends React.Component<Props> {
               </View>
             </Sheet>
           </View>
-        </Screen>
-      </View>
+        </ScrollView>
+      </Screen>
     )
   }
 

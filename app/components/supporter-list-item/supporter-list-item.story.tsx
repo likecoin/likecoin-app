@@ -5,7 +5,7 @@ import { StoryScreen, Story, UseCase } from "../../../storybook/views"
 
 import { PureSupporterListItem } from "./supporter-list-item.pure"
 
-declare var module
+declare let module
 
 storiesOf("SupporterListItem", module)
   .addDecorator(fn => <StoryScreen>{fn()}</StoryScreen>)

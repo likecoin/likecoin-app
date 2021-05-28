@@ -1,5 +1,5 @@
 import { StyleSheet, TextStyle, ViewStyle } from "react-native"
-import { color, spacing } from "../../theme"
+import { color } from "../../theme"
 
 export const SettingsScreenUserInfoPanelStyle = StyleSheet.create({
   DisplayName: {
@@ -10,11 +10,6 @@ export const SettingsScreenUserInfoPanelStyle = StyleSheet.create({
   Identity: {
     flex: 1,
     marginLeft: 12,
-  } as ViewStyle,
-  Root: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: spacing[5],
   } as ViewStyle,
   UserID: {
     color: color.palette.white,

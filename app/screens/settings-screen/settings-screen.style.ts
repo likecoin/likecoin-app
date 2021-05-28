@@ -8,8 +8,6 @@ import { spacing, color } from "../../theme"
 
 import { sizes as fontSizes } from "../../components/text/text.sizes"
 
-const BODY_OVERLAP = spacing[6]
-
 export const SettingScreenStyle = StyleSheet.create({
   Body: {
     flexGrow: 1,
@@ -17,9 +15,8 @@ export const SettingScreenStyle = StyleSheet.create({
     paddingTop: spacing[0],
   } as ViewStyle,
   Header: {
-    marginBottom: -BODY_OVERLAP,
     paddingTop: spacing[5],
-    paddingBottom: BODY_OVERLAP + spacing[5],
+    paddingBottom: spacing[5],
   } as ViewStyle,
   Root: {
     flexGrow: 1,
