@@ -95,7 +95,7 @@ export function HeaderTabContainerView({
       {!!children && children({
         onScroll,
         contentInset: { top: 80 },
-        contentInsetAdjustmentBehavior: "always",
+        contentOffset: { x: 0, y: -80 },
       })}
     </View>
   )
