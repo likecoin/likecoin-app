@@ -147,6 +147,7 @@ export const UserStoreModel = types
       }
     }),
     logout: flow(function * () {
+      if (self.isSigningOut) return
       self.isSigningOut = true
       self.currentUser = undefined
       try {
