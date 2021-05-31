@@ -30,7 +30,7 @@
     "@react-native-firebase/dynamic-links": "10.1.0",
     "@react-native-firebase/perf": "10.1.0",
     "@react-native-firebase/remote-config": "10.1.0",
-    "@sentry/react-native": "^2.4.0",
+    "@sentry/react-native": "^2.4.3",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/lodash.throttle": "^4.1.6",
     "apisauce": "1.0.3",
