@@ -121,6 +121,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
       } else {
         await this.props.userStore.authCore.signIn()
       }
+      this.props.chain.reset()
       this.props.chain.setupWallet(this.props.userStore.authCore.primaryCosmosAddress)
     } catch (error) {
       if (

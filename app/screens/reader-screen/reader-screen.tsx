@@ -1,6 +1,5 @@
 import * as React from "react"
 import {
-  Animated,
   AppState,
   AppStateStatus,
 } from "react-native"
@@ -34,7 +33,6 @@ export class ReaderScreen extends React.Component<Props, {}> {
 
   state = {
     tabValue: "following",
-    scrollY: new Animated.Value(0),
   }
 
   componentDidMount() {

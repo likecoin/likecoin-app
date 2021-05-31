@@ -20,13 +20,6 @@ const StatusBase: TextStyle = {
 }
 
 export const ValidatorScreenStyle = StyleSheet.create({
-  ContentContainer: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingHorizontal: spacing[4],
-    paddingBottom: spacing[5],
-  } as ViewStyle,
   Identity: {
     flexBasis: "100%",
   } as ViewStyle,
@@ -57,9 +50,6 @@ export const ValidatorScreenStyle = StyleSheet.create({
     flex: 1,
     backgroundColor: color.primary,
   } as ViewStyle,
-  Screen: {
-    flexGrow: 1,
-  } as ViewStyle,
   StakingContainer: {
     alignItems: "center",
   } as ViewStyle,
@@ -73,10 +63,6 @@ export const ValidatorScreenStyle = StyleSheet.create({
     color: color.palette.orange,
     borderColor: color.palette.orange,
   } as TextStyle,
-  TopBar: {
-    alignItems: "flex-start",
-    paddingHorizontal: spacing[2],
-  } as ViewStyle,
   ValidatorIcon: {
     width: 64,
     height: 64,

@@ -14,7 +14,7 @@ import {
 export const ReferralCTAStyle = StyleSheet.create({
   Sheet: {
     margin: spacing[4],
-    paddingHorizontal: spacing[4],
+    paddingHorizontal: spacing[2],
     backgroundColor: color.primary,
     flexDirection: "row",
     alignItems: "center",

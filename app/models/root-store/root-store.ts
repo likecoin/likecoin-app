@@ -83,7 +83,6 @@ export const RootStoreModel = types
     reset: flow(function*() {
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo("Auth")
-      self.chainStore.reset()
       self.creatorsFollowStore.reset()
       self.contentBookmarksStore.reset()
       self.stakingRewardsWithdrawStore.reset()

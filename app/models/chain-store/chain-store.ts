@@ -166,7 +166,8 @@ export const ChainStoreModel = types
      */
     getValidatorExpectedReturnsRate(validator: Validator) {
       const delegatedTokens = new BigNumber(1e10)
-      return self.calculateExpectedRewards(validator, delegatedTokens).div(delegatedTokens)
+      const rate = self.calculateExpectedRewards(validator, delegatedTokens).div(delegatedTokens)
+      return rate.isNaN() ? new BigNumber(0) : rate
     },
     getValidatorExpectedReturnsPercentage(validator: Validator) {
       return self.formatPercent(this.getValidatorExpectedReturnsRate(validator))
@@ -207,6 +208,14 @@ export const ChainStoreModel = types
     },
     get sortedValidatorList() {
       return self.validatorList.sort(this.compareValidatorsByDelegation)
+    },
+  }))
+  .views(self => ({
+    get activeValidatorsList() {
+      return self.sortedValidatorList.filter(v => v.isActive)
+    },
+    get inactiveValidatorsList() {
+      return self.sortedValidatorList.filter(v => !v.isActive)
     },
   }))
   .actions(self => ({

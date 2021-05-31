@@ -27,6 +27,7 @@ import {
   StatisticsSupportedDashboard,
 } from "./statistics-supported-dashboard"
 
+import { UnderlayView } from "../../components/extended-view"
 import {
   StatisticsListItemSkeleton,
 } from "../../components/statistics-list-item"
@@ -193,6 +194,7 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
       ? null
       : (
         <View style={Style.Empty}>
+          <UnderlayView />
           <Text
             tx={`StatisticsSupportedScreen.Empty.${
               this.props.dataStore.hasSelectedDayOfWeek

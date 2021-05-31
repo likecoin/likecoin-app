@@ -18,8 +18,9 @@ import {
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
+import { UnderlayView } from "../../components/extended-view"
 import { Screen as ScreenBase } from "../../components/screen"
-import { ScrollView as ScrollViewBase } from "../../components/scroll-view"
+import { ScrollView } from "../../components/scroll-view"
 import { Sheet } from "../../components/sheet"
 import { Text } from "../../components/text"
 import { ValidatorList } from "../../components/validator-list"
@@ -31,15 +32,10 @@ import { Validator } from "../../models/validator"
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
-import { ExtendedView } from "../../components/extended-view"
 
 const Screen = styled(ScreenBase)`
   flex: 1;
   background-color: ${({ theme }) => theme.color.background.feature.primary};
-`
-
-const ScrollView = styled(ScrollViewBase)`
-  background-color: ${({ theme }) => theme.color.background.primary};
 `
 
 @inject((allStores: any) => ({
@@ -100,7 +96,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
             />
           }
         >
-          <ExtendedView backgroundColor={color.primary}>
+          <View>
             <View style={Style.TopNavigation}>
               <Button
                 preset="icon"
@@ -153,7 +149,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
                 />
               </View>
             </View>
-          </ExtendedView>
+          </View>
 
           <View style={Style.DashboardBodyWrapper}>
             <Sheet style={Style.DashboardBody}>
@@ -170,6 +166,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
               </View>
               <ValidatorList
                 chain={this.props.chain}
+                filter="active"
                 limit={10}
                 style={Style.ValidatorListWrapper}
                 onPressItem={this.onPressValidator}
@@ -192,6 +189,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
               </View>
             </Sheet>
           </View>
+          <UnderlayView />
         </ScrollView>
       </Screen>
     )

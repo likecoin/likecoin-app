@@ -4,6 +4,7 @@ import styled, { useTheme } from "styled-components/native"
 
 import { LaunchIcon } from "../icon/icons/launch"
 import { NavigateNextIcon } from "../icon/icons/navigate-next"
+import { ThreeDotHorizontalIcon } from "../icon/icons/three-dot-horizontal"
 
 function IconNavigateNext(props: SvgProps) {
   return (
@@ -17,9 +18,16 @@ function IconLaunch(props: SvgProps) {
   )
 }
 
+function IconMore(props: SvgProps) {
+  return (
+    <ThreeDotHorizontalIcon width={20} height={20} {...props} />
+  )
+}
+
 const accessoryIconMap = {
   'navigate-next': IconNavigateNext,
   launch: IconLaunch,
+  more: IconMore,
 }
 
 export type TableViewCellAccessoryIconType = keyof typeof accessoryIconMap

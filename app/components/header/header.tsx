@@ -4,7 +4,7 @@ import { View, ViewStyle, TextStyle } from "react-native"
 import { HeaderProps } from "./header.props"
 
 import { Button } from "../button"
-import { Text } from "../text"
+import { Text, TextProps } from "../text"
 import { sizes } from "../text/text.sizes"
 
 import { spacing, color } from "../../theme"
@@ -39,6 +39,21 @@ const LEFT: ViewStyle = {
 const RIGHT: ViewStyle = {
   ...SIDE_VIEW_BASE,
   alignItems: "flex-end",
+}
+
+export function HeaderTitle({
+  style,
+  text,
+  ...props
+}: TextProps) {
+  return (
+    <Text
+      {...props}
+      style={{ ...TITLE, ...style }}
+      text={text}
+      numberOfLines={1}
+    />
+  )
 }
 
 /**
@@ -78,10 +93,9 @@ export class Header extends React.Component<HeaderProps, {}> {
         </View>
         <View style={TITLE_MIDDLE}>
           {children || (
-            <Text
-              style={{ ...TITLE, ...titleStyle }}
+            <HeaderTitle
               text={header}
-              numberOfLines={1}
+              style={titleStyle}
             />
           )}
         </View>

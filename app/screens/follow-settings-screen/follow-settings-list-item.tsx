@@ -1,21 +1,33 @@
 import * as React from "react"
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native"
+import { ViewStyle } from "react-native"
 import { observer } from "mobx-react"
-
-import { FollowSettingsListItemProps as Props } from "./follow-settings-list-item.props"
-import { FollowSettingsListItemStyle as Style } from "./follow-settings-list-item.style"
+import styled from "styled-components/native"
+import ActionSheet from "react-native-actions-sheet"
 
 import { Avatar } from "../../components/avatar"
-import { Button } from "../../components/button"
-import { Icon } from "../../components/icon"
-import { Text } from "../../components/text"
+import { TableViewCell as TableViewCellBase } from "../../components/table-view/table-view-cell"
+import {
+  ActionSheetButton,
+  ActionSheetButtonTitle,
+  ContentListItemActionSheet,
+} from "../../components/content-list-item"
+
+import { FollowSettingsListItemProps as Props } from "./follow-settings-list-item.props"
+
+const TableViewCell = styled(TableViewCellBase)`
+  padding-top: ${({ theme }) => theme.spacing.sm};
+  padding-bottom: ${({ theme }) => theme.spacing.sm};
+  flex-shrink: 0;
+`
+
+const actionSheetContainerStyle: ViewStyle = {
+  backgroundColor: "transparent"
+}
 
 @observer
 export class FollowingSettingsListItem extends React.Component<Props> {
+  actionSheetRef = React.createRef<ActionSheet>()
+
   state = {
     isShowUnfollowButton: false,
   }
@@ -27,91 +39,58 @@ export class FollowingSettingsListItem extends React.Component<Props> {
   }
 
   private onPress = () => {
-    this.setState({ isShowUnfollowButton: false })
-  }
-
-  private onPressMoreButton = () => {
-    this.setState({ isShowUnfollowButton: true })
+    this.actionSheetRef?.current?.show()
   }
 
   private onPressFollow = () => {
+    this.actionSheetRef?.current?.hide()
     if (this.props.onPressFollow) {
       this.props.onPressFollow(this.props.creator)
     }
   }
 
   private onPressUnfollow = () => {
+    this.actionSheetRef?.current?.hide()
     if (this.props.onPressUnfollow) {
       this.props.onPressUnfollow(this.props.creator)
     }
-    this.setState({ isShowUnfollowButton: false })
   }
 
   render() {
-    const { creator } = this.props
+    const { creator, isFirstCell, isLastCell } = this.props
     return (
-      <TouchableWithoutFeedback
-        key={creator.likerID}
-        onPress={this.onPress}
-      >
-        <View style={[Style.Root, this.state.isShowUnfollowButton ? Style.RootToggled : {}]}>
-          <View style={Style.Left}>
+      <React.Fragment>
+        <TableViewCell
+          title={`${creator.displayName || creator.likerID}`}
+          append={(
             <Avatar
               src={creator.avatarURL}
               isCivicLiker={creator.isCivicLiker}
               size={28}
-              style={Style.Avatar}
             />
-            <Text
-              text={creator.displayName || creator.likerID}
-              numberOfLines={1}
-              ellipsizeMode="middle"
-            />
-          </View>
-          {this.renderRight()}
-        </View>
-      </TouchableWithoutFeedback>
-    )
-  }
-
-  private renderRight() {
-    if (this.props.type === "follow") {
-      if (this.state.isShowUnfollowButton) {
-        return (
-          <Button
-            color="white"
-            tx="common.unfollow"
-            fontSize="default"
-            style={[Style.Right, Style.UnfollowButton]}
-            onPress={this.onPressUnfollow}
-          />
-        )
-      }
-
-      return (
-        <View style={Style.Right}>
-          <TouchableOpacity
-            onPress={this.onPressMoreButton}
-          >
-            <Icon
-              name="three-dot-horizontal"
-              width="24"
-              height="24"
-              color="grey4a"
-            />
-          </TouchableOpacity>
-        </View>
-      )
-    }
-
-    return (
-      <Button
-        preset="plain"
-        tx="common.follow"
-        fontSize="default"
-        style={Style.Right}
-        onPress={this.onPressFollow}
-      />
+          )}
+          accessoryIcon="more"
+          isFirstCell={isFirstCell}
+          isLastCell={isLastCell}
+          onPress={this.onPress}
+        />
+        <ActionSheet
+          ref={this.actionSheetRef}
+          containerStyle={actionSheetContainerStyle}
+        >
+          <ContentListItemActionSheet>
+            {this.props.type === "follow" ? (
+              <ActionSheetButton onPress={this.onPressUnfollow}>
+                <ActionSheetButtonTitle tx="common.unfollow" />
+              </ActionSheetButton>
+            ) : (
+              <ActionSheetButton onPress={this.onPressFollow}>
+                <ActionSheetButtonTitle tx="common.follow" />
+              </ActionSheetButton>
+            )}
+          </ContentListItemActionSheet>
+        </ActionSheet>
+      </React.Fragment>
     )
   }
 }
