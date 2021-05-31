@@ -24,6 +24,8 @@ export const ScrollViewShadow = styled(Animated.View)`
 `
 
 export interface ScrollViewProps extends ReactNativeScrollViewProps {
+  animatedValue?: Animated.Value
+
   isWithShadow?: boolean
 
   children?: React.ReactNode
@@ -33,12 +35,13 @@ export interface ScrollViewProps extends ReactNativeScrollViewProps {
  * Scroll View with shadow tweak
  */
 export function ScrollView({
+  animatedValue,
   isWithShadow = false,
   children,
   onScroll: customOnScroll,
   ...props
 }: ScrollViewProps) {
-  const scrollY = React.useRef(new Animated.Value(0)).current
+  const scrollY = React.useRef(animatedValue || new Animated.Value(0)).current
 
   const onScroll = Animated.event([
     {
