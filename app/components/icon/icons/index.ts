@@ -22,7 +22,7 @@ import ShareIcon from "./share.svg"
 import SeenIcon from "./seen.svg"
 import SuperLikeIcon from "./super-like.svg"
 import TabWallet from "./tab-wallet.svg"
-import ThreeDotHorizontal from "./three-dot-horizontal.svg"
+import { ThreeDotHorizontalIcon } from "./three-dot-horizontal"
 import ThreeDotVertical from "./three-dot-vertical.svg"
 import UndoIcon from "./undo.svg"
 
@@ -67,7 +67,7 @@ export const icons = {
   twitter: TwitterIcon,
   "tab-settings": TabSettingsIcon,
   "tab-wallet": TabWallet,
-  "three-dot-horizontal": ThreeDotHorizontal,
+  "three-dot-horizontal": ThreeDotHorizontalIcon,
   "three-dot-vertical": ThreeDotVertical,
   undo: UndoIcon,
 }

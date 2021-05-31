@@ -2,7 +2,9 @@ import { FollowSettingsTabType } from "./follow-settings-screen.type"
 
 import { Creator } from "../../models/creator"
 
-export interface FollowSettingsListItemProps {
+import { TableViewCellProps } from "../../components/table-view/table-view-cell"
+
+export interface FollowSettingsListItemProps extends TableViewCellProps {
   type: FollowSettingsTabType
 
   creator: Creator

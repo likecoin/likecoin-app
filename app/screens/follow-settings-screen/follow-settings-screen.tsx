@@ -1,21 +1,38 @@
 import * as React from "react"
-import { View, TouchableOpacity, RefreshControl, ListRenderItem } from "react-native"
+import { Animated, ListRenderItem, RefreshControl } from "react-native"
 import { FlatList } from "react-navigation"
 import { inject, observer } from "mobx-react"
-
-import { FollowSettingsScreenProps as Props } from "./follow-settings-screen.props"
-import { FollowSettingsScreenState as State } from "./follow-settings-screen.state"
-import { FollowSettingsScreenStyle as Style } from "./follow-settings-screen.style"
-import { FollowingSettingsListItem } from "./follow-settings-list-item"
-
-import { Header } from "../../components/header"
-import { Screen } from "../../components/screen"
-import { Text } from "../../components/text"
-
-import { Creator } from "../../models/creator"
+import styled from "styled-components/native"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 import { color } from "../../theme"
+
+import { Creator } from "../../models/creator"
+
+import { Header } from "../../components/header"
+import { HeaderTabContainerView } from "../../components/header-tab-container-view"
+import { HeaderTabItem } from "../../components/header-tab"
+import { Screen as ScreenBase } from "../../components/screen"
+import { TableViewSeparator } from "../../components/table-view/table-view"
+
+import { FollowSettingsScreenProps as Props } from "./follow-settings-screen.props"
+import { FollowSettingsScreenState as State } from "./follow-settings-screen.state"
+import { FollowingSettingsListItem } from "./follow-settings-list-item"
+import { FollowSettingsTabType } from "./follow-settings-screen.type"
+
+const Screen = styled(ScreenBase)`
+  flex: 1;
+  background-color: ${({ theme }) => theme.color.background.feature.primary};
+`
+const AnimatedFlatList = styled(Animated.createAnimatedComponent(FlatList))`
+  flex: 1;
+  padding: 0 ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.color.background.secondary};
+`
+
+const ListVeritcalPadding = styled.View`
+  padding-top: ${({ theme }) => theme.spacing.md};
+`
 
 @inject("creatorsStore")
 @observer
@@ -28,16 +45,18 @@ export class FollowSettingsScreen extends React.Component<Props, State> {
     }
   }
 
+  private get creators() {
+    return this.state.currentTab === "follow"
+    ? this.props.creatorsStore.followingCreators
+    : this.props.creatorsStore.unfollowedCreators
+  }
+
   private onPressBack = () => {
     this.props.navigation.goBack()
   }
 
-  private onPressFollowingTab = () => {
-    this.setState({ currentTab: "follow" })
-  }
-
-  private onPressUnfollowedTab = () => {
-    this.setState({ currentTab: "unfollow" })
+  private onTabChange = (value: FollowSettingsTabType) => {
+    this.setState({ currentTab: value })
   }
 
   private onFollow = (creator: Creator) => {
@@ -52,86 +71,65 @@ export class FollowSettingsScreen extends React.Component<Props, State> {
 
   private keyExtractor = (creator: Creator) => creator.likerID
 
-  render() {
-    const creators = this.state.currentTab === "follow"
-      ? this.props.creatorsStore.followingCreators
-      : this.props.creatorsStore.unfollowedCreators
-    return (
-      <Screen
-        style={Style.Root}
-        preset="fixed"
-      >
-        <Header
-          headerTx="FollowSettingsScreen.Title"
-          leftIcon="back"
-          onLeftPress={this.onPressBack}
-        />
-        <FlatList
-          ListHeaderComponent={this.renderListHeader}
-          ListFooterComponent={this.renderListFooter}
-          refreshControl={
-            <RefreshControl
-              colors={[color.primary]}
-              refreshing={this.props.creatorsStore.isFetching}
-              onRefresh={this.props.creatorsStore.fetchCreators}
-            />
-          }
-          style={Style.List}
-          data={creators}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderListItem}
-        />
-      </Screen>
-    )
-  }
-
-  private renderListHeader = () => {
-    const { currentTab } = this.state
-    return (
-      <View style={Style.TabHeader}>
-        <TouchableOpacity
-          style={[
-            Style.TabHeaderButton,
-            currentTab === "follow" ? Style.TabHeaderButtonActive : null
-          ]}
-          onPress={this.onPressFollowingTab}
-        >
-          <Text
-            tx="FollowSettingsScreen.TabTitle.Following"
-            color={currentTab === "follow" ? "likeCyan" : "white"}
-            weight="600"
-            style={Style.TabHeaderButtonTitle}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            Style.TabHeaderButton,
-            currentTab === "unfollow" ? Style.TabHeaderButtonActive : null
-          ]}
-          onPress={this.onPressUnfollowedTab}
-        >
-          <Text
-            tx="FollowSettingsScreen.TabTitle.Unfollowed"
-            color={currentTab === "unfollow" ? "likeCyan" : "white"}
-            weight="600"
-            style={Style.TabHeaderButtonTitle}
-          />
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  private renderListItem: ListRenderItem<Creator> = ({ item: creator }) => {
+  private renderListItem: ListRenderItem<Creator> = ({ item: creator, index }) => {
     return (
       <FollowingSettingsListItem
-        key={creator.likerID}
         type={this.state.currentTab}
         creator={creator}
+        isFirstCell={index === 0}
+        isLastCell={index === this.creators.length - 1}
         onPressFollow={this.onFollow}
         onPressUnfollow={this.onUnfollow}
       />
     )
   }
 
-  private renderListFooter = () => <View style={Style.ListFooter} />
+  render() {
+    return (
+      <Screen preset="fixed">
+        <Header
+          headerTx="FollowSettingsScreen.Title"
+          leftIcon="back"
+          onLeftPress={this.onPressBack}
+        />
+        <HeaderTabContainerView
+          value={this.state.currentTab}
+          items={[
+            <HeaderTabItem
+              key="follow"
+              value="follow"
+              icon="reader-following"
+              subtitleTx="FollowSettingsScreen.TabTitle.Following"
+            />,
+            <HeaderTabItem
+              key="unfollow"
+              value="unfollow"
+              icon="seen"
+              subtitleTx="FollowSettingsScreen.TabTitle.Unfollowed"
+            />
+          ]}
+          onChange={this.onTabChange}
+        >
+          {(props) => (
+            <AnimatedFlatList
+              {...props}
+              refreshControl={
+                <RefreshControl
+                  colors={[color.primary]}
+                  refreshing={this.props.creatorsStore.isFetching}
+                  onRefresh={this.props.creatorsStore.fetchCreators}
+                />
+              }
+              data={this.creators}
+              keyExtractor={this.keyExtractor}
+              renderItem={this.renderListItem}
+              ListHeaderComponent={ListVeritcalPadding}
+              ListFooterComponent={ListVeritcalPadding}
+              ItemSeparatorComponent={TableViewSeparator}
+            />
+          )}
+        </HeaderTabContainerView>
+      </Screen>
+    )
+  }
 }

@@ -5335,7 +5335,12 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
               "top": 80,
             }
           }
-          contentInsetAdjustmentBehavior="always"
+          contentOffset={
+            Object {
+              "x": 0,
+              "y": -80,
+            }
+          }
           onScroll={[Function]}
           scrollEventThrottle={0.0001}
           style={
@@ -13570,7 +13575,7 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                     Array [
                       Object {
                         "backgroundColor": "#e6e6e6",
-                        "height": 1,
+                        "height": 0.5,
                       },
                     ]
                   }
@@ -13707,7 +13712,7 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                     Array [
                       Object {
                         "backgroundColor": "#e6e6e6",
-                        "height": 1,
+                        "height": 0.5,
                       },
                     ]
                   }
@@ -13857,7 +13862,7 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                     Array [
                       Object {
                         "backgroundColor": "#e6e6e6",
-                        "height": 1,
+                        "height": 0.5,
                       },
                     ]
                   }

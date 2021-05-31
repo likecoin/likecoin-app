@@ -1,10 +1,11 @@
 import * as React from "react"
-import { View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import styled from "styled-components/native"
+
 import { TableViewCellProps } from "./table-view-cell"
 
-const Separator = styled.View`
-  height: 1px;
+export const TableViewSeparator = styled.View`
+  height: ${StyleSheet.hairlineWidth}px;
   background-color: ${({ theme }) => theme.color.separator};
 `
 
@@ -20,7 +21,7 @@ export function TableView({
   const lastIndex = React.Children.count(originChildren) - 1
   React.Children.forEach(originChildren, (child, index) => {
     if (index > 0) {
-      children.push(<Separator key={`separator-${index}`} />)
+      children.push(<TableViewSeparator key={`separator-${index}`} />)
     }
     children.push(
       React.cloneElement<TableViewCellProps>(
