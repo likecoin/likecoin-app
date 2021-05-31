@@ -166,7 +166,8 @@ export const ChainStoreModel = types
      */
     getValidatorExpectedReturnsRate(validator: Validator) {
       const delegatedTokens = new BigNumber(1e10)
-      return self.calculateExpectedRewards(validator, delegatedTokens).div(delegatedTokens)
+      const rate = self.calculateExpectedRewards(validator, delegatedTokens).div(delegatedTokens)
+      return rate.isNaN() ? new BigNumber(0) : rate
     },
     getValidatorExpectedReturnsPercentage(validator: Validator) {
       return self.formatPercent(this.getValidatorExpectedReturnsRate(validator))
