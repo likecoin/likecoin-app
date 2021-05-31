@@ -170,6 +170,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
               </View>
               <ValidatorList
                 chain={this.props.chain}
+                filter="active"
                 limit={10}
                 style={Style.ValidatorListWrapper}
                 onPressItem={this.onPressValidator}

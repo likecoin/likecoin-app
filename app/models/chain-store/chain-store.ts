@@ -209,6 +209,14 @@ export const ChainStoreModel = types
       return self.validatorList.sort(this.compareValidatorsByDelegation)
     },
   }))
+  .views(self => ({
+    get activeValidatorsList() {
+      return self.sortedValidatorList.filter(v => v.isActive)
+    },
+    get inactiveValidatorsList() {
+      return self.sortedValidatorList.filter(v => !v.isActive)
+    },
+  }))
   .actions(self => ({
     reset() {
       self.validators.replace({})

@@ -1,24 +1,27 @@
 import * as React from "react"
-import { View } from "react-native"
 import { inject, observer } from "mobx-react"
+import styled from "styled-components/native"
 
-import {
-  StakingRedelegationValidatorInputScreenProps as Props,
-  StakingRedelegationValidatorInputScreenStyle as Style,
-} from "./"
-
-import { RootStore } from "../../models/root-store"
-
-import { Button } from "../../components/button"
-import { Screen } from "../../components/screen"
-import { Sheet } from "../../components/sheet"
-import { Text } from "../../components/text"
-import { ValidatorList } from "../../components/validator-list"
+import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { Validator } from "../../models/validator"
+import { RootStore } from "../../models/root-store"
 
-import { color } from "../../theme"
-import { logAnalyticsEvent } from "../../utils/analytics"
+import { Header } from "../../components/header"
+import { Screen as ScreenBase } from "../../components/screen"
+import { ValidatorList as ValidatorListBase } from "../../components/validator-list"
+
+import { StakingRedelegationValidatorInputScreenProps as Props } from "./"
+
+const Screen = styled(ScreenBase)`
+  flex: 1;
+  background-color: ${({ theme }) => theme.color.background.feature.primary};
+`
+
+const ValidatorList = styled(ValidatorListBase)`
+  background-color: ${({ theme }) => theme.color.background.secondary};
+  padding: 0 ${({ theme }) => theme.spacing.xs};
+`
 
 @inject((rootStore: RootStore) => ({
   txStore: rootStore.stakingRedelegationStore,
@@ -45,32 +48,19 @@ export class StakingRedelegationValidatorInputScreen extends React.Component<Pro
 
   render () {
     return (
-      <Screen
-        preset="scroll"
-        backgroundColor={color.palette.likeGreen}
-        style={Style.Screen}
-      >
-        <View style={Style.Header}>
-          <Button
-            preset="icon"
-            icon="close"
-            color="white"
-            onPress={this.onPressCloseButton}
-          />
-        </View>
-        <Text
-          tx="StakingRedelegationValidatorInputScreen.title"
-          align="center"
-          color="likeCyan"
-          weight="bold"
+      <Screen preset="fixed">
+        <Header
+          headerTx="StakingRedelegationValidatorInputScreen.title"
+          leftIcon="arrow-left"
+          onLeftPress={this.onPressCloseButton}
         />
-        <Sheet style={Style.Sheet}>
-          <ValidatorList
-            chain={this.props.chain}
-            excluded={[this.props.navigation.getParam("from")]}
-            onPressItem={this.onPressValidator}
-          />
-        </Sheet>
+        <ValidatorList
+          chain={this.props.chain}
+          excluded={[this.props.navigation.getParam("from")]}
+          filter="active"
+          isScrolling={true}
+          onPressItem={this.onPressValidator}
+        />
       </Screen>
     )
   }

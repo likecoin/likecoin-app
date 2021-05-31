@@ -1,9 +1,16 @@
-import { ViewStyle } from "react-native"
-import { ChainStore } from "../../models/chain-store"
+import { ScrollViewProps } from "react-native"
 
+import { ChainStore } from "../../models/chain-store"
 import { Validator } from "../../models/validator"
 
-export interface ValidatorListProps {
+export type ValidatorListFilter = "all" | "active" | "inactive"
+
+export interface ValidatorListProps extends ScrollViewProps {
+  /**
+   * Filter out specific validators
+   */
+  filter: ValidatorListFilter
+
   /**
    * The Cosmos chain store
    */
@@ -20,9 +27,9 @@ export interface ValidatorListProps {
   limit: number
 
   /**
-   * An optional style override useful for padding & margin.
+   * Wrap with scroll view
    */
-  style?: ViewStyle
+  isScrolling: boolean
 
   /**
    * Callback when a list item is pressed
