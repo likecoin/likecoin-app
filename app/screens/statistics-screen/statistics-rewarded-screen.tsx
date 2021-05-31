@@ -27,6 +27,7 @@ import {
   StatisticsRewardedDashboard,
 } from "./statistics-rewarded-dashboard"
 
+import { UnderlayView } from "../../components/extended-view"
 import { Icon } from "../../components/icon"
 import {
   StatisticsListItemSkeleton,
@@ -283,6 +284,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
       ? null
       : (
         <View style={CommonStyle.Empty}>
+          <UnderlayView />
           <Text
             tx="StatisticsRewardedScreen.Empty.Content"
             style={CommonStyle.EmptyLabel}
