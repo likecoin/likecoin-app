@@ -149,6 +149,7 @@ export const UserStoreModel = types
     logout: flow(function * () {
       if (self.isSigningOut) return
       self.isSigningOut = true
+      self.authCore.setHasSignedIn(false)
       self.currentUser = undefined
       try {
         getRoot(self).reset()
