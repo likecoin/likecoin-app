@@ -79,7 +79,7 @@ export class FansDashoardScreen extends React.Component<FansDashoardScreenProps,
                   />
                 ))}
               </SupporterList>
-              <SponsorLinkCTATableView likerID="ckxpress" />
+              <SponsorLinkCTATableView likerID={this.props.userStore.currentUser.likerID} />
             </ScrollView>
           )}
         </HeaderTabContainerView>
