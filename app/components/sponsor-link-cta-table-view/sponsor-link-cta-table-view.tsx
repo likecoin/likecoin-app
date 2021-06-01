@@ -71,24 +71,28 @@ const CTAButton = styled(Button)`
 
 interface SponsorLinkCTATableViewProps {
   likerID: string
+  utmSource?: string
 }
 
 export function SponsorLinkCTATableView({
   likerID,
+  utmSource = "",
   ...props
 }: SponsorLinkCTATableViewProps) {
+  const queryString = `?utm_source=${utmSource}&utm_medium=app&utm_campaign=sponsor_link_cta`
+
   const handleHeaderButtonPress = () => {
-    Linking.openURL("https://liker.land/creators")
+    Linking.openURL(`https://liker.land/creators${queryString}`)
   }
 
   const handleCTAButtonPress = React.useCallback(async () => {
     try {
-      const url = `https://liker.land/${likerID}/civic`
+      const url = `https://liker.land/${likerID}/civic${queryString}`
       await Share.share({ message: translate("sponsor_link_cta_share_message", { url }) })
     } catch (error) {
       logError(error)
     }
-  }, [likerID])
+  }, [likerID, queryString])
 
   const theme = useTheme()
 
