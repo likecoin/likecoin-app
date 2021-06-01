@@ -35,7 +35,7 @@ const WebView = styled(WebViewBase)`
 `
 
 const FooterView = styled.SafeAreaView`
-  border-top-width: ${StyleSheet.hairlineWidth};
+  border-top-width: ${StyleSheet.hairlineWidth}px;
   border-top-color: ${({ theme }) => theme.color.separator};
 `
 
@@ -67,12 +67,12 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
   webViewRef = React.createRef<WebViewBase>()
 
   componentDidMount() {
-    this.content.read()
-    if (this.content.checkShouldFetchDetails()) {
-      this.content.fetchDetails()
+    this.content?.read()
+    if (this.content?.checkShouldFetchDetails()) {
+      this.content?.fetchDetails()
     }
-    this.content.fetchCurrentUserLikeStat()
-    this.content.fetchCurrentUserSuperLikeStat()
+    this.content?.fetchCurrentUserLikeStat()
+    this.content?.fetchCurrentUserSuperLikeStat()
   }
 
   get content() {
@@ -90,11 +90,11 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
   }
 
   private onPressLike = (hits: number) => {
-    this.content.like(hits)
+    this.content?.like(hits)
   }
 
   private onPressSuperLike = () => {
-    this.content.superLike()
+    this.content?.superLike()
   }
 
   private onShare = async () => {

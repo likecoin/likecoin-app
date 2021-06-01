@@ -89,7 +89,7 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
 
   renderBody() {
     const {
-      currentUser: { likerID, isCivicLiker },
+      currentUser: { likerID = "", isCivicLiker = false } = {},
       iapStore: { isEnabled: isIAPEnabled },
     } = this.props.userStore
     return (
