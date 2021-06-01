@@ -120,15 +120,14 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
       const { action } = JSON.parse(event.nativeEvent?.data)
       switch (action) {
         case "MOUNTED":
+          const iframeBaseURL = this.content.getConfig('LIKECOIN_BUTTON_BASE_URL')
           this.webViewRef?.current?.injectJavaScript(`
-            ${
-            // HACK:
-            // Since As we cannot determine which iframe(s) contain LikeCoin button,
-            // so we loop through and post message to all iframes
-            ""}
-            for (let i=0; i < window.frames.length; i+=1) {
-              let frame = frames[i];
-              frame.postMessage({ action: "DISABLE_BUTTON" }, '${this.content.getConfig('LIKECOIN_BUTTON_BASE_URL')}');
+            let iframes = document.querySelectorAll("iframe");
+            for (let i = 0; i < iframes.length; i += 1) {
+              let iframe = iframes[i];
+              let src = iframe.getAttribute("src")
+              if (!src || src.indexOf("${iframeBaseURL}") === -1) continue;
+              iframe.contentWindow.postMessage({ action: "DISABLE_BUTTON" }, "${iframeBaseURL}");
             }
           `)
           break
