@@ -60,6 +60,12 @@ const injectedJavaScript = `${
   }window.addEventListener('message', function(event) {
     window.ReactNativeWebView.postMessage(JSON.stringify(event.data));
   });
+  ${/* Hide LikeCoin button on custom site */ ""
+  }window.onload = function () {
+    if (window.location.host === "matters.news") {
+      document.querySelector('.appreciate-button').hidden = true;
+    }
+  };
   true;${/* NOTE: This is required, or you'll sometimes get silent failures */ ""}`
 
 @observer
