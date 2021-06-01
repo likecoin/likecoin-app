@@ -112,7 +112,10 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
             />
           </TableView>
         )}
-        <SponsorLinkCTATableView likerID={likerID} />
+        <SponsorLinkCTATableView
+          likerID={likerID}
+          utmSource="dashboard"
+        />
       </View>
     )
   }
