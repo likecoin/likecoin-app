@@ -35,7 +35,7 @@ const WebView = styled(WebViewBase)`
 `
 
 const FooterView = styled.SafeAreaView`
-  border-top-width: ${StyleSheet.hairlineWidth};
+  border-top-width: ${StyleSheet.hairlineWidth}px;
   border-top-color: ${({ theme }) => theme.color.separator};
 `
 
