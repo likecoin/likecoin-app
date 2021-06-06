@@ -1,6 +1,6 @@
 import * as React from "react"
 import { observer } from "mobx-react"
-import { ActivityIndicator, Platform, Share, StatusBar, StyleSheet } from "react-native"
+import { ActivityIndicator, Alert, Platform, Share, StatusBar, StyleSheet } from "react-native"
 import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import { WebView as WebViewBase, WebViewMessageEvent } from "react-native-webview"
 import styled from "styled-components/native"
@@ -16,6 +16,7 @@ import { logError } from "../../utils/error"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { COMMON_API_CONFIG } from "../../services/api/api-config"
+import { translate } from "../../i18n"
 
 const RootView = styled.View`
   flex: 1;
@@ -55,22 +56,63 @@ export interface ContentViewNavigationStateParams {
 }
 export interface ContentViewScreenProps extends NavigationScreenProps<ContentViewNavigationStateParams> {}
 
+function delayed(callback: () => void, delay: number) {
+  let nextTime = 0
+  return () => {
+    const now = Date.now()
+    if (!nextTime) nextTime = now;
+    const diff = Math.min(delay, Math.max(now - nextTime, 0))
+    setTimeout(callback, diff)
+    nextTime += delay - diff
+  }
+}
+
+const getMattersSetLikeCoinButtonEnableScript = (isEnabled = true) => {
+  return `
+    if (document.querySelector('.appreciate-button')) {
+      document.querySelector('.appreciate-button').style.pointerEvents = '${isEnabled ? "all" : "none"}';
+    }
+  `;
+}
+
 const injectedJavaScript = `${
   /* Forward any post messages to WebView */ ""
   }window.addEventListener('message', function(event) {
     window.ReactNativeWebView.postMessage(JSON.stringify(event.data));
   });
-  ${/* Hide LikeCoin button on custom site */ ""
+  ${/* Grab meta */ ""
   }window.onload = function () {
-    if (window.location.host === "matters.news") {
-      document.querySelector('.appreciate-button').hidden = true;
+    let meta = {};
+    let host = window.location.host;
+    switch (host) {
+      case 'matters.news':
+        meta.site = 'matters';
+        meta.isLoggedIn = !!document.querySelector('.me-avatar');
+        ${getMattersSetLikeCoinButtonEnableScript(false) /* Disabled LikeCoin button on first load */}
+        break;
+      default:
+        break;
     }
+    window.ReactNativeWebView.postMessage(JSON.stringify({
+      action: 'DETECTED_CUSTOM_SITE',
+      value: meta,
+    }));
   };
   true;${/* NOTE: This is required, or you'll sometimes get silent failures */ ""}`
+
+
+const CUSTOM_SITES = new Set([
+  "matters",
+])
 
 @observer
 export class ContentViewScreen extends React.Component<ContentViewScreenProps, {}> {
   webViewRef = React.createRef<WebViewBase>()
+
+  state = {
+    customSite: "",
+    isCustomSiteLoggedIn: false,
+  }
 
   componentDidMount() {
     this.content?.read()
@@ -91,15 +133,90 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
     return superLike ? superLike.redirectURL : content.url
   }
 
+  get isCustomSite() {
+    return CUSTOM_SITES.has(this.state.customSite)
+  }
+
+  get shouldAlertCustomSiteLogin() {
+    return !this.state.isCustomSiteLoggedIn && this.state.customSite === 'matters'
+  }
+
+  private pressLikeButtonOnCustomSite = delayed(() => {
+    let script = ""
+    switch (this.state.customSite) {
+      case "matters":
+        const elem = "document.querySelector('.appreciate-button button')"
+        script = `
+          ${getMattersSetLikeCoinButtonEnableScript(true)}
+          if (${elem}) ${elem}.click();
+          ${getMattersSetLikeCoinButtonEnableScript(false)}
+        `
+        break;
+    
+      default:
+        break;
+    }
+    this.webViewRef?.current?.injectJavaScript(script)
+  }, 200)
+
+  private pressSuperLikeButtonOnCustomSite = delayed(() => {
+    let script = ""
+    switch (this.state.customSite) {
+      case "matters":
+        const elem = "document.querySelector('.appreciate-button.isSuperLike button')"
+        script = `
+          ${getMattersSetLikeCoinButtonEnableScript(true)}
+          if (${elem}) ${elem}.click();
+          ${getMattersSetLikeCoinButtonEnableScript(false)}
+        `
+        break;
+    
+      default:
+        break;
+    }
+    this.webViewRef?.current?.injectJavaScript(script)
+  }, 200)
+
   private goBack = () => {
     this.props.navigation.goBack()
   }
 
-  private onPressLike = (hits: number) => {
-    this.content?.like(hits)
+  private alertCustomSiteLogin = () => {
+    Alert.alert(
+      translate("content_view_screen_custom_site_login_alert"),
+      null,
+      [
+        { text: translate("common.confirm") }
+      ]
+    )
+  }
+
+  private onPressLike = () => {
+    if (!this.isCustomSite) return
+    if (this.shouldAlertCustomSiteLogin) {
+      this.alertCustomSiteLogin()
+      return
+    }
+    this.pressLikeButtonOnCustomSite()
   }
 
   private onPressSuperLike = () => {
+    if (!this.isCustomSite) return
+    if (this.shouldAlertCustomSiteLogin) {
+      this.alertCustomSiteLogin()
+      return
+    }
+    this.pressSuperLikeButtonOnCustomSite()
+    this.content?.fetchCurrentUserSuperLikeStat()
+  }
+
+  private onPressLikeDebounced = (hits: number) => {
+    if (this.isCustomSite) return
+    this.content?.like(hits)
+  }
+
+  private onPressSuperLikeDebounced = () => {
+    if (this.isCustomSite) return
     this.content?.superLike()
   }
 
@@ -123,8 +240,16 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
 
   private handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
-      const { action } = JSON.parse(event.nativeEvent?.data)
+      const { action, value } = JSON.parse(event.nativeEvent?.data)
       switch (action) {
+        case "DETECTED_CUSTOM_SITE":
+          const { site = "", isLoggedIn = false } = value || {}
+          this.setState({
+            customSite: site,
+            isCustomSiteLoggedIn: isLoggedIn,
+          })
+          break
+
         case "MOUNTED":
           const iframeBaseURL = this.content.getConfig('LIKECOIN_BUTTON_BASE_URL')
           this.webViewRef?.current?.injectJavaScript(`
@@ -137,6 +262,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
             }
           `)
           break
+
         default:
           break
       }
@@ -205,8 +331,11 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
               hasSuperLiked={content?.hasCurrentUserSuperLiked}
               cooldownValue={content?.currentUserSuperLikeCooldown}
               cooldownEndTime={content?.currentUserSuperLikeCooldownEndTime}
+              isDisabled={this.shouldAlertCustomSiteLogin}
               onPressLike={this.onPressLike}
+              onPressLikeDebounced={this.onPressLikeDebounced}
               onPressSuperLike={this.onPressSuperLike}
+              onPressSuperLikeDebounced={this.onPressSuperLikeDebounced}
             />
             {this.renderBookmarkButton()}
             <Button
