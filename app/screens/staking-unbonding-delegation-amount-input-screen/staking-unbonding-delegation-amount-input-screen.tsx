@@ -57,10 +57,6 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
     }
   }
 
-  private onAmountInputChange = (amount: string) => {
-    this.props.txStore.setAmount(amount)
-  }
-
   private onPressCloseButton = () => {
     this.props.navigation.pop()
   }
@@ -99,9 +95,10 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
         availableLabelTx="stakingUnbondingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
+        isShowMaxButton={true}
         graph={<Graph />}
         formatAmount={this.props.chain.formatDenom}
-        onChange={this.onAmountInputChange}
+        onChange={this.props.txStore.setAmount}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}
         onErrorExceedMax={this.onAmountExceedMax}

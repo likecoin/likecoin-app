@@ -205,7 +205,6 @@ export const UserStoreModel = types
       if (trackingStatus === "not-determined") {
         trackingStatus = yield requestTrackingPermission()
       }
-      console.tron.log(trackingStatus)
       self.trackingStatus = trackingStatus
     }),
   }))

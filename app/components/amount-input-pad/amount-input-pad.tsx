@@ -5,15 +5,21 @@ import {
   StyleSheet,
   TextStyle,
 } from "react-native"
+import styled from "styled-components/native"
 import { splitEvery } from "ramda"
 
 import { AmountInputPadKey } from "./amount-input-pad.key"
 import DeleteIcon from "./delete-key.svg"
 
+import { Button } from "../button"
 import { Icon } from "../icon"
 import { Text } from "../text"
 import { sizes } from "../text/text.sizes"
 import { spacing, color } from "../../theme"
+
+const MaxButton = styled(Button)`
+  margin-top: -${({ theme }) => theme.spacing.md};
+`
 
 const KEY_LIST = [
   "1", "2", "3",
@@ -56,6 +62,11 @@ export interface AmountInputPadProps {
   errorTx?: string
 
   /**
+   * Hide/Show max button
+   */
+  isShowMaxButton?: boolean
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle
@@ -64,6 +75,11 @@ export interface AmountInputPadProps {
    * The callback when the input is changed
    */
   onChange?: (value: string) => void
+
+  /**
+   * Callback when the max button is pressed
+   */
+  onPressMax?: () => void
 }
 
 /**
@@ -94,6 +110,7 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
       errorTx,
       style,
       value,
+      isShowMaxButton = false,
       ...rest
     } = this.props
 
@@ -117,6 +134,13 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
             adjustsFontSizeToFit
             style={STYLE.DISPLAY_VALUE}
           />
+          {!!isShowMaxButton && (
+            <MaxButton
+              preset="plain"
+              tx="amount_input_max"
+              onPress={this.props.onPressMax}
+            />
+          )}
           <Text
             tx={errorTx}
             text={errorText}

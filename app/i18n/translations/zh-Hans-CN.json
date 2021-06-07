@@ -1,4 +1,5 @@
 {
+  "amount_input_max": "最大",
   "closeApp": "结束 App",
   "initializing": "初始化中",
   "initializingFailedAlertTitle": "初始化失败",

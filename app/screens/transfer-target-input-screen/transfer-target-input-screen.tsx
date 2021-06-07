@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { inject, observer } from "mobx-react"
+import BigNumber from "bignumber.js"
 
 import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
@@ -114,7 +115,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
 
     const amount = this.props.navigation.getParam("amount")
     if (amount) {
-      this.props.txStore.setAmount(amount, true)
+      this.props.txStore.setAmount(new BigNumber(amount))
     }
 
     const memo = this.props.navigation.getParam("memo")

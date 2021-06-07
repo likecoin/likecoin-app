@@ -53,10 +53,6 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
     }
   }
 
-  private onAmountInputChange = (amount: string) => {
-    this.props.txStore.setAmount(amount)
-  }
-
   private onPressCloseButton = () => {
     this.props.navigation.pop()
   }
@@ -95,7 +91,7 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
         isConfirmButtonLoading={isCreatingTx}
         graph={<Graph />}
         formatAmount={this.props.chain.formatDenom}
-        onChange={this.onAmountInputChange}
+        onChange={this.props.txStore.setAmount}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}
         onErrorExceedMax={this.onAmountExceedMax}

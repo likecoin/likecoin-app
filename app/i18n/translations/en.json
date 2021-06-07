@@ -1,4 +1,5 @@
 {
+  "amount_input_max": "MAX",
   "closeApp": "Close App",
   "initializing": "Initializing",
   "initializingFailedAlertTitle": "Initialization Failed",

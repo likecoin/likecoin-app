@@ -90,8 +90,8 @@ export const TxStoreModel = types
       self.target = newTarget
       self.errorMessage = ""
     },
-    setAmount: (value = "0", isBigNumber = false) => {
-      if (isBigNumber) {
+    setAmount: (value: string | BigNumber = "0") => {
+      if (value instanceof BigNumber) {
         const normalized = new BigNumber(value).shiftedBy(-self.fractionDigits)
         self.inputAmount = normalized.toFixed()
       } else {
