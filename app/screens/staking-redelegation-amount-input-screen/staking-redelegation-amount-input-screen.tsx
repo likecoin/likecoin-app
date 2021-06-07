@@ -36,10 +36,6 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
     }
   }
 
-  private onAmountInputChange = (amount: string) => {
-    this.props.txStore.setAmount(amount)
-  }
-
   private onPressCloseButton = () => {
     this.props.navigation.goBack()
   }
@@ -78,9 +74,10 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
         availableLabelTx="StakingRedelegationAmountInputScreen.availableLabelText"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
+        isShowMaxButton={true}
         graph={<Graph />}
         formatAmount={this.props.chain.formatDenom}
-        onChange={this.onAmountInputChange}
+        onChange={this.props.txStore.setAmount}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}
         onErrorExceedMax={this.onAmountExceedMax}

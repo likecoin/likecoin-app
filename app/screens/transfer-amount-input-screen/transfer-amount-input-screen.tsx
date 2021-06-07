@@ -64,10 +64,6 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
     }
   }
 
-  private onAmountInputChange = (amount: string) => {
-    this.props.txStore.setAmount(amount)
-  }
-
   private onPressCloseButton = () => {
     this.props.navigation.goBack()
   }
@@ -112,7 +108,7 @@ export class TransferAmountInputScreen extends React.Component<TransferAmountInp
         isConfirmButtonLoading={isCreatingTx}
         graph={<TransferGraph />}
         formatAmount={this.props.chain.formatDenom}
-        onChange={this.onAmountInputChange}
+        onChange={this.props.txStore.setAmount}
         onClose={this.onPressCloseButton}
         onConfirm={this.onPressNextButton}
         onErrorExceedMax={this.onAmountExceedMax}

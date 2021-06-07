@@ -18,6 +18,11 @@ export interface AmountInputViewProps {
   maxAmount?: BigNumber
 
   /**
+   * Hide/Show max button
+   */
+  isShowMaxButton?: boolean
+
+  /**
    * The text of the available label which look up via i18n
    */
   availableLabelTx?: string
@@ -50,7 +55,7 @@ export interface AmountInputViewProps {
   /**
    * Callback for changing amount
    */
-  onChange?: (amount: string) => void
+  onChange?: (amount: string | BigNumber) => void
 
   /**
    * Callback of clicking close button
