@@ -67,10 +67,12 @@ function delayed(callback: () => void, delay: number) {
   }
 }
 
+const MATTERS_LIKECOIN_BUTTON_SELECTOR = `document.querySelector('.appreciate-button')`
+
 const getMattersSetLikeCoinButtonEnableScript = (isEnabled = true) => {
   return `
-    if (document.querySelector('.appreciate-button')) {
-      document.querySelector('.appreciate-button').style.pointerEvents = '${isEnabled ? "all" : "none"}';
+    if (${MATTERS_LIKECOIN_BUTTON_SELECTOR}) {
+      ${MATTERS_LIKECOIN_BUTTON_SELECTOR}.style.pointerEvents = '${isEnabled ? "all" : "none"}';
     }
   `;
 }
@@ -80,23 +82,42 @@ const injectedJavaScript = `${
   }window.addEventListener('message', function(event) {
     window.ReactNativeWebView.postMessage(JSON.stringify(event.data));
   });
-  ${/* Grab meta */ ""
-  }window.onload = function () {
-    let meta = {};
+
+  function notifyAppForCustomSite(meta) {
+    window.ReactNativeWebView.postMessage(JSON.stringify({
+      action: 'DETECTED_CUSTOM_SITE',
+      value: {
+        site: meta.site || '',
+        isReady: !!meta.isReady,
+        isLoggedIn: !!meta.isLoggedIn,
+      },
+    }));
+  }
+
+  window.onload = function() {
     let host = window.location.host;
     switch (host) {
-      case 'matters.news':
-        meta.site = 'matters';
-        meta.isLoggedIn = !!document.querySelector('.me-avatar');
-        ${getMattersSetLikeCoinButtonEnableScript(false) /* Disabled LikeCoin button on first load */}
+      case 'matters.news': {
+        const site = 'matters';
+        notifyAppForCustomSite({ site: site });
+        function checkMattersFinishLoading() {
+          if (!${MATTERS_LIKECOIN_BUTTON_SELECTOR}) {
+            setTimeout(checkMattersFinishLoading, 500);
+            return;
+          }
+          ${getMattersSetLikeCoinButtonEnableScript(false) /* Disabled LikeCoin button on first load */}
+          notifyAppForCustomSite({
+            site: site,
+            isReady: true,
+            isLoggedIn: !!document.querySelector('.me-avatar'),
+          });
+        }
+        checkMattersFinishLoading();
         break;
+      }
       default:
         break;
     }
-    window.ReactNativeWebView.postMessage(JSON.stringify({
-      action: 'DETECTED_CUSTOM_SITE',
-      value: meta,
-    }));
   };
   true;${/* NOTE: This is required, or you'll sometimes get silent failures */ ""}`
 
@@ -111,6 +132,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
 
   state = {
     customSite: "",
+    isCustomSiteReady: false,
     isCustomSiteLoggedIn: false,
   }
 
@@ -138,7 +160,11 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
   }
 
   get shouldAlertCustomSiteLogin() {
-    return !this.state.isCustomSiteLoggedIn && this.state.customSite === 'matters'
+    return this.isCustomSite && this.state.isCustomSiteReady && !this.state.isCustomSiteLoggedIn
+  }
+
+  get shouldDisableLikeCoinButton() {
+    return this.shouldAlertCustomSiteLogin || (this.isCustomSite && !this.state.isCustomSiteReady)
   }
 
   private pressLikeButtonOnCustomSite = delayed(() => {
@@ -192,7 +218,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
   }
 
   private onPressLike = () => {
-    if (!this.isCustomSite) return
+    if (!this.isCustomSite || !this.state.isCustomSiteReady) return
     if (this.shouldAlertCustomSiteLogin) {
       this.alertCustomSiteLogin()
       return
@@ -201,7 +227,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
   }
 
   private onPressSuperLike = () => {
-    if (!this.isCustomSite) return
+    if (!this.isCustomSite || !this.state.isCustomSiteReady) return
     if (this.shouldAlertCustomSiteLogin) {
       this.alertCustomSiteLogin()
       return
@@ -243,9 +269,10 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
       const { action, value } = JSON.parse(event.nativeEvent?.data)
       switch (action) {
         case "DETECTED_CUSTOM_SITE":
-          const { site = "", isLoggedIn = false } = value || {}
+          const { site = "", isReady = false, isLoggedIn = false } = value || {}
           this.setState({
             customSite: site,
+            isCustomSiteReady: isReady,
             isCustomSiteLoggedIn: isLoggedIn,
           })
           break
@@ -331,7 +358,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
               hasSuperLiked={content?.hasCurrentUserSuperLiked}
               cooldownValue={content?.currentUserSuperLikeCooldown}
               cooldownEndTime={content?.currentUserSuperLikeCooldownEndTime}
-              isDisabled={this.shouldAlertCustomSiteLogin}
+              isDisabled={this.shouldDisableLikeCoinButton}
               onPressLike={this.onPressLike}
               onPressLikeDebounced={this.onPressLikeDebounced}
               onPressSuperLike={this.onPressSuperLike}
