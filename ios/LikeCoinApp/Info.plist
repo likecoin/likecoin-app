@@ -22,12 +22,12 @@
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
-    <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb105087446989974</string>
-      </array>
-    </dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb105087446989974</string>
+			</array>
+		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -70,16 +70,16 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>FacebookAppID</key>
-  <string>105087446989974</string>
-  <key>FacebookDisplayName</key>
-  <string>Liker</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<key>FacebookAppID</key>
+	<string>105087446989974</string>
+	<key>FacebookDisplayName</key>
+	<string>Liker</string>
 	<key>NSCameraUsageDescription</key>
 	<string>The app requires camera for scanning QR code</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app requires your permission to access your photos</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Your data will be used to deliver a better experience for you</string>
 	<key>NSCrossWebsiteTrackingUsageDescription</key>
 	<string>Allow Liker Land to use cross-site cookie to check your login status. This allows you to use like button in webpage without the need of popups</string>
 	<key>UILaunchStoryboardName</key>

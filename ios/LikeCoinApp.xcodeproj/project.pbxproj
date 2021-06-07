@@ -11,6 +11,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2FB14CD0266DC0B000585C71 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB14CD2266DC0B000585C71 /* InfoPlist.strings */; };
 		40B243B835C50D731CE4FD3B /* libPods-LikeCoinApp-LikerLandShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C429FADD31C96AAFD61D1CD1 /* libPods-LikeCoinApp-LikerLandShare.a */; };
 		83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7023282B3700E6998E /* LKCWebViewManager.m */; };
 		83924D7423282B3700E6998E /* LKCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7123282B3700E6998E /* LKCWebView.m */; };
@@ -61,6 +62,8 @@
 		2F29085524A5E2D9008CE1DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2F29085624A5E483008CE1DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		2F796178233DC2D700306A87 /* LikeCoinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LikeCoinApp.entitlements; path = LikeCoinApp/LikeCoinApp.entitlements; sourceTree = "<group>"; };
+		2FB14CD1266DC0B000585C71 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2FB14CD3266DC0B600585C71 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		612C5BA990BB7AB7622CC7A0 /* Pods-LikeCoinApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp/Pods-LikeCoinApp.debug.xcconfig"; sourceTree = "<group>"; };
 		75D8FC0335890CDFBF9C4CF5 /* libPods-LikeCoinApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83924D6C232828C500E6998E /* RNCWebView+LikeCoin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RNCWebView+LikeCoin.h"; path = "LikeCoinApp/RNCWebView+LikeCoin.h"; sourceTree = "<group>"; };
@@ -118,6 +121,7 @@
 				83924D7123282B3700E6998E /* LKCWebView.m */,
 				83924D7223282B3700E6998E /* LKCWebViewManager.h */,
 				83924D7023282B3700E6998E /* LKCWebViewManager.m */,
+				2FB14CD2266DC0B000585C71 /* InfoPlist.strings */,
 			);
 			name = LikeCoinApp;
 			sourceTree = "<group>";
@@ -290,6 +294,7 @@
 				DCFADF7F237C0E7600028C41 /* Debug in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				2FB14CD0266DC0B000585C71 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,6 +526,15 @@
 			);
 			name = LaunchScreen.xib;
 			path = LikeCoinApp;
+			sourceTree = "<group>";
+		};
+		2FB14CD2266DC0B000585C71 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FB14CD1266DC0B000585C71 /* en */,
+				2FB14CD3266DC0B600585C71 /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		83FE4EA224064FE50073E6EA /* MainInterface.storyboard */ = {

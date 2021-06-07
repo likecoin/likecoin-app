@@ -229,6 +229,8 @@ PODS:
     - React
   - react-native-splash-screen (3.1.1):
     - React
+  - react-native-tracking-transparency (0.1.1):
+    - React
   - react-native-webview (8.1.2):
     - React
   - React-RCTActionSheet (0.60.4):
@@ -339,6 +341,7 @@ DEPENDENCIES:
   - react-native-image-sequence (from `../node_modules/react-native-image-sequence`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
+  - react-native-tracking-transparency (from `../node_modules/react-native-tracking-transparency`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -440,6 +443,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-randombytes"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  react-native-tracking-transparency:
+    :path: "../node_modules/react-native-tracking-transparency"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -547,6 +552,7 @@ SPEC CHECKSUMS:
   react-native-image-sequence: b4cc7ce0ee9eeec7574b005e06059b3f7f818d96
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-splash-screen: 353334c5ae82d8c74501ea7cbb916cb7cb20c8bf
+  react-native-tracking-transparency: b2029ff756f1128b1f2c7c7c7f3003bc3c950f9f
   react-native-webview: fcb5f377aadc216273300f452ee0d321fb85809b
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
   React-RCTAnimation: 981d8c95b0e30918a9832ccac32af83562a27fae

@@ -1,5 +1,10 @@
 import Rate, { AndroidMarket } from "react-native-rate"
 import {
+  getTrackingStatus,
+  requestTrackingPermission,
+  TrackingStatus,
+} from "react-native-tracking-transparency"
+import {
   applySnapshot,
   flow,
   getRoot,
@@ -51,6 +56,7 @@ export const UserStoreModel = types
   .volatile(() => ({
     isSigningIn: false,
     isSigningOut: false,
+    trackingStatus: "not-determined" as TrackingStatus,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -84,6 +90,9 @@ export const UserStoreModel = types
     },
     get sponsorLink() {
       return `${self.getConfig("LIKERLAND_URL")}/${self.currentUser.likerID}/civic`
+    },
+    get shouldTrackUser() {
+      return self.trackingStatus === "authorized" || self.trackingStatus === "unavailable"
     },
   }))
   .views(self => ({
@@ -191,6 +200,14 @@ export const UserStoreModel = types
         self.currentUser.isCivicLiker = isCivicLiker
       }
     },
+    checkTrackingStatus: flow(function * () {
+      let trackingStatus: TrackingStatus = yield getTrackingStatus()
+      if (trackingStatus === "not-determined") {
+        trackingStatus = yield requestTrackingPermission()
+      }
+      console.tron.log(trackingStatus)
+      self.trackingStatus = trackingStatus
+    }),
   }))
   .actions(self => ({
     fetchUserInfo: flow(function * () {
@@ -203,7 +220,7 @@ export const UserStoreModel = types
         SuperLikeStatusResult,
       ] = yield Promise.all([
         self.env.likeCoAPI.fetchCurrentUserInfo(),
-        self.env.likeCoAPI.getMySuperLikeStatus(timezone)
+        self.env.likeCoAPI.getMySuperLikeStatus(timezone),
       ])
 
       switch (userResult.kind) {
@@ -218,18 +235,21 @@ export const UserStoreModel = types
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
           const primaryPhone = self.authCore.profile.primaryPhone
-          /* set branch user id for consistent link data */
-          self.env.branchIO.setUserIdentity(likerID)
-          /* do not block user logic with analytics */
-          updateAnalyticsUser({
-            likerID,
-            displayName,
-            email,
-            primaryPhone,
-            cosmosWallet,
-            authCoreUserId,
-            userPIISalt,
-          })
+          
+          if (self.shouldTrackUser) {
+            /* set branch user id for consistent link data */
+            self.env.branchIO.setUserIdentity(likerID)
+            /* do not block user logic with analytics */
+            updateAnalyticsUser({
+              likerID,
+              displayName,
+              email,
+              primaryPhone,
+              cosmosWallet,
+              authCoreUserId,
+              userPIISalt,
+            })
+          }
 
           switch (superLikeStatusResult.kind) {
             case "ok":
