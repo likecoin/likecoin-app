@@ -62,6 +62,7 @@
   "content_list_item_action_sheet_follow": "Follow %{followee}",
   "content_list_item_action_sheet_unbookmark": "Remove from reading list",
   "content_list_item_action_sheet_unfollow": "Unfollow %{followee}",
+  "content_view_screen_custom_site_login_alert": "Please login on the website",
   "Date": {
     "Today": "Today",
     "Yesterday": "Yesterday"

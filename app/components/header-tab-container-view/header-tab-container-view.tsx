@@ -1,9 +1,11 @@
 import * as React from "react"
-import { Animated, ScrollViewProps } from "react-native"
+import { Animated, Platform, ScrollViewProps } from "react-native"
 import styled from "styled-components/native"
 
 import { HeaderTab } from "../header-tab"
 import { ScrollViewShadow } from "../scroll-view"
+
+const HEADER_HEIGHT = 80
 
 const View = styled.View`
   flex: 1;
@@ -15,7 +17,7 @@ const HeaderTabWrapper = styled.View`
   z-index: 10;
   left: 0;
   right: 0;
-  height: 80px;
+  height: ${HEADER_HEIGHT}px;
 `
 
 export interface HeaderTabContainerViewProps {
@@ -66,7 +68,7 @@ export function HeaderTabContainerView({
         outputRange: [0, 0, 1],
       }),
       0,
-      80
+      HEADER_HEIGHT
     ),
     -1
   )
@@ -75,16 +77,16 @@ export function HeaderTabContainerView({
     transform: [{ translateY: headerTabViewTranslateY }]
   }
 
+  const scrollViewShadowStyle = {
+    opacity: headerTabViewTranslateY.interpolate({
+      inputRange: [-HEADER_HEIGHT, 0],
+      outputRange: [0.5, 0],
+    }),
+  }
+
   return (
     <View {...props}>
-      <ScrollViewShadow
-        style={{
-          opacity: headerTabViewTranslateY.interpolate({
-            inputRange: [-80, 0],
-            outputRange: [0.5, 0],
-          }),
-        }}
-      />
+      <ScrollViewShadow style={scrollViewShadowStyle} />
       <HeaderTabWrapper>
         <Animated.View style={headerTabViewStyle}>
           <HeaderTab value={value} onChange={onChange}>
@@ -94,8 +96,14 @@ export function HeaderTabContainerView({
       </HeaderTabWrapper>
       {!!children && children({
         onScroll,
-        contentInset: { top: 80 },
-        contentOffset: { x: 0, y: -80 },
+        contentInset: { top: HEADER_HEIGHT },
+        contentOffset: {
+          x: 0,
+          y: Platform.OS === "ios" ? -HEADER_HEIGHT : 0,
+        },
+        style: {
+          paddingTop: Platform.OS === "android" ? HEADER_HEIGHT : 0,
+        },
       })}
     </View>
   )

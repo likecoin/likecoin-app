@@ -1,0 +1,13 @@
+/* 
+  InfoPlist.strings
+  LikeCoinApp
+
+  Created by Ng Wing Tat, David on 7/6/2021.
+  Copyright © 2021 Facebook. All rights reserved.
+*/
+
+"FacebookDisplayName" = "Liker";
+"NSCameraUsageDescription" = "The app requires camera for scanning QR code";
+"NSPhotoLibraryUsageDescription" = "The app requires your permission to access your photos";
+"NSUserTrackingUsageDescription" = "Your data will be used to deliver a better experience for you";
+"NSCrossWebsiteTrackingUsageDescription" = "Allow Liker Land to use cross-site cookie to check your login status. This allows you to use like button in webpage without the need of popups";

@@ -6,6 +6,21 @@ import { PureLikeCoinButton, PureLikeCoinButtonProps } from "./pure-likecoin-but
 
 export interface LikecoinButtonProps extends PureLikeCoinButtonProps {
   /**
+   * Disable button action
+   */
+  isDisabled?: boolean
+
+  /**
+   * Callback on pressed like (debounced)
+   */
+  onPressLikeDebounced?: (likeCount: number) => void
+
+  /**
+   * Callback on triggered Super Like (debounced)
+   */
+  onPressSuperLikeDebounced?: () => void
+
+  /**
    * Callback on pressed like
    */
   onPressLike?: (likeCount: number) => void
@@ -28,8 +43,11 @@ export function LikeCoinButton({
   cooldownValue = 0,
   cooldownEndTime = 0,
   isTesting = false,
+  isDisabled = false,
   onPressLike,
+  onPressLikeDebounced,
   onPressSuperLike,
+  onPressSuperLikeDebounced,
   ...props
 }: LikecoinButtonProps) {
   const [likeCount, setLikeCount] = React.useState(prevLikeCount)
@@ -39,21 +57,26 @@ export function LikeCoinButton({
     setLikeCount(prevLikeCount)
   }, [prevLikeCount])
 
-  const handlePressLike = useDebouncedCallback((hits: number) => {
-    if (onPressLike) onPressLike(hits)
+  const debouncedPressLike = useDebouncedCallback((hits: number) => {
+    if (onPressLikeDebounced) onPressLikeDebounced(hits)
   }, 500)
 
-  const handlePressSuperLike = useDebouncedCallback(() => {
-    if (onPressSuperLike) onPressSuperLike()
+  const debouncedPressSuperLike = useDebouncedCallback(() => {
+    if (onPressSuperLikeDebounced) onPressSuperLikeDebounced()
   }, 500)
 
   const handlePress = () => {
     if (likeCount < 5) {
       const nextLikeCount = likeCount + 1
+      const hits = nextLikeCount - prevLikeCount
+      if (onPressLike) onPressLike(hits)
+      if (isDisabled) return
       setLikeCount(nextLikeCount)
-      handlePressLike(nextLikeCount - prevLikeCount)
+      debouncedPressLike(hits)
     } else if (canSuperLike) {
-      handlePressSuperLike()
+      if (onPressSuperLike) onPressSuperLike()
+      if (isDisabled) return
+      debouncedPressSuperLike()
     }
   }
   return (

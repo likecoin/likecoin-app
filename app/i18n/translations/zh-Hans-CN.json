@@ -57,10 +57,11 @@
       "other": "{{count}} 个赞"
     }
   },
-  "content_list_item_action_sheet_bookmark": "加到閱讀列表",
-  "content_list_item_action_sheet_follow": "追蹤 %{followee}",
-  "content_list_item_action_sheet_unbookmark": "從閱讀列表移除",
-  "content_list_item_action_sheet_unfollow": "取消追蹤 %{followee}",
+  "content_list_item_action_sheet_bookmark": "加到阅读列表",
+  "content_list_item_action_sheet_follow": "追踪 %{followee}",
+  "content_list_item_action_sheet_unbookmark": "从阅读列表移除",
+  "content_list_item_action_sheet_unfollow": "取消追踪 %{followee}",
+  "content_view_screen_custom_site_login_alert": "请在网站进行登入",
   "Date": {
     "Today": "今日",
     "Yesterday": "昨日"

@@ -150,7 +150,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
 
   private renderDelegationSection = () => {
     const { operatorAddress: validatorAddress } = this.getValidator()
-    const { formatBalance, formatRewards } = this.props.chain
+    const { formatDenom, formatRewards } = this.props.chain
     const delegation = this.props.chain.wallet.getDelegation(validatorAddress)
     const delegatorRewardsTextColor = delegation.hasRewards ? "darkModeGreen" : "white"
     const canRedelegate = this.props.chain.wallet.canRedelegateFromValidator(validatorAddress)
@@ -159,7 +159,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         {delegation.hasDelegated &&
           <React.Fragment>
             <ValidatorScreenGridItem
-              value={formatBalance(delegation.balance)}
+              value={formatDenom(delegation.balance)}
               labelTx="validatorScreen.delegatorShareLabel"
               isShowSeparator={false}
               isPaddingLess
@@ -175,7 +175,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         }
         {delegation.unbonding.isGreaterThan(0) &&
           <ValidatorScreenGridItem
-            value={formatBalance(delegation.unbonding, false)}
+            value={formatDenom(delegation.unbonding)}
             color="greyBlue"
             labelTx="validatorScreen.delegatorUnbondingShareLabel"
             isShowSeparator={false}

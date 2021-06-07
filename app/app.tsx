@@ -96,6 +96,8 @@ export class App extends React.Component<{}, AppState> {
       return
     }
 
+    this.state.rootStore?.userStore.checkTrackingStatus()
+
     Linking.addEventListener('url', this._onOpenURL)
     try {
       const url = await Linking.getInitialURL()
