@@ -13,6 +13,8 @@ import {
 
 import { translate } from "../../i18n"
 
+import { formatLikeAmountText } from "../../utils/number"
+
 interface StatisticsContentListItemProps {
   content: StatisticsRewardedContent
   type: StatisticsListItemType
@@ -54,7 +56,7 @@ export class StatisticsRewardedContentListItem extends
         type={type}
         title={title || translate("Statistics.UnknownSource")}
         subtitle={creatorDisplayName}
-        likeAmount={likeAmount.toFixed(4)}
+        likeAmount={formatLikeAmountText(likeAmount)}
         likeCount={likesCount}
         numOfLiker={basicLikersCount}
         numOfCivicLiker={civicLikersCount}

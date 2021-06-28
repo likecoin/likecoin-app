@@ -11,6 +11,7 @@ import {
 } from "../../models/statistics-store"
 
 import { translate } from "../../i18n"
+import { formatLikeAmountText } from "../../utils/number"
 
 interface StatisticsSupportedContentListItemProps {
   content: StatisticsSupportedContent
@@ -51,7 +52,7 @@ export class StatisticsSupportedContentListItem extends
         type="supported-content"
         title={title || translate("Statistics.UnknownSource")}
         subtitle={creatorDisplayName}
-        likeAmount={likeAmount.toFixed(4)}
+        likeAmount={formatLikeAmountText(likeAmount)}
         likeCount={likesCount}
         isSkeleton={isFetchingDetails}
         onPress={this.onPress}
