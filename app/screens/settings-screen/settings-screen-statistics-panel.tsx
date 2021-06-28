@@ -27,6 +27,8 @@ import {
 
 import { translate } from "../../i18n"
 
+import { formatLikeAmountText } from "../../utils/number"
+
 export interface SettingsScreenStatisticsPanelProps {
   isCivicLiker?: boolean
   rewardedStatistics?: StatisticsRewardedStore
@@ -143,7 +145,7 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
             <View style={Style.ButtonStatsDetails}>
               <View style={Style.ButtonStatsDetailsLeft}>
                 <Text
-                  text={`${supportedLikeAmount.toFixed(4)} LIKE`}
+                  text={`${formatLikeAmountText(supportedLikeAmount)} LIKE`}
                   style={Style.ButtonStatsDetailsTitle}
                 />
               </View>
@@ -191,7 +193,7 @@ export class SettingsScreenStatisticsPanel extends React.Component<SettingsScree
                 <Text
                   text={(
                     totalRewardedLikeAmount > 0
-                      ? `${totalRewardedLikeAmount.toFixed(4)} LIKE`
+                      ? `${formatLikeAmountText(totalRewardedLikeAmount)} LIKE`
                       : "---"
                   )}
                   style={Style.ButtonStatsDetailsTitle}

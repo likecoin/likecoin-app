@@ -23,6 +23,8 @@ import {
 
 import { translate } from "../../i18n"
 
+import { formatLikeAmountText } from "../../utils/number"
+
 @observer
 export class StatisticsSupportedDashboard extends React.Component<Props> {
   render() {
@@ -99,7 +101,7 @@ export class StatisticsSupportedDashboard extends React.Component<Props> {
               titlePreset: hasSelectedDayOfWeek ? "small" : "small-highlighted",
             },
             {
-              title: `${likeAmount.toFixed(4)} LIKE`,
+              title: `${formatLikeAmountText(likeAmount)} LIKE`,
               titlePreset: hasSelectedDayOfWeek ? "large" : "large-highlighted"
             },
             {

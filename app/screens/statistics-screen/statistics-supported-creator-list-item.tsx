@@ -9,6 +9,8 @@ import {
   StatisticsSupportedCreator,
 } from "../../models/statistics-store"
 
+import { formatLikeAmountText } from "../../utils/number"
+
 interface StatisticsSupportedCreatorListItemProps {
   creator: StatisticsSupportedCreator
 }
@@ -37,7 +39,7 @@ export class StatisticsSupportedCreatorListItem extends
         avatarURL={avatarURL}
         isCivicLiker={isCivicLiker}
         title={displayName}
-        likeAmount={creator.likeAmount.toFixed(4)}
+        likeAmount={formatLikeAmountText(creator.likeAmount)}
         likeCount={creator.likesCount}
         numOfWorks={creator.worksCount}
         isSkeleton={isFetchingDetails}

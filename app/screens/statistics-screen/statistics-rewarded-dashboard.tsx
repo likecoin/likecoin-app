@@ -33,6 +33,7 @@ import { translate } from "../../i18n"
 import {
   calcPercentDiff,
   withAbsPercent,
+  formatLikeAmountText,
 } from "../../utils/number"
 
 @observer
@@ -108,7 +109,7 @@ export class StatisticsRewardedDashboard extends React.Component<Props> {
         titlePreset: hasSelectedDayOfWeek ? "small" : "small-highlighted",
       },
       {
-        title: `${likeAmount.toFixed(4)} LIKE`,
+        title: `${formatLikeAmountText(likeAmount)} LIKE`,
         titlePreset: hasSelectedDayOfWeek ? "large" : "large-highlighted",
         subtitle: " ", // XXX: For spacing
       },
@@ -131,12 +132,12 @@ export class StatisticsRewardedDashboard extends React.Component<Props> {
     const legendsData: StatisticsChartLegendData[] = [
       {
         type: "filled",
-        title: `${likeAmountFromCivicLikers.toFixed(4)} LIKE`,
+        title: `${formatLikeAmountText(likeAmountFromCivicLikers)} LIKE`,
         subtitle: translate("StatisticsRewardedScreen.Dashboard.Legends.CivicLiker"),
       },
       {
         type: "outlined",
-        title: `${likeAmountFromCreatorFunds.toFixed(4)} LIKE`,
+        title: `${formatLikeAmountText(likeAmountFromCreatorFunds)} LIKE`,
         subtitle: translate("StatisticsRewardedScreen.Dashboard.Legends.CreatorFunds"),
       },
     ]
