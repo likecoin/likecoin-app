@@ -290,8 +290,7 @@
         "ContentJockey": "内容伯乐",
         "Language": "语言",
         "Profile": "个人资料",
-        "Security": "安全",
-        "WebsitesSignIn": "媒体登录帐号"
+        "Security": "安全"
       },
       "Statistics": {
         "Rewarded": {
@@ -416,22 +415,6 @@
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "领取收益"
-  },
-  "WebsiteSignInScreen": {
-    "Alert": {
-      "Title": "正在登入",
-      "Message": "登录你的帐号，然后点「✕」退出。Liker Land 会记住你的登入状态，免除每次登录，但并不会储存你的密码。"
-    },
-    "Item": {
-      "Appledailyhk": "香港苹果日报",
-      "Appledailytw": "台湾苹果日报",
-      "Daodu": "科技岛读",
-      "Matters": "Matters",
-      "Nytimes": "纽约时报",
-      "Substack": "Substack"
-    },
-    "OtherLabel": "其他（请输入网址）",
-    "Title": "网站登入"
   },
   "Week": [
     "日",

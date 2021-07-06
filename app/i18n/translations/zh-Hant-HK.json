@@ -290,8 +290,7 @@
         "ContentJockey": "Content Jockey",
         "Language": "語言",
         "Profile": "個人資料",
-        "Security": "安全",
-        "WebsitesSignIn": "媒體登錄帳號"
+        "Security": "安全"
       },
       "Statistics": {
         "Rewarded": {
@@ -416,22 +415,6 @@
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
-  },
-  "WebsiteSignInScreen": {
-    "Alert": {
-      "Title": "正在登入",
-      "Message": "登錄你的帳號，然後點「✕」退出。Liker Land 會記住你的登入狀態，免除每次登錄，但並不會儲存你的密碼。"
-    },
-    "Item": {
-      "Appledailyhk": "香港蘋果日報",
-      "Appledailytw": "台灣蘋果日報",
-      "Daodu": "科技島讀",
-      "Matters": "Matters",
-      "Nytimes": "紐約時報",
-      "Substack": "Substack"
-    },
-    "OtherLabel": "其他（請輸入網址）",
-    "Title": "網站登入"
   },
   "Week": [
     "日",

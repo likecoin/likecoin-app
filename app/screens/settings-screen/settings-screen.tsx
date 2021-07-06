@@ -114,11 +114,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     logAnalyticsEvent("SettingsClickFollowSettings")
   }
 
-  private onPressWebsiteSignIn = () => {
-    this.props.navigation.navigate("WebsiteSignIn")
-    logAnalyticsEvent("SettingsClickWebsiteSignIn")
-  }
-
   private onPressRateApp = () => {
     this.props.userStore.rateApp()
     logAnalyticsEvent("SettingsClickRateApp")
@@ -161,10 +156,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               <TableViewCell
                 titleTx="settingsScreen.Panel.Settings.Security"
                 onPress={this.onPressSecuritySettings}
-              />
-              <TableViewCell
-                titleTx="settingsScreen.Panel.Settings.WebsitesSignIn"
-                onPress={this.onPressWebsiteSignIn}
               />
               <TableViewCell
                 titleTx="settingsScreen.Panel.Settings.ContentJockey"
