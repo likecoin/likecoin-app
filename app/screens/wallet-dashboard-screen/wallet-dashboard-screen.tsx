@@ -3,6 +3,7 @@ import {
   View,
   RefreshControl,
 } from "react-native"
+import { StackActions } from "react-navigation"
 import { observer, inject } from "mobx-react"
 import styled from "styled-components/native"
 
@@ -46,7 +47,7 @@ const Screen = styled(ScreenBase)`
 export class WalletDashboardScreen extends React.Component<Props> {
   private onPressCloseButton = () => {
     logAnalyticsEvent('WalletClickClose')
-    this.props.navigation.popToTop()
+    this.props.navigation.dispatch(StackActions.popToTop())
   }
 
   private onPressSendButton = () => {

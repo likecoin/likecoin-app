@@ -9,7 +9,7 @@ import {
   ViewStyle,
   Alert,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 
 import { UserStore } from "../../models/user-store"
@@ -32,7 +32,7 @@ export interface RegistrationScreenParams {
   params: UserLoginParams,
 }
 
-export interface RegistrationScreenProps extends NavigationScreenProps<RegistrationScreenParams> {
+export interface RegistrationScreenProps extends NavigationStackScreenProps<RegistrationScreenParams> {
   userStore: UserStore,
 }
 export interface RegistrationScreenState {

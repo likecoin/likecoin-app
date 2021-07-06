@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation"
+import { createStackNavigator } from "react-navigation-stack"
 
 import { BookmarkScreen } from "../screens/bookmark-screen"
 import { BookmarkArchivesScreen } from "../screens/bookmark-archives-screen"

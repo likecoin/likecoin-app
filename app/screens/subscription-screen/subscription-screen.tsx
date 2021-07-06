@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import {
   Product as IAPProduct,
   purchaseErrorListener,
@@ -91,7 +91,7 @@ const FOOTNOTE: ViewStyle = {
   marginVertical: spacing[4],
 }
 
-export interface SubscriptionScreenProps extends NavigationScreenProps<{}> {
+export interface SubscriptionScreenProps extends NavigationStackScreenProps<{}> {
   userStore: UserStore,
 }
 

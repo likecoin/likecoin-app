@@ -9,7 +9,7 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import FastImage from "react-native-fast-image"
 import { inject, observer } from "mobx-react"
 import i18n from "i18n-js"
@@ -43,7 +43,7 @@ interface SignInScreenNavigationParams {
   signIn: UserLoginParams
 }
 
-export interface SignInScreenProps extends NavigationScreenProps<SignInScreenNavigationParams> {
+export interface SignInScreenProps extends NavigationStackScreenProps<SignInScreenNavigationParams> {
   userStore: UserStore
   chain: ChainStore
   bgImageURL?: string

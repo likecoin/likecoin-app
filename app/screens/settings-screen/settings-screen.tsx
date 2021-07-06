@@ -1,6 +1,6 @@
 import * as React from "react"
 import { inject } from "mobx-react"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationTabScreenProps } from "react-navigation-tabs"
 import styled, { useTheme } from "styled-components/native"
 
 import { AppVersionLabel as AppVersionLabelBase } from "../../components/app-version-label"
@@ -84,7 +84,7 @@ const AppVersionLabel = styled(AppVersionLabelBase)`
   margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
-export interface SettingsScreenProps extends NavigationScreenProps<{}> {
+export interface SettingsScreenProps extends NavigationTabScreenProps<{}> {
   userStore: UserStore
 }
 
@@ -112,11 +112,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressFollowSettings = () => {
     this.props.navigation.navigate("FollowSettings")
     logAnalyticsEvent("SettingsClickFollowSettings")
-  }
-
-  private onPressWebsiteSignIn = () => {
-    this.props.navigation.navigate("WebsiteSignIn")
-    logAnalyticsEvent("SettingsClickWebsiteSignIn")
   }
 
   private onPressRateApp = () => {
@@ -161,10 +156,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               <TableViewCell
                 titleTx="settingsScreen.Panel.Settings.Security"
                 onPress={this.onPressSecuritySettings}
-              />
-              <TableViewCell
-                titleTx="settingsScreen.Panel.Settings.WebsitesSignIn"
-                onPress={this.onPressWebsiteSignIn}
               />
               <TableViewCell
                 titleTx="settingsScreen.Panel.Settings.ContentJockey"

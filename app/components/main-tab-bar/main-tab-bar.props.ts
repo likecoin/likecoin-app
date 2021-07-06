@@ -1,8 +1,9 @@
-import { TabBarIconProps } from "react-navigation"
-
 import { User } from "../../models/user"
 
-export interface MainTabBarIconProps extends TabBarIconProps {
+export interface MainTabBarIconProps {
+  focused: boolean
+  tintColor?: string
+  horizontal?: boolean
   routeName: string
   user?: User
 }

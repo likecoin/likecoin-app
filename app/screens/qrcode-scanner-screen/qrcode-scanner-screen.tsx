@@ -1,7 +1,7 @@
 import * as React from "react"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { SafeAreaView, TextStyle, View, ViewStyle } from "react-native"
 import { RNCamera } from "react-native-camera"
-import { NavigationScreenProps, SafeAreaView } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import throttle from "lodash.throttle"
 
 import { Button } from "../../components/button"
@@ -54,7 +54,7 @@ const NEXT: ViewStyle = {
   minWidth: 256,
 }
 
-export interface QrcodeScannerScreenProps extends NavigationScreenProps<{}> {
+export interface QrcodeScannerScreenProps extends NavigationStackScreenProps<{}> {
 }
 
 export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProps, {}> {
@@ -116,10 +116,7 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
             {this.renderFooterView()}
           </RNCamera>
         </Screen>
-        <SafeAreaView
-          forceInset={{ top: "never", bottom: "always" }}
-          style={BOTTOM_BAR}
-        >
+        <SafeAreaView style={BOTTOM_BAR}>
           <Button
             preset="icon"
             icon="close"

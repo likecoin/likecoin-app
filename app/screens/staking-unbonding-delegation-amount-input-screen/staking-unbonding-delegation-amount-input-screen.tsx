@@ -1,5 +1,5 @@
 import * as React from "react"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 
 import { AmountInputView } from "../../components/amount-input-view"
@@ -16,7 +16,7 @@ export interface StakingUnbondingDelegationAmountInputScreenParams {
   target: string
 }
 
-export interface StakingUnbondingDelegationAmountInputScreenProps extends NavigationScreenProps<StakingUnbondingDelegationAmountInputScreenParams> {
+export interface StakingUnbondingDelegationAmountInputScreenProps extends NavigationStackScreenProps<StakingUnbondingDelegationAmountInputScreenParams> {
   txStore: StakingUnbondingDelegationStore,
   chain: ChainStore,
 }

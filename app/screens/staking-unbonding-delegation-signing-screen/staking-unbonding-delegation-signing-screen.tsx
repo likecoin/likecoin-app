@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ViewStyle } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 
 import { ChainStore } from "../../models/chain-store"
@@ -24,7 +24,7 @@ const ABOUT_LINK_BUTTON: ViewStyle = {
   marginTop: spacing[3],
 }
 
-export interface StakingUnbondingDelegationSigningScreenProps extends NavigationScreenProps<{}> {
+export interface StakingUnbondingDelegationSigningScreenProps extends NavigationStackScreenProps<{}> {
   txStore: StakingUnbondingDelegationStore
   chain: ChainStore
 }

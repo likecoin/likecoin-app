@@ -1,8 +1,8 @@
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 export interface WebsiteSignInWebviewScreenNavigationParams {
   url: string
 }
 
 export interface WebsiteSignInWebviewScreenProps
-  extends NavigationScreenProps<WebsiteSignInWebviewScreenNavigationParams> {}
+  extends NavigationStackScreenProps<WebsiteSignInWebviewScreenNavigationParams> {}

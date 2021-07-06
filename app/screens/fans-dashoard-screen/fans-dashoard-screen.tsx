@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Animated } from "react-native"
 import { inject, observer } from "mobx-react"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import styled from "styled-components/native"
 
 import { UserStore } from "../../models/user-store"
@@ -15,7 +15,7 @@ import { SponsorLinkCTATableView as UnstyledSponsorLinkCTATableView } from "../.
 import { SupporterListItem } from "../../components/supporter-list-item"
 import { TableView } from "../../components/table-view/table-view"
 
-export interface FansDashoardScreenProps extends NavigationScreenProps<{}> {
+export interface FansDashoardScreenProps extends NavigationStackScreenProps<{}> {
   userStore: UserStore
   supportersStore: SupportersStore
 }

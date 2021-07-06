@@ -94,6 +94,8 @@ export class ReaderScreen extends React.Component<Props, {}> {
               case "following":
                 return (
                   <SuperLikeFollowingScreen
+                    theme={this.props.theme}
+                    screenProps={this.props.screenProps}
                     navigation={this.props.navigation}
                     listViewProps={props}
                     onScroll={onScroll}
@@ -103,6 +105,8 @@ export class ReaderScreen extends React.Component<Props, {}> {
               case "global":
                 return (
                   <SuperLikeGlobalFeedScreen
+                    theme={this.props.theme}
+                    screenProps={this.props.screenProps}
                     navigation={this.props.navigation}
                     listViewProps={props}
                     onScroll={onScroll}

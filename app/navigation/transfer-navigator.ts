@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation"
+import { createStackNavigator } from "react-navigation-stack"
 
 import { TransferAmountInputScreen } from "../screens/transfer-amount-input-screen"
 import { TransferMemoInputScreen } from "../screens/transfer-memo-input-screen"
@@ -12,7 +12,7 @@ export const TransferNavigator = createStackNavigator({
   TransferSigning: TransferSigningScreen,
 }, {
   defaultNavigationOptions: {
-    gesturesEnabled: false,
+    gestureEnabled: false,
   },
   headerMode: "none",
   initialRouteName: "TransferTargetInput",

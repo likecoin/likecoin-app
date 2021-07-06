@@ -1,7 +1,15 @@
 import * as React from "react"
 import { observer } from "mobx-react"
-import { ActivityIndicator, Alert, Platform, Share, StatusBar, StyleSheet } from "react-native"
-import { NavigationScreenProps, SafeAreaView } from "react-navigation"
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  SafeAreaView,
+  Share,
+  StatusBar,
+  StyleSheet,
+} from "react-native"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { WebView as WebViewBase, WebViewMessageEvent } from "react-native-webview"
 import styled from "styled-components/native"
 
@@ -54,7 +62,7 @@ export interface ContentViewNavigationStateParams {
   content?: Content
   superLike?: SuperLike
 }
-export interface ContentViewScreenProps extends NavigationScreenProps<ContentViewNavigationStateParams> {}
+export interface ContentViewScreenProps extends NavigationStackScreenProps<ContentViewNavigationStateParams> {}
 
 function delayed(callback: () => void, delay: number) {
   let nextTime = 0

@@ -310,8 +310,7 @@
         "ContentJockey": "Content Jockey",
         "Language": "Language",
         "Profile": "Profile",
-        "Security": "Security",
-        "WebsitesSignIn": "Website Sign-in"
+        "Security": "Security"
       },
       "Statistics": {
         "Rewarded": {
@@ -426,22 +425,6 @@
     "stakeLabel": "Delegate",
     "receive": "Receive",
     "withdrawRewardsButtonText": "Withdraw Rewards"
-  },
-  "WebsiteSignInScreen": {
-    "Alert": {
-      "Title": "Media accounts",
-      "Message": "Sign in to the media with your own account, then click '✕'. Liker Land will then keep your login state, without saving your credentials."
-    },
-    "Item": {
-      "Appledailyhk": "Apply Daily (Hong Kong)",
-      "Appledailytw": "Apply Daily (Taiwan)",
-      "Daodu": "Daodu Tech",
-      "Matters": "Matters",
-      "Nytimes": "The New York Times",
-      "Substack": "Substack"
-    },
-    "OtherLabel": "Others (please specify URL)",
-    "Title": "Media accounts"
   },
   "Week": [
     "Sun",

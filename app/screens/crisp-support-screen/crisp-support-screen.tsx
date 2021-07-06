@@ -2,7 +2,7 @@ import { inject, observer } from "mobx-react"
 import * as React from "react"
 import { ViewStyle } from "react-native"
 import { WebView } from "react-native-webview"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 import { UserStore } from "../../models/user-store"
 
@@ -15,7 +15,7 @@ import { color } from "../../theme"
 
 const FULL: ViewStyle = { flex: 1 }
 
-export interface CrispSupportScreenProps extends NavigationScreenProps<{}> {
+export interface CrispSupportScreenProps extends NavigationStackScreenProps<{}> {
   userStore: UserStore
 }
 

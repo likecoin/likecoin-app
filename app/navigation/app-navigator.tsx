@@ -1,8 +1,9 @@
 import * as React from "react"
+import { createStackNavigator } from "react-navigation-stack"
 import {
-  createStackNavigator,
   createBottomTabNavigator,
-} from "react-navigation"
+  BottomTabBar,
+} from "react-navigation-tabs"
 
 import { BookmarksNavigator } from "./bookmarks-navigator"
 import { DashboardNavigator } from "./dashboard-navigator"
@@ -37,6 +38,10 @@ const MainTabs = createBottomTabNavigator({
     activeTintColor: color.primary,
     showLabel: false,
   },
+  // eslint-disable-next-line react/display-name
+  tabBarComponent: (props) => (
+    <BottomTabBar {...props} />
+  ),
   defaultNavigationOptions: ({ navigation }) => ({
     // eslint-disable-next-line react/display-name
     tabBarIcon: (props) => (

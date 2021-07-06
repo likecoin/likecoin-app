@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 import styled from "styled-components/native"
 
@@ -49,7 +49,7 @@ const ScrollView = styled(ScrollViewBase)`
 export interface ValidatorScreenNavigationParams {
   validator: Validator
 }
-export interface ValidatorScreenProps extends NavigationScreenProps<ValidatorScreenNavigationParams> {
+export interface ValidatorScreenProps extends NavigationStackScreenProps<ValidatorScreenNavigationParams> {
   chain: ChainStore,
 }
 

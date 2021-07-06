@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Alert, View } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { WebViewNavigation } from "react-native-webview"
 import {
   WebViewErrorEvent,
@@ -20,7 +20,7 @@ import { translate } from "../../i18n"
 import { COMMON_API_CONFIG } from "../../services/api/api-config"
 import { logError } from "../../utils/error"
 
-export interface LikerLandOAuthScreenProps extends NavigationScreenProps<{}> {
+export interface LikerLandOAuthScreenProps extends NavigationStackScreenProps<{}> {
   userStore: UserStore
   deepLinkHandleStore: DeepLinkHandleStore
 }

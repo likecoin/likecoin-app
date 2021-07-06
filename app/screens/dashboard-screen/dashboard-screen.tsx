@@ -1,7 +1,7 @@
 import * as React from "react"
 import { inject } from "mobx-react"
 import { View } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationTabScreenProps } from "react-navigation-tabs"
 import styled from "styled-components/native"
 
 import { SettingScreenStyle as Style } from "../settings-screen/settings-screen.style"
@@ -41,7 +41,7 @@ const SponsorLinkCTATableView = styled(SponsorLinkCTATableViewBase)`
   margin-top: ${({ theme }) => theme.spacing["2xl"]};
 `
 
-export interface DashboardScreenProps extends NavigationScreenProps<{}> {
+export interface DashboardScreenProps extends NavigationTabScreenProps<{}> {
   userStore: UserStore
 }
 
