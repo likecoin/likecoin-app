@@ -6,10 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native"
-import {
-  NavigationScreenProps,
-  ScrollView,
-} from "react-navigation"
+import { ScrollView } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { observer, inject } from "mobx-react"
 
 import {
@@ -28,7 +26,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 
 import ReferralBanner from "./referral-banner"
 
-export interface ReferralScreenProps extends NavigationScreenProps {
+export interface ReferralScreenProps extends NavigationStackScreenProps {
   userStore: UserStore
 }
 

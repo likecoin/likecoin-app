@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ViewStyle } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 
 import { ChainStore } from "../../models/chain-store"
@@ -18,7 +18,7 @@ const GRAPH: ViewStyle = {
   marginRight: -18,
 }
 
-export interface TransferSigningScreenProps extends NavigationScreenProps<TransferNavigatorParams> {
+export interface TransferSigningScreenProps extends NavigationStackScreenProps<TransferNavigatorParams> {
   txStore: TransferStore,
   chain: ChainStore,
 }

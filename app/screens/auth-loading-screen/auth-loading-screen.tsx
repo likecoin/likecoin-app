@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Alert } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 
 import { LoadingScreen } from "../../components/loading-screen"
@@ -11,7 +11,7 @@ import { UserStore } from "../../models/user-store"
 import { translate } from "../../i18n"
 import { logError } from "../../utils/error"
 
-export interface AuthLoadingScreenProps extends NavigationScreenProps<{}> {
+export interface AuthLoadingScreenProps extends NavigationStackScreenProps<{}> {
   deepLinkHandleStore: DeepLinkHandleStore
   userStore: UserStore
 }

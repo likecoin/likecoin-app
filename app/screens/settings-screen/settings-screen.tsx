@@ -1,6 +1,6 @@
 import * as React from "react"
 import { inject } from "mobx-react"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationTabScreenProps } from "react-navigation-tabs"
 import styled, { useTheme } from "styled-components/native"
 
 import { AppVersionLabel as AppVersionLabelBase } from "../../components/app-version-label"
@@ -84,7 +84,7 @@ const AppVersionLabel = styled(AppVersionLabelBase)`
   margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
-export interface SettingsScreenProps extends NavigationScreenProps<{}> {
+export interface SettingsScreenProps extends NavigationTabScreenProps<{}> {
   userStore: UserStore
 }
 

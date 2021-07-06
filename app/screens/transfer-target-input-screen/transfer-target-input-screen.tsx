@@ -8,7 +8,7 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 import BigNumber from "bignumber.js"
 
@@ -33,7 +33,7 @@ import { color, spacing } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-export interface TransferTargetInputScreenProps extends NavigationScreenProps<TransferNavigatorParams> {
+export interface TransferTargetInputScreenProps extends NavigationStackScreenProps<TransferNavigatorParams> {
   txStore: TransferStore,
   chain: ChainStore,
 }

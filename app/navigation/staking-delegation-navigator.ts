@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation"
+import { createStackNavigator } from "react-navigation-stack"
 
 import { StakingDelegationAmountInputScreen } from "../screens/staking-delegation-amount-input-screen"
 import { StakingDelegationSigningScreen } from "../screens/staking-delegation-signing-screen"
@@ -8,7 +8,7 @@ export const StakingDelegationNavigator = createStackNavigator({
   StakingDelegationSigning: StakingDelegationSigningScreen,
 }, {
   defaultNavigationOptions: {
-    gesturesEnabled: false,
+    gestureEnabled: false,
   },
   headerMode: "none",
   initialRouteName: "StakingDelegationAmountInput",

@@ -227,6 +227,8 @@ PODS:
     - React
   - react-native-randombytes (3.5.3):
     - React
+  - react-native-safe-area-context (3.2.0):
+    - React-Core
   - react-native-splash-screen (3.1.1):
     - React
   - react-native-tracking-transparency (0.1.1):
@@ -261,6 +263,8 @@ PODS:
     - React
   - RNCAsyncStorage (1.6.1):
     - React
+  - RNCMaskedView (0.1.11):
+    - React
   - RNDeviceInfo (5.6.1):
     - React
   - RNExitApp (1.1.0):
@@ -293,7 +297,7 @@ PODS:
     - Firebase/RemoteConfig (~> 7.1.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (1.4.1):
+  - RNGestureHandler (1.7.0):
     - React
   - RNIap (4.3.0):
     - React
@@ -302,6 +306,8 @@ PODS:
   - RNLocalize (1.1.4):
     - React
   - RNRate (1.2.4):
+    - React
+  - RNReanimated (1.13.0):
     - React
   - RNScreens (2.7.0):
     - React
@@ -340,6 +346,7 @@ DEPENDENCIES:
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-image-sequence (from `../node_modules/react-native-image-sequence`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-tracking-transparency (from `../node_modules/react-native-tracking-transparency`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -355,6 +362,7 @@ DEPENDENCIES:
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - ReactNativeShareExtension (from `../node_modules/react-native-share-extension`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
@@ -369,6 +377,7 @@ DEPENDENCIES:
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNRate (from `../node_modules/react-native-rate`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -441,6 +450,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-sequence"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-tracking-transparency:
@@ -471,6 +482,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share-extension"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCMaskedView:
+    :path: "../node_modules/@react-native-community/masked-view"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNExitApp:
@@ -499,6 +512,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-localize"
   RNRate:
     :path: "../node_modules/react-native-rate"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSentry:
@@ -551,6 +566,7 @@ SPEC CHECKSUMS:
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-image-sequence: b4cc7ce0ee9eeec7574b005e06059b3f7f818d96
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
+  react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-splash-screen: 353334c5ae82d8c74501ea7cbb916cb7cb20c8bf
   react-native-tracking-transparency: b2029ff756f1128b1f2c7c7c7f3003bc3c950f9f
   react-native-webview: fcb5f377aadc216273300f452ee0d321fb85809b
@@ -566,6 +582,7 @@ SPEC CHECKSUMS:
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
   ReactNativeShareExtension: 589ed96a7823b475e630d7987a0958bff9804ee6
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
+  RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDeviceInfo: b6e650fbd234732c759544218657d549b4339038
   RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
   RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
@@ -575,11 +592,12 @@ SPEC CHECKSUMS:
   RNFBDynamicLinks: aa2c5ed63a90eea05c8c321991a1a010ad81eb2e
   RNFBPerf: a0d50caf0d88079c6e9da1f674e7e6b2a9265585
   RNFBRemoteConfig: 5d00d02901bbe4524485235826b0a9d46e028b23
-  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNIap: e75200c18ed318479a52db633dc2db2facce77ea
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
   RNRate: 15b861025a7821730761fce7f44561ce7e0b2de0
+  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNSentry: 6f8f9ee7e4c939dcd35e5633b94d0e3782888e46
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4

@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation"
+import { createStackNavigator } from "react-navigation-stack"
 
 import { StakingRedelegationAmountInputScreen } from "../screens/staking-redelegation-amount-input-screen"
 import { StakingRedelegationValidatorInputScreen } from "../screens/staking-redelegation-validator-input-screen"
@@ -10,7 +10,7 @@ export const StakingRedelegationNavigator = createStackNavigator({
   StakingRedelegationSigning: StakingRedelegationSigningScreen,
 }, {
   defaultNavigationOptions: {
-    gesturesEnabled: false,
+    gestureEnabled: false,
   },
   headerMode: "none",
   initialRouteName: "StakingRedelegationValidatorInput",

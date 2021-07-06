@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation"
+import { createStackNavigator } from "react-navigation-stack"
 
 import { FollowSettingsScreen } from "../screens/follow-settings-screen"
 import { LanguageSettingsScreen } from "../screens/language-settings-screen"

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { inject, observer } from "mobx-react"
 import { ViewStyle } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 import { UserStore } from "../../models/user-store"
 
@@ -10,7 +10,7 @@ import { color } from "../../theme"
 import { Screen } from "../../components/screen"
 import { Header } from "../../components/header"
 
-export interface ProfileSettingsScreenProps extends NavigationScreenProps<{}> {
+export interface ProfileSettingsScreenProps extends NavigationStackScreenProps<{}> {
   userStore: UserStore
 }
 

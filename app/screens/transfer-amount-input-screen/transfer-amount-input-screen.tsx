@@ -1,5 +1,5 @@
 import * as React from "react"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 
 import { AmountInputView } from "../../components/amount-input-view"
@@ -15,7 +15,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 
 import TransferGraph from "../../assets/graph/transfer.svg"
 
-export interface TransferAmountInputScreenProps extends NavigationScreenProps<TransferNavigatorParams> {
+export interface TransferAmountInputScreenProps extends NavigationStackScreenProps<TransferNavigatorParams> {
   txStore: TransferStore,
   chain: ChainStore,
 }

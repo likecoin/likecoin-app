@@ -9,7 +9,7 @@ import {
   ViewStyle,
   Alert,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 
 import { TransferStore } from "../../models/transfer-store"
@@ -29,7 +29,7 @@ import { color, spacing } from "../../theme"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 export interface TransferMemoInputScreenProps
-  extends NavigationScreenProps<TransferNavigatorParams> {
+  extends NavigationStackScreenProps<TransferNavigatorParams> {
   txStore: TransferStore
 }
 

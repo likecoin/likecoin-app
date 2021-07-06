@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation"
+import { createStackNavigator } from "react-navigation-stack"
 
 import { ValidatorScreen } from "../screens/validator-screen"
 import { ValidatorListScreen } from "../screens/validator-list-screen"

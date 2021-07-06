@@ -3,13 +3,13 @@ import {
   NativeScrollEvent,
   LayoutChangeEvent,
 } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 import {
   StatisticsStore,
 } from "../../models/statistics-store/statistics-store"
 
-export interface StatisticsScreenWrapperProps extends NavigationScreenProps {
+export interface StatisticsScreenWrapperProps extends NavigationStackScreenProps {
   dataStore: StatisticsStore
 }
 

@@ -1,11 +1,11 @@
 import { ListViewProps, NativeScrollEvent, NativeSyntheticEvent } from "react-native"
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 import { Content } from "../../models/content"
 import { Creator } from "../../models/creator"
 import { SuperLike } from "../../models/super-like"
 
-export interface ContentListScreenProps extends NavigationScreenProps {
+export interface ContentListScreenProps extends NavigationStackScreenProps {
   listViewProps?: Partial<ListViewProps>
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
   onPressContentItem?: (content: Content) => void

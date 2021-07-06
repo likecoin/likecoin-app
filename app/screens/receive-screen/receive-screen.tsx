@@ -1,14 +1,15 @@
 import { observer, inject } from "mobx-react"
 import * as React from "react"
-import { NavigationScreenProps, SafeAreaView } from "react-navigation"
 import {
   Clipboard,
   Linking,
+  SafeAreaView,
   Share,
   TextStyle,
   View,
   ViewStyle,
 } from "react-native"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import QRCode from 'react-native-qrcode-svg'
 
 import { RootStore } from "../../models/root-store"
@@ -23,7 +24,7 @@ import { color, spacing } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-export interface ReceiveScreenProps extends NavigationScreenProps {
+export interface ReceiveScreenProps extends NavigationStackScreenProps {
   wallet: Wallet
   qrCodeContent: string
 }
@@ -151,10 +152,7 @@ export class ReceiveScreen extends React.Component<ReceiveScreenProps, {}> {
             />
           </View>
         </Screen>
-        <SafeAreaView
-          forceInset={{ top: "never", bottom: "always" }}
-          style={BOTTOM_BAR}
-        >
+        <SafeAreaView style={BOTTOM_BAR}>
           <Button
             preset="icon"
             icon="close"

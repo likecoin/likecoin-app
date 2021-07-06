@@ -1,9 +1,9 @@
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 import { ChainStore } from "../../models/chain-store"
 import { StakingRedelegationStore } from "../../models/staking-redelegation-store"
 
-export interface StakingRedelegationSigningScreenProps extends NavigationScreenProps {
+export interface StakingRedelegationSigningScreenProps extends NavigationStackScreenProps {
   txStore: StakingRedelegationStore,
   chain: ChainStore,
 }

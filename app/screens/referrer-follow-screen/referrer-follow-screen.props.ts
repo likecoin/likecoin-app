@@ -1,4 +1,4 @@
-import { NavigationScreenProps } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 import { Creator } from "../../models/creator"
 
@@ -7,4 +7,4 @@ interface ReferrerFollowScreenNavigationParams {
 }
 
 export interface ReferrerFollowScreenProps
-  extends NavigationScreenProps<ReferrerFollowScreenNavigationParams> {}
+  extends NavigationStackScreenProps<ReferrerFollowScreenNavigationParams> {}
