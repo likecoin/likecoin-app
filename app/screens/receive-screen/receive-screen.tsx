@@ -44,7 +44,7 @@ const HEADER_BAR: ViewStyle = {
   paddingVertical: spacing[1],
 }
 const INNER: ViewStyle = {
-  alignItems: "stretch",
+  alignItems: "center",
   padding: spacing[4],
 }
 const SHEET: ViewStyle = {
