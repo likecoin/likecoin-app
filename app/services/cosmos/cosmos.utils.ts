@@ -130,6 +130,35 @@ export function convertValidator(validator: Validator): CosmosValidator {
   };
 }
 
+export function convertDelegationResponse(res: DelegationResponse): CosmosDelegation {
+  const { delegation, balance } = res
+  const { delegatorAddress, validatorAddress, shares } = delegation
+  const { amount } = balance
+  return {
+    delegator_address: delegatorAddress,
+    validator_address: validatorAddress,
+    shares: shares,
+    balance: amount,
+    height: 123456789, // to-fix
+  }
+}
+
+export function convertRedelegation(del: Redelegation): CosmosDelegation {
+  const {
+    delegatorAddress,
+    validatorSrcAddress,
+    validatorDstAddress,
+    entries,
+  } = del
+  return {
+    delegator_address: delegatorAddress,
+    validator_address: '', // to-fix
+    shares: '', // to-fix
+    balance: '', // to-fix
+    height: 123456789, // to-fix
+  }
+}
+
 function convertUnbondingDelegationEntry(entry: UnbondingDelegationEntry): CosmosUnbondingDelegationEntry {
   const {
     creationHeight,
