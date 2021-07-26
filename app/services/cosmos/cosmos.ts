@@ -1,4 +1,15 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import Cosmos from "@lunie/cosmos-api"
+import {
+  StargateClient,
+  QueryClient,
+  DistributionExtension,
+  StakingExtension,
+  setupDistributionExtension,
+  setupStakingExtension,
+} from "@cosmjs/stargate";
+import { BondStatusString } from "@cosmjs/stargate/build/queries/staking";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 
 import {
   CosmosAccountResult,
@@ -12,6 +23,12 @@ import {
 import {
   extractCoinFromCosmosCoinList,
   parseCosmosCoin,
+  convertValidator,
+  convertDecCoin,
+  convertDelegationDelegatorReward,
+  convertDelegationResponse,
+  convertUnbondingDelegation,
+  convertRedelegation,
 } from "./cosmos.utils"
 
 /**
@@ -23,22 +40,38 @@ export class CosmosAPI {
    */
   api: Cosmos
 
-  setup(restURL: string, chainId: string) {
+  stargateClient: StargateClient
+
+  tendermint34Client: Tendermint34Client
+
+  queryClient: QueryClient & DistributionExtension & StakingExtension
+
+  async setup(restURL: string, chainId: string) {
     this.api = new Cosmos(restURL, chainId)
+    this.stargateClient = await StargateClient.connect(restURL);
+    this.tendermint34Client = await Tendermint34Client.connect(restURL);
+    this.queryClient = QueryClient.withExtensions(
+      this.tendermint34Client,
+      setupDistributionExtension,
+      setupStakingExtension,
+    )
   }
 
   /**
    * Get the list of validators
    */
-  async getValidators() {
-    return this.api.get.validators() as CosmosValidator[]
+  async getValidators(): Promise<CosmosValidator[]> {
+    const bondStatus: BondStatusString = 'BOND_STATUS_BONDED'
+    const { validators } = await this.queryClient.staking.validators(bondStatus)
+    return validators.map(v => convertValidator(v))
   }
 
   /**
    * Get a validator by address
    */
-  async queryValidator(address: string) {
-    return this.api.get.validator(address) as CosmosValidator
+  async queryValidator(address: string): Promise<CosmosValidator> {
+    const { validator } = await this.queryClient.staking.validator(address);
+    return convertValidator(validator)
   }
 
   /**
@@ -46,9 +79,9 @@ export class CosmosAPI {
    *
    * @param address The account address
    */
-  async queryBalance(address: string, denom: string) {
-    const account = await this.api.get.account(address) as CosmosAccountResult
-    return extractCoinFromCosmosCoinList(account.coins, denom)
+  async queryBalance(address: string, denom: string): Promise<string> {
+    const { amount } = await this.stargateClient.getBalance(address, denom)
+    return amount
   }
 
   /**
@@ -56,8 +89,13 @@ export class CosmosAPI {
    *
    * @param address The address of the delegator
    */
-  async queryRewards(address: string) {
-    return this.api.get.delegatorRewards(address) as CosmosRewardsResult
+  async queryRewards(address: string): Promise<CosmosRewardsResult> {
+    const { rewards: rewardsInput, total: totalInput } =
+      await this.queryClient.distribution.delegationTotalRewards(address)
+    return {
+      rewards: rewardsInput.map(r => convertDelegationDelegatorReward(r)),
+      total: totalInput.map(coin => convertDecCoin(coin))
+    }
   }
 
   /**
@@ -66,8 +104,11 @@ export class CosmosAPI {
    * @param delegatorAddress The delegator address
    * @param validatorAddress The validator address
    */
-  async queryRewardsFromValidator(delegatorAddress: string, validatorAddress: string) {
-    return this.api.get.delegatorRewardsFromValidator(delegatorAddress, validatorAddress) as CosmosCoinResult[]
+  async queryRewardsFromValidator(delegatorAddress: string, validatorAddress: string):
+    Promise<CosmosCoinResult[]> {
+    const { rewards } = await
+      this.queryClient.distribution.delegationRewards(delegatorAddress, validatorAddress);
+    return rewards.map(coin => convertDecCoin(coin))
   }
 
   /**
@@ -75,8 +116,10 @@ export class CosmosAPI {
    *
    * @param delegatorAddress The delegator address
    */
-  async getDelegations(delegatorAddress: string) {
-    return this.api.get.delegations(delegatorAddress) as CosmosDelegation[]
+  async getDelegations(delegatorAddress: string): Promise<CosmosDelegation[]> {
+    const { delegationResponses } =
+      await this.queryClient.staking.delegatorDelegations(delegatorAddress)
+    return delegationResponses.map(d => convertDelegationResponse(d))
   }
 
   /**
@@ -85,8 +128,11 @@ export class CosmosAPI {
    * @param delegatorAddress The delegator address
    * @param validatorAddress The validator address
    */
-  async getDelegation(delegatorAddress: string, validatorAddress: string) {
-    return this.api.get.delegation(delegatorAddress, validatorAddress) as CosmosDelegation
+  async getDelegation(delegatorAddress: string, validatorAddress: string):
+    Promise<CosmosDelegation> {
+    const { delegationResponse } =
+      await this.queryClient.staking.delegation(delegatorAddress, validatorAddress);
+    return convertDelegationResponse(delegationResponse)
   }
 
   /**
@@ -94,8 +140,11 @@ export class CosmosAPI {
    *
    * @param delegatorAddress The delegator address
    */
-  async getRedelegations(delegatorAddress: string) {
-    return this.api.get.redelegations(delegatorAddress) as CosmosDelegation[]
+  async getRedelegations(delegatorAddress: string):
+    Promise<CosmosDelegation[]> {
+    const { redelegationResponses } =
+      await this.queryClient.staking.redelegations(delegatorAddress, 'sourceValidatorAddress', 'destinationValidatorAddress');
+    return redelegationResponses.map(res => convertRedelegation(res.redelegation))
   }
 
   /**
@@ -103,8 +152,11 @@ export class CosmosAPI {
    *
    * @param delegatorAddress The delegator address
    */
-  async getUnbondingDelegations(delegatorAddress: string) {
-    return this.api.get.undelegations(delegatorAddress) as CosmosUnbondingDelegation[]
+  async getUnbondingDelegations(delegatorAddress: string):
+    Promise<CosmosUnbondingDelegation[]> {
+    const { unbondingResponses: unbondingDelegation } =
+      await this.queryClient.staking.delegatorUnbondingDelegations(delegatorAddress)
+    return unbondingDelegation.map(d => convertUnbondingDelegation(d))
   }
 
   /**
@@ -113,8 +165,11 @@ export class CosmosAPI {
    * @param delegatorAddress The delegator address
    * @param validatorAddress The validator address
    */
-  async getUnbondingDelegation(delegatorAddress: string, validatorAddress: string) {
-    return this.api.get.unbondingDelegation(delegatorAddress, validatorAddress) as CosmosUnbondingDelegation
+  async getUnbondingDelegation(delegatorAddress: string, validatorAddress: string):
+    Promise<CosmosUnbondingDelegation> {
+    const { unbond } =
+      await this.queryClient.staking.unbondingDelegation(delegatorAddress, validatorAddress)
+    return convertUnbondingDelegation(unbond)
   }
 
   /**
@@ -132,7 +187,7 @@ export class CosmosAPI {
     toAddress: string,
     amount: string,
     denom: string
-  ) {
+  ) { 
     return this.api.MsgSend(fromAddress, {
       toAddress,
       amounts: [parseCosmosCoin(amount, denom)],
