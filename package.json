@@ -22,6 +22,7 @@
     "adb": "adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:9001 tcp:9001 && adb reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
+    "@cosmjs/stargate": "^0.25.5",
     "@lunie/cosmos-api": "^0.2.1",
     "@react-native-community/async-storage": "^1.5.1",
     "@react-native-community/masked-view": "^0.1.11",
@@ -36,6 +37,7 @@
     "@types/lodash.throttle": "^4.1.6",
     "apisauce": "1.0.3",
     "buffer": "^5.4.3",
+    "cosmjs-types": "^0.1.0",
     "i18n-js": "^3.0.11",
     "jsonwebtoken": "^8.5.1",
     "mobx": "^4.13.0",
