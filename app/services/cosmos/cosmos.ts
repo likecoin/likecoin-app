@@ -16,6 +16,7 @@ import {
   CosmosCoinResult,
   CosmosDelegation,
   CosmosMessage,
+  CosmosRedelegation,
   CosmosRewardsResult,
   CosmosUnbondingDelegation,
   CosmosValidator,
@@ -141,7 +142,7 @@ export class CosmosAPI {
    * @param delegatorAddress The delegator address
    */
   async getRedelegations(delegatorAddress: string):
-    Promise<CosmosDelegation[]> {
+    Promise<CosmosRedelegation[]> {
     const { redelegationResponses } =
       await this.queryClient.staking.redelegations(delegatorAddress, 'sourceValidatorAddress', 'destinationValidatorAddress');
     return redelegationResponses.map(res => convertRedelegation(res.redelegation))

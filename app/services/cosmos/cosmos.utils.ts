@@ -4,6 +4,7 @@ import { DecCoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 import {
   CosmosCoinResult,
   CosmosDelegation,
+  CosmosRedelegation,
   CosmosUnbondingDelegation,
   CosmosUnbondingDelegationEntry,
   CosmosValidator,
@@ -139,23 +140,19 @@ export function convertDelegationResponse(res: DelegationResponse): CosmosDelega
     validator_address: validatorAddress,
     shares: shares,
     balance: amount,
-    height: 123456789, // to-fix
   }
 }
 
-export function convertRedelegation(del: Redelegation): CosmosDelegation {
+export function convertRedelegation(redelegation: Redelegation): CosmosRedelegation {
   const {
     delegatorAddress,
     validatorSrcAddress,
     validatorDstAddress,
-    entries,
-  } = del
+  } = redelegation
   return {
     delegator_address: delegatorAddress,
-    validator_address: '', // to-fix
-    shares: '', // to-fix
-    balance: '', // to-fix
-    height: 123456789, // to-fix
+    validator_src_address: validatorSrcAddress,
+    validator_dst_address: validatorDstAddress,
   }
 }
 
