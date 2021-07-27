@@ -79,13 +79,13 @@ export function convertDelegationDelegatorReward(reward: DelegationDelegatorRewa
   return { validator_address: validatorAddress, reward: coins }
 }
 
-function convertDescription(desc: Description) {
-  const { moniker, identity, website, details } = desc;
+function convertDescription(description: Description) {
+  const { moniker, identity, website, details } = description;
   return { moniker, identity, website, details }
 }
 
-function convertCommissionRates(commRates: CommissionRates) {
-  const { rate, maxRate, maxChangeRate } = commRates
+function convertCommissionRates(commissionRates: CommissionRates) {
+  const { rate, maxRate, maxChangeRate } = commissionRates
   return {
     rate,
     max_rate: maxRate,
@@ -93,8 +93,8 @@ function convertCommissionRates(commRates: CommissionRates) {
   }
 }
 
-function convertCommission(comm: Commission) {
-  const { commissionRates, updateTime } = comm
+function convertCommission(commission: Commission) {
+  const { commissionRates, updateTime } = commission
   return {
     commission_rates: convertCommissionRates(commissionRates),
     update_time: updateTime.toString(),
@@ -171,8 +171,8 @@ function convertUnbondingDelegationEntry(entry: UnbondingDelegationEntry): Cosmo
   }
 }
 
-export function convertUnbondingDelegation(del: UnbondingDelegation): CosmosUnbondingDelegation {
-  const { delegatorAddress, validatorAddress, entries } = del
+export function convertUnbondingDelegation(delegation: UnbondingDelegation): CosmosUnbondingDelegation {
+  const { delegatorAddress, validatorAddress, entries } = delegation
   return {
     delegator_address: delegatorAddress,
     validator_address: validatorAddress,
