@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import BigNumber from "bignumber.js"
-import { DecCoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
+import { Coin, DecCoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 import {
   CosmosCoinResult,
   CosmosDelegation,
@@ -14,6 +14,7 @@ import { DelegationDelegatorReward } from "@cosmjs/stargate/build/codec/cosmos/d
 import {
   Commission,
   CommissionRates,
+  Delegation,
   DelegationResponse,
   Description,
   Redelegation,
@@ -73,19 +74,27 @@ export function convertDecCoin(coin: DecCoin): CosmosCoinResult {
   return coin as CosmosCoinResult
 }
 
-export function convertDelegationDelegatorReward(reward: DelegationDelegatorReward): CosmosValidatorReward {
+export function convertDelegationDelegatorReward
+  (reward: DelegationDelegatorReward): CosmosValidatorReward {
   const { validatorAddress, reward: rewardInput } = reward
   const coins = rewardInput.map(coin => convertDecCoin(coin))
   return { validator_address: validatorAddress, reward: coins }
 }
 
-function convertDescription(description: Description) {
-  const { moniker, identity, website, details } = description;
+function convertDescription
+  (description: Description = {} as Description) {
+  const {
+    moniker = '',
+    identity = '',
+    website = '',
+    details = ''
+  } = description;
   return { moniker, identity, website, details }
 }
 
-function convertCommissionRates(commissionRates: CommissionRates) {
-  const { rate, maxRate, maxChangeRate } = commissionRates
+function convertCommissionRates
+  (commissionRates: CommissionRates = {} as CommissionRates) {
+  const { rate = '', maxRate = '', maxChangeRate = '' } = commissionRates
   return {
     rate,
     max_rate: maxRate,
@@ -93,27 +102,32 @@ function convertCommissionRates(commissionRates: CommissionRates) {
   }
 }
 
-function convertCommission(commission: Commission) {
-  const { commissionRates, updateTime } = commission
+function convertCommission
+  (commission: Commission = {} as Commission) {
+  const {
+    commissionRates = {} as CommissionRates,
+    updateTime = ''
+  } = commission
   return {
     commission_rates: convertCommissionRates(commissionRates),
     update_time: updateTime.toString(),
   }
 }
 
-export function convertValidator(validator: Validator): CosmosValidator {
+export function convertValidator
+  (validator: Validator = {} as Validator): CosmosValidator {
   const {
-    operatorAddress,
-    consensusPubkey,
-    jailed,
-    status,
-    tokens,
-    delegatorShares,
-    description,
-    unbondingHeight,
-    unbondingTime,
-    commission,
-    minSelfDelegation,
+    operatorAddress = '',
+    consensusPubkey = '',
+    jailed = false,
+    status = 0,
+    tokens = '',
+    delegatorShares = '',
+    description = {} as Description,
+    unbondingHeight = '',
+    unbondingTime = '',
+    commission = {} as Commission,
+    minSelfDelegation = '',
   } = validator;
 
   return {
@@ -131,10 +145,11 @@ export function convertValidator(validator: Validator): CosmosValidator {
   };
 }
 
-export function convertDelegationResponse(res: DelegationResponse): CosmosDelegation {
-  const { delegation, balance } = res
-  const { delegatorAddress, validatorAddress, shares } = delegation
-  const { amount } = balance
+export function convertDelegationResponse
+  (res: DelegationResponse = {} as DelegationResponse): CosmosDelegation {
+  const { delegation = {} as Delegation, balance = {} as Coin } = res
+  const { delegatorAddress = '', validatorAddress = '', shares = '' } = delegation
+  const { amount = '' } = balance
   return {
     delegator_address: delegatorAddress,
     validator_address: validatorAddress,
@@ -143,11 +158,12 @@ export function convertDelegationResponse(res: DelegationResponse): CosmosDelega
   }
 }
 
-export function convertRedelegation(redelegation: Redelegation): CosmosRedelegation {
+export function convertRedelegation
+  (redelegation: Redelegation = {} as Redelegation): CosmosRedelegation {
   const {
-    delegatorAddress,
-    validatorSrcAddress,
-    validatorDstAddress,
+    delegatorAddress = '',
+    validatorSrcAddress = '',
+    validatorDstAddress = '',
   } = redelegation
   return {
     delegator_address: delegatorAddress,
@@ -156,12 +172,14 @@ export function convertRedelegation(redelegation: Redelegation): CosmosRedelegat
   }
 }
 
-function convertUnbondingDelegationEntry(entry: UnbondingDelegationEntry): CosmosUnbondingDelegationEntry {
+function convertUnbondingDelegationEntry
+  (entry: UnbondingDelegationEntry = {} as UnbondingDelegationEntry):
+  CosmosUnbondingDelegationEntry {
   const {
-    creationHeight,
-    completionTime,
-    initialBalance,
-    balance,
+    creationHeight = 0,
+    completionTime = '',
+    initialBalance = '',
+    balance = '',
   } = entry
   return {
     creation_height: creationHeight.toString(),
@@ -171,8 +189,10 @@ function convertUnbondingDelegationEntry(entry: UnbondingDelegationEntry): Cosmo
   }
 }
 
-export function convertUnbondingDelegation(delegation: UnbondingDelegation): CosmosUnbondingDelegation {
-  const { delegatorAddress, validatorAddress, entries } = delegation
+export function convertUnbondingDelegation
+  (delegation: UnbondingDelegation = {} as UnbondingDelegation):
+  CosmosUnbondingDelegation {
+  const { delegatorAddress = '', validatorAddress = '', entries = [] } = delegation
   return {
     delegator_address: delegatorAddress,
     validator_address: validatorAddress,
