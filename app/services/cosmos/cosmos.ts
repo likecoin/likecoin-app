@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import Long from "long";
 import Cosmos from "@lunie/cosmos-api"
 import {
   DistributionExtension,
@@ -8,6 +9,8 @@ import {
   StargateClient,
   StakingExtension
 } from "@cosmjs/stargate";
+import { MsgSend } from "@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx";
+import { TxBody } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 
 import {
@@ -188,11 +191,34 @@ export class CosmosAPI {
     amount: string,
     denom: string
   ) {
+    const messages = [{
+      typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+      value: {
+        fromAddress,
+        toAddress,
+        amount: [{ amount, denom }]
+      }
+    }]
 
-    return this.api.MsgSend(fromAddress, {
-      toAddress,
-      amounts: [parseCosmosCoin(amount, denom)],
-    }) as CosmosMessage
+    const wrappedMessages = messages.map(msg => {
+      return {
+        typeUrl: msg.typeUrl,
+        value: MsgSend.encode(msg.value).finish(),
+      }
+    })
+
+    const body = {
+      typeUrl: "/cosmos.tx.v1beta1.TxBody",
+      value: {
+        memo: '', // to-check?,
+        messages: wrappedMessages,
+        timeoutHeight: Long.UZERO,
+        extensionOptions: [],
+        nonCriticalExtensionOptions: [],
+      },
+    }
+    const bodyBytes = TxBody.encode(body.value).finish();
+    return bodyBytes
   }
 
   /**
