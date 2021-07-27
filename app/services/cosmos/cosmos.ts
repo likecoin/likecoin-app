@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Cosmos from "@lunie/cosmos-api"
 import {
-  StargateClient,
-  QueryClient,
   DistributionExtension,
-  StakingExtension,
+  QueryClient,
   setupDistributionExtension,
   setupStakingExtension,
+  StargateClient,
+  StakingExtension
 } from "@cosmjs/stargate";
-import { BondStatusString } from "@cosmjs/stargate/build/queries/staking";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 
 import {
@@ -62,7 +61,7 @@ export class CosmosAPI {
    * Get the list of validators
    */
   async getValidators(): Promise<CosmosValidator[]> {
-    const bondStatus: BondStatusString = 'BOND_STATUS_BONDED'
+    const bondStatus = 'BOND_STATUS_BONDED'
     const { validators } = await this.queryClient.staking.validators(bondStatus)
     return validators.map(v => convertValidator(v))
   }
@@ -188,7 +187,8 @@ export class CosmosAPI {
     toAddress: string,
     amount: string,
     denom: string
-  ) { 
+  ) {
+
     return this.api.MsgSend(fromAddress, {
       toAddress,
       amounts: [parseCosmosCoin(amount, denom)],
