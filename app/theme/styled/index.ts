@@ -40,6 +40,7 @@ export const color = {
       primary: "#fff",
       secondary: "#a9c1c5"
     },
+    highlight: "#28646e",
     primary: "#4a4a4a",
     secondary: "#9b9b9b",
   },

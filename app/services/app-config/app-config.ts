@@ -79,4 +79,10 @@ export class AppConfig {
       this.getNumericValue("MIN_VERSION") > this.getNumericValue("APP_VERSION")
     )
   }
+
+  getIsDeprecatedAppVersionForWalletFeature() {
+    return (
+      this.getNumericValue("MIN_VERSION_FOR_WALLET") > this.getNumericValue("APP_VERSION")
+    )
+  }
 }
