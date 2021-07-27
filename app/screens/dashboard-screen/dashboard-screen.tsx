@@ -1,14 +1,7 @@
 import * as React from "react"
 import { inject } from "mobx-react"
-import { View } from "react-native"
 import { NavigationTabScreenProps } from "react-navigation-tabs"
 import styled from "styled-components/native"
-
-import { SettingScreenStyle as Style } from "../settings-screen/settings-screen.style"
-
-import { SettingsScreenStatisticsPanel } from "../settings-screen/settings-screen-statistics-panel"
-import { SettingsScreenUserInfoPanel } from "../settings-screen/settings-screen-user-info-panel"
-import { SettingsScreenWalletPanel } from "../settings-screen/settings-screen-wallet-panel"
 
 import { ExtendedView as ExtendedViewBase } from "../../components/extended-view"
 import { Screen as ScreenBase } from "../../components/screen"
@@ -23,9 +16,19 @@ import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
+import { DashboardStatisticsTableView as DashboardStatisticsTableViewBase } from "./dashboard-statistics-table-view"
+import { DashboardUserInfoPanel } from "./dashboard-user-info-panel"
+import { DashboardWalletPanel } from "./dashboard-wallet-panel"
+
 const Screen = styled(ScreenBase)`
   flex: 1;
   background-color: ${({ theme }) => theme.color.background.feature.primary};
+`
+
+const Body = styled.View`
+  flex-grow: 1;
+  padding: ${({ theme }) => theme.spacing.lg};
+  padding-top: 0;
 `
 
 const ScrollView = styled(ScrollViewBase)`
@@ -35,6 +38,14 @@ const ScrollView = styled(ScrollViewBase)`
 const ExtendedView = styled(ExtendedViewBase)`
   margin-bottom: -${({ theme }) => theme.spacing.xl};
   padding-bottom: ${({ theme }) => theme.spacing.xl};
+`
+
+const DashboardStatisticsTableView = styled(DashboardStatisticsTableViewBase)`
+  margin-top: ${({ theme }) => theme.spacing.lg};
+`
+
+const SubscriptionTableView = styled(TableView)`
+  margin-top: ${({ theme }) => theme.spacing.lg};
 `
 
 const SponsorLinkCTATableView = styled(SponsorLinkCTATableViewBase)`
@@ -82,7 +93,7 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
   renderHeader() {
     return (
       <ExtendedView backgroundColor={color.primary}>
-        <SettingsScreenUserInfoPanel onPress={this.onPressUserInfoPanel} />
+        <DashboardUserInfoPanel onPress={this.onPressUserInfoPanel} />
       </ExtendedView>
     )
   }
@@ -93,30 +104,32 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
       iapStore: { isEnabled: isIAPEnabled },
     } = this.props.userStore
     return (
-      <View style={Style.Body}>
-        <SettingsScreenWalletPanel
-          onPress={this.onPressWalletButton}
-          onPressQRCodeButton={this.onPressQRCodeButton}
-        />
-        <SettingsScreenStatisticsPanel
+      <Body>
+        <TableView>
+          <DashboardWalletPanel
+            onPress={this.onPressWalletButton}
+            onPressQRCodeButton={this.onPressQRCodeButton}
+          />
+        </TableView>
+        <DashboardStatisticsTableView
           isCivicLiker={isCivicLiker}
           onPressGetRewardsButton={this.onPressGetRewardsButton}
           onPressRewardedSection={this.onPressStatisticsRewardedSection}
           onPressSupportedSection={this.onPressStatisticsSupportedSection}
         />
         {(isIAPEnabled) && (
-          <TableView>
+          <SubscriptionTableView>
             <TableViewCell
               titleTx="settingsScreen.subscription"
               onPress={this.onPressSubscription}
             />
-          </TableView>
+          </SubscriptionTableView>
         )}
         <SponsorLinkCTATableView
           likerID={likerID}
           utmSource="dashboard"
         />
-      </View>
+      </Body>
     )
   }
 

@@ -67,6 +67,7 @@
     "Today": "今天",
     "Yesterday": "昨天"
   },
+  "dashboard_app_update_notice_for_wallet": "若要使用錢包功能，請立即更新到最新版本",
   "error": {
     "DEPRECATED_APP": "Liker Land 版本過舊，無法相容，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買時出現錯誤",

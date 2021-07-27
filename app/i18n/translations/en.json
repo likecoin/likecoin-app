@@ -68,6 +68,7 @@
     "Today": "Today",
     "Yesterday": "Yesterday"
   },
+  "dashboard_app_update_notice_for_wallet": "To access your wallet, please update the app to the latest version",
   "error": {
     "DEPRECATED_APP": "Sorry, this version of Liker Land is too old. Please update in order to proceed.",
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurred at purchase",
