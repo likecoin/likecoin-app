@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Long from "long";
 import Cosmos from "@lunie/cosmos-api"
 import {
   DistributionExtension,
@@ -7,25 +6,36 @@ import {
   setupDistributionExtension,
   setupStakingExtension,
   StargateClient,
-  StakingExtension
+  StakingExtension,
+  SigningStargateClient,
+  BroadcastTxResponse,
+  MsgSendEncodeObject,
+  MsgDelegateEncodeObject,
+  MsgUndelegateEncodeObject,
+  MsgWithdrawDelegatorRewardEncodeObject,
 } from "@cosmjs/stargate";
-import { MsgSend } from "@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx";
-import { TxBody } from "@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx";
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import {
-  CosmosAccountResult,
+  MsgBeginRedelegate,
+  MsgDelegate,
+  MsgUndelegate,
+} from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
+import {
   CosmosCoinResult,
   CosmosDelegation,
   CosmosMessage,
+  CosmosMessageToSign,
   CosmosRedelegation,
   CosmosRewardsResult,
+  CosmosSigner,
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./cosmos.types"
 import {
-  extractCoinFromCosmosCoinList,
-  parseCosmosCoin,
   convertValidator,
   convertDecCoin,
   convertDelegationDelegatorReward,
@@ -43,18 +53,20 @@ export class CosmosAPI {
    */
   api: Cosmos
 
-  stargateClient: StargateClient
+  restURL: string
 
-  tendermint34Client: Tendermint34Client
+  stargateClient: StargateClient
 
   queryClient: QueryClient & DistributionExtension & StakingExtension
 
   async setup(restURL: string, chainId: string) {
+    this.restURL = restURL
     this.api = new Cosmos(restURL, chainId)
     this.stargateClient = await StargateClient.connect(restURL);
-    this.tendermint34Client = await Tendermint34Client.connect(restURL);
+
+    const tendermint34Client = await Tendermint34Client.connect(restURL);
     this.queryClient = QueryClient.withExtensions(
-      this.tendermint34Client,
+      tendermint34Client,
       setupDistributionExtension,
       setupStakingExtension,
     )
@@ -182,6 +194,19 @@ export class CosmosAPI {
     return this.api.get.annualProvisionedTokens()
   }
 
+  async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigner> {
+    const signingStargateClient = await SigningStargateClient.connectWithSigner(this.restURL, signer)
+    return {
+      async signAndBroadcast(message: CosmosMessageToSign): Promise<BroadcastTxResponse> {
+        const { signerAddress, msgs, fee, memo } = message
+        const result = await signingStargateClient.signAndBroadcast(signerAddress, msgs, fee, memo)
+        // TODO: Could check if broadcast success here 
+        // and return Promise<CosmosTxQueryResult> rather than Promise<BroadcastTxResponse>
+        return result
+      }
+    }
+  }
+
   /**
    * Create the send message object
    */
@@ -190,35 +215,16 @@ export class CosmosAPI {
     toAddress: string,
     amount: string,
     denom: string
-  ) {
-    const messages = [{
+  ): CosmosMessage {
+    const msg: MsgSendEncodeObject = {
       typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-      value: {
+      value: MsgSend.fromPartial({
         fromAddress,
         toAddress,
-        amount: [{ amount, denom }]
-      }
-    }]
-
-    const wrappedMessages = messages.map(msg => {
-      return {
-        typeUrl: msg.typeUrl,
-        value: MsgSend.encode(msg.value).finish(),
-      }
-    })
-
-    const body = {
-      typeUrl: "/cosmos.tx.v1beta1.TxBody",
-      value: {
-        memo: '', // to-check?,
-        messages: wrappedMessages,
-        timeoutHeight: Long.UZERO,
-        extensionOptions: [],
-        nonCriticalExtensionOptions: [],
-      },
+        amount: [{ amount, denom }],
+      })
     }
-    const bodyBytes = TxBody.encode(body.value).finish();
-    return bodyBytes
+    return { signerAddress: fromAddress, msgs: [msg] }
   }
 
   /**
@@ -229,12 +235,16 @@ export class CosmosAPI {
     validatorAddress: string,
     amount: string,
     denom: string,
-  ) {
-    return this.api.MsgDelegate(fromAddress, {
-      validatorAddress,
-      amount,
-      denom,
-    }) as CosmosMessage
+  ): CosmosMessage {
+    const msg: MsgDelegateEncodeObject = {
+      typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+      value: MsgDelegate.fromPartial({
+        delegatorAddress: fromAddress,
+        validatorAddress: validatorAddress,
+        amount: { amount, denom },
+      })
+    }
+    return { signerAddress: fromAddress, msgs: [msg] }
   }
 
   /**
@@ -246,13 +256,17 @@ export class CosmosAPI {
     validatorDestinationAddress: string,
     amount: string,
     denom: string,
-  ) {
-    return this.api.MsgRedelegate(senderAddress, {
-      validatorSourceAddress,
-      validatorDestinationAddress,
-      amount,
-      denom,
-    }) as CosmosMessage
+  ): CosmosMessage {
+    const msg = {
+      typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+      value: MsgBeginRedelegate.fromPartial({
+        delegatorAddress: senderAddress,
+        validatorSrcAddress: validatorSourceAddress,
+        validatorDstAddress: validatorDestinationAddress,
+        amount: { amount, denom },
+      })
+    }
+    return { signerAddress: senderAddress, msgs: [msg] }
   }
 
   /**
@@ -263,12 +277,16 @@ export class CosmosAPI {
     validatorAddress: string,
     amount: string,
     denom: string
-  ) {
-    return this.api.MsgUndelegate(fromAddress, {
-      validatorAddress,
-      amount,
-      denom,
-    }) as CosmosMessage
+  ): CosmosMessage {
+    const msg: MsgUndelegateEncodeObject = {
+      typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+      value: MsgUndelegate.fromPartial({
+        delegatorAddress: fromAddress,
+        validatorAddress,
+        amount: { amount, denom },
+      })
+    }
+    return { signerAddress: fromAddress, msgs: [msg] }
   }
 
   /**
@@ -277,14 +295,17 @@ export class CosmosAPI {
   createRewardsWithdrawMessage(
     fromAddress: string,
     validatorAddresses: string[],
-  ) {
-    return this.api.MultiMessage(
-      fromAddress,
-      validatorAddresses.map(validatorAddress =>
-        this.api.MsgWithdrawDelegationReward(fromAddress, {
+  ): CosmosMessage {
+    const msgs = validatorAddresses.map(validatorAddress => {
+      const withdrawMsg: MsgWithdrawDelegatorRewardEncodeObject = {
+        typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+        value: MsgWithdrawDelegatorReward.fromPartial({
+          delegatorAddress: fromAddress,
           validatorAddress,
-        }),
-      ),
-    ) as CosmosMessage
+        })
+      }
+      return withdrawMsg
+    })
+    return { signerAddress: fromAddress, msgs }
   }
 }

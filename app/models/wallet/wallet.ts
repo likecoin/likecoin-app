@@ -81,23 +81,7 @@ export const WalletModel = types
         .map(d => d.validatorAddress)
     },
     get signer() {
-      return async (message: string): Promise<CosmosSignature> => {
-        const signedPayload = await self.env.authCoreAPI.cosmosSign(
-          JSON.parse(message),
-          self.address,
-        )
-        if (!signedPayload) {
-          throw new Error("COSMOS_SIGN_FAILED")
-        }
-        const {
-          signature,
-          pub_key: publicKey,
-        } = signedPayload.signatures[signedPayload.signatures.length - 1]
-        return {
-          signature: Buffer.from(signature, 'base64'),
-          publicKey: Buffer.from(publicKey.value, 'base64'),
-        }
-      }
+      return self.env.authCoreAPI.getOfflineDirectSigner
     }
   }))
   .views(self => ({
