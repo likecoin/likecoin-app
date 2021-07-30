@@ -2,7 +2,12 @@ import AuthCore from "react-native-authcore"
 import "crypto"
 import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
-import { AccountData, DirectSignResponse, OfflineDirectSigner } from "@cosmjs/proto-signing";
+import {
+  AccountData,
+  DirectSignResponse, 
+  makeSignBytes, 
+  OfflineDirectSigner
+} from "@cosmjs/proto-signing";
 import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { color } from "../../theme"
@@ -179,7 +184,7 @@ export class AuthCoreAPI {
     return { addresses, pubKeys }
   }
 
-  async cosmosSign(payload: Record<string, any>, address: string) {
+  async cosmosSign(payload: Uint8Array, address: string) {
     let signed
     if (!this.cosmosProvider) throw new Error('WALLET_NOT_INITED');
     try {
@@ -224,7 +229,8 @@ export class AuthCoreAPI {
         if (chainId !== signDoc.chainId) {
           throw new Error('Unmatched chain ID with Authcore signer')
         }
-        const dataWithSig = await sign(signDoc, signerAddress)
+        const signBytes = makeSignBytes(signDoc)
+        const dataWithSig = await sign(signBytes, signerAddress)
         return dataWithSig
       }
     }
