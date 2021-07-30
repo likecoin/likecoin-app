@@ -208,16 +208,18 @@ export class AuthCoreAPI {
     return {
       async getAccounts(): Promise<readonly AccountData[]> {
         const { addresses, pubKeys } = await getAddressesAndPubKeys()
-        const address = addresses[0]
-        const pubkey = Uint8Array.from(Buffer.from(pubKeys[0], 'hex'))
 
-        return [{
-          address,
-          algo: 'secp256k1',
-          pubkey,
-        }]
+        const accounts = addresses.map((address, i) => {
+          const accountData: AccountData = {
+            address,
+            algo: 'secp256k1',
+            pubkey: Uint8Array.from(Buffer.from(pubKeys[i], 'hex')),
+          }
+          return accountData
+        })
+        return accounts
       },
-    
+
       async signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
         if (chainId !== signDoc.chainId) {
           throw new Error('Unmatched chain ID with Authcore signer')
