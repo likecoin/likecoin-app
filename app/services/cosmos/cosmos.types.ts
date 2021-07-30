@@ -60,17 +60,6 @@ export interface CosmosTxQueryResult {
   timestamp: string
 }
 
-export interface CosmosSendResult {
-  hash: string
-  sequence: any
-  included: () => Promise<CosmosTxQueryResult>
-}
-
-export interface CosmosSignature {
-  signature: Buffer
-  publicKey: Buffer
-}
-
 export interface CosmosMessage {
   msgs: {
     typeUrl: string
