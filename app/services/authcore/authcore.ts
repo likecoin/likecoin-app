@@ -139,7 +139,7 @@ export class AuthCoreAPI {
     })
 
     // Getting Cosmos addresses, it will be created if not exists
-    const addresses = await this.getCosmosAddresses()
+    const { addresses } = await this.getCosmosAddressesAndPubKeys()
     return {
       addresses,
     }
@@ -153,11 +153,13 @@ export class AuthCoreAPI {
     if (this.callbacks.unauthorized) this.callbacks.unauthorized(error)
   }
 
-  async getCosmosAddresses() {
+  async getCosmosAddressesAndPubKeys() {
     let addresses: string[] = []
+    let pubKeys: string[] = []
     if (this.cosmosProvider) {
       try {
         addresses = await this.cosmosProvider.getAddresses()
+        pubKeys = await this.cosmosProvider.getPubKeys()
       } catch (error) {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {
@@ -172,7 +174,7 @@ export class AuthCoreAPI {
         }
       }
     }
-    return addresses
+    return { addresses, pubKeys }
   }
 
   async cosmosSign(payload: Record<string, any>, address: string) {
