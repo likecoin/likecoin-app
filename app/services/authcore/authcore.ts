@@ -2,6 +2,8 @@ import AuthCore from "react-native-authcore"
 import "crypto"
 import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
+import { AccountData, DirectSignResponse, OfflineDirectSigner } from "@cosmjs/proto-signing";
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { color } from "../../theme"
 
@@ -196,6 +198,34 @@ export class AuthCoreAPI {
       }
     }
     return signed
+  }
+
+  getOfflineDirectSigner(): OfflineDirectSigner {
+    const chainId = this.cosmosChainId
+    const getAddressesAndPubKeys = this.getCosmosAddressesAndPubKeys;
+    const sign = this.cosmosSign;
+
+    return {
+      async getAccounts(): Promise<readonly AccountData[]> {
+        const { addresses, pubKeys } = await getAddressesAndPubKeys()
+        const address = addresses[0]
+        const pubkey = Uint8Array.from(Buffer.from(pubKeys[0], 'hex'))
+
+        return [{
+          address,
+          algo: 'secp256k1',
+          pubkey,
+        }]
+      },
+    
+      async signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
+        if (chainId !== signDoc.chainId) {
+          throw new Error('Unmatched chain ID with Authcore signer')
+        }
+        const dataWithSig = await sign(signDoc, signerAddress)
+        return dataWithSig
+      }
+    }
   }
 
   async getOAuthFactors() {
