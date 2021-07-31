@@ -43,6 +43,7 @@ import {
   convertUnbondingDelegation,
   convertRedelegation,
 } from "./cosmos.utils"
+import { MintExtension, setupMintExtension } from "./mint-query-extension"
 
 /**
  * Cosmos API helper for LikeCoin
@@ -57,7 +58,7 @@ export class CosmosAPI {
 
   stargateClient: StargateClient
 
-  queryClient: QueryClient & DistributionExtension & StakingExtension
+  queryClient: QueryClient & DistributionExtension & StakingExtension & MintExtension
 
   async setup(restURL: string, chainId: string) {
     this.restURL = restURL
@@ -69,6 +70,7 @@ export class CosmosAPI {
       tendermint34Client,
       setupDistributionExtension,
       setupStakingExtension,
+      setupMintExtension,
     )
   }
 
@@ -191,7 +193,9 @@ export class CosmosAPI {
    * Query the annual provisioned tokens
    */
   async queryAnnualProvision(): Promise<string> {
-    return this.api.get.annualProvisionedTokens()
+    const { annualProvisions } = await this.queryClient.mint.annualProvisions()
+    // TODO: figure out what the uint8 array is
+    return annualProvisions.toString();
   }
 
   async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigner> {
