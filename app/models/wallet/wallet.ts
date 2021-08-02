@@ -1,4 +1,3 @@
-import { Buffer } from "buffer"
 import {
   Instance,
   SnapshotOut,
@@ -9,8 +8,6 @@ import BigNumber from "bignumber.js"
 import { DelegationModel, Delegation } from "../delegation"
 import { withEnvironment } from "../extensions"
 import { BigNumberPrimitive } from "../number"
-
-import { CosmosSignature } from "../../services/cosmos"
 
 /**
  * Wallet model
@@ -81,7 +78,7 @@ export const WalletModel = types
         .map(d => d.validatorAddress)
     },
     get signer() {
-      return self.env.authCoreAPI.getOfflineDirectSigner
+      return self.env.authCoreAPI.getOfflineDirectSigner()
     }
   }))
   .views(self => ({
