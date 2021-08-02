@@ -86,6 +86,7 @@
     "readable-stream": "^3.4.0",
     "secretd-js": "https://gitlab.com/blocksq/secretd-js.git",
     "styled-components": "^5.2.3",
+    "text-decoding": "^1.0.0",
     "use-debounce": "^6.0.1",
     "util": "^0.12.1",
     "validate.js": "0.13.1",

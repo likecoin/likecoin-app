@@ -16,6 +16,8 @@ import {
 } from "@cosmjs/stargate";
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { TextDecoder } from 'text-decoding';
+import BigNumber from "bignumber.js";
 
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import {
@@ -194,8 +196,8 @@ export class CosmosAPI {
    */
   async queryAnnualProvision(): Promise<string> {
     const { annualProvisions } = await this.queryClient.mint.annualProvisions()
-    // TODO: figure out what the uint8 array is
-    return annualProvisions.toString();
+    const provision = new TextDecoder().decode(annualProvisions);
+    return new BigNumber(provision).shiftedBy(18).toFixed();
   }
 
   async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigner> {
@@ -204,7 +206,7 @@ export class CosmosAPI {
       async signAndBroadcast(message: CosmosMessageToSign): Promise<BroadcastTxResponse> {
         const { signerAddress, msgs, fee, memo } = message
         const result = await signingStargateClient.signAndBroadcast(signerAddress, msgs, fee, memo)
-        // TODO: Could check if broadcast success here 
+        // TODO: Could check if broadcast success here
         // and return Promise<CosmosTxQueryResult> rather than Promise<BroadcastTxResponse>
         return result
       }
