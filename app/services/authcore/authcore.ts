@@ -207,8 +207,8 @@ export class AuthCoreAPI {
 
   getOfflineDirectSigner(): OfflineDirectSigner {
     const chainId = this.cosmosChainId
-    const getAddressesAndPubKeys = this.getCosmosAddressesAndPubKeys;
-    const sign = this.cosmosSign;
+    const getAddressesAndPubKeys = this.getCosmosAddressesAndPubKeys.bind(this);
+    const sign = this.cosmosSign.bind(this);
 
     return {
       async getAccounts(): Promise<readonly AccountData[]> {
