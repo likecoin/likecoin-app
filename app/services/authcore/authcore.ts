@@ -166,7 +166,7 @@ export class AuthCoreAPI {
     if (this.cosmosProvider) {
       try {
         addresses = await this.cosmosProvider.getAddresses()
-        pubKeys = await this.cosmosProvider.getPubKeys()
+        pubKeys = await this.cosmosProvider.getPublicKeys()
       } catch (error) {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {
