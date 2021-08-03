@@ -188,7 +188,7 @@ export class AuthCoreAPI {
     let signed
     if (!this.cosmosProvider) throw new Error('WALLET_NOT_INITED');
     try {
-      signed = await this.cosmosProvider.sign(payload, address)
+      signed = await this.cosmosProvider.directSign(payload, address)
     } catch (error) {
       const statusCode = error.response ? error.response.status : error.status
       switch (statusCode) {
@@ -218,7 +218,7 @@ export class AuthCoreAPI {
           const accountData: AccountData = {
             address,
             algo: 'secp256k1',
-            pubkey: Uint8Array.from(Buffer.from(pubKeys[i], 'hex')),
+            pubkey: Uint8Array.from(Buffer.from(pubKeys[i], 'base64')),
           }
           return accountData
         })
@@ -230,8 +230,8 @@ export class AuthCoreAPI {
           throw new Error('Unmatched chain ID with Authcore signer')
         }
         const signBytes = makeSignBytes(signDoc)
-        const dataWithSig = await sign(signBytes, signerAddress)
-        return dataWithSig
+        const { signature } = await sign(signBytes, signerAddress)
+        return { signature, signed: signDoc }
       }
     }
   }
