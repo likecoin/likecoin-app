@@ -16,6 +16,8 @@ import {
 } from "@cosmjs/stargate";
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { TextDecoder } from 'text-decoding';
+import BigNumber from "bignumber.js";
 
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import {
@@ -43,6 +45,7 @@ import {
   convertUnbondingDelegation,
   convertRedelegation,
 } from "./cosmos.utils"
+import { MintExtension, setupMintExtension } from "./mint-query-extension"
 
 /**
  * Cosmos API helper for LikeCoin
@@ -57,7 +60,7 @@ export class CosmosAPI {
 
   stargateClient: StargateClient
 
-  queryClient: QueryClient & DistributionExtension & StakingExtension
+  queryClient: QueryClient & DistributionExtension & StakingExtension & MintExtension
 
   async setup(restURL: string, chainId: string) {
     this.restURL = restURL
@@ -69,6 +72,7 @@ export class CosmosAPI {
       tendermint34Client,
       setupDistributionExtension,
       setupStakingExtension,
+      setupMintExtension,
     )
   }
 
@@ -191,7 +195,9 @@ export class CosmosAPI {
    * Query the annual provisioned tokens
    */
   async queryAnnualProvision(): Promise<string> {
-    return this.api.get.annualProvisionedTokens()
+    const { annualProvisions } = await this.queryClient.mint.annualProvisions()
+    const provision = new TextDecoder().decode(annualProvisions);
+    return new BigNumber(provision).shiftedBy(18).toFixed();
   }
 
   async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigner> {
@@ -200,7 +206,7 @@ export class CosmosAPI {
       async signAndBroadcast(message: CosmosMessageToSign): Promise<BroadcastTxResponse> {
         const { signerAddress, msgs, fee, memo } = message
         const result = await signingStargateClient.signAndBroadcast(signerAddress, msgs, fee, memo)
-        // TODO: Could check if broadcast success here 
+        // TODO: Could check if broadcast success here
         // and return Promise<CosmosTxQueryResult> rather than Promise<BroadcastTxResponse>
         return result
       }
