@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Cosmos from "@lunie/cosmos-api"
 import {
   DistributionExtension,
   QueryClient,
@@ -51,10 +50,6 @@ import { MintExtension, setupMintExtension } from "./mint-query-extension"
  * Cosmos API helper for LikeCoin
  */
 export class CosmosAPI {
-  /**
-   * The Cosmos API client
-   */
-  api: Cosmos
 
   restURL: string
 
@@ -62,9 +57,8 @@ export class CosmosAPI {
 
   queryClient: QueryClient & DistributionExtension & StakingExtension & MintExtension
 
-  async setup(restURL: string, chainId: string) {
+  async setup(restURL: string) {
     this.restURL = restURL
-    this.api = new Cosmos(restURL, chainId)
     this.stargateClient = await StargateClient.connect(restURL);
 
     const tendermint34Client = await Tendermint34Client.connect(restURL);
