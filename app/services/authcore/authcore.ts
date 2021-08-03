@@ -1,7 +1,7 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
 import jwt from "jsonwebtoken"
-import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
+import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@likecoin/secretd-js"
 import {
   AccountData,
   DirectSignResponse, 
@@ -230,8 +230,8 @@ export class AuthCoreAPI {
           throw new Error('Unmatched chain ID with Authcore signer')
         }
         const signBytes = makeSignBytes(signDoc)
-        const { signature } = await sign(signBytes, signerAddress)
-        return { signature, signed: signDoc }
+        const { signatures } = await sign(signBytes, signerAddress)
+        return { signature: signatures[0], signed: signDoc }
       }
     }
   }
