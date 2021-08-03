@@ -162,7 +162,7 @@ export const TxStoreModel = types
         self.errorMessage = ""
         self.txHash = ""
         try {
-          const estimatedGas = 200000
+          const estimatedGas = self.env.cosmosAPI.simulateGas(newMessage)
           self.gas = new BigNumber(estimatedGas)
         } catch (error) {
           logError(error)

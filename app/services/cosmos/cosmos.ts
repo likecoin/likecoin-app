@@ -50,6 +50,13 @@ import { MintExtension, setupMintExtension } from "./mint-query-extension"
  * Cosmos API helper for LikeCoin
  */
 export class CosmosAPI {
+  defaultGasLimits = {
+    send: 80000,
+    delegate: 160000,
+    transfer: 160000,
+    undelegate: 160000,
+    withdraw: 160000,
+  }
 
   restURL: string
 
@@ -194,6 +201,9 @@ export class CosmosAPI {
     return new BigNumber(provision).shiftedBy(18).toFixed();
   }
 
+  /**
+   * Create a signing client implements the CosmosSigner interface
+   */
   async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigner> {
     const signingStargateClient = await SigningStargateClient.connectWithSigner(this.restURL, signer)
     return {
@@ -298,7 +308,7 @@ export class CosmosAPI {
   ): CosmosMessage {
     const msgs = validatorAddresses.map(validatorAddress => {
       const withdrawMsg: MsgWithdrawDelegatorRewardEncodeObject = {
-        typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
         value: MsgWithdrawDelegatorReward.fromPartial({
           delegatorAddress: fromAddress,
           validatorAddress,
@@ -307,5 +317,34 @@ export class CosmosAPI {
       return withdrawMsg
     })
     return { signerAddress: fromAddress, msgs }
+  }
+
+  /**
+   * Simulate gas according to messages' type and number
+   */
+  simulateGas(message: CosmosMessage): number {
+    let gas = 0
+    message.msgs.map(msg => {
+      switch (msg.typeUrl) {
+        case '/cosmos.bank.v1beta1.MsgSend':
+          gas += this.defaultGasLimits.send
+          break;
+        case '/cosmos.staking.v1beta1.MsgDelegate':
+          gas += this.defaultGasLimits.delegate
+          break;
+        case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
+          gas += this.defaultGasLimits.transfer
+          break;
+        case '/cosmos.staking.v1beta1.MsgUndelegate':
+          gas += this.defaultGasLimits.undelegate
+          break;
+        case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
+          gas += this.defaultGasLimits.withdraw
+          break;
+        default:
+          break;
+      }
+    })
+    return gas
   }
 }
