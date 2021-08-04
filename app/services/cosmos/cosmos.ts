@@ -208,8 +208,6 @@ export class CosmosAPI {
       async signAndBroadcast(message: CosmosMessageToSign): Promise<BroadcastTxResponse> {
         const { signerAddress, msgs, fee, memo } = message
         const result = await signingStargateClient.signAndBroadcast(signerAddress, msgs, fee, memo)
-        // TODO: Could check if broadcast success here
-        // and return Promise<CosmosTxQueryResult> rather than Promise<BroadcastTxResponse>
         return result
       }
     }
