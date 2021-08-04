@@ -52,7 +52,6 @@ export class CosmosAPI {
   defaultGasLimits = {
     send: 80000,
     delegate: 160000,
-    transfer: 160000,
     undelegate: 160000,
     withdraw: 160000,
   }
@@ -329,10 +328,8 @@ export class CosmosAPI {
           gas += this.defaultGasLimits.send
           break;
         case '/cosmos.staking.v1beta1.MsgDelegate':
-          gas += this.defaultGasLimits.delegate
-          break;
         case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
-          gas += this.defaultGasLimits.transfer
+          gas += this.defaultGasLimits.delegate
           break;
         case '/cosmos.staking.v1beta1.MsgUndelegate':
           gas += this.defaultGasLimits.undelegate
@@ -341,6 +338,7 @@ export class CosmosAPI {
           gas += this.defaultGasLimits.withdraw
           break;
         default:
+          gas += this.defaultGasLimits.send * 2
           break;
       }
     })
