@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@likecoin/secretd-js"
 import {
   AccountData,
-  DirectSignResponse, 
-  makeSignBytes, 
+  DirectSignResponse,
+  makeSignBytes,
   OfflineDirectSigner
 } from "@cosmjs/proto-signing";
 import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
@@ -207,8 +207,14 @@ export class AuthCoreAPI {
 
   getOfflineDirectSigner(): OfflineDirectSigner {
     const chainId = this.cosmosChainId
-    const getAddressesAndPubKeys = this.getCosmosAddressesAndPubKeys.bind(this);
-    const sign = this.cosmosSign.bind(this);
+    const getAddressesAndPubKeys = async () => {
+      const result = await this.getCosmosAddressesAndPubKeys()
+      return result
+    };
+    const sign = async (payload: Uint8Array, address: string) => {
+      const result = await this.cosmosSign(payload, address)
+      return result
+    };
 
     return {
       async getAccounts(): Promise<readonly AccountData[]> {
