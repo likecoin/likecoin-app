@@ -76,7 +76,7 @@ export interface CosmosMessageToSign extends CosmosMessage {
   memo?: string
 }
 
-export interface CosmosSigner {
+export interface CosmosSigningClient {
   signAndBroadcast: (message: CosmosMessageToSign) => Promise<BroadcastTxResponse>
 }
 

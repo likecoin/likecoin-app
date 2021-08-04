@@ -32,7 +32,7 @@ import {
   CosmosMessageToSign,
   CosmosRedelegation,
   CosmosRewardsResult,
-  CosmosSigner,
+  CosmosSigningClient,
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./cosmos.types"
@@ -202,7 +202,7 @@ export class CosmosAPI {
   /**
    * Create a signing client implements the CosmosSigner interface
    */
-  async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigner> {
+  async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigningClient> {
     const signingStargateClient = await SigningStargateClient.connectWithSigner(this.restURL, signer)
     return {
       async signAndBroadcast(message: CosmosMessageToSign): Promise<BroadcastTxResponse> {

@@ -210,11 +210,11 @@ export class AuthCoreAPI {
     const getAddressesAndPubKeys = async () => {
       const result = await this.getCosmosAddressesAndPubKeys()
       return result
-    };
+    }
     const sign = async (payload: Uint8Array, address: string) => {
       const result = await this.cosmosSign(payload, address)
       return result
-    };
+    }
 
     return {
       async getAccounts(): Promise<readonly AccountData[]> {

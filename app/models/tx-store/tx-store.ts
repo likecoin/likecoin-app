@@ -6,11 +6,13 @@ import {
   types,
 } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
+import { OfflineDirectSigner } from "@cosmjs/proto-signing";
+import { BroadcastTxResponse } from "@cosmjs/stargate"
 
 import { withEnvironment } from "../extensions"
 import {
   CosmosMessage,
-  CosmosSigner,
+  CosmosSigningClient,
   CosmosTxQueryResult,
 } from "../../services/cosmos"
 import { parseCosmosCoin } from "../../services/cosmos/cosmos.utils"
@@ -19,9 +21,6 @@ import { logError } from "../../utils/error"
 import { translateWithFallbackText } from "../../i18n"
 
 import { TxError, TxInsufficientGasFeeError } from "./tx-error"
-
-import { OfflineDirectSigner } from "@cosmjs/proto-signing";
-import { BroadcastTxResponse } from "@cosmjs/stargate"
 
 /**
  * Base Tx store
@@ -178,7 +177,7 @@ export const TxStoreModel = types
         self.errorMessage = ""
         self.txHash = ""
         try {
-          const client: CosmosSigner = yield self.env.cosmosAPI.createSigningClient(signer)
+          const client: CosmosSigningClient = yield self.env.cosmosAPI.createSigningClient(signer)
           const response: BroadcastTxResponse = yield client.signAndBroadcast({ ...message, ...self.getMeta() })
           self.txHash = response.transactionHash
           // TODO: Store hash for history
