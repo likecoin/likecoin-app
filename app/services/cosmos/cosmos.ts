@@ -38,7 +38,6 @@ import {
 } from "./cosmos.types"
 import {
   convertValidator,
-  convertDecCoin,
   convertDelegationDelegatorReward,
   convertDelegationResponse,
   convertUnbondingDelegation,
@@ -114,7 +113,7 @@ export class CosmosAPI {
       await this.queryClient.distribution.delegationTotalRewards(address)
     return {
       rewards: rewardsInput.map(r => convertDelegationDelegatorReward(r)),
-      total: totalInput.map(coin => convertDecCoin(coin))
+      total: totalInput.map(coin => coin as CosmosCoinResult)
     }
   }
 
@@ -128,7 +127,7 @@ export class CosmosAPI {
     Promise<CosmosCoinResult[]> {
     const { rewards } = await
       this.queryClient.distribution.delegationRewards(delegatorAddress, validatorAddress);
-    return rewards.map(coin => convertDecCoin(coin))
+    return rewards.map(coin => coin as CosmosCoinResult)
   }
 
   /**

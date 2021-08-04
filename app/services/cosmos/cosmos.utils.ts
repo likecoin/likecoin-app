@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import BigNumber from "bignumber.js"
-import { Coin, DecCoin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
+import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
 import {
   CosmosCoinResult,
   CosmosDelegation,
@@ -70,14 +70,10 @@ export function validateAccountAddress(address: string) {
   return /^cosmos1[ac-hj-np-z02-9]{38}$/.test(address)
 }
 
-export function convertDecCoin(coin: DecCoin): CosmosCoinResult {
-  return coin as CosmosCoinResult
-}
-
 export function convertDelegationDelegatorReward
   (reward: DelegationDelegatorReward): CosmosValidatorReward {
   const { validatorAddress, reward: rewardInput } = reward
-  const coins = rewardInput.map(coin => convertDecCoin(coin))
+  const coins = rewardInput.map(coin => coin as CosmosCoinResult)
   return { validator_address: validatorAddress, reward: coins }
 }
 
