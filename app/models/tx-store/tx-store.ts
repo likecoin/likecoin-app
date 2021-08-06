@@ -181,7 +181,7 @@ export const TxStoreModel = types
           const response: BroadcastTxResponse = yield client.signAndBroadcast({ ...message, ...self.getMeta() })
           self.txHash = response.transactionHash
           // TODO: Store hash for history
-          if (!('code' in response) || !response.code) {
+          if (!('code' in response)) {
             self.isSuccess = true
             return
           }

@@ -314,31 +314,33 @@ export class CosmosAPI {
     })
     return { signerAddress: fromAddress, msgs }
   }
+  
+  /**
+   * Estimate gas according to message's typeUrl
+   */
+  estimateGasByMessageType(typeUrl: string): number {
+    switch (typeUrl) {
+      case '/cosmos.bank.v1beta1.MsgSend':
+        return this.defaultGasLimits.send
+      case '/cosmos.staking.v1beta1.MsgDelegate':
+      case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
+        return this.defaultGasLimits.delegate
+      case '/cosmos.staking.v1beta1.MsgUndelegate':
+        return this.defaultGasLimits.undelegate
+      case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
+        return this.defaultGasLimits.withdraw
+      default:
+        return this.defaultGasLimits.send * 2
+    }
+  }
 
   /**
-   * Simulate gas according to messages' type and number
+   * Simulate gas in a CosmosMessage
    */
   simulateGas(message: CosmosMessage): number {
     let gas = 0
-    message.msgs.map(msg => {
-      switch (msg.typeUrl) {
-        case '/cosmos.bank.v1beta1.MsgSend':
-          gas += this.defaultGasLimits.send
-          break;
-        case '/cosmos.staking.v1beta1.MsgDelegate':
-        case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
-          gas += this.defaultGasLimits.delegate
-          break;
-        case '/cosmos.staking.v1beta1.MsgUndelegate':
-          gas += this.defaultGasLimits.undelegate
-          break;
-        case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
-          gas += this.defaultGasLimits.withdraw
-          break;
-        default:
-          gas += this.defaultGasLimits.send * 2
-          break;
-      }
+    message.msgs.forEach(msg => {
+      gas += this.estimateGasByMessageType(msg.typeUrl)
     })
     return gas
   }
