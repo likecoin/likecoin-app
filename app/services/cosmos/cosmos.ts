@@ -197,7 +197,7 @@ export class CosmosAPI {
   async queryAnnualProvision(): Promise<string> {
     const { annualProvisions } = await this.queryClient.mint.annualProvisions()
     const provision = new TextDecoder().decode(annualProvisions);
-    return new BigNumber(provision).shiftedBy(18).toFixed();
+    return new BigNumber(provision).shiftedBy(-18).toFixed();
   }
 
   /**
