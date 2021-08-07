@@ -53,8 +53,9 @@ export class CosmosAPI {
   defaultGasLimits = {
     send: 80000,
     delegate: 160000,
-    undelegate: 160000,
-    withdraw: 160000,
+    redelegate: 240000,
+    undelegate: 200000,
+    withdraw: 120000,
   }
 
   restURL: string
@@ -324,8 +325,9 @@ export class CosmosAPI {
       case '/cosmos.bank.v1beta1.MsgSend':
         return this.defaultGasLimits.send
       case '/cosmos.staking.v1beta1.MsgDelegate':
-      case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
         return this.defaultGasLimits.delegate
+      case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
+        return this.defaultGasLimits.redelegate
       case '/cosmos.staking.v1beta1.MsgUndelegate':
         return this.defaultGasLimits.undelegate
       case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
