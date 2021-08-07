@@ -1,15 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import BigNumber from "bignumber.js"
-import { Coin } from "@cosmjs/stargate/build/codec/cosmos/base/v1beta1/coin";
-import {
-  CosmosCoinResult,
-  CosmosDelegation,
-  CosmosRedelegation,
-  CosmosUnbondingDelegation,
-  CosmosUnbondingDelegationEntry,
-  CosmosValidator,
-  CosmosValidatorReward,
-} from "./cosmos.types"
 import { DelegationDelegatorReward } from "@cosmjs/stargate/build/codec/cosmos/distribution/v1beta1/distribution";
 import {
   Commission,
@@ -22,6 +12,17 @@ import {
   UnbondingDelegationEntry,
   Validator
 } from "@cosmjs/stargate/build/codec/cosmos/staking/v1beta1/staking";
+import { Coin, DecCoin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+
+import {
+  CosmosCoinResult,
+  CosmosDelegation,
+  CosmosRedelegation,
+  CosmosUnbondingDelegation,
+  CosmosUnbondingDelegationEntry,
+  CosmosValidator,
+  CosmosValidatorReward,
+} from "./cosmos.types"
 
 /**
  * Parse the given amount of given denom in number to Cosmos coin format
@@ -70,10 +71,16 @@ export function validateAccountAddress(address: string) {
   return /^cosmos1[ac-hj-np-z02-9]{38}$/.test(address)
 }
 
+export function convertDecCoin(decCoin: DecCoin): CosmosCoinResult {
+  const { denom, amount: amountInput } = decCoin
+  const amount = new BigNumber(amountInput).shiftedBy(-18).toFixed()
+  return { denom, amount }
+}
+
 export function convertDelegationDelegatorReward
   (reward: DelegationDelegatorReward): CosmosValidatorReward {
   const { validatorAddress, reward: rewardInput } = reward
-  const coins = rewardInput.map(coin => coin as CosmosCoinResult)
+  const coins = rewardInput.map(coin => convertDecCoin(coin))
   return { validator_address: validatorAddress, reward: coins }
 }
 
@@ -90,11 +97,14 @@ function convertDescription
 
 function convertCommissionRates
   (commissionRates: CommissionRates = {} as CommissionRates) {
-  const { rate = '', maxRate = '', maxChangeRate = '' } = commissionRates
+  const { rate: rateInput = '', maxRate = '', maxChangeRate = '' } = commissionRates
+  const rate = new BigNumber(rateInput).shiftedBy(-18).toFixed()
+  const max_rate = new BigNumber(maxRate).shiftedBy(-18).toFixed()
+  const max_change_rate = new BigNumber(maxChangeRate).shiftedBy(-18).toFixed()
   return {
     rate,
-    max_rate: maxRate,
-    max_change_rate: maxChangeRate,
+    max_rate,
+    max_change_rate,
   }
 }
 
@@ -118,7 +128,7 @@ export function convertValidator
     jailed = false,
     status = 0,
     tokens = '',
-    delegatorShares = '',
+    delegatorShares: delegatorSharesInput = '',
     description = {} as Description,
     unbondingHeight = '',
     unbondingTime = '',
@@ -126,13 +136,15 @@ export function convertValidator
     minSelfDelegation = '',
   } = validator;
 
+  const delegator_shares = new BigNumber(delegatorSharesInput).shiftedBy(-18).toFixed()
+
   return {
     operator_address: operatorAddress,
     consensus_pubkey: consensusPubkey.toString(),
     jailed,
     status,
     tokens,
-    delegator_shares: delegatorShares,
+    delegator_shares,
     description: convertDescription(description),
     unbonding_height: unbondingHeight.toString(),
     unbonding_time: unbondingTime.toString(),
@@ -144,12 +156,13 @@ export function convertValidator
 export function convertDelegationResponse
   (res: DelegationResponse = {} as DelegationResponse): CosmosDelegation {
   const { delegation = {} as Delegation, balance = {} as Coin } = res
-  const { delegatorAddress = '', validatorAddress = '', shares = '' } = delegation
+  const { delegatorAddress = '', validatorAddress = '', shares: sharesInput = '' } = delegation
   const { amount = '' } = balance
+  const shares = new BigNumber(sharesInput).shiftedBy(-18).toFixed()
   return {
     delegator_address: delegatorAddress,
     validator_address: validatorAddress,
-    shares: shares,
+    shares,
     balance: amount,
   }
 }

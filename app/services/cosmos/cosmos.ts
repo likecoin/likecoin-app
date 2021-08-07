@@ -17,7 +17,6 @@ import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { TextDecoder } from 'text-decoding';
 import BigNumber from "bignumber.js";
-
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import {
   MsgBeginRedelegate,
@@ -25,6 +24,7 @@ import {
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
+
 import {
   CosmosCoinResult,
   CosmosDelegation,
@@ -42,6 +42,7 @@ import {
   convertDelegationResponse,
   convertUnbondingDelegation,
   convertRedelegation,
+  convertDecCoin,
 } from "./cosmos.utils"
 import { MintExtension, setupMintExtension } from "./mint-query-extension"
 
@@ -99,7 +100,7 @@ export class CosmosAPI {
    */
   async queryBalance(address: string, denom: string): Promise<string> {
     const { amount } = await this.stargateClient.getBalance(address, denom)
-    return amount
+    return amount || '0'
   }
 
   /**
@@ -112,7 +113,7 @@ export class CosmosAPI {
       await this.queryClient.distribution.delegationTotalRewards(address)
     return {
       rewards: rewardsInput.map(r => convertDelegationDelegatorReward(r)),
-      total: totalInput.map(coin => coin as CosmosCoinResult)
+      total: totalInput.map(coin => convertDecCoin(coin))
     }
   }
 
@@ -126,7 +127,7 @@ export class CosmosAPI {
     Promise<CosmosCoinResult[]> {
     const { rewards } = await
       this.queryClient.distribution.delegationRewards(delegatorAddress, validatorAddress);
-    return rewards.map(coin => coin as CosmosCoinResult)
+    return rewards.map(coin => convertDecCoin(coin))
   }
 
   /**
@@ -149,7 +150,7 @@ export class CosmosAPI {
   async getDelegation(delegatorAddress: string, validatorAddress: string):
     Promise<CosmosDelegation> {
     const { delegationResponse } =
-      await this.queryClient.staking.delegation(delegatorAddress, validatorAddress);
+      await this.queryClient.staking.delegation(delegatorAddress, validatorAddress)
     return convertDelegationResponse(delegationResponse)
   }
 
@@ -161,7 +162,7 @@ export class CosmosAPI {
   async getRedelegations(delegatorAddress: string):
     Promise<CosmosRedelegation[]> {
     const { redelegationResponses } =
-      await this.queryClient.staking.redelegations(delegatorAddress, 'sourceValidatorAddress', 'destinationValidatorAddress');
+      await this.queryClient.staking.redelegations(delegatorAddress, '', '')
     return redelegationResponses.map(res => convertRedelegation(res.redelegation))
   }
 
@@ -314,7 +315,7 @@ export class CosmosAPI {
     })
     return { signerAddress: fromAddress, msgs }
   }
-  
+
   /**
    * Estimate gas according to message's typeUrl
    */
