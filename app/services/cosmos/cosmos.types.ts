@@ -51,13 +51,13 @@ export interface CosmosLogResult {
 
 export interface CosmosTxQueryResult {
   height: string
-  txhash: string
+  transactionHash: string
   data: string
-  raw_log: string
+  rawLog: string
   logs: CosmosLogResult[]
-  gas_wanted: string
-  gas_used: string
-  timestamp: string
+  gasWanted: string
+  gasUsed: string
+  code: string
 }
 
 export interface CosmosMessage {

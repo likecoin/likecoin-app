@@ -7,7 +7,6 @@ import {
 } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
 import { OfflineDirectSigner } from "@cosmjs/proto-signing";
-import { BroadcastTxResponse } from "@cosmjs/stargate"
 
 import { withEnvironment } from "../extensions"
 import {
@@ -178,10 +177,10 @@ export const TxStoreModel = types
         self.txHash = ""
         try {
           const client: CosmosSigningClient = yield self.env.cosmosAPI.createSigningClient(signer)
-          const response: BroadcastTxResponse = yield client.signAndBroadcast({ ...message, ...self.getMeta() })
+          const response: CosmosTxQueryResult = yield client.signAndBroadcast({ ...message, ...self.getMeta() })
           self.txHash = response.transactionHash
           // TODO: Store hash for history
-          if (!('code' in response)) {
+          if (!response.code) {
             self.isSuccess = true
             return
           }
