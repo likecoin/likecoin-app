@@ -176,8 +176,8 @@ export const ChainStoreModel = types
   .views(self => ({
     compareValidatorsByDelegation(a: Validator, b: Validator) {
       // Sort by status
-      if (!a.isJailed && b.isJailed) return -1
-      if (a.isJailed && !b.isJailed) return 1
+      if (a.isActive && !b.isActive) return -1
+      if (!a.isActive && b.isActive) return 1
 
       // Sort by delegated amount
       const aDelegation = self.wallet.getDelegation(a.operatorAddress)
@@ -212,10 +212,10 @@ export const ChainStoreModel = types
   }))
   .views(self => ({
     get activeValidatorsList() {
-      return self.sortedValidatorList.filter(v => !v.isJailed)
+      return self.sortedValidatorList.filter(v => v.isActive)
     },
     get inactiveValidatorsList() {
-      return self.sortedValidatorList.filter(v => v.isJailed)
+      return self.sortedValidatorList.filter(v => !v.isActive)
     },
   }))
   .actions(self => ({
