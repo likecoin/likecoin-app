@@ -102,7 +102,7 @@ export const ValidatorModel = types
       )
     },
     get isActive() {
-      return !self.isJailed && self.status === 2
+      return !self.isJailed && self.status === 3 // BOND_STATUS_BONDED
     },
   }))
   .actions(self => ({
