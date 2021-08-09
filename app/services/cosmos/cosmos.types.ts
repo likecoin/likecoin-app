@@ -1,3 +1,5 @@
+import { BroadcastTxResponse } from "@cosmjs/stargate";
+
 export interface CosmosCoinResult {
   denom: string
   amount: string
@@ -49,41 +51,33 @@ export interface CosmosLogResult {
 
 export interface CosmosTxQueryResult {
   height: string
-  txhash: string
+  transactionHash: string
   data: string
-  raw_log: string
+  rawLog: string
   logs: CosmosLogResult[]
-  gas_wanted: string
-  gas_used: string
-  timestamp: string
-}
-
-export interface CosmosSendResult {
-  hash: string
-  sequence: any
-  included: () => Promise<CosmosTxQueryResult>
-}
-
-export interface CosmosSignature {
-  signature: Buffer
-  publicKey: Buffer
+  gasWanted: string
+  gasUsed: string
+  code: string
 }
 
 export interface CosmosMessage {
-  message: any
-  simulate: ({ memo }: {
-    memo?: any
-  }) => Promise<number>
-  send: (
-    meta: {
-      gas: any
-      gasPrices?: any
-      memo?: any
-    },
-    signer: (
-      signMessage: string,
-    ) => CosmosSignature
-  ) => Promise<CosmosSendResult>
+  msgs: {
+    typeUrl: string
+    value: any
+  }[]
+  signerAddress: string
+}
+
+export interface CosmosMessageToSign extends CosmosMessage {
+  fee: {
+    amount: CosmosCoinResult[]
+    gas: string
+  }
+  memo?: string
+}
+
+export interface CosmosSigningClient {
+  signAndBroadcast: (message: CosmosMessageToSign) => Promise<BroadcastTxResponse>
 }
 
 export interface CosmosDelegation {
@@ -92,7 +86,6 @@ export interface CosmosDelegation {
   validator_address: string
   shares: string
   balance: string
-  height: number
   /* eslint-enable camelcase */
 }
 
