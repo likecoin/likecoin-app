@@ -13,6 +13,7 @@ import {
   MsgUndelegateEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
 } from "@cosmjs/stargate";
+import { BondStatusString } from "@cosmjs/stargate/build/queries/staking";
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { TextDecoder } from 'text-decoding';
@@ -81,7 +82,7 @@ export class CosmosAPI {
    * Get the list of validators
    */
   async getValidators(): Promise<CosmosValidator[]> {
-    const bondStatus = 'BOND_STATUS_BONDED'
+    const bondStatus = '' as BondStatusString
     const { validators } = await this.queryClient.staking.validators(bondStatus)
     return validators.map(v => convertValidator(v))
   }
