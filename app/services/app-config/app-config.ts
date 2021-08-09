@@ -82,11 +82,11 @@ export class AppConfig {
 
   getGasLimits() {
     return {
-      send: this.getValue('GAS_SEND'),
-      delegate: this.getValue('GAS_DELEGATE'),
-      redelegate: this.getValue('GAS_REDELEGATE'),
-      undelegate: this.getValue('GAS_UNDELEGATE'),
-      withdraw: this.getValue('GAS_WITHDRAW'),
+      send: this.getNumericValue('GAS_SEND'),
+      delegate: this.getNumericValue('GAS_DELEGATE'),
+      redelegate: this.getNumericValue('GAS_REDELEGATE'),
+      undelegate: this.getNumericValue('GAS_UNDELEGATE'),
+      withdraw: this.getNumericValue('GAS_WITHDRAW'),
     }
   }
 }
