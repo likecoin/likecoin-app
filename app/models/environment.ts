@@ -48,7 +48,7 @@ export class Environment {
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likeCoinAPI.setup(LIKECOIN_API_URL)
     this.likerLandAPI.setup(LIKERLAND_API_URL)
-    this.cosmosAPI.setup(COSMOS_LCD_URL)
+    this.cosmosAPI.setup(COSMOS_LCD_URL, this.appConfig.getGasLimits())
     this.bigDipper.setup(BIG_DIPPER_URL)
   }
 
