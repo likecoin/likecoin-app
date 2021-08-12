@@ -80,6 +80,12 @@ export class AppConfig {
     )
   }
 
+  getIsDeprecatedAppVersionForWalletFeature() {
+    return (
+      this.getNumericValue("MIN_VERSION_FOR_WALLET") > this.getNumericValue("APP_VERSION")
+    )
+  }
+  
   getGasLimits() {
     return {
       send: this.getNumericValue('GAS_SEND'),

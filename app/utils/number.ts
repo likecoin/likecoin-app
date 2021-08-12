@@ -30,6 +30,6 @@ export function withAbsPercent(percent: number) {
 }
 
 export function formatLikeAmountText(likeAmount: number) {
-  if (likeAmount > 0 && likeAmount < 0.0001) return '< 0.0001';
+  if (likeAmount < 0.0001) return '< 0.0001';
   return likeAmount.toFixed(4);
 }

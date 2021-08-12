@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, ViewProps } from "react-native"
 import styled from "styled-components/native"
 
 import { TableViewCellProps } from "./table-view-cell"
@@ -11,6 +11,7 @@ export const TableViewSeparator = styled.View`
 
 interface TableViewProps {
   children: React.ReactElement | React.ReactElement[]
+  style?: ViewProps
 }
 
 export function TableView({

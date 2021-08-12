@@ -1,18 +1,23 @@
 import * as React from "react"
 import {
   Linking,
-  TouchableOpacityProps,
+  TouchableHighlightProps,
 } from "react-native";
-import styled, { css } from "styled-components/native"
+import styled, { css, useTheme } from "styled-components/native"
 
 import { translate } from "../../i18n"
 
-import { TableViewCellAccessoryIconType, TableViewCellAccessoryView } from "./table-view-cell-accessory";
+import {
+  TableViewCellAccessoryIconType,
+  TableViewCellAccessoryView,
+} from "./table-view-cell-accessory";
 
 interface CellViewProps {
   isFirstCell?: boolean
   isLastCell?: boolean
   isChildrenRaw?: boolean
+  isNoPadding?: boolean
+  isNoBackground?: boolean
   hasAccessoryView?: boolean
 }
 
@@ -20,19 +25,13 @@ interface CellViewComputedProps {
   cornerRadius: string
 }
 
-const CellView = styled.TouchableOpacity.attrs<CellViewProps, CellViewComputedProps>(() => ({
+const CellView = styled.TouchableHighlight.attrs<CellViewProps, CellViewComputedProps>(() => ({
   cornerRadius: "14px",
 }))<CellViewProps>`
-  background-color: ${props => props.theme.color.background.primary};
+  overflow: hidden;
 
-  ${({ isChildrenRaw }) => !isChildrenRaw && css<CellViewComputedProps>`
-    flex-direction: row;
-    flex: 1;
-  `}
-
-  padding: ${props => props.theme.spacing.lg};
-  ${props => !!props.hasAccessoryView && css`
-    padding-right: ${props => props.theme.spacing.md};
+  ${(props) => !props.isNoBackground && css`
+    background-color: ${props.theme.color.background.primary};
   `}
 
   ${({ isFirstCell, cornerRadius: radius }) => isFirstCell && css<CellViewComputedProps>`
@@ -43,6 +42,20 @@ const CellView = styled.TouchableOpacity.attrs<CellViewProps, CellViewComputedPr
   ${({ isLastCell, cornerRadius: radius }) => isLastCell && css<CellViewComputedProps>`
     border-bottom-left-radius: ${radius};
     border-bottom-right-radius: ${radius};
+  `}
+`
+
+const CellInnerView = styled.View<CellViewProps>`
+  ${props => !props.isChildrenRaw && css`
+    flex-direction: row;
+    flex: 1;
+  `}
+
+  ${props => !props.isNoPadding && css`
+    padding: ${props.theme.spacing.lg};
+  `}
+  ${props => !props.isNoPadding && !!props.hasAccessoryView && css`
+    padding-right: ${props => props.theme.spacing.md};
   `}
 `
 
@@ -75,7 +88,7 @@ const CellSubtitle = styled.Text`
   font-size: ${props => props.theme.text.size.sm};
 `
 
-export interface TableViewCellProps extends TouchableOpacityProps {
+export interface TableViewCellProps extends TouchableHighlightProps {
   append?: React.ReactNode
   children?: React.ReactNode
   title?: string
@@ -103,6 +116,8 @@ export interface TableViewCellProps extends TouchableOpacityProps {
 
   isFirstCell?: boolean
   isLastCell?: boolean
+  isNoPadding?: boolean
+  isNoBackground?: boolean
   isChildrenRaw?: boolean
   accessoryIcon?: TableViewCellAccessoryIconType
 }
@@ -120,6 +135,8 @@ export function TableViewCell({
   isFirstCell = true,
   isLastCell = true,
   isChildrenRaw = false,
+  isNoPadding = false,
+  isNoBackground = false,
   accessoryIcon: accessoryIconOverride,
   ...props
 }: TableViewCellProps) {
@@ -133,7 +150,7 @@ export function TableViewCell({
   }
 
   let accessoryIcon = accessoryIconOverride
-  if (!accessoryIcon) {
+  if (!accessoryIcon && accessoryIcon !== null) {
     if (href) {
       accessoryIcon = "launch"
     } else if (props.onPress) {
@@ -145,26 +162,34 @@ export function TableViewCell({
     props.disabled = true
   }
 
+  const theme = useTheme()
+
   return (
     <CellView
       isFirstCell={isFirstCell}
       isLastCell={isLastCell}
-      isChildrenRaw={isChildrenRaw}
-      hasAccessoryView={!!accessoryIcon}
+      isNoBackground={isNoBackground}
+      underlayColor={theme.color.background.primary}
       {...props}
     >
-      {isChildrenRaw ? children : (
-        <CellContentView>
-          {append && <AppendContentWrapper>{append}</AppendContentWrapper>}
-          {children || (
-            <TextContentWrapper>
-              {!!titleContent && <CellTitle>{titleContent}</CellTitle>}
-              {!!subtitleContent && <CellSubtitle>{subtitleContent}</CellSubtitle>}
-            </TextContentWrapper>
-          )}
-        </CellContentView>
-      )}
-      {!isChildrenRaw && !!accessoryIcon && <TableViewCellAccessoryView icon={accessoryIcon}/>}
+      <CellInnerView
+        isChildrenRaw={isChildrenRaw}
+        isNoPadding={isNoPadding}
+        hasAccessoryView={!!accessoryIcon}
+      >
+        {isChildrenRaw ? children : (
+          <CellContentView>
+            {append && <AppendContentWrapper>{append}</AppendContentWrapper>}
+            {children || (
+              <TextContentWrapper>
+                {!!titleContent && <CellTitle>{titleContent}</CellTitle>}
+                {!!subtitleContent && <CellSubtitle>{subtitleContent}</CellSubtitle>}
+              </TextContentWrapper>
+            )}
+          </CellContentView>
+        )}
+        {!isChildrenRaw && !!accessoryIcon && <TableViewCellAccessoryView icon={accessoryIcon}/>}
+      </CellInnerView>
     </CellView>
   )
 }
