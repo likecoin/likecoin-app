@@ -67,7 +67,7 @@ export const TxStoreModel = types
       return {
         fee: {
           gas: self.gas.toFixed(),
-          amount: [parseCosmosCoin(self.gasPrice.toFixed(), self.fractionDenom)]
+          amount: [parseCosmosCoin(self.fee.toFixed(), self.fractionDenom)]
         },
         memo: self.memo,
       }

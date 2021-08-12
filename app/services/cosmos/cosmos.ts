@@ -13,6 +13,7 @@ import {
   MsgUndelegateEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
 } from "@cosmjs/stargate";
+import { BondStatusString } from "@cosmjs/stargate/build/queries/staking";
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { TextDecoder } from 'text-decoding';
@@ -50,12 +51,7 @@ import { MintExtension, setupMintExtension } from "./mint-query-extension"
  * Cosmos API helper for LikeCoin
  */
 export class CosmosAPI {
-  defaultGasLimits = {
-    send: 80000,
-    delegate: 160000,
-    undelegate: 160000,
-    withdraw: 160000,
-  }
+  gasLimits: any
 
   restURL: string
 
@@ -63,10 +59,11 @@ export class CosmosAPI {
 
   queryClient: QueryClient & DistributionExtension & StakingExtension & MintExtension
 
-  async setup(restURL: string) {
+  async setup(restURL: string, gasLimits: any) {
     this.restURL = restURL
+    this.gasLimits = gasLimits
     this.stargateClient = await StargateClient.connect(restURL);
-
+    
     const tendermint34Client = await Tendermint34Client.connect(restURL);
     this.queryClient = QueryClient.withExtensions(
       tendermint34Client,
@@ -80,7 +77,7 @@ export class CosmosAPI {
    * Get the list of validators
    */
   async getValidators(): Promise<CosmosValidator[]> {
-    const bondStatus = 'BOND_STATUS_BONDED'
+    const bondStatus = '' as BondStatusString
     const { validators } = await this.queryClient.staking.validators(bondStatus)
     return validators.map(v => convertValidator(v))
   }
@@ -322,16 +319,17 @@ export class CosmosAPI {
   estimateGasByMessageType(typeUrl: string): number {
     switch (typeUrl) {
       case '/cosmos.bank.v1beta1.MsgSend':
-        return this.defaultGasLimits.send
+        return this.gasLimits.send
       case '/cosmos.staking.v1beta1.MsgDelegate':
+        return this.gasLimits.delegate
       case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
-        return this.defaultGasLimits.delegate
+        return this.gasLimits.redelegate
       case '/cosmos.staking.v1beta1.MsgUndelegate':
-        return this.defaultGasLimits.undelegate
+        return this.gasLimits.undelegate
       case '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward':
-        return this.defaultGasLimits.withdraw
+        return this.gasLimits.withdraw
       default:
-        return this.defaultGasLimits.send * 2
+        return this.gasLimits.send * 2
     }
   }
 
