@@ -1,7 +1,14 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
 import jwt from "jsonwebtoken"
-import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "secretd-js"
+import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@likecoin/secretd-js"
+import {
+  AccountData,
+  DirectSignResponse,
+  makeSignBytes,
+  OfflineDirectSigner
+} from "@cosmjs/proto-signing";
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { color } from "../../theme"
 
@@ -139,7 +146,7 @@ export class AuthCoreAPI {
     })
 
     // Getting Cosmos addresses, it will be created if not exists
-    const addresses = await this.getCosmosAddresses()
+    const { addresses } = await this.getCosmosAddressesAndPubKeys()
     return {
       addresses,
     }
@@ -153,11 +160,17 @@ export class AuthCoreAPI {
     if (this.callbacks.unauthorized) this.callbacks.unauthorized(error)
   }
 
-  async getCosmosAddresses() {
+  async getCosmosAddressesAndPubKeys() {
     let addresses: string[] = []
+    let pubKeys: string[] = []
     if (this.cosmosProvider) {
       try {
-        addresses = await this.cosmosProvider.getAddresses()
+        const result = await Promise.all([
+          this.cosmosProvider.getAddresses(),
+          this.cosmosProvider.getPublicKeys()
+        ])
+        addresses = result[0]
+        pubKeys = result[1]
       } catch (error) {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {
@@ -172,14 +185,14 @@ export class AuthCoreAPI {
         }
       }
     }
-    return addresses
+    return { addresses, pubKeys }
   }
 
-  async cosmosSign(payload: Record<string, any>, address: string) {
+  async cosmosSign(payload: Uint8Array, address: string) {
     let signed
     if (!this.cosmosProvider) throw new Error('WALLET_NOT_INITED');
     try {
-      signed = await this.cosmosProvider.sign(payload, address)
+      signed = await this.cosmosProvider.directSign(payload, address)
     } catch (error) {
       const statusCode = error.response ? error.response.status : error.status
       switch (statusCode) {
@@ -194,6 +207,43 @@ export class AuthCoreAPI {
       }
     }
     return signed
+  }
+
+  getOfflineDirectSigner(): OfflineDirectSigner {
+    const chainId = this.cosmosChainId
+    const getAddressesAndPubKeys = async () => {
+      const result = await this.getCosmosAddressesAndPubKeys()
+      return result
+    }
+    const sign = async (payload: Uint8Array, address: string) => {
+      const result = await this.cosmosSign(payload, address)
+      return result
+    }
+
+    return {
+      async getAccounts(): Promise<readonly AccountData[]> {
+        const { addresses, pubKeys } = await getAddressesAndPubKeys()
+
+        const accounts = addresses.map((address, i) => {
+          const accountData: AccountData = {
+            address,
+            algo: 'secp256k1',
+            pubkey: Uint8Array.from(Buffer.from(pubKeys[i], 'base64')),
+          }
+          return accountData
+        })
+        return accounts
+      },
+
+      async signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
+        if (chainId !== signDoc.chainId) {
+          throw new Error('Unmatched chain ID with Authcore signer')
+        }
+        const signBytes = makeSignBytes(signDoc)
+        const { signatures } = await sign(signBytes, signerAddress)
+        return { signature: signatures[0], signed: signDoc }
+      }
+    }
   }
 
   async getOAuthFactors() {

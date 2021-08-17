@@ -85,4 +85,14 @@ export class AppConfig {
       this.getNumericValue("MIN_VERSION_FOR_WALLET") > this.getNumericValue("APP_VERSION")
     )
   }
+  
+  getGasLimits() {
+    return {
+      send: this.getNumericValue('GAS_SEND'),
+      delegate: this.getNumericValue('GAS_DELEGATE'),
+      redelegate: this.getNumericValue('GAS_REDELEGATE'),
+      undelegate: this.getNumericValue('GAS_UNDELEGATE'),
+      withdraw: this.getNumericValue('GAS_WITHDRAW'),
+    }
+  }
 }

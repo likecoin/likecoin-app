@@ -6,15 +6,16 @@ import {
   types,
 } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
+import { OfflineDirectSigner } from "@cosmjs/proto-signing";
 
 import { withEnvironment } from "../extensions"
 import {
   CosmosMessage,
-  CosmosSendResult,
+  CosmosSigningClient,
   CosmosTxQueryResult,
 } from "../../services/cosmos"
 import { parseCosmosCoin } from "../../services/cosmos/cosmos.utils"
-import { logError, logMessage } from "../../utils/error"
+import { logError } from "../../utils/error"
 
 import { translateWithFallbackText } from "../../i18n"
 
@@ -64,8 +65,10 @@ export const TxStoreModel = types
     },
     getMeta() {
       return {
-        gas: self.gas.toFixed(),
-        gasPrices: [parseCosmosCoin(self.gasPrice.toFixed(), self.fractionDenom)],
+        fee: {
+          gas: self.gas.toFixed(),
+          amount: [parseCosmosCoin(self.fee.toFixed(), self.fractionDenom)]
+        },
         memo: self.memo,
       }
     },
@@ -149,7 +152,7 @@ export const TxStoreModel = types
         self.isSigningTx = false
         self.isSuccess = false
       },
-      createTx: flow(function * (newMessage: CosmosMessage) {
+      createTx: flow(function* (newMessage: CosmosMessage) {
         if (self.isCreatingTx) return
         message = newMessage
 
@@ -157,11 +160,7 @@ export const TxStoreModel = types
         self.errorMessage = ""
         self.txHash = ""
         try {
-          let estimatedGas: number = yield message.simulate({ memo: self.memo })
-          if (estimatedGas === 0) {
-            estimatedGas = 200000
-            logMessage('[TxStore] Estimated gas is 0')
-          }
+          const estimatedGas = self.env.cosmosAPI.simulateGas(newMessage)
           self.gas = new BigNumber(estimatedGas)
         } catch (error) {
           logError(error)
@@ -170,25 +169,25 @@ export const TxStoreModel = types
           self.isCreatingTx = false
         }
       }),
-      signTx: flow(function * (signer: any) {
+      signTx: flow(function* (signer: OfflineDirectSigner) {
         if (self.isSigningTx) return
 
         self.isSigningTx = true
         self.errorMessage = ""
         self.txHash = ""
         try {
-          const { hash, included }: CosmosSendResult = yield message.send(self.getMeta(), signer)
-          self.txHash = hash
+          const client: CosmosSigningClient = yield self.env.cosmosAPI.createSigningClient(signer)
+          const response: CosmosTxQueryResult = yield client.signAndBroadcast({ ...message, ...self.getMeta() })
+          self.txHash = response.transactionHash
           // TODO: Store hash for history
-          const response: CosmosTxQueryResult = yield included()
-          if (response?.logs[0]?.success) {
+          if (!response.code) {
             self.isSuccess = true
             return
           }
           const error = new Error("COSMOS_TX_FAILED")
           error["response"] = response
           throw error
-        } catch (error) {          
+        } catch (error) {
           if (handleKnownError(error)) {
             return
           }
