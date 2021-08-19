@@ -133,6 +133,8 @@ export class CosmosAPI {
    * @param delegatorAddress The delegator address
    */
   async getDelegations(delegatorAddress: string): Promise<CosmosDelegation[]> {
+    const { validators } = await this.queryClient.staking.delegatorValidators(delegatorAddress);
+    if (!validators.length) return [];
     const { delegationResponses } =
       await this.queryClient.staking.delegatorDelegations(delegatorAddress)
     return delegationResponses.map(d => convertDelegationResponse(d))
