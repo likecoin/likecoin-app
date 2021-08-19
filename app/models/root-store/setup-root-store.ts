@@ -92,7 +92,9 @@ export async function setupRootStore() {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
     // but please inform us what happened
-    logError(e.message)
+    if (e.message !== 'CHAIN_HAS_CHANGED') {
+      logError(e.message)
+    }
 
     rootStore = createRootStore(env)
   }
