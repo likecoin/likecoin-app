@@ -175,10 +175,6 @@ export const ChainStoreModel = types
   }))
   .views(self => ({
     compareValidatorsByDelegation(a: Validator, b: Validator) {
-      // Sort by status
-      if (a.isActive && !b.isActive) return -1
-      if (!a.isActive && b.isActive) return 1
-
       // Sort by delegated amount
       const aDelegation = self.wallet.getDelegation(a.operatorAddress)
       const bDelegation = self.wallet.getDelegation(b.operatorAddress)
@@ -192,6 +188,10 @@ export const ChainStoreModel = types
       } else if (bDelegation.hasDelegated) {
         return 1
       }
+
+      // Sort by status
+      if (a.isActive && !b.isActive) return -1
+      if (!a.isActive && b.isActive) return 1
 
       // Sort by expected returns
       const aExpectedReturns = self.calculateExpectedRewards(a)
