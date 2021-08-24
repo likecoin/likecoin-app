@@ -63,7 +63,7 @@ export class CosmosAPI {
     this.restURL = restURL
     this.gasLimits = gasLimits
     this.stargateClient = await StargateClient.connect(restURL);
-    
+
     const tendermint34Client = await Tendermint34Client.connect(restURL);
     this.queryClient = QueryClient.withExtensions(
       tendermint34Client,
@@ -148,9 +148,16 @@ export class CosmosAPI {
    */
   async getDelegation(delegatorAddress: string, validatorAddress: string):
     Promise<CosmosDelegation> {
-    const { delegationResponse } =
-      await this.queryClient.staking.delegation(delegatorAddress, validatorAddress)
-    return convertDelegationResponse(delegationResponse)
+    try {
+      const { delegationResponse } =
+        await this.queryClient.staking.delegation(delegatorAddress, validatorAddress)
+      return convertDelegationResponse(delegationResponse)
+    } catch (error) {
+      if (error.message.includes('code = NotFound')) {
+        return convertDelegationResponse({})
+      }
+      throw error;
+    }
   }
 
   /**
