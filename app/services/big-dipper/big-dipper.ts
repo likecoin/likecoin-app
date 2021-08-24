@@ -17,11 +17,11 @@ export class BigDipper {
    * @param address The Cosmos address
    */
   getAccountURL(address: string) {
-    return `${this.baseURL}/account/${address}`
+    return `${this.baseURL}/accounts/${address}`
   }
 
   getValidatorURL(address: string) {
-    return `${this.baseURL}/validator/${address}`
+    return `${this.baseURL}/validators/${address}`
   }
 
   getTransactionURL(hash: string, isNew = true) {
