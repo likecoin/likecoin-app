@@ -38,11 +38,20 @@ const TitleText = styled(Text)`
   font-weight: 600;
 `
 
-const BalanceText = styled(Text)`
+const BalanceContainer = styled.View`
   margin-top: ${props => props.theme.spacing.sm};
+  flex-direction: row;
+  align-items: center;
+`
+
+const BalanceText = styled(Text)`
   color: ${props => props.theme.color.text.highlight};
   font-size: ${props => props.theme.text.size.xl};
   font-weight: 600;
+`
+
+const BalanceActivityIndicator = styled.ActivityIndicator`
+  margin-left: ${props => props.theme.spacing.sm};
 `
 
 const QRCodeButtonWrapper = styled(ButtonGroup)`
@@ -111,9 +120,14 @@ export class DashboardWalletPanel extends React.Component<
                   height={16}
                 />
               </Header>
-              <BalanceText
-                text={this.props.chainStore.formattedConciseTotalBalance}
-              />
+              <BalanceContainer>
+                <BalanceText
+                  text={this.props.chainStore.formattedConciseTotalBalance}
+                />
+                {!!this.props.chainStore.isLoading && (
+                  <BalanceActivityIndicator size="small" />
+                )}
+              </BalanceContainer>
             </ContentView>
             <QRCodeButtonWrapper
               buttons={[
