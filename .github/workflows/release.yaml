@@ -12,6 +12,7 @@ jobs:
       with:
         node-version: 10
     - name: Set release version and build number env
+      id: version-format
       run: |
         version="${github_ref#*v}"
         build="${version#*-}"
@@ -20,8 +21,8 @@ jobs:
         version="${version%-*}"
         echo $version
         echo $build
-        echo "::set-env name=VERSION_NAME::$version"
-        echo "::set-env name=BUILD_NUMBER::$build"
+        echo "::set-output name=version::$version"
+        echo "::set-output name=build::$build"
       env:
         github_ref: ${{ github.ref }}
     - name: Get yarn cache
@@ -65,6 +66,8 @@ jobs:
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
         APPLE_CONNECT_API_KEY_ID: ${{ secrets.APPLE_CONNECT_API_KEY_ID }}
         APPLE_CONNECT_API_ISSUER_ID: ${{ secrets.APPLE_CONNECT_API_ISSUER_ID }}
+        VERSION_NAME: ${{ steps.version-format.outputs.version }}
+        BUILD_NUMBER: ${{ steps.version-format.outputs.build }}
 
   build-android:
     runs-on: ubuntu-latest
@@ -141,8 +144,6 @@ jobs:
         version="${version%-*}"
         echo $version
         echo $build
-        echo "::set-env name=VERSION_NAME::$version"
-        echo "::set-env name=BUILD_NUMBER::$build"
         echo "::set-output name=version::$version"
       env:
         github_ref: ${{ github.ref }}
