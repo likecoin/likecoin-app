@@ -74,6 +74,14 @@ export class CosmosAPI {
   }
 
   /**
+   * Get bonded token of the staking pool
+   */
+  async getStakingPoolBondedToken() {
+    const { pool: { bondedTokens } } = await this.queryClient.staking.pool()
+    return bondedTokens
+  }
+
+  /**
    * Get the list of validators
    */
   async getValidators(): Promise<CosmosValidator[]> {

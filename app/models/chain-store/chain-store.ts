@@ -42,6 +42,7 @@ export const ChainStoreModel = types
     fractionDigits: types.frozen(types.number),
 
     annualProvision: types.optional(BigNumberPrimitive, "0"),
+    bondedTokens: types.optional(BigNumberPrimitive, "0"),
     validators: types.optional(types.map(types.late(() => ValidatorModel)), {}),
 
     wallets: types.map(WalletModel),
@@ -142,35 +143,21 @@ export const ChainStoreModel = types
       return self.formatBalance(self.wallet.unbondingBalance, false)
     },
     /**
-     * Calculate expected rewards if delegator stakes `x` tokens
-     *
-     * @param delegatedTokens The delegated tokens of a delegator
-     * @return The annual rewards for a delegator
+     * Calculate expected rewards
+     * https://github.com/likecoin/lunie-ng/blob/f0524efad3a859f925fa258300dfbac7d20c4d93/apis/cosmos-reducers.js#L656-L659
+     * @return The expected rewards in percentage
      */
-    calculateExpectedRewards(validator: Validator, delegatedTokens: BigNumber = new BigNumber(1)) {
-      const annualAllDelegatorRewards = self.delegatorProvisionShare(validator).times(self.annualProvision)
-      const annualDelegatorRewardsShare = delegatedTokens.div(validator.tokens)
-      const annualDelegatorRewards = annualDelegatorRewardsShare.times(annualAllDelegatorRewards)
-      return annualDelegatorRewards
+    calculateExpectedRewards(validator: Validator) {
+      const percentage = new BigNumber(1).minus(validator.commissionRate).times(self.annualProvision.div(self.bondedTokens))
+      return percentage.isNaN() ? new BigNumber(0) : percentage
     },
   }))
   .views(self => ({
     get formattedRewardsBalance() {
       return self.formatRewards(self.wallet.rewardsBalance)
     },
-    /**
-     * Get simplified expected rewards in percent
-     * Ref: https://github.com/luniehq/lunie/blob/ecf75e07c6e673434a87e9e5b2e5e5290c5b1667/src/scripts/returns.js
-     *
-     * @return The percentage of the returns
-     */
-    getValidatorExpectedReturnsRate(validator: Validator) {
-      const delegatedTokens = new BigNumber(1e10)
-      const rate = self.calculateExpectedRewards(validator, delegatedTokens).div(delegatedTokens)
-      return rate.isNaN() ? new BigNumber(0) : rate
-    },
     getValidatorExpectedReturnsPercentage(validator: Validator) {
-      return self.formatPercent(this.getValidatorExpectedReturnsRate(validator))
+      return self.formatPercent(self.calculateExpectedRewards(validator))
     },
   }))
   .views(self => ({
@@ -255,6 +242,13 @@ export const ChainStoreModel = types
         this.setDelegation(type, id, balanceMap.has(id) ? balanceMap.get(id) : new BigNumber(0))
       })
     },
+    fetchBondedToken: flow(function * () {
+      try {
+        self.bondedTokens = new BigNumber(yield self.env.cosmosAPI.getStakingPoolBondedToken())
+      } catch (error) {
+        logError(`Error occurs in ChainStore.fetchBondedToken: ${error}`)
+      }
+    }),
     fetchAnnualProvision: flow(function * () {
       try {
         self.annualProvision = new BigNumber(yield self.env.cosmosAPI.queryAnnualProvision())
@@ -413,7 +407,10 @@ export const ChainStoreModel = types
   .actions(self => ({
     fetchAll: flow(function * () {
       self.fetchBalance()
-      yield self.fetchAnnualProvision()
+      yield Promise.all([
+        self.fetchAnnualProvision(),
+        self.fetchBondedToken(),
+      ])
       yield self.fetchValidators()
       self.fetchDelegations()
       self.fetchRedelegations()
