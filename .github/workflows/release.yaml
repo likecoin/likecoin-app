@@ -63,7 +63,6 @@ jobs:
       run: bundle exec fastlane update_dsyms
       working-directory: ios
       env:
-        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
         APPLE_CONNECT_API_KEY_ID: ${{ secrets.APPLE_CONNECT_API_KEY_ID }}
         APPLE_CONNECT_API_ISSUER_ID: ${{ secrets.APPLE_CONNECT_API_ISSUER_ID }}
         VERSION_NAME: ${{ steps.version-format.outputs.version }}

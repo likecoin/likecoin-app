@@ -57,7 +57,6 @@ jobs:
       working-directory: ios
       env:
         SENTRY_LOAD_DOTENV: 0
-        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
         APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
         APPLE_CONNECT_API_KEY_ID: ${{ secrets.APPLE_CONNECT_API_KEY_ID }}
         APPLE_CONNECT_API_ISSUER_ID: ${{ secrets.APPLE_CONNECT_API_ISSUER_ID }}
