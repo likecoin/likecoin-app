@@ -1,3 +1,4 @@
+import { NativeModules } from "react-native"
 import Tron from "reactotron-react-native"
 import AsyncStorage from "@react-native-community/async-storage"
 import { RootStore } from "../../models/root-store/root-store"
@@ -65,9 +66,9 @@ export class Reactotron {
   constructor(config: ReactotronConfig = DEFAULT_REACTOTRON_CONFIG) {
     // merge the passed in config with some defaults
     this.config = {
-      host: "localhost",
       useAsyncStorage: true,
       ...config,
+      host: NativeModules.SourceCode.scriptURL.split('://')[1].split(':')[0],
       state: {
         initial: false,
         snapshots: false,

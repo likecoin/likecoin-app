@@ -1,5 +1,6 @@
 import * as React from "react"
 import { SafeAreaView, TextStyle, View, ViewStyle } from "react-native"
+import { inject } from "mobx-react"
 import { RNCamera } from "react-native-camera"
 import { NavigationStackScreenProps } from "react-navigation-stack"
 import throttle from "lodash.throttle"
@@ -7,6 +8,8 @@ import throttle from "lodash.throttle"
 import { Button } from "../../components/button"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
+
+import { WalletConnectStore } from "../../models/wallet-connect-store"
 
 import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
 
@@ -55,8 +58,10 @@ const NEXT: ViewStyle = {
 }
 
 export interface QrcodeScannerScreenProps extends NavigationStackScreenProps<{}> {
+  walletConnectStore: WalletConnectStore
 }
 
+@inject("walletConnectStore")
 export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProps, {}> {
   constructor(props: QrcodeScannerScreenProps) {
     super(props)
@@ -65,7 +70,10 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
 
   private onRead = (event: any) => {
     if (typeof event.data !== "string") return
-    if (event.data[0] === "{") {
+    if (event.data.includes("wc:")) {
+      this.props.navigation.goBack()
+      this.props.walletConnectStore.handleSessionRequest(event.data)
+    } else if (event.data[0] === "{") {
       try {
         const {
           address,

@@ -7,8 +7,10 @@ import {
   DirectSignResponse,
   makeSignBytes,
   OfflineDirectSigner
-} from "@cosmjs/proto-signing";
-import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+} from "@cosmjs/proto-signing"
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx"
+import CryptoJS from "crypto-js";
+import { pubkeyToAddress } from "@cosmjs/amino"
 
 import { color } from "../../theme"
 
@@ -186,6 +188,83 @@ export class AuthCoreAPI {
       }
     }
     return { addresses, pubKeys }
+  }
+
+  async getWalletConnectGetKeyResponse(
+    chainId: string,
+    { name = ""}: { name?: string } = {}
+  ) {
+    const { pubKeys: [pubKey] } = await this.getCosmosAddressesAndPubKeys()
+    
+    const uint8ArrayPubKey = Uint8Array.from(Buffer.from(pubKey, 'base64'))
+    let hash = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(uint8ArrayPubKey)).toString()
+    hash = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString()
+
+    const address = Buffer.from(new Uint8Array(Buffer.from(hash, "hex"))).toString("hex")
+
+    let hrp: string
+    switch (chainId) {
+      case 'osmosis-1':
+        hrp = "osmo"
+        break
+
+      case "cosmoshub-4":
+      case "likecoin-mainnet-2":
+        hrp = "cosmos"
+        break
+
+      case "crypto-org-chain-mainnet-1":
+        hrp = "cro"
+        break
+
+      case "columbus-5":
+        hrp = "luna"
+        break
+    
+      default:
+        return undefined
+    }
+
+    const bech32Address = pubkeyToAddress(
+      {
+        type: "tendermint/PubKeySecp256k1",
+        value: pubKey,
+      },
+      hrp
+    )
+
+    return {
+      name,
+      algo: "secp256k1",
+      pubKey: Buffer.from(uint8ArrayPubKey).toString("hex"),
+      address,
+      bech32Address: bech32Address,
+      isNanoLedger: false,
+    }
+  }
+
+  async signAmino(data: any, address: string) {
+    let signed: any
+    if (!this.cosmosProvider) throw new Error('WALLET_NOT_INITED');
+    try {
+      signed = await this.cosmosProvider.sign(data, address)
+    } catch (error) {
+      const statusCode = error.response ? error.response.status : error.status
+      switch (statusCode) {
+        case 401:
+          this.onUnauthorized(error)
+          break
+        case 403:
+          this.onUnauthenticated(error)
+          break
+        default:
+          throw error
+      }
+    }
+    return {
+      signed,
+      signature: signed.signatures[0],
+    }
   }
 
   async cosmosSign(payload: Uint8Array, address: string) {

@@ -1,3 +1,4 @@
+require("../app/components/wallet-connect-session-request-view/wallet-connect-session-request-view.story")
 require("../app/components/scroll-view/scroll-view.story")
 require("../app/components/header-tab-container-view/header-tab-container-view.story")
 require("../app/components/supporter-list-item/supporter-list-item.story")

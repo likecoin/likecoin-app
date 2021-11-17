@@ -1,6 +1,6 @@
 import { Instance, types } from "mobx-state-tree"
 import { RootNavigator } from "./root-navigator"
-import { NavigationActions, NavigationAction } from "react-navigation"
+import { NavigationActions, NavigationAction, NavigationNavigateActionPayload } from "react-navigation"
 import { NavigationEvents } from "./navigation-events"
 import { setAnalyticsCurrentScreen } from "../utils/firebase"
 
@@ -94,10 +94,10 @@ export const NavigationStoreModel = NavigationEvents.named("NavigationStore")
     /**
      * Navigate to another place.
      *
-     * @param routeName The route name.
+     * @param options Navigation options.
      */
-    navigateTo(routeName: string) {
-      self.dispatch(NavigationActions.navigate({ routeName }))
+    navigateTo(options: NavigationNavigateActionPayload) {
+      self.dispatch(NavigationActions.navigate(options))
     },
   }))
 

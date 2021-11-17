@@ -23,6 +23,7 @@ import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
 import { ReceiveScreen } from "../screens/receive-screen"
 import { ReaderScreen } from "../screens/reader-screen"
 import { StakingRewardsWithdrawScreen } from "../screens/staking-rewards-withdraw-screen"
+import { WalletConnectRequestScreen } from "../screens/wallet-connect-request-screen"
 
 import { color } from "../theme"
 
@@ -65,6 +66,7 @@ export const AppNavigator = createStackNavigator({
   StakingUnbondingDelegation: StakingUnbondingDelegationNavigator,
   StakingRewardsWithdraw: StakingRewardsWithdrawScreen,
   Transfer: TransferNavigator,
+  WalletConnect: WalletConnectRequestScreen,
 }, {
   mode: "modal",
   headerMode: "none",

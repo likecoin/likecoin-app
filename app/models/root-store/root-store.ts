@@ -24,6 +24,7 @@ import { SuperLikeGlobalStoreModel } from "../super-like-global-store"
 import { SupportersStoreModel } from "../supporters-store"
 import { TransferStoreModel } from "../transfer-store"
 import { UserStoreModel } from "../user-store"
+import { WalletConnectStoreModel } from "../wallet-connect-store"
 
 import { translate } from "../../i18n"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
@@ -66,6 +67,7 @@ export const RootStoreModel = types
     transferStore: types.optional(TransferStoreModel, {}),
     navigationStore: types.optional(NavigationStoreModel, {}),
     userStore: types.optional(UserStoreModel, {}),
+    walletConnectStore: types.optional(WalletConnectStoreModel, {}),
   })
   .volatile(() => ({
     isShowUnauthenticatedAlert: false,
@@ -82,7 +84,7 @@ export const RootStoreModel = types
      */
     reset: flow(function*() {
       self.isShowUnauthenticatedAlert = false
-      self.navigationStore.navigateTo("Auth")
+      self.navigationStore.navigateTo({ routeName: "Auth" })
       self.creatorsFollowStore.reset()
       self.contentBookmarksStore.reset()
       self.stakingRewardsWithdrawStore.reset()
