@@ -36,10 +36,6 @@ const ApproveButtonWrapper = styled(ActionButtonWrapper)`
 `
 
 export interface WalletConnectSessionRequestViewProps {
-  address: string
-
-  chainId: number
-
   payload: any
 
   onApprove: () => void

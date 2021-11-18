@@ -49,6 +49,11 @@ export class WalletDashboardScreen extends React.Component<Props> {
     logAnalyticsEvent('WalletClickClose')
     this.props.navigation.dispatch(StackActions.popToTop())
   }
+  
+  private onPressWalletConnectButton = () => {
+    logAnalyticsEvent("WalletClickWalletConnect")
+    this.props.navigation.navigate("WalletConnectList")
+  }
 
   private onPressSendButton = () => {
     logAnalyticsEvent('WalletClickTransfer')
@@ -112,6 +117,12 @@ export class WalletDashboardScreen extends React.Component<Props> {
                   text={`Liker ID: ${currentUser.likerID}`}
                 />
               }
+              <Button
+                preset="icon"
+                icon="wallet-connect"
+                color="likeCyan"
+                onPress={this.onPressWalletConnectButton}
+              />
             </View>
             <View style={Style.BalanceContainer}>
               {this.renderBalanceValue()}

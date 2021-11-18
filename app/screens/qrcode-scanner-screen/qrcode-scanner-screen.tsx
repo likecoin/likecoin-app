@@ -72,7 +72,7 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
     if (typeof event.data !== "string") return
     if (event.data.includes("wc:")) {
       this.props.navigation.goBack()
-      this.props.walletConnectStore.handleSessionRequest(event.data)
+      this.props.walletConnectStore.handleNewSessionRequest(event.data)
     } else if (event.data[0] === "{") {
       try {
         const {

@@ -79,7 +79,6 @@ export const WalletDashboardScreenStyle = StyleSheet.create({
     color: color.palette.white,
     opacity: 0.6,
     fontSize: 12,
-    paddingRight: 40,
   } as TextStyle,
   ValidatorListFooter: {
     paddingTop: spacing[2],

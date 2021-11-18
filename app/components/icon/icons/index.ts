@@ -33,6 +33,7 @@ import { MediumIcon } from "./medium"
 import { PublicIcon } from "./PublicIcon"
 import { TabSettingsIcon } from "./tab-settings"
 import { TwitterIcon } from "./twitter"
+import { WallctConnectIcon } from "./wallet-connect"
 
 export const icons = {
   "alert-circle": AlertCircle,
@@ -70,6 +71,7 @@ export const icons = {
   "three-dot-horizontal": ThreeDotHorizontalIcon,
   "three-dot-vertical": ThreeDotVertical,
   undo: UndoIcon,
+  "wallet-connect": WallctConnectIcon,
 }
 
 export type IconTypes = keyof typeof icons
