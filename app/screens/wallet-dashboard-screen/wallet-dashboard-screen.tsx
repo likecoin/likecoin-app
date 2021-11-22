@@ -33,6 +33,8 @@ import { Validator } from "../../models/validator"
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
+import { WalletConnectStore } from "../../models/wallet-connect-store"
+import { Header } from "../../components/header"
 
 const Screen = styled(ScreenBase)`
   flex: 1;
@@ -42,6 +44,7 @@ const Screen = styled(ScreenBase)`
 @inject((allStores: any) => ({
   chain: allStores.chainStore as ChainStore,
   userStore: allStores.userStore as UserStore,
+  isWalletConnectEnabled: (allStores.walletConnectStore as WalletConnectStore).isEnabled,
 }))
 @observer
 export class WalletDashboardScreen extends React.Component<Props> {
@@ -103,13 +106,14 @@ export class WalletDashboardScreen extends React.Component<Props> {
           }
         >
           <View>
-            <View style={Style.TopNavigation}>
-              <Button
-                preset="icon"
-                icon="close"
-                color="white"
-                onPress={this.onPressCloseButton}
-              />
+            <Header
+              leftIcon="close"
+              leftIconColor="white"
+              onLeftPress={this.onPressCloseButton}
+              rightIcon={this.props.isWalletConnectEnabled ? "wallet-connect" : undefined}
+              rightIconColor="likeCyan"
+              onRightPress={this.onPressWalletConnectButton}
+            >
               {currentUser &&
                 <Text
                   style={Style.UserIDLabel}
@@ -117,13 +121,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
                   text={`Liker ID: ${currentUser.likerID}`}
                 />
               }
-              <Button
-                preset="icon"
-                icon="wallet-connect"
-                color="likeCyan"
-                onPress={this.onPressWalletConnectButton}
-              />
-            </View>
+            </Header>
             <View style={Style.BalanceContainer}>
               {this.renderBalanceValue()}
               <Text

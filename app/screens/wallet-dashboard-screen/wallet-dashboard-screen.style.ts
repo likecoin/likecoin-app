@@ -75,7 +75,6 @@ export const WalletDashboardScreenStyle = StyleSheet.create({
     backgroundColor: color.primary,
   } as ViewStyle,
   UserIDLabel: {
-    flexGrow: 1,
     color: color.palette.white,
     opacity: 0.6,
     fontSize: 12,

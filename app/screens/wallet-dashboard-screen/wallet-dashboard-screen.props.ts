@@ -6,4 +6,5 @@ import { UserStore } from "../../models/user-store"
 export interface WalletDashboardScreenProps extends NavigationTabScreenProps {
   chain: ChainStore
   userStore: UserStore
+  isWalletConnectEnabled: boolean
 }
