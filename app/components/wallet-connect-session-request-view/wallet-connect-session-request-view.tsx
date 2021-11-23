@@ -36,11 +36,11 @@ const ApproveButtonWrapper = styled(ActionButtonWrapper)`
 `
 
 export interface WalletConnectSessionRequestViewProps {
-  payload: any
+  payload?: any
 
-  onApprove: () => void
+  onApprove?: () => void
 
-  onReject: () => void
+  onReject?: () => void
 
   /**
    * An optional style override useful for padding & margin.
