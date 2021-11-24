@@ -13005,9 +13005,9 @@ react-native-actions-sheet@^0.4.8:
   resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.4.8.tgz#61859e02fd19b274517b70066cafe4300b3d3e89"
   integrity sha512-fo/WNMAwt2aFoWslJmPAQ0EPE6BEZ2UqXkX0ySGjXXKZSg2fohflEHngooPfvnQaO5n2cdY2dkn76zmKgiDI4g==
 
-"react-native-authcore@https://gitlab.com/likecoin/react-native-authcore#f4c8686f78e8e11297db1bf9d0912f41abb2e380":
+"react-native-authcore@https://gitlab.com/likecoin/react-native-authcore#b01a23421cd8c3f2deb41f9a3e15c773fbce5c5d":
   version "1.0.0"
-  resolved "https://gitlab.com/likecoin/react-native-authcore#f4c8686f78e8e11297db1bf9d0912f41abb2e380"
+  resolved "https://gitlab.com/likecoin/react-native-authcore#b01a23421cd8c3f2deb41f9a3e15c773fbce5c5d"
   dependencies:
     color "^3.1.2"
     react-native-webview "^8.1.1"

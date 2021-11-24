@@ -53,7 +53,7 @@
     "react-content-loader": "^4.3.4",
     "react-native": "0.60.5",
     "react-native-actions-sheet": "^0.4.8",
-    "react-native-authcore": "https://gitlab.com/likecoin/react-native-authcore#f4c8686f78e8e11297db1bf9d0912f41abb2e380",
+    "react-native-authcore": "https://gitlab.com/likecoin/react-native-authcore#b01a23421cd8c3f2deb41f9a3e15c773fbce5c5d",
     "react-native-branch": "^4.0.0",
     "react-native-camera": "^3.8.0",
     "react-native-crypto": "^2.2.0",
