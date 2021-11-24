@@ -251,7 +251,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 76UMR894HH;
+						DevelopmentTeam = 6VG4638588;
 						SystemCapabilities = {
 							com.apple.SafariKeychain = {
 								enabled = 1;
@@ -556,7 +556,7 @@
 				CODE_SIGN_ENTITLEMENTS = LikeCoinApp/LikeCoinApp.entitlements;
 				CURRENT_PROJECT_VERSION = 271;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 76UMR894HH;
+				DEVELOPMENT_TEAM = 6VG4638588;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
