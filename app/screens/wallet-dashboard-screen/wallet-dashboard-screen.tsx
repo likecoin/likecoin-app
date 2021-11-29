@@ -27,13 +27,13 @@ import { Text } from "../../components/text"
 import { ValidatorList } from "../../components/validator-list"
 
 import { ChainStore } from "../../models/chain-store"
+import { ExperimentalFeatureStore } from "../../models/experimental-feature-store"
 import { UserStore } from "../../models/user-store"
 import { Validator } from "../../models/validator"
 
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
-import { WalletConnectStore } from "../../models/wallet-connect-store"
 import { Header } from "../../components/header"
 
 const Screen = styled(ScreenBase)`
@@ -44,7 +44,7 @@ const Screen = styled(ScreenBase)`
 @inject((allStores: any) => ({
   chain: allStores.chainStore as ChainStore,
   userStore: allStores.userStore as UserStore,
-  isWalletConnectEnabled: (allStores.walletConnectStore as WalletConnectStore).isEnabled,
+  experimentalFeature: allStores.experimentalFeatureStore as ExperimentalFeatureStore,
 }))
 @observer
 export class WalletDashboardScreen extends React.Component<Props> {
@@ -110,7 +110,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
               leftIcon="close"
               leftIconColor="white"
               onLeftPress={this.onPressCloseButton}
-              rightIcon={this.props.isWalletConnectEnabled ? "wallet-connect" : undefined}
+              rightIcon={this.props.experimentalFeatures.isWalletConnectEnabled ? "wallet-connect" : undefined}
               rightIconColor="likeCyan"
               onRightPress={this.onPressWalletConnectButton}
             >

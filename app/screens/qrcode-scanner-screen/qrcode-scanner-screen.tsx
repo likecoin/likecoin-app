@@ -9,6 +9,7 @@ import { Button } from "../../components/button"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
 
+import { ExperimentalFeatureStore } from "../../models/experimental-feature-store"
 import { WalletConnectStore } from "../../models/wallet-connect-store"
 
 import { validateAccountAddress } from "../../services/cosmos/cosmos.utils"
@@ -59,9 +60,13 @@ const NEXT: ViewStyle = {
 
 export interface QrcodeScannerScreenProps extends NavigationStackScreenProps<{}> {
   walletConnectStore: WalletConnectStore
+  experimentalFeatureStore: ExperimentalFeatureStore
 }
 
-@inject("walletConnectStore")
+@inject(
+  "experimentalFeatureStore",
+  "walletConnectStore",
+)
 export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProps, {}> {
   constructor(props: QrcodeScannerScreenProps) {
     super(props)
@@ -70,7 +75,10 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
 
   private onRead = (event: any) => {
     if (typeof event.data !== "string") return
-    if (this.props.walletConnectStore.isEnabled && event.data.includes("wc:")) {
+    if (
+      this.props.experimentalFeatureStore.isWalletConnectEnabled
+      && event.data.includes("wc:")
+    ) {
       this.props.navigation.goBack()
       this.props.walletConnectStore.handleNewSessionRequest(event.data)
     } else if (event.data[0] === "{") {

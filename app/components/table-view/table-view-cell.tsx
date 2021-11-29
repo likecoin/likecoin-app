@@ -69,6 +69,10 @@ const AppendContentWrapper = styled.View`
   margin-right: ${props => props.theme.spacing.sm};
 `
 
+const PrependContentWrapper = styled.View`
+  margin-left: ${props => props.theme.spacing.sm};
+`
+
 const TextContentWrapper = styled.View`
   flex: 1;
   flex-direction: row;
@@ -90,6 +94,7 @@ const CellSubtitle = styled.Text`
 
 export interface TableViewCellProps extends TouchableHighlightProps {
   append?: React.ReactNode
+  prepend?: React.ReactNode
   children?: React.ReactNode
   title?: string
   /**
@@ -124,6 +129,7 @@ export interface TableViewCellProps extends TouchableHighlightProps {
 
 export function TableViewCell({
   append,
+  prepend,
   children,
   title,
   titleTx,
@@ -186,6 +192,7 @@ export function TableViewCell({
                 {!!subtitleContent && <CellSubtitle>{subtitleContent}</CellSubtitle>}
               </TextContentWrapper>
             )}
+            {prepend && <PrependContentWrapper>{prepend}</PrependContentWrapper>}
           </CellContentView>
         )}
         {!isChildrenRaw && !!accessoryIcon && <TableViewCellAccessoryView icon={accessoryIcon}/>}

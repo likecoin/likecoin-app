@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { withEnvironment } from "../extensions"
+import { withExperimentalFeatures } from "../extensions"
 
 import { WalletConnectClientModel } from "../wallet-connect-client"
 
@@ -11,16 +11,13 @@ export const WalletConnectStoreModel = types
   .props({
     clients: types.array(WalletConnectClientModel),
   })
-  .extend(withEnvironment)
+  .extend(withExperimentalFeatures)
   .views(self => ({
     getClient(peerId: string) {
       return self.clients.find(client => client.connector.peerId === peerId)
     },
     get activeClients() {
       return self.clients.filter(client => !!client.serializedSession)
-    },
-    get isEnabled() {
-      return self.env.appConfig.getValue("WALLET_CONNECT_ENABLE") === "true"
     },
   }))
   .actions(self => ({
@@ -30,6 +27,7 @@ export const WalletConnectStoreModel = types
       client.createSession(uri)
     },
     afterCreate() {
+      if (!self.experimentalFeatures || !self.experimentalFeatures.isWalletConnectEnabled) return
       self.clients.forEach(client => {
         client.restoreSession()
       })

@@ -93,6 +93,8 @@
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手續費不足"
   },
+  "experimental_feature_screen_title": "試用新功能",
+  "experimental_feature_wallet_connect_title": "支持 WalletConnect",
   "fan_dashboard_screen_tab_supporter_title": "支持者",
   "FollowSettingsScreen": {
     "Title": "設定 Content Jockey",
@@ -316,6 +318,7 @@
     "termsOfUse": "使用條款",
     "title": "設定"
   },
+  "settings_screen_experimental_features": "試用新功能",
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"

@@ -93,6 +93,8 @@
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手續費不足"
   },
+  "experimental_feature_screen_title": "試用新功能",
+  "experimental_feature_wallet_connect_title": "支持 WalletConnect",
   "fan_dashboard_screen_tab_supporter_title": "支持者",
   "FollowSettingsScreen": {
     "Title": "內容伯樂設定",
@@ -281,6 +283,7 @@
       "Creator": "回饋作者"
     }
   },
+  "settings_screen_experimental_features": "試用新功能",
   "settingsScreen": {
     "contactUs": "聯絡我們",
     "openSourceLicense": "開源授權",

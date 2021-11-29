@@ -13,6 +13,7 @@ import { TableView } from "../../components/table-view/table-view"
 import { TableViewCell } from "../../components/table-view/table-view-cell"
 import { Screen as ScreenBase } from "../../components/screen"
 
+import { ExperimentalFeatureStore } from "../../models/experimental-feature-store"
 import { UserStore } from "../../models/user-store"
 
 import { color } from "../../theme"
@@ -86,9 +87,13 @@ const AppVersionLabel = styled(AppVersionLabelBase)`
 
 export interface SettingsScreenProps extends NavigationTabScreenProps<{}> {
   userStore: UserStore
+  experimentalFeatureStore: ExperimentalFeatureStore
 }
 
-@inject("userStore")
+@inject(
+  "userStore",
+  "experimentalFeatureStore",
+)
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressProfileSettings = () => {
     this.props.navigation.navigate("ProfileSettings")
@@ -122,6 +127,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressLanguageSettings = () => {
     this.props.navigation.navigate("LanguageSettings")
     logAnalyticsEvent("SettingsClickLanguageSettings")
+  }
+
+  private onPressExperimentalFeatures = () => {
+    this.props.navigation.navigate("ExperimentalFeatures")
+    logAnalyticsEvent("SettingsClickExperimentalFeatures")
   }
 
   render() {
@@ -164,6 +174,12 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
             </PrimarySectionTableView>
 
             <SecondarySectionTableView>
+              {this.props.experimentalFeatureStore.shouldEnabled && (
+                <TableViewCell
+                  titleTx="settings_screen_experimental_features"
+                  onPress={this.onPressExperimentalFeatures}
+                />
+              )}
               <TableViewCell
                 titleTx="settingsScreen.termsOfUse"
                 href="https://liker.land/eula"

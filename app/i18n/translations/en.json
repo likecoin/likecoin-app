@@ -94,6 +94,8 @@
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee"
   },
+  "experimental_feature_screen_title": "Experimental Features",
+  "experimental_feature_wallet_connect_title": "Enable WalletConnect",
   "fan_dashboard_screen_tab_supporter_title": "Supporters",
   "FollowSettingsScreen": {
     "Title": "My Content Jockey",
@@ -336,6 +338,7 @@
     "termsOfUse": "Terms of Use",
     "title": "Settings"
   },
+  "settings_screen_experimental_features": "Experimental Features",
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"

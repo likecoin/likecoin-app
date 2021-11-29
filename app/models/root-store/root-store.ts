@@ -30,6 +30,7 @@ import { translate } from "../../i18n"
 import { NavigationStoreModel } from "../../navigation/navigation-store"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
+import { ExperimentalFeatureStoreModel } from "../experimental-feature-store"
 
 /**
  * An RootStore model.
@@ -47,6 +48,7 @@ export const RootStoreModel = types
     creatorsStore: types.optional(CreatorsStoreModel, {}),
     creatorsFollowStore: types.optional(CreatorsFollowStoreModel, {}),
     deepLinkHandleStore: types.optional(DeepLinkHandleStoreModel, {}),
+    experimentalFeatureStore: types.optional(ExperimentalFeatureStoreModel, {}),
     languageSettingsStore: types.optional(LanguageSettingsStoreModel, {}),
     notificationStore: types.optional(NotificationStoreModel, {}),
     stakingRewardsWithdrawStore: types.optional(

@@ -93,6 +93,8 @@
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "数目不可小于 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手续费不足"
   },
+  "experimental_feature_screen_title": "试用新功能",
+  "experimental_feature_wallet_connect_title": "支持 WalletConnect",
   "fan_dashboard_screen_tab_supporter_title": "支持者",
   "FollowSettingsScreen": {
     "Title": "设定内容伯乐",
@@ -316,6 +318,7 @@
     "termsOfUse": "使用条款",
     "title": "设定"
   },
+  "settings_screen_experimental_features": "试用新功能",
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
