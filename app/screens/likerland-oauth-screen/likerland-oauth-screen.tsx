@@ -75,16 +75,11 @@ export class LikerLandOAuthScreen extends React.Component<
       this.redirectTimer = undefined
     }
     await Promise.all([
-      this.props.deepLinkHandleStore.handleAppReferrer(),
       this.props.userStore.fetchUserInfo(),
       this.props.userStore.appMeta.fetch(),
     ])
     await this.props.userStore.postResume()
-    if (this.props.userStore.shouldPromptForReferrer) {
-      this.props.navigation.navigate("ReferrerInputScreen")
-    } else {
-      this.props.navigation.navigate("App")
-    }
+    this.props.navigation.navigate("App")
 
     // Try to open the deferred deep link URL after sign in
     await this.props.deepLinkHandleStore.openBranchDeepLink()
