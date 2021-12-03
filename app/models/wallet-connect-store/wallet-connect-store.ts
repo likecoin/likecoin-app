@@ -23,8 +23,8 @@ export const WalletConnectStoreModel = types
   .actions(self => ({
     handleNewSessionRequest(uri: string) {
       const client = WalletConnectClientModel.create({})
-      self.clients.push(client)
       client.createSession(uri)
+      self.clients.push(client)
     },
     afterCreate() {
       if (!self.experimentalFeatures || !self.experimentalFeatures.isWalletConnectEnabled) return
