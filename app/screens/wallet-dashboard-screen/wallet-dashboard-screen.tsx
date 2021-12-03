@@ -44,7 +44,7 @@ const Screen = styled(ScreenBase)`
 @inject((allStores: any) => ({
   chain: allStores.chainStore as ChainStore,
   userStore: allStores.userStore as UserStore,
-  experimentalFeature: allStores.experimentalFeatureStore as ExperimentalFeatureStore,
+  experimentalFeatures: allStores.experimentalFeatureStore as ExperimentalFeatureStore,
 }))
 @observer
 export class WalletDashboardScreen extends React.Component<Props> {

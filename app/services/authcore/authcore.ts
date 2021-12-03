@@ -192,7 +192,7 @@ export class AuthCoreAPI {
 
   async getWalletConnectGetKeyResponse(
     chainId: string,
-    { name = ""}: { name?: string } = {}
+    { name = "" }: { name?: string } = {}
   ) {
     const { pubKeys: [pubKey] } = await this.getCosmosAddressesAndPubKeys()
     
@@ -267,7 +267,7 @@ export class AuthCoreAPI {
     }
   }
 
-  async cosmosSign(payload: Uint8Array, address: string) {
+  async signDirect(payload: Uint8Array, address: string) {
     let signed
     if (!this.cosmosProvider) throw new Error('WALLET_NOT_INITED');
     try {
@@ -295,7 +295,7 @@ export class AuthCoreAPI {
       return result
     }
     const sign = async (payload: Uint8Array, address: string) => {
-      const result = await this.cosmosSign(payload, address)
+      const result = await this.signDirect(payload, address)
       return result
     }
 

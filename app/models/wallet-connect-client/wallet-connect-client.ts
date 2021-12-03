@@ -1,9 +1,11 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import WalletConnect from "@walletconnect/client"
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx"
 
 import { withCurrentUser, withEnvironment, withNavigationStore } from "../extensions"
 import { NavigationActions } from "react-navigation"
 import { logError } from "../../utils/error"
+import { DirectSignResponse } from "@cosmjs/proto-signing"
 
 export interface WalletConnectClientMeta {
   description: string
@@ -72,11 +74,8 @@ export const WalletConnectClientModel = types
     },
     disconnect: flow(function * () {
       try {
-        console.log("disconnect start")
         yield self.connector.killSession()
-        console.log("disconnect success")
       } catch (error) {
-        console.log("disconnect error", error)
         logError(error)
       }
     }),
@@ -112,7 +111,6 @@ export const WalletConnectClientModel = types
       }
 
       const { peerMeta, peerId } = self.connector
-      console.log("handleNewCallRequest", payload)
       self.navigationStore.navigateTo({
         routeName: "App",
         action: NavigationActions.navigate({
@@ -146,6 +144,11 @@ export const WalletConnectClientModel = types
     },
     approveSession() {
       self.connector.approveSession({
+        // Unfortunately, WalletConnect 1.0 cannot deliver the chain IDs in the form we want,
+        // so we temporarily set the chain ID to 99999 and send it.
+        // And, WalletConnect v1.0 is not suitable for handling multiple chains.
+        // When the session requested, you cannot receive information from multiple chains,
+        // so open a session unconditionally and manage permissions through custom requests.
         chainId: 99999,
         accounts: [],
       })
@@ -189,28 +192,53 @@ export const WalletConnectClientModel = types
       let result = null
       try {
         switch (payload.method) {
-          case "keplr_enable_wallet_connect_v1":
+          case "keplr_enable_wallet_connect_v1": {
             result = []
             break
+          }
   
-          case "keplr_get_key_wallet_connect_v1":    
+          case "cosmos_getAccounts":
+          case "keplr_get_key_wallet_connect_v1": {
+            const chainId = payload.params[0]
             result = [
               yield self.env.authCoreAPI.getWalletConnectGetKeyResponse(
-                payload.params[0],
+                chainId,
                 { name: self.currentUser.likerID }
               ),
             ]
             break
-  
-          case "keplr_sign_amino_wallet_connect_v1":
+          }
+
+          case "cosmos_signAmino":
+          case "keplr_sign_amino_wallet_connect_v1": {
             try {
               result = yield self.env.authCoreAPI.signAmino(
                 payload.params[2],
                 payload.params[1]
               )
             } catch (error) {
+              logError(error)
             }
             break
+          }
+
+          case "cosmos_signDirect": {
+            try {
+              const bech32Address = payload.params[0]
+              const signDoc = SignDoc.fromJSON(payload.params[1])
+              const res: DirectSignResponse = yield self.env.authCoreAPI.getOfflineDirectSigner().signDirect(
+                bech32Address,
+                signDoc
+              )
+              result = {
+                signed: SignDoc.toJSON(res.signed),
+                signature: res.signature,
+              }
+            } catch (error) {
+              logError(error)
+            }
+            break
+          }
   
           default:
             break
@@ -218,8 +246,6 @@ export const WalletConnectClientModel = types
       } catch (error) {
         logError(error)
       }
-
-      console.log("handleCallRequestApproval", payload, result)
 
       if (result) {
         self.approveCallRequest({
