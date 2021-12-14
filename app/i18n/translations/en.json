@@ -430,6 +430,14 @@
     "receive": "Receive",
     "withdrawRewardsButtonText": "Withdraw Rewards"
   },
+  "walletConnectRequestScreen_title": "Wallet Connect",
+  "walletConnectRequestView_button_approve": "Approve",
+  "walletConnectRequestView_button_reject": "Reject",
+  "walletConnectRequestView_label_app_unknown": "Unknown App",
+  "walletConnectRequestView_label_description_getAccounts": "%{name} wants to get address for %{chainIds}",
+  "walletConnectRequestView_label_description_sessionRequest": "%{name} wants to connect",
+  "walletConnectRequestView_label_description_sign": "%{name} wants to sign a transaction",
+  "walletConnectRequestView_label_description_unknown": "%{name} wants to get approval",
   "Week": [
     "Sun",
     "Mon",
