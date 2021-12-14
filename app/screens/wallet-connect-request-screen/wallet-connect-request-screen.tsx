@@ -12,6 +12,7 @@ import { WalletConnectStore } from "../../models/wallet-connect-store"
 import { color } from "../../theme"
 
 const RootView = styled(Screen)`
+  flex: 1;
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 
@@ -35,6 +36,10 @@ export interface WalletConnectRequestScreenProps extends NavigationStackScreenPr
 export class WalletConnectRequestScreen extends React.Component<WalletConnectRequestScreenProps, {}> {
   get payload() {
     return this.props.navigation.getParam("payload")
+  }
+
+  get peerMeta() {
+    return this.props.navigation.getParam("peerMeta")
   }
 
   get requestor() {
@@ -64,6 +69,7 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
     return (
       <WalletConnectSessionRequestView
         payload={this.payload}
+        peerMeta={this.peerMeta}
         onApprove={this.approveRequest}
         onReject={this.rejectRequest}
       />
@@ -76,7 +82,7 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
         backgroundColor={color.palette.likeGreen}
         preset="scroll"
       >
-        <HeaderText text="Wallet Connect" />
+        <HeaderText tx="walletConnectRequestScreen_title" />
         {this.renderRequestView()}
       </RootView>
     )

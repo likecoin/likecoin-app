@@ -40,7 +40,7 @@ const NewConnectButton = styled(Button)`
 const ListItem = styled.View`
   align-items: center;
   flex-direction: row;
-  min-height: 44px;
+  min-height: 56px;
   padding-left: ${({ theme }) => theme.spacing.lg};
   padding-right: ${({ theme }) => theme.spacing.lg};
 `
@@ -60,6 +60,7 @@ const PeerAvatar = styled.Image`
   width: 36px;
   height: 36px;
   margin-right: 8px;
+  background-color: ${({ theme }) => theme.color.background.image.placeholder};
 `
 
 export interface WalletConnectListScreenProps extends NavigationStackScreenProps<{}> {

@@ -16123,6 +16123,10 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                 style={
                   Array [
                     Object {
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "justifyContent": "center",
                       "paddingBottom": 24,
                       "paddingLeft": 24,
                       "paddingRight": 24,
@@ -16132,55 +16136,67 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                 }
               >
                 <View
-                  preset="raised"
                   style={
                     Array [
                       Object {
-                        "backgroundColor": "#ffffff",
-                        "borderRadius": 14,
-                        "elevation": 6,
-                        "shadowColor": "#1d1d1d",
-                        "shadowOffset": Object {
-                          "height": 3,
-                          "width": 0,
-                        },
-                        "shadowOpacity": 0.27,
-                        "shadowRadius": 4.65,
+                        "flexBasis": 0,
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "justifyContent": "center",
                       },
-                      Array [
-                        Object {
-                          "paddingBottom": 24,
-                          "paddingLeft": 24,
-                          "paddingRight": 24,
-                          "paddingTop": 24,
-                        },
-                      ],
                     ]
                   }
                 >
-                  <TextInput
-                    autoFocus={false}
-                    editable={false}
-                    multiline={true}
-                    numberOfLines={10}
-                    scrollEnabled={false}
+                  <View
+                    preset="raised"
                     style={
                       Array [
                         Object {
-                          "fontFamily": "Courier",
-                          "fontSize": 10,
+                          "backgroundColor": "#ffffff",
+                          "borderRadius": 14,
+                          "elevation": 6,
+                          "shadowColor": "#1d1d1d",
+                          "shadowOffset": Object {
+                            "height": 3,
+                            "width": 0,
+                          },
+                          "shadowOpacity": 0.27,
+                          "shadowRadius": 4.65,
                         },
-                        Object {
-                          "borderBottomLeftRadius": 14,
-                          "borderBottomRightRadius": 14,
-                          "borderTopLeftRadius": 14,
-                          "borderTopRightRadius": 14,
-                          "paddingBottom": 14,
-                          "paddingTop": 14,
-                        },
+                        Array [
+                          Object {
+                            "alignItems": "center",
+                            "justifyContent": "center",
+                            "paddingBottom": 24,
+                            "paddingLeft": 24,
+                            "paddingRight": 24,
+                            "paddingTop": 24,
+                          },
+                        ],
                       ]
                     }
-                  />
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#28646e",
+                          "fontFamily": "System",
+                          "fontSize": 32,
+                          "marginTop": 4,
+                        }
+                      }
+                    />
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                          "marginTop": 24,
+                        }
+                      }
+                    />
+                  </View>
                 </View>
                 <View
                   style={
@@ -16239,7 +16255,7 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                           }
                         }
                       >
-                        Reject
+                        walletConnectRequestView_button_reject.test
                       </Text>
                     </View>
                   </View>
@@ -16288,7 +16304,7 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                           }
                         }
                       >
-                        Approve
+                        walletConnectRequestView_button_approve.test
                       </Text>
                     </View>
                   </View>
