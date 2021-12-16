@@ -21,6 +21,7 @@ const Sheet = styled(SheetBase)`
 `
 
 const RequestRawContentView = styled.TextInput`
+  width: 100%;
   margin-top: ${({ theme }) => theme.spacing.lg};
   padding: ${({ theme }) => theme.spacing.md};
   border-radius: 14px;
@@ -155,7 +156,7 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
     const appName = getAppName({ payload, peerMeta })
     const appIcon = getImage({ payload, peerMeta })
     const description = getDescription({ payload, peerMeta })
-    const isUnknownMethod = !!description
+    const isUnknownMethod = !description
     const isSigningTx = SIGN_METHODS.includes(payload.method)
     let rawContent: any
     if (isUnknownMethod) {
