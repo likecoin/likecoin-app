@@ -7,7 +7,7 @@ import { withEnvironment } from "../extensions"
 export const ExperimentalFeatureStoreModel = types
   .model("ExperimentalFeatureStoreModel")
   .props({
-    isWalletConnectEnabled: types.optional(types.boolean, false),
+    isWalletConnectEnabled: types.optional(types.boolean, true),
   })
   .extend(withEnvironment)
   .views(self => ({
@@ -16,6 +16,9 @@ export const ExperimentalFeatureStoreModel = types
     },
   }))
   .views(self => ({
+    get isWalletConnectActivated() {
+      return self.shouldWalletConnectEnabled && self.isWalletConnectEnabled
+    },
     get shouldEnabled() {
       return self.shouldWalletConnectEnabled
     },

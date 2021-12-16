@@ -338,6 +338,7 @@
     "termsOfUse": "Terms of Use",
     "title": "Settings"
   },
+  "settings_screen_walletConnect": "WalletConnect",
   "settings_screen_experimental_features": "Experimental Features",
   "storybook": {
     "placeholder": "Placeholder",

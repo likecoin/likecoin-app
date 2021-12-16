@@ -283,6 +283,7 @@
       "Creator": "回饋作者"
     }
   },
+  "settings_screen_walletConnect": "WalletConnect",
   "settings_screen_experimental_features": "試用新功能",
   "settingsScreen": {
     "contactUs": "聯絡我們",

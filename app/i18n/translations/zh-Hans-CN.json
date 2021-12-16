@@ -318,6 +318,7 @@
     "termsOfUse": "使用条款",
     "title": "设定"
   },
+  "settings_screen_walletConnect": "WalletConnect",
   "settings_screen_experimental_features": "试用新功能",
   "storybook": {
     "placeholder": "Placeholder",

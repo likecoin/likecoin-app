@@ -32,6 +32,12 @@ const ListEmptyView = styled.View`
   align-items: center;
 `
 
+const ListFooterView = styled.View`
+  padding: ${({ theme }) => theme.spacing["2xl"]};
+  justify-content: center;
+  align-items: center;
+`
+
 const NewConnectButton = styled(Button)`
   padding-left: ${({ theme }) => theme.spacing.lg};
   padding-right: ${({ theme }) => theme.spacing.lg};
@@ -109,15 +115,23 @@ export class WalletConnectListScreen extends React.Component<WalletConnectListSc
     this.props.navigation.navigate("QRCodeScan")
   }
 
+  private renderNewConnectButton = () => {
+    return (
+      <NewConnectButton
+        preset="primary"
+        text="New connection"
+        onPress={this.startScanner}
+      />
+    )
+  }
+
   render() {
     return (
       <Screen preset="fixed">
         <Header
           headerText="Wallet Connect"
           leftIcon="back"
-          rightIcon="qrcode-scan"
           onLeftPress={this.handlePressBackButton}
-          onRightPress={this.startScanner}
         />
         <List
           data={this.props.walletConnectStore.activeClients}
@@ -125,12 +139,13 @@ export class WalletConnectListScreen extends React.Component<WalletConnectListSc
           renderItem={this.renderItem}
           ListEmptyComponent={(
             <ListEmptyView>
-              <NewConnectButton
-                preset="primary"
-                text="New connection"
-                onPress={this.startScanner}
-              />
+              {this.renderNewConnectButton()}
             </ListEmptyView>
+          )}
+          ListFooterComponent={this.props.walletConnectStore.activeClients.length > 0 && (
+            <ListFooterView>
+              {this.renderNewConnectButton()}
+            </ListFooterView>
           )}
           ItemSeparatorComponent={this.renderSeparator}
         />
