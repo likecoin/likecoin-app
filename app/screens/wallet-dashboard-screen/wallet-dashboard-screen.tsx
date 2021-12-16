@@ -52,11 +52,6 @@ export class WalletDashboardScreen extends React.Component<Props> {
     logAnalyticsEvent('WalletClickClose')
     this.props.navigation.dispatch(StackActions.popToTop())
   }
-  
-  private onPressWalletConnectButton = () => {
-    logAnalyticsEvent("WalletClickWalletConnect")
-    this.props.navigation.navigate("WalletConnectList")
-  }
 
   private onPressSendButton = () => {
     logAnalyticsEvent('WalletClickTransfer')
@@ -110,9 +105,6 @@ export class WalletDashboardScreen extends React.Component<Props> {
               leftIcon="close"
               leftIconColor="white"
               onLeftPress={this.onPressCloseButton}
-              rightIcon={this.props.experimentalFeatures.isWalletConnectEnabled ? "wallet-connect" : undefined}
-              rightIconColor="likeCyan"
-              onRightPress={this.onPressWalletConnectButton}
             >
               {currentUser &&
                 <Text

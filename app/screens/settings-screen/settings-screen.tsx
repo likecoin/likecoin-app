@@ -85,6 +85,18 @@ const AppVersionLabel = styled(AppVersionLabelBase)`
   margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
+function WalletConnectIcon() {
+  const theme = useTheme()
+  return (
+    <Icon
+      color={theme.color.text.primary}
+      name="wallet-connect"
+      width={20}
+      height={20}
+    />
+  )
+}
+
 export interface SettingsScreenProps extends NavigationTabScreenProps<{}> {
   userStore: UserStore
   experimentalFeatureStore: ExperimentalFeatureStore
@@ -134,6 +146,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     logAnalyticsEvent("SettingsClickExperimentalFeatures")
   }
 
+  private onPressWalletConnectSettings = () => {
+    logAnalyticsEvent("SettingsClickWalletConnect")
+    this.props.navigation.navigate("WalletConnectSettings")
+  }
+
   render() {
     const { currentUser: user } = this.props.userStore
     return (
@@ -171,6 +188,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 titleTx="settingsScreen.Panel.Settings.ContentJockey"
                 onPress={this.onPressFollowSettings}
               />
+              {this.props.experimentalFeatureStore.shouldWalletConnectEnabled &&
+                <TableViewCell
+                  titleTx="settings_screen_walletConnect"
+                  append={<WalletConnectIcon />}
+                  onPress={this.onPressWalletConnectSettings}
+                />
+              }
             </PrimarySectionTableView>
 
             <SecondarySectionTableView>

@@ -16195,6 +16195,37 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                           "marginTop": 24,
                         }
                       }
+                    >
+                      walletConnectRequestView_label_description_unknown.test
+                    </Text>
+                    <TextInput
+                      autoFocus={false}
+                      editable={false}
+                      multiline={true}
+                      numberOfLines={10}
+                      scrollEnabled={false}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#f2f2f2",
+                            "borderRadius": 14,
+                            "fontFamily": "Courier",
+                            "fontSize": 10,
+                            "marginTop": 16,
+                            "paddingBottom": 12,
+                            "paddingLeft": 12,
+                            "paddingRight": 12,
+                            "paddingTop": 12,
+                            "width": "100%",
+                          },
+                          Object {
+                            "borderBottomLeftRadius": 14,
+                            "borderBottomRightRadius": 14,
+                            "paddingBottom": 14,
+                          },
+                        ]
+                      }
+                      value="{}"
                     />
                   </View>
                 </View>

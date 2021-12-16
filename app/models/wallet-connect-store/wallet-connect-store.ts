@@ -27,7 +27,7 @@ export const WalletConnectStoreModel = types
       self.clients.push(client)
     },
     afterCreate() {
-      if (!self.experimentalFeatures || !self.experimentalFeatures.isWalletConnectEnabled) return
+      if (!self.experimentalFeatures || !self.experimentalFeatures.isWalletConnectActivated) return
       self.clients.forEach(client => {
         client.restoreSession()
       })

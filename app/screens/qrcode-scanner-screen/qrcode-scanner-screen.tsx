@@ -76,7 +76,7 @@ export class QrcodeScannerScreen extends React.Component<QrcodeScannerScreenProp
   private onRead = (event: any) => {
     if (typeof event.data !== "string") return
     if (
-      this.props.experimentalFeatureStore.isWalletConnectEnabled
+      this.props.experimentalFeatureStore.isWalletConnectActivated
       && event.data.includes("wc:")
     ) {
       this.props.navigation.goBack()
