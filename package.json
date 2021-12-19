@@ -62,7 +62,7 @@
     "react-native-fast-image": "^8.3.2",
     "react-native-fbsdk": "^1.1.2",
     "react-native-gesture-handler": "1.7.0",
-    "react-native-iap": "^4.3.0",
+    "react-native-iap": "^4.6.3",
     "react-native-image-sequence": "^0.7.0",
     "react-native-keychain": "3.1.3",
     "react-native-linear-gradient": "^2.5.6",
