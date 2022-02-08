@@ -6,7 +6,6 @@ import styled from "styled-components/native"
 import { ExtendedView as ExtendedViewBase } from "../../components/extended-view"
 import { Screen as ScreenBase } from "../../components/screen"
 import { ScrollView as ScrollViewBase } from "../../components/scroll-view"
-import { SponsorLinkCTATableView as SponsorLinkCTATableViewBase } from "../../components/sponsor-link-cta-table-view"
 import { TableView } from "../../components/table-view/table-view"
 import { TableViewCell } from "../../components/table-view/table-view-cell"
 
@@ -46,10 +45,6 @@ const DashboardStatisticsTableView = styled(DashboardStatisticsTableViewBase)`
 
 const SubscriptionTableView = styled(TableView)`
   margin-top: ${({ theme }) => theme.spacing.lg};
-`
-
-const SponsorLinkCTATableView = styled(SponsorLinkCTATableViewBase)`
-  margin-top: ${({ theme }) => theme.spacing["2xl"]};
 `
 
 export interface DashboardScreenProps extends NavigationTabScreenProps<{}> {
@@ -100,7 +95,7 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
 
   renderBody() {
     const {
-      currentUser: { likerID = "", isCivicLiker = false } = {},
+      currentUser: { isCivicLiker = false } = {},
       iapStore: { isEnabled: isIAPEnabled },
     } = this.props.userStore
     return (
@@ -125,10 +120,6 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
             />
           </SubscriptionTableView>
         )}
-        <SponsorLinkCTATableView
-          likerID={likerID}
-          utmSource="dashboard"
-        />
       </Body>
     )
   }

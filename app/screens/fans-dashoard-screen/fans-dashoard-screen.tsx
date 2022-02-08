@@ -11,7 +11,6 @@ import { Header } from "../../components/header"
 import { HeaderTabContainerView } from "../../components/header-tab-container-view"
 import { HeaderTabItem } from "../../components/header-tab"
 import { Screen as UnstyledScreen } from "../../components/screen"
-import { SponsorLinkCTATableView as UnstyledSponsorLinkCTATableView } from "../../components/sponsor-link-cta-table-view"
 import { SupporterListItem } from "../../components/supporter-list-item"
 import { TableView } from "../../components/table-view/table-view"
 
@@ -30,10 +29,6 @@ const ScrollView = styled(Animated.ScrollView)`
 `
 
 const SupporterList = styled(TableView)`
-  margin: ${({ theme }) => theme.spacing.lg};
-`
-
-const SponsorLinkCTATableView = styled(UnstyledSponsorLinkCTATableView)`
   margin: ${({ theme }) => theme.spacing.lg};
 `
 
@@ -79,10 +74,6 @@ export class FansDashoardScreen extends React.Component<FansDashoardScreenProps,
                   />
                 ))}
               </SupporterList>
-              <SponsorLinkCTATableView
-                likerID={this.props.userStore.currentUser.likerID}
-                utmSource="fans_stats"
-              />
             </ScrollView>
           )}
         </HeaderTabContainerView>
