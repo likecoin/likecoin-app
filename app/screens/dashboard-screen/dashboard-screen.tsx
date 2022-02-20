@@ -53,10 +53,6 @@ export interface DashboardScreenProps extends NavigationTabScreenProps<{}> {
 
 @inject("userStore")
 export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
-  private onPressUserInfoPanel = () => {
-    this.props.navigation.navigate("FansDashboard")
-  }
-
   private onPressSubscription = () => {
     this.props.navigation.navigate("Subscription")
   }
@@ -88,7 +84,7 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
   renderHeader() {
     return (
       <ExtendedView backgroundColor={color.primary}>
-        <DashboardUserInfoPanel onPress={this.onPressUserInfoPanel} />
+        <DashboardUserInfoPanel />
       </ExtendedView>
     )
   }
