@@ -102,7 +102,7 @@ export function HeaderTabContainerView({
           y: Platform.OS === "ios" ? -HEADER_HEIGHT : 0,
         },
         style: {
-          paddingTop: Platform.OS === "android" ? HEADER_HEIGHT : 0,
+          paddingVertical: Platform.OS === "android" ? HEADER_HEIGHT : 0,
         },
       })}
     </View>
