@@ -84,10 +84,14 @@ export class CosmosAPI {
   /**
    * Get the list of validators
    */
-  async getValidators(): Promise<CosmosValidator[]> {
+  async getValidators({ paginationKey = undefined } = {}): Promise<CosmosValidator[]> {
     const bondStatus = '' as BondStatusString
-    const { validators } = await this.queryClient.staking.validators(bondStatus)
-    return validators.map(v => convertValidator(v))
+    const { validators, pagination } = await this.queryClient.staking.validators(bondStatus, paginationKey)
+    const parsedValidators = validators.map(v => convertValidator(v))
+    if (pagination?.nextKey?.length) {
+      parsedValidators.push(...await this.getValidators({ paginationKey: pagination?.nextKey }))
+    }
+    return parsedValidators
   }
 
   /**
