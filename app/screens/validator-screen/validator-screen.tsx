@@ -11,11 +11,13 @@ import {
 import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 import styled from "styled-components/native"
+import BigNumber from "bignumber.js"
 
 import { translate } from "../../i18n"
 import { color } from "../../theme"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
+import { CivicLikerStakingStore } from "../../models/civic-liker-staking-store"
 import { ChainStore } from "../../models/chain-store"
 import { RootStore } from "../../models/root-store"
 import { Validator } from "../../models/validator"
@@ -23,18 +25,19 @@ import { Validator } from "../../models/validator"
 import { Button } from "../../components/button"
 import { textPresets as ButtonTextPresets } from "../../components/button/button.presets"
 import { ButtonGroup } from "../../components/button-group"
+import { Header, HeaderTitle } from "../../components/header"
 import { Icon } from "../../components/icon"
 import { Screen as ScreenBase } from "../../components/screen"
 import { ScrollView as ScrollViewBase } from "../../components/scroll-view"
 import { Text } from "../../components/text"
+import CivicLikerV3ControlledSummaryView from "../../components/civic-liker-v3/controlled-summary-view"
 
 import GlobeIcon from "../../assets/globe.svg"
 
-import {
-  ValidatorScreenStyle as Style,
-} from "./validator-screen.style"
+import { StakingDelegationAmountInputScreenParams } from "../staking-delegation-amount-input-screen"
+
+import { ValidatorScreenStyle as Style } from "./validator-screen.style"
 import { ValidatorScreenGridItem } from "./validator-screen.grid-item"
-import { Header, HeaderTitle } from "../../components/header"
 
 const Screen = styled(ScreenBase)`
   flex: 1;
@@ -51,10 +54,12 @@ export interface ValidatorScreenNavigationParams {
 }
 export interface ValidatorScreenProps extends NavigationStackScreenProps<ValidatorScreenNavigationParams> {
   chain: ChainStore,
+  civicLikerStakingStore: CivicLikerStakingStore
 }
 
 @inject((rootStore: RootStore) => ({
   chain: rootStore.chainStore,
+  civicLikerStakingStore: rootStore.civicLikerStakingStore,
 }))
 @observer
 export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
@@ -77,9 +82,16 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
 
   private onPressDelegateButton = () => {
     logAnalyticsEvent('ValidatorClickDelegate')
-    this.props.navigation.navigate("StakingDelegation", {
-      target: this.getValidator().operatorAddress,
-    })
+    const params: StakingDelegationAmountInputScreenParams = {
+      target: this.getValidator().operatorAddress
+    }
+    if (this.getValidator().isCivicLiker) {
+      const { stakingAmountRequired } = this.props.civicLikerStakingStore
+      if (stakingAmountRequired > 0) {
+        params.suggestedAmount = new BigNumber(stakingAmountRequired)
+      }
+    }
+    this.props.navigation.navigate("StakingDelegation", params)
   }
 
   private onPressRedelegateButton = () => {
@@ -224,6 +236,19 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     )
   }
 
+  private renderCivicLikerSection = () => {
+    const validator = this.getValidator()
+    const { status, validatorAddress } = this.props.civicLikerStakingStore
+    if (validatorAddress !== validator.operatorAddress) {
+      return null
+    }
+    return (
+      <CivicLikerV3ControlledSummaryView
+        preset={status === "inactive" ? "cta" : "default"}
+      />
+    )
+  }
+
   render () {
     const { formatBalance } = this.props.chain
     const validator = this.getValidator()
@@ -261,6 +286,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         >
           {this.renderIdentitySection()}
           {this.renderDelegationSection()}
+          {this.renderCivicLikerSection()}
           <ValidatorScreenGridItem
             labelTx="validator.description"
             isTopLabel

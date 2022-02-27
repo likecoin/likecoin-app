@@ -43,14 +43,12 @@ export default StyleSheet.create({
   } as ViewStyle,
   SCREEN: {
     flex: 1,
-    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "stretch",
+    padding: spacing[4],
   } as ViewStyle,
   SHEET: {
-    margin: spacing[4],
-    flex: 1,
-    maxWidth: 414 - spacing[4] * 2,
+    paddingTop: spacing[4],
   } as ViewStyle,
   TOP_NAVIGATION: {
     alignItems: "flex-start",

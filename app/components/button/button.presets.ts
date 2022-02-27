@@ -77,6 +77,16 @@ export const viewPresets = {
   } as ViewStyle,
 
   /**
+   * A outlined style button
+   */
+  "secondary-outlined": {
+    ...BASE_VIEW,
+    backgroundColor: "transparent",
+    borderColor: color.palette.grey9b,
+    borderWidth: 2,
+  } as ViewStyle,
+
+  /**
    * A gradient style button
    */
   gradient: {
@@ -90,6 +100,9 @@ export const viewPresets = {
     ...BASE_VIEW,
   } as ViewStyle,
   "link-dark": {
+    ...BASE_VIEW,
+  } as ViewStyle,
+  "link-plain": {
     ...BASE_VIEW,
   } as ViewStyle,
 
@@ -163,6 +176,10 @@ export const textPresets = {
     ...BASE_TEXT,
     color: color.palette.lighterCyan,
   },
+  "secondary-outlined": {
+    ...BASE_TEXT,
+    color: color.palette.grey4a,
+  },
   link: {
     ...BASE_TEXT_LINK,
     color: color.palette.lighterCyan,
@@ -170,6 +187,10 @@ export const textPresets = {
   "link-dark": {
     ...BASE_TEXT_LINK,
     color: color.palette.likeCyan,
+  } as TextStyle,
+  "link-plain": {
+    ...BASE_TEXT_LINK,
+    color: color.palette.grey9b,
   } as TextStyle,
   "button-group": {
     ...BASE_TEXT,

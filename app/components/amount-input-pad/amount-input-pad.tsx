@@ -67,6 +67,11 @@ export interface AmountInputPadProps {
   isShowMaxButton?: boolean
 
   /**
+   * Max button title
+   */
+  maxButtonTitle?: string
+
+  /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle
@@ -111,6 +116,7 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
       style,
       value,
       isShowMaxButton = false,
+      maxButtonTitle,
       ...rest
     } = this.props
 
@@ -137,7 +143,8 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
           {!!isShowMaxButton && (
             <MaxButton
               preset="plain"
-              tx="amount_input_max"
+              tx={maxButtonTitle ? "" : "amount_input_max"}
+              text={maxButtonTitle}
               onPress={this.props.onPressMax}
             />
           )}

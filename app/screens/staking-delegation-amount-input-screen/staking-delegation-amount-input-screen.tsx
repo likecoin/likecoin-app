@@ -1,6 +1,7 @@
 import * as React from "react"
 import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
+import BigNumber from "bignumber.js"
 
 import { AmountInputView } from "../../components/amount-input-view"
 
@@ -14,6 +15,7 @@ import Graph from "../../assets/graph/staking-delegate.svg"
 
 export interface StakingDelegationAmountInputScreenParams {
   target: string
+  suggestedAmount?: BigNumber
 }
 
 export interface StakingDelegationAmountInputScreenProps extends NavigationStackScreenProps<StakingDelegationAmountInputScreenParams> {
@@ -32,6 +34,10 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
     const { fractionDenom, fractionDigits } = props.chain
     props.txStore.initialize(fractionDenom, fractionDigits)
     props.txStore.setTarget(props.navigation.getParam("target"))
+  }
+
+  get suggestedAmount() {
+    return this.props.navigation.getParam("suggestedAmount")
   }
 
   /**
@@ -80,11 +86,22 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
       errorMessage,
       isCreatingTx,
     } = this.props.txStore
+    const address = this.props.navigation.getParam("target")
+    const validator = this.props.chain.validators.get(address)
     return (
       <AmountInputView
         value={inputAmount}
         amount={amount}
-        maxAmount={this.props.chain.wallet.availableBalance}
+        civicLikerStakingPreset={validator.isCivicLiker ? "mini" : ""}
+        isShowMaxButton={!!this.suggestedAmount}
+        maxButtonTitle={this.suggestedAmount
+          ? `${this.suggestedAmount.toFixed()} LIKE`
+          : undefined
+        }
+        maxAmount={this.suggestedAmount
+          ? this.props.chain.fromDenom(this.suggestedAmount)
+          : this.props.chain.wallet.availableBalance
+        }
         error={errorMessage}
         availableLabelTx="stakingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"

@@ -63,6 +63,19 @@ export interface Supporters {
 
 export type SupporterListResult = { kind: "ok"; data: Supporters[] } | GeneralApiProblem
 
+export interface CivicLikerStakingInfo {
+  operatorAddress: string
+  stakingAmountTarget: number
+}
+export type CivicLikerStakingInfoResult = { kind: "ok"; data: CivicLikerStakingInfo } | GeneralApiProblem
+
+export interface CivicLikerStaking {
+  status: string
+  stakingAmount: number
+  activeSince?: string
+}
+export type CivicLikerStakingResult = { kind: "ok"; data: CivicLikerStaking } | GeneralApiProblem
+
 export interface StatisticsSupportedCreatorResult {
   likee: string
   workCount: number

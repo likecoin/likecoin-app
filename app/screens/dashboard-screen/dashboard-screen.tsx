@@ -10,11 +10,13 @@ import { TableView } from "../../components/table-view/table-view"
 import { TableViewCell } from "../../components/table-view/table-view-cell"
 
 import { UserStore } from "../../models/user-store"
+import { Validator } from "../../models/validator"
 
 import { color } from "../../theme"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
+import { DashboardCivicLikerPanel } from "./dashboard-civic-liker-panel"
 import { DashboardStatisticsTableView as DashboardStatisticsTableViewBase } from "./dashboard-statistics-table-view"
 import { DashboardUserInfoPanel } from "./dashboard-user-info-panel"
 import { DashboardWalletPanel } from "./dashboard-wallet-panel"
@@ -81,6 +83,12 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
     this.props.navigation.navigate("Referral")
   }
 
+  private onPressCivicLikerStaking = (validator: Validator) => {
+    this.props.navigation.navigate("Validator", {
+      validator,
+    })
+  }
+
   renderHeader() {
     return (
       <ExtendedView backgroundColor={color.primary}>
@@ -116,6 +124,9 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
             />
           </SubscriptionTableView>
         )}
+        <DashboardCivicLikerPanel
+          onPressStake={this.onPressCivicLikerStaking}
+        />
       </Body>
     )
   }

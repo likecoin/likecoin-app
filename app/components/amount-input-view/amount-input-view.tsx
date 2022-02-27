@@ -4,17 +4,23 @@ import {
   View,
 } from "react-native"
 import BigNumber from "bignumber.js"
+import styled from "styled-components/native"
 
-import { AmountInputViewProps } from "./amount-input-view.props"
-import STYLE from "./amount-input-view.style"
+import { color } from "../../theme"
 
 import { AmountInputPad } from "../amount-input-pad"
 import { Button } from "../button"
+import CivicLikerV3ControlledSummaryViewBase from "../civic-liker-v3/controlled-summary-view"
 import { Screen } from "../screen"
 import { Sheet } from "../sheet"
 import { Text } from "../text"
 
-import { color } from "../../theme"
+import { AmountInputViewProps } from "./amount-input-view.props"
+import STYLE from "./amount-input-view.style"
+
+const CivicLikerV3ControlledSummaryView = styled(CivicLikerV3ControlledSummaryViewBase)`
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`
 
 export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
   state = {
@@ -70,25 +76,39 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
   }
 
   render () {
-    const { value, error } = this.props
+    const { value, error, civicLikerStakingPreset } = this.props
     return (
       <Screen
-        preset="fixed"
+        preset="scroll"
         backgroundColor={color.palette.likeGreen}
         style={STYLE.SCREEN}
       >
-        <Sheet
-          isZeroPaddingTop
-          style={STYLE.SHEET}
-        >
-          <View style={STYLE.TOP_NAVIGATION}>
-            <Button
-              preset="icon"
-              icon="close"
-              color="likeGreen"
-              onPress={this.onPressCloseButton}
-            />
-          </View>
+        {!!civicLikerStakingPreset && (
+          <CivicLikerV3ControlledSummaryView
+            preset={civicLikerStakingPreset}
+            prepend={(
+              <View style={STYLE.TOP_NAVIGATION}>
+                <Button
+                  preset="icon"
+                  icon="close"
+                  color="likeGreen"
+                  onPress={this.onPressCloseButton}
+                />
+              </View>
+            )}
+          />
+        )}
+        <Sheet style={civicLikerStakingPreset ? STYLE.SHEET : null}>
+          {!civicLikerStakingPreset && (
+            <View style={STYLE.TOP_NAVIGATION}>
+              <Button
+                preset="icon"
+                icon="close"
+                color="likeGreen"
+                onPress={this.onPressCloseButton}
+              />
+            </View>
+          )}
           <View style={STYLE.CONTENT_VIEW}>
             {this.renderHeader()}
             <AmountInputPad
@@ -96,6 +116,7 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
               errorText={error}
               style={STYLE.AMOUNT_INPUT_PAD}
               isShowMaxButton={this.props.isShowMaxButton}
+              maxButtonTitle={this.props.maxButtonTitle}
               onPressMax={this.onPressMaxButton}
               onChange={this.onAmountInputChange}
             />
@@ -135,7 +156,9 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
             adjustsFontSizeToFit
             style={textStyle}
           />
-          <Text tx={this.props.availableLabelTx} />
+          {this.props.availableLabelTx && (
+            <Text tx={this.props.availableLabelTx} />
+          )}
         </View>
         {this.renderGraph()}
       </View>

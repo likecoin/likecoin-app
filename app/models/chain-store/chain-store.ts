@@ -61,6 +61,9 @@ export const ChainStoreModel = types
     toDenom(value: BigNumber = new BigNumber(0)) {
       return value.shiftedBy(-self.fractionDigits)
     },
+    fromDenom(value: BigNumber = new BigNumber(0)) {
+      return value.shiftedBy(self.fractionDigits)
+    },
     formatPercent(value: BigNumber) {
       return value
         .times(100)

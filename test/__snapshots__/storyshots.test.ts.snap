@@ -2364,6 +2364,2149 @@ exports[`Storyshots Checkbox Styling 1`] = `
 </View>
 `;
 
+exports[`Storyshots CivicLikerV3SummaryView Behavior 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      },
+      Object {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#f0f0f0",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <RCTScrollView>
+        <View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Default
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                The default usage
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#D7ECEC",
+                        "flexDirection": "row",
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 18,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    civic_liker_v3_summary_status_inactive.test
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "fontSize": 18,
+                        },
+                      ]
+                    }
+                  >
+                    civic_liker_v3_summary_hint_inactive.test
+                  </Text>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "0%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        0
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / 100 LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Default Layout
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                The default usage
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#D7ECEC",
+                        "flexDirection": "row",
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 18,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    civic_liker_v3_summary_status_loading.test
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 12,
+                      }
+                    }
+                  />
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "NaN%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        -
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / - LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  CTA Layout
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                The default usage
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#D7ECEC",
+                        "flexDirection": "row",
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 18,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    civic_liker_v3_summary_status_loading.test
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 12,
+                      }
+                    }
+                  />
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "NaN%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        -
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / - LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "marginTop": 12,
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      accessible={true}
+                      clickable={false}
+                      isTVSelectable={true}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#9b9b9b33",
+                          "borderRadius": 12,
+                          "flexDirection": "row",
+                          "justifyContent": "center",
+                          "minHeight": 44,
+                          "minWidth": 120,
+                          "opacity": 0.3,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                        }
+                      }
+                    >
+                      <ActivityIndicator
+                        animating={true}
+                        color="#4a4a4a"
+                        hidesWhenStopped={true}
+                        size="small"
+                      />
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Mini Layout
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                The default usage
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 12,
+                      }
+                    }
+                  />
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "NaN%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        -
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / - LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Loading
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                Show fetching data
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#D7ECEC",
+                        "flexDirection": "row",
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 18,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    civic_liker_v3_summary_status_loading.test
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 12,
+                      }
+                    }
+                  />
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "NaN%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        -
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / - LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Partially staked
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#D7ECEC",
+                        "flexDirection": "row",
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#4a4a4a",
+                        "fontFamily": "System",
+                        "fontSize": 18,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    civic_liker_v3_summary_status_inactive.test
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "fontSize": 18,
+                        },
+                      ]
+                    }
+                  >
+                    civic_liker_v3_summary_hint_inactive.test
+                  </Text>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "29.00009%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        29
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / 100 LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Fulfilled
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                Activating
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <BVLinearGradient
+                  colors={
+                    Array [
+                      4292014320,
+                      4293977780,
+                    ]
+                  }
+                  endPoint={
+                    Object {
+                      "x": 1,
+                      "y": 0,
+                    }
+                  }
+                  locations={null}
+                  startPoint={
+                    Object {
+                      "x": 0,
+                      "y": 1,
+                    }
+                  }
+                  style={
+                    Array [
+                      Object {
+                        "width": "100%",
+                      },
+                      Object {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#28646e",
+                        "fontFamily": "System",
+                        "fontSize": 18,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    civic_liker_v3_summary_status_activating.test
+                  </Text>
+                  <RNSVGSvgView
+                    bbHeight={24}
+                    bbWidth={24}
+                    fill="#28646e"
+                    focusable={false}
+                    height={24}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Array [
+                          Object {
+                            "marginLeft": 8,
+                          },
+                        ],
+                        Object {
+                          "flex": 0,
+                          "height": 24,
+                          "width": 24,
+                        },
+                      ]
+                    }
+                    width={24}
+                  >
+                    <RNSVGGroup
+                      fill={4280837230}
+                      propList={
+                        Array [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGPath
+                        clipRule={0}
+                        d="M16.636 5.728a1 1 0 0 1 .136 1.408l-7 8.5a1 1 0 0 1-1.48.071l-4-4a1 1 0 1 1 1.415-1.414l3.221 3.221 6.3-7.65a1 1 0 0 1 1.408-.136Z"
+                        fillRule={0}
+                        propList={
+                          Array [
+                            "fillRule",
+                          ]
+                        }
+                      />
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </BVLinearGradient>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "fontSize": 18,
+                        },
+                      ]
+                    }
+                  >
+                    civic_liker_v3_summary_hint_activating.test
+                  </Text>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "100%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGSvgView
+                      bbHeight={24}
+                      bbWidth={16}
+                      fill="#36de00"
+                      focusable={false}
+                      height={24}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Array [
+                            Object {
+                              "marginRight": 8,
+                            },
+                          ],
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 16,
+                          },
+                        ]
+                      }
+                      width={16}
+                    >
+                      <RNSVGGroup
+                        fill={4281785856}
+                        propList={
+                          Array [
+                            "fill",
+                          ]
+                        }
+                      >
+                        <RNSVGPath
+                          clipRule={0}
+                          d="M16.636 5.728a1 1 0 0 1 .136 1.408l-7 8.5a1 1 0 0 1-1.48.071l-4-4a1 1 0 1 1 1.415-1.414l3.221 3.221 6.3-7.65a1 1 0 0 1 1.408-.136Z"
+                          fillRule={0}
+                          propList={
+                            Array [
+                              "fillRule",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                    </RNSVGSvgView>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        100
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / 100 LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Fulfilled
+                </Text>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#666",
+                    "fontSize": 10,
+                    "paddingTop": 0,
+                  }
+                }
+              >
+                Active yet
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0)",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                preset="raised"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#ffffff",
+                      "borderRadius": 14,
+                      "elevation": 6,
+                      "shadowColor": "#1d1d1d",
+                      "shadowOffset": Object {
+                        "height": 3,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.27,
+                      "shadowRadius": 4.65,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <BVLinearGradient
+                  colors={
+                    Array [
+                      4292014320,
+                      4293977780,
+                    ]
+                  }
+                  endPoint={
+                    Object {
+                      "x": 1,
+                      "y": 0,
+                    }
+                  }
+                  locations={null}
+                  startPoint={
+                    Object {
+                      "x": 0,
+                      "y": 1,
+                    }
+                  }
+                  style={
+                    Array [
+                      Object {
+                        "width": "100%",
+                      },
+                      Object {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderTopLeftRadius": 14,
+                        "borderTopRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#28646e",
+                        "fontFamily": "System",
+                        "fontSize": 18,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    civic_liker_v3_summary_status_active.test
+                  </Text>
+                  <RNSVGSvgView
+                    bbHeight={24}
+                    bbWidth={24}
+                    fill="#28646e"
+                    focusable={false}
+                    height={24}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Array [
+                          Object {
+                            "marginLeft": 8,
+                          },
+                        ],
+                        Object {
+                          "flex": 0,
+                          "height": 24,
+                          "width": 24,
+                        },
+                      ]
+                    }
+                    width={24}
+                  >
+                    <RNSVGGroup
+                      fill={4280837230}
+                      propList={
+                        Array [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGPath
+                        clipRule={0}
+                        d="M16.636 5.728a1 1 0 0 1 .136 1.408l-7 8.5a1 1 0 0 1-1.48.071l-4-4a1 1 0 1 1 1.415-1.414l3.221 3.221 6.3-7.65a1 1 0 0 1 1.408-.136Z"
+                        fillRule={0}
+                        propList={
+                          Array [
+                            "fillRule",
+                          ]
+                        }
+                      />
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </BVLinearGradient>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingBottom": 24,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 24,
+                      },
+                      Object {
+                        "borderBottomLeftRadius": 14,
+                        "borderBottomRightRadius": 14,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "fontSize": 18,
+                        },
+                      ]
+                    }
+                  >
+                    civic_liker_v3_summary_hint_active.test
+                  </Text>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#d8d8d8",
+                          "borderRadius": 8,
+                          "height": 8,
+                          "marginTop": 16,
+                          "position": "relative",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#50e3c2",
+                            "borderRadius": 8,
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "top": 0,
+                          },
+                          Object {
+                            "width": "100%",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "marginTop": 16,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGSvgView
+                      bbHeight={24}
+                      bbWidth={16}
+                      fill="#36de00"
+                      focusable={false}
+                      height={24}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          Array [
+                            Object {
+                              "marginRight": 8,
+                            },
+                          ],
+                          Object {
+                            "flex": 0,
+                            "height": 24,
+                            "width": 16,
+                          },
+                        ]
+                      }
+                      width={16}
+                    >
+                      <RNSVGGroup
+                        fill={4281785856}
+                        propList={
+                          Array [
+                            "fill",
+                          ]
+                        }
+                      >
+                        <RNSVGPath
+                          clipRule={0}
+                          d="M16.636 5.728a1 1 0 0 1 .136 1.408l-7 8.5a1 1 0 0 1-1.48.071l-4-4a1 1 0 1 1 1.415-1.414l3.221 3.221 6.3-7.65a1 1 0 0 1 1.408-.136Z"
+                          fillRule={0}
+                          propList={
+                            Array [
+                              "fillRule",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                    </RNSVGSvgView>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                        130
+                      </Text>
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9b9b9b",
+                            "fontFamily": "System",
+                            "fontSize": 12,
+                          }
+                        }
+                      >
+                         / 100 LIKE
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
 exports[`Storyshots CommunityLinks Behavior 1`] = `
 <View
   onLayout={[Function]}

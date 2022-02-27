@@ -3,6 +3,7 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { withEnvironment } from "../extensions"
 import { ChainStoreModel } from "../chain-store"
+import { CivicLikerStakingStoreModel } from "../civic-liker-staking-store"
 import { ContentsStoreModel } from "../contents-store"
 import { ContentBookmarksStoreModel } from "../content-bookmarks-store"
 import { ContentBookmarksListStoreModel } from "../content-bookmarks-list-store"
@@ -39,6 +40,7 @@ export const RootStoreModel = types
   .model("RootStore")
   .props({
     chainStore: types.maybe(ChainStoreModel),
+    civicLikerStakingStore: types.optional(CivicLikerStakingStoreModel, {}),
     contentBookmarksStore: types.optional(ContentBookmarksStoreModel, {}),
     contentBookmarksListStore: types.optional(
       ContentBookmarksListStoreModel,

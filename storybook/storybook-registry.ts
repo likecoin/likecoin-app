@@ -1,3 +1,4 @@
+require("../app/components/civic-liker-v3/summary-view.story")
 require("../app/components/wallet-connect-session-request-view/wallet-connect-session-request-view.story")
 require("../app/components/scroll-view/scroll-view.story")
 require("../app/components/header-tab-container-view/header-tab-container-view.story")

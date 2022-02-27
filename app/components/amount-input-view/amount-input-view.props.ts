@@ -23,6 +23,11 @@ export interface AmountInputViewProps {
   isShowMaxButton?: boolean
 
   /**
+   * Title of the max button
+   */
+  maxButtonTitle?: string
+
+  /**
    * The text of the available label which look up via i18n
    */
   availableLabelTx?: string
@@ -41,6 +46,11 @@ export interface AmountInputViewProps {
    * Show a loading indicator inside the done button if set to `true`, default is `false`
    */
   isConfirmButtonLoading?: boolean
+
+  /**
+   * Civic Liker Staking preset
+   */
+  civicLikerStakingPreset?: string
 
   /**
    * The graph for identity on the top right corner

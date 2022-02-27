@@ -296,4 +296,54 @@ export class LikerLandAPI {
       return { kind: "bad-data" }
     }
   }
+
+  /**
+   * Fetch Civic Liker staking info
+   */
+  async fetchCivicLikerStakingInfo(): Promise<Types.CivicLikerStakingInfoResult> {
+    const response: ApiResponse<Types.CivicLikerStakingInfo> = await this.apisauce.get('/civic/staking/info')
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const { operatorAddress, stakingAmountTarget } = response.data
+      return {
+        kind: "ok",
+        data: {
+          operatorAddress,
+          stakingAmountTarget,
+        },
+      }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  /**
+   * Fetch Civic Liker staking
+   */
+  async fetchCivicLikerStaking(): Promise<Types.CivicLikerStakingResult> {
+    const response: ApiResponse<Types.CivicLikerStaking> = await this.apisauce.get('/civic/staking')
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const { status, stakingAmount } = response.data
+      return {
+        kind: "ok",
+        data: {
+          status,
+          stakingAmount,
+        },
+      }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
 }

@@ -12,9 +12,11 @@ import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import Checkmark from "./checkmark.svg"
 import CrossIcon from "./cross.svg"
+import ExternalLinkIcon from "./external-link"
 import LikeClap from "./like-clap.svg"
 import Lock from "./lock.svg"
 import Person from "./person.svg"
+import PlusIcon from "./plus"
 import QRCodeScan from "./qrcode-scan.svg"
 import ReaderFeatured from "./reader-featured.svg"
 import ReaderFollowing from "./reader-following.svg"
@@ -34,6 +36,7 @@ import { PublicIcon } from "./PublicIcon"
 import { TabSettingsIcon } from "./tab-settings"
 import { TwitterIcon } from "./twitter"
 import { WallctConnectIcon } from "./wallet-connect"
+import TickIcon from "./tick"
 
 export const icons = {
   "alert-circle": AlertCircle,
@@ -52,12 +55,14 @@ export const icons = {
   checkmark: Checkmark,
   close: CrossIcon,
   discord: DiscordIcon,
+  "external-link": ExternalLinkIcon,
   github: GitHubIcon,
   "global-eye": GlobalEyeIcon,
   "like-clap": LikeClap,
   lock: Lock,
   medium: MediumIcon,
   person: Person,
+  plus: PlusIcon,
   "public": PublicIcon,
   "qrcode-scan": QRCodeScan,
   "reader-featured": ReaderFeatured,
@@ -70,6 +75,7 @@ export const icons = {
   "tab-wallet": TabWallet,
   "three-dot-horizontal": ThreeDotHorizontalIcon,
   "three-dot-vertical": ThreeDotVertical,
+  "tick": TickIcon,
   undo: UndoIcon,
   "wallet-connect": WallctConnectIcon,
 }

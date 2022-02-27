@@ -34,7 +34,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
     props.txStore.setTarget(props.navigation.getParam("target"))
   }
 
-  getValidator = () => {
+  get validator() {
     return this.props.chain.validators.get(this.props.txStore.target)
   }
 
@@ -96,6 +96,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
         isShowMaxButton={true}
+        civicLikerStakingPreset={this.validator.isCivicLiker ? "undelegate" : ""}
         graph={<Graph />}
         formatAmount={this.props.chain.formatDenom}
         onChange={this.props.txStore.setAmount}

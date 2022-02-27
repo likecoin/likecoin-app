@@ -1,5 +1,7 @@
 import {} from 'styled-components';
 
+import { palette } from "../palette"
+
 export const spacing = {
   xs: "4px",
   sm: "8px",
@@ -21,6 +23,7 @@ export const textSize = {
 }
 
 export const color = {
+  palette,
   background: {
     feature: {
       primary: "#28646e",

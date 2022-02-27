@@ -17,6 +17,10 @@ import Graph from "../../assets/graph/staking-redelegate.svg"
 }))
 @observer
 export class StakingRedelegationAmountInputScreen extends React.Component<Props> {
+  get validator() {
+    return this.props.chain.validators.get(this.props.txStore.from)
+  }
+
   /**
    * Validate the amount and create transaction for signing
    *
@@ -75,6 +79,7 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
         isShowMaxButton={true}
+        civicLikerStakingPreset={this.validator.isCivicLiker ? "undelegate" : ""}
         graph={<Graph />}
         formatAmount={this.props.chain.formatDenom}
         onChange={this.props.txStore.setAmount}
