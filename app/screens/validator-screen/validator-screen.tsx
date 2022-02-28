@@ -80,8 +80,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     this.props.navigation.goBack()
   }
 
-  private onPressDelegateButton = () => {
-    logAnalyticsEvent('ValidatorClickDelegate')
+  private handleDelegateButtonPress = () => {
     const params: StakingDelegationAmountInputScreenParams = {
       target: this.getValidator().operatorAddress
     }
@@ -92,6 +91,11 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
       }
     }
     this.props.navigation.navigate("StakingDelegation", params)
+  }
+
+  private onPressDelegateButton = () => {
+    logAnalyticsEvent('ValidatorClickDelegate')
+    this.handleDelegateButtonPress()
   }
 
   private onPressRedelegateButton = () => {
@@ -123,6 +127,11 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     this.props.chain.fetchDelegation(validator.operatorAddress)
     this.props.chain.fetchRewardsFromValidator(validator.operatorAddress)
     this.props.chain.fetchUnbondingDelegation(validator.operatorAddress)
+  }
+
+  private onPressCivicLikerStakeButton = () => {
+    logAnalyticsEvent('ValidatorClickCivicLikerStake')
+    this.handleDelegateButtonPress()
   }
 
   private renderIdentitySection = () => {
@@ -245,6 +254,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     return (
       <CivicLikerV3ControlledSummaryView
         preset={status === "inactive" ? "cta" : "default"}
+        onPressButton={this.onPressCivicLikerStakeButton}
       />
     )
   }

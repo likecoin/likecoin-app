@@ -32,7 +32,9 @@ class CivicLikerV3ControlledSummaryView extends React.Component<CivicLikerV3Cont
   }
 
   private handleButtonPress = () => {
-    this.props.onPressButton(this.validator)
+    if (this.props.onPressButton) {
+      this.props.onPressButton(this.validator)
+    }
   }
 
   render(): React.ReactNode {
