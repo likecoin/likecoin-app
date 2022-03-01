@@ -7,10 +7,12 @@ import {
 } from "mobx-state-tree"
 import BigNumber from "bignumber.js"
 
-import { withEnvironment } from "../extensions"
-import { BigNumberPrimitive } from "../number"
 import { CosmosValidator as ValidatorResult } from "../../services/cosmos"
 import { logError } from "../../utils/error"
+
+import { CivicLikerStakingStore } from "../civic-liker-staking-store"
+import { withEnvironment } from "../extensions"
+import { BigNumberPrimitive } from "../number"
 
 export function parseValidatorResult(result: ValidatorResult) {
   const {
@@ -105,8 +107,13 @@ export const ValidatorModel = types
     get isActive() {
       return !self.isJailed && self.status === 3 // BOND_STATUS_BONDED
     },
+    get civicLikerStakingStore(): CivicLikerStakingStore {
+      return getRoot(self).civicLikerStakingStore
+    },
+  }))
+  .views(self => ({
     get isCivicLiker() {
-      return getRoot(self).civicLikerStakingStore?.validatorAddress === self.operatorAddress
+      return self.civicLikerStakingStore?.validatorAddress === self.operatorAddress
     },
   }))
   .actions(self => ({
@@ -152,7 +159,11 @@ export const ValidatorModel = types
     fetchInfo: flow(function * () {
       try {
         self.isFetchingInfo = true
-        const rawValidator: ValidatorResult = yield self.env.cosmosAPI.queryValidator(self.operatorAddress)
+        const fetches: Promise<any>[] = [self.env.cosmosAPI.queryValidator(self.operatorAddress)]
+        if (self.isCivicLiker) {
+          fetches.push(self.civicLikerStakingStore?.fetchStaking())
+        }
+        const [rawValidator]: [ValidatorResult] = yield Promise.all(fetches)
         self.update(rawValidator)
       } catch (error) {
         logError(`Error occurs in Validator.fetchInfo: ${error}`)

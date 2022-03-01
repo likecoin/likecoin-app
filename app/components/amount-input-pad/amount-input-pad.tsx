@@ -17,7 +17,7 @@ import { Text } from "../text"
 import { sizes } from "../text/text.sizes"
 import { spacing, color } from "../../theme"
 
-const MaxButton = styled(Button)`
+const SuggestionButton = styled(Button)`
   margin-top: -${({ theme }) => theme.spacing.md};
 `
 
@@ -62,14 +62,14 @@ export interface AmountInputPadProps {
   errorTx?: string
 
   /**
-   * Hide/Show max button
+   * Hide/Show suggestion button
    */
-  isShowMaxButton?: boolean
+  isShowSuggestionButton?: boolean
 
   /**
-   * Max button title
+   * Suggestion button title
    */
-  maxButtonTitle?: string
+  suggestionButtonTitle?: string
 
   /**
    * An optional style override useful for padding & margin.
@@ -84,7 +84,7 @@ export interface AmountInputPadProps {
   /**
    * Callback when the max button is pressed
    */
-  onPressMax?: () => void
+  onPressSuggestionButton?: () => void
 }
 
 /**
@@ -115,8 +115,8 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
       errorTx,
       style,
       value,
-      isShowMaxButton = false,
-      maxButtonTitle,
+      isShowSuggestionButton = false,
+      suggestionButtonTitle,
       ...rest
     } = this.props
 
@@ -140,12 +140,12 @@ export class AmountInputPad extends React.Component<AmountInputPadProps, {}> {
             adjustsFontSizeToFit
             style={STYLE.DISPLAY_VALUE}
           />
-          {!!isShowMaxButton && (
-            <MaxButton
+          {!!isShowSuggestionButton && (
+            <SuggestionButton
               preset="plain"
-              tx={maxButtonTitle ? "" : "amount_input_max"}
-              text={maxButtonTitle}
-              onPress={this.props.onPressMax}
+              tx={suggestionButtonTitle ? "" : "amount_input_max"}
+              text={suggestionButtonTitle}
+              onPress={this.props.onPressSuggestionButton}
             />
           )}
           <Text

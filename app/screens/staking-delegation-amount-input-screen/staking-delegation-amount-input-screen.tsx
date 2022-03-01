@@ -93,14 +93,12 @@ export class StakingDelegationAmountInputScreen extends React.Component<StakingD
         value={inputAmount}
         amount={amount}
         civicLikerStakingPreset={validator.isCivicLiker ? "mini" : ""}
-        isShowMaxButton={!!this.suggestedAmount}
-        maxButtonTitle={this.suggestedAmount
-          ? `${this.suggestedAmount.toFixed()} LIKE`
+        maxAmount={this.props.chain.wallet.availableBalance}
+        suggestedAmount={this.suggestedAmount}
+        isShowSuggestionButton={!!this.suggestedAmount}
+        suggestionButtonTitle={this.suggestedAmount
+          ? `${this.props.chain.toDenom(this.suggestedAmount).toFixed()} ${this.props.chain.denom}`
           : undefined
-        }
-        maxAmount={this.suggestedAmount
-          ? this.props.chain.fromDenom(this.suggestedAmount)
-          : this.props.chain.wallet.availableBalance
         }
         error={errorMessage}
         availableLabelTx="stakingDelegationAmountInputScreen.available"

@@ -78,7 +78,7 @@ export class StakingRedelegationAmountInputScreen extends React.Component<Props>
         availableLabelTx="StakingRedelegationAmountInputScreen.availableLabelText"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
-        isShowMaxButton={true}
+        isShowSuggestionButton={true}
         civicLikerStakingPreset={this.validator.isCivicLiker ? "undelegate" : ""}
         graph={<Graph />}
         formatAmount={this.props.chain.formatDenom}

@@ -13,19 +13,24 @@ export interface AmountInputViewProps {
   amount: BigNumber
 
   /**
+   * The suggestion amount of the input
+   */
+  suggestedAmount?: BigNumber
+
+  /**
    * The maximum amount of the input
    */
   maxAmount?: BigNumber
 
   /**
-   * Hide/Show max button
+   * Show/Hide suggestion button
    */
-  isShowMaxButton?: boolean
+  isShowSuggestionButton?: boolean
 
   /**
    * Title of the max button
    */
-  maxButtonTitle?: string
+  suggestionButtonTitle?: string
 
   /**
    * The text of the available label which look up via i18n
