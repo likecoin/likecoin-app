@@ -90,6 +90,7 @@ export const RootStoreModel = types
       self.isShowUnauthenticatedAlert = false
       self.navigationStore.navigateTo({ routeName: "Auth" })
       self.creatorsFollowStore.reset()
+      self.civicLikerStakingStore.reset()
       self.contentBookmarksStore.reset()
       self.stakingRewardsWithdrawStore.reset()
       self.stakingDelegationStore.reset()

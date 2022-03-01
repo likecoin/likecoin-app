@@ -19,10 +19,17 @@ export const CivicLikerStakingStoreModel = types
   .extend(withEnvironment)
   .views(self => ({
     get stakingAmountRequired() {
-      return Math.min(100, Math.ceil(self.stakingAmountTarget) - Math.floor(self.stakingAmount))
+      const required = Math.ceil(self.stakingAmountTarget) - Math.floor(self.stakingAmount)
+      return Math.max(0, required)
     },
   }))
   .actions(self => ({
+    reset() {
+      self.validatorAddress = ""
+      self.stakingAmountTarget = 0
+      self.stakingAmount = 0
+      self.status = "loading"
+    },
     fetchStakingInfo: flow(function * () {
       try {
         const response: CivicLikerStakingInfoResult = yield self.env.likerLandAPI.fetchCivicLikerStakingInfo()

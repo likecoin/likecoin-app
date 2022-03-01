@@ -31,6 +31,7 @@ export class StakingRedelegationSigningScreen extends React.Component<Props> {
       this.props.chain.fetchDelegation(target)
       this.props.chain.fetchRedelegations()
       this.props.chain.fetchRewards()
+      this.props.chain.validators.get(from).fetchInfo()
     }
   }
 

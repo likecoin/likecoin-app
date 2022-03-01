@@ -49,9 +49,9 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
     if (this.props.onChange) this.props.onChange(amount)
   }
 
-  private onPressMaxButton = () => {
+  private onPressSuggestionButton = () => {
     if (this.props.onChange) {
-      this.props.onChange(this.props.maxAmount)
+      this.props.onChange(this.props.suggestedAmount || this.props.maxAmount)
     }
   }
 
@@ -115,9 +115,9 @@ export class AmountInputView extends React.Component<AmountInputViewProps, {}> {
               value={value}
               errorText={error}
               style={STYLE.AMOUNT_INPUT_PAD}
-              isShowMaxButton={this.props.isShowMaxButton}
-              maxButtonTitle={this.props.maxButtonTitle}
-              onPressMax={this.onPressMaxButton}
+              isShowSuggestionButton={this.props.isShowSuggestionButton}
+              suggestionButtonTitle={this.props.suggestionButtonTitle}
+              onPressSuggestionButton={this.onPressSuggestionButton}
               onChange={this.onAmountInputChange}
             />
           </View>

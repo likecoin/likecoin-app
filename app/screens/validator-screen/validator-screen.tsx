@@ -68,11 +68,19 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
     scrollY: new Animated.Value(0),
   }
 
-  private getValidator = () => this.props.navigation.getParam("validator")
+  componentDidMount(): void {
+    if (this.validator.isCivicLiker) {
+      this.props.civicLikerStakingStore.fetchStaking()
+    }
+  }
+
+  private get validator() {
+    return this.props.navigation.getParam("validator")
+  }
 
   private onPressValidatorAddress = () => {
     logAnalyticsEvent('ValidatorCopyWalletAddr')
-    Clipboard.setString(this.getValidator().operatorAddress)
+    Clipboard.setString(this.validator.operatorAddress)
     this.setState({ hasCopiedValidatorAddress: true })
   }
 
@@ -82,12 +90,12 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
 
   private handleDelegateButtonPress = () => {
     const params: StakingDelegationAmountInputScreenParams = {
-      target: this.getValidator().operatorAddress
+      target: this.validator.operatorAddress
     }
-    if (this.getValidator().isCivicLiker) {
+    if (this.validator.isCivicLiker) {
       const { stakingAmountRequired } = this.props.civicLikerStakingStore
       if (stakingAmountRequired > 0) {
-        params.suggestedAmount = new BigNumber(stakingAmountRequired)
+        params.suggestedAmount = this.props.chain.fromDenom(new BigNumber(stakingAmountRequired))
       }
     }
     this.props.navigation.navigate("StakingDelegation", params)
@@ -101,7 +109,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   private onPressRedelegateButton = () => {
     logAnalyticsEvent('ValidatorClickRedelegate')
     this.props.navigation.navigate("StakingRedelegation", {
-      from: this.getValidator().operatorAddress,
+      from: this.validator.operatorAddress,
     })
   }
 
@@ -117,16 +125,15 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   private onPressUndelegateButton = () => {
     logAnalyticsEvent('ValidatorClickUndelegate')
     this.props.navigation.navigate("StakingUnbondingDelegation", {
-      target: this.getValidator().operatorAddress,
+      target: this.validator.operatorAddress,
     })
   }
 
   private onRefresh = () => {
-    const validator = this.getValidator()
-    validator.fetchInfo()
-    this.props.chain.fetchDelegation(validator.operatorAddress)
-    this.props.chain.fetchRewardsFromValidator(validator.operatorAddress)
-    this.props.chain.fetchUnbondingDelegation(validator.operatorAddress)
+    this.validator.fetchInfo()
+    this.props.chain.fetchDelegation(this.validator.operatorAddress)
+    this.props.chain.fetchRewardsFromValidator(this.validator.operatorAddress)
+    this.props.chain.fetchUnbondingDelegation(this.validator.operatorAddress)
   }
 
   private onPressCivicLikerStakeButton = () => {
@@ -135,8 +142,6 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private renderIdentitySection = () => {
-    const validator = this.getValidator()
-
     return (
       <ValidatorScreenGridItem
         style={Style.Identity}
@@ -144,12 +149,12 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
         isShowSeparator={false}
       >
         <Image
-          source={{ uri: validator.avatar }}
+          source={{ uri: this.validator.avatar }}
           style={Style.ValidatorIcon}
         />
         <View style={Style.IdentityRight}>
           <Text
-            text={validator.moniker}
+            text={this.validator.moniker}
             numberOfLines={3}
             adjustsFontSizeToFit
             ellipsizeMode="middle"
@@ -157,9 +162,9 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
           />
           <Text
             tx={`validatorScreen.Status.${
-              validator.isActive ? "Active" : "Inactive"
+              this.validator.isActive ? "Active" : "Inactive"
             }`}
-            style={validator.isActive
+            style={this.validator.isActive
               ? Style.StatusActive
               : Style.StatusInactive
             }
@@ -170,7 +175,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private renderDelegationSection = () => {
-    const { operatorAddress: validatorAddress } = this.getValidator()
+    const { operatorAddress: validatorAddress } = this.validator
     const { formatDenom, formatRewards } = this.props.chain
     const delegation = this.props.chain.wallet.getDelegation(validatorAddress)
     const delegatorRewardsTextColor = delegation.hasRewards ? "darkModeGreen" : "white"
@@ -246,9 +251,8 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
   }
 
   private renderCivicLikerSection = () => {
-    const validator = this.getValidator()
     const { status, validatorAddress } = this.props.civicLikerStakingStore
-    if (validatorAddress !== validator.operatorAddress) {
+    if (validatorAddress !== this.validator.operatorAddress) {
       return null
     }
     return (
@@ -261,8 +265,6 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
 
   render () {
     const { formatBalance } = this.props.chain
-    const validator = this.getValidator()
-
     const validatorAddressLabelTx = `validatorScreen.validatorAddress${this.state.hasCopiedValidatorAddress ? 'Copied' : ''}`
 
     return (
@@ -279,7 +281,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               }),
             }}
           >
-            <HeaderTitle text={validator.moniker} />
+            <HeaderTitle text={this.validator.moniker} />
           </Animated.View>
         </Header>
         <ScrollView
@@ -289,7 +291,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             <RefreshControl
               tintColor={color.palette.lighterCyan}
               colors={[color.primary]}
-              refreshing={validator.isLoading}
+              refreshing={this.validator.isLoading}
               onRefresh={this.onRefresh}
             />
           }
@@ -303,15 +305,15 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
           >
             <Text
               color="white"
-              text={validator.details}
+              text={this.validator.details}
             />
-            {!!validator.website &&
+            {!!this.validator.website &&
               <View style={Style.LinkWrapper}>
                 <Button
                   preset="link"
                   tx="validator.website"
                   fontSize="default"
-                  link={validator.website}
+                  link={this.validator.website}
                   style={Style.Link}
                   prepend={
                     <GlobeIcon
@@ -325,17 +327,17 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             }
           </ValidatorScreenGridItem>
           <ValidatorScreenGridItem
-            value={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
+            value={this.props.chain.getValidatorExpectedReturnsPercentage(this.validator)}
             labelTx={"validator.rewards"}
             isHalf
           />
           <ValidatorScreenGridItem
-            value={this.props.chain.getValidatorVotingPowerPercentage(validator)}
+            value={this.props.chain.getValidatorVotingPowerPercentage(this.validator)}
             labelTx={"validator.votingPower"}
             isHalf
           />
           <ValidatorScreenGridItem
-            value={formatBalance(validator.totalDelegatorShares)}
+            value={formatBalance(this.validator.totalDelegatorShares)}
             labelTx="validator.delegatorShare"
           />
           <ValidatorScreenGridItem
@@ -345,7 +347,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
             <TouchableOpacity onPress={this.onPressValidatorAddress}>
               <Text
                 color="likeCyan"
-                text={validator.operatorAddress}
+                text={this.validator.operatorAddress}
                 numberOfLines={1}
                 ellipsizeMode="middle"
               />
@@ -354,7 +356,7 @@ export class ValidatorScreen extends React.Component<ValidatorScreenProps, {}> {
               <Button
                 preset="link"
                 tx="common.viewOnBlockExplorer"
-                link={validator.blockExplorerURL}
+                link={this.validator.blockExplorerURL}
                 fontSize="default"
                 style={Style.Link}
               />

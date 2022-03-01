@@ -95,7 +95,7 @@ export class StakingUnbondingDelegationAmountInputScreen extends React.Component
         availableLabelTx="stakingUnbondingDelegationAmountInputScreen.available"
         confirmButtonTx="common.next"
         isConfirmButtonLoading={isCreatingTx}
-        isShowMaxButton={true}
+        isShowSuggestionButton={true}
         civicLikerStakingPreset={this.validator.isCivicLiker ? "undelegate" : ""}
         graph={<Graph />}
         formatAmount={this.props.chain.formatDenom}
