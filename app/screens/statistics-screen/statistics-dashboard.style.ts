@@ -10,8 +10,8 @@ export const StatisticsDashboardStyle = StyleSheet.create({
   ChartOverlay: {
     ...StyleSheet.absoluteFillObject,
     ...DashboardChildrenStyle,
-    paddingTop: spacing[5],
     alignItems: "center",
+    justifyContent: "center"
   } as ViewStyle,
   ChartWrapper: {
     ...DashboardChildrenStyle,
@@ -22,6 +22,7 @@ export const StatisticsDashboardStyle = StyleSheet.create({
     ...DashboardChildrenStyle,
   } as ViewStyle,
   Root: {
+    position: "relative",
     paddingTop: spacing[4],
     paddingBottom: spacing[5],
     // FIXME: Hack to reverse the carousel direction

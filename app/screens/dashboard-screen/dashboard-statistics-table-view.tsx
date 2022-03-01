@@ -3,7 +3,6 @@ import { View, ViewStyle } from "react-native"
 import { observer, inject } from "mobx-react"
 import styled from "styled-components/native"
 
-import { Button } from "../../components/button"
 import { TableViewCell } from "../../components/table-view/table-view-cell"
 import { TableView } from "../../components/table-view/table-view"
 import { Text } from "../../components/text"
@@ -137,15 +136,6 @@ export class DashboardStatisticsTableView extends React.Component<DashboardStati
             </StatsDetailsLeftView>
           </StatsDetailsContainerView>
         </RewardContentLeftView>
-        {totalRewardedLikeAmount === 0 && (
-          <Button
-            preset="plain"
-            tx="settingsScreen.Panel.Statistics.Rewarded.GetRewardsButtonTitle"
-            color="likeCyan"
-            weight="500"
-            onPress={this.props.onPressGetRewardsButton}
-          />
-        )}
       </TableViewCell>
     )
   }
