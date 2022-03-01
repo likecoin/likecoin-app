@@ -18,26 +18,28 @@ export function TableView({
   children: originChildren,
   ...props
 }: TableViewProps) {
-  const children: React.ReactElement[] = []
-  React.Children.toArray(originChildren).filter(c => !!c).forEach((child, index, newChildren) => {
-    if (index > 0) {
-      children.push(<TableViewSeparator key={`separator-${index}`} />)
-    }
-    children.push(
-      React.cloneElement<TableViewCellProps>(
-        child,
-        {
-          ...child.props,
-          key: `${index}`,
-          isFirstCell: index === 0,
-          isLastCell: index === newChildren.length - 1,
-        }
-      )
-    )
-  })
+  const newChildren = React.Children.toArray(originChildren).filter(c => !!c)
   return (
     <View {...props}>
-      {children}
+      {React.Children.map(newChildren, (child, index) => {
+        const cloneChild = React.cloneElement<TableViewCellProps>(
+          child,
+          {
+            ...child.props,
+            isFirstCell: index === 0,
+            isLastCell: index === newChildren.length - 1,
+          }
+        )
+        if (index > 0) {
+          return (
+            <>
+              <TableViewSeparator />
+              {cloneChild}
+            </>
+          )
+        }
+        return cloneChild
+      })}
     </View>
   )
 }

@@ -107,7 +107,6 @@ export const wrapStatisticsScreenBase = <P extends object>(WrappedComponent: Rea
                 }
               ]}
             />
-            {this.renderReferralCTA()}
           </View>
         </Screen>
       )

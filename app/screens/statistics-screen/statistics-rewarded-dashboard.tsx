@@ -13,7 +13,6 @@ import {
   StatisticsRewardedDashboardProps as Props,
 } from "./statistics-rewarded-dashboard.props"
 
-import { Button } from "../../components/button"
 import {
   StatisticsDataGrid,
   StatisticsDataGridItemProps,
@@ -157,22 +156,17 @@ export class StatisticsRewardedDashboard extends React.Component<Props> {
             onPressBar={this.props.onPressBarInChart}
             chartStyle={hasNoReward ? Style.ChartDimmed : null}
           />
-          {!isFetching && hasNoReward && (
-            <View style={CommonStyle.ChartOverlay}>
-              <Text
-                tx="StatisticsRewardedScreen.Dashboard.Empty.Title"
-                size="default"
-                weight="500"
-                color="likeCyan"
-              />
-              <Button
-                tx="StatisticsRewardedScreen.Dashboard.Empty.ButtonTitle"
-                style={Style.GetRewardsButton}
-                onPress={this.props.onPressGetRewardsButton}
-              />
-            </View>
-          )}
         </View>
+        {!isFetching && hasNoReward && (
+          <View style={CommonStyle.ChartOverlay}>
+            <Text
+              tx="StatisticsRewardedScreen.Dashboard.Empty.Title"
+              size="default"
+              weight="500"
+              color="likeCyan"
+            />
+          </View>
+        )}
       </View>
     )
   }
