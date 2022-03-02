@@ -8,7 +8,7 @@ import { ChainStore } from "../../models/chain-store"
 import { ButtonGroup } from "../../components/button-group"
 import { GradientView } from "../../components/gradient-view"
 import { Icon } from "../../components/icon"
-import { TableViewCell } from "../../components/table-view/table-view-cell"
+import { TableViewCell, TableViewCellProps } from "../../components/table-view"
 import { Text } from "../../components/text"
 
 import { spacing } from "../../theme"
@@ -65,8 +65,9 @@ const QRCodeButtonStyle = {
   width: 44,
 } as ViewStyle
 
-export interface DashboardWalletPanelProps {
+export interface DashboardWalletPanelProps extends TableViewCellProps {
   chainStore?: ChainStore
+  style?: ViewStyle
   onPress?: () => void
   onPressQRCodeButton?: () => void
 }
@@ -83,7 +84,10 @@ export class DashboardWalletPanel extends React.Component<
 
   renderUpdateNotice() {
     return (
-      <TableViewCell isNoPadding>
+      <TableViewCell
+        isNoPadding
+        style={this.props.style}
+      >
         <GradientView>
           <TableViewCell isNoBackground>
             <WalletAppUpgradeNotice
@@ -100,6 +104,7 @@ export class DashboardWalletPanel extends React.Component<
       <TableViewCell
         isNoPadding
         isChildrenRaw={true}
+        style={this.props.style}
         onPress={this.props.onPress}
       >
         <GradientView>

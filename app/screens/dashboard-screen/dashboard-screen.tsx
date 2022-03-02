@@ -17,9 +17,9 @@ import { color } from "../../theme"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { DashboardCivicLikerPanel } from "./dashboard-civic-liker-panel"
-import { DashboardStatisticsTableView as DashboardStatisticsTableViewBase } from "./dashboard-statistics-table-view"
+import { DashboardStatisticsTableView } from "./dashboard-statistics-table-view"
 import { DashboardUserInfoPanel } from "./dashboard-user-info-panel"
-import { DashboardWalletPanel } from "./dashboard-wallet-panel"
+import { DashboardWalletPanel as DashboardWalletPanelBase } from "./dashboard-wallet-panel"
 
 const Screen = styled(ScreenBase)`
   flex: 1;
@@ -41,8 +41,8 @@ const ExtendedView = styled(ExtendedViewBase)`
   padding-bottom: ${({ theme }) => theme.spacing.xl};
 `
 
-const DashboardStatisticsTableView = styled(DashboardStatisticsTableViewBase)`
-  margin-top: ${({ theme }) => theme.spacing.lg};
+const DashboardWalletPanel = styled(DashboardWalletPanelBase)`
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `
 
 const SubscriptionTableView = styled(TableView)`
@@ -104,12 +104,12 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
     } = this.props.userStore
     return (
       <Body>
-        <TableView>
-          <DashboardWalletPanel
-            onPress={this.onPressWalletButton}
-            onPressQRCodeButton={this.onPressQRCodeButton}
-          />
-        </TableView>
+        <DashboardWalletPanel
+          isFirstCell={true}
+          isLastCell={true}
+          onPress={this.onPressWalletButton}
+          onPressQRCodeButton={this.onPressQRCodeButton}
+        />
         <DashboardStatisticsTableView
           isCivicLiker={isCivicLiker}
           onPressGetRewardsButton={this.onPressGetRewardsButton}

@@ -3,8 +3,7 @@ import { View, ViewStyle } from "react-native"
 import { observer, inject } from "mobx-react"
 import styled from "styled-components/native"
 
-import { TableViewCell } from "../../components/table-view/table-view-cell"
-import { TableView } from "../../components/table-view/table-view"
+import { TableViewCell, TableViewSeparator } from "../../components/table-view"
 import { Text } from "../../components/text"
 
 import {
@@ -78,12 +77,13 @@ export class DashboardStatisticsTableView extends React.Component<DashboardStati
 
   render() {
     return (
-      <TableView style={this.props.style}>
+      <>
         {!!this.props.isCivicLiker && (
           this.renderSupportedSection()
         )}
+        <TableViewSeparator />
         {this.renderRewardedSection()}
-      </TableView>
+      </>
     )
   }
 
@@ -93,7 +93,11 @@ export class DashboardStatisticsTableView extends React.Component<DashboardStati
       worksCount: supportedWorksCount = 0
     } = this.props.supportedStatistics.weekList[0] || {}
     return (
-      <TableViewCell onPress={this.props.onPressSupportedSection}>
+      <TableViewCell
+        isFirstCell={true}
+        isLastCell={false}
+        onPress={this.props.onPressSupportedSection}
+      >
         <View>
           <TitleText tx="settingsScreen.Panel.Statistics.Supported.Title" />
           <StatsDetailsContainerView>
@@ -121,7 +125,11 @@ export class DashboardStatisticsTableView extends React.Component<DashboardStati
       totalLikeAmount: totalRewardedLikeAmount = 0,
     } = this.props.rewardedStatistics
     return (
-      <TableViewCell onPress={this.props.onPressRewardedSection}>
+      <TableViewCell
+        isFirstCell={!this.props.isCivicLiker}
+        isLastCell={true}
+        onPress={this.props.onPressRewardedSection}
+      >
         <RewardContentLeftView>
           <TitleText tx="settingsScreen.Panel.Statistics.Rewarded.Title" />
           <StatsDetailsContainerView>
