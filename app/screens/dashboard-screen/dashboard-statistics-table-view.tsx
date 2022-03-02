@@ -3,7 +3,7 @@ import { View, ViewStyle } from "react-native"
 import { observer, inject } from "mobx-react"
 import styled from "styled-components/native"
 
-import { TableViewCell, TableViewSeparator } from "../../components/table-view"
+import { TableView, TableViewCell as TableViewCellBase } from "../../components/table-view"
 import { Text } from "../../components/text"
 
 import {
@@ -14,6 +14,10 @@ import {
 import { translate } from "../../i18n"
 
 import { formatLikeAmountText } from "../../utils/number"
+
+const TableViewCell = styled(TableViewCellBase)`
+  min-height: 76px;
+`
 
 const TitleText = styled(Text)`
   color: ${props => props.theme.color.text.highlight};
@@ -77,13 +81,12 @@ export class DashboardStatisticsTableView extends React.Component<DashboardStati
 
   render() {
     return (
-      <>
+      <TableView style={this.props.style}>
         {!!this.props.isCivicLiker && (
           this.renderSupportedSection()
         )}
-        <TableViewSeparator />
         {this.renderRewardedSection()}
-      </>
+      </TableView>
     )
   }
 
@@ -93,11 +96,7 @@ export class DashboardStatisticsTableView extends React.Component<DashboardStati
       worksCount: supportedWorksCount = 0
     } = this.props.supportedStatistics.weekList[0] || {}
     return (
-      <TableViewCell
-        isFirstCell={true}
-        isLastCell={false}
-        onPress={this.props.onPressSupportedSection}
-      >
+      <TableViewCell onPress={this.props.onPressSupportedSection}>
         <View>
           <TitleText tx="settingsScreen.Panel.Statistics.Supported.Title" />
           <StatsDetailsContainerView>
@@ -125,11 +124,7 @@ export class DashboardStatisticsTableView extends React.Component<DashboardStati
       totalLikeAmount: totalRewardedLikeAmount = 0,
     } = this.props.rewardedStatistics
     return (
-      <TableViewCell
-        isFirstCell={!this.props.isCivicLiker}
-        isLastCell={true}
-        onPress={this.props.onPressRewardedSection}
-      >
+      <TableViewCell onPress={this.props.onPressRewardedSection}>
         <RewardContentLeftView>
           <TitleText tx="settingsScreen.Panel.Statistics.Rewarded.Title" />
           <StatsDetailsContainerView>

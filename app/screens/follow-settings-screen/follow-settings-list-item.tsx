@@ -5,7 +5,7 @@ import styled from "styled-components/native"
 import ActionSheet from "react-native-actions-sheet"
 
 import { Avatar } from "../../components/avatar"
-import { TableViewCell as TableViewCellBase } from "../../components/table-view/table-view-cell"
+import { TableViewCell as TableViewCellBase } from "../../components/table-view"
 import {
   ActionSheetButton,
   ActionSheetButtonTitle,

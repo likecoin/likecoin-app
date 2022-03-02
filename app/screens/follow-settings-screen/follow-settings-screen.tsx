@@ -13,7 +13,7 @@ import { Header } from "../../components/header"
 import { HeaderTabContainerView } from "../../components/header-tab-container-view"
 import { HeaderTabItem } from "../../components/header-tab"
 import { Screen as ScreenBase } from "../../components/screen"
-import { TableViewSeparator } from "../../components/table-view/table-view"
+import { TableViewSeparator } from "../../components/table-view"
 
 import { FollowSettingsScreenProps as Props } from "./follow-settings-screen.props"
 import { FollowSettingsScreenState as State } from "./follow-settings-screen.state"

@@ -12,7 +12,7 @@ import { HeaderTabContainerView } from "../../components/header-tab-container-vi
 import { HeaderTabItem } from "../../components/header-tab"
 import { Screen as UnstyledScreen } from "../../components/screen"
 import { SupporterListItem } from "../../components/supporter-list-item"
-import { TableView } from "../../components/table-view/table-view"
+import { TableView } from "../../components/table-view"
 
 export interface FansDashoardScreenProps extends NavigationStackScreenProps<{}> {
   userStore: UserStore

@@ -9,8 +9,8 @@ import { Button } from "../../components/button"
 import { CommunityLinks as CommunityLinksBase } from "../../components/community-links"
 import { Icon } from "../../components/icon"
 import { Header } from "../../components/header"
-import { TableView } from "../../components/table-view/table-view"
-import { TableViewCell } from "../../components/table-view/table-view-cell"
+import { TableView , TableViewCell } from "../../components/table-view"
+
 import { Screen as ScreenBase } from "../../components/screen"
 
 import { ExperimentalFeatureStore } from "../../models/experimental-feature-store"
