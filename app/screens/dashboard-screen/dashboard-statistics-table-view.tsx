@@ -3,7 +3,7 @@ import { View, ViewStyle } from "react-native"
 import { observer, inject } from "mobx-react"
 import styled from "styled-components/native"
 
-import { TableView, TableViewCell } from "../../components/table-view"
+import { TableView, TableViewCell as TableViewCellBase } from "../../components/table-view"
 import { Text } from "../../components/text"
 
 import {
@@ -14,6 +14,10 @@ import {
 import { translate } from "../../i18n"
 
 import { formatLikeAmountText } from "../../utils/number"
+
+const TableViewCell = styled(TableViewCellBase)`
+  min-height: 76px;
+`
 
 const TitleText = styled(Text)`
   color: ${props => props.theme.color.text.highlight};

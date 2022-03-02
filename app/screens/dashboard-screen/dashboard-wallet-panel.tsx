@@ -13,6 +13,10 @@ import { Text } from "../../components/text"
 
 import { spacing } from "../../theme"
 
+const WalletTableViewCell = styled(TableViewCell)`
+  min-height: 85px;
+`
+
 const ContentView = styled.View`
   flex-grow: 1;
 `
@@ -98,7 +102,7 @@ export class DashboardWalletPanel extends React.Component<
 
   renderActiveWallet() {
     return (
-      <TableViewCell
+      <WalletTableViewCell
         isNoPadding
         isChildrenRaw={true}
         onPress={this.props.onPress}
@@ -144,7 +148,7 @@ export class DashboardWalletPanel extends React.Component<
             />
           </TableViewCell>
         </GradientView>
-      </TableViewCell>
+      </WalletTableViewCell>
     )
   }
 
