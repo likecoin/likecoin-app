@@ -6,8 +6,7 @@ import styled from "styled-components/native"
 import { ExtendedView as ExtendedViewBase } from "../../components/extended-view"
 import { Screen as ScreenBase } from "../../components/screen"
 import { ScrollView as ScrollViewBase } from "../../components/scroll-view"
-import { TableView } from "../../components/table-view/table-view"
-import { TableViewCell } from "../../components/table-view/table-view-cell"
+import { TableView, TableViewCell } from "../../components/table-view"
 
 import { UserStore } from "../../models/user-store"
 import { Validator } from "../../models/validator"
@@ -17,9 +16,9 @@ import { color } from "../../theme"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
 import { DashboardCivicLikerPanel } from "./dashboard-civic-liker-panel"
-import { DashboardStatisticsTableView } from "./dashboard-statistics-table-view"
+import { DashboardStatisticsTableView as DashboardStatisticsTableViewBase } from "./dashboard-statistics-table-view"
 import { DashboardUserInfoPanel } from "./dashboard-user-info-panel"
-import { DashboardWalletPanel as DashboardWalletPanelBase } from "./dashboard-wallet-panel"
+import { DashboardWalletPanel } from "./dashboard-wallet-panel"
 
 const Screen = styled(ScreenBase)`
   flex: 1;
@@ -41,8 +40,8 @@ const ExtendedView = styled(ExtendedViewBase)`
   padding-bottom: ${({ theme }) => theme.spacing.xl};
 `
 
-const DashboardWalletPanel = styled(DashboardWalletPanelBase)`
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
+const DashboardStatisticsTableView = styled(DashboardStatisticsTableViewBase)`
+  margin-top: ${({ theme }) => theme.spacing.lg};
 `
 
 const SubscriptionTableView = styled(TableView)`
@@ -104,12 +103,12 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
     } = this.props.userStore
     return (
       <Body>
-        <DashboardWalletPanel
-          isFirstCell={true}
-          isLastCell={true}
-          onPress={this.onPressWalletButton}
-          onPressQRCodeButton={this.onPressQRCodeButton}
-        />
+        <TableView>
+          <DashboardWalletPanel
+            onPress={this.onPressWalletButton}
+            onPressQRCodeButton={this.onPressQRCodeButton}
+          />
+        </TableView>
         <DashboardStatisticsTableView
           isCivicLiker={isCivicLiker}
           onPressGetRewardsButton={this.onPressGetRewardsButton}

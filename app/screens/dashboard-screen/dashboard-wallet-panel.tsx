@@ -84,10 +84,7 @@ export class DashboardWalletPanel extends React.Component<
 
   renderUpdateNotice() {
     return (
-      <TableViewCell
-        isNoPadding
-        style={this.props.style}
-      >
+      <TableViewCell isNoPadding>
         <GradientView>
           <TableViewCell isNoBackground>
             <WalletAppUpgradeNotice
@@ -104,7 +101,6 @@ export class DashboardWalletPanel extends React.Component<
       <TableViewCell
         isNoPadding
         isChildrenRaw={true}
-        style={this.props.style}
         onPress={this.props.onPress}
       >
         <GradientView>
