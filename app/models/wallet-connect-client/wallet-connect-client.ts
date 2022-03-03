@@ -212,10 +212,12 @@ export const WalletConnectClientModel = types
           case "cosmos_signAmino":
           case "keplr_sign_amino_wallet_connect_v1": {
             try {
-              result = yield self.env.authCoreAPI.signAmino(
-                payload.params[2],
-                payload.params[1]
-              )
+              result = [
+                yield self.env.authCoreAPI.signAmino(
+                  payload.params[2],
+                  payload.params[1]
+                )
+              ]
             } catch (error) {
               logError(error)
             }
