@@ -32,7 +32,7 @@ class CivicLikerV3ControlledSummaryView extends React.Component<CivicLikerV3Cont
   }
 
   private handleButtonPress = () => {
-    if (this.props.onPressButton) {
+    if (this.props.onPressButton && this.validator) {
       this.props.onPressButton(this.validator)
     }
   }
@@ -47,7 +47,7 @@ class CivicLikerV3ControlledSummaryView extends React.Component<CivicLikerV3Cont
       <CivicLikerV3SummaryView
         preset={this.props.preset}
         validatorName={this.validator?.moniker || ""}
-        status={status}
+        status={this.validator ? status : "loading"}
         stakingAmount={stakingAmount}
         stakingAmountTarget={stakingAmountTarget}
         prepend={this.props.prepend}
