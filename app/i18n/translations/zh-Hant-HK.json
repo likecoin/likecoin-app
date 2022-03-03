@@ -29,7 +29,7 @@
   "civic_liker_v3_summary_status_activating": "即將生效",
   "civic_liker_v3_summary_status_active": "已生效",
   "civic_liker_v3_summary_hint_civic_liker": "讚賞公民",
-  "civic_liker_v3_summary_hint_inactive": "委託至「%{validator}」驗證人以獲得 %{civicLiker} 會籍",
+  "civic_liker_v3_summary_hint_inactive": "委託 %{amount} 至「%{validator}」驗證人以獲得 %{civicLiker} 會籍",
   "civic_liker_v3_summary_hint_activating": "你的 %{civicLiker} 會籍即將生效，會籍狀態於每天更新。",
   "civic_liker_v3_summary_hint_active": "已委託 %{amount}。委託愈多，回饋愈多！",
   "civic_liker_v3_summary_hint_undelegate": "你需要委託 %{amount} 來維持 %{civicLiker} 會籍",
