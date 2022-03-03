@@ -8,12 +8,15 @@ import { ChainStore } from "../../models/chain-store"
 import { ButtonGroup } from "../../components/button-group"
 import { GradientView } from "../../components/gradient-view"
 import { Icon } from "../../components/icon"
-import { TableViewCell, TableViewCellProps } from "../../components/table-view"
+import {
+  TableViewCell as TableViewCellBase,
+  TableViewCellProps,
+} from "../../components/table-view"
 import { Text } from "../../components/text"
 
 import { spacing } from "../../theme"
 
-const WalletTableViewCell = styled(TableViewCell)`
+const TableViewCell = styled(TableViewCellBase)`
   min-height: 85px;
 `
 
@@ -102,7 +105,7 @@ export class DashboardWalletPanel extends React.Component<
 
   renderActiveWallet() {
     return (
-      <WalletTableViewCell
+      <TableViewCell
         isNoPadding
         isChildrenRaw={true}
         onPress={this.props.onPress}
@@ -148,7 +151,7 @@ export class DashboardWalletPanel extends React.Component<
             />
           </TableViewCell>
         </GradientView>
-      </WalletTableViewCell>
+      </TableViewCell>
     )
   }
 
