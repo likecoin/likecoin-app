@@ -42,7 +42,7 @@ export default StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   } as ViewStyle,
   SCREEN: {
-    flex: 1,
+    flexGrow: 1, 
     justifyContent: "center",
     alignItems: "stretch",
     padding: spacing[4],
