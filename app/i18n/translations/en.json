@@ -26,7 +26,7 @@
   "civic_liker_v3_dashboard_title": "Civic Liker",
   "civic_liker_v3_summary_status_loading": "Loading",
   "civic_liker_v3_summary_status_inactive": "Inactive",
-  "civic_liker_v3_summary_status_activating": "About to active",
+  "civic_liker_v3_summary_status_activating": "About to activate",
   "civic_liker_v3_summary_status_active": "Active",
   "civic_liker_v3_summary_hint_civic_liker": "Civic Liker",
   "civic_liker_v3_summary_hint_inactive": "Stake at least %{amount} to become %{civicLiker}",
