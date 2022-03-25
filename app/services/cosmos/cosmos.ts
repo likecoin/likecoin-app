@@ -47,6 +47,9 @@ import {
 } from "./cosmos.utils"
 import { MintExtension, setupMintExtension } from "./mint-query-extension"
 
+// Mitigate https://github.com/cosmos/cosmos-sdk/issues/11407
+const INITIAL_PAGINATION_KEY = new Uint8Array([0x00])
+
 /**
  * Cosmos API helper for LikeCoin
  */
@@ -84,7 +87,7 @@ export class CosmosAPI {
   /**
    * Get the list of validators
    */
-  async getValidators({ paginationKey = undefined } = {}): Promise<CosmosValidator[]> {
+  async getValidators({ paginationKey = INITIAL_PAGINATION_KEY } = {}): Promise<CosmosValidator[]> {
     const bondStatus = '' as BondStatusString
     const { validators, pagination } = await this.queryClient.staking.validators(bondStatus, paginationKey)
     const parsedValidators = validators.map(v => convertValidator(v))
