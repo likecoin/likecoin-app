@@ -24,8 +24,10 @@ const Screen = styled(ScreenBase)`
 `
 
 const ValidatorList = styled(ValidatorListBase)`
+  flex-grow: 1;
   background-color: ${({ theme }) => theme.color.background.secondary};
-  padding: 0 ${({ theme }) => theme.spacing.xs};
+  padding-left: ${({ theme }) => theme.spacing.xs};
+  padding-right: ${({ theme }) => theme.spacing.xs};
 `
 
 @inject((allStores: any) => ({

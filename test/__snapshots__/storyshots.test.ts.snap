@@ -7473,6 +7473,11 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
           </View>
         </View>
         <RCTScrollView
+          contentContainerStyle={
+            Object {
+              "paddingTop": 0,
+            }
+          }
           contentInset={
             Object {
               "top": 80,
@@ -7491,7 +7496,6 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
               "flexBasis": 0,
               "flexGrow": 1,
               "flexShrink": 1,
-              "paddingVertical": 0,
             }
           }
         >
