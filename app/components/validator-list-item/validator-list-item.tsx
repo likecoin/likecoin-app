@@ -20,6 +20,7 @@ import { color } from "../../theme"
 export function ValidatorListItem(props: ValidatorListItemProps) {
   const {
     title,
+    index = 0,
     icon,
     subtitle,
     rightTitle,
@@ -44,6 +45,13 @@ export function ValidatorListItem(props: ValidatorListItemProps) {
     <TouchableOpacity style={[STYLE.ROOT, style]} {...rest}>
       <Sheet style={sheetStyle}>
         <View style={STYLE.INNER}>
+          {!!index && (
+            <Text
+              text={`${index}`}
+              color={titleColor}
+              style={STYLE.INDEX}
+            />
+          )}
           <Image
             source={{ uri: icon }}
             style={STYLE.ICON}

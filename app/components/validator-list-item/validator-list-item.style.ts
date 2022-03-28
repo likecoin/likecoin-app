@@ -16,8 +16,15 @@ export default StyleSheet.create({
     marginRight: spacing[3],
     backgroundColor: color.palette.white,
   } as ImageStyle,
+  INDEX: {
+    fontSize: 10,
+    fontWeight: "600",
+    minWidth: 16,
+    marginRight: 8,
+  } as TextStyle,
   INNER: {
     flexDirection: "row",
+    alignItems: "center",
   } as ViewStyle,
   LEFT_DETAIL: {
     flex: 1,

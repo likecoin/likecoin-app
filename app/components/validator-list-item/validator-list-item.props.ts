@@ -7,6 +7,11 @@ export interface ValidatorListItemProps extends TouchableOpacityProps {
   icon?: string
 
   /**
+   * The index of the list item
+   */
+  index?: number
+
+  /**
    * The title text
    */
   title?: string

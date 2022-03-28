@@ -54,7 +54,7 @@ export class ValidatorList extends React.Component<Props> {
 
   private keyExtractor = (validator: Validator) => validator.operatorAddress 
 
-  private renderItem = (validator: Validator) => {
+  private renderItem = (validator: Validator, index?: number) => {
     const { formatBalance, formatRewards } = this.props.chain
     const delegation = this.props.chain.wallet.delegations.get(validator.operatorAddress)
     const delegatedAmount = formatBalance(delegation ? delegation.balance : undefined)
@@ -64,6 +64,7 @@ export class ValidatorList extends React.Component<Props> {
       <ValidatorListItem
         key={validator.operatorAddress}
         icon={validator.avatar}
+        index={index + 1}
         title={validator.moniker}
         subtitle={this.props.chain.getValidatorExpectedReturnsPercentage(validator)}
         rightTitle={delegatedAmount}
@@ -74,7 +75,7 @@ export class ValidatorList extends React.Component<Props> {
     )
   }
 
-  private renderListItem: ListRenderItem<Validator> = ({ item }) => this.renderItem(item)
+  private renderListItem: ListRenderItem<Validator> = ({ item, index }) => this.renderItem(item, index)
 
   private renderScrollView = () => {
     return (
