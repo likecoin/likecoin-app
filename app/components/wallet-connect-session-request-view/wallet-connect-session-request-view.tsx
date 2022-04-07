@@ -8,6 +8,8 @@ import { Button } from "../button"
 import { Sheet as SheetBase } from "../sheet"
 import { Text } from "../text"
 
+const LIKECO_LOGIN_MESSAGE = 'Login - Reinventing the Like';
+
 const RootView = styled.View`
   flex: 1;
   justify-content: center;
@@ -106,10 +108,33 @@ function getImage({ payload = {}, peerMeta = {} }: WalletConnectRequestData) {
       return (peerMeta.icons || [])[0] || ""
   }
 }
+
+function getRawContent({ payload }) {
+  let rawContent: any
+  switch (payload.method) {
+    case "cosmos_signAmino":
+    case "keplr_sign_amino_wallet_connect_v1": 
+      rawContent = payload.params[2];
+      break
+
+    case "cosmos_signDirect":
+      rawContent = payload.params[1];
+      break
+
+    default:
+      rawContent = payload
+      break
+  }
+  return JSON.stringify(rawContent, null, '  ')
+}
+
 function getDescription({
   payload,
   peerMeta,
-}: WalletConnectRequestData) {
+  rawContent,
+}: WalletConnectRequestData & {
+  rawContent?: string
+}) {
   const name = getAppName({ payload, peerMeta })
   switch (payload.method) {
     case "session_request":
@@ -125,18 +150,15 @@ function getDescription({
     case "cosmos_signAmino":
     case "cosmos_signDirect":
     case "keplr_sign_amino_wallet_connect_v1":
+      if (payload.method === "cosmos_signAmino" && rawContent.includes(LIKECO_LOGIN_MESSAGE)) {
+        return translate("walletConnectRequestView_label_description_login", { name })
+      }
       return translate("walletConnectRequestView_label_description_sign", { name })
 
     default:
-      return ""
+      return translate("walletConnectRequestView_label_description_unknown", { name })
   }
 }
-
-const SIGN_METHODS = [
-  "cosmos_signAmino",
-  "keplr_sign_amino_wallet_connect_v1",
-  "cosmos_signDirect",
-]
 
 /**
  * View for display Wallet Connect session request
@@ -155,22 +177,13 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
   } = React.useMemo(() => {
     const appName = getAppName({ payload, peerMeta })
     const appIcon = getImage({ payload, peerMeta })
-    const description = getDescription({ payload, peerMeta })
-    const isUnknownMethod = !description
-    const isSigningTx = SIGN_METHODS.includes(payload.method)
-    let rawContent: any
-    if (isUnknownMethod) {
-      rawContent = payload
-    } else if (isSigningTx) {
-      rawContent = payload.params[0]
-    }
+    const rawContent = getRawContent({ payload })
+    const description = getDescription({ payload, peerMeta, rawContent })
     return {
       title: appName,
       image: appIcon,
-      description: isUnknownMethod
-        ? translate("walletConnectRequestView_label_description_unknown", { name: appName })
-        : description,
-      rawContent: rawContent ? JSON.stringify(rawContent, null, "  ") : "",
+      description,
+      rawContent,
     }
   }, [payload, peerMeta])
 
