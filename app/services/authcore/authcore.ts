@@ -244,10 +244,10 @@ export class AuthCoreAPI {
   }
 
   async signAmino(data: any, address: string) {
-    let signed: any
+    let result: any
     if (!this.cosmosProvider) throw new Error('WALLET_NOT_INITED');
     try {
-      signed = await this.cosmosProvider.sign(data, address)
+      result = await this.cosmosProvider.sign(data, address)
     } catch (error) {
       const statusCode = error.response ? error.response.status : error.status
       switch (statusCode) {
@@ -261,9 +261,10 @@ export class AuthCoreAPI {
           throw error
       }
     }
+    const { signatures, ...signed } = result
     return {
       signed,
-      signature: signed.signatures[0],
+      signature: signatures[0],
     }
   }
 
