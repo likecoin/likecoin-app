@@ -209,7 +209,9 @@ export class AuthCoreAPI {
         break
 
       case "cosmoshub-4":
+      case "iscn-dev-chain-2":
       case "likecoin-mainnet-2":
+      case "likecoin-public-testnet-5":
         hrp = "cosmos"
         break
 
