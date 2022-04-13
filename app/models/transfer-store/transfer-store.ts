@@ -33,6 +33,7 @@ export const TransferStoreModel = TxStoreModel
             email,
             avatar: avatarURL,
             cosmosWallet,
+            likeWallet,
           } = result.data
           if (likerID) {
             self.liker = UserModel.create({
@@ -41,6 +42,7 @@ export const TransferStoreModel = TxStoreModel
               email,
               avatarURL,
               cosmosWallet,
+              likeWallet,
             })
           }
           break
