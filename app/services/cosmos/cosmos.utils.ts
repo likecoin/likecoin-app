@@ -68,7 +68,7 @@ export function calculateUnbondingDelegationBalanceFromResultEntries(entries: Co
  * @return Validity of the address
  */
 export function validateAccountAddress(address: string) {
-  return /^cosmos1[ac-hj-np-z02-9]{38}$/.test(address)
+  return /^(cosmos|like)1[ac-hj-np-z02-9]{38}$/.test(address)
 }
 
 export function convertDecCoin(decCoin: DecCoin): CosmosCoinResult {
