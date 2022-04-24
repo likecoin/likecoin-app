@@ -20,7 +20,18 @@ export const TransferStoreModel = TxStoreModel
   }))
   .views(self => ({
     get receiverAddress() {
-      return self.liker ? self.liker.likeWallet : self.target
+      const addressPrefix = self.env.appConfig.getValue("COSMOS_ADDRESS_PREFIX")
+      if (self.liker) {
+        switch (addressPrefix) {
+          case "like":
+            return self.liker.likeWallet
+
+          case "cosmos":
+          default:
+            return self.liker.cosmosWallet
+        }
+      } 
+      return self.target
     },
   }))
   .actions(self => {
