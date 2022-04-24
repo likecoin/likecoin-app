@@ -1,7 +1,7 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
 import jwt from "jsonwebtoken"
-import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@nwingt/secretd"
+import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@likecoin/secretd-js"
 import {
   AccountData,
   DirectSignResponse,
