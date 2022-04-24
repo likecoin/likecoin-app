@@ -20,7 +20,7 @@ export const TransferStoreModel = TxStoreModel
   }))
   .views(self => ({
     get receiverAddress() {
-      return self.liker ? self.liker.cosmosWallet : self.target
+      return self.liker ? self.liker.likeWallet : self.target
     },
   }))
   .actions(self => {
