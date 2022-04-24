@@ -10,6 +10,7 @@ export interface User {
   email?: string
   avatar?: string
   cosmosWallet?: string
+  likeWallet?: string
   isSubscribedCivicLiker?: boolean
 }
 

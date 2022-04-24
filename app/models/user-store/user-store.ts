@@ -234,7 +234,7 @@ export const UserStoreModel = types
           const cosmosWallet = self.authCore.primaryCosmosAddress
           const authCoreUserId = self.authCore.profile.id
           const primaryPhone = self.authCore.profile.primaryPhone
-          
+
           if (self.shouldTrackUser) {
             /* set branch user id for consistent link data */
             self.env.branchIO.setUserIdentity(likerID)

@@ -159,7 +159,7 @@ export class TransferTargetInputScreen extends React.Component<TransferTargetInp
         if (!liker) {
           throw new Error("TRANSFER_INPUT_TARGET_INVALID")
         }
-        if (!liker.cosmosWallet) {
+        if (!(liker.cosmosWallet || liker.likeWallet)) {
           throw new Error("TRANSFER_TARGET_NO_WALLET")
         }
       }

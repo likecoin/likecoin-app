@@ -61,9 +61,10 @@ export class NotificationScreen extends React.Component<Props, {}> {
       case "transfer":
         const {
           likerID: myID,
-          cosmosWallet: myAddress,
+          cosmosWallet: myCosmosAddress,
+          likeWallet: myLikeAddress,
         } = this.props.userStore.currentUser
-        return [myID, myAddress].includes(item.toTarget)
+        return [myID, myCosmosAddress, myLikeAddress].includes(item.toTarget)
           ? NotificationType.Receive
           : NotificationType.Send
 

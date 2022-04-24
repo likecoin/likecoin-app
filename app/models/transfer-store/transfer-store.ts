@@ -20,7 +20,18 @@ export const TransferStoreModel = TxStoreModel
   }))
   .views(self => ({
     get receiverAddress() {
-      return self.liker ? self.liker.cosmosWallet : self.target
+      const addressPrefix = self.env.appConfig.getValue("COSMOS_ADDRESS_PREFIX")
+      if (self.liker) {
+        switch (addressPrefix) {
+          case "like":
+            return self.liker.likeWallet
+
+          case "cosmos":
+          default:
+            return self.liker.cosmosWallet
+        }
+      } 
+      return self.target
     },
   }))
   .actions(self => {
@@ -33,6 +44,7 @@ export const TransferStoreModel = TxStoreModel
             email,
             avatar: avatarURL,
             cosmosWallet,
+            likeWallet,
           } = result.data
           if (likerID) {
             self.liker = UserModel.create({
@@ -41,6 +53,7 @@ export const TransferStoreModel = TxStoreModel
               email,
               avatarURL,
               cosmosWallet,
+              likeWallet,
             })
           }
           break

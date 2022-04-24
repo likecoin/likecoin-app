@@ -11,6 +11,7 @@ export const UserModel = types
     email: types.maybe(types.string),
     avatarURL: types.maybe(types.string),
     cosmosWallet: types.maybe(types.string),
+    likeWallet: types.maybe(types.string),
     isCivicLiker: types.optional(types.boolean, false),
     isSuperLiker: types.optional(types.boolean, false),
     canSuperLike: types.optional(types.boolean, false),
