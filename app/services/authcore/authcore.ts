@@ -162,17 +162,12 @@ export class AuthCoreAPI {
     if (this.callbacks.unauthorized) this.callbacks.unauthorized(error)
   }
 
-  async getCosmosAddressesAndPubKeys() {
-    let addresses: string[] = []
+  async getPubKeys() {
     let pubKeys: string[] = []
     if (this.cosmosProvider) {
       try {
-        const result = await Promise.all([
-          this.cosmosProvider.getAddresses(),
-          this.cosmosProvider.getPublicKeys()
-        ])
-        addresses = result[0]
-        pubKeys = result[1]
+        const result = await Promise.all([this.cosmosProvider.getPublicKeys()])
+        pubKeys = result[0]
       } catch (error) {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {
@@ -187,32 +182,24 @@ export class AuthCoreAPI {
         }
       }
     }
-    return { addresses, pubKeys }
+    return pubKeys
   }
 
-  async getWalletConnectGetKeyResponse(
-    chainId: string,
-    { name = "" }: { name?: string } = {}
-  ) {
-    const { pubKeys: [pubKey] } = await this.getCosmosAddressesAndPubKeys()
-    
-    const uint8ArrayPubKey = Uint8Array.from(Buffer.from(pubKey, 'base64'))
-    let hash = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(uint8ArrayPubKey)).toString()
-    hash = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString()
-
-    const address = Buffer.from(new Uint8Array(Buffer.from(hash, "hex"))).toString("hex")
-
+  getBech32Address(chainId: string, pubKey: string) {
     let hrp: string
     switch (chainId) {
-      case 'osmosis-1':
+      case "osmosis-1":
         hrp = "osmo"
         break
 
       case "cosmoshub-4":
       case "iscn-dev-chain-2":
       case "likecoin-mainnet-2":
-      case "likecoin-public-testnet-5":
         hrp = "cosmos"
+        break
+
+      case "likecoin-public-testnet-5":
+        hrp = "like"
         break
 
       case "crypto-org-chain-mainnet-1":
@@ -222,7 +209,7 @@ export class AuthCoreAPI {
       case "columbus-5":
         hrp = "luna"
         break
-    
+
       default:
         return undefined
     }
@@ -234,6 +221,27 @@ export class AuthCoreAPI {
       },
       hrp
     )
+
+    return [bech32Address]
+  }
+
+  async getCosmosAddressesAndPubKeys() {
+    const pubKeys = await this.getPubKeys()
+    const addresses = this.getBech32Address(this.cosmosChainId,pubKeys[0])
+    return { addresses, pubKeys }
+  }
+
+  async getWalletConnectGetKeyResponse(
+    chainId: string,
+    { name = "" }: { name?: string } = {}
+  ) {
+    const [pubKey] = await this.getPubKeys()
+    const bech32Address = this.getBech32Address(chainId, pubKey)
+    
+    const uint8ArrayPubKey = Uint8Array.from(Buffer.from(pubKey, 'base64'))
+    let hash = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(uint8ArrayPubKey)).toString()
+    hash = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString()
+    const address = Buffer.from(new Uint8Array(Buffer.from(hash, "hex"))).toString("hex")
 
     return {
       name,
