@@ -222,12 +222,12 @@ export class AuthCoreAPI {
       hrp
     )
 
-    return [bech32Address]
+    return bech32Address
   }
 
   async getCosmosAddressesAndPubKeys() {
     const pubKeys = await this.getPubKeys()
-    const addresses = this.getBech32Address(this.cosmosChainId,pubKeys[0])
+    const addresses = pubKeys.map(pubkey => (this.getBech32Address(this.cosmosChainId,pubkey)))
     return { addresses, pubKeys }
   }
 
