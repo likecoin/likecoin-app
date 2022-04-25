@@ -166,8 +166,7 @@ export class AuthCoreAPI {
     let pubKeys: string[] = []
     if (this.cosmosProvider) {
       try {
-        const result = await Promise.all([this.cosmosProvider.getPublicKeys()])
-        pubKeys = result[0]
+        pubKeys = await this.cosmosProvider.getPublicKeys()
       } catch (error) {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {

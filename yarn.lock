@@ -2158,10 +2158,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@likecoin/secretd-js@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@likecoin/secretd-js/-/secretd-js-0.4.0.tgz#634b824a2a5611536c2c0da095174d1839aab0c3"
-  integrity sha512-c0lhh9fpbF/v1rCTQ0ssMFwPQn8xUebghLEKeLLXmFJ94nBPFBnZ3jOTgtQ4thm6/gfRBooZVQi54UAzgBYr5w==
+"@likecoin/secretd-js@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@likecoin/secretd-js/-/secretd-js-0.4.1.tgz#d7be032c229047af72c734061a370a3e846b95cc"
+  integrity sha512-9RdkNFeEy5MuW13mGEk0AVaFY/2sJ/Me7C8O+FQ5g0RyG2hOKXwG80JrZox7a/1lHJfqAwlayTsW4QZOfiXcZQ==
   dependencies:
     "@babel/runtime-corejs3" "^7.9.2"
     axios "^0.19.0"
