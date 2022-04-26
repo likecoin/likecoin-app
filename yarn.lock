@@ -2158,10 +2158,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@likecoin/secretd-js@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@likecoin/secretd-js/-/secretd-js-0.4.1.tgz#d7be032c229047af72c734061a370a3e846b95cc"
-  integrity sha512-9RdkNFeEy5MuW13mGEk0AVaFY/2sJ/Me7C8O+FQ5g0RyG2hOKXwG80JrZox7a/1lHJfqAwlayTsW4QZOfiXcZQ==
+"@likecoin/secretd-js@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@likecoin/secretd-js/-/secretd-js-0.4.2.tgz#404301287e92a822a97b3a80c66e9b92d8870142"
+  integrity sha512-br5V//zHTl4lxZVJsvn5Du+jkPa+yycbixqWae6DP+qo8y5P2iLAKdJ+XmW0nHminf++4jQc+mqjV8GOJm4atQ==
   dependencies:
     "@babel/runtime-corejs3" "^7.9.2"
     axios "^0.19.0"
@@ -2170,7 +2170,7 @@
     cbor "^5.0.1"
     fast-json-stable-stringify "^2.0.0"
     lodash "^4.17.15"
-    noise-js "https://gitlab.com/blocksq/noise-js.git"
+    noise-js "https://gitlab.com/blocksq/noise-js.git#f2d9e64514aa12c122e9825b41fdb96ef6647ed4"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -11238,7 +11238,7 @@ nofilter@^1.0.3:
   resolved "https://registry.yarnpkg.com/nofilter/-/nofilter-1.0.3.tgz#34e54b4cc9757de0cad38cc0d19462489b1b7f5d"
   integrity sha512-FlUlqwRK6reQCaFLAhMcF+6VkVG2caYjKQY3YsRDTl4/SEch595Qb3oLjJRDr8dkHAAOVj2pOx3VknfnSgkE5g==
 
-"noise-js@git+https://gitlab.com/blocksq/noise-js.git":
+"noise-js@git+https://gitlab.com/blocksq/noise-js.git#f2d9e64514aa12c122e9825b41fdb96ef6647ed4":
   version "0.1.0"
   resolved "git+https://gitlab.com/blocksq/noise-js.git#f2d9e64514aa12c122e9825b41fdb96ef6647ed4"
   dependencies:
