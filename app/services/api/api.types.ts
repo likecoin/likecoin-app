@@ -253,3 +253,13 @@ export type CurrentUserContentSuperLikeStatResult =
     data: UserContentSuperLikeStat
   }
   | GeneralApiProblem
+
+export interface UserAvatarUpdateResponse { 
+  avatar?: string
+}
+export type UserAvatarUpdateResult = 
+  {
+    kind: "ok"
+    data: UserAvatarUpdateResponse
+  }
+  | GeneralApiProblem

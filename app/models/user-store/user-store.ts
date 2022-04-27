@@ -12,6 +12,10 @@ import {
   SnapshotOut,
   types,
 } from "mobx-state-tree"
+import {
+  ImagePickerResponse,
+  launchImageLibrary,
+} from "react-native-image-picker"
 
 import { withEnvironment } from "../extensions"
 import { UserModel } from "../user"
@@ -175,6 +179,33 @@ export const UserStoreModel = types
         self.userAppReferralLink = undefined
         applySnapshot(self.iapStore, {})
         applySnapshot(self.appMeta, {})
+      }
+    }),
+    updateUserAvatar: flow(function * () {
+      const oldAvatarURL = self.currentUser.avatarURL
+      try {
+        const response: ImagePickerResponse = yield launchImageLibrary({
+          mediaType: 'photo',
+        })
+        if (response.didCancel) return
+
+        const [{ uri, fileName: name, type }] = response.assets
+        self.currentUser.avatarURL = uri
+        const result: GeneralResult = yield self.env.likeCoAPI.updateAvatar({
+          uri,
+          name,
+          type,
+        })
+        switch (result.kind) {
+          case "ok": {
+            break
+          }
+          default:
+            throwProblem(result)
+        }
+      } catch (error) {
+        logError(error)
+        self.currentUser.avatarURL = oldAvatarURL
       }
     }),
     updateUserFromResultData(data: User) {

@@ -13091,6 +13091,11 @@ react-native-iap@^4.6.3:
   dependencies:
     dooboolab-welcome "^1.2.0"
 
+react-native-image-picker@^4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.7.3.tgz#f5863b27bf2e76c83649dd8efea4598426bd04e8"
+  integrity sha512-eRKm4wlsmZHmsWFyv77kYc2F+ZyEVqe0m7mqhsMzWk6TQT4FBDtEDxmRDDFq+ivCu/1QD+EPhmYcAIpeGr7Ekg==
+
 react-native-image-sequence@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-image-sequence/-/react-native-image-sequence-0.7.0.tgz#f71c6bfb14a39d46cc9049611c35da23dc9f3c03"

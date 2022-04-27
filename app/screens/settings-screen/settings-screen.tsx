@@ -1,5 +1,6 @@
 import * as React from "react"
-import { inject } from "mobx-react"
+import { TouchableOpacity } from "react-native"
+import { inject, observer } from "mobx-react"
 import { NavigationTabScreenProps } from "react-navigation-tabs"
 import styled, { useTheme } from "styled-components/native"
 
@@ -106,6 +107,7 @@ export interface SettingsScreenProps extends NavigationTabScreenProps<{}> {
   "userStore",
   "experimentalFeatureStore",
 )
+@observer
 export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressProfileSettings = () => {
     this.props.navigation.navigate("ProfileSettings")
@@ -163,11 +165,13 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
         />
         <ScrollView>
           <ScrollContentView>
-            <Avatar
-              size={94}
-              src={user.avatarURL}
-              isCivicLiker={user.isCivicLiker}
-            />
+            <TouchableOpacity onPress={this.props.userStore.updateUserAvatar}>
+              <Avatar
+                size={94}
+                src={user.avatarURL}
+                isCivicLiker={user.isCivicLiker}
+              />
+            </TouchableOpacity>
 
             <LanguageTableViewCell
               titleTx="settingsScreen.Panel.Settings.Language"

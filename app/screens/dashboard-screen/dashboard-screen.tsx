@@ -91,7 +91,7 @@ export class DashboardScreen extends React.Component<DashboardScreenProps, {}> {
   renderHeader() {
     return (
       <ExtendedView backgroundColor={color.primary}>
-        <DashboardUserInfoPanel />
+        <DashboardUserInfoPanel onAvatarUpload={this.props.userStore.updateUserAvatar} />
       </ExtendedView>
     )
   }
