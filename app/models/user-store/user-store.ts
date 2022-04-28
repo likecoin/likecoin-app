@@ -187,7 +187,7 @@ export const UserStoreModel = types
         const response: ImagePickerResponse = yield launchImageLibrary({
           mediaType: 'photo',
         })
-        if (response.didCancel) return
+        if (response.didCancel || response.errorCode) return
 
         const [{ uri, fileName: name, type }] = response.assets
         self.currentUser.avatarURL = uri
