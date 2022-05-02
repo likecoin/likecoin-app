@@ -248,9 +248,8 @@ export class AuthCoreAPI {
     const bech32Address = this.getBech32Address(chainId, pubKey)
     
     const uint8ArrayPubKey = Uint8Array.from(Buffer.from(pubKey, 'base64'))
-    let hash = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(uint8ArrayPubKey)).toString()
-    hash = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString()
-    const address = Buffer.from(new Uint8Array(Buffer.from(hash, "hex"))).toString("hex")
+    const hash = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(uint8ArrayPubKey as any)).toString()
+    const address = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString()
 
     return {
       name,
