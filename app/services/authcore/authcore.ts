@@ -79,16 +79,22 @@ export class AuthCoreAPI {
   cosmosProvider: AuthcoreCosmosProvider
 
   /**
-   * The chain ID for cosmos
+   * The chain ID for cosmos.
    */
   cosmosChainId = ""
+
+
+  /**
+   * The address prefix.
+   */
+  cosmosAddressPrefix = ""
 
   /**
    * Callback function if error occurs
    */
   callbacks: AuthCoreCallback = {}
 
-  setup(baseURL: string, cosmosChainId: string) {
+  setup(baseURL: string, cosmosChainId: string, cosmosAddressPrefix: string) {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
@@ -101,6 +107,7 @@ export class AuthCoreAPI {
       dangerColour: color.palette.angry,
     })
     this.cosmosChainId = cosmosChainId
+    this.cosmosAddressPrefix = cosmosAddressPrefix
   }
 
   async setupModules(refreshToken: string, accessToken?: string) {
@@ -193,8 +200,11 @@ export class AuthCoreAPI {
 
       case "cosmoshub-4":
       case "iscn-dev-chain-2":
-      case "likecoin-mainnet-2":
         hrp = "cosmos"
+        break
+        
+      case "likecoin-mainnet-2":
+        hrp = this.cosmosAddressPrefix
         break
 
       case "likecoin-public-testnet-5":
