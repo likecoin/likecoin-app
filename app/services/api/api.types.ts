@@ -10,6 +10,7 @@ export interface User {
   email?: string
   avatar?: string
   cosmosWallet?: string
+  likeWallet?: string
   isSubscribedCivicLiker?: boolean
 }
 
@@ -250,5 +251,15 @@ export type CurrentUserContentSuperLikeStatResult =
   | {
     kind: "ok"
     data: UserContentSuperLikeStat
+  }
+  | GeneralApiProblem
+
+export interface UserAvatarUpdateResponse { 
+  avatar?: string
+}
+export type UserAvatarUpdateResult = 
+  {
+    kind: "ok"
+    data: UserAvatarUpdateResponse
   }
   | GeneralApiProblem

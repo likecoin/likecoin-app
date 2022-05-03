@@ -34,6 +34,7 @@ export class Environment {
       AUTHCORE_ROOT_URL,
       COSMOS_LCD_URL,
       COSMOS_CHAIN_ID,
+      COSMOS_ADDRESS_PREFIX,
       LIKECO_API_URL,
       LIKECOIN_API_URL,
       LIKERLAND_API_URL,
@@ -44,7 +45,7 @@ export class Environment {
     if (SENTRY_DSN) {
       initSentry(SENTRY_DSN, SENTRY_ENV)
     }
-    this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID)
+    this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID, COSMOS_ADDRESS_PREFIX)
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likeCoinAPI.setup(LIKECOIN_API_URL)
     this.likerLandAPI.setup(LIKERLAND_API_URL)

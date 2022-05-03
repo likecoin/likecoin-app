@@ -1,4 +1,5 @@
 import * as React from "react"
+import { TouchableOpacity } from "react-native"
 import { inject, observer } from "mobx-react"
 import styled from "styled-components/native"
 
@@ -32,6 +33,7 @@ const DisplayNameLabel = styled(Text)`
 
 export interface DashboardUserInfoPanelProps {
   userStore?: UserStore
+  onAvatarUpload?: () => {} 
 }
 
 @inject(
@@ -47,10 +49,12 @@ export class DashboardUserInfoPanel extends React.Component<
     if (!user) return null
     return (
       <RootView>
-        <Avatar
-          src={user.avatarURL}
-          isCivicLiker={user.isCivicLiker}
-        />
+        <TouchableOpacity onPress={this.props.onAvatarUpload}>
+          <Avatar
+            src={user.avatarURL}
+            isCivicLiker={user.isCivicLiker}
+          />
+        </TouchableOpacity>
         <ContentView>
           <LikerIDLabel
             text={`Liker ID: ${user.likerID}`}

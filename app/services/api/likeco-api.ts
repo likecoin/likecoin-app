@@ -115,6 +115,31 @@ export class LikeCoAPI {
   }
 
   /**
+   * Update current user avatar
+   */
+  async updateAvatar(file: { 
+    uri: string;
+    name: string;
+    type: string;
+  }): Promise<Types.UserAvatarUpdateResult> {
+    const data = new FormData();
+    data.append('avatarFile', file);
+
+    const response: ApiResponse<Types.UserAvatarUpdateResponse> =
+      await this.apisauce.post("/users/update/avatar", data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return {
+      kind: "ok",
+      data: response.data,
+    }
+  }
+
+  /**
    * Fetch content info
    */
   async fetchContentInfo(url: string): Promise<Types.ContentResult> {

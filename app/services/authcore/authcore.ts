@@ -1,7 +1,7 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
 import jwt from "jsonwebtoken"
-import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@nwingt/secretd"
+import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@likecoin/secretd-js"
 import {
   AccountData,
   DirectSignResponse,
@@ -79,16 +79,22 @@ export class AuthCoreAPI {
   cosmosProvider: AuthcoreCosmosProvider
 
   /**
-   * The chain ID for cosmos
+   * The chain ID for cosmos.
    */
   cosmosChainId = ""
+
+
+  /**
+   * The address prefix.
+   */
+  cosmosAddressPrefix = ""
 
   /**
    * Callback function if error occurs
    */
   callbacks: AuthCoreCallback = {}
 
-  setup(baseURL: string, cosmosChainId: string) {
+  setup(baseURL: string, cosmosChainId: string, cosmosAddressPrefix: string) {
     this.baseURL = baseURL
     this.client = new AuthCore({
       baseUrl: baseURL,
@@ -101,6 +107,7 @@ export class AuthCoreAPI {
       dangerColour: color.palette.angry,
     })
     this.cosmosChainId = cosmosChainId
+    this.cosmosAddressPrefix = cosmosAddressPrefix
   }
 
   async setupModules(refreshToken: string, accessToken?: string) {
@@ -162,17 +169,11 @@ export class AuthCoreAPI {
     if (this.callbacks.unauthorized) this.callbacks.unauthorized(error)
   }
 
-  async getCosmosAddressesAndPubKeys() {
-    let addresses: string[] = []
+  async getPubKeys() {
     let pubKeys: string[] = []
     if (this.cosmosProvider) {
       try {
-        const result = await Promise.all([
-          this.cosmosProvider.getAddresses(),
-          this.cosmosProvider.getPublicKeys()
-        ])
-        addresses = result[0]
-        pubKeys = result[1]
+        pubKeys = await this.cosmosProvider.getPublicKeys()
       } catch (error) {
         const statusCode = error.response ? error.response.status : error.status
         switch (statusCode) {
@@ -187,32 +188,27 @@ export class AuthCoreAPI {
         }
       }
     }
-    return { addresses, pubKeys }
+    return pubKeys
   }
 
-  async getWalletConnectGetKeyResponse(
-    chainId: string,
-    { name = "" }: { name?: string } = {}
-  ) {
-    const { pubKeys: [pubKey] } = await this.getCosmosAddressesAndPubKeys()
-    
-    const uint8ArrayPubKey = Uint8Array.from(Buffer.from(pubKey, 'base64'))
-    let hash = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(uint8ArrayPubKey)).toString()
-    hash = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString()
-
-    const address = Buffer.from(new Uint8Array(Buffer.from(hash, "hex"))).toString("hex")
-
+  getBech32Address(chainId: string, pubKey: string) {
     let hrp: string
     switch (chainId) {
-      case 'osmosis-1':
+      case "osmosis-1":
         hrp = "osmo"
         break
 
       case "cosmoshub-4":
       case "iscn-dev-chain-2":
-      case "likecoin-mainnet-2":
-      case "likecoin-public-testnet-5":
         hrp = "cosmos"
+        break
+        
+      case "likecoin-mainnet-2":
+        hrp = this.cosmosAddressPrefix
+        break
+
+      case "likecoin-public-testnet-5":
+        hrp = "like"
         break
 
       case "crypto-org-chain-mainnet-1":
@@ -222,7 +218,7 @@ export class AuthCoreAPI {
       case "columbus-5":
         hrp = "luna"
         break
-    
+
       default:
         return undefined
     }
@@ -234,6 +230,26 @@ export class AuthCoreAPI {
       },
       hrp
     )
+
+    return bech32Address
+  }
+
+  async getCosmosAddressesAndPubKeys() {
+    const pubKeys = await this.getPubKeys()
+    const addresses = pubKeys.map(pubkey => (this.getBech32Address(this.cosmosChainId,pubkey)))
+    return { addresses, pubKeys }
+  }
+
+  async getWalletConnectGetKeyResponse(
+    chainId: string,
+    { name = "" }: { name?: string } = {}
+  ) {
+    const [pubKey] = await this.getPubKeys()
+    const bech32Address = this.getBech32Address(chainId, pubKey)
+    
+    const uint8ArrayPubKey = Uint8Array.from(Buffer.from(pubKey, 'base64'))
+    const hash = CryptoJS.SHA256(CryptoJS.lib.WordArray.create(uint8ArrayPubKey as any)).toString()
+    const address = CryptoJS.RIPEMD160(CryptoJS.enc.Hex.parse(hash)).toString()
 
     return {
       name,

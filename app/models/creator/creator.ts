@@ -51,11 +51,13 @@ export const CreatorModel = UserModel.named("Creator")
                 displayName,
                 avatar: avatarURL,
                 cosmosWallet,
+                likeWallet,
                 isSubscribedCivicLiker,
               } = result.data
               self.displayName = displayName
               self.avatarURL = avatarURL
               self.cosmosWallet = cosmosWallet
+              self.likeWallet = likeWallet
               self.isCivicLiker = isSubscribedCivicLiker
               break
             }
