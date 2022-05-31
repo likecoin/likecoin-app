@@ -18449,7 +18449,7 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                   >
                     <View
                       accessible={true}
-                      clickable={false}
+                      clickable={true}
                       isTVSelectable={true}
                       onClick={[Function]}
                       onResponderGrant={[Function]}

@@ -21,9 +21,9 @@ export const WalletConnectStoreModel = types
     },
   }))
   .actions(self => ({
-    handleNewSessionRequest(uri: string) {
+    handleNewSessionRequest(uri: string, opts?: { isMobile?: boolean }) {
       const client = WalletConnectClientModel.create({})
-      client.createSession(uri)
+      client.createSession(uri, opts)
       self.clients.push(client)
     },
     afterCreate() {

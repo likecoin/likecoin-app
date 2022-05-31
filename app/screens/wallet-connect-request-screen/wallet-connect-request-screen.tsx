@@ -48,13 +48,13 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
   }
 
   private approveRequest = async () => {
-    this.requestor.approveRequest(this.payload)
     this.close()
+    await this.requestor.approveRequest(this.payload)
   }
 
   private rejectRequest = async () => {
-    this.requestor.rejectRequest(this.payload)
     this.close()
+    this.requestor.rejectRequest(this.payload)
   }
 
   private close = () => {
