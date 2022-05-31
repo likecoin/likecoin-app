@@ -133,6 +133,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     logAnalyticsEvent("SettingsClickFollowSettings")
   }
 
+  private onPressBookmarkScreen = () => {
+    this.props.navigation.navigate("Bookmark")
+    logAnalyticsEvent("SettingsClickBookmark")
+  }
+
   private onPressRateApp = () => {
     this.props.userStore.rateApp()
     logAnalyticsEvent("SettingsClickRateApp")
@@ -191,6 +196,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               <TableViewCell
                 titleTx="settingsScreen.Panel.Settings.ContentJockey"
                 onPress={this.onPressFollowSettings}
+              />
+              <TableViewCell
+                titleTx="settings_screen_bookmark"
+                onPress={this.onPressBookmarkScreen}
               />
               {this.props.experimentalFeatureStore.shouldWalletConnectEnabled &&
                 <TableViewCell

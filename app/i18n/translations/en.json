@@ -352,8 +352,9 @@
     "termsOfUse": "Terms of Use",
     "title": "Settings"
   },
-  "settings_screen_walletConnect": "WalletConnect",
+  "settings_screen_bookmark": "Bookmarks",
   "settings_screen_experimental_features": "Experimental Features",
+  "settings_screen_walletConnect": "WalletConnect",
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
