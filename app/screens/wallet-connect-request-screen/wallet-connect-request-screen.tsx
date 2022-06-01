@@ -12,7 +12,7 @@ import { WalletConnectStore } from "../../models/wallet-connect-store"
 import { color } from "../../theme"
 
 const RootView = styled(Screen)`
-  flex: 1;
+  flex-grow: 1;
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 

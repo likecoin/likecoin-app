@@ -9,8 +9,13 @@ storiesOf("WalletConnectSessionRequestView", module)
   .addDecorator(fn => <StoryScreen>{fn()}</StoryScreen>)
   .add("Style Presets", () => (
     <Story>
-      <UseCase text="Primary" usage="The primary.">
+      <UseCase text="Primary">
         <WalletConnectSessionRequestView />
+      </UseCase>
+      <UseCase text="Long Payload">
+        <WalletConnectSessionRequestView
+          payload={{ params: [new Array(100).fill('A')] }}
+        />
       </UseCase>
     </Story>
   ))

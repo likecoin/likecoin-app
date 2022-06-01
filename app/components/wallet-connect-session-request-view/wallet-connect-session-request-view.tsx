@@ -74,7 +74,10 @@ const ApproveButtonWrapper = styled(ActionButtonWrapper)`
 `
 
 export interface WalletConnectRequestData {
-  payload?: any
+  payload?: {
+    method?: string
+    params?: any[]
+  }
 
   peerMeta?: any
 }
