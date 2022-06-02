@@ -18246,17 +18246,6 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                   Primary
                 </Text>
               </View>
-              <Text
-                style={
-                  Object {
-                    "color": "#666",
-                    "fontSize": 10,
-                    "paddingTop": 0,
-                  }
-                }
-              >
-                The primary.
-              </Text>
             </View>
             <View
               style={
@@ -18449,7 +18438,403 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                   >
                     <View
                       accessible={true}
+                      clickable={true}
+                      isTVSelectable={true}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#aaf1e7",
+                          "borderRadius": 12,
+                          "flexDirection": "row",
+                          "justifyContent": "center",
+                          "minHeight": 44,
+                          "minWidth": 44,
+                          "opacity": 1,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#28646e",
+                            "fontFamily": "System",
+                            "fontSize": 14,
+                            "fontWeight": "bold",
+                            "paddingHorizontal": 8,
+                          }
+                        }
+                      >
+                        walletConnectRequestView_button_approve.test
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#eee",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#e6e6e6",
+                  "borderBottomWidth": 1,
+                  "paddingBottom": 10,
+                  "paddingHorizontal": 10,
+                  "paddingTop": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "borderTopColor": "#e6e6e6",
+                    "borderTopWidth": 1,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 10,
+                      "paddingBottom": 2,
+                      "paddingHorizontal": 4,
+                    }
+                  }
+                >
+                  Use Case
+                </Text>
+              </View>
+              <View
+                style={Object {}}
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#3d3d3d",
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  Long Payload
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "padding": 10,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "justifyContent": "center",
+                      "paddingBottom": 24,
+                      "paddingLeft": 24,
+                      "paddingRight": 24,
+                      "paddingTop": 24,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flexBasis": 0,
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    preset="raised"
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#ffffff",
+                          "borderRadius": 14,
+                          "elevation": 6,
+                          "shadowColor": "#1d1d1d",
+                          "shadowOffset": Object {
+                            "height": 3,
+                            "width": 0,
+                          },
+                          "shadowOpacity": 0.27,
+                          "shadowRadius": 4.65,
+                        },
+                        Array [
+                          Object {
+                            "alignItems": "center",
+                            "justifyContent": "center",
+                            "paddingBottom": 24,
+                            "paddingLeft": 24,
+                            "paddingRight": 24,
+                            "paddingTop": 24,
+                          },
+                        ],
+                      ]
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#28646e",
+                          "fontFamily": "System",
+                          "fontSize": 32,
+                          "marginTop": 4,
+                        }
+                      }
+                    />
+                    <Text
+                      style={
+                        Object {
+                          "color": "#4a4a4a",
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                          "marginTop": 24,
+                        }
+                      }
+                    >
+                      walletConnectRequestView_label_description_unknown.test
+                    </Text>
+                    <TextInput
+                      autoFocus={false}
+                      editable={false}
+                      multiline={true}
+                      numberOfLines={10}
+                      scrollEnabled={false}
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#f2f2f2",
+                            "borderRadius": 14,
+                            "fontFamily": "Courier",
+                            "fontSize": 10,
+                            "marginTop": 16,
+                            "paddingBottom": 12,
+                            "paddingLeft": 12,
+                            "paddingRight": 12,
+                            "paddingTop": 12,
+                            "width": "100%",
+                          },
+                          Object {
+                            "borderBottomLeftRadius": 14,
+                            "borderBottomRightRadius": 14,
+                            "paddingBottom": 14,
+                          },
+                        ]
+                      }
+                      value="{
+  \\"params\\": [
+    [
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\",
+      \\"A\\"
+    ]
+  ]
+}"
+                    />
+                  </View>
+                </View>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flexDirection": "row",
+                        "marginTop": 24,
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "paddingRight": 8,
+                          "width": "50%",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      accessible={true}
                       clickable={false}
+                      isTVSelectable={true}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "transparent",
+                          "borderColor": "#aaf1e7",
+                          "borderRadius": 12,
+                          "borderWidth": 1,
+                          "flexDirection": "row",
+                          "justifyContent": "center",
+                          "minHeight": 44,
+                          "minWidth": 44,
+                          "opacity": 1,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#aaf1e7",
+                            "fontFamily": "System",
+                            "fontSize": 14,
+                            "fontWeight": "bold",
+                            "paddingHorizontal": 8,
+                          }
+                        }
+                      >
+                        walletConnectRequestView_button_reject.test
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "paddingLeft": 8,
+                          "width": "50%",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      accessible={true}
+                      clickable={true}
                       isTVSelectable={true}
                       onClick={[Function]}
                       onResponderGrant={[Function]}

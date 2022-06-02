@@ -1,5 +1,6 @@
 import * as React from "react"
-import { ViewStyle } from "react-native"
+import { Alert, Platform, ViewStyle } from "react-native"
+import RNExitApp from "react-native-exit-app"
 import styled from "styled-components/native"
 
 import { translate } from "../../i18n"
@@ -73,13 +74,16 @@ const ApproveButtonWrapper = styled(ActionButtonWrapper)`
 `
 
 export interface WalletConnectRequestData {
-  payload?: any
+  payload?: {
+    method?: string
+    params?: any[]
+  }
 
   peerMeta?: any
 }
 
 export interface WalletConnectSessionRequestViewProps extends WalletConnectRequestData {
-  onApprove?: () => void
+  onApprove?: () => Promise<void>
 
   onReject?: () => void
 
@@ -187,6 +191,33 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
     }
   }, [payload, peerMeta])
 
+  async function onPressApprove() {
+    if (props.onApprove) await props.onApprove()
+    if (
+      payload.method === 'cosmos_signAmino'
+      && payload.params[2]?.memo.includes('Login - Reinventing the Like')
+    ) {
+      Alert.alert(
+        translate("walletConnectRequestScreen_title"),
+        translate(
+          Platform.OS === 'android'
+            ? "walletConnectRequestView_label_description_login_back_android" 
+            : "walletConnectRequestView_label_description_login_back" 
+        ),
+        [
+          {
+            text: translate("common.confirm"),
+            onPress: () => {
+              if (Platform.OS === 'android') {
+                RNExitApp.exitApp()
+              }
+            },
+          },
+        ]
+      )
+    }
+  }
+
   return (
     <RootView style={style}>
       <RequestContentView>
@@ -217,7 +248,7 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
           <Button
             preset="primary"
             tx="walletConnectRequestView_button_approve"
-            onPress={props.onApprove}
+            onPress={onPressApprove}
           />
         </ApproveButtonWrapper>
       </RequestActionsContainer>

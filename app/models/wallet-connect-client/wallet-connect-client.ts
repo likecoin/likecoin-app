@@ -48,6 +48,7 @@ export const WalletConnectClientModel = types
     serializedSession: types.optional(types.string, ""),
   })
   .volatile(() => ({
+    isMobile: false,
     connector: undefined as WalletConnect,
   }))
   .extend(withEnvironment)
@@ -131,8 +132,14 @@ export const WalletConnectClientModel = types
     },
   }))
   .actions(self => ({
-    createSession(uri: string) {
+    createSession(
+      uri: string,
+      {
+        isMobile = false
+      }: { isMobile?: boolean } = {},
+    ) {
       self.connect({ uri })
+      self.isMobile = isMobile
       self.connector.on("session_request", self.handleNewSessionRequest)
     },
     restoreSession() {

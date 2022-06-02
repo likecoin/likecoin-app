@@ -10,6 +10,7 @@ import {
   withCurrentUser,
   withEnvironment,
   withNavigationStore,
+  withWalletConnectStore,
 } from "../extensions"
 import { SuperLikeModel } from "../super-like"
 
@@ -28,6 +29,7 @@ const BaseModel = types
   .extend(withCreatorsStore)
   .extend(withContentsStore)
   .extend(withCurrentUser)
+  .extend(withWalletConnectStore)
   .extend(withEnvironment)
   .extend(withNavigationStore)
   .actions(self => {
@@ -136,6 +138,11 @@ const BaseModel = types
                   content: self.createContentFromURL(url),
                 },
               })
+            }
+          } else if (url.includes('wcV1?')) {
+            const [, walletConnectURI = ''] = url.split('wcV1?')
+            if (walletConnectURI) {
+              self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
             }
           }
         }
