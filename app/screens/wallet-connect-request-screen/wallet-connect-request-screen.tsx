@@ -10,10 +10,24 @@ import { WalletConnectSessionRequestView } from "../../components/wallet-connect
 import { WalletConnectStore } from "../../models/wallet-connect-store"
 
 import { color } from "../../theme"
+import { LoadingLikeCoin } from "../../components/loading-likecoin"
+import { Button } from "../../components/button"
 
 const RootView = styled(Screen)`
   flex-grow: 1;
   background-color: ${({ theme }) => theme.color.background.feature.primary};
+`
+
+const LoadingView = styled.View`
+  flex-grow: 1;
+  align-items: stretch;
+  padding: ${({ theme }) => theme.spacing.lg};
+`
+
+const LoadingLikeCoinWrapper = styled.View`
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
 `
 
 const HeaderText = styled(Text)`
@@ -63,7 +77,18 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
 
   private renderRequestView() {
     if (!this.payload) {
-      return null
+      return (
+        <LoadingView>
+          <LoadingLikeCoinWrapper>
+            <LoadingLikeCoin />
+          </LoadingLikeCoinWrapper>
+          <Button
+            preset="outlined"
+            tx="walletConnectRequestView_button_reject"
+            onPress={this.close}
+          />
+        </LoadingView>
+      )
     }
 
     return (

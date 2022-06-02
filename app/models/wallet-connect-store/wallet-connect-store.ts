@@ -1,5 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { withExperimentalFeatures } from "../extensions"
+import { NavigationActions } from "react-navigation"
+import { withExperimentalFeatures, withNavigationStore } from "../extensions"
 
 import { WalletConnectClientModel } from "../wallet-connect-client"
 
@@ -12,6 +13,7 @@ export const WalletConnectStoreModel = types
     clients: types.array(WalletConnectClientModel),
   })
   .extend(withExperimentalFeatures)
+  .extend(withNavigationStore)
   .views(self => ({
     getClient(peerId: string) {
       return self.clients.find(client => client.connector.peerId === peerId)
@@ -22,6 +24,13 @@ export const WalletConnectStoreModel = types
   }))
   .actions(self => ({
     handleNewSessionRequest(uri: string, opts?: { isMobile?: boolean }) {
+      // Show WalletConnect Modal for loading UX
+      self.navigationStore.navigateTo({
+        routeName: "App",
+        action: NavigationActions.navigate({
+          routeName: "WalletConnect",
+        }),
+      })
       const client = WalletConnectClientModel.create({})
       client.createSession(uri, opts)
       self.clients.push(client)
