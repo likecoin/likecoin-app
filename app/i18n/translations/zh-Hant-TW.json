@@ -297,8 +297,9 @@
       "Creator": "回饋作者"
     }
   },
-  "settings_screen_walletConnect": "WalletConnect",
+  "settings_screen_bookmark": "閱讀列表",
   "settings_screen_experimental_features": "試用新功能",
+  "settings_screen_walletConnect": "WalletConnect",
   "settingsScreen": {
     "contactUs": "聯絡我們",
     "openSourceLicense": "開源授權",

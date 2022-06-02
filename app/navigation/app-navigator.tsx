@@ -5,7 +5,6 @@ import {
   BottomTabBar,
 } from "react-navigation-tabs"
 
-import { BookmarksNavigator } from "./bookmarks-navigator"
 import { DashboardNavigator } from "./dashboard-navigator"
 import { SettingsNavigator } from "./settings-navigator"
 import { StakingDelegationNavigator } from "./staking-delegation-navigator"
@@ -30,7 +29,6 @@ import { color } from "../theme"
 const MainTabs = createBottomTabNavigator({
   Dashboard: DashboardNavigator,
   Reader: ReaderScreen,
-  Bookmark: BookmarksNavigator,
   // Notification: NotificationScreen,
   Settings: SettingsNavigator,
 }, {

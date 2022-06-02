@@ -49,6 +49,10 @@ class BookmarkScreenBase extends React.Component<Props> {
     logAnalyticsEvent("BookmarkListClickArchivesList")
   }
 
+  private onPressBackButton = () => {
+    this.props.navigation.popToTop()
+  }
+
   private renderHeader = () => {
     return (
       <Header
@@ -61,6 +65,8 @@ class BookmarkScreenBase extends React.Component<Props> {
             onPress={this.onPressArchivesListButton}
           />
         }
+        leftIcon="back"
+        onLeftPress={this.onPressBackButton}
         style={Style.Header}
       >
         <View style={Style.HeaderMiddleView}>
