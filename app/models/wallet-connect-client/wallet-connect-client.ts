@@ -2,6 +2,7 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import WalletConnect from "@walletconnect/client"
 import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx"
 import { DirectSignResponse } from "@cosmjs/proto-signing"
+import stringify from "fast-json-stable-stringify";
 
 import { withCurrentUser, withEnvironment, withNavigationStore } from "../extensions"
 import { NavigationActions } from "react-navigation"
@@ -238,6 +239,48 @@ export const WalletConnectClientModel = types
               result = {
                 signed: SignDoc.toJSON(res.signed),
                 signature: res.signature,
+              }
+            } catch (error) {
+              logError(error)
+            }
+            break
+          }
+
+          case "likerId_login": {
+            try {
+              const [chainId, loginMessage] = payload.params
+              const { bech32Address }: { bech32Address: string } = yield self.env.authCoreAPI.getWalletConnectGetKeyResponse(
+                chainId,
+                { name: self.currentUser.likerID }
+              )
+              const ts = Date.now();
+              let memo = JSON.stringify({
+                ts,
+                likeWallet: bech32Address,
+              })
+              memo = [`${loginMessage}:`, memo].join(' ');
+              const {
+                signed: message,
+                signature: { signature, pub_key: publicKey },
+              }: {
+                signed: any,
+                signature: any,
+              } = yield self.env.authCoreAPI.signAmino({
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                chain_id: chainId,
+                memo,
+                msgs: [],
+                fee: { gas: '1', amount: [{ denom: 'nanolike', amount: '0' }] },
+                sequence: '0',
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                account_number: '0',
+              }, bech32Address);
+              result = {
+                signature,
+                publicKey: publicKey.value,
+                message: stringify(message),
+                from: bech32Address,
+                platform: 'likeWallet',
               }
             } catch (error) {
               logError(error)
