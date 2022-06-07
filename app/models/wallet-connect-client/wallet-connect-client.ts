@@ -1,11 +1,11 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import WalletConnect from "@walletconnect/client"
 import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx"
+import { DirectSignResponse } from "@cosmjs/proto-signing"
 
 import { withCurrentUser, withEnvironment, withNavigationStore } from "../extensions"
 import { NavigationActions } from "react-navigation"
 import { logError } from "../../utils/error"
-import { DirectSignResponse } from "@cosmjs/proto-signing"
 
 export interface WalletConnectClientMeta {
   description: string
@@ -80,29 +80,6 @@ export const WalletConnectClientModel = types
         logError(error)
       }
     }),
-  }))
-  .actions(self => ({
-    handleNewSessionRequest(
-      error: Error | null,
-      payload: any | null,
-    ) {
-      if (error) {
-        throw error
-      }
-
-      const { peerId, peerMeta } = payload.params[0]
-      self.navigationStore.navigateTo({
-        routeName: "App",
-        action: NavigationActions.navigate({
-          routeName: "WalletConnect",
-          params: {
-            peerId,
-            peerMeta,
-            payload,
-          },
-        }),
-      })
-    },
     handleNewCallRequest(
       error: Error | null,
       payload: any | null,
@@ -132,24 +109,19 @@ export const WalletConnectClientModel = types
     },
   }))
   .actions(self => ({
-    createSession(
-      uri: string,
-      {
-        isMobile = false
-      }: { isMobile?: boolean } = {},
-    ) {
-      self.connect({ uri })
-      self.isMobile = isMobile
-      self.connector.on("session_request", self.handleNewSessionRequest)
+    listenToRequests() {
+      self.connector.on("call_request", self.handleNewCallRequest)
+      self.connector.on("disconnect", self.handleDisconnect)
     },
+  }))
+  .actions(self => ({
     restoreSession() {
       const session: WalletConnectSession = JSON.parse(self.serializedSession)
       self.connect({ session })
 
-      self.connector.on("call_request", self.handleNewCallRequest)
-      self.connector.on("disconnect", self.handleDisconnect)
+      self.listenToRequests()
     },
-    approveSession() {
+    approveSessionRequest() {
       self.connector.approveSession({
         // Unfortunately, WalletConnect 1.0 cannot deliver the chain IDs in the form we want,
         // so we temporarily set the chain ID to 99999 and send it.
@@ -163,12 +135,36 @@ export const WalletConnectClientModel = types
 
       self.serializedSession = JSON.stringify(self.connector.session)
 
-      self.connector.on("call_request", self.handleNewCallRequest)
-      self.connector.on("disconnect", self.handleDisconnect)
+      self.listenToRequests()
     },
-    rejectSession() {
+    rejectSessionRequest() {
       self.connector.rejectSession()
     },
+  }))
+  .actions(self => ({
+    handleNewSessionRequest(
+      error: Error | null,
+    ) {
+      if (error) {
+        throw error
+      }
+      // Approve session request directly without user's interaction
+      self.approveSessionRequest()
+    },
+  }))
+  .actions(self => ({
+    createSession(
+      uri: string,
+      {
+        isMobile = false
+      }: { isMobile?: boolean } = {},
+    ) {
+      self.connect({ uri })
+      self.isMobile = isMobile
+      self.connector.on("session_request", self.handleNewSessionRequest)
+    },
+  }))
+  .actions(self => ({
     approveCallRequest(response: {
       id: number
       result: any
@@ -185,7 +181,7 @@ export const WalletConnectClientModel = types
   .actions(self => ({
     rejectRequest(payload: any) {
       if (isSessionRequest(payload.method)) {
-        self.rejectSession()
+        self.rejectSessionRequest()
       } else {
         self.rejectCallRequest({
           id: payload.id,
@@ -269,7 +265,7 @@ export const WalletConnectClientModel = types
   .actions(self => ({
     approveRequest: flow(function * (payload: any) {
       if (isSessionRequest(payload.method)) {
-        self.approveSession()
+        self.approveSessionRequest()
       } else {
         yield self.handleCallRequestApproval(payload)
       }
