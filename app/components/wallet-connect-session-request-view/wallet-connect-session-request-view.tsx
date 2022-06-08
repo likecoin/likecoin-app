@@ -194,8 +194,11 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
   async function onPressApprove() {
     if (props.onApprove) await props.onApprove()
     if (
-      payload.method === 'cosmos_signAmino'
-      && payload.params[2]?.memo.includes('Login - Reinventing the Like')
+      payload.method === 'likerId_login'
+      || (
+        payload.method === 'cosmos_signAmino'
+        && payload.params[2]?.memo.includes('Login - Reinventing the Like')
+      )
     ) {
       Alert.alert(
         translate("walletConnectRequestScreen_title"),
