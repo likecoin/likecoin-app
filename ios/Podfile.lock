@@ -30,12 +30,6 @@ PODS:
   - Firebase/Crashlytics (7.1.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 7.1.0)
-  - Firebase/DynamicLinks (7.1.0):
-    - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 7.1.0)
-  - Firebase/Performance (7.1.0):
-    - Firebase/CoreOnly
-    - FirebasePerformance (~> 7.1.0)
   - Firebase/RemoteConfig (7.1.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 7.1.0)
@@ -65,25 +59,11 @@ PODS:
     - GoogleDataTransport (~> 8.0)
     - nanopb (~> 2.30906.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseDynamicLinks (7.1.0):
-    - FirebaseCore (~> 7.0)
   - FirebaseInstallations (7.9.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - FirebasePerformance (7.1.0):
-    - FirebaseCore (~> 7.0)
-    - FirebaseInstallations (~> 7.0)
-    - FirebaseRemoteConfig (~> 7.0)
-    - GoogleDataTransport (~> 8.0)
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - GoogleUtilities/Environment (~> 7.0)
-    - GoogleUtilities/ISASwizzler (~> 7.0)
-    - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-    - Protobuf (~> 3.12)
   - FirebaseRemoteConfig (7.1.0):
     - FirebaseABTesting (~> 7.0)
     - FirebaseCore (~> 7.0)
@@ -108,18 +88,12 @@ PODS:
     - nanopb (~> 2.30906.0)
   - GoogleDataTransport (8.1.0):
     - nanopb (~> 2.30906.0)
-  - GoogleToolboxForMac/Defines (2.3.1)
-  - GoogleToolboxForMac/Logger (2.3.1):
-    - GoogleToolboxForMac/Defines (= 2.3.1)
-  - "GoogleToolboxForMac/NSData+zlib (2.3.1)":
-    - GoogleToolboxForMac/Defines (= 2.3.1)
   - GoogleUtilities/AppDelegateSwizzler (7.3.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
   - GoogleUtilities/Environment (7.3.1):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/ISASwizzler (7.3.1)
   - GoogleUtilities/Logger (7.3.1):
     - GoogleUtilities/Environment
   - GoogleUtilities/MethodSwizzler (7.3.1):
@@ -133,7 +107,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.3.1):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.5.0)
   - libwebp (1.2.0):
     - libwebp/demux (= 1.2.0)
     - libwebp/mux (= 1.2.0)
@@ -149,7 +122,6 @@ PODS:
   - nanopb/decode (2.30906.0)
   - nanopb/encode (2.30906.0)
   - PromisesObjC (1.2.12)
-  - Protobuf (3.14.0)
   - React (0.60.5):
     - React-Core (= 0.60.5)
     - React-DevSupport (= 0.60.5)
@@ -284,15 +256,6 @@ PODS:
     - Firebase/Crashlytics (~> 7.1.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (10.1.0):
-    - Firebase/DynamicLinks (~> 7.1.0)
-    - GoogleUtilities/AppDelegateSwizzler
-    - React-Core
-    - RNFBApp
-  - RNFBPerf (10.1.0):
-    - Firebase/Performance (~> 7.1.0)
-    - React-Core
-    - RNFBApp
   - RNFBRemoteConfig (10.1.0):
     - Firebase/RemoteConfig (~> 7.1.0)
     - React-Core
@@ -369,8 +332,6 @@ DEPENDENCIES:
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
-  - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
-  - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
@@ -396,19 +357,14 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
-    - FirebaseDynamicLinks
     - FirebaseInstallations
-    - FirebasePerformance
     - FirebaseRemoteConfig
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleToolboxForMac
     - GoogleUtilities
-    - GTMSessionFetcher
     - libwebp
     - nanopb
     - PromisesObjC
-    - Protobuf
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
@@ -496,10 +452,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBCrashlytics:
     :path: "../node_modules/@react-native-firebase/crashlytics"
-  RNFBDynamicLinks:
-    :path: "../node_modules/@react-native-firebase/dynamic-links"
-  RNFBPerf:
-    :path: "../node_modules/@react-native-firebase/perf"
   RNFBRemoteConfig:
     :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
@@ -537,21 +489,16 @@ SPEC CHECKSUMS:
   FirebaseCore: 20046127eef0fcb8fa25df7fc12f7b97d4e48611
   FirebaseCoreDiagnostics: d50e11039e5984d92c8a512be2395f13df747350
   FirebaseCrashlytics: c722e4ca283272eb90eb5bc245fdc6588e2f22c2
-  FirebaseDynamicLinks: dadf4564851de0ecdad2dab7fc2d1c401dcaa406
   FirebaseInstallations: 5e777e6640fa060405cc7632447b6c5ca5af4742
-  FirebasePerformance: 70f4ea16062512a57a084ed4ae0925b6af1e3884
   FirebaseRemoteConfig: 04cd72851dad51780aa66f05b01a7dd0b85cdbf5
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: 89e1a64593f968713b0506ba1b53b38a154bf9a5
   GoogleDataTransport: 116c84c4bdeb76be2a7a46de51244368f9794eab
-  GoogleToolboxForMac: 471e0c05d39506e50e6398f46fa9a12ae0efeff9
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   React: 53c53c4d99097af47cf60594b8706b4e3321e722
   React-Core: ba421f6b4f4cbe2fb17c0b6fc675f87622e78a64
   React-cxxreact: 8384287780c4999351ad9b6e7a149d9ed10a2395
@@ -589,8 +536,6 @@ SPEC CHECKSUMS:
   RNFBAnalytics: 0a98aff1ad9abee16de201012f03179246c2e5bb
   RNFBApp: 2b4e07dfca4cf780b9e2d61bcc21e34d890cd654
   RNFBCrashlytics: cf1600bf055aabd1fefb67220f151ea6092e1a2f
-  RNFBDynamicLinks: aa2c5ed63a90eea05c8c321991a1a010ad81eb2e
-  RNFBPerf: a0d50caf0d88079c6e9da1f674e7e6b2a9265585
   RNFBRemoteConfig: 5d00d02901bbe4524485235826b0a9d46e028b23
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNIap: 66b83af54a855b6314a243a200081a64d7f64c2e
