@@ -3,13 +3,11 @@ Liker Land on iOS/Android Mobile
 ![](https://github.com/likecoin/likecoin-app/workflows/Lint%20and%20build/badge.svg)
 ![](https://github.com/likecoin/likecoin-app/workflows/Release/badge.svg)
 
-## Features
-Personalized reader
-- Content reader included oice and other websites
-- Like and follow the reader you like
+## Configuration
 
-Rewarding system
-- User can reward the creator of content by clicking like button
+For overriding configuration, it can be done by editing `.env` file and change the `REMOTE_CONFIG_ENABLE` setting to `false`.
+
+If the configuaration is cached, please restart the Metro Bundler by running `yarn start:clean` to reset the cache.
 
 ## Quick Start
 

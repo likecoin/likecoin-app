@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
+    "start:clean": "react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint index.js app --fix --ext .js,.ts,.tsx",
     "compile": "tsc --noEmit -p . --pretty",
