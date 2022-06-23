@@ -20,7 +20,7 @@ import {
   StatisticsRewardedStoreModel,
   StatisticsSupportedStoreModel,
 } from "../statistics-store"
-import { SuperLikeFollowingStoreModel } from "../super-like-following-store"
+import { MySuperLikeFeedStoreModel } from "../my-super-likes-store"
 import { SuperLikeGlobalStoreModel } from "../super-like-global-store"
 import { SupportersStoreModel } from "../supporters-store"
 import { TransferStoreModel } from "../transfer-store"
@@ -65,7 +65,7 @@ export const RootStoreModel = types
     ),
     statisticsRewardedStore: types.optional(StatisticsRewardedStoreModel, {}),
     statisticsSupportedStore: types.optional(StatisticsSupportedStoreModel, {}),
-    superLikeFollowingStore: types.optional(SuperLikeFollowingStoreModel, {}),
+    mySuperLikeFeedStore: types.optional(MySuperLikeFeedStoreModel, {}),
     supportersStore: types.optional(SupportersStoreModel, {}),
     superLikeGlobalStore: types.optional(SuperLikeGlobalStoreModel, {}),
     transferStore: types.optional(TransferStoreModel, {}),
@@ -98,7 +98,7 @@ export const RootStoreModel = types
       self.stakingUnbondingDelegationStore.reset()
       self.statisticsRewardedStore.reset()
       self.statisticsSupportedStore.reset()
-      self.superLikeFollowingStore.reset()
+      self.mySuperLikeFeedStore.reset()
       self.transferStore.reset()
     }),
   }))

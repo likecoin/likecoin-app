@@ -2,17 +2,19 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { SuperLikeFeedItem, SuperLikeFeedResult } from "../../services/api/likerland-api.types"
 import { logError } from "../../utils/error"
 
+import { withCurrentUser } from "../extensions"
 import { SuperLike } from "../super-like"
 import { SuperLikeFeedModel } from "../super-like-feed"
 
 /**
  * Store for Super Like feed from following creators.
  */
-export const SuperLikeFollowingStoreModel = SuperLikeFeedModel
-  .named("SuperLikeFollowingStore")
+export const MySuperLikeFeedStoreModel = SuperLikeFeedModel
+  .named("MySuperLikeFeedStore")
   .props({
     lastFetchedTimestamp: types.maybe(types.number),
   })
+  .extend(withCurrentUser)
   .actions(self => {
     const ITEMS_LIMIT_PER_FETCH = 7
 
@@ -50,8 +52,9 @@ export const SuperLikeFollowingStoreModel = SuperLikeFeedModel
       self.setStatus("pending")
       try {
         const result: SuperLikeFeedResult =
-          yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed(
+          yield self.env.likerLandAPI.fetchReaderSuperLikeSelfFeed(
             {
+              likerId: self.currentUserID,
               limit: ITEMS_LIMIT_PER_FETCH,
             },
           )
@@ -81,8 +84,9 @@ export const SuperLikeFollowingStoreModel = SuperLikeFeedModel
       self.setStatus("pending-more")
       try {
         const result: SuperLikeFeedResult =
-          yield self.env.likerLandAPI.fetchReaderSuperLikeFollowingFeed(
+          yield self.env.likerLandAPI.fetchReaderSuperLikeSelfFeed(
             {
+              likerId: self.currentUserID,
               before: self.items[self.items.length - 1].timestamp - 1,
               limit: ITEMS_LIMIT_PER_FETCH,
             },
@@ -118,10 +122,10 @@ export const SuperLikeFollowingStoreModel = SuperLikeFeedModel
     }
   })
 
-type SuperLikeFollowingStoreType = Instance<typeof SuperLikeFollowingStoreModel>
-export interface SuperLikeFollowingStore extends SuperLikeFollowingStoreType {}
-type SuperLikeFollowingStoreSnapshotType = SnapshotOut<
-  typeof SuperLikeFollowingStoreModel
+type MySuperLikeFeedStoreType = Instance<typeof MySuperLikeFeedStoreModel>
+export interface MySuperLikeFeedStore extends MySuperLikeFeedStoreType {}
+type MySuperLikeFeedStoreSnapshotType = SnapshotOut<
+  typeof MySuperLikeFeedStoreModel
 >
-export interface SuperLikeFollowingStoreSnapshot
-  extends SuperLikeFollowingStoreSnapshotType {}
+export interface MySuperLikeFeedStoreSnapshot
+  extends MySuperLikeFeedStoreSnapshotType {}

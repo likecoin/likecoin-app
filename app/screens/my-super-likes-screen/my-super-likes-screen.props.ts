@@ -1,11 +1,11 @@
 import { SectionBase } from "react-native"
 
-import { SuperLikeFollowingStore } from "../../models/super-like-following-store"
+import { MySuperLikeFeedStore } from "../../models/my-super-likes-store"
 
 import { ContentListScreenProps } from "../../components/content-list-screen"
 
 export interface SuperLikeFollowingScreenProps extends ContentListScreenProps {
-  superLikeFollowingStore?: SuperLikeFollowingStore
+  mySuperLikeFeedStore?: MySuperLikeFeedStore
 }
 
 export interface ReaderSectionListData<T> extends SectionBase<T> {

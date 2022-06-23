@@ -161,7 +161,7 @@
   },
   "readerScreen": {
     "Title": "閱讀列表",
-    "emptyLabel": "瀏覽頭條時，點選書籤圖標，可把作品加入閱讀列表，方便稍後閱讀。",
+    "emptyLabel": "沒有內容",
     "followingLabel": "我的內容伯樂",
     "SuperLikeFromLabel":  {
       "zero": "%{liker} Super Liked",
@@ -173,11 +173,9 @@
       "Yesterday": "昨日頭條"
     }
   },
-  "reader_screen_title_following": "我的內容伯樂",
+  "reader_screen_title_my_feed": "我的內容伯樂",
   "reader_screen_title_global": "所有內容伯樂",
-  "reader_screen_description_following": "我的內容伯樂的 Super Like",
-  "reader_screen_description_global": "所有內容伯樂 的 Super Like",
-  "reader_screen_tab_subtitle_following": "追蹤中",
+  "reader_screen_tab_subtitle_self": "我的",
   "reader_screen_tab_subtitle_global": "所有",
   "receiveScreen": {
     "shareYourAddress": "分享錢包地址"
@@ -363,7 +361,7 @@
     "title": "訂閱"
   },
   "super_like_global_feed_screen_header_text": "所有內容伯樂的 Super Like",
-  "super_like_following_feed_screen_header_text": "你的內容伯樂 Super Like 的內容",
+  "super_like_self_feed_screen_header_text": "你的 Super Like 的內容",
   "supporter_count": "{{count}} 支持者",
   "supporter_list_quantity_unit": "美金/月",
   "transaction": {

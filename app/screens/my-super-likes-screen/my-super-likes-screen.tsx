@@ -10,16 +10,16 @@ import { Content } from "../../models/content"
 import { wrapContentListScreen } from "../../components/content-list-screen"
 import { SuperLikeContentList as SuperLikeContentListBase } from "../../components/content-list"
 
-import { SuperLikeFollowingScreenProps as Props } from "./super-like-following-screen.props"
+import { SuperLikeFollowingScreenProps as Props } from "./my-super-likes-screen.props"
 
 const SuperLikeContentList = styled(SuperLikeContentListBase)`
   flex: 1;
   background-color: ${({ theme }) => theme.color.background.secondary};
 `
 
-@inject("superLikeFollowingStore")
+@inject("mySuperLikeFeedStore")
 @observer
-export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
+export class MySuperLikeScreenBase extends React.Component<Props, {}> {
   componentDidMount() {
     this.fetch()
   }
@@ -29,11 +29,11 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
   }
 
   private fetch = () => {
-    this.props.superLikeFollowingStore.fetch()
+    this.props.mySuperLikeFeedStore.fetch()
   }
 
   private fetchMore = () => {
-    this.props.superLikeFollowingStore.fetchMore()
+    this.props.mySuperLikeFeedStore.fetchMore()
   }
 
   private onToggleBookmark = (content: Content) => {
@@ -45,16 +45,16 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
   }
 
   render() {
-    const { status, lastFetchedTimestamp } = this.props.superLikeFollowingStore
+    const { status, lastFetchedTimestamp } = this.props.mySuperLikeFeedStore
     return (
       <SuperLikeContentList
-        data={this.props.superLikeFollowingStore.items}
+        data={this.props.mySuperLikeFeedStore.items}
         isLoading={status === "pending"}
         isFetchingMore={status === "pending-more"}
         hasFetched={status === "done"}
         hasFetchedAll={status === "done-more"}
         emptyTx="readerScreen.emptyLabel"
-        headerTx="super_like_following_feed_screen_header_text"
+        headerTx="super_like_self_feed_screen_header_text"
         lastFetched={lastFetchedTimestamp}
         backgroundColor={color.palette.greyf2}
         underlayColor={color.palette.offWhite}
@@ -72,6 +72,6 @@ export class SuperLikeFollowingScreenBase extends React.Component<Props, {}> {
   }
 }
 
-export const SuperLikeFollowingScreen = wrapContentListScreen(
-  SuperLikeFollowingScreenBase,
+export const MySuperLikeScreen = wrapContentListScreen(
+  MySuperLikeScreenBase,
 )

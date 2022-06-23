@@ -168,17 +168,19 @@ export class LikerLandAPI {
   /**
    * Fetch a list of Super Like feed from following likers
    */
-  async fetchReaderSuperLikeFollowingFeed({
+  async fetchReaderSuperLikeSelfFeed({
+    likerId,
     before,
     after,
     limit,
   }: {
+    likerId?: string
     before?: number
     after?: number
     limit?: number
   } = {}): Promise<LikerLandTypes.SuperLikeFeedResult> {
     const response: ApiResponse<any> =
-      await this.apisauce.get("/reader/superlike/followed", { before, after, limit })
+      await this.apisauce.get(`/reader/users/${likerId}/superlike`, { before, after, limit })
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

@@ -7,9 +7,9 @@ import { inject } from "mobx-react"
 import styled from "styled-components/native"
 
 import {
-  SuperLikeFollowingScreen,
-  SuperLikeFollowingScreenBase,
-} from "../super-like-following-screen"
+  MySuperLikeScreen,
+  MySuperLikeScreenBase,
+} from "../my-super-likes-screen"
 
 import { Header } from "../../components/header"
 import { HeaderTabItem } from "../../components/header-tab"
@@ -29,10 +29,10 @@ const Screen = styled(ScreenBase)`
 export class ReaderScreen extends React.Component<Props, {}> {
   appState = AppState.currentState
 
-  superLikeScreen = React.createRef<SuperLikeFollowingScreenBase>()
+  superLikeScreen = React.createRef<MySuperLikeScreenBase>()
 
   state = {
-    tabValue: "following",
+    tabValue: "global",
   }
 
   componentDidMount() {
@@ -64,8 +64,8 @@ export class ReaderScreen extends React.Component<Props, {}> {
   render() {
     const { tabValue } = this.state
 
-    const headerTx = tabValue === "following"
-      ? "reader_screen_title_following"
+    const headerTx = tabValue === "self"
+      ? "reader_screen_title_my_feed"
       : "reader_screen_title_global"
 
     return (
@@ -75,25 +75,25 @@ export class ReaderScreen extends React.Component<Props, {}> {
           value={tabValue}
           items={[
             <HeaderTabItem
-              key="following"
-              value="following"
-              icon="super-like"
-              subtitleTx="reader_screen_tab_subtitle_following"
-            />,
-            <HeaderTabItem
               key="global"
               value="global"
               icon="global-eye"
               subtitleTx="reader_screen_tab_subtitle_global"
-            />
+            />,
+            <HeaderTabItem
+              key="self"
+              value="self"
+              icon="super-like"
+              subtitleTx="reader_screen_tab_subtitle_self"
+            />,
           ]}
           onChange={this.onTabChange}
         >
           {({ onScroll, ...props}) => {
             switch (tabValue) {
-              case "following":
+              case "self":
                 return (
-                  <SuperLikeFollowingScreen
+                  <MySuperLikeScreen
                     theme={this.props.theme}
                     screenProps={this.props.screenProps}
                     navigation={this.props.navigation}

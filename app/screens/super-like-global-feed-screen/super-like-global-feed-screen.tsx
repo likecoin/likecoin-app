@@ -56,7 +56,6 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
         underlayColor={color.palette.offWhite}
         skeletonPrimaryColor={color.palette.greyd8}
         skeletonSecondaryColor={color.palette.grey9b}
-        isShowFollowToggle={true}
         listViewProps={this.props.listViewProps}
         onFetchMore={this.fetchMore}
         onPressItem={this.props.onPressSuperLikeItem}
