@@ -18,6 +18,7 @@ export const SuperLikeModel = types
   .props({
     id: types.identifier,
     shortId: types.maybe(types.string),
+    iscnId: types.maybe(types.string),
     content: types.safeReference(types.late(() => ContentModel)),
     likers: types.array(types.safeReference(types.late(() => CreatorModel))),
     timestamp: types.maybe(types.number),

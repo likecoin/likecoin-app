@@ -142,8 +142,9 @@ export class LikeCoAPI {
   /**
    * Fetch content info
    */
-  async fetchContentInfo(url: string): Promise<Types.ContentResult> {
-    const response: ApiResponse<any> = await this.apisauce.get('/like/info', { url })
+  async fetchContentInfo(url: string, iscnId: string): Promise<Types.ContentResult> {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const response: ApiResponse<any> = await this.apisauce.get('/like/info', { url, iscn_id: iscnId })
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

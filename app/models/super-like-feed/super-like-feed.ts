@@ -30,6 +30,7 @@ export const SuperLikeFeedModel = types
       {
         superLikeID,
         superLikeShortID,
+        superLikeIscnId,
         url,
         referrer,
         liker,
@@ -44,6 +45,7 @@ export const SuperLikeFeedModel = types
         {
           id: superLikeID,
           shortId: superLikeShortID,
+          iscnId: superLikeIscnId,
           timestamp: ts,
         },
         self.env,
@@ -60,6 +62,7 @@ export const SuperLikeFeedModel = types
       if (!content) {
         content = self.createContentFromData({
           url: contentURL,
+          iscnId: superLikeIscnId,
           user: likee,
         })
       }
