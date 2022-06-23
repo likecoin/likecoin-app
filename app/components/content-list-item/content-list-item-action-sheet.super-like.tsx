@@ -15,6 +15,7 @@ export interface PureSuperLikeContentListItemActionSheetProps {
   followee?: string
   isBookmarked?: boolean
   isFollowing?: boolean
+  isShowFollowAction?: boolean
   onToggleBookmark?: () => void
   onToggleFollow?: () => void
 }
@@ -22,7 +23,7 @@ export interface PureSuperLikeContentListItemActionSheetProps {
 export function PureSuperLikeContentListItemActionSheet(
   props: PureSuperLikeContentListItemActionSheetProps,
 ) {
-  const { followee, isBookmarked, isFollowing } = props
+  const { followee, isBookmarked, isFollowing, isShowFollowAction = true } = props
   const bookmarkButtonTitleTx = isBookmarked
     ? "content_list_item_action_sheet_unbookmark"
     : "content_list_item_action_sheet_bookmark" 
@@ -34,9 +35,11 @@ export function PureSuperLikeContentListItemActionSheet(
       <ActionSheetButton onPress={props.onToggleBookmark}>
         <ActionSheetButtonTitle tx={bookmarkButtonTitleTx} />
       </ActionSheetButton>
-      <ActionSheetButton onPress={props.onToggleFollow}>
-        <ActionSheetButtonTitle tx={followingButtonTitleTx} txOptions={{ followee }} />
-      </ActionSheetButton>
+      {isShowFollowAction && (
+        <ActionSheetButton onPress={props.onToggleFollow}>
+          <ActionSheetButtonTitle tx={followingButtonTitleTx} txOptions={{ followee }} />
+        </ActionSheetButton>
+      )}
     </ContentListItemActionSheet>
   )
 }
@@ -75,17 +78,14 @@ export class SuperLikeContentListItemActionSheet extends React.Component<
 
   render() {
     const {
-      liker: {
-        displayName = "",
-        isFollowing: isFollowingSuperLiker = false,
-      } = {},
+      liker: { displayName = "" } = {},
       content: { isBookmarked = false } = {},
     } = this.props.item
     return (
       <PureSuperLikeContentListItemActionSheet
         followee={displayName}
         isBookmarked={isBookmarked}
-        isFollowing={!!isFollowingSuperLiker}
+        isShowFollowAction={false}
         onToggleBookmark={this.onToggleBookmark}
         onToggleFollow={this.onToggleFollow}
       />

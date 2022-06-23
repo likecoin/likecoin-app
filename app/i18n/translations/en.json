@@ -162,8 +162,7 @@
   },
   "readerScreen": {
     "Title": "Reading list",
-    "emptyLabel": "When browsing the headlines, you may tap the bookmark button to add the content here. You may then take your time to read them.",
-    "followingLabel": "My Content Jockey",
+    "emptyLabel": "No Super Like",
     "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} and {{count}} Liker Super Liked",
@@ -174,11 +173,9 @@
       "Yesterday": "Yesterday's headlines"
     }
   },
-  "reader_screen_title_following": "My Content Jockey",
+  "reader_screen_title_my_feed": "My Super Likes",
   "reader_screen_title_global": "The world has Super Liked",
-  "reader_screen_description_following": "My Content Jockeys' Super Likes",
-  "reader_screen_description_global": "The world has Super Liked",
-  "reader_screen_tab_subtitle_following": "Following",
+  "reader_screen_tab_subtitle_self": "My Super Likes",
   "reader_screen_tab_subtitle_global": "Global",
   "receiveScreen": {
     "shareYourAddress": "Share my address"
@@ -377,7 +374,7 @@
     "title": "Subscription"
   },
   "super_like_global_feed_screen_header_text": "All Super Likes",
-  "super_like_following_feed_screen_header_text": "Super Likes from your content jockeys",
+  "super_like_self_feed_screen_header_text": "Super Likes from you",
   "supporter_count": {
     "one": "{{count}} Supporter",
     "other": "{{count}} Supporters"
