@@ -39,6 +39,8 @@ export class LikerLandOAuthScreen extends React.Component<
 
   hasHandledRedirect = false
 
+  hasShownErrorAlert = false
+
   state = {
     loadingScreenText: "",
   }
@@ -64,6 +66,7 @@ export class LikerLandOAuthScreen extends React.Component<
   }
 
   private handleError = async () => {
+    this.props.navigation.popToTop()
     this.props.userStore.logout()
   }
 
@@ -94,7 +97,7 @@ export class LikerLandOAuthScreen extends React.Component<
       // Verify sign in with retry
       this.verifySignIn()
     } else if (url.includes("/in/register")) {
-      this.handleError()
+      this.showErrorAlert(translate("signInScreen.errorLikeCo"))
       logError(
         "Error when signing in to liker.land, like.co shows register page",
       )
@@ -115,7 +118,7 @@ export class LikerLandOAuthScreen extends React.Component<
       this.verifySignInRetryCount += 1
       this.redirectTimer = setTimeout(this.verifySignIn, 1000)
     } else {
-      this.handleError()
+      this.showErrorAlert(translate("signInScreen.errorLikerLandTimeout"))
       logError(
         "Error when signing in to liker.land, verification retry timeout",
       )
@@ -126,22 +129,30 @@ export class LikerLandOAuthScreen extends React.Component<
     this.handleURLChange(url)
   }
 
-  private onWebviewError = () => {
+  private showErrorAlert = (message?: string) => {
+    if (this.hasShownErrorAlert) return
+    this.hasShownErrorAlert = true
     Alert.alert(
       translate("signInScreen.error"),
-      translate("signInScreen.errorLikerLand"),
+      message || translate("signInScreen.errorLikerLand"),
       [
         {
           text: translate("common.back"),
-          onPress: this.handleError,
+          onPress: () => {
+            this.hasShownErrorAlert = false
+            this.handleError()
+          },
         },
       ],
     )
   }
 
   private onError = (event: WebViewErrorEvent) => {
-    this.onWebviewError()
     const { code, description, url } = event.nativeEvent
+    this.showErrorAlert(translate("signInScreen.errorLikerLandHTTP", {
+      code,
+      description,
+    }))
     logError(
       `Error occurs inside webview when signing in to liker.land ${JSON.stringify(
         { code, description, url },
@@ -150,8 +161,11 @@ export class LikerLandOAuthScreen extends React.Component<
   }
 
   private onHttpError = (event: WebViewHttpErrorEvent) => {
-    this.onWebviewError()
     const { description, statusCode, url } = event.nativeEvent
+    this.showErrorAlert(translate("signInScreen.errorLikerLandWebview", {
+      code: statusCode,
+      description,
+    }))
     logError(
       `HTTP error occurs inside webview when signing in to liker.land ${JSON.stringify(
         { description, statusCode, url },
