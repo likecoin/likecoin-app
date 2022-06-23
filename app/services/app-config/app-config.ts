@@ -23,26 +23,30 @@ export class AppConfig {
         this.config[key] = APP_CONFIG[key]
       }
     })
-    this.remoteConfig = RemoteConfigModule()
+    if (this.config.REMOTE_CONFIG_ENABLE === 'true') {
+      this.remoteConfig = RemoteConfigModule()
+    }
   }
 
   async setup() {
     try {
-      if (__DEV__) {
-        await this.remoteConfig.setConfigSettings({
-          minimumFetchIntervalMillis: 0,
-        });
-      }
-      await this.remoteConfig.fetch()
-      await this.remoteConfig.activate()
-      const remoteConfigJSONString = this.remoteConfig.getValue(
-        "api_config",
-      )
       let remoteConfig = {}
-      try {
-        remoteConfig = JSON.parse(remoteConfigJSONString.asString())
-      } catch (err) {
-        console.error(err)
+      if (this.remoteConfig) {
+        if (__DEV__) {
+          await this.remoteConfig.setConfigSettings({
+            minimumFetchIntervalMillis: 0,
+          });
+        }
+        await this.remoteConfig.fetch()
+        await this.remoteConfig.activate()
+        const remoteConfigJSONString = this.remoteConfig.getValue(
+          "api_config",
+        )
+        try {
+          remoteConfig = JSON.parse(remoteConfigJSONString.asString())
+        } catch (err) {
+          console.error(err)
+        }
       }
       this.config = {
         ...this.config,
