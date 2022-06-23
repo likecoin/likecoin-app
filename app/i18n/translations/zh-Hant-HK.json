@@ -162,7 +162,6 @@
   "readerScreen": {
     "Title": "閱讀列表",
     "emptyLabel": "沒有內容",
-    "followingLabel": "我的 Content Jockey",
     "SuperLikeFromLabel":  {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} 及 {{count}} 人 Super Liked",
@@ -173,8 +172,8 @@
       "Yesterday": "昨日頭條"
     }
   },
-  "reader_screen_title_my_feed": "我的 Content Jockey",
-  "reader_screen_title_global": "所有 Content Jockey",
+  "reader_screen_title_my_feed": "我的 Super Like",
+  "reader_screen_title_global": "全域 Super Like",
   "reader_screen_tab_subtitle_self": "我的",
   "reader_screen_tab_subtitle_global": "所有",
   "receiveScreen": {
