@@ -25,6 +25,7 @@ export const ContentModel = types
   .model("Content")
   .props({
     url: types.identifier,
+    iscnId: types.maybe(types.string),
     title: types.maybe(types.string),
     description: types.maybe(types.string),
     imageURL: types.maybe(types.string),
@@ -176,6 +177,7 @@ export const ContentModel = types
         try {
           const result: ContentResult = yield self.env.likeCoAPI.fetchContentInfo(
             self.url,
+            self.iscnId,
           )
           switch (result.kind) {
             case "ok": {

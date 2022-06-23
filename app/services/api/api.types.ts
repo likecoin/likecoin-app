@@ -23,6 +23,7 @@ export interface Content {
   image?: string,
   like?: number,
   ts?: number,
+  iscnId?: string,
 }
 
 export interface LikeStat {
