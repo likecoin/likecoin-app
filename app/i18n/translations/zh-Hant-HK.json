@@ -162,7 +162,6 @@
   "readerScreen": {
     "Title": "閱讀列表",
     "emptyLabel": "沒有內容",
-    "followingLabel": "我的 Content Jockey",
     "SuperLikeFromLabel":  {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} 及 {{count}} 人 Super Liked",
@@ -173,8 +172,8 @@
       "Yesterday": "昨日頭條"
     }
   },
-  "reader_screen_title_my_feed": "我的 Content Jockey",
-  "reader_screen_title_global": "所有 Content Jockey",
+  "reader_screen_title_my_feed": "我的 Super Like",
+  "reader_screen_title_global": "全域 Super Like",
   "reader_screen_tab_subtitle_self": "我的",
   "reader_screen_tab_subtitle_global": "所有",
   "receiveScreen": {
@@ -330,8 +329,9 @@
     "termsOfUse": "使用條款",
     "title": "設定"
   },
-  "settings_screen_walletConnect": "WalletConnect",
+  "settings_screen_bookmark": "閱讀列表",
   "settings_screen_experimental_features": "試用新功能",
+  "settings_screen_walletConnect": "WalletConnect",
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
@@ -341,6 +341,9 @@
     "errorAuthCore": "登入 AuthCore 錯誤",
     "errorLikeCo": "登入 like.co 錯誤",
     "errorLikerLand": "登入 liker.land 錯誤",
+    "errorLikerLandWebview": "登入 liker.land 錯誤 [%{code}]：%{description}",
+    "errorLikerLandHTTP": "登入 liker.land HTTP %{code}：「%{description}」",
+    "errorLikerLandTimeout": "登入 liker.land 逾時",
     "heading": "不是瀏覽，而是閱讀。",
     "LoadingTakesLonger": "載入需時，請稍等⋯",
     "signIn": "登入",
@@ -423,15 +426,17 @@
     "title": "登入階段已失效 [{{type}}]",
     "message": "請重新登入。"
   },
-"walletConnectRequestScreen_title": "Wallet Connect",
-"walletConnectRequestView_button_approve": "允許",
-"walletConnectRequestView_button_reject": "拒絕",
-"walletConnectRequestView_label_app_unknown": "未知 App",
-"walletConnectRequestView_label_description_getAccounts": "%{name} 向 Liker Land App 發出了獲取 %{chainIds} 的錢包地址請求",
-"walletConnectRequestView_label_description_login": "%{name} 向 Liker Land App 發出了登入請求",
-"walletConnectRequestView_label_description_sessionRequest": "%{name} 向 Liker Land App 發出了連接請求",
-"walletConnectRequestView_label_description_sign": "%{name} 向 Liker Land App 發出了簽名請求",
-"walletConnectRequestView_label_description_unknown": "%{name} 向 Liker Land App 發出了請求",
+  "walletConnectRequestScreen_title": "Wallet Connect",
+  "walletConnectRequestView_button_approve": "允許",
+  "walletConnectRequestView_button_reject": "拒絕",
+  "walletConnectRequestView_label_app_unknown": "未知 App",
+  "walletConnectRequestView_label_description_getAccounts": "%{name} 向 Liker Land App 發出了存取 %{chainIds} 的錢包地址請求",
+  "walletConnectRequestView_label_description_login": "%{name} 向 Liker Land App 發出了登入請求",
+  "walletConnectRequestView_label_description_login_back": "請返回瀏覽器繼續",
+  "walletConnectRequestView_label_description_login_back_android": "即將回瀏覽器繼續",
+  "walletConnectRequestView_label_description_sessionRequest": "%{name} 向 Liker Land App 發出了連接請求",
+  "walletConnectRequestView_label_description_sign": "%{name} 向 Liker Land App 發出了簽名請求",
+  "walletConnectRequestView_label_description_unknown": "%{name} 向 Liker Land App 發出了請求",
   "walletDashboardScreen": {
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
