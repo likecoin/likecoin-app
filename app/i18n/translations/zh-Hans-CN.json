@@ -174,8 +174,8 @@
   },
   "reader_screen_title_my_feed": "我的 Super Like",
   "reader_screen_title_global": "全域 Super Like",
-  "reader_screen_tab_subtitle_self": "我的",
-  "reader_screen_tab_subtitle_global": "所有",
+  "reader_screen_tab_subtitle_self": "我的推文",
+  "reader_screen_tab_subtitle_global": "所有推文",
   "receiveScreen": {
     "shareYourAddress": "分享你的钱包地址"
   },
@@ -363,8 +363,8 @@
     "subscribedButtonText": "已订阅",
     "title": "订阅"
   },
-  "super_like_global_feed_screen_header_text": "所有 Super Like 的內容",
-  "super_like_self_feed_screen_header_text": "你的 Super Like 的內容",
+  "super_like_global_feed_screen_header_text": "所有推文",
+  "super_like_self_feed_screen_header_text": "我的推文",
   "supporter_count": "{{count}} 支持者",
   "supporter_list_quantity_unit": "美金/月",
   "transaction": {
