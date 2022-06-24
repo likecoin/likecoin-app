@@ -50,7 +50,6 @@ class SuperLikeGlobalFeedScreenBase extends React.Component<Props> {
         hasFetched={status === "done"}
         hasFetchedAll={status === "done-more"}
         emptyTx="GlobalSuperLikedFeedScreen.EmptyLabel"
-        headerTx="super_like_global_feed_screen_header_text"
         lastFetched={lastFetchedTimestamp}
         backgroundColor={color.palette.greyf2}
         underlayColor={color.palette.offWhite}

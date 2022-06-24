@@ -67,7 +67,7 @@ class SuperLikeContentListBase extends React.Component<Props> {
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
         backgroundColor={this.props.backgroundColor}
-        ListHeaderComponent={(
+        ListHeaderComponent={!!this.props.headerTx && (
           <HeaderView>
             <HeaderIcon
               name="super-like"

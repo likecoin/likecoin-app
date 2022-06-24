@@ -162,7 +162,7 @@
   },
   "readerScreen": {
     "Title": "Reading list",
-    "emptyLabel": "No Super Like",
+    "emptyLabel": "No tweets",
     "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} and {{count}} Liker Super Liked",
@@ -173,9 +173,9 @@
       "Yesterday": "Yesterday's headlines"
     }
   },
-  "reader_screen_title_my_feed": "My Super Likes",
-  "reader_screen_title_global": "The world has Super Liked",
-  "reader_screen_tab_subtitle_self": "My Super Likes",
+  "reader_screen_title_my_feed": "depub.space",
+  "reader_screen_title_global": "depub.space",
+  "reader_screen_tab_subtitle_self": "My Tweets",
   "reader_screen_tab_subtitle_global": "Global",
   "receiveScreen": {
     "shareYourAddress": "Share my address"
@@ -369,8 +369,8 @@
     "subscribedButtonText": "Subscribed",
     "title": "Subscription"
   },
-  "super_like_global_feed_screen_header_text": "All Super Likes",
-  "super_like_self_feed_screen_header_text": "Super Likes from you",
+  "super_like_global_feed_screen_header_text": "All tweets",
+  "super_like_self_feed_screen_header_text": "My tweets",
   "supporter_count": {
     "one": "{{count}} Supporter",
     "other": "{{count}} Supporters"
