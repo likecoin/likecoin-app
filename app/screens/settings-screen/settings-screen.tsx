@@ -128,11 +128,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("CrispSupport")
   }
 
-  private onPressFollowSettings = () => {
-    this.props.navigation.navigate("FollowSettings")
-    logAnalyticsEvent("SettingsClickFollowSettings")
-  }
-
   private onPressBookmarkScreen = () => {
     this.props.navigation.navigate("Bookmark")
     logAnalyticsEvent("SettingsClickBookmark")
@@ -192,10 +187,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               <TableViewCell
                 titleTx="settingsScreen.Panel.Settings.Security"
                 onPress={this.onPressSecuritySettings}
-              />
-              <TableViewCell
-                titleTx="settingsScreen.Panel.Settings.ContentJockey"
-                onPress={this.onPressFollowSettings}
               />
               <TableViewCell
                 titleTx="settings_screen_bookmark"
