@@ -128,11 +128,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("CrispSupport")
   }
 
-  private onPressFollowSettings = () => {
-    this.props.navigation.navigate("FollowSettings")
-    logAnalyticsEvent("SettingsClickFollowSettings")
-  }
-
   private onPressRateApp = () => {
     this.props.userStore.rateApp()
     logAnalyticsEvent("SettingsClickRateApp")
@@ -187,10 +182,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               <TableViewCell
                 titleTx="settingsScreen.Panel.Settings.Security"
                 onPress={this.onPressSecuritySettings}
-              />
-              <TableViewCell
-                titleTx="settingsScreen.Panel.Settings.ContentJockey"
-                onPress={this.onPressFollowSettings}
               />
               {this.props.experimentalFeatureStore.shouldWalletConnectEnabled &&
                 <TableViewCell
