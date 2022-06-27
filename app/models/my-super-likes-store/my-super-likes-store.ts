@@ -32,11 +32,11 @@ export const MySuperLikeFeedStoreModel = SuperLikeFeedModel
       try {
         for (let i = items.length - 1; i >= 0; i--) {
           const item = items[i]
-          const url = item.content.url
+          const url = item?.content?.url
           const index = urlIndexMap[url]
           if (index !== undefined) {
             newItems[index].addLiker(item.liker)
-          } else {
+          } else if (url) {
             urlIndexMap[url] = newItems.push(items[i]) - 1
           }
         }

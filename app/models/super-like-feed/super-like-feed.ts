@@ -61,7 +61,7 @@ export const SuperLikeFeedModel = types
       let content = self.contentsStore.items.get(contentURL)
       if (!content) {
         content = self.createContentFromData({
-          url: contentURL,
+          url: contentURL || superLikeIscnId,
           iscnId: superLikeIscnId,
           user: likee,
         })
