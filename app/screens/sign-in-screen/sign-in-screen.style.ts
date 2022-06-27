@@ -35,7 +35,7 @@ export const SignInScreenStyle = StyleSheet.create({
   Root: {
     flex: 1,
     flexDirection: "column-reverse",
-    backgroundColor: color.primary,
+    backgroundColor: color.palette.white,
   } as ViewStyle,
   SignInActivityIndicator: {
     position: "absolute",

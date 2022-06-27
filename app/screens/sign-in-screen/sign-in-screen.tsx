@@ -247,7 +247,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
         <SafeAreaView style={Style.Footer}>
           <Animated.View style={[Style.FooterContent, footerStyle]}>
             <Slogan
-              fill={color.palette.likeCyan}
+              fill={color.palette.likeGreen}
               style={Style.Slogan}
             />
             <AppVersionLabel style={Style.Version} />
@@ -268,7 +268,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
               <Button
                 tx="signInScreen.signIn"
                 preset="link"
-                color="likeCyan"
+                color="likeGreen"
                 isHidden={isLoading}
                 style={Style.SignInButton}
                 onPress={this._onPressAuthCoreSignInButton}
