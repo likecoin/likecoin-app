@@ -57,17 +57,19 @@ export const SuperLikeFeedModel = types
       superLike.addLiker(superLiker)
 
       // Find content reference for this Super Like
-      const contentURL = referrer || url
-      let content = self.contentsStore.items.get(contentURL)
-      if (!content) {
-        content = self.createContentFromData({
-          url: contentURL || superLikeIscnId,
-          iscnId: superLikeIscnId,
-          user: likee,
-        })
+      const contentURL = referrer || url || superLikeIscnId
+      if (contentURL) {
+        let content = self.contentsStore.items.get(contentURL)
+        if (!content) {
+          content = self.createContentFromData({
+            url: contentURL || superLikeIscnId,
+            iscnId: superLikeIscnId,
+            user: likee,
+          })
+        }
+  
+        superLike.setContent(content)
       }
-
-      superLike.setContent(content)
 
       return superLike
     }
