@@ -34,7 +34,7 @@ export class CrispSupportScreen extends React.Component<CrispSupportScreenProps,
         style={FULL}
       >
         <Header
-          leftIcon="close"
+          leftIcon="back"
           onLeftPress={this.goBack}
         />
         <WebView

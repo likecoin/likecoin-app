@@ -102,7 +102,7 @@ export class WalletDashboardScreen extends React.Component<Props> {
         >
           <View>
             <Header
-              leftIcon="close"
+              leftIcon="back"
               leftIconColor="white"
               onLeftPress={this.onPressCloseButton}
             >
