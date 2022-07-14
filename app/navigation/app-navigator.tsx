@@ -66,7 +66,6 @@ export const AppNavigator = createStackNavigator({
   Transfer: TransferNavigator,
   WalletConnect: WalletConnectRequestScreen,
 }, {
-  mode: "modal",
   headerMode: "none",
   initialRouteName: "Main",
 })

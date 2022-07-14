@@ -339,7 +339,7 @@ export class ContentViewScreen extends React.Component<ContentViewScreenProps, {
             <StatusBar barStyle="light-content" />
             <Header
               headerText={content?.normalizedTitle}
-              leftIcon="close"
+              leftIcon="back"
               onLeftPress={this.goBack}
             />
           </SafeAreaView>
