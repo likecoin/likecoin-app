@@ -1,0 +1,2 @@
+- 支援 WalletConnect
+- 顯示及分享 Tweet 到 depub.space
