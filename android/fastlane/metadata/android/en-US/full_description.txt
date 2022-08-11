@@ -1,0 +1,16 @@
+Liker Land let you
+- own your decentralized identity
+- manage your LikeCoin asset
+- participate in decentralized publishing
+
+Decentralized Identity
+The wallet address is your identity in the Web3 world.  Surf the web with the dedicated address created by Liker Land.
+
+Manage LikeCoin Asset
+Liker Land is a crypto wallet.  Use it to check LIKE balance, transfer and receive LIKE, and also delegate LIKE to get some delegation reward.
+
+Participate in Decentralized Publishing
+Browse the content of depub.space, which is the "Web3 Twitter", a decentralized social media.
+
+Civic Liker
+Delegate at least 5,000 LIKE to "Civic Liker" node to become a Civic Liker, so that you can use your delegation reward to reward creators, with no need to consume the principle.
