@@ -430,6 +430,8 @@
   "walletConnectRequestView_button_approve": "允許",
   "walletConnectRequestView_button_reject": "拒絕",
   "walletConnectRequestView_label_app_unknown": "未知 App",
+  "walletConnectRequestView_label_description_back": "請返回瀏覽器繼續",
+  "walletConnectRequestView_label_description_back_android": "即將回瀏覽器繼續",
   "walletConnectRequestView_label_description_getAccounts": "%{name} 向 Liker Land App 發出了獲取 %{chainIds} 的錢包地址請求",
   "walletConnectRequestView_label_description_login": "%{name} 向 Liker Land App 發出了登入請求",
   "walletConnectRequestView_label_description_login_back": "請返回瀏覽器繼續",

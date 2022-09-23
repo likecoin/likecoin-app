@@ -193,6 +193,7 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
 
   async function onPressApprove() {
     if (props.onApprove) await props.onApprove()
+    let alertMessageKey: string
     if (
       payload.method === 'likerId_login'
       || (
@@ -200,25 +201,28 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
         && payload.params[2]?.memo.includes('Login - Reinventing the Like')
       )
     ) {
-      Alert.alert(
-        translate("walletConnectRequestScreen_title"),
-        translate(
-          Platform.OS === 'android'
-            ? "walletConnectRequestView_label_description_login_back_android" 
-            : "walletConnectRequestView_label_description_login_back" 
-        ),
-        [
-          {
-            text: translate("common.confirm"),
-            onPress: () => {
-              if (Platform.OS === 'android') {
-                RNExitApp.exitApp()
-              }
-            },
-          },
-        ]
-      )
+      alertMessageKey = Platform.OS === 'android'
+        ? "walletConnectRequestView_label_description_login_back_android" 
+        : "walletConnectRequestView_label_description_login_back" 
+    } else {
+      alertMessageKey = Platform.OS === 'android'
+        ? "walletConnectRequestView_label_description_back_android" 
+        : "walletConnectRequestView_label_description_back" 
     }
+    Alert.alert(
+      translate("walletConnectRequestScreen_title"),
+      translate(alertMessageKey),
+      [
+        {
+          text: translate("common.confirm"),
+          onPress: () => {
+            if (Platform.OS === 'android') {
+              RNExitApp.exitApp()
+            }
+          },
+        },
+      ]
+    )
   }
 
   return (
