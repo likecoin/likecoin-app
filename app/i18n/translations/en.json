@@ -459,6 +459,7 @@
   "walletConnectRequestView_label_description_sessionRequest": "%{name} wants to connect",
   "walletConnectRequestView_label_description_sign": "%{name} wants to sign a transaction",
   "walletConnectRequestView_label_description_unknown": "%{name} wants to get approval",
+  "walletConnectRequestView_loading_hint": "If the request is not responding, please return to the browser and come back again.",
   "Week": [
     "Sun",
     "Mon",

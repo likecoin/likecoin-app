@@ -439,6 +439,7 @@
   "walletConnectRequestView_label_description_sessionRequest": "%{name} 向 Liker Land App 發出了連接請求",
   "walletConnectRequestView_label_description_sign": "%{name} 向 Liker Land App 發出了簽名請求",
   "walletConnectRequestView_label_description_unknown": "%{name} 向 Liker Land App 發出了請求",
+  "walletConnectRequestView_loading_hint": "若沒有彈出確認請求，請返回瀏覽器再回來",
   "walletDashboardScreen": {
     "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
