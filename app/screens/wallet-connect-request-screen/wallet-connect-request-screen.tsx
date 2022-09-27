@@ -37,6 +37,12 @@ const HeaderText = styled(Text)`
   text-align: center;
 `
 
+const LoadingHintText = styled(Text)`
+  margin-top: ${({ theme }) => theme.spacing.lg};
+  color: ${({ theme }) => theme.color.palette.offWhite};
+  text-align: center;
+`
+
 export interface WalletConnectRequestScreenProps extends NavigationStackScreenProps<{
   peerId: string,
   peerMeta: any;
@@ -48,6 +54,23 @@ export interface WalletConnectRequestScreenProps extends NavigationStackScreenPr
 @inject("walletConnectStore")
 @observer
 export class WalletConnectRequestScreen extends React.Component<WalletConnectRequestScreenProps, {}> {
+
+  patientTimer?: number
+
+  state = {
+    shouldShowLoadingHint: false,
+  }
+
+  componentDidMount() {
+    this.patientTimer = setTimeout(() => {
+      this.setState({ shouldShowLoadingHint: true })
+    }, 5000)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.patientTimer)
+  }
+
   get payload() {
     return this.props.navigation.getParam("payload")
   }
@@ -81,6 +104,9 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
         <LoadingView>
           <LoadingLikeCoinWrapper>
             <LoadingLikeCoin />
+            {this.state.shouldShowLoadingHint && (
+              <LoadingHintText tx="walletConnectRequestView_loading_hint" />
+            )}
           </LoadingLikeCoinWrapper>
           <Button
             preset="outlined"
