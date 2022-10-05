@@ -94,52 +94,6 @@ export class LikerLandAPI {
   }
 
   /**
-   * Fetch reader's users
-   */
-  async fetchReaderCreators(): Promise<Types.ReaderCreatorsResult> {
-    const response: ApiResponse<any> = await this.apisauce.get("/reader/index")
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    try {
-      return {
-        kind: "ok",
-        following: response.data.list,
-        unfollowed: response.data.unfollowedUsers,
-      }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
-
-  /**
-   * Fetch a list of content from followed authors
-   */
-  async fetchReaderFollowing({ before }: { before?: number } = {}): Promise<Types.ContentListResult> {
-    const response: ApiResponse<any> = await this.apisauce.get("/reader/works/followed", { before })
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        if (problem.kind === "forbidden") {
-          this.config.onUnauthenticated(response.originalError)
-        }
-        return problem
-      }
-    }
-
-    try {
-      const data: Types.Content[] = response.data?.list || []
-      return { kind: "ok", data }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
-
-  /**
    * Fetch Super Like feed from all likers
    */
   async fetchReaderSuperLikeGlobalFeed({

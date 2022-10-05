@@ -25,7 +25,7 @@ const Screen = styled(ScreenBase)`
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 
-@inject("contentBookmarksListStore", "creatorsStore")
+@inject("contentBookmarksListStore")
 export class ReaderScreen extends React.Component<Props, {}> {
   appState = AppState.currentState
 
@@ -36,7 +36,6 @@ export class ReaderScreen extends React.Component<Props, {}> {
   }
 
   componentDidMount() {
-    this.props.creatorsStore.fetchCreators()
     this.props.contentBookmarksListStore.fetch()
     AppState.addEventListener("change", this.handleAppStateChange)
   }

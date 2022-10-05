@@ -1,7 +1,4 @@
-import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-
-import { ReaderCreatorsResult } from "../../services/api"
-import { logError } from "../../utils/error"
+import { Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { CreatorModel } from "../creator"
 import { CreatorSnapshot } from "../creator/creator"
@@ -49,31 +46,6 @@ const CreatorsStoreModelBase = types
 
     return {
       createCreatorFromLikerID,
-
-      fetchCreators: flow(function*() {
-        if (self.isFetching) return
-        self.isFetching = true
-        try {
-          const result: ReaderCreatorsResult = yield self.env.likerLandAPI.fetchReaderCreators()
-          switch (result.kind) {
-            case "ok":
-              const followingSettings: { [key: string]: boolean } = {}
-              result.following.forEach(likerID => {
-                const creator = createCreatorFromLikerID(likerID)
-                followingSettings[creator.likerID] = true
-              })
-              result.unfollowed.forEach(likerID => {
-                const creator = createCreatorFromLikerID(likerID)
-                followingSettings[creator.likerID] = false
-              })
-              self.creatorsFollowStore.updateAll(followingSettings)
-          }
-        } catch (error) {
-          logError(error)
-        } finally {
-          self.isFetching = false
-        }
-      }),
     }
   })
 
