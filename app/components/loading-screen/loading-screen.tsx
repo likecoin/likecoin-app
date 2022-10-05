@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ViewStyle,
 } from "react-native"
+import styled from "styled-components/native"
 
 import {
   LoadingScreenStyle as Style,
@@ -14,6 +15,10 @@ import { Screen } from "../screen"
 import { Text } from "../text"
 
 import { color } from "../../theme"
+
+const LoadingHintLabel = styled(Text)`
+  margin-bottom: 24px;
+`
 
 export interface LoadingScreenProps {
   /**
@@ -46,7 +51,7 @@ export function LoadingScreen(props: LoadingScreenProps) {
       {...restProps}
     >
       <LoadingLikeCoin style={Style.Animation} />
-      <Text
+      <LoadingHintLabel
         tx={tx}
         text={text}
         size="default"
