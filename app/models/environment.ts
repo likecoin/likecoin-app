@@ -3,7 +3,7 @@ import { AuthCoreAPI } from "../services/authcore"
 import { BigDipper } from "../services/big-dipper"
 import { CosmosAPI } from "../services/cosmos"
 import { Reactotron } from "../services/reactotron"
-import { LikeCoAPI, LikeCoinAPI, LikerLandAPI } from "../services/api"
+import { LikeCoAPI, LikeCoinAPI } from "../services/api"
 import { BranchIO } from "../services/branch-io"
 import { initSentry } from "../utils/sentry"
 
@@ -19,7 +19,6 @@ export class Environment {
     this.authCoreAPI = new AuthCoreAPI()
     this.likeCoAPI = new LikeCoAPI()
     this.likeCoinAPI = new LikeCoinAPI()
-    this.likerLandAPI = new LikerLandAPI()
     this.cosmosAPI = new CosmosAPI()
     this.bigDipper = new BigDipper()
     this.branchIO = new BranchIO()
@@ -37,7 +36,6 @@ export class Environment {
       COSMOS_ADDRESS_PREFIX,
       LIKECO_API_URL,
       LIKECOIN_API_URL,
-      LIKERLAND_API_URL,
       BIG_DIPPER_URL,
       SENTRY_DSN,
       SENTRY_ENV,
@@ -48,7 +46,6 @@ export class Environment {
     this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID, COSMOS_ADDRESS_PREFIX)
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likeCoinAPI.setup(LIKECOIN_API_URL)
-    this.likerLandAPI.setup(LIKERLAND_API_URL)
     this.cosmosAPI.setup(COSMOS_LCD_URL, this.appConfig.getGasLimits())
     this.bigDipper.setup(BIG_DIPPER_URL)
   }
@@ -77,11 +74,6 @@ export class Environment {
    * LikeCoin API.
    */
   likeCoinAPI: LikeCoinAPI
-
-  /**
-   * liker.land API.
-   */
-  likerLandAPI: LikerLandAPI
 
   /**
    * AuthCore API.

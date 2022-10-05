@@ -29,7 +29,6 @@ import {
 } from '../../utils/analytics'
 
 import {
-  APIOptions,
   GeneralResult,
   User,
   UserLoginParams,
@@ -64,9 +63,6 @@ export const UserStoreModel = types
   }))
   .extend(withEnvironment)
   .views(self => ({
-    get signInURL() {
-      return self.env.likerLandAPI.getSignInURL()
-    },
     get crispChatEmbeddedURL() {
       const crispWebSiteID = self.env.appConfig.getValue("CRISP_WEBSITE_ID")
       let uri: string
@@ -169,7 +165,6 @@ export const UserStoreModel = types
         self.iapStore.clear()
         yield Promise.all([
           self.env.likeCoAPI.logout(),
-          self.env.likerLandAPI.signOut(),
           self.authCore.signOut(),
         ])
         self.env.branchIO.setUserIdentity()
@@ -303,19 +298,6 @@ export const UserStoreModel = types
         case "unauthorized": {
           yield self.logout()
         }
-      }
-    }),
-    fetchLikerLandUserInfo: flow(function * (opts: APIOptions = {}) {
-      const result: UserResult = yield self.env.likerLandAPI.fetchCurrentUserInfo(opts)
-      switch (result.kind) {
-        case "ok":
-          // Do nothing, store like.co user instead of liker.land
-          break
-
-        case "unauthorized":
-          if (!opts.isSlient) {
-            yield self.logout()
-          }
       }
     }),
     rateApp: flow(function * () {

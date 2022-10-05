@@ -161,7 +161,7 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
         })
         logAnalyticsEvent('register')
         logAnalyticsEvent('RegistrationComplete')
-        this.props.navigation.navigate('LikerLandOAuth')
+        this.props.navigation.navigate('PostSignIn')
       } catch (error) {
         const errorMessage = translateWithFallbackText(`error.${error.message}`, error.message)
         if (error.message === "REGISTRATION_EMAIL_ALREADY_USED") {
