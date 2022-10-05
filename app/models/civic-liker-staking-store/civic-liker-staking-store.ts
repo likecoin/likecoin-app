@@ -3,7 +3,7 @@ import { CivicLikerStakingInfoResult, CivicLikerStakingResult } from "../../serv
 
 import { logError } from "../../utils/error"
 
-import { withEnvironment } from "../extensions"
+import { withCurrentUser, withEnvironment } from "../extensions"
 
 /**
  * Civic Liker Staking
@@ -17,6 +17,7 @@ export const CivicLikerStakingStoreModel = types
     status: types.optional(types.string, "loading"),
   })
   .extend(withEnvironment)
+  .extend(withCurrentUser)
   .views(self => ({
     get stakingAmountRequired() {
       const required = Math.ceil(self.stakingAmountTarget) - Math.floor(self.stakingAmount)
@@ -32,7 +33,7 @@ export const CivicLikerStakingStoreModel = types
     },
     fetchStakingInfo: flow(function * () {
       try {
-        const response: CivicLikerStakingInfoResult = yield self.env.likerLandAPI.fetchCivicLikerStakingInfo()
+        const response: CivicLikerStakingInfoResult = yield self.env.likeCoAPI.fetchCivicLikerStakingInfo()
         if (response.kind === "ok") {
           const {
             operatorAddress,
@@ -47,7 +48,7 @@ export const CivicLikerStakingStoreModel = types
     }),
     fetchStaking: flow(function * () {
       try {
-        const response: CivicLikerStakingResult = yield self.env.likerLandAPI.fetchCivicLikerStaking()
+        const response: CivicLikerStakingResult = yield self.env.likeCoAPI.fetchCivicLikerStakingByAddress(self.currentUser.likeWallet)
         if (response.kind === "ok") {
           const {
             status,
