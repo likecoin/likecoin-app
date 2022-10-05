@@ -347,7 +347,7 @@ export const UserStoreModel = types
       switch (result.kind) {
         case "ok": {
           self.appMeta.isNew = false
-          yield self.env.likerLandAPI.followLiker(likerID)
+          yield self.env.likeCoinAPI.users.followers.add(likerID)
           break
         }
         default:

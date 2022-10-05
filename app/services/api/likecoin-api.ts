@@ -73,6 +73,24 @@ export class LikeCoinAPI {
   }
 
   users = {
+    followers: {
+      add: async (likerID: string): Promise<Types.GeneralResult> => {
+        const response: ApiResponse<any> = await this.apisauce.post(`/users/follow/users/${likerID}`)
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+        return { kind: "ok" }
+      },
+      remove: async (likerID: string): Promise<Types.GeneralResult> => {
+        const response: ApiResponse<any> = await this.apisauce.delete(`/users/follow/users/${likerID}`)
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+        return { kind: "ok" }
+      },
+    },
     bookmarks: {
       get: async (
         opts: {

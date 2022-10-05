@@ -93,34 +93,6 @@ export class LikerLandAPI {
   }
 
   /**
-   * Follow a liker
-   */
-  async followLiker(likerID: string): Promise<Types.GeneralResult> {
-    const response: ApiResponse<any> = await this.apisauce.post(`/reader/follow/user/${likerID}`)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    return { kind: "ok" }
-  }
-
-  /**
-   * Unfollow a liker
-   */
-  async unfollowLiker(likerID: string): Promise<Types.GeneralResult> {
-    const response: ApiResponse<any> = await this.apisauce.delete(`/reader/follow/user/${likerID}`)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    return { kind: "ok" }
-  }
-
-  /**
    * Fetch Civic Liker staking info
    */
   async fetchCivicLikerStakingInfo(): Promise<Types.CivicLikerStakingInfoResult> {

@@ -77,7 +77,7 @@ export const CreatorModel = UserModel.named("Creator")
         try {
           self.isShowUndoUnfollow = false
           self.creatorsFollowStore.update(self.likerID, true)
-          const result: GeneralResult = yield self.env.likerLandAPI.followLiker(
+          const result: GeneralResult = yield self.env.likeCoinAPI.users.followers.add(
             self.likerID,
           )
           if (result.kind !== "ok") {
@@ -99,7 +99,7 @@ export const CreatorModel = UserModel.named("Creator")
         try {
           self.creatorsFollowStore.update(self.likerID, false)
           self.isShowUndoUnfollow = true
-          const result: GeneralResult = yield self.env.likerLandAPI.unfollowLiker(
+          const result: GeneralResult = yield self.env.likeCoinAPI.users.followers.remove(
             self.likerID,
           )
           if (result.kind !== "ok") {
