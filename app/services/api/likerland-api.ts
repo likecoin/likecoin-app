@@ -121,25 +121,6 @@ export class LikerLandAPI {
   }
 
   /**
-   * Fetch current user's supporters
-   */
-  async fetchCurrentUserSupporters(): Promise<Types.SupporterListResult> {
-    const response: ApiResponse<any> = await this.apisauce.get('/civic/support/self/')
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    try {
-      const data: Types.Supporters[] = response.data.list
-      return { kind: "ok", data }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
-
-  /**
    * Fetch Civic Liker staking info
    */
   async fetchCivicLikerStakingInfo(): Promise<Types.CivicLikerStakingInfoResult> {

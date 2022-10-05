@@ -36,10 +36,7 @@ export interface DashboardUserInfoPanelProps {
   onAvatarUpload?: () => {} 
 }
 
-@inject(
-  "userStore",
-  "supportersStore",
-)
+@inject("userStore")
 @observer
 export class DashboardUserInfoPanel extends React.Component<
   DashboardUserInfoPanelProps
