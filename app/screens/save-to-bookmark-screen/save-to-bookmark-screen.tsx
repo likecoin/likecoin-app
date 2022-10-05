@@ -8,7 +8,7 @@ import { logAnalyticsEvent } from "../../utils/analytics"
 import { Button } from "../../components/button"
 import { Text } from "../../components/text"
 
-import { LikerLandAPI } from "../../services/api"
+import { LikeCoinAPI } from "../../services/api"
 import { color } from "../../theme"
 import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
@@ -17,7 +17,7 @@ import { LoadingScreen } from "../../components/loading-screen"
 const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
 export class SaveToBookmarkScreen extends React.Component {
-  likerLandAPI = new LikerLandAPI()
+  likecoinAPI = new LikeCoinAPI()
 
   state = {
     url: "",
@@ -27,7 +27,7 @@ export class SaveToBookmarkScreen extends React.Component {
 
   async componentDidMount() {
     // FIXME: Hard-coded endpoint
-    this.likerLandAPI.setup("https://liker.land/api")
+    this.likecoinAPI.setup("https://api.like.co")
 
     try {
       const { value }: { value: string } = await ShareExtension.data()
@@ -39,7 +39,7 @@ export class SaveToBookmarkScreen extends React.Component {
       const url = results[0]
       this.setState({ url })
       logAnalyticsEvent("ShareExtensionAddBookmark", { url })
-      const response = await this.likerLandAPI.addBookmark(url)
+      const response = await this.likecoinAPI.users.bookmarks.add(url)
       switch (response.kind) {
         case "ok":
           break
