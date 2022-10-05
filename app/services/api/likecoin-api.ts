@@ -6,6 +6,29 @@ import * as Types from "./api.types"
 
 const getTimezone = () => ((new Date()).getTimezoneOffset() / -60).toString()
 
+function filterSuperLikeList(list: any) {
+  const items = [] as Types.SuperLikeFeed;
+  list.forEach((l: any) => {
+    const { id, shortId, likee, liker, ts, url, superLikeIscnId } = l;
+    try {
+      // Guard malformed URI
+      decodeURI(url);
+      items.push({
+        superLikeID: id,
+        superLikeShortID: shortId,
+        superLikeIscnId,
+        referrer: url,
+        ts,
+        user: likee,
+        liker,
+      });
+    } catch {
+      // no-op
+    }
+  });
+  return items;
+}
+
 /**
  * LikeCoin API.
  */
@@ -231,6 +254,56 @@ export class LikeCoinAPI {
       return { kind: "ok" }
     },
     share: {
+      latest: async (
+        {
+          before,
+          limit,
+        }: {
+          before?: number
+          limit?: number
+        } = {}
+      ): Promise<Types.SuperLikeFeedResult> => {
+        const response: ApiResponse<any> = await this.apisauce.get('/like/share/latest', { before, limit })
+
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+
+        const data = filterSuperLikeList(response.data.list)
+        data.sort((a, b) => b.ts - a.ts)
+
+        return {
+          kind: "ok",
+          data,
+        }
+      },
+      user: async ({
+        likerId,
+        before,
+        after,
+        limit,
+      }: {
+        likerId?: string
+        before?: number
+        after?: number
+        limit?: number
+      } = {}): Promise<Types.SuperLikeFeedResult> => {
+        const response: ApiResponse<any> = await this.apisauce.get(`/like/share/user/${likerId}/latest`, { after, before, limit })
+
+        if (!response.ok) {
+          const problem = getGeneralApiProblem(response)
+          if (problem) return problem
+        }
+
+        const data = filterSuperLikeList(response.data.list)
+        data.sort((a, b) => b.ts - a.ts)
+
+        return {
+          kind: "ok",
+          data,
+        }
+      },
       get: async (id: string): Promise<Types.SuperLikeMetaResult> => {
         const response: ApiResponse<Types.SuperLikeMeta> = await this.apisauce.get(`/like/share/${id}`)
 

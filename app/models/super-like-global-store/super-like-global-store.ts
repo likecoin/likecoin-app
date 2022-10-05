@@ -1,7 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { logError } from "../../utils/error"
-import { SuperLikeFeedResult } from "../../services/api/likerland-api.types"
+import { SuperLikeFeedResult } from "../../services/api/api.types"
 
 import { SuperLike } from "../super-like"
 import { SuperLikeFeedModel } from "../super-like-feed"
@@ -25,7 +25,7 @@ export const SuperLikeGlobalStoreModel = SuperLikeFeedModel.named(
       if (self.status === "pending") return
       self.setStatus("pending")
       try {
-        const result: SuperLikeFeedResult = yield self.env.likerLandAPI.fetchReaderSuperLikeGlobalFeed(
+        const result: SuperLikeFeedResult = yield self.env.likeCoinAPI.like.share.latest(
           {
             limit: ITEMS_LIMIT_PER_FETCH,
           },
@@ -51,7 +51,7 @@ export const SuperLikeGlobalStoreModel = SuperLikeFeedModel.named(
       if (["pending-more", "pending", "idle"].includes(self.status)) return
       self.setStatus("pending-more")
       try {
-        const result: SuperLikeFeedResult = yield self.env.likerLandAPI.fetchReaderSuperLikeGlobalFeed(
+        const result: SuperLikeFeedResult = yield self.env.likeCoinAPI.like.share.latest(
           {
             before: self.items[self.items.length - 1].timestamp - 1,
             limit: ITEMS_LIMIT_PER_FETCH,

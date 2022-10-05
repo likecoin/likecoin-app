@@ -1,6 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 
-import { SuperLikeFeedItem } from "../../services/api/likerland-api.types"
+import { SuperLikeFeedItem } from "../../services/api/api.types"
 import { withContentsStore, withCreatorsStore, withEnvironment, withStatus } from "../extensions"
 import { SuperLikeModel } from "../super-like"
 

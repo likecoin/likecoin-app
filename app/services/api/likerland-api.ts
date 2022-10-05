@@ -2,7 +2,6 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, COMMON_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
-import * as LikerLandTypes from "./likerland-api.types"
 
 /**
  * liker.land API.
@@ -87,91 +86,6 @@ export class LikerLandAPI {
 
     try {
       const data: Types.User = response.data
-      return { kind: "ok", data }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
-
-  /**
-   * Fetch Super Like feed from all likers
-   */
-  async fetchReaderSuperLikeGlobalFeed({
-    before,
-    limit,
-  }: {
-    before?: number
-    limit?: number
-  } = {}): Promise<LikerLandTypes.SuperLikeFeedResult> {
-    const response: ApiResponse<any> =
-      await this.apisauce.get("/reader/superlike/latest", { before, limit })
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    try {
-      const data: LikerLandTypes.SuperLikeFeed = response.data.list
-      return { kind: "ok", data }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
-
-  /**
-   * Fetch a list of Super Like feed from following likers
-   */
-  async fetchReaderSuperLikeSelfFeed({
-    likerId,
-    before,
-    after,
-    limit,
-  }: {
-    likerId?: string
-    before?: number
-    after?: number
-    limit?: number
-  } = {}): Promise<LikerLandTypes.SuperLikeFeedResult> {
-    const response: ApiResponse<any> =
-      await this.apisauce.get(`/reader/users/${likerId}/superlike`, { before, after, limit })
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        if (problem.kind === "forbidden") {
-          this.config.onUnauthenticated(response.originalError)
-        }
-        return problem
-      }
-    }
-
-    try {
-      const data: LikerLandTypes.SuperLikeFeed = response.data.list
-      return { kind: "ok", data }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
-
-  /**
-   * Fetch a list of bookmarked content
-   */
-  async fetchReaderBookmark(): Promise<Types.BookmarkListResult> {
-    const response: ApiResponse<any> = await this.apisauce.get("/reader/bookmark")
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        if (problem.kind === "forbidden") {
-          this.config.onUnauthenticated(response.originalError)
-        }
-        return problem
-      }
-    }
-
-    try {
-      const data: string[] = response.data.bookmarks
       return { kind: "ok", data }
     } catch {
       return { kind: "bad-data" }

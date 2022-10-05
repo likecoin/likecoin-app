@@ -230,6 +230,20 @@ export type SuperLikeMetaResult =
   }
   | GeneralApiProblem
 
+export interface SuperLikeFeedItem extends Content {
+  superLikeID: string
+  superLikeShortID?: string
+  superLikeIscnId?: string
+  liker?: string
+}
+
+export type SuperLikeFeed = SuperLikeFeedItem[]
+
+export type SuperLikeFeedResult = {
+  kind: "ok"
+  data: SuperLikeFeed
+} | GeneralApiProblem
+
 export interface UserContentLikeStat {
   count: number
 }
