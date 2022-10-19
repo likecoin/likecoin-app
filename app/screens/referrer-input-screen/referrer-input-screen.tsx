@@ -28,7 +28,7 @@ import { translate, translateWithFallbackText } from "../../i18n"
 
 import { logAnalyticsEvent } from "../../utils/analytics"
 
-const LIKER_ID_MIN_LENGTH = 7
+const LIKER_ID_MIN_LENGTH = 5
 const LIKER_ID_MAX_LENGTH = 20
 const LIKER_ID_VALID_CHARACTERS = 'a-z0-9-_'
 const LIKER_ID_REGEX = new RegExp(`^[${LIKER_ID_VALID_CHARACTERS}]{${LIKER_ID_MIN_LENGTH},${LIKER_ID_MAX_LENGTH}}$`)
