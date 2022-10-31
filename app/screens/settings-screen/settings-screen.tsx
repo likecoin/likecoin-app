@@ -86,6 +86,10 @@ const AppVersionLabel = styled(AppVersionLabelBase)`
   margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
+const DeleteAccountButton = styled(Button)`
+  margin-top: ${({ theme }) => theme.spacing.xl};
+`
+
 function WalletConnectIcon() {
   const theme = useTheme()
   return (
@@ -151,6 +155,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
   private onPressWalletConnectSettings = () => {
     logAnalyticsEvent("SettingsClickWalletConnect")
     this.props.navigation.navigate("WalletConnectSettings")
+  }
+
+  private onPressDeleteAccount = () => {
+    logAnalyticsEvent("DeleteAccount")
+    this.props.navigation.navigate("AccountDelete")
   }
 
   render() {
@@ -238,6 +247,12 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 onPress={this.onClickLogout}
               />
             </LogoutButtonWrapper>
+            <DeleteAccountButton
+              preset="link"
+              color="angry"
+              tx="settings_account_delete"
+              onPress={this.onPressDeleteAccount}
+            />
             <AppVersionLabel />
           </ScrollContentView>
         </ScrollView>

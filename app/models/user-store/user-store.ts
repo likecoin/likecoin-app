@@ -16,6 +16,7 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from "react-native-image-picker"
+import stringify from "fast-json-stable-stringify";
 
 import { withEnvironment } from "../extensions"
 import { UserModel } from "../user"
@@ -175,6 +176,38 @@ export const UserStoreModel = types
         applySnapshot(self.iapStore, {})
         applySnapshot(self.appMeta, {})
       }
+    }),
+    deleteAccount: flow(function * (
+      likeWallet,
+      {
+        signed: signedMessage,
+        signature: { signature, pub_key: publicKey },
+      }
+    ) {
+      yield self.env.likeCoAPI.deleteAccount(self.currentUser.likerID, {
+        signature: {
+          signature,
+          publicKey: publicKey.value,
+          message: stringify(signedMessage),
+          from: likeWallet,
+        },
+        authCoreAccessToken: self.authCore.accessToken,
+      })
+
+      yield Promise.all([
+        logoutAnalyticsUser(),
+        self.authCore.signOut(),
+      ])
+      self.env.branchIO.setUserIdentity()
+      self.userAppReferralLink = undefined
+      applySnapshot(self.iapStore, {})
+      applySnapshot(self.appMeta, {})
+      self.authCore.setHasSignedIn(false)
+      self.currentUser = undefined
+      self.iapStore.clear()
+      getRoot(self).reset()
+
+      return true
     }),
     updateUserAvatar: flow(function * () {
       const oldAvatarURL = self.currentUser.avatarURL

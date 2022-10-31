@@ -1,4 +1,11 @@
 {
+  "account_delete_screen_title": "删除帐户",
+  "account_delete_screen_header_text": "确认删除帐户",
+  "account_delete_screen_message": "请问你是否确认删除 Liker ID 帐户 %{id}?",
+  "account_delete_screen_notice_1": "与你的 Liker ID 相关的资料大部分会被删除，但交易相关资料将会继续保留在 LikeCoin 链上和交易记录索引内。",
+  "account_delete_screen_notice_2": "在帐户删除后，Liker ID 将不能被重用，你将需要注册全新的 Liker ID。",
+  "account_delete_screen_input_label": "请输入 %{code} 来确认",
+  "account_delete_screen_confirm": "确认",
   "amount_input_max": "最大",
   "closeApp": "结束 App",
   "initializing": "初始化中",
@@ -329,6 +336,7 @@
     "termsOfUse": "使用条款",
     "title": "设定"
   },
+  "settings_account_delete": "删除帳戶",
   "settings_screen_bookmark": "阅读列表",
   "settings_screen_experimental_features": "试用新功能",
   "settings_screen_walletConnect": "WalletConnect",
