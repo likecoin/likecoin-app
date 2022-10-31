@@ -210,6 +210,8 @@ export const UserStoreModel = types
         email,
         avatar: avatarURL,
         isSubscribedCivicLiker: isCivicLiker,
+        likeWallet,
+        cosmosWallet,
       } = data
       if (!self.currentUser || self.currentUser.likerID !== likerID) {
         self.currentUser = UserModel.create({
@@ -218,12 +220,16 @@ export const UserStoreModel = types
           email,
           avatarURL,
           isCivicLiker,
+          likeWallet,
+          cosmosWallet,
         })
       } else if (self.currentUser) {
         self.currentUser.displayName = displayName
         self.currentUser.email = email
         self.currentUser.avatarURL = avatarURL
         self.currentUser.isCivicLiker = isCivicLiker
+        self.currentUser.likeWallet = likeWallet
+        self.currentUser.cosmosWallet = cosmosWallet
       }
     },
     checkTrackingStatus: flow(function * () {
