@@ -16,6 +16,7 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from "react-native-image-picker"
+import stringify from "fast-json-stable-stringify";
 
 import { withEnvironment } from "../extensions"
 import { UserModel } from "../user"
@@ -176,6 +177,38 @@ export const UserStoreModel = types
         applySnapshot(self.appMeta, {})
       }
     }),
+    deleteAccount: flow(function * (
+      likeWallet,
+      {
+        signed: signedMessage,
+        signature: { signature, pub_key: publicKey },
+      }
+    ) {
+      yield self.env.likeCoAPI.deleteAccount(self.currentUser.likerID, {
+        signature: {
+          signature,
+          publicKey: publicKey.value,
+          message: stringify(signedMessage),
+          from: likeWallet,
+        },
+        authCoreAccessToken: self.authCore.accessToken,
+      })
+
+      yield Promise.all([
+        logoutAnalyticsUser(),
+        self.authCore.signOut(),
+      ])
+      self.env.branchIO.setUserIdentity()
+      self.userAppReferralLink = undefined
+      applySnapshot(self.iapStore, {})
+      applySnapshot(self.appMeta, {})
+      self.authCore.setHasSignedIn(false)
+      self.currentUser = undefined
+      self.iapStore.clear()
+      getRoot(self).reset()
+
+      return true
+    }),
     updateUserAvatar: flow(function * () {
       const oldAvatarURL = self.currentUser.avatarURL
       try {
@@ -210,6 +243,8 @@ export const UserStoreModel = types
         email,
         avatar: avatarURL,
         isSubscribedCivicLiker: isCivicLiker,
+        likeWallet,
+        cosmosWallet,
       } = data
       if (!self.currentUser || self.currentUser.likerID !== likerID) {
         self.currentUser = UserModel.create({
@@ -218,12 +253,16 @@ export const UserStoreModel = types
           email,
           avatarURL,
           isCivicLiker,
+          likeWallet,
+          cosmosWallet,
         })
       } else if (self.currentUser) {
         self.currentUser.displayName = displayName
         self.currentUser.email = email
         self.currentUser.avatarURL = avatarURL
         self.currentUser.isCivicLiker = isCivicLiker
+        self.currentUser.likeWallet = likeWallet
+        self.currentUser.cosmosWallet = cosmosWallet
       }
     },
     checkTrackingStatus: flow(function * () {

@@ -91,6 +91,20 @@ export class LikeCoAPI {
   }
 
   /**
+   * Delete account
+   */
+  async deleteAccount(id: string, payload: any): Promise<Types.GeneralResult> {
+    const response: ApiResponse<any> = await this.apisauce.post(`/users/delete/${id}`, payload)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return { kind: "ok" }
+  }
+
+  /**
    * Fetch current user info
    */
   async fetchCurrentUserInfo(): Promise<Types.UserResult> {

@@ -289,6 +289,20 @@ export const ChainStoreModel = types
         self.isFetchingBalance = false
       }
     }),
+    signMemo: flow(function * (memo, wallet = self.currentWallet.address) {
+      const signDoc = {
+        /* eslint-disable @typescript-eslint/camelcase */
+        chain_id: self.id,
+        memo: memo,
+        msgs: [],
+        fee: { gas: '1', amount: [{ denom: 'nanolike', amount: '0' }] },
+        sequence: '0',
+        account_number: '0',
+        /* eslint-enable @typescript-eslint/camelcase */
+      };
+      const { signature, signed }: any = yield self.env.authCoreAPI.signAmino(signDoc, wallet)
+      return { signature, signed };
+    }),
   }))
   .actions(self => ({
     fetchDelegations: flow(function * () {

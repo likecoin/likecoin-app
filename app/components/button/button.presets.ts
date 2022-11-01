@@ -66,6 +66,11 @@ export const viewPresets = {
     backgroundColor: color.palette.grey9b + "33",
   } as ViewStyle,
 
+  danger: {
+    ...BASE_VIEW,
+    backgroundColor: color.palette.angry,
+  } as ViewStyle,
+
   /**
    * A outlined style button
    */
@@ -167,6 +172,10 @@ export const textPresets = {
   secondary: {
     ...BASE_TEXT,
     color: color.palette.grey4a,
+  } as TextStyle,
+  danger: {
+    ...BASE_TEXT,
+    color: color.palette.white,
   } as TextStyle,
   gradient: {
     ...BASE_TEXT,

@@ -17,6 +17,7 @@ import { UserLoginParams } from "../../services/api"
 
 import { Button } from "../../components/button"
 import { ButtonGroup } from "../../components/button-group"
+import { Header } from "../../components/header"
 import { Icon } from "../../components/icon"
 import { Screen } from "../../components/screen"
 import { Text } from "../../components/text"
@@ -52,14 +53,10 @@ const LIKER_ID_REGEX = new RegExp(`^[${LIKER_ID_VALID_CHARACTERS}]{${LIKER_ID_MI
 
 const ROOT: ViewStyle = {
   flex: 1,
-  padding: spacing[4],
-  paddingTop: spacing[0],
-}
-const TOP_BAR: ViewStyle = {
-  alignItems: "flex-start",
 }
 const CONTENT_VIEW: ViewStyle = {
   flexGrow: 1,
+  padding: spacing[4],
   justifyContent: "center",
   alignItems: "center",
 }
@@ -101,6 +98,7 @@ const ERROR = StyleSheet.create({
 })
 const BOTTOM_BAR: ViewStyle = {
   alignItems: "center",
+  padding: spacing[4],
 }
 const REGISTER: ViewStyle = {
   width: BUTTON_GROUP.width,
@@ -117,6 +115,10 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
       error: "",
       likerId: email ? email.split("@")[0].toLowerCase().replace(LIKER_ID_CHARACTER_FILTER_REGEX, "") : "",
     }
+  }
+
+  async componentWillUnmount() {
+    await this.props.userStore.authCore.signOut()
   }
 
   /**
@@ -192,13 +194,10 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
         backgroundColor={color.palette.likeGreen}
         style={ROOT}
       >
-        <View style={TOP_BAR}>
-          <Button
-            preset="icon"
-            icon="close"
-            onPress={this.onPressCloseButton}
-          />
-        </View>
+        <Header
+          leftIcon="back"
+          onLeftPress={this.onPressCloseButton}
+        />
         <View style={CONTENT_VIEW}>
           <View style={LIKER_ID_INPUT.LABEL_WRAPPER}>
             <Text
