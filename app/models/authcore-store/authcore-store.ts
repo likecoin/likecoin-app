@@ -162,6 +162,15 @@ export const AuthCoreStoreModel = types
           })
           yield postSignIn(result)
         }),
+        reAuth: flow(function*() {
+          const result = yield self.env.authCoreAPI.signIn({
+            language: self.normalizedLanguage,
+            initialScreen: "signin",
+            contact: self.profile.primaryEmail,
+            fixedContact: true,
+          })
+          return result
+        }),
         register: flow(function*() {
           const result = yield self.env.authCoreAPI.signIn({
             language: self.normalizedLanguage,

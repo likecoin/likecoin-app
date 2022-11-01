@@ -363,16 +363,18 @@ export class AuthCoreAPI {
   /**
    * Sign in AuthCore
    */
-  async signIn(options: {
+  async signIn(options?: {
     initialScreen?: string
     language?: string
+    contact?: string
+    fixedContact?: boolean
   }) {
     const {
       accessToken,
       refreshToken,
       idToken,
       currentUser,
-    } = await this.client.webAuth.signin(options)
+    } = await this.client.webAuth.signin({ cid: 'app', ...options })
     return {
       accessToken,
       refreshToken,

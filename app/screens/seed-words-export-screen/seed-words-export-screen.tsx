@@ -120,7 +120,7 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
   private onPressConfirmButton = async () => {
     try {
       this.setState({ isLoading: true })
-      const { accessToken } = this.props.userStore.authCore
+      const { accessToken }: any = await this.props.userStore.authCore.reAuth()
       this.authClient = await this.props.userStore.env.authCoreAPI.getAuthClient(accessToken)
       const { isPasswordNeeded } = await this.props.userStore.env.authCoreAPI.checkSeedWordsExportChallenge(this.authClient)
       this.setState({ 
@@ -132,7 +132,7 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
       logError(error)
       this.setState({
         isLoading: false,
-        error: `${error}`,
+        error: error?.error !== 'authcore.session.user_cancelled' ? `${error?.error || error}` : '',
       })
     }
   }
