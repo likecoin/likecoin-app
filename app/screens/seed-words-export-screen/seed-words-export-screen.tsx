@@ -5,18 +5,19 @@ import { inject, observer } from "mobx-react"
 import styled from "styled-components/native"
 import { AuthCoreAuthClient } from "@likecoin/authcore-js"
 
+import { Button } from "../../components/button"
 import { Header } from "../../components/header"
+import { Icon } from "../../components/icon"
+import { Text } from "../../components/text"
+import { sizes } from "../../components/text/text.sizes"
 import { Screen as ScreenBase } from "../../components/screen"
 
 import { UserStore } from "../../models/user-store"
-import { Text } from "../../components/text"
+import { ChainStore } from "../../models/chain-store"
 
 import { color } from "../../theme"
-import { Button } from "../../components/button"
-import { ChainStore } from "../../models/chain-store"
+
 import { logError } from "../../utils/error"
-import { sizes } from "../../components/text/text.sizes"
-import { Icon } from "../../components/icon"
 
 const Screen = styled(ScreenBase)`
   flex: 1;

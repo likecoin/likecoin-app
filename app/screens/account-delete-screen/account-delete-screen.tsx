@@ -3,16 +3,17 @@ import { NavigationStackScreenProps } from "react-navigation-stack"
 import { inject, observer } from "mobx-react"
 import styled from "styled-components/native"
 
+import { Button } from "../../components/button"
 import { Header } from "../../components/header"
+import { I18n } from "../../components/i18n"
+import { Text } from "../../components/text"
 import { Screen as ScreenBase } from "../../components/screen"
 
 import { UserStore } from "../../models/user-store"
-import { Text } from "../../components/text"
+import { ChainStore } from "../../models/chain-store"
 
 import { color } from "../../theme"
-import { Button } from "../../components/button"
-import { ChainStore } from "../../models/chain-store"
-import { I18n } from "../../components/i18n"
+
 import { logError } from "../../utils/error"
 
 const Screen = styled(ScreenBase)`
