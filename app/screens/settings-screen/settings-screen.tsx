@@ -162,6 +162,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     this.props.navigation.navigate("AccountDelete")
   }
 
+  private onPressSeedWordsExport = () => {
+    logAnalyticsEvent("ExportSeedWords")
+    this.props.navigation.navigate("SeedWordsExport")
+  }
+
   render() {
     const { currentUser: user } = this.props.userStore
     return (
@@ -208,6 +213,10 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                   onPress={this.onPressWalletConnectSettings}
                 />
               }
+              <TableViewCell
+                titleTx="settings_screen_seed_words_export"
+                onPress={this.onPressSeedWordsExport}
+              />
             </PrimarySectionTableView>
 
             <SecondarySectionTableView>

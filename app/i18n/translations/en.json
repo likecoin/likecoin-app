@@ -324,6 +324,14 @@
       "Creator": "Supported Creators"
     }
   },
+  "seed_words_export_screen_title": "Export Seed Words",
+  "seed_words_export_screen_warning_title": "Warning",
+  "seed_words_export_screen_warning_description": "Never share your seed words with anyone or paste it into insecure applications. Keep your seed word secret or your fund might be stolen!",
+  "seed_words_export_screen_warning_confirm_button": "Confirm",
+  "seed_words_export_screen_password_label": "Please enter your Authcore password to export seed words",
+  "seed_words_export_screen_password_submit_button": "Authenticate",
+  "seed_words_export_screen_seed_words_copy_button": "Copy",
+  "seed_words_export_screen_seed_words_copied_button": "Copied",
   "settingsScreen": {
     "contactUs": "Contact Us",
     "openSourceLicense": "Open Source License",
@@ -362,6 +370,7 @@
   "settings_account_delete": "Delete Account",
   "settings_screen_bookmark": "Bookmarks",
   "settings_screen_experimental_features": "Experimental Features",
+  "settings_screen_seed_words_export": "Export Seed Words",
   "settings_screen_walletConnect": "WalletConnect",
   "storybook": {
     "placeholder": "Placeholder",

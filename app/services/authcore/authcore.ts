@@ -1,6 +1,7 @@
 import AuthCore from "react-native-authcore"
 import "crypto"
 import jwt from "jsonwebtoken"
+import { AuthCoreAuthClient } from "@likecoin/authcore-js"
 import { AuthcoreVaultClient, AuthcoreCosmosProvider } from "@likecoin/secretd-js"
 import {
   AccountData,
@@ -408,5 +409,41 @@ export class AuthCoreAPI {
    */
   openSettingsWidget(options: AuthcoreScreenOptions) {
     this.client.settings.show(options)
+  }
+
+  async getAuthClient(accessToken: string) {
+    const authClient = await new AuthCoreAuthClient({
+      apiBaseURL: this.baseURL,
+      callbacks: this.callbacks,
+      accessToken,
+    })
+    return authClient
+  }
+
+  async checkSeedWordsExportChallenge(authClient: AuthCoreAuthClient) {
+    const res = await authClient.startSecretdExportAuthentication()
+    return {
+      isPasswordNeeded: res.challenges.includes('PASSWORD')
+    }
+  }
+
+  async getSeedWordsExportToken(authClient: AuthCoreAuthClient, password?: string) {
+    let res: any
+    if (password) {
+      res = await authClient.authenticateSecretdWithPassword(password)
+    } else {
+      res = await authClient.authenticateSecretdWithNoPassword()
+    }
+    return res.secretd_access_token;
+  }
+
+  async exportSeedWords(token: string) {
+    const vaultClient = new AuthcoreVaultClient({
+      apiBaseURL: this.baseURL,
+      accessToken: token,
+    })
+    const cosmosProvider = new AuthcoreCosmosProvider({ client: vaultClient })
+    const seeds = await cosmosProvider.exportMnemonic()
+    return seeds
   }
 }

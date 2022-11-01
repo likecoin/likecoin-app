@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@cosmjs/stargate": "^0.25.5",
+    "@likecoin/authcore-js": "^0.3.0-like.0",
     "@likecoin/secretd-js": "^0.4.3",
     "@react-native-community/async-storage": "^1.5.1",
     "@react-native-community/masked-view": "^0.1.11",

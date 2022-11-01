@@ -301,6 +301,14 @@
       "Creator": "回饋作者"
     }
   },
+  "seed_words_export_screen_title": "滙出助記詞",
+  "seed_words_export_screen_warning_title": "警告",
+  "seed_words_export_screen_warning_description": "請勿與任何人分享你的錢包助記詞，或者輸入助記詞到不明網站或程式。保障資產安全，錢包助記詞必須保密！",
+  "seed_words_export_screen_warning_confirm_button": "確認",
+  "seed_words_export_screen_password_label": "請輸入 Authcore 密碼",
+  "seed_words_export_screen_password_submit_button": "認證",
+  "seed_words_export_screen_seed_words_copy_button": "複製",
+  "seed_words_export_screen_seed_words_copied_button": "已複製",
   "settingsScreen": {
     "contactUs": "聯絡我們",
     "openSourceLicense": "開源授權",
@@ -339,6 +347,7 @@
   "settings_account_delete": "删除帳戶",
   "settings_screen_bookmark": "閱讀列表",
   "settings_screen_experimental_features": "試用新功能",
+  "settings_screen_seed_words_export": "匯出錢包助記詞",
   "settings_screen_walletConnect": "WalletConnect",
   "storybook": {
     "placeholder": "Placeholder",
