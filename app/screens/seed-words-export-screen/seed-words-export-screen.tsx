@@ -57,6 +57,7 @@ const PasswordInputField = styled.TextInput`
   padding: ${({ theme }) => theme.spacing.sm};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.palette.white};
+  color: ${({ theme }) => theme.color.palette.black};
   text-align: center;
 `
 
