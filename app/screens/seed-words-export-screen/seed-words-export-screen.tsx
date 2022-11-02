@@ -147,6 +147,9 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
       const { accessToken }: any = await this.props.userStore.authCore.reAuth()
       this.authClient = await this.props.userStore.env.authCoreAPI.getAuthClient(accessToken)
       const { isPasswordNeeded } = await this.props.userStore.env.authCoreAPI.checkSeedWordsExportChallenge(this.authClient)
+      if (!isPasswordNeeded) {
+        await this.exportSeedWords()
+      }
       this.setState({ 
         isLoading: false,
         isConfirmed: true,
