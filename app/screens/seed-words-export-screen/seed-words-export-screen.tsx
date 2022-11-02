@@ -119,6 +119,19 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
     this.props.navigation.goBack()
   }
 
+  private exportSeedWords = async () => {
+    try {
+      const token = await this.props.userStore.env.authCoreAPI.getSeedWordsExportToken(this.authClient, this.state.password)
+      const seeds = await this.props.userStore.env.authCoreAPI.exportSeedWords(token)
+      this.setState({ seeds })
+    } catch (error) {
+      logError(error)
+      this.setState({ error: error.response?.data?.error || `${error}` })
+    } finally {
+      this.setState({ isLoading: false })
+    }
+  }
+
   private onPressConfirmButton = async () => {
     try {
       this.setState({ isLoading: true })
@@ -139,19 +152,10 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
     }
   }
 
-  private onPressAuthenticateButton = async () => {
-    try {
-      this.setState({ isLoading: true })
-      const token = await this.props.userStore.env.authCoreAPI.getSeedWordsExportToken(this.authClient, this.state.password)
-      const seeds = await this.props.userStore.env.authCoreAPI.exportSeedWords(token)
-      this.setState({ seeds, isLoading: false })
-    } catch (error) {
-      logError(error)
-      this.setState({
-        isLoading: false,
-        error: `${error}`,
-      })
-    }
+  private onPressAuthenticateButton = () => {
+    this.setState({ isLoading: true })
+    // XXX: Use setTimeout to mitigate the delay of showing loading progress indicator in button
+    setTimeout(this.exportSeedWords, 10)
   }
 
   private onPressCopySeedWords = () => {
@@ -206,13 +210,14 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
             returnKeyType="done"
             underlineColorAndroid={color.transparent}
             secureTextEntry={true}
+            editable={!this.state.isLoading}
             autoFocus
             onChangeText={value => this.setState({ password: value })}
+            onSubmitEditing={this.onPressAuthenticateButton}
           />
           <AuthenticateButton
             tx="account_delete_screen_confirm"
             preset="primary"
-            disabled={this.state.isLoading}
             isLoading={this.state.isLoading}
             onPress={this.onPressAuthenticateButton}
           />
