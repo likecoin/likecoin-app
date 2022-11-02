@@ -12,6 +12,8 @@ import { Text } from "../../components/text"
 import { sizes } from "../../components/text/text.sizes"
 import { Screen as ScreenBase } from "../../components/screen"
 
+import { translate } from "../../i18n"
+
 import { UserStore } from "../../models/user-store"
 import { ChainStore } from "../../models/chain-store"
 
@@ -125,8 +127,15 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
       const seeds = await this.props.userStore.env.authCoreAPI.exportSeedWords(token)
       this.setState({ seeds })
     } catch (error) {
-      logError(error)
-      this.setState({ error: error.response?.data?.error || `${error}` })
+      let errorMessage = ''
+      const rawErrorMessage = error.response?.body?.error || error.message || error
+      if (rawErrorMessage.includes("invalid password")) {
+        errorMessage = translate("seed_words_export_screen_error_invalid_password")
+      } else {
+        logError(error)
+        errorMessage = rawErrorMessage
+      }
+      this.setState({ error: errorMessage })
     } finally {
       this.setState({ isLoading: false })
     }
@@ -134,7 +143,7 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
 
   private onPressConfirmButton = async () => {
     try {
-      this.setState({ isLoading: true })
+      this.setState({ isLoading: true, error: '' })
       const { accessToken }: any = await this.props.userStore.authCore.reAuth()
       this.authClient = await this.props.userStore.env.authCoreAPI.getAuthClient(accessToken)
       const { isPasswordNeeded } = await this.props.userStore.env.authCoreAPI.checkSeedWordsExportChallenge(this.authClient)
@@ -153,7 +162,7 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
   }
 
   private onPressAuthenticateButton = () => {
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true, error: '' })
     // XXX: Use setTimeout to mitigate the delay of showing loading progress indicator in button
     setTimeout(this.exportSeedWords, 10)
   }

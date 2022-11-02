@@ -332,6 +332,7 @@
   "seed_words_export_screen_password_submit_button": "Authenticate",
   "seed_words_export_screen_seed_words_copy_button": "Copy",
   "seed_words_export_screen_seed_words_copied_button": "Copied",
+  "seed_words_export_screen_error_invalid_password": "Invalid password",
   "settingsScreen": {
     "contactUs": "Contact Us",
     "openSourceLicense": "Open Source License",

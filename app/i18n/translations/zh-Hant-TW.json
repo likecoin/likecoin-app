@@ -309,6 +309,7 @@
   "seed_words_export_screen_password_submit_button": "認證",
   "seed_words_export_screen_seed_words_copy_button": "複製",
   "seed_words_export_screen_seed_words_copied_button": "已複製",
+  "seed_words_export_screen_error_invalid_password": "密碼錯誤",
   "settings_account_delete": "删除帳戶",
   "settings_screen_bookmark": "閱讀列表",
   "settings_screen_experimental_features": "試用新功能",

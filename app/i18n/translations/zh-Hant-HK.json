@@ -309,6 +309,7 @@
   "seed_words_export_screen_password_submit_button": "認證",
   "seed_words_export_screen_seed_words_copy_button": "複製",
   "seed_words_export_screen_seed_words_copied_button": "已複製",
+  "seed_words_export_screen_error_invalid_password": "密碼錯誤",
   "settingsScreen": {
     "contactUs": "聯絡我們",
     "openSourceLicense": "開源授權",
