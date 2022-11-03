@@ -142,6 +142,7 @@ android {
         versionCode 316
         versionName "0.30.0"
         missingDimensionStrategy 'react-native-camera', 'general'
+        missingDimensionStrategy 'store', 'play'
     }
     splits {
         abi {
