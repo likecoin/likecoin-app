@@ -113,6 +113,14 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
 
   authClient: AuthCoreAuthClient
 
+  copyResetTimer: number
+
+  componentWillUnmount() {
+    if (this.copyResetTimer) {
+      clearTimeout(this.copyResetTimer)
+    }
+  }
+
   get seedWords() {
     return this.state.seeds.split(' ')
   }
@@ -186,7 +194,15 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
 
   private onPressCopySeedWords = () => {
     Clipboard.setString(this.state.seeds)
-    this.setState({ isCopied: true })
+    this.setState({ isCopied: true }, () => {
+      if (this.copyResetTimer) {
+        clearTimeout(this.copyResetTimer)
+      }
+      this.copyResetTimer = setTimeout(() => {  
+        this.setState({ isCopied: false })
+        this.copyResetTimer = undefined
+      }, 3000)
+    })
   }
 
   private renderErrorView = () => {
