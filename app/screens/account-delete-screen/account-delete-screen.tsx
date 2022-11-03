@@ -52,6 +52,7 @@ const InputLabel = styled(I18n)`
 const InputField = styled.TextInput`
   margin-top:  ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm};
+  color: ${({ theme }) => theme.color.palette.black};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.palette.white};
   text-align: center;
