@@ -36,6 +36,7 @@ import { LoadingScreen } from "../../components/loading-screen"
 
 import { translate } from "../../i18n"
 import { color } from "../../theme"
+import { NavigationEventSubscription } from "react-navigation"
 
 const defaultBgImage = require("./bg.jpg")
 
@@ -68,13 +69,27 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
     footerYAnim: new Animated.Value(200),
   }
 
+  screenWillFocusSubscription: NavigationEventSubscription
+
   componentDidMount() {
     this._checkNavigationParams()
+    this.screenWillFocusSubscription = this.props.navigation.addListener("willFocus", (payload) => {
+      if ((payload.lastState as any).routeName === "Register") {
+        // Sign out Authcore if users cancel Liker ID registration
+        this.props.userStore.authCore.signOut()
+      }
+    })
     this.reveal()
   }
 
   componentDidUpdate() {
     this._checkNavigationParams()
+  }
+
+  componentWillUnmount() {
+    if (this.screenWillFocusSubscription) {
+      this.screenWillFocusSubscription.remove()
+    }
   }
 
   private reveal() {

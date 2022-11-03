@@ -117,10 +117,6 @@ export class RegistrationScreen extends React.Component<RegistrationScreenProps,
     }
   }
 
-  async componentWillUnmount() {
-    await this.props.userStore.authCore.signOut()
-  }
-
   /**
    * Validate the target input
    */
