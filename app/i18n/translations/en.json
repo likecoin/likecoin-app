@@ -333,6 +333,7 @@
   "seed_words_export_screen_seed_words_copy_button": "Copy",
   "seed_words_export_screen_seed_words_copied_button": "Copied",
   "seed_words_export_screen_error_invalid_password": "Invalid password",
+  "seed_words_export_screen_error_account_mismatch": "Account mismatch, please login again with the correct OAuth method",
   "settingsScreen": {
     "contactUs": "Contact Us",
     "openSourceLicense": "Open Source License",

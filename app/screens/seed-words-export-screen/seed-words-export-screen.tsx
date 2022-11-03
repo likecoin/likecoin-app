@@ -156,10 +156,24 @@ export class SeedWordsExportScreen extends React.Component<SeedWordsExportScreen
         isPasswordNeeded,
       })
     } catch (error) {
-      logError(error)
+      let errorMessage = ''
+      const rawErrorMessage = error.error || error.message || error
+      switch (rawErrorMessage) {
+        case "authcore.session.user_cancelled":
+          break
+          
+        case "REAUTH_ACCOUNT_UNMATCH":
+          errorMessage = translate("seed_words_export_screen_error_account_mismatch")
+          break
+            
+        default:
+          logError(error)
+          errorMessage = rawErrorMessage
+          break
+      }
       this.setState({
         isLoading: false,
-        error: error?.error !== 'authcore.session.user_cancelled' ? `${error?.error || error}` : '',
+        error: errorMessage,
       })
     }
   }

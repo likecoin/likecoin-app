@@ -310,6 +310,7 @@
   "seed_words_export_screen_seed_words_copy_button": "複製",
   "seed_words_export_screen_seed_words_copied_button": "已複製",
   "seed_words_export_screen_error_invalid_password": "密碼錯誤",
+  "seed_words_export_screen_error_account_mismatch": "帳戶不符，請選擇正確的第三方登入方式",
   "settingsScreen": {
     "contactUs": "聯絡我們",
     "openSourceLicense": "開源授權",

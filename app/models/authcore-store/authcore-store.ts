@@ -162,15 +162,6 @@ export const AuthCoreStoreModel = types
           })
           yield postSignIn(result)
         }),
-        reAuth: flow(function*() {
-          const result = yield self.env.authCoreAPI.signIn({
-            language: self.normalizedLanguage,
-            initialScreen: "signin",
-            contact: self.profile.primaryEmail,
-            fixedContact: true,
-          })
-          return result
-        }),
         register: flow(function*() {
           const result = yield self.env.authCoreAPI.signIn({
             language: self.normalizedLanguage,
@@ -193,6 +184,25 @@ export const AuthCoreStoreModel = types
       },
     }
   })
+  .actions(self => ({
+    reAuth: flow(function*() {
+      if (!self.profile) {
+        yield self.fetchCurrentUser()
+      }
+      const result: any = yield self.env.authCoreAPI.signIn({
+        language: self.normalizedLanguage,
+        initialScreen: "signin",
+        contact: self.profile.primaryEmail,
+        fixedContact: true,
+      })
+
+      if (result?.currentUser?.id !== self.profile.id) {
+        throw new Error("REAUTH_ACCOUNT_UNMATCH")
+      }
+
+      return result
+    }),
+  }))
 
 type AuthcoreStoreType = Instance<typeof AuthCoreStoreModel>
 export interface AuthcoreStore extends AuthcoreStoreType {}
