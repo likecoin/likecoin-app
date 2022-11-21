@@ -74,7 +74,7 @@
     "react-native-qrcode-svg": "^5.2.0",
     "react-native-randombytes": "^3.5.3",
     "react-native-rate": "^1.2.4",
-    "react-native-reanimated": "1.13.0",
+    "react-native-reanimated": "2.10.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.7.0",
     "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#244989a267e4d1beb41779228ad905e5211f6bf7",
