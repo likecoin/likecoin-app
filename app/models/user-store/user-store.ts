@@ -273,19 +273,21 @@ export const UserStoreModel = types
       self.trackingStatus = trackingStatus
     }),
   }))
-  .actions(self => ({
-    fetchUserInfo: flow(function * () {
+  .actions(self => {
+    let userFetchPromise: Promise<[UserResult, SuperLikeStatusResult]>
+
+    const fetchUserInfo = flow(function * () {
       const timezone = (new Date().getTimezoneOffset() / -60).toString()
-      const [
-        userResult,
-        superLikeStatusResult
-      ]: [
-        UserResult,
-        SuperLikeStatusResult,
-      ] = yield Promise.all([
+
+      userFetchPromise = userFetchPromise ?? Promise.all([
         self.env.likeCoAPI.fetchCurrentUserInfo(),
         self.env.likeCoAPI.getMySuperLikeStatus(timezone),
       ])
+
+      const [
+        userResult,
+        superLikeStatusResult
+      ]: [UserResult, SuperLikeStatusResult] = yield userFetchPromise
 
       switch (userResult.kind) {
         case "ok": {
@@ -338,7 +340,19 @@ export const UserStoreModel = types
           yield self.logout()
         }
       }
-    }),
+    })
+
+    return {
+      fetchUserInfo: flow(function * () {
+        try {
+          yield fetchUserInfo()
+        } finally {
+          userFetchPromise = undefined
+        }
+      }),
+    }
+  })
+  .actions(self => ({
     rateApp: flow(function * () {
       try {
         yield new Promise((resolve, reject) => {
