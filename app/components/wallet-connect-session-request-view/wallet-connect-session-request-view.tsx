@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Alert, Platform, ViewStyle } from "react-native"
-import RNExitApp from "react-native-exit-app"
 import styled from "styled-components/native"
 
 import { translate } from "../../i18n"
@@ -213,14 +212,7 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
       translate("walletConnectRequestScreen_title"),
       translate(alertMessageKey),
       [
-        {
-          text: translate("common.confirm"),
-          onPress: () => {
-            if (Platform.OS === 'android') {
-              RNExitApp.exitApp()
-            }
-          },
-        },
+        { text: translate("common.confirm") },
       ]
     )
   }
