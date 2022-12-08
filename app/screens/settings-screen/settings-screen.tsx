@@ -87,7 +87,7 @@ const AppVersionLabel = styled(AppVersionLabelBase)`
 `
 
 const DeleteAccountButton = styled(Button)`
-  margin-top: ${({ theme }) => theme.spacing.xl};
+  margin-top: ${({ theme }) => theme.spacing['3xl']};
 `
 
 function WalletConnectIcon() {
@@ -256,12 +256,14 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 onPress={this.onClickLogout}
               />
             </LogoutButtonWrapper>
+            <Separator />
             <DeleteAccountButton
               preset="link"
               color="angry"
               tx="settings_account_delete"
               onPress={this.onPressDeleteAccount}
             />
+            <Separator />
             <AppVersionLabel />
           </ScrollContentView>
         </ScrollView>
