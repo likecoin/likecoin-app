@@ -180,13 +180,13 @@ export const WalletConnectClientModel = types
     },
   }))
   .actions(self => ({
-    rejectRequest(payload: any) {
+    rejectRequest(payload: any, error?: any) {
       if (isSessionRequest(payload.method)) {
         self.rejectSessionRequest()
       } else {
         self.rejectCallRequest({
           id: payload.id,
-          error: { message: "User rejected call request" }
+          error: { message: error?.message || error || "User rejected call request" }
         })
       }
     },
@@ -215,75 +215,63 @@ export const WalletConnectClientModel = types
 
           case "cosmos_signAmino":
           case "keplr_sign_amino_wallet_connect_v1": {
-            try {
-              result = [
-                yield self.env.authCoreAPI.signAmino(
-                  payload.params[2],
-                  payload.params[1]
-                )
-              ]
-            } catch (error) {
-              logError(error)
-            }
+            result = [
+              yield self.env.authCoreAPI.signAmino(
+                payload.params[2],
+                payload.params[1]
+              )
+            ]
             break
           }
 
           case "cosmos_signDirect": {
-            try {
-              const bech32Address = payload.params[0]
-              const signDoc = SignDoc.fromJSON(payload.params[1])
-              const res: DirectSignResponse = yield self.env.authCoreAPI.getOfflineDirectSigner().signDirect(
-                bech32Address,
-                signDoc
-              )
-              result = {
-                signed: SignDoc.toJSON(res.signed),
-                signature: res.signature,
-              }
-            } catch (error) {
-              logError(error)
+            const bech32Address = payload.params[0]
+            const signDoc = SignDoc.fromJSON(payload.params[1])
+            const res: DirectSignResponse = yield self.env.authCoreAPI.getOfflineDirectSigner().signDirect(
+              bech32Address,
+              signDoc
+            )
+            result = {
+              signed: SignDoc.toJSON(res.signed),
+              signature: res.signature,
             }
             break
           }
 
           case "likerId_login": {
-            try {
-              const [chainId, loginMessage] = payload.params
-              const { bech32Address }: { bech32Address: string } = yield self.env.authCoreAPI.getWalletConnectGetKeyResponse(
-                chainId,
-                { name: self.currentUser.likerID }
-              )
-              const ts = Date.now();
-              let memo = JSON.stringify({
-                ts,
-                likeWallet: bech32Address,
-              })
-              memo = [`${loginMessage}:`, memo].join(' ');
-              const {
-                signed: message,
-                signature: { signature, pub_key: publicKey },
-              }: {
-                signed: any,
-                signature: any,
-              } = yield self.env.authCoreAPI.signAmino({
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                chain_id: chainId,
-                memo,
-                msgs: [],
-                fee: { gas: '1', amount: [{ denom: 'nanolike', amount: '0' }] },
-                sequence: '0',
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                account_number: '0',
-              }, bech32Address);
-              result = {
-                signature,
-                publicKey: publicKey.value,
-                message: stringify(message),
-                from: bech32Address,
-                platform: 'likeWallet',
-              }
-            } catch (error) {
-              logError(error)
+            const [chainId, loginMessage] = payload.params
+            const { bech32Address }: { bech32Address: string } = yield self.env.authCoreAPI.getWalletConnectGetKeyResponse(
+              chainId,
+              { name: self.currentUser.likerID }
+            )
+            const ts = Date.now();
+            let memo = JSON.stringify({
+              ts,
+              likeWallet: bech32Address,
+            })
+            memo = [`${loginMessage}:`, memo].join(' ');
+            const {
+              signed: message,
+              signature: { signature, pub_key: publicKey },
+            }: {
+              signed: any,
+              signature: any,
+            } = yield self.env.authCoreAPI.signAmino({
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              chain_id: chainId,
+              memo,
+              msgs: [],
+              fee: { gas: '1', amount: [{ denom: 'nanolike', amount: '0' }] },
+              sequence: '0',
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              account_number: '0',
+            }, bech32Address);
+            result = {
+              signature,
+              publicKey: publicKey.value,
+              message: stringify(message),
+              from: bech32Address,
+              platform: 'likeWallet',
             }
             break
           }
@@ -291,17 +279,18 @@ export const WalletConnectClientModel = types
           default:
             break
         }
+        if (result) {
+          self.approveCallRequest({
+            id: payload.id,
+            result,
+          })
+        } else {
+          self.rejectRequest(payload)
+        }
       } catch (error) {
         logError(error)
-      }
 
-      if (result) {
-        self.approveCallRequest({
-          id: payload.id,
-          result,
-        })
-      } else {
-        self.rejectRequest(payload)
+        self.rejectRequest(payload, error)
       }
     }),
   }))
