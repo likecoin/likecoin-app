@@ -203,11 +203,8 @@ export class AuthCoreAPI {
       case "iscn-dev-chain-2":
         hrp = "cosmos"
         break
-        
-      case "likecoin-mainnet-2":
-        hrp = this.cosmosAddressPrefix
-        break
 
+      case "likecoin-mainnet-2":
       case "likecoin-public-testnet-5":
         hrp = "like"
         break
@@ -220,8 +217,9 @@ export class AuthCoreAPI {
         hrp = "luna"
         break
 
+      case this.cosmosChainId:
       default:
-        return undefined
+        hrp = this.cosmosAddressPrefix
     }
 
     const bech32Address = pubkeyToAddress(
@@ -237,7 +235,7 @@ export class AuthCoreAPI {
 
   async getCosmosAddressesAndPubKeys() {
     const pubKeys = await this.getPubKeys()
-    const addresses = pubKeys.map(pubkey => (this.getBech32Address(this.cosmosChainId,pubkey)))
+    const addresses = pubKeys.map(pubkey => this.getBech32Address(this.cosmosChainId, pubkey))
     return { addresses, pubKeys }
   }
 
@@ -336,7 +334,7 @@ export class AuthCoreAPI {
 
       async signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
         if (chainId !== signDoc.chainId) {
-          throw new Error('Unmatched chain ID with Authcore signer')
+          throw new Error(`Unmatched chain ID with Authcore signer, \`${chainId}\` is expected but \`${signDoc.chainId}\` is found.`)
         }
         const signBytes = makeSignBytes(signDoc)
         const { signatures } = await sign(signBytes, signerAddress)
