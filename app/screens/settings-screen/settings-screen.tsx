@@ -88,6 +88,7 @@ const AppVersionLabel = styled(AppVersionLabelBase)`
 
 const DeleteAccountButton = styled(Button)`
   margin-top: ${({ theme }) => theme.spacing['3xl']};
+  margin-bottom: ${({ theme }) => theme.spacing['xl']};
 `
 
 function WalletConnectIcon() {
