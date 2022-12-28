@@ -104,8 +104,8 @@
     "REWARDS_WITHDRAW_BELOW_MIN": "收益少於可提取下限",
     "STAKE_AMOUNT_EXCEED_MAX": "數目超過可委託的上限",
     "STAKE_AMOUNT_LESS_THAN_ZERO": "數目不可少於 0",
-    "TRANSFER_AMOUNT_EXCEED_MAX": "LIKE pay 數目超過上限",
-    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "LIKE pay 數目不可小於 0",
+    "TRANSFER_AMOUNT_EXCEED_MAX": "發送 LIKE 數目超過上限",
+    "TRANSFER_AMOUNT_LESS_THAN_ZERO": "發送 LIKE 數目不可小於 0",
     "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或錢包地址不正確",
     "TX_NOT_INCLUDED_YET": "交易尚未在區塊鏈上被確認，請於 Big Dipper 查看開放數據",
     "TX_INSUFFICIENT_GAS_FEE": "錢包餘額不足以支付 Gas 費用，還需要 %{diff} LIKE",
@@ -142,7 +142,7 @@
   },
   "Notification": {
     "Type": {
-      "send": "LIKE pay",
+      "send": "發送 LIKE",
       "receive": "收款",
       "civic-like": "讚賞公民",
       "super-like": "Super Like",
@@ -395,7 +395,7 @@
     "to": "至"
   },
   "transferTargetInputScreen": {
-    "targetInputLabel": "LIKE pay 至",
+    "targetInputLabel": "發送 LIKE 至",
     "targetInputPlaceholder": "收款人的 Liker ID 或錢包地址"
   },
   "transferAmountInputScreen": {
@@ -406,10 +406,10 @@
     "InputLabel": "輸入 memo (可省略)"
   },
   "transferSigningScreen": {
-    "completed": "LIKE pay 完成",
+    "completed": "LIKE 發送完成",
     "details": "詳細資料",
     "Memo": "Memo",
-    "title": "LIKE pay",
+    "title": "發送 LIKE",
     "totalAmount": "總額",
     "transactionFee": "手續費"
   },
@@ -464,7 +464,7 @@
     "allDelegatorRewardsLabel": "未領取收益",
     "allUnbondingBalanceLabel": "解綁中",
     "AllValidatorsButtonText": "所有驗證人",
-    "send": "LIKE pay",
+    "send": "發送 LIKE",
     "stakeLabel": "委託",
     "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
