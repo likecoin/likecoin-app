@@ -130,7 +130,7 @@
     "EmptyLabel": "No content"
   },
   "I18nStory": {
-    "UseCase1": "%{liker} LIKE pay you %{amount}."
+    "UseCase1": "%{liker} sent you %{amount}."
   },
   "Language": {
     "en": "English",
@@ -143,7 +143,7 @@
   },
   "Notification": {
     "Type": {
-      "send": "LIKE pay",
+      "send": "Send LIKE",
       "receive": "Receive",
       "civic-like": "Civic Liker",
       "super-like": "Super Like",
@@ -405,7 +405,7 @@
     "to": "To"
   },
   "transferTargetInputScreen": {
-    "targetInputLabel": "LIKE pay",
+    "targetInputLabel": "Send LIKE",
     "targetInputPlaceholder": "Receiver's Liker ID or address"
   },
   "transferAmountInputScreen": {
@@ -416,10 +416,10 @@
     "InputLabel": "Input memo (optional)"
   },
   "transferSigningScreen": {
-    "completed": "LIKE pay succeeded.",
+    "completed": "LIKE send succeeded.",
     "details": "Details",
     "Memo": "Memo",
-    "title": "LIKE pay",
+    "title": "Send LIKE",
     "totalAmount": "Total",
     "transactionFee": "Transaction fee"
   },
