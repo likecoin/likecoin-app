@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Alert, Platform, ViewStyle } from "react-native"
+import { Alert, ViewStyle } from "react-native"
 import styled from "styled-components/native"
 
 import { translate } from "../../i18n"
@@ -200,13 +200,9 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
         && payload.params[2]?.memo.includes('Login - Reinventing the Like')
       )
     ) {
-      alertMessageKey = Platform.OS === 'android'
-        ? "walletConnectRequestView_label_description_login_back_android" 
-        : "walletConnectRequestView_label_description_login_back" 
+      alertMessageKey = "walletConnectRequestView_label_description_login_back"
     } else {
-      alertMessageKey = Platform.OS === 'android'
-        ? "walletConnectRequestView_label_description_back_android" 
-        : "walletConnectRequestView_label_description_back" 
+      alertMessageKey = "walletConnectRequestView_label_description_back"
     }
     Alert.alert(
       translate("walletConnectRequestScreen_title"),
