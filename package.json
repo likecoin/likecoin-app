@@ -54,7 +54,7 @@
     "ramda": "0.26.1",
     "react": "16.8.6",
     "react-content-loader": "^4.3.4",
-    "react-native": "0.60.5",
+    "react-native": "0.62.3",
     "react-native-actions-sheet": "^0.4.8",
     "react-native-authcore": "https://gitlab.com/likecoin/react-native-authcore#f84feb019da13573375c5623fd2d71216c9d5424",
     "react-native-branch": "^4.0.0",
