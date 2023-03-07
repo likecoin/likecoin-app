@@ -83,12 +83,13 @@ export class WalletConnectListScreen extends React.Component<WalletConnectListSc
   private keyExtractor = (item: WalletConnectClient) => item.connector.peerId
 
   private renderItem: ListRenderItem<WalletConnectClient> = ({ item }) => {
-    const { name, icons } = item.connector.peerMeta
+    const { name, icons = [] } = item.connector.peerMeta
+    const peerAvatarURL = icons[0]
     return (
       <ListItem>
-        <PeerAvatar
-          source={{ uri: icons[0] }}
-        />
+        {!!peerAvatarURL &&
+          <PeerAvatar source={{ uri: peerAvatarURL }} />
+        }
         <PeerName
           text={name}
           size="medium"

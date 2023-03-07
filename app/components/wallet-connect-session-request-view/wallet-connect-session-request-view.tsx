@@ -95,7 +95,7 @@ export interface WalletConnectSessionRequestViewProps extends WalletConnectReque
 function getAppName({ payload = {}, peerMeta = {} }: WalletConnectRequestData) {
   switch (payload.method) {
     case "session_request":
-      return (payload.params[0]?.peerMeta || peerMeta || {}).name
+      return (payload.params[0]?.peerMeta || peerMeta)?.name || ""
   
     default:
       return peerMeta.name || ""
@@ -105,10 +105,10 @@ function getAppName({ payload = {}, peerMeta = {} }: WalletConnectRequestData) {
 function getImage({ payload = {}, peerMeta = {} }: WalletConnectRequestData) {
   switch (payload.method) {
     case "session_request":
-      return (payload.params[0]?.peerMeta || peerMeta || {}).icons[0]
+      return (payload.params[0]?.peerMeta || peerMeta)?.icons?.[0] || ""
   
     default:
-      return (peerMeta.icons || [])[0] || ""
+      return peerMeta.icons?.[0] || ""
   }
 }
 
