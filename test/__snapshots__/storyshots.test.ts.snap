@@ -7498,6 +7498,7 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
               "flexShrink": 1,
             }
           }
+          tabValue="tab1"
         >
           <View>
             <View

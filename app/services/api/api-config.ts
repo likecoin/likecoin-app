@@ -33,7 +33,7 @@ export interface ApiConfig {
 export const COMMON_API_CONFIG: ApiConfig = {
   timeout: TIMEOUT,
   userAgent: USER_AGENT,
-  deviceId: DeviceInfo.getUniqueId(),
+  deviceId: DeviceInfo ? DeviceInfo.getUniqueId() : 'unknown',
   onUnauthenticated: () => {
     // do nothing
   },
