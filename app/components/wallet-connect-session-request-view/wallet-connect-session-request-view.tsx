@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Alert, ViewStyle } from "react-native"
+import { ViewStyle } from "react-native"
 import styled from "styled-components/native"
 
 import { translate } from "../../i18n"
@@ -192,25 +192,6 @@ export function WalletConnectSessionRequestView(props: WalletConnectSessionReque
 
   async function onPressApprove() {
     if (props.onApprove) await props.onApprove()
-    let alertMessageKey: string
-    if (
-      payload.method === 'likerId_login'
-      || (
-        payload.method === 'cosmos_signAmino'
-        && payload.params[2]?.memo.includes('Login - Reinventing the Like')
-      )
-    ) {
-      alertMessageKey = "walletConnectRequestView_label_description_login_back"
-    } else {
-      alertMessageKey = "walletConnectRequestView_label_description_back"
-    }
-    Alert.alert(
-      translate("walletConnectRequestScreen_title"),
-      translate(alertMessageKey),
-      [
-        { text: translate("common.confirm") },
-      ]
-    )
   }
 
   return (

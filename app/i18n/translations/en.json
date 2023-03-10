@@ -141,6 +141,8 @@
   "LanguageSettingsScreen": {
     "Title": "Language Settings"
   },
+  "nft_reader_screen_tab_dashboard": "My Dashboard",
+  "nft_reader_screen_tab_listing": "Listing",
   "Notification": {
     "Type": {
       "send": "Send LIKE",

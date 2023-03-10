@@ -20,6 +20,10 @@ const HeaderTabWrapper = styled.View`
   height: ${HEADER_HEIGHT}px;
 `
 
+export interface HeaderTabProps extends ScrollViewProps {
+  tabValue: string
+}
+
 export interface HeaderTabContainerViewProps {
   /**
    * Header tab value
@@ -31,7 +35,7 @@ export interface HeaderTabContainerViewProps {
    */
   items?: React.ReactElement | React.ReactElement[]
 
-  children?: (props: ScrollViewProps) => React.ReactNode
+  children?: (props: HeaderTabProps) => React.ReactNode
 
   /**
    * Callback when changing tab value
@@ -95,7 +99,7 @@ export function HeaderTabContainerView({
         </Animated.View>
       </HeaderTabWrapper>
       {!!children && children({
-        onScroll,
+        tabValue: value,
         contentInset: { top: HEADER_HEIGHT },
         contentOffset: {
           x: 0,
@@ -104,6 +108,7 @@ export function HeaderTabContainerView({
         contentContainerStyle: {
           paddingTop: Platform.OS === "android" ? HEADER_HEIGHT : 0,
         },
+        onScroll,
       })}
     </View>
   )

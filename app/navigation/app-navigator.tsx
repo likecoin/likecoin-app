@@ -16,6 +16,7 @@ import { MainTabBarIcon } from "../components/main-tab-bar"
 
 import { ContentViewScreen } from "../screens/content-view-screen"
 import { CrispSupportScreen } from "../screens/crisp-support-screen"
+import { NFTReaderScreen } from "../screens/nft-reader-screen/nft-reader-screen"
 // import { NotificationScreen } from "../screens/notification-screen"
 import { ReferrerFollowScreen } from "../screens/referrer-follow-screen"
 import { QrcodeScannerScreen } from "../screens/qrcode-scanner-screen"
@@ -28,6 +29,7 @@ import { color } from "../theme"
 
 const MainTabs = createBottomTabNavigator({
   Dashboard: DashboardNavigator,
+  NFT: NFTReaderScreen,
   Reader: ReaderScreen,
   // Notification: NotificationScreen,
   Settings: SettingsNavigator,

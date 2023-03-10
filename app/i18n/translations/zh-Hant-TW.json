@@ -140,6 +140,8 @@
   "LanguageSettingsScreen": {
     "Title": "語言設定"
   },
+  "nft_reader_screen_tab_dashboard": "我的書架",
+  "nft_reader_screen_tab_listing": "列表",
   "Notification": {
     "Type": {
       "send": "發送 LIKE",

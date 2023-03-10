@@ -37,6 +37,9 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
       case "Bookmark":
         name = "bookmarks"
         break
+      case "NFT":
+        name = "nft-stack"
+        break
       case "Reader":
         name = "super-like"
         break
