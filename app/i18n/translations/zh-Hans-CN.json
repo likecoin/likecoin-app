@@ -169,7 +169,7 @@
   "readerScreen": {
     "Title": "阅读列表",
     "emptyLabel": "沒有內容",
-    "SuperLikeFromLabel":  {
+    "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} 及 {{count}} 人 Super Liked",
       "other": "%{liker} 及 {{count}} 人 Super Liked"
