@@ -64,7 +64,7 @@ export const ChainStoreModel = types
     fromDenom(value: BigNumber = new BigNumber(0)) {
       return value.shiftedBy(self.fractionDigits)
     },
-    formatPercent(value: BigNumber) {
+    formatPercent(value: BigNumber = new BigNumber(0)) {
       return value
         .times(100)
         .toFixed(2)
@@ -87,7 +87,7 @@ export const ChainStoreModel = types
   }))
   .views(self => ({
     formatDenom(
-      value: BigNumber,
+      value: BigNumber = new BigNumber(0),
       decimalPlaces?: number,
       showUnit = true,
       roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_CEIL,
@@ -105,10 +105,10 @@ export const ChainStoreModel = types
     },
   }))
   .views(self => ({
-    formatBalance(balance: BigNumber, showUnit?: boolean) {
+    formatBalance(balance: BigNumber = new BigNumber(0), showUnit?: boolean) {
       return self.formatDenom(balance, 4, showUnit)
     },
-    formatBalanceShort(balance: BigNumber, showUnit?: boolean) {
+    formatBalanceShort(balance: BigNumber = new BigNumber(0), showUnit?: boolean) {
       return self.formatDenom(balance, 2, showUnit)
     },
     getValidatorVotingPowerPercentage(validator: Validator) {
@@ -126,24 +126,24 @@ export const ChainStoreModel = types
     },
   }))
   .views(self => ({
-    formatRewards(rewards: BigNumber) {
+    formatRewards(rewards = new BigNumber(0)) {
       return (rewards.isGreaterThan(0) ? "+" : "").concat(self.formatBalance(rewards, false))
     },
     get formattedTotalBalance() {
-      return self.formatBalance(self.wallet.totalBalance, false)
+      return self.formatBalance(self.wallet?.totalBalance, false)
     },
     get formattedConciseTotalBalance() {
-      const balanceInDenom = self.toDenom(self.wallet.totalBalance)
+      const balanceInDenom = self.toDenom(self.wallet?.totalBalance)
       if (balanceInDenom.isGreaterThan(0) && balanceInDenom.isLessThan(1)) {
         return `< 1 ${self.denom}`
       }
-      return self.formatDenom(self.wallet.totalBalance, 0, true, BigNumber.ROUND_FLOOR)
+      return self.formatDenom(self.wallet?.totalBalance, 0, true, BigNumber.ROUND_FLOOR)
     },
     get formattedAvailableBalance() {
-      return self.formatBalance(self.wallet.availableBalance)
+      return self.formatBalance(self.wallet?.availableBalance)
     },
     get formattedUnbondingBalance() {
-      return self.formatBalance(self.wallet.unbondingBalance, false)
+      return self.formatBalance(self.wallet?.unbondingBalance, false)
     },
     /**
      * Calculate expected rewards
@@ -157,7 +157,7 @@ export const ChainStoreModel = types
   }))
   .views(self => ({
     get formattedRewardsBalance() {
-      return self.formatRewards(self.wallet.rewardsBalance)
+      return self.formatRewards(self.wallet?.rewardsBalance)
     },
     getValidatorExpectedReturnsPercentage(validator: Validator) {
       return self.formatPercent(self.calculateExpectedRewards(validator))
@@ -166,16 +166,16 @@ export const ChainStoreModel = types
   .views(self => ({
     compareValidatorsByDelegation(a: Validator, b: Validator) {
       // Sort by delegated amount
-      const aDelegation = self.wallet.getDelegation(a.operatorAddress)
-      const bDelegation = self.wallet.getDelegation(b.operatorAddress)
-      if (aDelegation.hasDelegated) {
-        if (bDelegation.hasDelegated) {
+      const aDelegation = self.wallet?.getDelegation(a.operatorAddress)
+      const bDelegation = self.wallet?.getDelegation(b.operatorAddress)
+      if (aDelegation?.hasDelegated) {
+        if (bDelegation?.hasDelegated) {
           if (aDelegation.shares.isGreaterThan(bDelegation.shares)) return -1
           if (aDelegation.shares.isLessThan(bDelegation.shares)) return 1
         } else {
           return -1
         }
-      } else if (bDelegation.hasDelegated) {
+      } else if (bDelegation?.hasDelegated) {
         return 1
       }
 
