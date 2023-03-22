@@ -2,7 +2,7 @@ import branch from "react-native-branch"
 
 import { logError } from "../../utils/error"
 
-export type BranchDeepLinkEventType = "app_referral"
+export type BranchDeepLinkEventType = "app_referral" | "wallet_connect_v1"
 
 export interface BranchDeepLinkParams {
   "~referring_link": string
@@ -14,6 +14,7 @@ export interface BranchDeepLinkParams {
   "+is_first_session": boolean
   event?: BranchDeepLinkEventType
   referrer?: string
+  uri?: string
 }
 
 type BranchDeepLinkHandler = (params: BranchDeepLinkParams) => void
@@ -30,6 +31,13 @@ export class BranchIO {
   parseAppReferralEvent(params: BranchDeepLinkParams) {
     if (params?.event === "app_referral" && params.referrer) {
       return params.referrer
+    }
+    return undefined
+  }
+
+  parseWalletConnectEvent(params: BranchDeepLinkParams) {
+    if (params?.event === "wallet_connect_v1" && params.uri) {
+      return params.uri
     }
     return undefined
   }

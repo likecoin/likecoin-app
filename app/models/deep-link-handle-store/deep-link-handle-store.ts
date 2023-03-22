@@ -68,6 +68,12 @@ const BaseModel = types
         const referrer = self.env.branchIO.parseAppReferralEvent(params)
         yield followAppReferrer(referrer)
       }
+      if (params.event === "wallet_connect_v1") {
+        const walletConnectURI = self.env.branchIO.parseWalletConnectEvent(params)
+        if (walletConnectURI) {
+          self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
+        }
+      }
     })
 
     const handleSuperLikeID = flow(function*(id: string) {
