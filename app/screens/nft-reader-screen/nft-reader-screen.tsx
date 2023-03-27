@@ -86,7 +86,7 @@ export class NFTReaderScreen extends React.Component<NFTReaderScreenProps, {}> {
                 contentInset={props.contentInset}
                 containerStyle={props.contentContainerStyle}
                 sharedCookiesEnabled={true}
-                source={{ uri: `${this.webViewURL}?in-app=1` }}
+                source={{ uri: `${this.webViewURL}?in_app=1` }}
                 decelerationRate={0.998}
                 // TODO: remove HACK after applicationNameForUserAgent type is fixed
                 {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
