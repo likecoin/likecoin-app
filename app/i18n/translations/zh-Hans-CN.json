@@ -140,6 +140,8 @@
   "LanguageSettingsScreen": {
     "Title": "介面语言设定"
   },
+  "nft_reader_screen_tab_dashboard": "我的书架",
+  "nft_reader_screen_tab_listing": "列表",
   "Notification": {
     "Type": {
       "send": "發送 LIKE",
@@ -169,7 +171,7 @@
   "readerScreen": {
     "Title": "阅读列表",
     "emptyLabel": "沒有內容",
-    "SuperLikeFromLabel":  {
+    "SuperLikeFromLabel": {
       "zero": "%{liker} Super Liked",
       "one": "%{liker} 及 {{count}} 人 Super Liked",
       "other": "%{liker} 及 {{count}} 人 Super Liked"

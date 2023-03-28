@@ -15,6 +15,8 @@ import CrossIcon from "./cross.svg"
 import ExternalLinkIcon from "./external-link"
 import LikeClap from "./like-clap.svg"
 import Lock from "./lock.svg"
+import NFTDashboardIcon from "./nft-dashboard"
+import NFTStackIcon from "./nft-stack"
 import Person from "./person.svg"
 import PlusIcon from "./plus"
 import QRCodeScan from "./qrcode-scan.svg"
@@ -61,6 +63,8 @@ export const icons = {
   "like-clap": LikeClap,
   lock: Lock,
   medium: MediumIcon,
+  "nft-dashboard": NFTDashboardIcon,
+  "nft-stack": NFTStackIcon,
   person: Person,
   plus: PlusIcon,
   "public": PublicIcon,

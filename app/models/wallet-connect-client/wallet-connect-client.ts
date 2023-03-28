@@ -1,12 +1,14 @@
+import { NavigationActions } from "react-navigation"
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import WalletConnect from "@walletconnect/client"
 import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx"
 import { DirectSignResponse } from "@cosmjs/proto-signing"
 import stringify from "fast-json-stable-stringify";
 
-import { withCurrentUser, withEnvironment, withNavigationStore } from "../extensions"
-import { NavigationActions } from "react-navigation"
+import { COMMON_API_CONFIG } from "../../services/api/api-config"
 import { logError } from "../../utils/error"
+
+import { withCurrentUser, withEnvironment, withNavigationStore } from "../extensions"
 
 export interface WalletConnectClientMeta {
   description: string
@@ -55,6 +57,23 @@ export const WalletConnectClientModel = types
   .extend(withEnvironment)
   .extend(withNavigationStore)
   .extend(withCurrentUser)
+  .views(self => ({
+    get isInAppBrowser() {
+      const { peerMeta } = self.connector
+      return COMMON_API_CONFIG.userAgent.includes(peerMeta.name)
+    },
+  }))
+  .views(self => ({
+    shouldShowWalletConnectModal(payload: any) {
+      return (
+        self.isInAppBrowser &&
+        (
+          ['cosmos_getAccounts', 'keplr_get_key_wallet_connect_v1'].includes(payload.method) ||
+          payload.params?.[2]?.memo?.includes('Login')
+        )
+      )
+    },
+  }))
   .actions(self => ({
     connect({
       uri,
@@ -81,91 +100,12 @@ export const WalletConnectClientModel = types
         logError(error)
       }
     }),
-    handleNewCallRequest(
-      error: Error | null,
-      payload: any | null,
-    ) {
-      if (error) {
-        throw error
-      }
-
-      const { peerMeta, peerId } = self.connector
-      self.navigationStore.navigateTo({
-        routeName: "App",
-        action: NavigationActions.navigate({
-          routeName: "WalletConnect",
-          params: {
-            peerId,
-            peerMeta,
-            payload,
-          },
-        }),
-      })
-    },
     handleDisconnect(error: Error | null) {
       if (error) {
         throw error
       }
       self.serializedSession = ""
     },
-  }))
-  .actions(self => ({
-    listenToRequests() {
-      self.connector.on("call_request", self.handleNewCallRequest)
-      self.connector.on("disconnect", self.handleDisconnect)
-    },
-  }))
-  .actions(self => ({
-    restoreSession() {
-      const session: WalletConnectSession = JSON.parse(self.serializedSession)
-      self.connect({ session })
-
-      self.listenToRequests()
-    },
-    approveSessionRequest() {
-      self.connector.approveSession({
-        // Unfortunately, WalletConnect 1.0 cannot deliver the chain IDs in the form we want,
-        // so we temporarily set the chain ID to 99999 and send it.
-        // And, WalletConnect v1.0 is not suitable for handling multiple chains.
-        // When the session requested, you cannot receive information from multiple chains,
-        // so open a session unconditionally and manage permissions through custom requests.
-        chainId: 99999,
-        accounts: [],
-      })
-      self.connector.off("session_request")
-
-      self.serializedSession = JSON.stringify(self.connector.session)
-
-      self.listenToRequests()
-    },
-    rejectSessionRequest() {
-      self.connector.rejectSession()
-    },
-  }))
-  .actions(self => ({
-    handleNewSessionRequest(
-      error: Error | null,
-    ) {
-      if (error) {
-        throw error
-      }
-      // Approve session request directly without user's interaction
-      self.approveSessionRequest()
-    },
-  }))
-  .actions(self => ({
-    createSession(
-      uri: string,
-      {
-        isMobile = false
-      }: { isMobile?: boolean } = {},
-    ) {
-      self.connect({ uri })
-      self.isMobile = isMobile
-      self.connector.on("session_request", self.handleNewSessionRequest)
-    },
-  }))
-  .actions(self => ({
     approveCallRequest(response: {
       id: number
       result: any
@@ -177,6 +117,9 @@ export const WalletConnectClientModel = types
       error: any
     }) {
       self.connector.rejectRequest(response)
+    },
+    rejectSessionRequest() {
+      self.connector.rejectSession()
     },
   }))
   .actions(self => ({
@@ -293,6 +236,100 @@ export const WalletConnectClientModel = types
         self.rejectRequest(payload, error)
       }
     }),
+  }))
+  .actions(self => ({
+    handleNewCallRequest(
+      error: Error | null,
+      payload: any | null,
+    ) {
+      if (error) {
+        throw error
+      }
+
+      const { peerMeta, peerId } = self.connector
+
+      // Do not show request screen if the request is getting accounts and from in-app browser
+      if (self.shouldShowWalletConnectModal(payload)) {
+        self.handleCallRequestApproval(payload)
+        return
+      }
+
+      self.navigationStore.navigateTo({
+        routeName: "App",
+        action: NavigationActions.navigate({
+          routeName: "WalletConnect",
+          params: {
+            peerId,
+            peerMeta,
+            payload,
+          },
+        }),
+      })
+    },
+  }))
+  .actions(self => ({
+    listenToRequests() {
+      self.connector.on("call_request", self.handleNewCallRequest)
+      self.connector.on("disconnect", self.handleDisconnect)
+    },
+  }))
+  .actions(self => ({
+    restoreSession() {
+      const session: WalletConnectSession = JSON.parse(self.serializedSession)
+      self.connect({ session })
+
+      self.listenToRequests()
+    },
+    approveSessionRequest() {
+      self.connector.approveSession({
+        // Unfortunately, WalletConnect 1.0 cannot deliver the chain IDs in the form we want,
+        // so we temporarily set the chain ID to 99999 and send it.
+        // And, WalletConnect v1.0 is not suitable for handling multiple chains.
+        // When the session requested, you cannot receive information from multiple chains,
+        // so open a session unconditionally and manage permissions through custom requests.
+        chainId: 99999,
+        accounts: [],
+      })
+      self.connector.off("session_request")
+
+      self.serializedSession = JSON.stringify(self.connector.session)
+
+      self.listenToRequests()
+    },
+  }))
+  .actions(self => ({
+    handleNewSessionRequest(
+      error: Error | null,
+    ) {
+      if (error) {
+        throw error
+      }
+
+      if (!self.isInAppBrowser) {
+        // Show WalletConnect Modal for loading UX
+        self.navigationStore.navigateTo({
+          routeName: "App",
+          action: NavigationActions.navigate({
+            routeName: "WalletConnect",
+          }),
+        })
+      }
+      
+      // Approve session request directly without user's interaction
+      self.approveSessionRequest()
+    },
+  }))
+  .actions(self => ({
+    createSession(
+      uri: string,
+      {
+        isMobile = false
+      }: { isMobile?: boolean } = {},
+    ) {
+      self.connect({ uri })
+      self.isMobile = isMobile
+      self.connector.on("session_request", self.handleNewSessionRequest)
+    },
   }))
   .actions(self => ({
     approveRequest: flow(function * (payload: any) {

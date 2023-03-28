@@ -1,17 +1,19 @@
 import * as React from "react"
+import { Alert } from "react-native"
 import { inject, observer } from "mobx-react"
 import { NavigationStackScreenProps } from "react-navigation-stack"
 import styled from "styled-components/native"
 
-import { Text } from "../../components/text"
-import { Screen } from "../../components/screen"
-import { WalletConnectSessionRequestView } from "../../components/wallet-connect-session-request-view"
-
 import { WalletConnectStore } from "../../models/wallet-connect-store"
 
 import { color } from "../../theme"
-import { LoadingLikeCoin } from "../../components/loading-likecoin"
+import { translate } from "../../i18n"
+
 import { Button } from "../../components/button"
+import { LoadingLikeCoin } from "../../components/loading-likecoin"
+import { Screen } from "../../components/screen"
+import { Text } from "../../components/text"
+import { WalletConnectSessionRequestView } from "../../components/wallet-connect-session-request-view"
 
 const RootView = styled(Screen)`
   flex-grow: 1;
@@ -87,6 +89,29 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
   private approveRequest = async () => {
     this.close()
     await this.requestor.approveRequest(this.payload)
+
+    if (this.requestor.isInAppBrowser) return;
+
+    // Show return to browser hint
+    let hintMessageKey: string
+    if (
+      this.payload.method === 'likerId_login'
+      || (
+        this.payload.method === 'cosmos_signAmino'
+        && this.payload.params[2]?.memo.includes('Login - Reinventing the Like')
+      )
+    ) {
+      hintMessageKey = "walletConnectRequestView_label_description_login_back"
+    } else {
+      hintMessageKey = "walletConnectRequestView_label_description_back"
+    }
+    Alert.alert(
+      translate("walletConnectRequestScreen_title"),
+      translate(hintMessageKey),
+      [
+        { text: translate("common.confirm") },
+      ]
+    )
   }
 
   private rejectRequest = async () => {
