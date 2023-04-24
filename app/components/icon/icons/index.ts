@@ -12,6 +12,7 @@ import BookmarkFilledIcon from "./bookmark-filled.svg"
 import BookmarkOutlinedIcon from "./bookmark-outlined.svg"
 import Checkmark from "./checkmark.svg"
 import CrossIcon from "./cross.svg"
+import DisconnectIcon from "./disconnect.svg"
 import ExternalLinkIcon from "./external-link"
 import LikeClap from "./like-clap.svg"
 import Lock from "./lock.svg"
@@ -56,6 +57,7 @@ export const icons = {
   "bookmark-outlined": BookmarkOutlinedIcon,
   checkmark: Checkmark,
   close: CrossIcon,
+  disconnect: DisconnectIcon,
   discord: DiscordIcon,
   "external-link": ExternalLinkIcon,
   github: GitHubIcon,

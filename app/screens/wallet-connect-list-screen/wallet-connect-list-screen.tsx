@@ -1,5 +1,5 @@
 import * as React from "react"
-import { TouchableOpacity, StyleSheet, ListRenderItem } from "react-native"
+import { TouchableOpacity, StyleSheet, ListRenderItem, Alert } from "react-native"
 import { inject, observer } from "mobx-react"
 import { NavigationStackScreenProps } from "react-navigation-stack"
 import styled from "styled-components/native"
@@ -14,6 +14,7 @@ import { WalletConnectStore } from "../../models/wallet-connect-store"
 import { WalletConnectClient } from "../../models/wallet-connect-client"
 
 import { color } from "../../theme"
+import { translate } from "../../i18n"
 
 const Screen = styled(ScreenBase)`
   background-color: ${({ theme }) => theme.color.background.feature.primary};
@@ -80,6 +81,22 @@ export class WalletConnectListScreen extends React.Component<WalletConnectListSc
     this.props.navigation.goBack()
   }
 
+  private handlePressResetButton = () => {
+    Alert.alert(
+      translate('wallet_connect_list_screen_reset_warning'),
+      '',
+      [
+        {
+          text: translate("common.cancel"),
+        },
+        {
+          text: translate("common.confirm"),
+          onPress: () => this.props.walletConnectStore.reset()
+        },
+      ]
+    )
+  }
+
   private keyExtractor = (item: WalletConnectClient) => item.connector.peerId
 
   private renderItem: ListRenderItem<WalletConnectClient> = ({ item }) => {
@@ -132,7 +149,9 @@ export class WalletConnectListScreen extends React.Component<WalletConnectListSc
         <Header
           headerText="Wallet Connect"
           leftIcon="back"
+          rightIcon="disconnect"
           onLeftPress={this.handlePressBackButton}
+          onRightPress={this.handlePressResetButton}
         />
         <List
           data={this.props.walletConnectStore.activeClients}

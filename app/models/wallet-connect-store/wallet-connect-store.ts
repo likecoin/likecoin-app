@@ -34,6 +34,9 @@ export const WalletConnectStoreModel = types
         client.restoreSession()
       })
     },
+    reset() {
+      self.clients.replace([]);
+    },
   }))
   .preProcessSnapshot((snapshot) => ({
     clients: snapshot.clients ? snapshot.clients.filter(client => !!client.serializedSession) : [],

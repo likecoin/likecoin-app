@@ -98,6 +98,7 @@ export const RootStoreModel = types
       self.statisticsSupportedStore.reset()
       self.mySuperLikeFeedStore.reset()
       self.transferStore.reset()
+      self.walletConnectStore.reset()
     }),
   }))
   .actions(self => ({

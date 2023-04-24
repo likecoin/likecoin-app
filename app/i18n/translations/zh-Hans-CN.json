@@ -447,6 +447,7 @@
     "validatorAddress": "验证人钱包地址 (按一下複製)",
     "validatorAddressCopied": "验证人钱包地址 (已複製)"
   },
+  "wallet_connect_list_screen_reset_warning": "你确定要断开所有连接吗？",
   "walletConnectRequestScreen_title": "Wallet Connect",
   "walletConnectRequestView_button_approve": "允许",
   "walletConnectRequestView_button_reject": "拒绝",

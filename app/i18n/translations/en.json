@@ -457,6 +457,7 @@
     "validatorAddress": "Validator Address (click to copy)",
     "validatorAddressCopied": "Validator Address (copied)"
   },
+  "wallet_connect_list_screen_reset_warning": "Are you sure you want to disconnect all sessions?",
   "walletConnectRequestScreen_title": "Wallet Connect",
   "walletConnectRequestView_button_approve": "Approve",
   "walletConnectRequestView_button_reject": "Reject",
