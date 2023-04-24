@@ -1,53 +1,45 @@
 {
-  "account_delete_screen_title": "Delete Account",
+  "account_delete_screen_confirm": "Confirm",
   "account_delete_screen_header_text": "Confirm Delete Account",
+  "account_delete_screen_input_label": "Please type %{code} to confirm.",
   "account_delete_screen_message": "Are you sure you want to delete the Liker ID %{id}?",
   "account_delete_screen_notice_1": "Most of your information related to Liker ID will be removed. However, information related to transactions will exists on LikeCoin chain or Transaction indexers.",
   "account_delete_screen_notice_2": "After deletion, the Liker ID cannot be reused, and you will have to register with a new name in the future.",
-  "account_delete_screen_input_label": "Please type %{code} to confirm.",
-  "account_delete_screen_confirm": "Confirm",
+  "account_delete_screen_title": "Delete Account",
   "amount_input_max": "MAX",
-  "closeApp": "Close App",
-  "initializing": "Initializing",
-  "initializingFailedAlertTitle": "Initialization Failed",
-  "initializingFailedAlertMessage": "Please restart the App",
-  "signingIn": "Signing in",
-  "signingOut": "Signing out",
   "AppRatingPrompt": {
-    "Title": "Are you satisfied with Liker Land?",
-    "DenialTitle": "Can you give us some feedback?"
-  },
-  "ProfileSettingsScreen": {
-    "Title": "Profile Settings"
-  },
-  "BookmarkScreen": {
-    "Title": "Reading list",
-    "EmptyLabel": "Your reading list is empty"
+    "DenialTitle": "Can you give us some feedback?",
+    "Title": "Are you satisfied with Liker Land?"
   },
   "BookmarkArchivesScreen": {
-    "Title": "Archives",
-    "EmptyLabel": "You can archive a content in reading list"
+    "EmptyLabel": "You can archive a content in reading list",
+    "Title": "Archives"
+  },
+  "BookmarkScreen": {
+    "EmptyLabel": "Your reading list is empty",
+    "Title": "Reading list"
   },
   "civic_liker_v3_about": "About",
   "civic_liker_v3_about_url": "https://docs.like.co/user-guide/civic-liker",
   "civic_liker_v3_dashboard_title": "Civic Liker",
-  "civic_liker_v3_summary_status_loading": "Loading",
-  "civic_liker_v3_summary_status_inactive": "Inactive",
-  "civic_liker_v3_summary_status_activating": "About to activate",
-  "civic_liker_v3_summary_status_active": "Active",
-  "civic_liker_v3_summary_hint_civic_liker": "Civic Liker",
-  "civic_liker_v3_summary_hint_inactive": "Stake at least %{amount} to become %{civicLiker}",
   "civic_liker_v3_summary_hint_activating": "Stake %{amount} more to become %{civicLiker}",
   "civic_liker_v3_summary_hint_active": "You have staked %{amount}. The more you stake, the more you reward to creators.",
+  "civic_liker_v3_summary_hint_civic_liker": "Civic Liker",
+  "civic_liker_v3_summary_hint_inactive": "Stake at least %{amount} to become %{civicLiker}",
   "civic_liker_v3_summary_hint_undelegate": "You need to stake %{amount} to keep your %{civicLiker} status",
   "civic_liker_v3_summary_manage_button_active": "Restake",
   "civic_liker_v3_summary_manage_button_inactive": "Stake now",
+  "civic_liker_v3_summary_status_activating": "About to activate",
+  "civic_liker_v3_summary_status_active": "Active",
+  "civic_liker_v3_summary_status_inactive": "Inactive",
+  "civic_liker_v3_summary_status_loading": "Loading",
+  "closeApp": "Close App",
   "common": {
     "back": "Back",
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "copy": "Copy",
     "copied": "Copied",
+    "copy": "Copy",
     "done": "Done",
     "follow": "Follow",
     "Following": "Following",
@@ -57,13 +49,18 @@
     "No": "No",
     "ok": "OK",
     "Skip": "Skip",
-    "viewOnBlockExplorer": "View on Big Dipper open data browser",
     "undo": "Undo",
     "unfollow": "Unfollow",
     "unfollowSuccess": "You have unfollowed %{creator}",
+    "viewOnBlockExplorer": "View on Big Dipper open data browser",
     "Yes": "Yes"
   },
   "community_links_label": "Join LikeCoin community",
+  "content_list_item_action_sheet_bookmark": "Add to reading list",
+  "content_list_item_action_sheet_follow": "Follow %{followee}",
+  "content_list_item_action_sheet_unbookmark": "Remove from reading list",
+  "content_list_item_action_sheet_unfollow": "Unfollow %{followee}",
+  "content_view_screen_custom_site_login_alert": "Please login to the website",
   "ContentListItem": {
     "Back": {
       "Archive": "Archive",
@@ -80,22 +77,17 @@
       "other": "{{count}} Likes"
     }
   },
-  "content_list_item_action_sheet_bookmark": "Add to reading list",
-  "content_list_item_action_sheet_follow": "Follow %{followee}",
-  "content_list_item_action_sheet_unbookmark": "Remove from reading list",
-  "content_list_item_action_sheet_unfollow": "Unfollow %{followee}",
-  "content_view_screen_custom_site_login_alert": "Please login to the website",
+  "dashboard_app_update_notice_for_wallet": "To access your wallet, please update the app to the latest version",
   "Date": {
     "Today": "Today",
     "Yesterday": "Yesterday"
   },
-  "dashboard_app_update_notice_for_wallet": "To access your wallet, please update the app to the latest version",
   "error": {
     "DEPRECATED_APP": "Sorry, this version of Liker Land is too old. Please update in order to proceed.",
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurred at purchase",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
-    "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be fewer than %{count}",
     "LIKER_ID_LENGTH_LIMIT_MAX": "The length of the Liker ID must not be more than %{count}",
+    "LIKER_ID_LENGTH_LIMIT_MIN": "The length of the Liker ID must not be fewer than %{count}",
     "REDELEGATE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum",
     "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "REDELEGATE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee",
@@ -109,8 +101,8 @@
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "TRANSFER_INPUT_TARGET_INVALID": "The Liker ID or address is invalid",
     "TRANSFER_TARGET_NO_WALLET": "Receiver does not have an address",
-    "TX_NOT_INCLUDED_YET": "The transaction was still not included in a block. Please verify it on Big Dipper open data browser",
     "TX_INSUFFICIENT_GAS_FEE": "Your wallet available balance is not enough for gas fee, need %{diff} more LIKE",
+    "TX_NOT_INCLUDED_YET": "The transaction was still not included in a block. Please verify it on Big Dipper open data browser",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum undelegation amount",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee"
@@ -119,24 +111,27 @@
   "experimental_feature_wallet_connect_title": "Enable WalletConnect",
   "fan_dashboard_screen_tab_supporter_title": "Supporters",
   "FollowSettingsScreen": {
-    "Title": "My Content Jockey",
     "TabTitle": {
       "Following": "Following",
       "Unfollowed": "Unfollowed"
-    }
+    },
+    "Title": "My Content Jockey"
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "The world has Super Liked",
-    "EmptyLabel": "No content"
+    "EmptyLabel": "No content",
+    "Title": "The world has Super Liked"
   },
   "I18nStory": {
     "UseCase1": "%{liker} sent you %{amount}."
   },
+  "initializing": "Initializing",
+  "initializingFailedAlertMessage": "Please restart the App",
+  "initializingFailedAlertTitle": "Initialization Failed",
   "Language": {
     "en": "English",
+    "zh-Hans-CN": "Chinese (Simplified)",
     "zh-Hant-HK": "Chinese (Hong Kong)",
-    "zh-Hant-TW": "Chinese (Taiwan)",
-    "zh-Hans-CN": "Chinese (Simplified)"
+    "zh-Hant-TW": "Chinese (Taiwan)"
   },
   "LanguageSettingsScreen": {
     "Title": "Language Settings"
@@ -144,48 +139,51 @@
   "nft_reader_screen_tab_dashboard": "My Dashboard",
   "nft_reader_screen_tab_listing": "Listing",
   "Notification": {
-    "Type": {
-      "send": "Send LIKE",
-      "receive": "Receive",
-      "civic-like": "Civic Liker",
-      "super-like": "Super Like",
-      "daily-rewards": "Matching Fund",
-      "referral": "Referral Reward"
-    },
     "Message": {
-      "send": "You sent %{amount} to %{to}.",
-      "receive": "You received %{amount} from %{from}.",
       "civic-like": "%{from} Liked your work. You received %{amount}.",
-      "super-like": "%{from} Super Liked your work. You received %{amount}.",
       "daily-rewards": "%{likers} Liked your work(s) today. You received %{amount} in total.",
-      "referral": "%{from} has installed Liker Land app. You both received %{amount}."
+      "receive": "You received %{amount} from %{from}.",
+      "referral": "%{from} has installed Liker Land app. You both received %{amount}.",
+      "send": "You sent %{amount} to %{to}.",
+      "super-like": "%{from} Super Liked your work. You received %{amount}."
+    },
+    "Type": {
+      "civic-like": "Civic Liker",
+      "daily-rewards": "Matching Fund",
+      "receive": "Receive",
+      "referral": "Referral Reward",
+      "send": "Send LIKE",
+      "super-like": "Super Like"
     }
   },
   "NotificationScreen": {
-    "Title": "Notifications",
-    "EmptyLabel": "No notification"
+    "EmptyLabel": "No notification",
+    "Title": "Notifications"
+  },
+  "ProfileSettingsScreen": {
+    "Title": "Profile Settings"
   },
   "qrcodeScannerScreen": {
     "hintText": "Scan QR Code",
     "showMyQRCode": "Show my QR Code"
   },
+  "reader_screen_tab_subtitle_global": "Global",
+  "reader_screen_tab_subtitle_self": "My Tweets",
+  "reader_screen_title_global": "depub.space",
+  "reader_screen_title_my_feed": "depub.space",
   "readerScreen": {
-    "Title": "Reading list",
-    "emptyLabel": "No tweets",
-    "SuperLikeFromLabel": {
-      "zero": "%{liker} Super Liked",
-      "one": "%{liker} and {{count}} Liker Super Liked",
-      "other": "%{liker} and {{count}} Likers Super Liked"
-    },
     "Date": {
       "Today": "Today's headlines",
       "Yesterday": "Yesterday's headlines"
-    }
+    },
+    "emptyLabel": "No tweets",
+    "SuperLikeFromLabel": {
+      "one": "%{liker} and {{count}} Liker Super Liked",
+      "other": "%{liker} and {{count}} Likers Super Liked",
+      "zero": "%{liker} Super Liked"
+    },
+    "Title": "Reading list"
   },
-  "reader_screen_title_my_feed": "depub.space",
-  "reader_screen_title_global": "depub.space",
-  "reader_screen_tab_subtitle_self": "My Tweets",
-  "reader_screen_tab_subtitle_global": "Global",
   "receiveScreen": {
     "shareYourAddress": "Share my address"
   },
@@ -195,17 +193,17 @@
   "ReferralScreen": {
     "DescriptionLabel": "Call out to your fans to join as your Civic Likers and support your work now.",
     "HeaderTitle": "Sponsor Link",
-    "Title": "Your creativity are deserved to be rewarded.",
+    "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading.",
     "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
-    "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading."
+    "Title": "Your creativity are deserved to be rewarded."
   },
   "ReferrerFollowScreen": {
     "Heading": "Now Following"
   },
   "ReferrerInputScreen": {
+    "emailVerificationHint": "You will have to verify your email and phone number to receive referral bonus",
     "referrerIdHint": "Liker ID should be 7-20 lowercase letters, numbers, dash and underscore only",
-    "referrerIdLabel": "(Optional) input your referrer's Liker ID",
-    "emailVerificationHint": "You will have to verify your email and phone number to receive referral bonus"
+    "referrerIdLabel": "(Optional) input your referrer's Liker ID"
   },
   "RegistrationScreen": {
     "likerIdHint": "Allow 7-20 lowercase letters, numbers, dash and underscore only",
@@ -215,34 +213,86 @@
   "SaveToBookmarkScreen": {
     "DismissButtonText": "Click to close",
     "Error": {
-      "unauthorized": "Please sign-in again in the app.",
-      "invalid-url": "Cannot save this link.",
       "conflict": "The link already exist",
+      "invalid-url": "Cannot save this link.",
+      "unauthorized": "Please sign-in again in the app.",
       "unknown": "Unable to save to Liker Land."
     }
   },
+  "seed_words_export_screen_error_account_mismatch": "Account mismatch, please login again with the correct OAuth method",
+  "seed_words_export_screen_error_invalid_password": "Invalid password",
+  "seed_words_export_screen_password_label": "Please enter your Authcore password to export seed words",
+  "seed_words_export_screen_password_submit_button": "Authenticate",
+  "seed_words_export_screen_seed_words_copied_button": "Copied",
+  "seed_words_export_screen_seed_words_copy_button": "Copy",
+  "seed_words_export_screen_title": "Export Seed Words",
+  "seed_words_export_screen_warning_confirm_button": "Confirm",
+  "seed_words_export_screen_warning_description": "Never share your seed words with anyone or paste it into insecure applications. Keep your seed word secret or your fund might be stolen!",
+  "seed_words_export_screen_warning_title": "Warning",
+  "settings_account_delete": "Delete Account",
+  "settings_screen_bookmark": "Bookmarks",
+  "settings_screen_experimental_features": "Experimental Features",
+  "settings_screen_seed_words_export": "Export Seed Words",
+  "settings_screen_walletConnect": "WalletConnect",
+  "settingsScreen": {
+    "contactUs": "Contact Us",
+    "openSourceLicense": "Open Source License",
+    "Panel": {
+      "Settings": {
+        "ContentJockey": "Content Jockey",
+        "Header": "Settings",
+        "Language": "Language",
+        "Profile": "Profile",
+        "Security": "Security"
+      },
+      "Statistics": {
+        "Rewarded": {
+          "GetRewardsButtonTitle": "Get rewards",
+          "Title": "Rewarded"
+        },
+        "Supported": {
+          "Title": "Civic Liker monthly sponsor"
+        },
+        "TopSupportedCreator": {
+          "BecomeCivicLiker": "Become a Civic Liker",
+          "SupportMore": "Support {{creator}}"
+        }
+      },
+      "Wallet": {
+        "Title": "My Wallet"
+      }
+    },
+    "privacyPolicy": "Privacy Policy",
+    "RateApp": "Rate Liker Land",
+    "Referral": "Sponsor Link",
+    "subscription": "Subscription",
+    "termsOfUse": "Terms of Use",
+    "title": "Settings"
+  },
+  "signingIn": "Signing in",
+  "signingOut": "Signing out",
   "signInScreen": {
     "error": "Sign In Error",
     "errorAuthCore": "Error occurs when signing in to AuthCore",
     "errorLikeCo": "Error occurs when signing in to like.co",
     "errorLikerLand": "Error occurs when signing in to liker.land",
-    "errorLikerLandWebview": "Error occurs when signing in to liker.land (%{code}): %{description}",
     "errorLikerLandHTTP": "HTTP %{code} error occurs when signing in to liker.land:「%{description}」",
     "errorLikerLandTimeout": "Timeout occurs when signing in to liker.land",
+    "errorLikerLandWebview": "Error occurs when signing in to liker.land (%{code}): %{description}",
     "heading": "Less browsing. More reading.",
     "LoadingTakesLonger": "This is taking longer than usual...",
     "signIn": "Sign In",
     "signUp": "Sign Up"
   },
+  "sponsor_link_cta_button": "Share your sponsor link",
+  "sponsor_link_cta_description": "Build your fans network, get their monthly support.",
+  "sponsor_link_cta_header_button": "Learn More",
+  "sponsor_link_cta_header_label": "Earn with Civic Liker",
+  "sponsor_link_cta_share_message": "Be my Civic Liker, buy me a coffee for my work every month. {{url}}",
   "SponsorLinkCTA": {
     "Line1": "Copy and Share",
     "Line2": "your Civic Liker sponsor link"
   },
-  "sponsor_link_cta_header_label": "Earn with Civic Liker",
-  "sponsor_link_cta_header_button": "Learn More",
-  "sponsor_link_cta_description": "Build your fans network, get their monthly support.",
-  "sponsor_link_cta_button": "Share your sponsor link",
-  "sponsor_link_cta_share_message": "Be my Civic Liker, buy me a coffee for my work every month. {{url}}",
   "stakingDelegationAmountInputScreen": {
     "available": "Available"
   },
@@ -271,14 +321,6 @@
     "title": "Undelegate"
   },
   "Statistics": {
-    "Work": {
-      "one": "Work",
-      "other": "Works"
-    },
-    "WorkWithCount": {
-      "one": "{{count}} work",
-      "other": "{{count}} works"
-    },
     "Creator": {
       "one": "Creator",
       "other": "Creators"
@@ -290,12 +332,17 @@
         "This": "This Week"
       }
     },
-    "UnknownSource": "Unknown source"
+    "UnknownSource": "Unknown source",
+    "Work": {
+      "one": "Work",
+      "other": "Works"
+    },
+    "WorkWithCount": {
+      "one": "{{count}} work",
+      "other": "{{count}} works"
+    }
   },
   "StatisticsRewardedScreen": {
-    "Empty": {
-      "Content": "No rewarded content"
-    },
     "Dashboard": {
       "Empty": {
         "ButtonTitle": "Get Rewards",
@@ -305,6 +352,9 @@
         "CivicLiker": "Civic Liker",
         "CreatorFunds": "Matching Fund"
       }
+    },
+    "Empty": {
+      "Content": "No rewarded content"
     },
     "ListTitle": {
       "Content": "Rewarded Works"
@@ -320,65 +370,15 @@
       "Content": "You haven't rewarded any content. Do utilize your LIKE!",
       "Creator": "You haven't rewarded any creator. Do utilize your LIKE!"
     },
-    "Title": "Supported",
     "ListTitle": {
       "Content": "Supported Works",
       "Creator": "Supported Creators"
-    }
-  },
-  "seed_words_export_screen_title": "Export Seed Words",
-  "seed_words_export_screen_warning_title": "Warning",
-  "seed_words_export_screen_warning_description": "Never share your seed words with anyone or paste it into insecure applications. Keep your seed word secret or your fund might be stolen!",
-  "seed_words_export_screen_warning_confirm_button": "Confirm",
-  "seed_words_export_screen_password_label": "Please enter your Authcore password to export seed words",
-  "seed_words_export_screen_password_submit_button": "Authenticate",
-  "seed_words_export_screen_seed_words_copy_button": "Copy",
-  "seed_words_export_screen_seed_words_copied_button": "Copied",
-  "seed_words_export_screen_error_invalid_password": "Invalid password",
-  "seed_words_export_screen_error_account_mismatch": "Account mismatch, please login again with the correct OAuth method",
-  "settingsScreen": {
-    "contactUs": "Contact Us",
-    "openSourceLicense": "Open Source License",
-    "privacyPolicy": "Privacy Policy",
-    "Panel": {
-      "Settings": {
-        "Header": "Settings",
-        "ContentJockey": "Content Jockey",
-        "Language": "Language",
-        "Profile": "Profile",
-        "Security": "Security"
-      },
-      "Statistics": {
-        "Rewarded": {
-          "GetRewardsButtonTitle": "Get rewards",
-          "Title": "Rewarded"
-        },
-        "Supported": {
-          "Title": "Civic Liker monthly sponsor"
-        },
-        "TopSupportedCreator": {
-          "BecomeCivicLiker": "Become a Civic Liker",
-          "SupportMore": "Support {{creator}}"
-        }
-      },
-      "Wallet": {
-        "Title": "My Wallet"
-      }
     },
-    "RateApp": "Rate Liker Land",
-    "Referral": "Sponsor Link",
-    "subscription": "Subscription",
-    "termsOfUse": "Terms of Use",
-    "title": "Settings"
+    "Title": "Supported"
   },
-  "settings_account_delete": "Delete Account",
-  "settings_screen_bookmark": "Bookmarks",
-  "settings_screen_experimental_features": "Experimental Features",
-  "settings_screen_seed_words_export": "Export Seed Words",
-  "settings_screen_walletConnect": "WalletConnect",
   "storybook": {
-    "placeholder": "Placeholder",
-    "field": "Field"
+    "field": "Field",
+    "placeholder": "Placeholder"
   },
   "subscriptionFeature": {
     "com.oice.membership": [
@@ -406,10 +406,6 @@
     "from": "From",
     "to": "To"
   },
-  "transferTargetInputScreen": {
-    "targetInputLabel": "Send LIKE",
-    "targetInputPlaceholder": "Receiver's Liker ID or address"
-  },
   "transferAmountInputScreen": {
     "available": "Available"
   },
@@ -425,6 +421,14 @@
     "totalAmount": "Total",
     "transactionFee": "Transaction fee"
   },
+  "transferTargetInputScreen": {
+    "targetInputLabel": "Send LIKE",
+    "targetInputPlaceholder": "Receiver's Liker ID or address"
+  },
+  "UnauthenticatedAlert": {
+    "message": "Please sign in again.",
+    "title": "Session Expired [{{type}}]"
+  },
   "validator": {
     "delegatorShare": "Liker Share",
     "description": "Description",
@@ -432,15 +436,18 @@
     "votingPower": "Voting Power",
     "website": "Website"
   },
+  "ValidatorListScreen": {
+    "Title": "All validators"
+  },
   "validatorScreen": {
+    "delegateButtonText": "Delegate",
+    "delegatorRewardsLabel": "Delegating Rewards",
     "delegatorShareLabel": "Delegated",
     "delegatorUnbondingShareLabel": "Unbonding",
-    "delegatorRewardsLabel": "Delegating Rewards",
-    "delegateButtonText": "Delegate",
     "redelegateButtonText": "Redelegate",
     "RedelegationLockAlert": {
-      "title": "Redelegation is Locked",
-      "message": "You have redelegated to this validator recently, please wait for 21 days after redelegation to unlock."
+      "message": "You have redelegated to this validator recently, please wait for 21 days after redelegation to unlock.",
+      "title": "Redelegation is Locked"
     },
     "Status": {
       "Active": "Active",
@@ -449,23 +456,6 @@
     "undelegateButtonText": "Undelegate",
     "validatorAddress": "Validator Address (click to copy)",
     "validatorAddressCopied": "Validator Address (copied)"
-  },
-  "ValidatorListScreen": {
-    "Title": "All validators"
-  },
-  "UnauthenticatedAlert": {
-    "title": "Session Expired [{{type}}]",
-    "message": "Please sign in again."
-  },
-  "walletDashboardScreen": {
-    "availableBalanceLabel": "Available",
-    "allDelegatorRewardsLabel": "Rewards",
-    "allUnbondingBalanceLabel": "Unbonding",
-    "AllValidatorsButtonText": "All validators",
-    "send": "Send",
-    "stakeLabel": "Delegate",
-    "receive": "Receive",
-    "withdrawRewardsButtonText": "Withdraw Rewards"
   },
   "walletConnectRequestScreen_title": "Wallet Connect",
   "walletConnectRequestView_button_approve": "Approve",
@@ -479,6 +469,16 @@
   "walletConnectRequestView_label_description_sign": "%{name} wants to sign a transaction",
   "walletConnectRequestView_label_description_unknown": "%{name} wants to get approval",
   "walletConnectRequestView_loading_hint": "If the request is not responding, please return to the browser and come back again.",
+  "walletDashboardScreen": {
+    "allDelegatorRewardsLabel": "Rewards",
+    "allUnbondingBalanceLabel": "Unbonding",
+    "AllValidatorsButtonText": "All validators",
+    "availableBalanceLabel": "Available",
+    "receive": "Receive",
+    "send": "Send",
+    "stakeLabel": "Delegate",
+    "withdrawRewardsButtonText": "Withdraw Rewards"
+  },
   "Week": [
     "Sun",
     "Mon",
@@ -489,7 +489,7 @@
     "Sat"
   ],
   "welcomeScreen": {
-    "welcome": "Welcome!",
-    "logout": "Logout"
+    "logout": "Logout",
+    "welcome": "Welcome!"
   }
 }

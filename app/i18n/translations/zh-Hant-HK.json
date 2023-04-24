@@ -1,53 +1,45 @@
 {
-  "account_delete_screen_title": "删除帳戶",
+  "account_delete_screen_confirm": "確認",
   "account_delete_screen_header_text": "確認删除帳戶",
+  "account_delete_screen_input_label": "請輸入 %{code} 來確認",
   "account_delete_screen_message": "請問你是否確認删除 Liker ID 帳戶 %{id}?",
   "account_delete_screen_notice_1": "與你的 Liker ID 相關的資料大部分會被删除，但交易相關資料將會繼續保留在 LikeCoin 鏈上和交易記錄索引內。",
   "account_delete_screen_notice_2": "在帳戶删除後，Liker ID 將不能被重用，你將需要註冊全新的 Liker ID。",
-  "account_delete_screen_input_label": "請輸入 %{code} 來確認",
-  "account_delete_screen_confirm": "確認",
+  "account_delete_screen_title": "删除帳戶",
   "amount_input_max": "最大",
-  "closeApp": "關閉 App",
-  "initializing": "啟動中",
-  "initializingFailedAlertTitle": "啟動失敗",
-  "initializingFailedAlertMessage": "請重新開啟 App",
-  "signingIn": "登入中",
-  "signingOut": "登出中",
   "AppRatingPrompt": {
-    "Title": "你滿意 Liker Land 嗎?",
-    "DenialTitle": "可否給我們一些改善建議?"
-  },
-  "ProfileSettingsScreen": {
-    "Title": "個人資料設定"
-  },
-  "BookmarkScreen": {
-    "Title": "閱讀列表",
-    "EmptyLabel": "你的閱讀列表是空的"
+    "DenialTitle": "可否給我們一些改善建議?",
+    "Title": "你滿意 Liker Land 嗎?"
   },
   "BookmarkArchivesScreen": {
-    "Title": "封存列表",
-    "EmptyLabel": "你可從閱讀列表封存內容"
+    "EmptyLabel": "你可從閱讀列表封存內容",
+    "Title": "封存列表"
+  },
+  "BookmarkScreen": {
+    "EmptyLabel": "你的閱讀列表是空的",
+    "Title": "閱讀列表"
   },
   "civic_liker_v3_about": "關於",
   "civic_liker_v3_about_url": "https://docs.like.co/v/zh/user-guide/civic-liker",
   "civic_liker_v3_dashboard_title": "讚賞公民",
-  "civic_liker_v3_summary_status_loading": "載入中",
-  "civic_liker_v3_summary_status_inactive": "未生效",
-  "civic_liker_v3_summary_status_activating": "即將生效",
-  "civic_liker_v3_summary_status_active": "已生效",
-  "civic_liker_v3_summary_hint_civic_liker": "讚賞公民",
-  "civic_liker_v3_summary_hint_inactive": "委託 %{amount} 至「%{validator}」驗證人以獲得 %{civicLiker} 會籍",
   "civic_liker_v3_summary_hint_activating": "你的 %{civicLiker} 會籍即將生效，會籍狀態於每天更新。",
   "civic_liker_v3_summary_hint_active": "已委託 %{amount}。委託愈多，回饋愈多！",
+  "civic_liker_v3_summary_hint_civic_liker": "讚賞公民",
+  "civic_liker_v3_summary_hint_inactive": "委託 %{amount} 至「%{validator}」驗證人以獲得 %{civicLiker} 會籍",
   "civic_liker_v3_summary_hint_undelegate": "你需要委託 %{amount} 來維持 %{civicLiker} 會籍",
   "civic_liker_v3_summary_manage_button_active": "更改委託",
   "civic_liker_v3_summary_manage_button_inactive": "馬上委託",
+  "civic_liker_v3_summary_status_activating": "即將生效",
+  "civic_liker_v3_summary_status_active": "已生效",
+  "civic_liker_v3_summary_status_inactive": "未生效",
+  "civic_liker_v3_summary_status_loading": "載入中",
+  "closeApp": "關閉 App",
   "common": {
     "back": "返回",
     "cancel": "取消",
     "confirm": "確認",
-    "copy": "複製",
     "copied": "已複製",
+    "copy": "複製",
     "done": "完成",
     "follow": "追蹤",
     "Following": "追蹤中",
@@ -57,13 +49,18 @@
     "No": "否",
     "ok": "好",
     "Skip": "略過",
-    "viewOnBlockExplorer": "在 Big Dipper 查看開放數據",
     "undo": "復原",
     "unfollow": "取消追蹤",
     "unfollowSuccess": "已取消追蹤 %{creator}",
+    "viewOnBlockExplorer": "在 Big Dipper 查看開放數據",
     "Yes": "是"
   },
   "community_links_label": "加入 LikeCoin 社群",
+  "content_list_item_action_sheet_bookmark": "加到閱讀列表",
+  "content_list_item_action_sheet_follow": "追蹤 %{followee}",
+  "content_list_item_action_sheet_unbookmark": "從閱讀列表移除",
+  "content_list_item_action_sheet_unfollow": "取消追蹤 %{followee}",
+  "content_view_screen_custom_site_login_alert": "請在網站登入",
   "ContentListItem": {
     "Back": {
       "Archive": "封存",
@@ -79,22 +76,17 @@
       "other": "{{count}} 個讚"
     }
   },
-  "content_list_item_action_sheet_bookmark": "加到閱讀列表",
-  "content_list_item_action_sheet_follow": "追蹤 %{followee}",
-  "content_list_item_action_sheet_unbookmark": "從閱讀列表移除",
-  "content_list_item_action_sheet_unfollow": "取消追蹤 %{followee}",
-  "content_view_screen_custom_site_login_alert": "請在網站登入",
+  "dashboard_app_update_notice_for_wallet": "若要使用錢包功能，請立即更新到最新版本",
   "Date": {
     "Today": "今日",
     "Yesterday": "昨日"
   },
-  "dashboard_app_update_notice_for_wallet": "若要使用錢包功能，請立即更新到最新版本",
   "error": {
     "DEPRECATED_APP": "Liker Land 版本過舊，無法兼容，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買時出現錯誤",
     "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
-    "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
+    "LIKER_ID_LENGTH_LIMIT_MIN": "Liker ID 不能少於 %{count} 個字元",
     "REDELEGATE_AMOUNT_EXCEED_MAX": "數目已超過可重新委託的上限",
     "REDELEGATE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "REDELEGATE_NOT_ENOUGH_FEE": "手續費不足",
@@ -107,9 +99,9 @@
     "TRANSFER_AMOUNT_EXCEED_MAX": "發送 LIKE 數目超過上限",
     "TRANSFER_AMOUNT_LESS_THAN_ZERO": "發送 LIKE 數目不可小於 0",
     "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或錢包地址不正確",
-    "TX_NOT_INCLUDED_YET": "交易尚未在區塊鏈上被確認，請於 Big Dipper 查看開放數據",
-    "TX_INSUFFICIENT_GAS_FEE": "錢包餘額不足以支付 Gas 費用，還需要 %{diff} LIKE",
     "TRANSFER_TARGET_NO_WALLET": "收款人尚無錢包地址",
+    "TX_INSUFFICIENT_GAS_FEE": "錢包餘額不足以支付 Gas 費用，還需要 %{diff} LIKE",
+    "TX_NOT_INCLUDED_YET": "交易尚未在區塊鏈上被確認，請於 Big Dipper 查看開放數據",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "數目已超過可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "數目不可小於 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手續費不足"
@@ -118,24 +110,27 @@
   "experimental_feature_wallet_connect_title": "支持 WalletConnect",
   "fan_dashboard_screen_tab_supporter_title": "支持者",
   "FollowSettingsScreen": {
-    "Title": "設定 Content Jockey",
     "TabTitle": {
       "Following": "追蹤中",
       "Unfollowed": "已取消追蹤"
-    }
+    },
+    "Title": "設定 Content Jockey"
   },
   "GlobalSuperLikedFeedScreen": {
-    "Title": "所有 Content Jockey 的 Super Like",
-    "EmptyLabel": "沒有內容"
+    "EmptyLabel": "沒有內容",
+    "Title": "所有 Content Jockey 的 Super Like"
   },
   "I18nStory": {
     "UseCase1": "%{liker} 轉賬了 %{amount} 給你。"
   },
+  "initializing": "啟動中",
+  "initializingFailedAlertMessage": "請重新開啟 App",
+  "initializingFailedAlertTitle": "啟動失敗",
   "Language": {
     "en": "英文",
+    "zh-Hans-CN": "中文(簡體)",
     "zh-Hant-HK": "中文(香港)",
-    "zh-Hant-TW": "中文(台灣)",
-    "zh-Hans-CN": "中文(簡體)"
+    "zh-Hant-TW": "中文(台灣)"
   },
   "LanguageSettingsScreen": {
     "Title": "介面語言設定"
@@ -143,48 +138,51 @@
   "nft_reader_screen_tab_dashboard": "我的書架",
   "nft_reader_screen_tab_listing": "列表",
   "Notification": {
-    "Type": {
-      "send": "發送 LIKE",
-      "receive": "收款",
-      "civic-like": "讚賞公民",
-      "super-like": "Super Like",
-      "daily-rewards": "配對基金",
-      "referral": "推薦奬賞"
-    },
     "Message": {
-      "send": "你已轉賬 %{amount} 給 %{to}。",
-      "receive": "你已從 %{from} 收到 %{amount}。",
       "civic-like": "%{from} 讚賞你的作品，你獲得 %{amount}。",
-      "super-like": "%{from} Super Like 你的作品，你獲得 %{amount}。",
       "daily-rewards": "今天有 %{likers} 讚賞你的作品，你共獲得 %{amount}。",
-      "referral": "%{from} 已安裝 Liker Land app，你們分別獲得 %{amount}。"
+      "receive": "你已從 %{from} 收到 %{amount}。",
+      "referral": "%{from} 已安裝 Liker Land app，你們分別獲得 %{amount}。",
+      "send": "你已轉賬 %{amount} 給 %{to}。",
+      "super-like": "%{from} Super Like 你的作品，你獲得 %{amount}。"
+    },
+    "Type": {
+      "civic-like": "讚賞公民",
+      "daily-rewards": "配對基金",
+      "receive": "收款",
+      "referral": "推薦奬賞",
+      "send": "發送 LIKE",
+      "super-like": "Super Like"
     }
   },
   "NotificationScreen": {
-    "Title": "通知",
-    "EmptyLabel": "暫時沒有通知"
+    "EmptyLabel": "暫時沒有通知",
+    "Title": "通知"
+  },
+  "ProfileSettingsScreen": {
+    "Title": "個人資料設定"
   },
   "qrcodeScannerScreen": {
     "hintText": "掃描二維碼",
     "showMyQRCode": "我的二維碼"
   },
+  "reader_screen_tab_subtitle_global": "所有推文",
+  "reader_screen_tab_subtitle_self": "我的推文",
+  "reader_screen_title_global": "depub.space",
+  "reader_screen_title_my_feed": "depub.space",
   "readerScreen": {
-    "Title": "閱讀列表",
-    "emptyLabel": "沒有內容",
-    "SuperLikeFromLabel": {
-      "zero": "%{liker} Super Liked",
-      "one": "%{liker} 及 {{count}} 人 Super Liked",
-      "other": "%{liker} 及 {{count}} 人 Super Liked"
-    },
     "Date": {
       "Today": "今日頭條",
       "Yesterday": "昨日頭條"
-    }
+    },
+    "emptyLabel": "沒有內容",
+    "SuperLikeFromLabel": {
+      "one": "%{liker} 及 {{count}} 人 Super Liked",
+      "other": "%{liker} 及 {{count}} 人 Super Liked",
+      "zero": "%{liker} Super Liked"
+    },
+    "Title": "閱讀列表"
   },
-  "reader_screen_title_my_feed": "depub.space",
-  "reader_screen_title_global": "depub.space",
-  "reader_screen_tab_subtitle_self": "我的推文",
-  "reader_screen_tab_subtitle_global": "所有推文",
   "receiveScreen": {
     "shareYourAddress": "分享我的錢包地址"
   },
@@ -194,17 +192,17 @@
   "ReferralScreen": {
     "DescriptionLabel": "立即呼籲你的讀者加入讚賞公民計劃，支持你自由地創作吧。",
     "HeaderTitle": "贊助連結",
-    "Title": "創意無價，創作有價。",
+    "OgDescription": "下載 Liker Land，追蹤 {{displayName}}。不是瀏覽，而是閱讀。",
     "OgTitle": "接受 {{displayName}} 邀請，以文會友",
-    "OgDescription": "下載 Liker Land，追蹤 {{displayName}}。不是瀏覽，而是閱讀。"
+    "Title": "創意無價，創作有價。"
   },
   "ReferrerFollowScreen": {
     "Heading": "現已追蹤"
   },
   "ReferrerInputScreen": {
+    "emailVerificationHint": "必須通過電郵地址及短訊驗證後才能獲得推薦獎賞",
     "referrerIdHint": "輸入推薦人的 Liker ID，追蹤更新，兼獲奬賞。留意，你必須通過短訊驗證身份才可獲得奬勵，詳情： https://docs.like.co/v/zh/user-guide/reader/referral",
-    "referrerIdLabel": "（如有）輸入推薦人的 Liker ID",
-    "emailVerificationHint": "必須通過電郵地址及短訊驗證後才能獲得推薦獎賞"
+    "referrerIdLabel": "（如有）輸入推薦人的 Liker ID"
   },
   "RegistrationScreen": {
     "likerIdHint": "只允許 7 至 20 位小寫英文字母、數字、「-」及「_」字元",
@@ -214,21 +212,86 @@
   "SaveToBookmarkScreen": {
     "DismissButtonText": "按此關閉",
     "Error": {
-      "unauthorized": "請重新登入 Liker Land。",
-      "invalid-url": "未能成功辨識鏈接。",
       "conflict": "閱讀列表內已存有此網頁",
+      "invalid-url": "未能成功辨識鏈接。",
+      "unauthorized": "請重新登入 Liker Land。",
       "unknown": "未能成功把網頁加到 Liker Land 閱讀列表。"
     }
   },
+  "seed_words_export_screen_error_account_mismatch": "帳戶不符，請選擇正確的第三方登入方式",
+  "seed_words_export_screen_error_invalid_password": "密碼錯誤",
+  "seed_words_export_screen_password_label": "請輸入 Authcore 密碼",
+  "seed_words_export_screen_password_submit_button": "認證",
+  "seed_words_export_screen_seed_words_copied_button": "已複製",
+  "seed_words_export_screen_seed_words_copy_button": "複製",
+  "seed_words_export_screen_title": "滙出助記詞",
+  "seed_words_export_screen_warning_confirm_button": "確認",
+  "seed_words_export_screen_warning_description": "請勿與任何人分享你的錢包助記詞，或者輸入助記詞到不明網站或程式。保障資產安全，錢包助記詞必須保密！",
+  "seed_words_export_screen_warning_title": "警告",
+  "settings_account_delete": "删除帳戶",
+  "settings_screen_bookmark": "閱讀列表",
+  "settings_screen_experimental_features": "試用新功能",
+  "settings_screen_seed_words_export": "匯出錢包助記詞",
+  "settings_screen_walletConnect": "WalletConnect",
+  "settingsScreen": {
+    "contactUs": "聯絡我們",
+    "openSourceLicense": "開源授權",
+    "Panel": {
+      "Settings": {
+        "ContentJockey": "Content Jockey",
+        "Header": "設定",
+        "Language": "語言",
+        "Profile": "個人資料",
+        "Security": "安全"
+      },
+      "Statistics": {
+        "Rewarded": {
+          "GetRewardsButtonTitle": "獲得讚賞",
+          "Title": "所獲讚賞"
+        },
+        "Supported": {
+          "Title": "讚賞公民月費已回饋"
+        },
+        "TopSupportedCreator": {
+          "BecomeCivicLiker": "成為讚賞公民",
+          "SupportMore": "給予 {{creator}} 更多支持"
+        }
+      },
+      "Wallet": {
+        "Title": "我的錢包"
+      }
+    },
+    "privacyPolicy": "隱私權政策",
+    "RateApp": "為 Liker Land 評分",
+    "Referral": "贊助連結",
+    "subscription": "訂閱",
+    "termsOfUse": "使用條款",
+    "title": "設定"
+  },
+  "signingIn": "登入中",
+  "signingOut": "登出中",
+  "signInScreen": {
+    "error": "登入錯誤",
+    "errorAuthCore": "登入 AuthCore 錯誤",
+    "errorLikeCo": "登入 like.co 錯誤",
+    "errorLikerLand": "登入 liker.land 錯誤",
+    "errorLikerLandHTTP": "登入 liker.land HTTP %{code}：「%{description}」",
+    "errorLikerLandTimeout": "登入 liker.land 逾時",
+    "errorLikerLandWebview": "登入 liker.land 錯誤 [%{code}]：%{description}",
+    "heading": "不是瀏覽，而是閱讀。",
+    "LoadingTakesLonger": "載入需時，請稍等⋯",
+    "signIn": "登入",
+    "signUp": "註冊"
+  },
+  "sponsor_link_cta_button": "分享你的贊助連結",
+  "sponsor_link_cta_description": "建立您的訂戶群，每月獲取贊助收入。",
+  "sponsor_link_cta_header_button": "了解更多",
+  "sponsor_link_cta_header_label": "邀請讚賞公民的支持",
+  "sponsor_link_cta_share_message": "成為我的讚賞公民，每月贊助一杯咖啡，助我走得更遠。{{url}}",
   "SponsorLinkCTA": {
     "Line1": "複製並分享",
     "Line2": "你的讚賞公民贊助連結"
   },
-  "sponsor_link_cta_header_label": "邀請讚賞公民的支持",
-  "sponsor_link_cta_header_button": "了解更多",
-  "sponsor_link_cta_description": "建立您的訂戶群，每月獲取贊助收入。",
-  "sponsor_link_cta_button": "分享你的贊助連結",
-  "sponsor_link_cta_share_message": "成為我的讚賞公民，每月贊助一杯咖啡，助我走得更遠。{{url}}",
   "stakingDelegationAmountInputScreen": {
     "available": "可委託"
   },
@@ -257,8 +320,6 @@
     "title": "取回委託"
   },
   "Statistics": {
-    "Work": "作品",
-    "WorkWithCount": "{{count}} 份作品",
     "Creator": "創作者",
     "Period": {
       "Week": {
@@ -267,12 +328,11 @@
         "This": "本週"
       }
     },
-    "UnknownSource": "未知來源"
+    "UnknownSource": "未知來源",
+    "Work": "作品",
+    "WorkWithCount": "{{count}} 份作品"
   },
   "StatisticsRewardedScreen": {
-    "Empty": {
-      "Content": "沒有作品獲得讚賞。不打緊，繼續努力！"
-    },
     "Dashboard": {
       "Empty": {
         "ButtonTitle": "獲得讚賞",
@@ -282,6 +342,9 @@
         "CivicLiker": "讚賞公民",
         "CreatorFunds": "配對基金"
       }
+    },
+    "Empty": {
+      "Content": "沒有作品獲得讚賞。不打緊，繼續努力！"
     },
     "ListTitle": {
       "Content": "獲讚賞作品"
@@ -297,78 +360,15 @@
       "Content": "你沒有回饋作品，多讚賞優秀作品吧！",
       "Creator": "你沒有回饋作者，多鼓勵創作吧！"
     },
-    "Title": "讚賞公民月費回饋明細",
     "ListTitle": {
       "Content": "回饋作品",
       "Creator": "回饋作者"
-    }
-  },
-  "seed_words_export_screen_title": "滙出助記詞",
-  "seed_words_export_screen_warning_title": "警告",
-  "seed_words_export_screen_warning_description": "請勿與任何人分享你的錢包助記詞，或者輸入助記詞到不明網站或程式。保障資產安全，錢包助記詞必須保密！",
-  "seed_words_export_screen_warning_confirm_button": "確認",
-  "seed_words_export_screen_password_label": "請輸入 Authcore 密碼",
-  "seed_words_export_screen_password_submit_button": "認證",
-  "seed_words_export_screen_seed_words_copy_button": "複製",
-  "seed_words_export_screen_seed_words_copied_button": "已複製",
-  "seed_words_export_screen_error_invalid_password": "密碼錯誤",
-  "seed_words_export_screen_error_account_mismatch": "帳戶不符，請選擇正確的第三方登入方式",
-  "settingsScreen": {
-    "contactUs": "聯絡我們",
-    "openSourceLicense": "開源授權",
-    "privacyPolicy": "隱私權政策",
-    "Panel": {
-      "Settings": {
-        "Header": "設定",
-        "ContentJockey": "Content Jockey",
-        "Language": "語言",
-        "Profile": "個人資料",
-        "Security": "安全"
-      },
-      "Statistics": {
-        "Rewarded": {
-          "GetRewardsButtonTitle": "獲得讚賞",
-          "Title": "所獲讚賞"
-        },
-        "Supported": {
-          "Title": "讚賞公民月費已回饋"
-        },
-        "TopSupportedCreator": {
-          "BecomeCivicLiker": "成為讚賞公民",
-          "SupportMore": "給予 {{creator}} 更多支持"
-        }
-      },
-      "Wallet": {
-        "Title": "我的錢包"
-      }
     },
-    "RateApp": "為 Liker Land 評分",
-    "Referral": "贊助連結",
-    "subscription": "訂閱",
-    "termsOfUse": "使用條款",
-    "title": "設定"
+    "Title": "讚賞公民月費回饋明細"
   },
-  "settings_account_delete": "删除帳戶",
-  "settings_screen_bookmark": "閱讀列表",
-  "settings_screen_experimental_features": "試用新功能",
-  "settings_screen_seed_words_export": "匯出錢包助記詞",
-  "settings_screen_walletConnect": "WalletConnect",
   "storybook": {
-    "placeholder": "Placeholder",
-    "field": "Field"
-  },
-  "signInScreen": {
-    "error": "登入錯誤",
-    "errorAuthCore": "登入 AuthCore 錯誤",
-    "errorLikeCo": "登入 like.co 錯誤",
-    "errorLikerLand": "登入 liker.land 錯誤",
-    "errorLikerLandWebview": "登入 liker.land 錯誤 [%{code}]：%{description}",
-    "errorLikerLandHTTP": "登入 liker.land HTTP %{code}：「%{description}」",
-    "errorLikerLandTimeout": "登入 liker.land 逾時",
-    "heading": "不是瀏覽，而是閱讀。",
-    "LoadingTakesLonger": "載入需時，請稍等⋯",
-    "signIn": "登入",
-    "signUp": "註冊"
+    "field": "Field",
+    "placeholder": "Placeholder"
   },
   "subscriptionFeature": {
     "com.oice.membership": [
@@ -396,10 +396,6 @@
   "transfer": {
     "to": "至"
   },
-  "transferTargetInputScreen": {
-    "targetInputLabel": "發送 LIKE 至",
-    "targetInputPlaceholder": "收款人的 Liker ID 或錢包地址"
-  },
   "transferAmountInputScreen": {
     "available": "可轉賬"
   },
@@ -415,6 +411,14 @@
     "totalAmount": "總額",
     "transactionFee": "手續費"
   },
+  "transferTargetInputScreen": {
+    "targetInputLabel": "發送 LIKE 至",
+    "targetInputPlaceholder": "收款人的 Liker ID 或錢包地址"
+  },
+  "UnauthenticatedAlert": {
+    "message": "請重新登入。",
+    "title": "登入階段已失效 [{{type}}]"
+  },
   "validator": {
     "delegatorShare": "Liker 分成",
     "description": "介紹",
@@ -422,15 +426,18 @@
     "votingPower": "投票權",
     "website": "網站"
   },
+  "ValidatorListScreen": {
+    "Title": "所有驗證人"
+  },
   "validatorScreen": {
+    "delegateButtonText": "委託",
+    "delegatorRewardsLabel": "未領取收益",
     "delegatorShareLabel": "委託中",
     "delegatorUnbondingShareLabel": "解綁中",
-    "delegatorRewardsLabel": "未領取收益",
-    "delegateButtonText": "委託",
     "redelegateButtonText": "轉移委託",
     "RedelegationLockAlert": {
-      "title": "轉移委託已被鎖上",
-      "message": "你最近曾轉移委託至這驗證人，轉移委託後21天將會解鎖。"
+      "message": "你最近曾轉移委託至這驗證人，轉移委託後21天將會解鎖。",
+      "title": "轉移委託已被鎖上"
     },
     "Status": {
       "Active": "活躍",
@@ -439,13 +446,6 @@
     "undelegateButtonText": "取回委託",
     "validatorAddress": "驗證人錢包地址 (按一下複製)",
     "validatorAddressCopied": "驗證人錢包地址 (已複製)"
-  },
-  "ValidatorListScreen": {
-    "Title": "所有驗證人"
-  },
-  "UnauthenticatedAlert": {
-    "title": "登入階段已失效 [{{type}}]",
-    "message": "請重新登入。"
   },
   "walletConnectRequestScreen_title": "Wallet Connect",
   "walletConnectRequestView_button_approve": "允許",
@@ -460,13 +460,13 @@
   "walletConnectRequestView_label_description_unknown": "%{name} 向 Liker Land App 發出了請求",
   "walletConnectRequestView_loading_hint": "若沒有彈出確認請求，請返回瀏覽器再回來",
   "walletDashboardScreen": {
-    "availableBalanceLabel": "可用",
     "allDelegatorRewardsLabel": "未領取收益",
     "allUnbondingBalanceLabel": "解綁中",
     "AllValidatorsButtonText": "所有驗證人",
+    "availableBalanceLabel": "可用",
+    "receive": "收款",
     "send": "發送 LIKE",
     "stakeLabel": "委託",
-    "receive": "收款",
     "withdrawRewardsButtonText": "領取收益"
   },
   "Week": [
@@ -479,7 +479,7 @@
     "六"
   ],
   "welcomeScreen": {
-    "welcome": "歡迎！",
-    "logout": "登出"
+    "logout": "登出",
+    "welcome": "歡迎！"
   }
 }
