@@ -62,7 +62,7 @@ const Separator = styled.View`
   margin: 0 ${({ theme }) => theme.spacing.lg};
 `
 
-const PeerAvatar = styled.Image`
+const ClientAvatar = styled.Image`
   border-radius: 8px;
   width: 36px;
   height: 36px;
@@ -88,24 +88,26 @@ export class WalletConnectListScreen extends React.Component<WalletConnectListSc
       [
         {
           text: translate("common.cancel"),
+          style: "cancel",
         },
         {
           text: translate("common.confirm"),
+          style: "destructive",
           onPress: () => this.props.walletConnectStore.reset()
         },
       ]
     )
   }
 
-  private keyExtractor = (item: WalletConnectClient) => item.connector.peerId
+  private keyExtractor = (item: WalletConnectClient) => item.connector.clientId
 
   private renderItem: ListRenderItem<WalletConnectClient> = ({ item }) => {
-    const { name, icons = [] } = item.connector.peerMeta
-    const peerAvatarURL = icons[0]
+    const { name, icons = [] } = item.connector.clientMeta
+    const clientAvatarURL = icons[0]
     return (
       <ListItem>
-        {!!peerAvatarURL &&
-          <PeerAvatar source={{ uri: peerAvatarURL }} />
+        {!!clientAvatarURL &&
+          <ClientAvatar source={{ uri: clientAvatarURL }} />
         }
         <PeerName
           text={name}
