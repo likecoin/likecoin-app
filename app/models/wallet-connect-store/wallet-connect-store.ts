@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { withEnvironment, withExperimentalFeatures, withNavigationStore } from "../extensions"
+import { withEnvironment, withExperimentalFeatures, withLanguageSettingsStore, withNavigationStore } from "../extensions"
 
 import { WalletConnectClientModel } from "../wallet-connect-client"
 
@@ -14,12 +14,29 @@ export const WalletConnectStoreModel = types
   .extend(withEnvironment)
   .extend(withExperimentalFeatures)
   .extend(withNavigationStore)
+  .extend(withLanguageSettingsStore)
   .views(self => ({
     getClient(peerId: string) {
       return self.clients.find(client => client.connector.peerId === peerId)
     },
     get activeClients() {
       return self.clients.filter(client => !!client.serializedSession)
+    },
+    get localizedLikerLandBaseURL() {
+      let baseURL = self.getConfig("LIKERLAND_URL")
+
+      switch (self.languageSettingsStore.activeLanguageKey) {
+        case "zh-Hans-CN":
+        case "zh-Hant-HK":
+        case "zh-Hant-TW":
+          baseURL += "/zh-Hant"
+          break
+        case "en":
+        default:
+          baseURL += "/en"
+      }
+
+      return baseURL
     },
   }))
   .actions(self => ({

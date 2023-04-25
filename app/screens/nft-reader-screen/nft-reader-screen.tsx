@@ -34,7 +34,7 @@ export class NFTReaderScreen extends React.Component<NFTReaderScreenProps, {}> {
   }
 
   get webViewURL() {
-    const baseURL = this.props.walletConnectStore.getConfig("LIKERLAND_URL")
+    const baseURL = this.props.walletConnectStore.localizedLikerLandBaseURL
     switch (this.state.tabValue) {
       case "listing":
         return `${baseURL}/writing-nft`
@@ -79,10 +79,10 @@ export class NFTReaderScreen extends React.Component<NFTReaderScreenProps, {}> {
           ]}
           onChange={this.onTabChange}
         >
-          {({ tabValue, ...props }) => {
+          {props => {
             return (
               <WebView
-                key={tabValue}
+                key={this.webViewURL}
                 contentInset={props.contentInset}
                 containerStyle={props.contentContainerStyle}
                 sharedCookiesEnabled={true}

@@ -28,7 +28,7 @@ const WebView = styled(WebViewBase)`
 @inject("walletConnectStore")
 export class NFTNotificationScreen extends React.Component<NFTNotificationScreenProps, {}> {
   get webViewURL() {
-    const baseURL = this.props.walletConnectStore.getConfig("LIKERLAND_URL")
+    const baseURL = this.props.walletConnectStore.localizedLikerLandBaseURL
     return `${baseURL}/notifications?in_app=1`
   }
 
@@ -41,6 +41,7 @@ export class NFTNotificationScreen extends React.Component<NFTNotificationScreen
           </SafeAreaView>
         </HeaderView>
         <WebView
+          key={this.webViewURL}
           sharedCookiesEnabled={true}
           source={{ uri: this.webViewURL }}
           decelerationRate={0.998}
