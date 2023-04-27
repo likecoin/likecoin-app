@@ -138,6 +138,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
     logAnalyticsEvent("SettingsClickBookmark")
   }
 
+  private onPressDepub = () => {
+    this.props.navigation.navigate("Depub")
+    logAnalyticsEvent("SettingsClickDepub")
+  }
+
   private onPressRateApp = () => {
     this.props.userStore.rateApp()
     logAnalyticsEvent("SettingsClickRateApp")
@@ -203,10 +208,6 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
                 titleTx="settingsScreen.Panel.Settings.Security"
                 onPress={this.onPressSecuritySettings}
               />
-              <TableViewCell
-                titleTx="settings_screen_bookmark"
-                onPress={this.onPressBookmarkScreen}
-              />
               {this.props.experimentalFeatureStore.shouldWalletConnectEnabled &&
                 <TableViewCell
                   titleTx="settings_screen_walletConnect"
@@ -217,6 +218,17 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, {}> {
               <TableViewCell
                 titleTx="settings_screen_seed_words_export"
                 onPress={this.onPressSeedWordsExport}
+              />
+            </PrimarySectionTableView>
+
+            <PrimarySectionTableView>
+              <TableViewCell
+                titleTx="settings_screen_bookmark"
+                onPress={this.onPressBookmarkScreen}
+              />
+              <TableViewCell
+                titleTx="settings_screen_depub"
+                onPress={this.onPressDepub}
               />
             </PrimarySectionTableView>
 

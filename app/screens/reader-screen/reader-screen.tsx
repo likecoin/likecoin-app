@@ -69,7 +69,11 @@ export class ReaderScreen extends React.Component<Props, {}> {
 
     return (
       <Screen preset="fixed">
-        <Header headerTx={headerTx} />
+        <Header
+          headerTx={headerTx}
+          leftIcon="back"
+          onLeftPress={() => this.props.navigation.goBack()}
+        />
         <HeaderTabContainerView
           value={tabValue}
           items={[
