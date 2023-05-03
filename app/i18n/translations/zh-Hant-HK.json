@@ -136,7 +136,7 @@
     "Title": "介面語言設定"
   },
   "nft_reader_screen_tab_dashboard": "我的書架",
-  "nft_reader_screen_tab_listing": "列表",
+  "nft_reader_screen_tab_listing": "瀏覽書店",
   "Notification": {
     "Message": {
       "civic-like": "%{from} 讚賞你的作品，你獲得 %{amount}。",
