@@ -52,7 +52,7 @@
     "undo": "復原",
     "unfollow": "取消追踪",
     "unfollowSuccess": "已取消追踪 %{creator}",
-    "viewOnBlockExplorer": "在 Big Dipper 查看开放数据",
+    "viewOnBlockExplorer": "在 Mintscan 查看开放数据",
     "Yes": "是"
   },
   "community_links_label": "加入 LikeCoin 社群",
@@ -101,7 +101,7 @@
     "TRANSFER_INPUT_TARGET_INVALID": "Liker ID 或钱包地址不正确",
     "TRANSFER_TARGET_NO_WALLET": "收款人尚无钱包地址",
     "TX_INSUFFICIENT_GAS_FEE": "钱包余额不足以支付 Gas 费用，還需要 %{diff} LIKE",
-    "TX_NOT_INCLUDED_YET": "交易尚未在区块链上被确认，请于 Big Dipper 查看开放数据",
+    "TX_NOT_INCLUDED_YET": "交易尚未在区块链上被确认，请于 Mintscan 查看开放数据",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "数目已超过可取回委託的上限",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "数目不可小于 0",
     "UNSTAKE_NOT_ENOUGH_FEE": "手续费不足"

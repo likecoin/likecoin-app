@@ -51,7 +51,7 @@ export const TxStoreModel = types
       return new BigNumber(self.inputAmount).shiftedBy(self.fractionDigits)
     },
     get blockExplorerURL() {
-      return self.env.bigDipper.getTransactionURL(self.txHash)
+      return self.env.mintscan.getTransactionURL(self.txHash)
     },
     get signingState() {
       if (self.isSuccess) return "success"

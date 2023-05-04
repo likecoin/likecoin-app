@@ -25,7 +25,7 @@ export const NotificationModel = types
   .extend(withEnvironment)
   .views(self => ({
     get txURL() {
-      return self.txHash ? self.env.bigDipper.getTransactionURL(self.txHash) : undefined
+      return self.txHash ? self.env.mintscan.getTransactionURL(self.txHash) : undefined
     },
   }))
   .actions(self => ({

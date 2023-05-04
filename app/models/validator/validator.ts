@@ -94,7 +94,7 @@ export const ValidatorModel = types
       return self.avatorURL || `https://ui-avatars.com/api/?size=360&name=${encodeURIComponent(self.moniker)}&color=fff&background=aaa`
     },
     get blockExplorerURL() {
-      return self.env.bigDipper.getValidatorURL(self.operatorAddress)
+      return self.env.mintscan.getValidatorURL(self.operatorAddress)
     },
     get isLoading() {
       return (

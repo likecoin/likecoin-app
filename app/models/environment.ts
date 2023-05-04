@@ -1,7 +1,7 @@
 import { AppConfig } from "../services/app-config"
 import { AuthCoreAPI } from "../services/authcore"
-import { BigDipper } from "../services/big-dipper"
 import { CosmosAPI } from "../services/cosmos"
+import { Mintscan } from "../services/mintscan"
 import { Reactotron } from "../services/reactotron"
 import { LikeCoAPI, LikeCoinAPI } from "../services/api"
 import { BranchIO } from "../services/branch-io"
@@ -20,7 +20,7 @@ export class Environment {
     this.likeCoAPI = new LikeCoAPI()
     this.likeCoinAPI = new LikeCoinAPI()
     this.cosmosAPI = new CosmosAPI()
-    this.bigDipper = new BigDipper()
+    this.mintscan = new Mintscan()
     this.branchIO = new BranchIO()
   }
 
@@ -36,7 +36,7 @@ export class Environment {
       COSMOS_ADDRESS_PREFIX,
       LIKECO_API_URL,
       LIKECOIN_API_URL,
-      BIG_DIPPER_URL,
+      MINTSCAN_URL,
       SENTRY_DSN,
       SENTRY_ENV,
     } = this.appConfig.getAllParams()
@@ -47,7 +47,7 @@ export class Environment {
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likeCoinAPI.setup(LIKECOIN_API_URL)
     this.cosmosAPI.setup(COSMOS_LCD_URL, this.appConfig.getGasLimits())
-    this.bigDipper.setup(BIG_DIPPER_URL)
+    this.mintscan.setup(MINTSCAN_URL)
   }
 
   /**
@@ -86,7 +86,7 @@ export class Environment {
   cosmosAPI: CosmosAPI
 
   /**
-   * Big Dipper helper
+   * Mintscan helper
    */
-  bigDipper: BigDipper
+  mintscan: Mintscan
 }
