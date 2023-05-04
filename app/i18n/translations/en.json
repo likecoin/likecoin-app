@@ -136,8 +136,8 @@
   "LanguageSettingsScreen": {
     "Title": "Language Settings"
   },
-  "nft_reader_screen_tab_dashboard": "My Dashboard",
-  "nft_reader_screen_tab_listing": "Listing",
+  "nft_reader_screen_tab_dashboard": "My Bookshelf",
+  "nft_reader_screen_tab_listing": "Browse the Bookstore",
   "Notification": {
     "Message": {
       "civic-like": "%{from} Liked your work. You received %{amount}.",
