@@ -1,4 +1,4 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, flow, types } from "mobx-state-tree"
 import { withEnvironment, withExperimentalFeatures, withLanguageSettingsStore, withNavigationStore } from "../extensions"
 
 import { WalletConnectClientModel } from "../wallet-connect-client"
@@ -40,15 +40,26 @@ export const WalletConnectStoreModel = types
     },
   }))
   .actions(self => ({
-    handleNewSessionRequest(uri: string, opts?: { isMobile?: boolean }) {
-      const client = WalletConnectClientModel.create({})
-      client.createSession(uri, opts)      
-      self.clients.push(client)
-    },
+    handleNewSessionRequest: flow(function * (uri: string, opts?: { isMobile?: boolean }) {
+      const newClient = WalletConnectClientModel.create({})
+      newClient.createSession(uri, opts)
+
+      // Deduplicate clients with same URL while adding new client
+      const toBeRemovedClients = self.clients.filter(client => client.connector.clientMeta.url === newClient.connector.clientMeta.url)
+
+      self.clients.push(newClient)
+
+      yield toBeRemovedClients.forEach(async client => {
+        await client.disconnect()
+        self.clients.remove(client)
+      })
+    }),
     afterCreate() {
       if (!self.experimentalFeatures || !self.experimentalFeatures.isWalletConnectActivated) return
       self.clients.forEach(client => {
         client.restoreSession()
+        // Disconnect all Wallet Connect sessions every time the app is restarted
+        client.disconnect()
       })
     },
     reset() {

@@ -71,7 +71,7 @@ const BaseModel = types
       if (params.event === "wallet_connect_v1") {
         const walletConnectURI = self.env.branchIO.parseWalletConnectEvent(params)
         if (walletConnectURI) {
-          self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
+          yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
         }
       }
     })
@@ -148,7 +148,7 @@ const BaseModel = types
           } else if (url.includes('wcV1?')) {
             const [, walletConnectURI = ''] = url.split('wcV1?')
             if (walletConnectURI) {
-              self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
+              yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
             }
           }
         }
