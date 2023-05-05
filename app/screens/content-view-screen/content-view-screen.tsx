@@ -105,7 +105,8 @@ const injectedJavaScript = `${
   window.onload = function() {
     let host = window.location.host;
     switch (host) {
-      case 'matters.news': {
+      case 'matters.news':
+      case 'matters.town': {
         const site = 'matters';
         notifyAppForCustomSite({ site: site });
         function checkMattersFinishLoading() {
