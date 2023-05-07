@@ -1,14 +1,12 @@
 import * as React from "react"
 import { SafeAreaView, StatusBar } from "react-native"
-import { WebView as WebViewBase } from "react-native-webview"
 import { inject } from "mobx-react"
 import styled from "styled-components/native"
 
 import { HeaderTabItem } from "../../components/header-tab"
 import { HeaderTabContainerView } from "../../components/header-tab-container-view"
+import { NFTWebView as NFTWebViewBase } from "../../components/nft-web-view"
 import { WalletConnectStore } from "../../models/wallet-connect-store"
-
-import { COMMON_API_CONFIG } from "../../services/api/api-config"
 
 interface NFTReaderScreenProps {
   walletConnectStore: WalletConnectStore
@@ -23,7 +21,7 @@ const HeaderView = styled.View`
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 
-const WebView = styled(WebViewBase)`
+const NFTWebView = styled(NFTWebViewBase)`
   flex: 1;
 `
 
@@ -81,15 +79,11 @@ export class NFTReaderScreen extends React.Component<NFTReaderScreenProps, {}> {
         >
           {props => {
             return (
-              <WebView
+              <NFTWebView
                 key={this.webViewURL}
                 contentInset={props.contentInset}
                 containerStyle={props.contentContainerStyle}
-                sharedCookiesEnabled={true}
                 source={{ uri: `${this.webViewURL}?in_app=1` }}
-                decelerationRate={0.998}
-                // TODO: remove HACK after applicationNameForUserAgent type is fixed
-                {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
               />
             )
           }}

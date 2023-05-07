@@ -1,12 +1,11 @@
 import * as React from "react"
 import { SafeAreaView, StatusBar } from "react-native"
-import { WebView as WebViewBase } from "react-native-webview"
 import { inject } from "mobx-react"
 import styled from "styled-components/native"
 
-import { WalletConnectStore } from "../../models/wallet-connect-store"
+import { NFTWebView as NFTWebViewBase } from "../../components/nft-web-view"
 
-import { COMMON_API_CONFIG } from "../../services/api/api-config"
+import { WalletConnectStore } from "../../models/wallet-connect-store"
 
 interface NFTNotificationScreenProps {
   walletConnectStore: WalletConnectStore
@@ -21,7 +20,7 @@ const HeaderView = styled.View`
   background-color: ${({ theme }) => theme.color.background.feature.primary};
 `
 
-const WebView = styled(WebViewBase)`
+const NFTWebView = styled(NFTWebViewBase)`
   flex: 1;
 `
 
@@ -40,13 +39,9 @@ export class NFTNotificationScreen extends React.Component<NFTNotificationScreen
             <StatusBar barStyle="light-content" />
           </SafeAreaView>
         </HeaderView>
-        <WebView
+        <NFTWebView
           key={this.webViewURL}
-          sharedCookiesEnabled={true}
           source={{ uri: this.webViewURL }}
-          decelerationRate={0.998}
-          // TODO: remove HACK after applicationNameForUserAgent type is fixed
-          {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
         />
       </RootView>
     )
