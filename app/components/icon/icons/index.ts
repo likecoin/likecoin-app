@@ -14,6 +14,7 @@ import Checkmark from "./checkmark.svg"
 import CrossIcon from "./cross.svg"
 import DisconnectIcon from "./disconnect.svg"
 import ExternalLinkIcon from "./external-link"
+import HomeIcon from "./home.svg"
 import LikeClap from "./like-clap.svg"
 import Lock from "./lock.svg"
 import NFTDashboardIcon from "./nft-dashboard"
@@ -62,6 +63,7 @@ export const icons = {
   "external-link": ExternalLinkIcon,
   github: GitHubIcon,
   "global-eye": GlobalEyeIcon,
+  home: HomeIcon,
   "like-clap": LikeClap,
   lock: Lock,
   medium: MediumIcon,
