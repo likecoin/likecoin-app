@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Linking, View } from "react-native"
+import { BackHandler, Linking, View } from "react-native"
 import { WebView as WebViewBase, WebViewNavigation, WebViewProps } from "react-native-webview"
 import { OnShouldStartLoadWithRequest } from "react-native-webview/lib/WebViewTypes"
 import styled from "styled-components/native"
@@ -47,6 +47,16 @@ export function NFTWebView({ style, ...props }: WebViewProps) {
   const handleRefreshButtonPress = () => {
     webViewRef.current?.reload()
   }
+
+  const handleHardwareBackButtonPress = () => {
+    handleBackButtonPress()
+    return true
+  }
+
+  React.useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", handleHardwareBackButtonPress)
+    return () => backHandler.remove()
+  }, [])
 
   return (
     <View style={style}>
