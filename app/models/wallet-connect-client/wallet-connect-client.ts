@@ -136,7 +136,7 @@ export const WalletConnectClientModel = types
   }))
   .actions(self => ({
     handleCallRequestApproval: flow(function * (payload: any) {
-      if (self.serializedSession === "" || !Object.values(self.env).length) return
+      if (!Object.values(self.env).length) return
 
       let result = null
       try {
