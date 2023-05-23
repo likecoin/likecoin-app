@@ -48,6 +48,7 @@ function isSessionRequest(method: string) {
 export const WalletConnectClientModel = types
   .model("WalletConnectClient")
   .props({
+    uri: types.maybe(types.string),
     serializedSession: types.optional(types.string, ""),
   })
   .volatile(() => ({
@@ -328,6 +329,7 @@ export const WalletConnectClientModel = types
         isMobile = false
       }: { isMobile?: boolean } = {},
     ) {
+      self.uri = uri
       self.connect({ uri })
       self.isMobile = isMobile
       self.connector.on("session_request", self.handleNewSessionRequest)

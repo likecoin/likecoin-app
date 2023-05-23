@@ -41,7 +41,10 @@ export const WalletConnectStoreModel = types
   }))
   .actions(self => ({
     handleNewSessionRequest: flow(function * (uri: string, opts?: { isMobile?: boolean }) {
-      const newClient = WalletConnectClientModel.create({})
+      // Guard duplicated requests
+      if (self.clients.find(c => c.uri === uri)) return
+
+      const newClient = WalletConnectClientModel.create({}, self.env)
       newClient.createSession(uri, opts)
 
       // Deduplicate clients with same URL while adding new client
