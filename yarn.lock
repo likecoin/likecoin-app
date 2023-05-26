@@ -13265,10 +13265,10 @@ react-native-tab-view@^2.15.2:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.16.0.tgz#cae72c7084394bd328fac5fefb86cd966df37a86"
   integrity sha512-ac2DmT7+l13wzIFqtbfXn4wwfgtPoKzWjjZyrK1t+T8sdemuUvD4zIt+UImg03fu3s3VD8Wh/fBrIdcqQyZJWg==
 
-react-native-tracking-transparency@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-tracking-transparency/-/react-native-tracking-transparency-0.1.1.tgz#6426d4c826d0deaed7ed32f707cb2d15b09c3c3f"
-  integrity sha512-yGzpprmZ7dnlScegpoq1uQLuMLR2yDcFVHKF39FB0hxUBmck3G0bKSIbjj1ienM9IgjPvJQPgvG0dX9asyZ7NA==
+react-native-tracking-transparency@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-tracking-transparency/-/react-native-tracking-transparency-0.1.2.tgz#78059ffe38079182aaced1326f590b35c7440ae6"
+  integrity sha512-oe+BFutdq+fnTgyC9pAm/NEz6nuYkEHpFQUU8swj+E5oOOPqGmrNXmseNatKob521Zh7w0ovxXkoQNTV+PKTFA==
 
 react-native-webview@^8.1.1:
   version "8.1.2"

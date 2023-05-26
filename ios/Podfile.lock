@@ -232,7 +232,7 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.1.1):
     - React
-  - react-native-tracking-transparency (0.1.1):
+  - react-native-tracking-transparency (0.1.2):
     - React
   - react-native-webview (8.1.2):
     - React
@@ -568,7 +568,7 @@ SPEC CHECKSUMS:
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-splash-screen: 353334c5ae82d8c74501ea7cbb916cb7cb20c8bf
-  react-native-tracking-transparency: b2029ff756f1128b1f2c7c7c7f3003bc3c950f9f
+  react-native-tracking-transparency: 25ff1ff866e338c137c818bdec20526bb05ffcc1
   react-native-webview: fcb5f377aadc216273300f452ee0d321fb85809b
   React-RCTActionSheet: b0f1ea83f4bf75fb966eae9bfc47b78c8d3efd90
   React-RCTAnimation: 359ba1b5690b1e87cc173558a78e82d35919333e
