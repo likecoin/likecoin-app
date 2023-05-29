@@ -8,6 +8,6 @@
 
 "FacebookDisplayName" = "讚賞公民";
 "NSCameraUsageDescription" = "此應用程式需要開啟相機來掃描二維碼";
-"NSPhotoLibraryUsageDescription" = "此應用程式需要開啟相片庫來讀取二維碼";
-"NSUserTrackingUsageDescription" = "你的資料將助我們改善你的體驗";
+"NSPhotoLibraryUsageDescription" = "此應用程式需要開啟相片庫來更新個人頭像";
+"NSUserTrackingUsageDescription" = "我們將收集你的資料讓我們信任的出版社和合作伙伴提供個人化產品給你";
 "NSCrossWebsiteTrackingUsageDescription" = "允許 Liker Land 使用誇站 Cookie 來讀取你的登入狀態，讓你能直接在網頁使用讚賞鍵。";

@@ -7,7 +7,7 @@
 */
 
 "FacebookDisplayName" = "Liker";
-"NSCameraUsageDescription" = "The app requires camera for scanning QR code";
-"NSPhotoLibraryUsageDescription" = "The app requires your permission to access your photos";
-"NSUserTrackingUsageDescription" = "Your data will be used to deliver a better experience for you";
+"NSCameraUsageDescription" = "To scan the QR code, the app needs access to your camera.";
+"NSPhotoLibraryUsageDescription" = "To update your avatar, the app needs your permission to access your photos.";
+"NSUserTrackingUsageDescription" = "We will collect your data and use it to provide personalized product suggestions from our trusted publishers and partners";
 "NSCrossWebsiteTrackingUsageDescription" = "Allow Liker Land to use cross-site cookie to check your login status. This allows you to use like button in webpage without the need of popups";
