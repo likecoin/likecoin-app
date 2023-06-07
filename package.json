@@ -2,6 +2,9 @@
   "name": "likecoin-app",
   "version": "0.31.3",
   "private": true,
+  "engine": {
+    "node": ">=16"
+  },
   "scripts": {
     "start": "react-native start",
     "start:clean": "react-native start --reset-cache",
