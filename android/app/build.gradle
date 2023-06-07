@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-apply plugin: "io.fabric"
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: "com.google.firebase.firebase-perf"
 
 import com.android.build.OutputFile
@@ -122,9 +122,6 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-crashlytics {
-  enableNdk true
-}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -160,6 +157,11 @@ android {
             keyPassword 'android'
         }
     }
+    packagingOptions {
+        jniLibs {
+            pickFirsts += ['**/armeabi-v7a/libc++_shared.so', '**/x86/libc++_shared.so', '**/arm64-v8a/libc++_shared.so', '**/x86_64/libc++_shared.so', '**/x86/libjsc.so', '**/armeabi-v7a/libjsc.so']
+        }
+    }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -167,6 +169,11 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                strippedNativeLibsDir 'build/intermediates/stripped_native_libs/release/out/lib'
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
         }
     }
     // applicationVariants are e.g. debug, release
@@ -184,23 +191,15 @@ android {
         }
     }
 
-    packagingOptions {
-        pickFirst '**/armeabi-v7a/libc++_shared.so'
-        pickFirst '**/x86/libc++_shared.so'
-        pickFirst '**/arm64-v8a/libc++_shared.so'
-        pickFirst '**/x86_64/libc++_shared.so'
-        pickFirst '**/x86/libjsc.so'
-        pickFirst '**/armeabi-v7a/libjsc.so'
-    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'org.conscrypt:conscrypt-android:2.5.1'
-    implementation "com.squareup.okhttp3:okhttp:4.9.0"
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.9.0"
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'org.conscrypt:conscrypt-android:2.5.2'
+    implementation "com.squareup.okhttp3:okhttp:4.11.0"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.11.0"
     implementation 'com.facebook.soloader:soloader:0.10.5+'
 
     if (enableHermes) {
