@@ -1,7 +1,7 @@
 jobs:
   checkout_code:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:16
     steps:
       - checkout
       - persist_to_workspace:
@@ -9,7 +9,7 @@ jobs:
           paths: .
   analyse_js:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:16
     steps:
       - attach_workspace:
           at: .
