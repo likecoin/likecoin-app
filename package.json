@@ -130,6 +130,7 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-native": "^3.6.0",
     "eslint-plugin-standard": "^4.0.0",
+    "hermes-engine": "0.2.1",
     "ignite-bowser": "^4.6.2",
     "jest": "^24.9.0",
     "jetifier": "^1.6.1",
