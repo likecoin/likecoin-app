@@ -56,7 +56,7 @@
     "postinstall-postinstall": "^2.1.0",
     "process": "^0.11.10",
     "ramda": "0.26.1",
-    "react": "16.8.6",
+    "react": "16.13.0",
     "react-content-loader": "^4.3.4",
     "react-native": "0.60.5",
     "react-native-actions-sheet": "^0.4.8",
