@@ -3008,40 +3008,40 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
   integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
 
-"@react-native-firebase/analytics@10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-10.1.0.tgz#8b503f08051ff3cf730ad83d418a307ffd32f11c"
-  integrity sha512-upTGcw5wl47lIeyhjsKFlXuJz2Fg7BbuAcgwq+FJ9sqkTJxDPRW/aHACsd9+WAs/UiwcGEpcT8gzgkvoJp68dg==
+"@react-native-firebase/analytics@11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-11.5.0.tgz#7a4388a264ff7799ab3a257906a4fd965a92660a"
+  integrity sha512-54RZBZmnSQRmuyPH2EcLfGJB4dn/VEUyd75xkEC3SKO4A68763myKtc8PAgZxcfsnEApA6LTJN/CqoZwEGG9Bg==
 
-"@react-native-firebase/app@10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-10.1.0.tgz#4242933c52b4b753ba48216092c0447677118342"
-  integrity sha512-O8IxJU0K3mmmxaz2EZW+BuC08agr3m2eybxBq+SkcJri1fv95qVsNabABWPS7h4uSHQ5m1qHCtQJnvbnHwMrvA==
+"@react-native-firebase/app@11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-11.5.0.tgz#cc7656d8bd580ddf63676774c5f4e73af3652c9c"
+  integrity sha512-Jz5CBhqkybxHjTFr5V0K+Jq2YivzPbu9exSze61/z1zSaIfBhR4G38wmHk44VWAl+PEX8GaYy9yfT69tLiCERA==
   dependencies:
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/crashlytics@10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-10.1.0.tgz#ea17e9c5459c7029d4bc238487ebc8773073b139"
-  integrity sha512-680evgIlSk//34Svi9ElDf+bgSMFDSOhMTXaSlMO022SdfEkBhLyuVkqcmuykxJkWtJlyYvZ+cq+CtcAotyOLQ==
+"@react-native-firebase/crashlytics@11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-11.5.0.tgz#33b5336002578281f20b39b5c11058c80925f2a7"
+  integrity sha512-bSsAJFhVPx1A3TIwOA//b4Q37/QBIgB4641FSjXo+J3g4UHqIJE80e5A1MWEbIN7npnycsd70cEXLcw95a3GDA==
   dependencies:
     stacktrace-js "^2.0.0"
 
-"@react-native-firebase/dynamic-links@10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-10.1.0.tgz#97b8cb8445b01633f5b79411e50f0c1fea0b328f"
-  integrity sha512-ByBqA53qcKUDSv0lZSVV99pZ1R3ZM5Glx4kLKwlzBCyNR11Us663lWAmbzPK02kmJ8a3kI3XNIg5MdPhu5457Q==
+"@react-native-firebase/dynamic-links@11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-11.5.0.tgz#e8d89a17ac726197a61529858f17e6f523a4f427"
+  integrity sha512-YzRiCazX2Gggs97+bAmSB/jGtafJqlPJvAPQ8YtNZw2UxWQ7crC25L2ueRj6+OJN9YcE4iPCYfrwYCerVJ8wnQ==
 
-"@react-native-firebase/perf@10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-10.1.0.tgz#da33515831fe8818567571cfd3e9e344811740f4"
-  integrity sha512-4MnN/oBxBH/NL80gGML5knd7PoJTTdEiM/T6H5PKxH4PTR3OsemHKnSTj3jaSHA90zjqAk8qxw3Fn/s+Ok3Z4w==
+"@react-native-firebase/perf@11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-11.5.0.tgz#b27f14316ebaea579b93fe3ae730319e68aca6bc"
+  integrity sha512-8z47pCBDEqcvDUAXj9smBSTtCMt/7g0vZIh/syB9ihxh+8uCgrRCpXX2ssuwAsa+q0ctztE8u4M3oHJPY+fbRA==
 
-"@react-native-firebase/remote-config@10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-10.1.0.tgz#f99da58e7723956b54b5b0df5785adc3d3b55a09"
-  integrity sha512-FOzNw3QCZGfAh3UpYAm2o0GIS8Rw/MYbJlKKb4gxcRcM08xHFS6h/mmhQKaE7FBDtUyJng0pM0rTv4YupsMI2g==
+"@react-native-firebase/remote-config@11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-11.5.0.tgz#61b87a998f188d332095be33e1c696b8ffedb0e8"
+  integrity sha512-rAbXZaDAxh43ioDT7bZg/dTj6i4BSLIKqc/pKFsbCRioNa+fyneFU5t8InD5hp5k1JlU5Q3kzn3/aUPKkowiiA==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
