@@ -1,5 +1,5 @@
-jest.mock("TextInput", () => {
-  const RealComponent = require.requireActual("TextInput")
+jest.mock("react-native/Libraries/Components/TextInput/TextInput", () => {
+  const RealComponent = require.requireActual("react-native/Libraries/Components/TextInput/TextInput")
   const React = require("React")
 
   class TextInput extends React.Component {

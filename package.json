@@ -150,7 +150,7 @@
   "jest": {
     "preset": "react-native",
     "moduleNameMapper": {
-      "^[./a-zA-Z0-9$_-]+\\.(bmp|gif|jpg|jpeg|png|psd|svg|webp|ttf|otf)$": "RelativeImageStub",
+      "^[./a-zA-Z0-9$_-]+\\.(bmp|gif|jpg|jpeg|png|psd|svg|webp|ttf|otf)$": "<rootDir>/node_modules/react-native/Libraries/Image/RelativeImageStub",
       "^React$": "<rootDir>/node_modules/react"
     },
     "setupFiles": [
@@ -162,7 +162,7 @@
       "/e2e"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-native|react-navigation|@react-navigation|@storybook|@react-native-community)"
+      "node_modules/(?!(jest-)?@?react-native|react-navigation|@react-navigation|@storybook|@react-native-community)"
     ]
   },
   "prettier": {

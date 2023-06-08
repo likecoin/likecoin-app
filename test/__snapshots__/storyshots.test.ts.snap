@@ -955,8 +955,9 @@ exports[`Storyshots Button Style Presets 1`] = `
             >
               <View
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -1072,9 +1073,15 @@ exports[`Storyshots Button Style Presets 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -1191,8 +1198,9 @@ exports[`Storyshots Button Style Presets 1`] = `
             >
               <View
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -1349,9 +1357,15 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": false,
+                  }
+                }
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -1477,9 +1491,15 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -1615,9 +1635,15 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -1784,9 +1810,15 @@ exports[`Storyshots Checkbox Styling 1`] = `
             >
               <View>
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -1914,9 +1946,15 @@ exports[`Storyshots Checkbox Styling 1`] = `
             >
               <View>
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -2047,9 +2085,15 @@ exports[`Storyshots Checkbox Styling 1`] = `
             >
               <View>
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -2177,9 +2221,15 @@ exports[`Storyshots Checkbox Styling 1`] = `
             >
               <View>
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -2307,9 +2357,15 @@ exports[`Storyshots Checkbox Styling 1`] = `
             >
               <View>
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -3108,9 +3164,15 @@ exports[`Storyshots CivicLikerV3SummaryView Behavior 1`] = `
                     }
                   >
                     <View
+                      accessibilityState={
+                        Object {
+                          "disabled": true,
+                        }
+                      }
                       accessible={true}
-                      clickable={false}
-                      isTVSelectable={true}
+                      collapsable={false}
+                      focusable={false}
+                      nativeID="animatedComponent"
                       onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
@@ -3134,9 +3196,7 @@ exports[`Storyshots CivicLikerV3SummaryView Behavior 1`] = `
                       }
                     >
                       <ActivityIndicator
-                        animating={true}
                         color="#4a4a4a"
-                        hidesWhenStopped={true}
                         size="small"
                       />
                     </View>
@@ -4645,8 +4705,9 @@ exports[`Storyshots CommunityLinks Behavior 1`] = `
                 >
                   <View
                     accessible={true}
-                    clickable={true}
-                    isTVSelectable={true}
+                    collapsable={false}
+                    focusable={true}
+                    nativeID="animatedComponent"
                     onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
@@ -4714,8 +4775,9 @@ exports[`Storyshots CommunityLinks Behavior 1`] = `
                   </View>
                   <View
                     accessible={true}
-                    clickable={true}
-                    isTVSelectable={true}
+                    collapsable={false}
+                    focusable={true}
+                    nativeID="animatedComponent"
                     onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
@@ -4783,8 +4845,9 @@ exports[`Storyshots CommunityLinks Behavior 1`] = `
                   </View>
                   <View
                     accessible={true}
-                    clickable={true}
-                    isTVSelectable={true}
+                    collapsable={false}
+                    focusable={true}
+                    nativeID="animatedComponent"
                     onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
@@ -4852,8 +4915,9 @@ exports[`Storyshots CommunityLinks Behavior 1`] = `
                   </View>
                   <View
                     accessible={true}
-                    clickable={true}
-                    isTVSelectable={true}
+                    collapsable={false}
+                    focusable={true}
+                    nativeID="animatedComponent"
                     onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
@@ -6385,8 +6449,9 @@ exports[`Storyshots Header Behavior 1`] = `
                   >
                     <View
                       accessible={true}
-                      clickable={true}
-                      isTVSelectable={true}
+                      collapsable={false}
+                      focusable={true}
+                      nativeID="animatedComponent"
                       onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
@@ -6608,8 +6673,9 @@ exports[`Storyshots Header Behavior 1`] = `
                   >
                     <View
                       accessible={true}
-                      clickable={true}
-                      isTVSelectable={true}
+                      collapsable={false}
+                      focusable={true}
+                      nativeID="animatedComponent"
                       onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
@@ -6778,8 +6844,9 @@ exports[`Storyshots HeaderTab Icon 1`] = `
               >
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -6863,8 +6930,9 @@ exports[`Storyshots HeaderTab Icon 1`] = `
                 </View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -7068,8 +7136,9 @@ exports[`Storyshots HeaderTab Title & Subtitle 1`] = `
               >
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -7144,8 +7213,9 @@ exports[`Storyshots HeaderTab Title & Subtitle 1`] = `
                 </View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -7270,6 +7340,8 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
         }
       >
         <View
+          collapsable={false}
+          nativeID="animatedComponent"
           style={
             Object {
               "backgroundColor": "#e6e6e6",
@@ -7297,6 +7369,8 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
           }
         >
           <View
+            collapsable={false}
+            nativeID="animatedComponent"
             style={
               Object {
                 "transform": Array [
@@ -7320,8 +7394,9 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
             >
               <View
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -7396,8 +7471,9 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
               </View>
               <View
                 accessible={true}
-                clickable={true}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -7473,6 +7549,7 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
           </View>
         </View>
         <RCTScrollView
+          collapsable={false}
           contentContainerStyle={
             Object {
               "paddingTop": 0,
@@ -7489,6 +7566,7 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
               "y": -80,
             }
           }
+          nativeID="animatedComponent"
           onScroll={[Function]}
           scrollEventThrottle={0.0001}
           style={
@@ -7907,8 +7985,9 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -8094,8 +8173,9 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -8357,8 +8437,9 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -8611,8 +8692,9 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -8895,8 +8977,9 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -9149,8 +9232,9 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -9433,8 +9517,9 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
-                  isTVSelectable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -9714,9 +9799,15 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={false}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -10028,9 +10119,15 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={false}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -10342,9 +10439,15 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={false}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -10559,9 +10662,15 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={false}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -10776,9 +10885,15 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                collapsable={false}
+                focusable={false}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -10975,6 +11090,8 @@ exports[`Storyshots ScrollView Style Presets 1`] = `
         }
       >
         <View
+          collapsable={false}
+          nativeID="animatedComponent"
           style={
             Object {
               "backgroundColor": "#e6e6e6",
@@ -10988,6 +11105,8 @@ exports[`Storyshots ScrollView Style Presets 1`] = `
           }
         />
         <RCTScrollView
+          collapsable={false}
+          nativeID="animatedComponent"
           onScroll={[Function]}
           scrollEventThrottle={0.0001}
           style={
@@ -11175,8 +11294,9 @@ exports[`Storyshots SponsorLinkCTATableView Behavior 1`] = `
                   </Text>
                   <View
                     accessible={true}
-                    clickable={true}
-                    isTVSelectable={true}
+                    collapsable={false}
+                    focusable={true}
+                    nativeID="animatedComponent"
                     onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
@@ -11266,9 +11386,13 @@ exports[`Storyshots SponsorLinkCTATableView Behavior 1`] = `
                 </View>
                 <View>
                   <View
+                    accessibilityState={
+                      Object {
+                        "disabled": true,
+                      }
+                    }
                     accessible={true}
-                    clickable={false}
-                    isTVSelectable={true}
+                    focusable={false}
                     onClick={[Function]}
                     onResponderGrant={[Function]}
                     onResponderMove={[Function]}
@@ -11307,7 +11431,6 @@ exports[`Storyshots SponsorLinkCTATableView Behavior 1`] = `
                             "paddingRight": 16,
                             "paddingTop": 16,
                           },
-                          null,
                         ]
                       }
                     >
@@ -11425,8 +11548,9 @@ exports[`Storyshots SponsorLinkCTATableView Behavior 1`] = `
                       </View>
                       <View
                         accessible={true}
-                        clickable={true}
-                        isTVSelectable={true}
+                        collapsable={false}
+                        focusable={true}
+                        nativeID="animatedComponent"
                         onClick={[Function]}
                         onResponderGrant={[Function]}
                         onResponderMove={[Function]}
@@ -11592,8 +11716,7 @@ exports[`Storyshots StatisticsListItem Type 1`] = `
             >
               <View
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                focusable={false}
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -11822,8 +11945,7 @@ exports[`Storyshots StatisticsListItem Type 1`] = `
             >
               <View
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                focusable={false}
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -12111,8 +12233,7 @@ exports[`Storyshots StatisticsListItem Type 1`] = `
             >
               <View
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                focusable={false}
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -12341,8 +12462,7 @@ exports[`Storyshots StatisticsListItem Type 1`] = `
             >
               <View
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                focusable={false}
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -14443,9 +14563,13 @@ exports[`Storyshots SupporterListItem Style Presets 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                focusable={false}
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -14486,7 +14610,6 @@ exports[`Storyshots SupporterListItem Style Presets 1`] = `
                         "paddingRight": 16,
                         "paddingTop": 16,
                       },
-                      null,
                     ]
                   }
                 >
@@ -14812,7 +14935,9 @@ exports[`Storyshots Switch Behaviour 1`] = `
             >
               <View
                 accessible={true}
-                clickable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -14832,6 +14957,8 @@ exports[`Storyshots Switch Behaviour 1`] = `
                 }
               >
                 <View
+                  collapsable={false}
+                  nativeID="animatedComponent"
                   style={
                     Object {
                       "backgroundColor": "#ffffff",
@@ -14940,7 +15067,9 @@ exports[`Storyshots Switch Behaviour 1`] = `
             >
               <View
                 accessible={true}
-                clickable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -14960,6 +15089,8 @@ exports[`Storyshots Switch Behaviour 1`] = `
                 }
               >
                 <View
+                  collapsable={false}
+                  nativeID="animatedComponent"
                   style={
                     Object {
                       "backgroundColor": "#ffffff",
@@ -15068,7 +15199,9 @@ exports[`Storyshots Switch Behaviour 1`] = `
             >
               <View
                 accessible={true}
-                clickable={true}
+                collapsable={false}
+                focusable={true}
+                nativeID="animatedComponent"
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -15088,6 +15221,8 @@ exports[`Storyshots Switch Behaviour 1`] = `
                 }
               >
                 <View
+                  collapsable={false}
+                  nativeID="animatedComponent"
                   style={
                     Object {
                       "backgroundColor": "#ffffff",
@@ -15237,7 +15372,9 @@ exports[`Storyshots Switch Styling 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -15257,6 +15394,8 @@ exports[`Storyshots Switch Styling 1`] = `
                   }
                 >
                   <View
+                    collapsable={false}
+                    nativeID="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "pink",
@@ -15367,7 +15506,9 @@ exports[`Storyshots Switch Styling 1`] = `
               <View>
                 <View
                   accessible={true}
-                  clickable={true}
+                  collapsable={false}
+                  focusable={true}
+                  nativeID="animatedComponent"
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -15387,6 +15528,8 @@ exports[`Storyshots Switch Styling 1`] = `
                   }
                 >
                   <View
+                    collapsable={false}
+                    nativeID="animatedComponent"
                     style={
                       Object {
                         "backgroundColor": "#b1008e",
@@ -15535,9 +15678,13 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
-                clickable={false}
-                isTVSelectable={true}
+                focusable={false}
                 onClick={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -15574,7 +15721,6 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                         "paddingRight": 16,
                         "paddingTop": 16,
                       },
-                      null,
                     ]
                   }
                 >
@@ -15704,9 +15850,13 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
             >
               <View>
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
                   accessible={true}
-                  clickable={false}
-                  isTVSelectable={true}
+                  focusable={false}
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -15741,7 +15891,6 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                           "paddingRight": 16,
                           "paddingTop": 16,
                         },
-                        null,
                       ]
                     }
                   >
@@ -15800,9 +15949,13 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                   }
                 />
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
                   accessible={true}
-                  clickable={false}
-                  isTVSelectable={true}
+                  focusable={false}
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -15835,7 +15988,6 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                           "paddingRight": 12,
                           "paddingTop": 16,
                         },
-                        null,
                       ]
                     }
                   >
@@ -15952,9 +16104,13 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                   }
                 />
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
                   accessible={true}
-                  clickable={false}
-                  isTVSelectable={true}
+                  focusable={false}
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -15987,7 +16143,6 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                           "paddingRight": 12,
                           "paddingTop": 16,
                         },
-                        null,
                       ]
                     }
                   >
@@ -16117,9 +16272,13 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                   }
                 />
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
                   accessible={true}
-                  clickable={false}
-                  isTVSelectable={true}
+                  focusable={false}
                   onClick={[Function]}
                   onResponderGrant={[Function]}
                   onResponderMove={[Function]}
@@ -16154,7 +16313,6 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
                           "paddingRight": 16,
                           "paddingTop": 16,
                         },
-                        null,
                       ]
                     }
                   >
@@ -18388,8 +18546,9 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                   >
                     <View
                       accessible={true}
-                      clickable={false}
-                      isTVSelectable={true}
+                      collapsable={false}
+                      focusable={false}
+                      nativeID="animatedComponent"
                       onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
@@ -18439,8 +18598,9 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                   >
                     <View
                       accessible={true}
-                      clickable={true}
-                      isTVSelectable={true}
+                      collapsable={false}
+                      focusable={true}
+                      nativeID="animatedComponent"
                       onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
@@ -18784,8 +18944,9 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                   >
                     <View
                       accessible={true}
-                      clickable={false}
-                      isTVSelectable={true}
+                      collapsable={false}
+                      focusable={false}
+                      nativeID="animatedComponent"
                       onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
@@ -18835,8 +18996,9 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
                   >
                     <View
                       accessible={true}
-                      clickable={true}
-                      isTVSelectable={true}
+                      collapsable={false}
+                      focusable={true}
+                      nativeID="animatedComponent"
                       onClick={[Function]}
                       onResponderGrant={[Function]}
                       onResponderMove={[Function]}
