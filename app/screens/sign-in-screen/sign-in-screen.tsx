@@ -6,11 +6,12 @@ import {
   Easing,
   Image,
   SafeAreaView,
+  StyleProp,
   View,
   ViewStyle,
 } from "react-native"
 import { NavigationStackScreenProps } from "react-navigation-stack"
-import FastImage from "react-native-fast-image"
+import FastImage, { ImageStyle } from "react-native-fast-image"
 import { inject, observer } from "mobx-react"
 import i18n from "i18n-js"
 
@@ -103,6 +104,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
           toValue: 1,
           duration,
           easing,
+          useNativeDriver: false
         }
       ),
       Animated.timing(
@@ -111,6 +113,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
           toValue: 1,
           duration,
           easing,
+          useNativeDriver: false
         }
       ),
       Animated.timing(
@@ -119,6 +122,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
           toValue: 0,
           duration: duration + 100,
           easing,
+          useNativeDriver: false
         }
       )
     ]).start()
@@ -305,7 +309,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
                 priority: FastImage.priority.low,
                 cache: FastImage.cacheControl.cacheOnly as any,
               }}
-              style={Style.BgImage}
+              style={Style.BgImage as StyleProp<ImageStyle>}
             />
           }
         </Animated.View>

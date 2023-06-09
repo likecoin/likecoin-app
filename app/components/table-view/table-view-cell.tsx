@@ -1,6 +1,7 @@
 import * as React from "react"
 import {
   Linking,
+  TouchableHighlight,
   TouchableHighlightProps,
 } from "react-native";
 import styled, { css, useTheme } from "styled-components/native"
@@ -25,7 +26,7 @@ interface CellViewComputedProps {
   cornerRadius: string
 }
 
-const CellView = styled.TouchableHighlight.attrs<CellViewProps, CellViewComputedProps>(() => ({
+const CellView = styled(TouchableHighlight).attrs<CellViewProps, CellViewComputedProps>(() => ({
   cornerRadius: "14px",
 }))<CellViewProps>`
   overflow: hidden;

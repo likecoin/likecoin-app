@@ -1,7 +1,7 @@
 import * as React from "react"
-import { ImageStyle, View, ViewStyle, StyleSheet } from "react-native"
+import { View, ViewStyle, StyleSheet, StyleProp } from "react-native"
 import Svg, { Path } from "react-native-svg"
-import FastImage from "react-native-fast-image"
+import FastImage, { ImageStyle } from "react-native-fast-image"
 import LinearGradient from "react-native-linear-gradient"
 
 import { color, gradient, spacing } from "../../theme"
@@ -66,7 +66,7 @@ function AvatarComponent(props: Props) {
         end={{ x: 1.0, y: 0.0 }}
         style={gradientStyle}
       >
-        <FastImage style={imageStyle} source={{ uri: src }} />
+        <FastImage style={imageStyle as StyleProp<ImageStyle>} source={{ uri: src }} />
       </LinearGradient>
       {!!isCivicLiker && (
         <View style={Style.Halo}>

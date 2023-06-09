@@ -43,7 +43,7 @@ export class BranchIO {
   }
 
   async setup() {
-    branch.subscribe(this.listener)
+    branch.subscribe(this.listener as any)
   }
 
   private listener = async ({
@@ -102,7 +102,7 @@ export class BranchIO {
     const promises = [this.getLatestParams()]
     if (!latest) promises.push(this.getInstallParams())
     const [latestParams, installParams] = await Promise.all(promises)
-    const referrer = this.parseAppReferralEvent(latestParams || installParams)
+    const referrer = this.parseAppReferralEvent((latestParams || installParams) as any)
     return referrer
   }
 

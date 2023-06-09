@@ -30,7 +30,7 @@ export function ContentListItemBackButton(
   const textStyle = textPresets[preset]
   return (
     <TouchableOpacity style={viewPresets[preset]} onPress={props.onPress}>
-      {!!Icon && <Icon width={24} height={24} color={textStyle.color} />}
+      {!!Icon && <Icon width={24} height={24} color={textStyle.color as string} />}
       <Text
         tx={props.tx}
         txOptions={props.txOptions}

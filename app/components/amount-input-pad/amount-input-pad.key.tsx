@@ -6,6 +6,7 @@ import {
   TouchableOpacityProps,
   ViewStyle,
   GestureResponderEvent,
+  StyleProp,
 } from "react-native"
 import { mergeAll, flatten } from "ramda"
 
@@ -56,7 +57,7 @@ export function AmountInputPadKey(props: AmountInputPadKeyProps) {
   const viewStyle = mergeAll(flatten([
     STYLE.ROOT,
     styleOverride
-  ]))
+  ])) as StyleProp<ViewStyle>
 
   function _onPress(event: GestureResponderEvent) {
     if (onPressKey) {

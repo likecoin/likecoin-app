@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import styled from "styled-components/native"
 
 import { translate } from "../../i18n"
@@ -10,7 +10,7 @@ import { Text } from "../text"
 
 const LIKECO_LOGIN_MESSAGE = 'Login - Reinventing the Like';
 
-const RootView = styled.View`
+const RootView = styled(View)`
   flex: 1;
   justify-content: center;
   padding: ${({ theme }) => theme.spacing.xl};
