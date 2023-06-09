@@ -12,7 +12,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <RNBranch/RNBranch.h>
 
 @import Firebase;
@@ -47,8 +46,7 @@
     FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
     [FIRApp configureWithOptions:options];
   }
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                           didFinishLaunchingWithOptions:launchOptions];
+
 #ifdef DEBUG
   [RNBranch useTestInstance];
 #endif
@@ -68,13 +66,7 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
   return [RNBranch.branch application:application openURL:url options:options]
-  || [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                    openURL:url
-                                          sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                                                 annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-      ] || [RCTLinkingManager application:application
-                                  openURL:url
-                                  options:options];
+    || [RCTLinkingManager application:application openURL:url options:options];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
