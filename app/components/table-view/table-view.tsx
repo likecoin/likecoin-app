@@ -23,9 +23,9 @@ export function TableView({
     <View {...props}>
       {React.Children.map(newChildren, (child, index) => {
         const cloneChild = React.cloneElement<TableViewCellProps>(
-          child,
+          child as React.ReactElement,
           {
-            ...child.props,
+            ...(child as React.ReactElement).props,
             isFirstCell: index === 0,
             isLastCell: index === newChildren.length - 1,
           }

@@ -70,7 +70,7 @@ export class Switch extends React.PureComponent<SwitchProps, SwitchState> {
     }).start()
   }
 
-  componentWillReceiveProps(newProps: SwitchProps) {
+  UNSAFE_componentWillReceiveProps(newProps: SwitchProps) {
     if (newProps.value !== this.props.value) {
       this.startAnimation(newProps.value)
     }

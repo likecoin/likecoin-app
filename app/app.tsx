@@ -8,7 +8,6 @@ import {
   AppRegistry,
   Linking,
   Platform,
-  YellowBox,
 } from "react-native"
 import { enableScreens } from "react-native-screens"
 import RNExitApp from "react-native-exit-app"
@@ -37,15 +36,6 @@ import { StorybookUIRoot } from "../storybook"
 if (Platform.OS === "ios") {
   enableScreens()
 }
-
-/**
- * Ignore some yellowbox warnings. Some of these are for deprecated functions
- * that we haven't gotten around to replacing yet.
- */
-YellowBox.ignoreWarnings([
-  "componentWillMount is deprecated",
-  "componentWillReceiveProps is deprecated",
-])
 
 /**
  * Storybook still wants to use ReactNative's AsyncStorage instead of the
