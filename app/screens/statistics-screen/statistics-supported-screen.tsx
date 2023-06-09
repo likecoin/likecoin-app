@@ -44,9 +44,6 @@ import {
 type StatisticsSupportedItemType =
   StatisticsSupportedCreator | StatisticsSupportedContent
 
-const StatisticsSupportedSectionList:
-  SectionList<StatisticsSupportedItemType> = SectionList
-
 @observer
 class StatisticsSupportedScreenBase extends React.Component<Props> {
   componentDidMount() {
@@ -106,7 +103,7 @@ class StatisticsSupportedScreenBase extends React.Component<Props> {
     } = days[selectedDayOfWeek] || {}
 
     return (
-      <StatisticsSupportedSectionList
+      <SectionList<StatisticsSupportedItemType>
         ListHeaderComponent={(
           <View
             style={Style.Carousel}

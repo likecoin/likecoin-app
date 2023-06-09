@@ -1,5 +1,5 @@
 import * as React from "react"
-import { TouchableOpacityProps } from "react-native"
+import { TouchableOpacity as TouchableOpacityBase, TouchableOpacityProps } from "react-native"
 import styled, { css, useTheme } from "styled-components/native"
 
 import { Icon, IconTypes } from "../icon"
@@ -10,7 +10,7 @@ interface ChildProps {
   isActive?: boolean
 }
 
-const TouchableOpacity = styled.TouchableOpacity`
+const TouchableOpacity = styled(TouchableOpacityBase)`
   flex: 1;
   min-height: 80px;
 `

@@ -203,12 +203,12 @@ export function StatisticsWeeklyChart(props: Props) {
               y={barAbsY + bar.height - bar.filledHeight}
               width={barWidth}
               height={bar.filledHeight + 1}
-              fill={barColor}
+              fill={barColor as string}
               clipPath={`url(#${clipPathID})`}
             />
             <Path
               d={barPath}
-              stroke={barColor}
+              stroke={barColor as string}
               strokeMiterlimit={10}
             />
           </G>
@@ -301,7 +301,7 @@ export function StatisticsWeeklyChart(props: Props) {
                 prepend={(
                   <StatisticsChartLegend
                     type={legend.type}
-                    color={Style.Bar.backgroundColor}
+                    color={Style.Bar.backgroundColor as string}
                     style={Style.Legend}
                   />
                 )}

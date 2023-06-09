@@ -46,9 +46,6 @@ import {
   withAbsPercent,
 } from "../../utils/number"
 
-const StatisticsRewardedSectionList:
-  SectionList<StatisticsRewardedContent> = SectionList
-
 @observer
 class StatisticsRewardedScreenBase extends React.Component<Props> {
   componentDidMount() {
@@ -84,7 +81,7 @@ class StatisticsRewardedScreenBase extends React.Component<Props> {
     } = days[selectedDayOfWeek] || {}
 
     return (
-      <StatisticsRewardedSectionList
+      <SectionList<StatisticsRewardedContent>
         ListHeaderComponent={(
           <React.Fragment>
             {this.renderCarousel()}

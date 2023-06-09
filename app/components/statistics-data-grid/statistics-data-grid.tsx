@@ -45,7 +45,7 @@ export function StatisticsDataGrid(props: Props) {
                           ? "arrow-increase"
                           : "arrow-decrease"
                       )}
-                      fill={titleStyle.color}
+                      fill={titleStyle.color as string}
                     />
                   )
                   : null
