@@ -5,8 +5,6 @@
   Created by Ng Wing Tat, David on 7/6/2021.
   Copyright © 2021 Facebook. All rights reserved.
 */
-
-"FacebookDisplayName" = "Liker";
 "NSCameraUsageDescription" = "To scan the QR code, the app needs access to your camera.";
 "NSPhotoLibraryUsageDescription" = "To update your avatar, the app needs your permission to access your photos.";
 "NSUserTrackingUsageDescription" = "We will collect your data and use it to provide personalized product suggestions from our trusted publishers and partners";

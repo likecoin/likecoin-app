@@ -1,5 +1,4 @@
 import crypto from "crypto"
-import { AppEventsLogger } from "react-native-fbsdk"
 import { logError } from "./error"
 import {
   setSentryUser,
@@ -51,24 +50,18 @@ function filterPayloadByLimit(payload) {
 }
 
 export async function updateAnalyticsUser({
-  email,
   authCoreUserId,
   userPIISalt,
 }: UserIdPayload) {
-  /* eslint-disable @typescript-eslint/camelcase */
-  AppEventsLogger.setUserID(hashUserId(authCoreUserId, userPIISalt))
-  AppEventsLogger.setUserData({ email })
   await Promise.all([
     setSentryUser({ id: hashUserId(authCoreUserId, userPIISalt) }),
     setCrashlyticsUserId(hashUserId(authCoreUserId, userPIISalt)),
     setAnalyticsUserId(hashUserId(authCoreUserId, userPIISalt)),
   ])
-  /* eslint-enable @typescript-eslint/camelcase */
 }
 
 export async function logoutAnalyticsUser() {
   await Promise.all([
-    AppEventsLogger.setUserID(null),
     resetAnalyticsUser(),
     resetSentryUser(),
     resetCrashlyticsUserId(),
@@ -120,7 +113,6 @@ export async function logAnalyticsEvent(event: string, payload?: any) {
         break
       }
     }
-    AppEventsLogger.logEvent(filterKeyLimit(eventCamel))
     /* eslint-enable @typescript-eslint/camelcase */
   } catch (err) {
     logError(err)
