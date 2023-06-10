@@ -23,12 +23,6 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb105087446989974</string>
-			</array>
-		</dict>
-		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
@@ -70,10 +64,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>FacebookAppID</key>
-	<string>105087446989974</string>
-	<key>FacebookDisplayName</key>
-	<string>Liker</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To scan the QR code, the app needs access to your camera.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
