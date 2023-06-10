@@ -1,6 +1,6 @@
 import { NativeModules } from "react-native"
 import Tron from "reactotron-react-native"
-import AsyncStorage from "@react-native-community/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { RootStore } from "../../models/root-store/root-store"
 import { onSnapshot } from "mobx-state-tree"
 import { ReactotronConfig, DEFAULT_REACTOTRON_CONFIG } from "./reactotron-config"

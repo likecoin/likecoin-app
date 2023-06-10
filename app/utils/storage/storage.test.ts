@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-community/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { load, loadString, save, saveString, clear, remove } from "./storage"
 
 // fixtures
