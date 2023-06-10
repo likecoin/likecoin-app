@@ -14546,9 +14546,9 @@ react-native-screens@^3.9.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-"react-native-share-extension@git+https://github.com/likecoin/react-native-share-extension#244989a267e4d1beb41779228ad905e5211f6bf7":
+"react-native-share-extension@git+https://github.com/likecoin/react-native-share-extension#21d1c22639b12a1e0770d4e0dd9b56a37011ae63":
   version "2.0.0"
-  resolved "git+https://github.com/likecoin/react-native-share-extension#244989a267e4d1beb41779228ad905e5211f6bf7"
+  resolved "git+https://github.com/likecoin/react-native-share-extension#21d1c22639b12a1e0770d4e0dd9b56a37011ae63"
 
 react-native-snap-carousel@^3.9.0:
   version "3.9.0"

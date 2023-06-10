@@ -82,7 +82,7 @@
     "react-native-reanimated": "^2.2.3",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.9.0",
-    "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#244989a267e4d1beb41779228ad905e5211f6bf7",
+    "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#21d1c22639b12a1e0770d4e0dd9b56a37011ae63",
     "react-native-snap-carousel": "^3.9.0",
     "react-native-splash-screen": "3.1.1",
     "react-native-svg": "^12.1.1",
