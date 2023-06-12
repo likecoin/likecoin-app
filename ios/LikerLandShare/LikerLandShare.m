@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ReactNativeShareExtension.h"
+#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLog.h>
@@ -44,19 +45,29 @@ RCT_EXPORT_MODULE();
       [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
     }
   }
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:nil];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                  moduleName:@"LikerLandShare"
+                                            initialProperties:nil];
 
-  NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-  NSLog(@"JSCODE LOCATION %@", jsCodeLocation);
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"LikerLandShare"
-                                               initialProperties:nil
-                                                   launchOptions:nil];
-  rootView.backgroundColor = [UIColor colorWithRed:40.0/255.0 green:100.0/255.0 blue:110.0/255.0 alpha:1];
-
+  if (@available(iOS 13.0, *)) {
+      rootView.backgroundColor = [UIColor systemBackgroundColor];
+  } else {
+      rootView.backgroundColor = [UIColor whiteColor];
+  }
   // Uncomment for console output in Xcode console for release mode on device:
   // RCTSetLogThreshold(RCTLogLevelInfo - 1);
 
   return rootView;
+}
+
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+{
+#if DEBUG
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+#else
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
 }
 
 @end
