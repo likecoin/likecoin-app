@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ReactNativeShareExtension.h"
+#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLog.h>
@@ -37,26 +38,25 @@ RCT_EXPORT_MODULE();
     [FIRApp configureWithOptions:options];
   }
 
-  // Sync cookies from App
-  NSArray<NSHTTPCookie *> *cookies = [[NSHTTPCookieStorage sharedCookieStorageForGroupContainerIdentifier:@"group.liker.land"] cookies];
-  for (NSHTTPCookie *cookie in cookies) {
-    if ([cookie.name isEqualToString:@"__session"]) {
-      [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
-    }
-  }
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:nil];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                   moduleName:@"LikerLandShare"
+                                            initialProperties:nil];
 
-  NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-  NSLog(@"JSCODE LOCATION %@", jsCodeLocation);
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"LikerLandShare"
-                                               initialProperties:nil
-                                                   launchOptions:nil];
-  rootView.backgroundColor = [UIColor colorWithRed:40.0/255.0 green:100.0/255.0 blue:110.0/255.0 alpha:1];
+  rootView.backgroundColor = [UIColor colorWithRed:40.0f/255.0f green:100.0f/255.0f blue:110.0f/255.0f alpha:1.0];
 
   // Uncomment for console output in Xcode console for release mode on device:
   // RCTSetLogThreshold(RCTLogLevelInfo - 1);
 
   return rootView;
+}
+
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
+  #if DEBUG
+    return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  #else
+    return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  #endif
 }
 
 @end

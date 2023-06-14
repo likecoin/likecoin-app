@@ -1,0 +1,1 @@
+jest.mock("react-native-encrypted-storage", () => ({}), { virtual: true })

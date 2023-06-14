@@ -13,8 +13,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2FB14CD0266DC0B000585C71 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB14CD2266DC0B000585C71 /* InfoPlist.strings */; };
 		40B243B835C50D731CE4FD3B /* libPods-LikeCoinApp-LikerLandShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C429FADD31C96AAFD61D1CD1 /* libPods-LikeCoinApp-LikerLandShare.a */; };
-		83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7023282B3700E6998E /* LKCWebViewManager.m */; };
-		83924D7423282B3700E6998E /* LKCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83924D7123282B3700E6998E /* LKCWebView.m */; };
 		83FE4EA424064FE50073E6EA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83FE4EA224064FE50073E6EA /* MainInterface.storyboard */; };
 		83FE4EA824064FE50073E6EA /* Liker Land.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 83FE4E9D24064FE50073E6EA /* Liker Land.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		83FE4EAE240650780073E6EA /* LikerLandShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FE4EAD240650780073E6EA /* LikerLandShare.m */; };
@@ -66,11 +64,6 @@
 		2FB14CD3266DC0B600585C71 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		612C5BA990BB7AB7622CC7A0 /* Pods-LikeCoinApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeCoinApp.debug.xcconfig"; path = "Target Support Files/Pods-LikeCoinApp/Pods-LikeCoinApp.debug.xcconfig"; sourceTree = "<group>"; };
 		75D8FC0335890CDFBF9C4CF5 /* libPods-LikeCoinApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LikeCoinApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		83924D6C232828C500E6998E /* RNCWebView+LikeCoin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RNCWebView+LikeCoin.h"; path = "LikeCoinApp/RNCWebView+LikeCoin.h"; sourceTree = "<group>"; };
-		83924D6F23282B3700E6998E /* LKCWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebView.h; path = LikeCoinApp/LKCWebView.h; sourceTree = "<group>"; };
-		83924D7023282B3700E6998E /* LKCWebViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebViewManager.m; path = LikeCoinApp/LKCWebViewManager.m; sourceTree = "<group>"; };
-		83924D7123282B3700E6998E /* LKCWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LKCWebView.m; path = LikeCoinApp/LKCWebView.m; sourceTree = "<group>"; };
-		83924D7223282B3700E6998E /* LKCWebViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LKCWebViewManager.h; path = LikeCoinApp/LKCWebViewManager.h; sourceTree = "<group>"; };
 		83FE4E9D24064FE50073E6EA /* Liker Land.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Liker Land.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FE4EA324064FE50073E6EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		83FE4EA524064FE50073E6EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,11 +109,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				83924D6C232828C500E6998E /* RNCWebView+LikeCoin.h */,
-				83924D6F23282B3700E6998E /* LKCWebView.h */,
-				83924D7123282B3700E6998E /* LKCWebView.m */,
-				83924D7223282B3700E6998E /* LKCWebViewManager.h */,
-				83924D7023282B3700E6998E /* LKCWebViewManager.m */,
 				2FB14CD2266DC0B000585C71 /* InfoPlist.strings */,
 			);
 			name = LikeCoinApp;
@@ -515,8 +503,6 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				83924D7423282B3700E6998E /* LKCWebView.m in Sources */,
-				83924D7323282B3700E6998E /* LKCWebViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

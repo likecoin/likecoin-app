@@ -1,6 +1,9 @@
 import * as React from "react"
-import { View } from "react-native"
+import { Platform, View } from "react-native"
 import ShareExtension from "react-native-share-extension"
+import CookieManager from "@react-native-cookies/cookies"
+import EncryptedStorage from "react-native-encrypted-storage";
+import styled from "styled-components/native"
 
 import { SaveToBookmarkScreenStyle as Style } from "./save-to-bookmark-screen.style"
 import { logAnalyticsEvent } from "../../utils/analytics"
@@ -16,6 +19,10 @@ import { LoadingScreen } from "../../components/loading-screen"
 
 const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
+const ButtonWrapper = styled(View)`
+  padding: 14px;
+`
+
 export class SaveToBookmarkScreen extends React.Component {
   likecoinAPI = new LikeCoinAPI()
 
@@ -28,6 +35,19 @@ export class SaveToBookmarkScreen extends React.Component {
   async componentDidMount() {
     // FIXME: Hard-coded endpoint
     this.likecoinAPI.setup("https://api.like.co")
+
+    if (Platform.OS === "ios") {
+      // Retrieve cookie from main app
+      try {
+        const session = await EncryptedStorage.getItem("likecoin_auth")
+        if (session !== undefined) {
+          const cookie = JSON.parse(session)
+          await CookieManager.set(this.likecoinAPI.apisauce.getBaseURL(), cookie)
+        }
+      } catch (error) {
+        // No-op
+      }
+    }
 
     try {
       const { value }: { value: string } = await ShareExtension.data()
@@ -52,6 +72,15 @@ export class SaveToBookmarkScreen extends React.Component {
       this.setState({ error: "unknown" })
     } finally {
       this.setState({ isLoading: false })
+    }
+
+    if (Platform.OS === "ios") {
+      // Clear cookie
+      try {
+        await CookieManager.clearAll()
+      } catch (error) {
+        // No-op
+      }
     }
   }
 
@@ -101,11 +130,13 @@ export class SaveToBookmarkScreen extends React.Component {
             style={Style.LabelURL}
           />
         </View>
-        <Button
-          preset="outlined"
-          tx="SaveToBookmarkScreen.DismissButtonText"
-          onPress={this.onClose}
-        />
+        <ButtonWrapper>
+          <Button
+            preset="outlined"
+            tx="SaveToBookmarkScreen.DismissButtonText"
+            onPress={this.onClose}
+          />
+        </ButtonWrapper>
       </Screen>
     )
   }
