@@ -1,9 +1,12 @@
+import { Platform } from "react-native";
 import Rate, { AndroidMarket } from "react-native-rate"
 import {
   getTrackingStatus,
   requestTrackingPermission,
   TrackingStatus,
 } from "react-native-tracking-transparency"
+import CookieManager, { Cookies } from "@react-native-cookies/cookies"
+import EncryptedStorage from "react-native-encrypted-storage";
 import {
   applySnapshot,
   flow,
@@ -176,6 +179,15 @@ export const UserStoreModel = types
         applySnapshot(self.iapStore, {})
         applySnapshot(self.appMeta, {})
       }
+
+      if (Platform.OS === "ios") {
+        // Saved auth cookie for share extension
+        try {
+          yield EncryptedStorage.removeItem("likecoin_auth" )
+        } catch {
+          // No-op
+        }
+      }
     }),
     deleteAccount: flow(function * (
       likeWallet,
@@ -288,6 +300,18 @@ export const UserStoreModel = types
         userResult,
         superLikeStatusResult
       ]: [UserResult, SuperLikeStatusResult] = yield userFetchPromise
+
+      if (Platform.OS === "ios") {
+        // Saved auth cookie for share extension
+        try {
+          const { likecoin_auth: authCookie }: Cookies = yield CookieManager.get(self.env.likeCoAPI.apisauce.getBaseURL())
+          if (authCookie) {
+            yield EncryptedStorage.setItem(authCookie.name , JSON.stringify(authCookie))
+          }
+        } catch {
+          // No-op
+        }
+      }
 
       switch (userResult.kind) {
         case "ok": {

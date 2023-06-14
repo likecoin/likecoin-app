@@ -420,6 +420,10 @@ PODS:
     - React
   - react-native-camera/RN (3.8.0):
     - React
+  - react-native-cookies (6.2.1):
+    - React-Core
+  - react-native-encrypted-storage (4.0.3):
+    - React-Core
   - react-native-image-picker (4.8.1):
     - React-Core
   - react-native-image-sequence (0.7.0):
@@ -641,6 +645,8 @@ DEPENDENCIES:
   - react-native-authcore (from `../node_modules/react-native-authcore`)
   - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - "react-native-cookies (from `../node_modules/@react-native-cookies/cookies`)"
+  - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-sequence (from `../node_modules/react-native-image-sequence`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
@@ -765,6 +771,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-branch"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-cookies:
+    :path: "../node_modules/@react-native-cookies/cookies"
+  react-native-encrypted-storage:
+    :path: "../node_modules/react-native-encrypted-storage"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-sequence:
@@ -901,6 +911,8 @@ SPEC CHECKSUMS:
   react-native-authcore: cca08325158d4979caff295a8cd064733b78264f
   react-native-branch: f50f269fa6d2e1b8025c7fc8ebfe4872678abe53
   react-native-camera: 21cf4ed26cf432ceb1fae959aa6924943fd6f714
+  react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
+  react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: 5640333245b448b0e64172576ea27760f4134099
   react-native-image-sequence: b4cc7ce0ee9eeec7574b005e06059b3f7f818d96
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23

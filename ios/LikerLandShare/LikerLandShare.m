@@ -38,36 +38,25 @@ RCT_EXPORT_MODULE();
     [FIRApp configureWithOptions:options];
   }
 
-  // Sync cookies from App
-  NSArray<NSHTTPCookie *> *cookies = [[NSHTTPCookieStorage sharedCookieStorageForGroupContainerIdentifier:@"group.liker.land"] cookies];
-  for (NSHTTPCookie *cookie in cookies) {
-    if ([cookie.name isEqualToString:@"__session"]) {
-      [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
-    }
-  }
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:nil];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                  moduleName:@"LikerLandShare"
+                                                   moduleName:@"LikerLandShare"
                                             initialProperties:nil];
 
-  if (@available(iOS 13.0, *)) {
-      rootView.backgroundColor = [UIColor systemBackgroundColor];
-  } else {
-      rootView.backgroundColor = [UIColor whiteColor];
-  }
+  rootView.backgroundColor = [UIColor colorWithRed:40.0f/255.0f green:100.0f/255.0f blue:110.0f/255.0f alpha:1.0];
+
   // Uncomment for console output in Xcode console for release mode on device:
   // RCTSetLogThreshold(RCTLogLevelInfo - 1);
 
   return rootView;
 }
 
-- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
-{
-#if DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-#else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-#endif
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
+  #if DEBUG
+    return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  #else
+    return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  #endif
 }
 
 @end
