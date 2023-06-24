@@ -1,7 +1,9 @@
 import { Instance, SnapshotOut, flow, types } from "mobx-state-tree"
+import { parseUri } from '@walletconnect/utils'
 import { withEnvironment, withExperimentalFeatures, withLanguageSettingsStore, withNavigationStore } from "../extensions"
 
 import { WalletConnectClientModel } from "../wallet-connect-client"
+import { WalletConnectV2ClientModel } from "../wallet-connect-v2-client"
 
 /**
  * Store for handling Wallet Connect
@@ -10,6 +12,7 @@ export const WalletConnectStoreModel = types
   .model("WalletConnectStore")
   .props({
     clients: types.array(WalletConnectClientModel),
+    v2Client: types.optional(WalletConnectV2ClientModel, {}),
   })
   .extend(withEnvironment)
   .extend(withExperimentalFeatures)
@@ -17,10 +20,10 @@ export const WalletConnectStoreModel = types
   .extend(withLanguageSettingsStore)
   .views(self => ({
     getClient(peerId: string) {
-      return self.clients.find(client => client.connector.peerId === peerId)
+      return self.clients.find(client => client.connector.peerId === peerId) || self.v2Client
     },
     get activeClients() {
-      return self.clients.filter(client => !!client.serializedSession)
+      return [].concat(self.clients.filter(client => !!client.serializedSession), self.v2Client.getActiveClients());
     },
     get localizedLikerLandBaseURL() {
       let baseURL = self.getConfig("LIKERLAND_URL")
@@ -44,18 +47,27 @@ export const WalletConnectStoreModel = types
       // Guard duplicated requests
       if (self.clients.find(c => c.uri === uri)) return
 
-      const newClient = WalletConnectClientModel.create({}, self.env)
-      newClient.createSession(uri, opts)
+      const { version, topic } = parseUri(uri)
 
-      // Deduplicate clients with same URL while adding new client
-      const toBeRemovedClients = self.clients.filter(client => client.connector.clientMeta.url === newClient.connector.clientMeta.url)
+      // Route the provided URI to the v1 SignClient if URI version indicates it, else use v2.
+      if (version === 1) {
+        const newClient = WalletConnectClientModel.create({}, self.env)
+        newClient.createSession(uri, opts)
 
-      self.clients.push(newClient)
+        // Deduplicate clients with same URL while adding new client
+        const toBeRemovedClients = self.clients.filter(client => client.connector.clientMeta.url === newClient.connector.clientMeta.url)
 
-      yield toBeRemovedClients.forEach(async client => {
-        await client.disconnect()
-        self.clients.remove(client)
-      })
+        self.clients.push(newClient)
+
+        yield toBeRemovedClients.forEach(async client => {
+          await client.disconnect()
+          self.clients.remove(client)
+        })
+      } else if (topic && topic.length === 64) {
+        // valid topic is a sha256 hash of length 64
+        yield self.v2Client.connect({ uri })
+      }
+
     }),
     afterCreate() {
       if (!self.experimentalFeatures || !self.experimentalFeatures.isWalletConnectActivated) return
@@ -64,6 +76,11 @@ export const WalletConnectStoreModel = types
         // Disconnect all Wallet Connect sessions every time the app is restarted
         client.disconnect()
       })
+      if (!self.v2Client?.connector) {
+        // walletconnect v2 automatically (re)stores sessions via localstorage
+        self.v2Client = WalletConnectV2ClientModel.create({}, self.env)
+        self.v2Client.createClient();
+      }
     },
     reset() {
       self.clients.replace([]);

@@ -75,7 +75,7 @@ const ApproveButtonWrapper = styled(ActionButtonWrapper)`
 export interface WalletConnectRequestData {
   payload?: {
     method?: string
-    params?: any[]
+    params?: any
   }
 
   peerMeta?: any
@@ -141,19 +141,20 @@ function getDescription({
   const name = getAppName({ payload, peerMeta })
   switch (payload.method) {
     case "session_request":
+    case "session_proposal":
       return translate("walletConnectRequestView_label_description_sessionRequest", { name })
 
     case "cosmos_getAccounts":
     case "keplr_get_key_wallet_connect_v1":
       return translate("walletConnectRequestView_label_description_getAccounts", {
         name,
-        chainIds: (payload.params || []).join(', ')
+        chainIds: (Array.isArray(payload.params) ? payload.params : []).join(', ')
       })
 
     case "cosmos_signAmino":
     case "cosmos_signDirect":
     case "keplr_sign_amino_wallet_connect_v1":
-      if (payload.method === "cosmos_signAmino" && rawContent.includes(LIKECO_LOGIN_MESSAGE)) {
+      if (payload.method === "cosmos_signAmino" && rawContent && rawContent.includes(LIKECO_LOGIN_MESSAGE)) {
         return translate("walletConnectRequestView_label_description_login", { name })
       }
       return translate("walletConnectRequestView_label_description_sign", { name })
