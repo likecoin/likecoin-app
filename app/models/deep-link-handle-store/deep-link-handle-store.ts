@@ -150,6 +150,11 @@ const BaseModel = types
             if (walletConnectURI) {
               yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
             }
+          } else if (url.includes('wc?')) {
+            const [, walletConnectURI = ''] = url.split('wc?')
+            if (walletConnectURI) {
+              yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
+            }
           }
         }
 

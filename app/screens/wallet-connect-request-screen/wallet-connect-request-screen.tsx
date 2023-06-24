@@ -81,14 +81,17 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
     return this.props.navigation.getParam("peerMeta")
   }
 
+  get peerId() {
+    return this.props.navigation.getParam("peerId")
+  }
+
   get requestor() {
-    const peerId = this.props.navigation.getParam("peerId")
-    return this.props.walletConnectStore.getClient(peerId)
+    return this.props.walletConnectStore.getClient(this.peerId)
   }
 
   private approveRequest = async () => {
     this.close()
-    await this.requestor.approveRequest(this.payload)
+    await this.requestor.approveRequest(this.payload, this.peerId)
 
     if (this.requestor.isInAppBrowser) return;
 
@@ -116,7 +119,7 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
 
   private rejectRequest = async () => {
     this.close()
-    this.requestor.rejectRequest(this.payload)
+    this.requestor.rejectRequest(this.payload, this.peerId)
   }
 
   private close = () => {
