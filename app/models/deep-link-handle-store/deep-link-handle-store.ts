@@ -145,13 +145,11 @@ const BaseModel = types
                 },
               })
             }
-          } else if (url.includes('wcV1?')) {
-            const [, walletConnectURI = ''] = url.split('wcV1?')
-            if (walletConnectURI) {
-              yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
-            }
-          } else if (url.includes('wc?')) {
-            const [, walletConnectURI = ''] = url.split('wc?')
+          } else if (url.includes('wcV1?') || url.includes('wc?') || url.startsWith('wc:')) {
+            let walletConnectURI = ''
+            if (url.includes('wcV1?')) [, walletConnectURI = ''] = url.split('wcV1?')
+            else if (url.includes('wc?')) [, walletConnectURI = ''] = url.split('wc?')
+            else if (url.startsWith('wc:')) walletConnectURI = url
             if (walletConnectURI) {
               yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
             }
