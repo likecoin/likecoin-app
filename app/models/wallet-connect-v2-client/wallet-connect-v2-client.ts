@@ -277,6 +277,10 @@ export const WalletConnectV2ClientModel = types
           description: 'Liker Land App',
           url: 'https://like.co',
           icons: ['https://like.co/logo.png'],
+          redirect: {
+            native: 'com.oice://wc',
+            universal: '',
+          },
         },
       });
       self.connector = client;
