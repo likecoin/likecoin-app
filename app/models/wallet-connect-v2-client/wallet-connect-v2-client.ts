@@ -18,7 +18,6 @@ function isSessionRequest(method: string) {
 export const WalletConnectV2ClientModel = types
   .model('WalletConnectV2Client')
   .volatile(() => ({
-    isMobile: false,
     connector: undefined as SignClient,
     sessions: [] as SessionTypes.Struct[],
   }))
@@ -74,7 +73,7 @@ export const WalletConnectV2ClientModel = types
     }) {
       return self.connector.respond({
         topic: response.topic,
-        response:formatJsonRpcError(response.id, getSdkError('USER_REJECTED_METHODS').message)
+        response: formatJsonRpcError(response.id, getSdkError('USER_REJECTED_METHODS').message)
       })
     },
     rejectSessionRequest(response: {
@@ -289,7 +288,7 @@ export const WalletConnectV2ClientModel = types
           name: 'LikerLand',
           description: 'Liker Land App',
           url: 'https://like.co',
-          icons: ['https://like.co/logo.png'],
+          icons: ['https://liker.land/logo.png'],
           redirect: {
             native: 'com.oice://wc',
             universal: '',
@@ -316,8 +315,7 @@ export const WalletConnectV2ClientModel = types
   }))
   .views(self => ({
     getActiveClients() {
-      const sessions = self.sessions;
-      return sessions.map(session => {
+      return self.sessions.map(session => {
         return {
           connector: {
             clientId: session.topic,

@@ -77,6 +77,7 @@ export const WalletConnectStoreModel = types
         client.disconnect()
       })
       if (!self.v2Client?.connector) {
+        // walletconnect v2 automatically (re)stores sessions via localstorage
         self.v2Client = WalletConnectV2ClientModel.create({}, self.env)
         self.v2Client.createClient();
       }

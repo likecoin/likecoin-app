@@ -157,7 +157,6 @@ const BaseModel = types
               walletConnectURI = walletConnectURI.replace('uri=', '')
               walletConnectURI = walletConnectURI.split('&')[0]
               walletConnectURI = decodeURIComponent(walletConnectURI)
-              console.log(walletConnectURI);
             }
             if (walletConnectURI) {
               yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
