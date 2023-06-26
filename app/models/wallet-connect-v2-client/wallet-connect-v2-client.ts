@@ -1,7 +1,7 @@
 import { NavigationActions } from 'react-navigation'
 import { flow, Instance, SnapshotOut, types } from 'mobx-state-tree'
 import SignClient from '@walletconnect/sign-client'
-import { SignClientTypes } from '@walletconnect/types';
+import { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { getSdkError } from '@walletconnect/utils'
 import { formatJsonRpcError, formatJsonRpcResult } from '@json-rpc-tools/utils'
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
@@ -20,6 +20,7 @@ export const WalletConnectV2ClientModel = types
   .volatile(() => ({
     isMobile: false,
     connector: undefined as SignClient,
+    sessions: [] as SessionTypes.Struct[],
   }))
   .extend(withEnvironment)
   .extend(withNavigationStore)
@@ -39,7 +40,8 @@ export const WalletConnectV2ClientModel = types
       } catch (error) {
         logError(error)
       }
-      self.connector.session.delete(topic, getSdkError('USER_DISCONNECTED'));
+      yield self.connector.session.delete(topic, getSdkError('USER_DISCONNECTED'));
+      self.sessions = self.connector.session.getAll();
     }),
     handleDisconnect(
       requestEvent: SignClientTypes.EventArguments['session_delete']
@@ -210,7 +212,7 @@ export const WalletConnectV2ClientModel = types
         { name: self.currentUser.likerID }
       )
       const accounts = [bech32Address].map((address) => `${chainId}:${address}`)
-      return self.connector.approve({
+      yield self.connector.approve({
         id,
         relayProtocol: relays[0].protocol,
         namespaces: {
@@ -222,6 +224,7 @@ export const WalletConnectV2ClientModel = types
           },
         }
       })
+      self.sessions = self.connector.session.getAll();
 
       // self.serializedSession = JSON.stringify(self.connector.session)
     }),
@@ -284,6 +287,7 @@ export const WalletConnectV2ClientModel = types
         },
       });
       self.connector = client;
+      self.sessions = self.connector.session.getAll();
       self.listenToRequests()
       return client;
     }),
@@ -302,7 +306,7 @@ export const WalletConnectV2ClientModel = types
   }))
   .views(self => ({
     getActiveClients() {
-      const sessions = self.connector.session.getAll();
+      const sessions = self.sessions;
       return sessions.map(session => {
         return {
           connector: {
