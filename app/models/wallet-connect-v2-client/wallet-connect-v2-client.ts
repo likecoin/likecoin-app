@@ -30,6 +30,15 @@ export const WalletConnectV2ClientModel = types
       return false; // TODO: implement user agent checking
     },
   }))
+  .views(_ => ({
+    shouldShowWalletConnectModal(payload: any) {
+      return (
+        (
+          ['cosmos_getAccounts'].includes(payload.method)
+        )
+      )
+    },
+  }))
   .actions(self => ({
     disconnect: flow(function * (topic) {
       try {
@@ -167,12 +176,13 @@ export const WalletConnectV2ClientModel = types
       const { id, topic, params } = requestEvent
       const { request, chainId } = params
       const requestSession = self.connector.session.get(topic)
+      const payload = { id, chainId, ...request };
 
       // Do not show request screen if the request is getting accounts and from in-app browser
-      // if (self.shouldShowWalletConnectModal(payload)) {
-      //   self.handleCallRequestApproval(payload)
-      //   return
-      // }
+      if (self.shouldShowWalletConnectModal(payload)) {
+        self.handleCallRequestApproval(payload, topic)
+        return
+      }
 
       self.navigationStore.navigateTo({
         routeName: 'App',
@@ -181,7 +191,7 @@ export const WalletConnectV2ClientModel = types
           params: {
             peerId: topic,
             peerMeta: requestSession.peer.metadata,
-            payload: { id, chainId, ...request },
+            payload,
           },
         }),
       })
