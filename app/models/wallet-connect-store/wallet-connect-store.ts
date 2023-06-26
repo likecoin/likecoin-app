@@ -47,7 +47,7 @@ export const WalletConnectStoreModel = types
       // Guard duplicated requests
       if (self.clients.find(c => c.uri === uri)) return
 
-      const { version } = parseUri(uri)
+      const { version, topic } = parseUri(uri)
 
       // Route the provided URI to the v1 SignClient if URI version indicates it, else use v2.
       if (version === 1) {
@@ -63,7 +63,8 @@ export const WalletConnectStoreModel = types
           await client.disconnect()
           self.clients.remove(client)
         })
-      } else {
+      } else if (topic && topic.length === 64) {
+        // valid topic is a sha256 hash of length 64
         yield self.v2Client.connect({ uri })
       }
 
