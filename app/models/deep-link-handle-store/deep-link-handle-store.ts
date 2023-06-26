@@ -148,8 +148,17 @@ const BaseModel = types
           } else if (url.includes('wcV1?') || url.includes('wc?') || url.startsWith('wc:')) {
             let walletConnectURI = ''
             if (url.includes('wcV1?')) [, walletConnectURI = ''] = url.split('wcV1?')
-            else if (url.includes('wc?')) [, walletConnectURI = ''] = url.split('wc?')
+            else if (url.includes('wc?')) {
+              [, walletConnectURI = ''] = url.split('wc?')
+            }
             else if (url.startsWith('wc:')) walletConnectURI = url
+            if (walletConnectURI.startsWith('uri=')) {
+              // com.oice://wc/wc?uri=wc%3A327ac60...
+              walletConnectURI = walletConnectURI.replace('uri=', '')
+              walletConnectURI = walletConnectURI.split('&')[0]
+              walletConnectURI = decodeURIComponent(walletConnectURI)
+              console.log(walletConnectURI);
+            }
             if (walletConnectURI) {
               yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
             }

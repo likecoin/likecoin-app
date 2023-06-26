@@ -1,5 +1,5 @@
 global.Buffer = require('buffer').Buffer
-global.TextEncoder = require('text-encoding').TextEncoder
-global.TextDecoder = require('text-encoding').TextDecoder
+if(!global.TextEncoder) global.TextEncoder = require('text-encoding').TextEncoder
+if(!global.TextDecoder) global.TextDecoder = require('text-encoding').TextDecoder
 global.process = require('process')
-global.BigInt = require('big-integer')
+if (!global.BigInt) global.BigInt = require('big-integer')
