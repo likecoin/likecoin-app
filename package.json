@@ -87,7 +87,7 @@
     "react-native-screens": "^3.9.0",
     "react-native-share-extension": "git+https://github.com/likecoin/react-native-share-extension#a11ec0bff59cb3d46494753325269e26a321d6a4",
     "react-native-snap-carousel": "^3.9.0",
-    "react-native-splash-screen": "3.1.1",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^12.1.1",
     "react-native-swipe-list-view": "^3.2.4",
     "react-native-tracking-transparency": "^0.1.2",
