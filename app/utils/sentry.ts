@@ -5,7 +5,6 @@ export function initSentry(dsn: string, environment: string) {
     dsn,
     environment,
     debug: __DEV__,
-    blacklistUrls: ['debuggerWorker.js'],
   })
 }
 
