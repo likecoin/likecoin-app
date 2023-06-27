@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import BigNumber from "bignumber.js"
-import { DelegationDelegatorReward } from "@cosmjs/stargate/build/codec/cosmos/distribution/v1beta1/distribution";
+import { DelegationDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/distribution";
 import {
   Commission,
   CommissionRates,
@@ -11,7 +11,7 @@ import {
   UnbondingDelegation,
   UnbondingDelegationEntry,
   Validator
-} from "@cosmjs/stargate/build/codec/cosmos/staking/v1beta1/staking";
+} from "cosmjs-types/cosmos/staking/v1beta1/staking";
 import { Coin, DecCoin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 
 import {
