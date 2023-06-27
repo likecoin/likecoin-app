@@ -1,4 +1,4 @@
-import { BroadcastTxResponse } from "@cosmjs/stargate";
+import { DeliverTxResponse } from "@cosmjs/stargate";
 
 export interface CosmosCoinResult {
   denom: string
@@ -77,7 +77,7 @@ export interface CosmosMessageToSign extends CosmosMessage {
 }
 
 export interface CosmosSigningClient {
-  signAndBroadcast: (message: CosmosMessageToSign) => Promise<BroadcastTxResponse>
+  signAndBroadcast: (message: CosmosMessageToSign) => Promise<DeliverTxResponse>
 }
 
 export interface CosmosDelegation {
