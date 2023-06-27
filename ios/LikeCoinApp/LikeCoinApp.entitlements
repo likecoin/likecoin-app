@@ -8,6 +8,8 @@
 	<array>
 		<string>applinks:s.like.co</string>
 		<string>applinks:s.rinkeby.like.co</string>
+		<string>applinks:liker.land</string>
+		<string>applinks:rinkeby.liker.land</string>
 		<string>applinks:oice.com</string>
 		<string>applinks:likecoin.page.link</string>
 		<string>applinks:likerland.app.link</string>

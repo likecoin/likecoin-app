@@ -95,6 +95,31 @@
                     android:host="s.rinkeby.like.co"
                     android:scheme="https" />
             </intent-filter>
+
+            <!-- getapp as universal entrance -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="liker.land"
+                    android:scheme="https"
+                    android:pathPrefix="/getapp" />
+                <data
+                    android:host="liker.land"
+                    android:scheme="https"
+                    android:pathPattern="/.*/getapp" />
+                <data
+                    android:host="rinkeby.liker.land"
+                    android:scheme="https"
+                    android:pathPrefix="/getapp" />
+                <data
+                    android:host="rinkeby.liker.land"
+                    android:scheme="https"
+                    android:pathPattern="/.*/getapp" />
+            </intent-filter>
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <activity

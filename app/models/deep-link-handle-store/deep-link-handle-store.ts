@@ -1,4 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { URL } from 'react-native-url-polyfill';
 
 import { SuperLikeMetaResult } from "../../services/api"
 import { logAnalyticsEvent } from "../../utils/analytics"
@@ -13,9 +14,6 @@ import {
   withWalletConnectStore,
 } from "../extensions"
 import { SuperLikeModel } from "../super-like"
-
-// eslint-disable-next-line no-useless-escape
-const URL_REGEX = /^https?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 
 const BaseModel = types
   .model("DeepLinkHandleStore")
@@ -129,12 +127,18 @@ const BaseModel = types
       openDeepLink: flow(function*(url: string = deferredDeepLink) {
         if (!url) return
         if (!self.env.branchIO.getIsClickedBranchLink()) {
-          if (URL_REGEX.test(url)) {
+          if (url.startsWith('https://') || url.startsWith('http://')) {
             const superLikeBaseURL = `${self.getConfig("SUPERLIKE_BASE_URL")}/`
             if (url.startsWith(superLikeBaseURL)) {
               const [, superLikeID] = url.split(superLikeBaseURL)
               if (superLikeID) {
                 yield handleSuperLikeID(superLikeID)
+              }
+            } else if (url.includes('liker.land') && url.includes('/getapp')) {
+              const parsed = new URL(url);
+              if (parsed.searchParams.get('action') === 'wc') {
+                const walletConnectURI = parsed.searchParams.get('uri')
+                yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
               }
             } else {
               self.navigationStore.dispatch({
