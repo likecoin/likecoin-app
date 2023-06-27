@@ -24,6 +24,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "io.sentry.android.gradle" version "2.+"
+}
+
 allprojects {
     repositories {
         mavenCentral()

@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: "com.google.firebase.firebase-perf"
+apply plugin: "io.sentry.android.gradle"
 
 import com.android.build.OutputFile
 
@@ -175,6 +176,20 @@ android {
                 strippedNativeLibsDir 'build/intermediates/stripped_native_libs/release/out/lib'
                 unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
             }
+            sentry {
+                // Enables or disables the automatic configuration of Native Symbols
+                // for Sentry. This executes sentry-cli automatically so
+                // you don't need to do it manually.
+                // Default is disabled.
+                uploadNativeSymbols = true
+
+                // Enables or disables the automatic upload of the app's native source code to Sentry.
+                // This executes sentry-cli with the --include-sources param automatically so
+                // you don't need to do it manually.
+                // This option has an effect only when [uploadNativeSymbols] is enabled.
+                // Default is disabled.
+                includeNativeSources = true
+            }
         }
     }
 
@@ -207,6 +222,8 @@ dependencies {
     implementation 'com.facebook.soloader:soloader:0.10.5+'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation project(':sentry_react-native')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
