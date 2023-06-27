@@ -211,10 +211,11 @@ export const WalletConnectV2ClientModel = types
       // TODO: remove hacky check
       // parse requiredNamespaces and check chain id and methods
       if (!chainId.includes('likecoin')) {
-        return self.connector.reject({
+        yield self.connector.reject({
           id,
           reason: getSdkError('UNSUPPORTED_CHAINS')
         })
+        return;
       }
       const { bech32Address }: { bech32Address: string } = yield self.env.authCoreAPI.getWalletConnectGetKeyResponse(
         chainId.replace('cosmos:', ''),
