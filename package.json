@@ -26,7 +26,7 @@
     "adb": "adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:9001 tcp:9001 && adb reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
-    "@cosmjs/stargate": "^0.25.5",
+    "@cosmjs/stargate": "^0.29.5",
     "@json-rpc-tools/utils": "1.7.6",
     "@likecoin/authcore-js": "^0.3.0-like.0",
     "@likecoin/secretd-js": "^0.4.3",
@@ -47,7 +47,7 @@
     "apisauce": "1.0.3",
     "big-integer": "^1.6.51",
     "buffer": "^5.4.3",
-    "cosmjs-types": "^0.1.0",
+    "cosmjs-types": "^0.5.2",
     "crypto-js": "^4.1.1",
     "fast-json-stable-stringify": "^2.1.0",
     "i18n-js": "^3.0.11",

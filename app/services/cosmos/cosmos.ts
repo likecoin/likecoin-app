@@ -7,13 +7,12 @@ import {
   StargateClient,
   StakingExtension,
   SigningStargateClient,
-  BroadcastTxResponse,
+  DeliverTxResponse,
   MsgSendEncodeObject,
   MsgDelegateEncodeObject,
   MsgUndelegateEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
 } from "@cosmjs/stargate";
-import { BondStatusString } from "@cosmjs/stargate/build/queries/staking";
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { TextDecoder } from 'text-decoding';
@@ -24,6 +23,7 @@ import {
   MsgDelegate,
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { BondStatusString } from "@cosmjs/stargate/build/modules/staking/queries";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 
 import {
@@ -46,6 +46,7 @@ import {
   convertDecCoin,
 } from "./cosmos.utils"
 import { MintExtension, setupMintExtension } from "./mint-query-extension"
+
 
 // Mitigate https://github.com/cosmos/cosmos-sdk/issues/11407
 const INITIAL_PAGINATION_KEY = new Uint8Array([0x00])
@@ -227,7 +228,7 @@ export class CosmosAPI {
   async createSigningClient(signer: OfflineDirectSigner): Promise<CosmosSigningClient> {
     const signingStargateClient = await SigningStargateClient.connectWithSigner(this.restURL, signer)
     return {
-      async signAndBroadcast(message: CosmosMessageToSign): Promise<BroadcastTxResponse> {
+      async signAndBroadcast(message: CosmosMessageToSign): Promise<DeliverTxResponse> {
         const { signerAddress, msgs, fee, memo } = message
         const result = await signingStargateClient.signAndBroadcast(signerAddress, msgs, fee, memo)
         return result
