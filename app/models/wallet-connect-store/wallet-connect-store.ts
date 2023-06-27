@@ -59,10 +59,10 @@ export const WalletConnectStoreModel = types
 
         self.clients.push(newClient)
 
-        yield toBeRemovedClients.forEach(async client => {
-          await client.disconnect()
-          self.clients.remove(client)
-        })
+        yield Promise.all(toBeRemovedClients.map(client => {
+          client.disconnect().catch()
+        }))
+        toBeRemovedClients.map(c => self.clients.remove(c))
       } else if (topic && topic.length === 64) {
         // valid topic is a sha256 hash of length 64
         yield self.v2Client.connect({ uri })
