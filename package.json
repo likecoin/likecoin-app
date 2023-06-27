@@ -81,7 +81,7 @@
     "react-native-localize": "^1.0.0",
     "react-native-qrcode-svg": "^5.2.0",
     "react-native-randombytes": "^3.5.3",
-    "react-native-rate": "^1.2.4",
+    "react-native-rate": "^1.2.12",
     "react-native-reanimated": "^2.2.3",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.9.0",

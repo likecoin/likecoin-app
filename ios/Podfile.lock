@@ -549,8 +549,8 @@ PODS:
     - React
   - RNLocalize (1.1.4):
     - React
-  - RNRate (1.2.4):
-    - React
+  - RNRate (1.2.12):
+    - React-Core
   - RNReanimated (2.17.0):
     - DoubleConversion
     - FBLazyVector
@@ -949,7 +949,7 @@ SPEC CHECKSUMS:
   RNIap: d248609d1b8937e63bd904e865c318e9b1457eff
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: 62a949d2ec5bee0eb8f39a80a48f01e2f4f67080
-  RNRate: 15b861025a7821730761fce7f44561ce7e0b2de0
+  RNRate: ef3bcff84f39bb1d1e41c5593d3eea4aab2bd73a
   RNReanimated: c13da804217e13f6ee1188fab76d36d74b1488f1
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSentry: 9f0447b3ce13806f544903748de423259ead8552
