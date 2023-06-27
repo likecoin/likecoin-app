@@ -54,7 +54,7 @@ export const WalletConnectV2ClientModel = types
     handleDisconnect(
       requestEvent: SignClientTypes.EventArguments['session_delete']
     ) {
-      // no op for now
+      self.sessions = self.connector.session.getAll();
     },
     approveCallRequest(response: {
       topic: string
