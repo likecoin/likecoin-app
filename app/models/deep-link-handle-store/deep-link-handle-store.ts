@@ -136,9 +136,13 @@ const BaseModel = types
               }
             } else if (url.includes('liker.land') && url.includes('/getapp')) {
               const parsed = new URL(url);
-              if (parsed.searchParams.get('action') === 'wc') {
+              // WC 2.0 universal link
+              // https://liker.land/getapp/wc?uri=wc%3Ab111....
+              if (parsed.pathname.includes('/getapp/wc') || parsed.searchParams.get('action') === 'wc') {
                 const walletConnectURI = parsed.searchParams.get('uri')
-                yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
+                if (walletConnectURI) {
+                  yield self.walletConnectStore.handleNewSessionRequest(walletConnectURI, { isMobile: true })
+                }
               }
             } else {
               self.navigationStore.dispatch({
