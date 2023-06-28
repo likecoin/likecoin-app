@@ -110,7 +110,7 @@
                 <data
                     android:host="liker.land"
                     android:scheme="https"
-                    android:pathPattern="/.*/getapp" />
+                    android:pathPattern="/.*/getapp/.*" />
                 <data
                     android:host="rinkeby.liker.land"
                     android:scheme="https"
@@ -118,7 +118,7 @@
                 <data
                     android:host="rinkeby.liker.land"
                     android:scheme="https"
-                    android:pathPattern="/.*/getapp" />
+                    android:pathPattern="/.*/getapp/.*" />
             </intent-filter>
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
