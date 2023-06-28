@@ -14669,9 +14669,9 @@ react-native-actions-sheet@^0.4.8:
   resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.4.8.tgz#61859e02fd19b274517b70066cafe4300b3d3e89"
   integrity sha512-fo/WNMAwt2aFoWslJmPAQ0EPE6BEZ2UqXkX0ySGjXXKZSg2fohflEHngooPfvnQaO5n2cdY2dkn76zmKgiDI4g==
 
-"react-native-authcore@git+https://github.com/likecoin/react-native-authcore#bcfd114c04aee13d5c3dd5b20ae5806a3b42af4c":
+"react-native-authcore@git+https://github.com/likecoin/react-native-authcore#f2d2397e8f7f4bbcd606e638693ab9194333c3be":
   version "1.0.0"
-  resolved "git+https://github.com/likecoin/react-native-authcore#bcfd114c04aee13d5c3dd5b20ae5806a3b42af4c"
+  resolved "git+https://github.com/likecoin/react-native-authcore#f2d2397e8f7f4bbcd606e638693ab9194333c3be"
   dependencies:
     color "^3.1.2"
     url "^0.11.0"
@@ -14845,9 +14845,9 @@ react-native-screens@^3.9.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-"react-native-share-extension@git+https://github.com/likecoin/react-native-share-extension#1ee23e4e72127be2a3d04283e61396fcc3751d0d":
+"react-native-share-extension@git+https://github.com/likecoin/react-native-share-extension#d82e2cd02b782272422da15cd484c8cbe931a6ab":
   version "2.0.0"
-  resolved "git+https://github.com/likecoin/react-native-share-extension#1ee23e4e72127be2a3d04283e61396fcc3751d0d"
+  resolved "git+https://github.com/likecoin/react-native-share-extension#d82e2cd02b782272422da15cd484c8cbe931a6ab"
 
 react-native-snap-carousel@^3.9.0:
   version "3.9.0"
