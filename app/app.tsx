@@ -14,7 +14,7 @@ import RNExitApp from "react-native-exit-app"
 import { INIT_APP_TIMEOUT } from "react-native-dotenv"
 
 import { Provider } from "mobx-react"
-import { contains } from "ramda"
+import { includes } from "ramda"
 import { ThemeProvider } from "styled-components/native"
 
 import { translate } from "./i18n"
@@ -121,7 +121,7 @@ export class App extends React.Component<{}, AppState> {
    * @param routeName The currently active route name.
    */
   canExit(routeName: string) {
-    return contains(routeName, DEFAULT_NAVIGATION_CONFIG.exitRoutes)
+    return includes(routeName, DEFAULT_NAVIGATION_CONFIG.exitRoutes)
   }
 
   _onOpenURL = (event: { url: string }) => {
