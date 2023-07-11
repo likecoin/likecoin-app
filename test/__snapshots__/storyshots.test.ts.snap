@@ -16,7 +16,6 @@ exports[`Storyshots Avatar Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -891,7 +890,6 @@ exports[`Storyshots Button Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -1291,7 +1289,6 @@ exports[`Storyshots Checkbox Behaviour 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -1740,7 +1737,6 @@ exports[`Storyshots Checkbox Styling 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -2458,7 +2454,6 @@ exports[`Storyshots CivicLikerV3SummaryView Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -4648,7 +4643,6 @@ exports[`Storyshots CommunityLinks Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -5115,7 +5109,6 @@ exports[`Storyshots FormRow Assembled 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -5472,7 +5465,6 @@ exports[`Storyshots FormRow Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -6147,7 +6139,6 @@ exports[`Storyshots FormRow Styling 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -6288,7 +6279,6 @@ exports[`Storyshots Header Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -6864,7 +6854,6 @@ exports[`Storyshots HeaderTab Icon 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -7168,7 +7157,6 @@ exports[`Storyshots HeaderTab Title & Subtitle 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -7440,7 +7428,6 @@ exports[`Storyshots HeaderTabContainerView Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -7755,7 +7742,6 @@ exports[`Storyshots I18n Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -7878,7 +7864,6 @@ exports[`Storyshots Icon Names 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -8027,7 +8012,6 @@ exports[`Storyshots LikeCoinButton Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -10444,7 +10428,6 @@ exports[`Storyshots NotificationListItem Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -11845,7 +11828,6 @@ exports[`Storyshots ScrollView Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -11952,7 +11934,6 @@ exports[`Storyshots SponsorLinkCTATableView Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -12453,7 +12434,6 @@ exports[`Storyshots StatisticsListItem Type 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -13602,7 +13582,6 @@ exports[`Storyshots StatisticsWeeklyChart Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -15970,7 +15949,6 @@ exports[`Storyshots SupporterListItem Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -16341,7 +16319,6 @@ exports[`Storyshots Switch Behaviour 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -16771,7 +16748,6 @@ exports[`Storyshots Switch Styling 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -17075,7 +17051,6 @@ exports[`Storyshots TableViewCell Behavior 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -17964,7 +17939,6 @@ exports[`Storyshots Text Passing Content 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -18429,7 +18403,6 @@ exports[`Storyshots Text Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -18812,7 +18785,6 @@ exports[`Storyshots Text Styling 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -18971,7 +18943,6 @@ exports[`Storyshots TextField Labelling 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -19243,7 +19214,6 @@ exports[`Storyshots TextField Ref Forwarding 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -19403,7 +19373,6 @@ exports[`Storyshots TextField Style Overrides 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -19858,7 +19827,6 @@ exports[`Storyshots WalletConnectSessionRequestView Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
@@ -20585,7 +20553,6 @@ exports[`Storyshots Wallpaper Style Presets 1`] = `
   }
 >
   <RCTSafeAreaView
-    emulateUnlessSupported={true}
     style={
       Object {
         "backgroundColor": "#f0f0f0",
