@@ -15070,9 +15070,9 @@ react-native-actions-sheet@^0.4.8:
   resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.4.8.tgz#61859e02fd19b274517b70066cafe4300b3d3e89"
   integrity sha512-fo/WNMAwt2aFoWslJmPAQ0EPE6BEZ2UqXkX0ySGjXXKZSg2fohflEHngooPfvnQaO5n2cdY2dkn76zmKgiDI4g==
 
-"react-native-authcore@git+https://github.com/likecoin/react-native-authcore#f2d2397e8f7f4bbcd606e638693ab9194333c3be":
+"react-native-authcore@git+https://github.com/likecoin/react-native-authcore#ffa57a75cbdc4db463ef4d7ad45641b6c234b7e9":
   version "1.0.0"
-  resolved "git+https://github.com/likecoin/react-native-authcore#f2d2397e8f7f4bbcd606e638693ab9194333c3be"
+  resolved "git+https://github.com/likecoin/react-native-authcore#ffa57a75cbdc4db463ef4d7ad45641b6c234b7e9"
   dependencies:
     color "^3.1.2"
     url "^0.11.0"
