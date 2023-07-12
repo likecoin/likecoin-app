@@ -105,10 +105,10 @@ class SuperLikeContentListItemBase extends React.Component<Props, {}> {
                 style={Style.LikerDisplayName}
               />
             </I18n>
-            {this.props.isShowFollowToggle
+            <>{this.props.isShowFollowToggle
               ? this.renderFollowToggle(!!content?.liker?.isFollowing)
               : this.props.renderMoreButton(this.onPressMoreButton)
-            }
+            }</>
           </View>
           <CardView>
             <ContentListItemCoverImage url={content?.content?.coverImageURL} />
