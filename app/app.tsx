@@ -6,6 +6,7 @@ import * as React from "react"
 import {
   Alert,
   AppRegistry,
+  EmitterSubscription,
   Linking,
   Platform,
 } from "react-native"
@@ -49,6 +50,8 @@ export class App extends React.Component<{}, AppState> {
 
   initTimer?: number
 
+  openUrlHandler?: EmitterSubscription
+
   /**
    * When the component is mounted. This happens asynchronously and simply
    * re-renders when we're good to go.
@@ -75,7 +78,7 @@ export class App extends React.Component<{}, AppState> {
 
     this.state.rootStore?.userStore.checkTrackingStatus()
 
-    Linking.addEventListener('url', this._onOpenURL)
+    this.openUrlHandler = Linking.addEventListener('url', this._onOpenURL)
     try {
       const url = await Linking.getInitialURL()
       if (!url) return
@@ -86,7 +89,10 @@ export class App extends React.Component<{}, AppState> {
   }
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this._onOpenURL)
+    if (this.openUrlHandler) {
+      this.openUrlHandler.remove()
+      this.openUrlHandler = null
+    }
   }
 
   startInitTimer = () => {
