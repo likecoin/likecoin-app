@@ -10,13 +10,15 @@ import { UserStore } from "../../models/user-store"
 
 import { translate } from "../../i18n"
 import { logError } from "../../utils/error"
+import { ChainStore } from "../../models/chain-store"
 
 export interface AuthLoadingScreenProps extends NavigationStackScreenProps<{}> {
+  chainStore: ChainStore
   deepLinkHandleStore: DeepLinkHandleStore
   userStore: UserStore
 }
 
-@inject("deepLinkHandleStore", "userStore")
+@inject("deepLinkHandleStore", "userStore", "chainStore")
 @observer
 export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {}> {
   componentDidMount() {
@@ -26,17 +28,23 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
   async checkAuthState() {
     const {
       currentUser: likeCoUser,
-      authCore: {
-        profile: authcoreUser,
-        getIsSettingUp: getIsSettingUpAuthcore,
-      },
       iapStore: {
         isEnabled: isEnabledIAP,
         hasSubscription,
       },
     } = this.props.userStore
-    if ((getIsSettingUpAuthcore() || authcoreUser) && likeCoUser) {
+    if (likeCoUser) {
       try {
+        this.props.userStore.setIsSigningIn(true)
+        this.props.userStore.authCore.resume().then(() => {
+          if (this.props.userStore.isSigningIn) {
+            const address = this.props.userStore.authCore.primaryCosmosAddress
+            this.props.chainStore.setupWallet(address)
+          } else {
+            // Reset Authcore login state if user is currently not signing in
+            this.props.userStore.authCore.setHasSignedIn(false)
+          }
+        })
         try {
           await this.props.deepLinkHandleStore.handleAppReferrer()
           await this.props.deepLinkHandleStore.openBranchDeepLink()
@@ -60,8 +68,8 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
 
         this.props.navigation.navigate('App')
         return
-      } catch {
-        // No-op
+      } catch (error) {
+        logError(error)
       }
     }
     this.props.userStore.setIsSigningIn(false)
