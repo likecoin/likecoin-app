@@ -181,6 +181,9 @@ export const AuthCoreStoreModel = types
           )
           self.profile = AuthCoreUserModel.create(currentUser)
         }),
+        waitForInit: flow(function*() {
+          yield pendingInitPromise
+        }),
       },
     }
   })

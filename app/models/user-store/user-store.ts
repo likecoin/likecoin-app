@@ -39,6 +39,10 @@ import {
   UserResult,
   UserRegisterParams,
   SuperLikeStatusResult,
+  LikerLandUserFolloweeListResult,
+  NFTClassListResult,
+  NFTEvent,
+  LikerLandUserInfoResult,
 } from "../../services/api"
 
 import { throwProblem } from "../../services/api/api-problem"
@@ -64,6 +68,7 @@ export const UserStoreModel = types
     isSigningIn: false,
     isSigningOut: false,
     trackingStatus: "not-determined" as TrackingStatus,
+    unseenEventCount: 0,
   }))
   .extend(withEnvironment)
   .views(self => ({
@@ -417,6 +422,150 @@ export const UserStoreModel = types
       yield self.appMeta.postResume();
     }),
   }))
+  .actions(self => ({
+    loginLikerLand: flow(function * () {
+      yield self.authCore.waitForInit()
+      const address = self.authCore.primaryCosmosAddress
+      const signingPayload = {
+        /* eslint-disable @typescript-eslint/camelcase */
+        chain_id: self.env.appConfig.getValue('COSMOS_CHAIN_ID'),
+        memo: [
+          `${self.env.appConfig.getValue('LIKERLAND_LOGIN_MESSAGE')}:`,
+          JSON.stringify({
+            ts: Date.now(),
+            address,
+          }),
+        ].join(' '),
+        msgs: [],
+        fee: {
+          gas: '0',
+          amount: [
+            {
+              denom: self.env.appConfig.getValue('COSMOS_FRACTION_DENOM'),
+              amount: '0',
+            },
+          ],
+        },
+        sequence: '0',
+        account_number: '0',
+        /* eslint-enable @typescript-eslint/camelcase */
+      };
+      const {
+        signed,
+        signature: {
+          signature,
+          pub_key: publicKey
+        },
+      }: any = yield self.env.authCoreAPI.signAmino(signingPayload, address)
+      const data = {
+        signature,
+        publicKey: publicKey.value,
+        message: stringify(signed),
+        from: address,
+        signMethod: 'memo',
+      };
+      yield self.env.likerLandAPI.login(data)
+    }),
+    fetchLikerLandFollowees: flow(function * () {
+      const result: LikerLandUserFolloweeListResult = yield self.env.likerLandAPI.fetchUserFolloweeList()
+      switch (result.kind) {
+        case "ok": {
+          return result.data
+        }
+        default:
+          throwProblem(result)
+          return undefined
+      }
+    }),
+  }))
+  .actions(self => {
+    async function fetchFolloweeNewClassEvents(followee: string) {
+      const result: NFTClassListResult = await self.env.likeCoinChainAPI.fetchNFTClassList({
+        iscnOwner: followee,
+        reverse: true,
+      })
+      switch (result.kind) {
+        case "ok":
+          return result.data.map(({ id, created_at: timestamp }) => ({
+            /* eslint-disable @typescript-eslint/camelcase */
+            action: 'new_class',
+            class_id: id,
+            nft_id: '',
+            sender: followee,
+            receiver: '',
+            tx_hash: '',
+            timestamp,
+            memo: '',
+            /* eslint-enable @typescript-eslint/camelcase */
+          } as NFTEvent))
+
+        default:
+          return []
+      }
+    }
+
+    function getEventType(event: NFTEvent) {
+      const user = self.authCore.primaryCosmosAddress
+      let eventType;
+      if (event.action === "new_class") {
+        eventType = "mint_nft"
+      } else if (event.action === "buy_nft" || event.action === "sell_nft") {
+        if (event.receiver === user) {
+          eventType = "purchase_nft"
+        } else {
+          eventType = "nft_sale"
+        }
+      } else if (event.sender === self.env.appConfig.getValue('LIKECOIN_NFT_API_WALLET')) {
+        if (event.receiver === user) {
+          eventType = "purchase_nft"
+        } else {
+          eventType = "nft_sale"
+        }
+      } else if (event.receiver === user) {
+        eventType = "receive_nft"
+      } else if (event.sender === user) {
+        eventType = "send_nft"
+      } else {
+        eventType = "transfer_nft"
+      }
+      return eventType;
+    }
+
+    return {
+      loadUnseenEventCount: flow(function * () {
+        const userInfoResult: LikerLandUserInfoResult = yield self.env.likerLandAPI.fetchUserInfo()
+        if (userInfoResult.kind !== "ok") return
+        
+        const { eventLastSeenTs } = userInfoResult.data
+
+        const { followees }: { followees: string[] } = yield self.fetchLikerLandFollowees();
+
+        const eventResponses: NFTEvent[][] = yield Promise.all([
+          self.env.likeCoinChainAPI.fetchNFTEvents({
+            involver: self.authCore.primaryCosmosAddress,
+            limit: 100,
+            actionType: ["/cosmos.nft.v1beta1.MsgSend", "buy_nft"],
+            ignoreToList: self.env.appConfig.getValue('LIKECOIN_NFT_API_WALLET'),
+            reverse: true,
+          }).then((result) => result.kind === 'ok' ? result.data : []).catch(() => []),
+          ...followees.map(fetchFolloweeNewClassEvents)
+        ])
+        const events = eventResponses.flat()
+        self.unseenEventCount = events.reduce((count, event) => {
+          if (
+            eventLastSeenTs < new Date(event.timestamp).getTime() &&
+            ["nft_sale", "receive_nft", "mint_nft"].includes(getEventType(event))
+          ) {
+            return count + 1
+          }
+          return count
+        }, 0)
+      }),
+      clearUnseenEventCount() {
+        self.unseenEventCount = 0
+      },
+    }
+  });
 
 type UserStoreType = Instance<typeof UserStoreModel>
 export interface UserStore extends UserStoreType {}

@@ -6,8 +6,10 @@ import styled from "styled-components/native"
 import { NFTWebView as NFTWebViewBase } from "../../components/nft-web-view"
 
 import { WalletConnectStore } from "../../models/wallet-connect-store"
+import { UserStore } from "../../models/user-store"
 
 interface NFTNotificationScreenProps {
+  userStore: UserStore
   walletConnectStore: WalletConnectStore
 }
 
@@ -24,11 +26,19 @@ const NFTWebView = styled(NFTWebViewBase)`
   flex: 1;
 `
 
-@inject("walletConnectStore")
+@inject("userStore", "walletConnectStore")
 export class NFTNotificationScreen extends React.Component<NFTNotificationScreenProps, {}> {
+  componentDidMount(): void {
+    this.props.userStore.clearUnseenEventCount()
+  }
+
   get webViewURL() {
     const baseURL = this.props.walletConnectStore.localizedLikerLandBaseURL
     return `${baseURL}/notifications?in_app=1`
+  }
+
+  handlePressRefresh() {
+    this.props.userStore.loadUnseenEventCount()
   }
 
   render() {
@@ -42,6 +52,7 @@ export class NFTNotificationScreen extends React.Component<NFTNotificationScreen
         <NFTWebView
           key={this.webViewURL}
           source={{ uri: this.webViewURL }}
+          onPressRefresh={this.handlePressRefresh}
         />
       </RootView>
     )

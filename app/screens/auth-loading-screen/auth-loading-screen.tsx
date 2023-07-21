@@ -55,6 +55,7 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
           this.props.userStore.authCore.fetchCurrentUser(),
           this.props.userStore.fetchUserInfo(),
           this.props.userStore.appMeta.fetch(),
+          this.props.userStore.loginLikerLand(),
         ])
         // Restore IAP if neccessary
         if (isEnabledIAP && hasSubscription) {
@@ -67,6 +68,8 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
         }
 
         this.props.navigation.navigate('App')
+
+        this.props.userStore.loadUnseenEventCount()
         return
       } catch (error) {
         logError(error)
