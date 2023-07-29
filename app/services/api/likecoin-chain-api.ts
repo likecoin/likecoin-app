@@ -17,20 +17,20 @@ export interface NFTClass {
   },
   metadata: {
     image: string
-    message: string
-    external_url: string
-    is_custom_image: string
-    nft_meta_collection_id: string
-    nft_meta_collection_name: string
-    nft_meta_collection_descrption: string
+    message?: string
+    external_url?: string
+    is_custom_image?: string
+    nft_meta_collection_id?: string
+    nft_meta_collection_name?: string
+    nft_meta_collection_descrption?: string
   },
   parent: {
     type: string
     iscn_id_prefix: string
     account: string
   },
-  created_at: string
-  owner: string
+  created_at?: string
+  owner?: string
 }
 export interface NFTClassListResponse {
   classes: NFTClass[]
