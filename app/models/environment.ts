@@ -3,7 +3,12 @@ import { AuthCoreAPI } from "../services/authcore"
 import { CosmosAPI } from "../services/cosmos"
 import { Mintscan } from "../services/mintscan"
 import { Reactotron } from "../services/reactotron"
-import { LikeCoAPI, LikeCoinAPI } from "../services/api"
+import {
+  LikeCoAPI,
+  LikeCoinAPI,
+  LikeCoinChainAPI,
+  LikerLandAPI,
+} from "../services/api"
 import { BranchIO } from "../services/branch-io"
 import { initSentry } from "../utils/sentry"
 
@@ -19,6 +24,8 @@ export class Environment {
     this.authCoreAPI = new AuthCoreAPI()
     this.likeCoAPI = new LikeCoAPI()
     this.likeCoinAPI = new LikeCoinAPI()
+    this.likeCoinChainAPI = new LikeCoinChainAPI()
+    this.likerLandAPI = new LikerLandAPI()
     this.cosmosAPI = new CosmosAPI()
     this.mintscan = new Mintscan()
     this.branchIO = new BranchIO()
@@ -36,6 +43,8 @@ export class Environment {
       COSMOS_ADDRESS_PREFIX,
       LIKECO_API_URL,
       LIKECOIN_API_URL,
+      LIKECOIN_CHAIN_API_URL,
+      LIKERLAND_URL,
       MINTSCAN_URL,
       SENTRY_DSN,
       SENTRY_ENV,
@@ -46,6 +55,8 @@ export class Environment {
     this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID, COSMOS_ADDRESS_PREFIX)
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likeCoinAPI.setup(LIKECOIN_API_URL)
+    this.likeCoinChainAPI.setup(LIKECOIN_CHAIN_API_URL)
+    this.likerLandAPI.setup(LIKERLAND_URL)
     this.cosmosAPI.setup(COSMOS_LCD_URL, this.appConfig.getGasLimits())
     this.mintscan.setup(MINTSCAN_URL)
   }
@@ -74,6 +85,16 @@ export class Environment {
    * LikeCoin API.
    */
   likeCoinAPI: LikeCoinAPI
+
+  /**
+   * LikeCoin chain API.
+   */
+  likeCoinChainAPI: LikeCoinChainAPI
+
+  /**
+   * Like Land API.
+   */
+  likerLandAPI: LikerLandAPI
 
   /**
    * AuthCore API.

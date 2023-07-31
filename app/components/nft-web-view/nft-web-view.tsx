@@ -22,7 +22,11 @@ const ControlBar = styled.View`
   border-color: ${({ theme }) => theme.color.separator};
 `
 
-export function NFTWebView({ style, ...props }: WebViewProps) {
+export interface NFTWebViewProps extends WebViewProps {
+  onPressRefresh?: () => void
+}
+
+export function NFTWebView({ style, onPressRefresh, ...props }: NFTWebViewProps) {
   const webViewRef = React.useRef<WebViewBase>(null)
 
   const [webViewKey, setWebViewKey] = React.useState(0);
@@ -46,6 +50,7 @@ export function NFTWebView({ style, ...props }: WebViewProps) {
 
   const handleRefreshButtonPress = () => {
     webViewRef.current?.reload()
+    onPressRefresh?.()
   }
 
   const handleHardwareBackButtonPress = () => {

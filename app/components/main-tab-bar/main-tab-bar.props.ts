@@ -6,4 +6,5 @@ export interface MainTabBarIconProps {
   horizontal?: boolean
   routeName: string
   user?: User
+  unseenEventCount?: number
 }

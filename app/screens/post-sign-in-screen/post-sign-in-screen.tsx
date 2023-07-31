@@ -52,8 +52,10 @@ export class PostSignInScreen extends React.Component<
       await Promise.all([
         this.props.userStore.fetchUserInfo(),
         this.props.userStore.appMeta.fetch(),
+        this.props.userStore.loginLikerLand(),
       ])
       await this.props.userStore.postResume()
+      this.props.userStore.loadUnseenEventCount()
       this.props.navigation.navigate("App")
 
       // Try to open the deferred deep link URL after sign in

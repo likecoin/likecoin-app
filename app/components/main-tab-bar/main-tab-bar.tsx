@@ -1,4 +1,6 @@
 import * as React from "react"
+import { View } from "react-native"
+import styled from "styled-components/native"
 import { inject, observer } from "mobx-react"
 
 import { MainTabBarIconProps } from "./main-tab-bar.props"
@@ -10,13 +12,27 @@ import { RootStore } from "../../models/root-store"
 
 import { color } from "../../theme"
 
+const NotificationIconWrapper = styled(View)`
+  position: relative;
+`
+const NotificationDot = styled(View)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8;
+  height: 8;
+  borderRadius: 4;
+  background-color: #e35050;
+`
+
 @inject((rootStore: RootStore) => ({
   user: rootStore.userStore.currentUser,
+  unseenEventCount: rootStore.userStore.unseenEventCount,
 }))
 @observer
 export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
   render() {
-    const { focused, routeName, user } = this.props
+    const { focused, routeName, user, unseenEventCount } = this.props
     let name: IconTypes
     const size = 24
     switch (routeName) {
@@ -52,7 +68,7 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
       }
     }
     const fill = focused ? color.palette.likeCyan : color.palette.lightGrey
-    return (
+    const icon = (
       <Icon
         name={name}
         width={size}
@@ -60,5 +76,16 @@ export class MainTabBarIcon extends React.Component<MainTabBarIconProps> {
         fill={fill}
       />
     )
+
+    if (routeName === "Notification" && unseenEventCount > 0) {
+      return (
+        <NotificationIconWrapper>
+          <NotificationDot />
+          {icon}
+        </NotificationIconWrapper>
+      )
+    }
+
+    return icon
   }
 }

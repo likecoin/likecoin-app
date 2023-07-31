@@ -78,13 +78,6 @@ export async function setupRootStore() {
     // load data from storage
     data = await storage.load(storageKey) || {}
     rootStore = createRootStore(env, data)
-
-    if (rootStore.userStore.currentUser) {
-      rootStore.userStore.authCore.resume().then(() => {
-        const address = rootStore.userStore.authCore.primaryCosmosAddress
-        rootStore.chainStore.setupWallet(address)
-      })
-    }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state
     // instead of crashing.
