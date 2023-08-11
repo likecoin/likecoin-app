@@ -73,9 +73,10 @@ export class AuthLoadingScreen extends React.Component<AuthLoadingScreenProps, {
         return
       } catch (error) {
         logError(error)
+      } finally {
+        this.props.userStore.setIsSigningIn(false)
       }
     }
-    this.props.userStore.setIsSigningIn(false)
     this.props.userStore.authCore.setHasSignedIn(false)
     this.props.navigation.navigate('Auth')
   }
