@@ -11,6 +11,7 @@ import { UserStore } from "../../models/user-store"
 import { DeepLinkHandleStore } from "../../models/deep-link-handle-store"
 
 import { translate } from "../../i18n"
+import { logError } from "../../utils/error"
 
 export interface PostSignInScreenProps extends NavigationStackScreenProps<{}> {
   userStore: UserStore
@@ -61,7 +62,8 @@ export class PostSignInScreen extends React.Component<
       // Try to open the deferred deep link URL after sign in
       await this.props.deepLinkHandleStore.openBranchDeepLink()
       this.props.deepLinkHandleStore.openDeepLink()
-    } catch {
+    } catch (error) {
+      logError(error)
       this.showErrorAlert()
     }
   }
