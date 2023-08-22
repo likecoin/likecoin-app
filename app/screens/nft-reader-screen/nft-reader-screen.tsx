@@ -35,10 +35,10 @@ export class NFTReaderScreen extends React.Component<NFTReaderScreenProps, {}> {
     const baseURL = this.props.walletConnectStore.localizedLikerLandBaseURL
     switch (this.state.tabValue) {
       case "listing":
-        return `${baseURL}/writing-nft`
+        return `${baseURL}/store`
       
       case "dashboard":
-        return `${baseURL}/dashboard`
+        return `${baseURL}/feed`
 
       default:
         return baseURL;
