@@ -1,4 +1,4 @@
-import { Alert } from "react-native"
+import { Alert, NativeModules } from "react-native"
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 import { withEnvironment } from "../extensions"
@@ -86,7 +86,7 @@ export const RootStoreModel = types
      */
     reset: flow(function*() {
       self.isShowUnauthenticatedAlert = false
-      self.navigationStore.navigateTo({ routeName: "Auth" })
+      // self.navigationStore.navigateTo({ routeName: "Auth" })
       self.creatorsFollowStore.reset()
       self.civicLikerStakingStore.reset()
       self.contentBookmarksStore.reset()
@@ -99,6 +99,8 @@ export const RootStoreModel = types
       self.mySuperLikeFeedStore.reset()
       self.transferStore.reset()
       self.walletConnectStore.reset()
+      // HACK: reload app to logout due react-navigation issue
+      NativeModules.DevSettings.reload()
     }),
   }))
   .actions(self => ({
