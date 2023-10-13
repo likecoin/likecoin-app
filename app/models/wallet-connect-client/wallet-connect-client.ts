@@ -63,6 +63,9 @@ export const WalletConnectClientModel = types
       const { peerMeta } = self.connector
       return COMMON_API_CONFIG.userAgent.includes(peerMeta.name)
     },
+    get version() {
+      return 1
+    },
   }))
   .views(self => ({
     shouldShowWalletConnectModal(payload: any) {
