@@ -8,6 +8,7 @@ import { WalletConnectStore } from "../../models/wallet-connect-store"
 
 import { color } from "../../theme"
 import { translate } from "../../i18n"
+import { checkIsInAppBrowser } from "../../utils/wallet-connect"
 
 import { Button } from "../../components/button"
 import { LoadingLikeCoin } from "../../components/loading-likecoin"
@@ -93,7 +94,18 @@ export class WalletConnectRequestScreen extends React.Component<WalletConnectReq
     this.close()
     await this.requestor.approveRequest(this.payload, this.peerId)
 
-    if (this.requestor.isInAppBrowser) return;
+    switch (this.requestor.version) {
+      case 1:
+        if (this.requestor.isInAppBrowser) return;
+        break;
+    
+      case 2:
+        if (checkIsInAppBrowser(this.payload)) return;
+        break;
+
+      default:
+        break;
+    }
 
     // Show return to browser hint
     let hintMessageKey: string
