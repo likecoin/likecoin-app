@@ -453,7 +453,7 @@ PODS:
     - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
-  - react-native-image-picker (4.8.1):
+  - react-native-image-picker (7.0.1):
     - React-Core
   - react-native-image-sequence (0.7.0):
     - React
@@ -966,7 +966,7 @@ SPEC CHECKSUMS:
   react-native-camera: 21cf4ed26cf432ceb1fae959aa6924943fd6f714
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
-  react-native-image-picker: 5640333245b448b0e64172576ea27760f4134099
+  react-native-image-picker: 1569cfade34b3a011191ce262423e6ce2f8db5a1
   react-native-image-sequence: b4cc7ce0ee9eeec7574b005e06059b3f7f818d96
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-safe-area-context: 68b07eabfb0d14547d36f6929c0e98d818064f02
