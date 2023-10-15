@@ -2,7 +2,6 @@ import * as React from "react"
 import {
   AppState,
   AppStateStatus,
-  NativeEventSubscription,
 } from "react-native"
 import { inject } from "mobx-react"
 import styled from "styled-components/native"
@@ -30,8 +29,6 @@ const Screen = styled(ScreenBase)`
 export class ReaderScreen extends React.Component<Props, {}> {
   appState = AppState.currentState
 
-  appStateChangeHandler?: NativeEventSubscription
-
   superLikeScreen = React.createRef<MySuperLikeScreenBase>()
 
   state = {
@@ -40,14 +37,11 @@ export class ReaderScreen extends React.Component<Props, {}> {
 
   componentDidMount() {
     this.props.contentBookmarksListStore.fetch()
-    this.appStateChangeHandler = AppState.addEventListener("change", this.handleAppStateChange)
+    AppState.addEventListener("change", this.handleAppStateChange)
   }
 
   componentWillUnmount() {
-    if (this.appStateChangeHandler) {
-      this.appStateChangeHandler.remove()
-      this.appStateChangeHandler = null
-    }
+    AppState.removeEventListener("change", this.handleAppStateChange)
   }
 
   private handleAppStateChange = (nextAppState: AppStateStatus) => {
