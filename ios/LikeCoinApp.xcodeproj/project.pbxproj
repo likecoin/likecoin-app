@@ -193,12 +193,12 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				83FE4EA924064FE50073E6EA /* Embed App Extensions */,
+				512FB86A807CF2F0E223B7FC /* [CP] Copy Pods Resources */,
+				09C796459E8C77EEA8ED34FC /* [CP] Embed Pods Frameworks */,
 				3D2512B725CD2D4100DE881D /* Copy Google plist */,
 				C76FA05B0208092CE895C07A /* [CP-User] [RNFB] Core Configuration */,
 				CA245B537CEDD94F185A0102 /* [CP-User] [RNFB] Crashlytics Configuration */,
-				512FB86A807CF2F0E223B7FC /* [CP] Copy Pods Resources */,
-				83FE4EA924064FE50073E6EA /* Embed App Extensions */,
-				09C796459E8C77EEA8ED34FC /* [CP] Embed Pods Frameworks */,
 				855FB6D36CB74DD790214ED0 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
