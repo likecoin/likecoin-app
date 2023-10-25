@@ -10,6 +10,7 @@ interface BackButtonHandlerProps {
    * Are we allowed to exit?
    */
   canExit(routeName: string): boolean
+  children?: React.ReactNode
 }
 
 @inject("navigationStore")

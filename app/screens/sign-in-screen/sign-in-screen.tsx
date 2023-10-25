@@ -19,9 +19,6 @@ import {
   SignInScreenStyle as Style,
 } from "./sign-in-screen.style"
 
-import SloganEn from "./slogan-en.svg"
-import SloganZh from "./slogan-zh.svg"
-
 import { logError } from "../../utils/error"
 import { logAnalyticsEvent } from "../../utils/analytics"
 
@@ -222,12 +219,12 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
   }
 
 
-  private getSlogan() {
+  private getSloganSrc() {
     switch (i18n.locale) {
       case "en":
-        return SloganEn
+        return require("./slogan-en.png")
       default:
-        return SloganZh
+        return require("./slogan-zh.png")
     }
   }
 
@@ -249,8 +246,6 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
 
     const isLoading = !!isSigningIn || hasSignedInToAuthcore
 
-    const Slogan = this.getSlogan()
-
     const bgImageStyle = {
       opacity: this.state.viewFadeAnim,
       transform: [{ scale: this.state.bgImageScaleAnim }],
@@ -265,8 +260,9 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
       <View style={Style.Root}>
         <SafeAreaView style={Style.Footer}>
           <Animated.View style={[Style.FooterContent, footerStyle]}>
-            <Slogan
-              fill={color.palette.likeGreen}
+            <Image
+              source={this.getSloganSrc()}
+              resizeMode="contain"
               style={Style.Slogan}
             />
             <AppVersionLabel style={Style.Version} />

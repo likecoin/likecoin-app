@@ -8,6 +8,7 @@ import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { DirectSignResponse } from '@cosmjs/proto-signing'
 
 import { logError } from '../../utils/error'
+import { checkIsInAppBrowser } from '../../utils/wallet-connect';
 
 import { withCurrentUser, withEnvironment, withNavigationStore } from '../extensions'
 
@@ -27,6 +28,9 @@ export const WalletConnectV2ClientModel = types
   .views(_ => ({
     get isInAppBrowser() {
       return false; // TODO: implement user agent checking
+    },
+    get version() {
+      return 2;
     },
   }))
   .views(_ => ({
@@ -247,7 +251,7 @@ export const WalletConnectV2ClientModel = types
         method: 'session_proposal',
         ...proposal,
       }
-      // if (!self.isInAppBrowser) {
+      if (!checkIsInAppBrowser(proposal)) {
         // Show WalletConnect Modal for loading UX
         self.navigationStore.navigateTo({
           routeName: 'App',
@@ -259,10 +263,11 @@ export const WalletConnectV2ClientModel = types
             },
           }),
         })
-      // }
+      } else {
+        // Approve session request directly without user's interaction
+        self.approveSessionRequest(proposal)
+      }
 
-      // Approve session request directly without user's interaction
-      // self.approveSessionRequest(proposal)
     },
   }))
   .actions(self => ({

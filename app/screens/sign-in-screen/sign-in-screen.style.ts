@@ -53,6 +53,7 @@ export const SignInScreenStyle = StyleSheet.create({
   } as ViewStyle,
   Slogan: {
     width: "100%",
+    height: undefined,
     alignSelf: "stretch",
     aspectRatio: 244 / 94,
   } as ImageStyle,

@@ -97,7 +97,7 @@ class BookmarkedContentListItemBase extends React.Component<Props, {}> {
                       onPress={this.onPressArchiveButton}
                     />
                   )}
-                  {this.props.renderMoreButton(this.onPressMoreButton)}
+                  <>{this.props.renderMoreButton(this.onPressMoreButton)}</>
                 </View>
               </View>
             </View>
