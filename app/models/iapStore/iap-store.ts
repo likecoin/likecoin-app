@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import { Platform, Alert } from "react-native"
-import RNIap, {
+import {
   Product,
   Purchase,
   PurchaseError,
+  getAvailablePurchases,
+  getProducts,
+  requestSubscription,
+  validateReceiptIos,
 } from "react-native-iap"
 
 import {
@@ -55,10 +59,13 @@ export const IAPStoreModel = types
       if (receipt) {
         // TODO: Validation on Android
         if (Platform.OS === "ios") {
-          const result: any = yield RNIap.validateReceiptIos({
-            "receipt-data": receipt,
-            password: self.getConfig("IAP_IOS_SHARED_SECRET"),
-          }, self.getConfig("IAP_IOS_IS_SANDBOX") === "true")
+          const result: any = yield validateReceiptIos({
+            receiptBody: {
+              "receipt-data": receipt,
+              password: self.getConfig("IAP_IOS_SHARED_SECRET"),
+            },
+            isTest: self.getConfig("IAP_IOS_IS_SANDBOX") === "true",
+          })
           if (result) {
             if (result.status === 0) {
               self.purchasedSKUs.add(SKU_COM_OICE_MEMBERSHIP)
@@ -76,7 +83,7 @@ export const IAPStoreModel = types
     fetchProducts: flow(function * () {
       self.isFetchingProducts = true
       try {
-        self.products = yield RNIap.getProducts([SKU_COM_OICE_MEMBERSHIP])
+        self.products = yield getProducts({ skus: [SKU_COM_OICE_MEMBERSHIP]})
       } catch (error) {
         logError(error)
       } finally {
@@ -85,7 +92,7 @@ export const IAPStoreModel = types
     }),
     requestSubscription: flow(function * (sku: string) {
       try {
-        yield RNIap.requestSubscription(sku, false)
+        yield requestSubscription({ sku })
       } catch (error) {
         logError(error)
       }
@@ -93,7 +100,7 @@ export const IAPStoreModel = types
     restorePurchases: flow(function * () {
       self.isRestoringPurchases = true
       try {
-        const purchases: Purchase[] = yield RNIap.getAvailablePurchases()
+        const purchases: Purchase[] = yield getAvailablePurchases()
         let hasSubscription = false
         purchases.forEach(purchase => {
           switch (purchase.productId) {
