@@ -36,6 +36,13 @@ export function NFTWebView({ style, onPressRefresh, ...props }: NFTWebViewProps)
       Linking.openURL(url)
       return false
     }
+    if (url.startsWith("intent://") && url.includes('package=com.oice')) {
+      Linking.openURL(
+        url.replace("intent://", "com.oice://")
+          .replace('#Intent;package=com.oice;scheme=com.oice;end;', '')
+      ).catch(err => { console.error(err) });
+      return false
+    }
     return true
   }
 
@@ -71,6 +78,7 @@ export function NFTWebView({ style, onPressRefresh, ...props }: NFTWebViewProps)
         {...props}
         sharedCookiesEnabled={true}
         decelerationRate={0.998}
+        originWhitelist={['https://*', 'http://*', 'intent://*']}
         // TODO: remove HACK after applicationNameForUserAgent type is fixed
         {...{ applicationNameForUserAgent: COMMON_API_CONFIG.userAgent }}
         onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}

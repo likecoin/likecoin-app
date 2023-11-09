@@ -1,5 +1,5 @@
 import * as React from "react"
-import { SafeAreaView, StatusBar } from "react-native"
+import { Linking, SafeAreaView, StatusBar } from "react-native"
 import { inject } from "mobx-react"
 import styled from "styled-components/native"
 
@@ -7,6 +7,7 @@ import { NFTWebView as NFTWebViewBase } from "../../components/nft-web-view"
 
 import { WalletConnectStore } from "../../models/wallet-connect-store"
 import { UserStore } from "../../models/user-store"
+import { WebViewNavigation } from "react-native-webview"
 
 interface NFTNotificationScreenProps {
   userStore: UserStore
@@ -41,6 +42,18 @@ export class NFTNotificationScreen extends React.Component<NFTNotificationScreen
     this.props.userStore.loadUnseenEventCount()
   }
 
+  handleShouldStartLoadWithRequest({ url }: WebViewNavigation) {
+    if (url.startsWith("intent://") && url.includes('package=com.oice')) {
+      Linking.openURL(
+        url.replace("intent://", "com.oice://")
+          .replace('#Intent;package=com.oice;scheme=com.oice;end;', '')
+      ).catch(err => { console.error(err) });
+      return false
+    }
+
+    return true
+  }
+
   render() {
     return (
       <RootView>
@@ -53,6 +66,8 @@ export class NFTNotificationScreen extends React.Component<NFTNotificationScreen
           key={this.webViewURL}
           source={{ uri: this.webViewURL }}
           onPressRefresh={this.handlePressRefresh}
+          originWhitelist={['https://*', 'http://*', 'intent://*']}
+          onShouldStartLoadWithRequest={this.handleShouldStartLoadWithRequest}
         />
       </RootView>
     )

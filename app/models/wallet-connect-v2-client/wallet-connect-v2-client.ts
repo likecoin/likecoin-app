@@ -1,3 +1,4 @@
+import { Platform } from "react-native"
 import { NavigationActions } from 'react-navigation'
 import { flow, Instance, SnapshotOut, types } from 'mobx-state-tree'
 import SignClient from '@walletconnect/sign-client'
@@ -251,7 +252,10 @@ export const WalletConnectV2ClientModel = types
         method: 'session_proposal',
         ...proposal,
       }
-      if (!checkIsInAppBrowser(proposal)) {
+
+      /* auto approve is broken in android due to navigation to intent:// */
+      const isIos = Platform.OS === "ios"
+      if (!isIos || !checkIsInAppBrowser(proposal)) {
         // Show WalletConnect Modal for loading UX
         self.navigationStore.navigateTo({
           routeName: 'App',
