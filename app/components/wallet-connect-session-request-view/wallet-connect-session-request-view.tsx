@@ -124,6 +124,12 @@ function getRawContent({ payload }) {
       rawContent = payload.params[1];
       break
 
+    case "session_request":
+    case "session_proposal":
+      // TODO: Parse some meaningful info from payload
+      rawContent = '';
+      break
+
     default:
       rawContent = payload
       break
