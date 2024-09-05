@@ -117,7 +117,7 @@ export class SaveToBookmarkScreen extends React.Component {
             />
           ) : (
             <Text
-              text="Saved to Liker Land!"
+              text="Saved to LikeCoin App!"
               size="medium"
               weight="600"
               color="likeCyan"

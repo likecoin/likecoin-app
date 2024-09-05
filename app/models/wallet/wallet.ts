@@ -40,7 +40,7 @@ export const WalletModel = types
      * The URL of the account page in block explorer
      */
     get blockExplorerURL() {
-      return self.env.mintscan.getAccountURL(self.address)
+      return self.env.blockExplorer.getAccountURL(self.address)
     },
   }))
   .views(self => ({

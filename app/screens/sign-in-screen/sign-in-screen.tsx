@@ -13,7 +13,6 @@ import {
 import { NavigationStackScreenProps } from "react-navigation-stack"
 import FastImage, { ImageStyle } from "react-native-fast-image"
 import { inject, observer } from "mobx-react"
-import i18n from "i18n-js"
 
 import {
   SignInScreenStyle as Style,
@@ -220,12 +219,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
 
 
   private getSloganSrc() {
-    switch (i18n.locale) {
-      case "en":
-        return require("./slogan-en.png")
-      default:
-        return require("./slogan-zh.png")
-    }
+    return require("./slogan.png")
   }
 
   render() {
@@ -277,12 +271,12 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
               <Button
                 tx="signInScreen.signUp"
                 preset="primary"
-                isHidden={isLoading}
+                isHidden={true}
                 onPress={this._onPressAuthCoreSignUpButton}
               />
               <Button
                 tx="signInScreen.signIn"
-                preset="link"
+                preset="primary"
                 color="likeGreen"
                 isHidden={isLoading}
                 style={Style.SignInButton}

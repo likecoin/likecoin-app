@@ -1,5 +1,5 @@
-# Liker Land App
-Liker Land on iOS/Android Mobile
+# LikeCoin App
+LikeCoin on iOS/Android Mobile
 ![](https://github.com/likecoin/likecoin-app/workflows/Lint%20and%20build/badge.svg)
 ![](https://github.com/likecoin/likecoin-app/workflows/Release/badge.svg)
 

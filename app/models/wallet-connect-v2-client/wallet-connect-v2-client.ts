@@ -295,10 +295,10 @@ export const WalletConnectV2ClientModel = types
       const client = yield SignClient.init({
         projectId: self.getConfig('WALLET_CONNECT_PROJECT_ID', 'd36730c770de6ccc7db8591473e97f6f'),
         metadata: {
-          name: 'LikerLand',
-          description: 'Liker Land App',
+          name: 'LikeCoin App',
+          description: 'LikeCoin App',
           url: 'https://like.co',
-          icons: ['https://liker.land/logo.png'],
+          icons: ['https://like.co/logo.png'],
           redirect: {
             native: 'com.oice://wc',
             universal: '',

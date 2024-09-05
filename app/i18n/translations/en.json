@@ -9,7 +9,7 @@
   "amount_input_max": "MAX",
   "AppRatingPrompt": {
     "DenialTitle": "Can you give us some feedback?",
-    "Title": "Are you satisfied with Liker Land?"
+    "Title": "Are you satisfied with LikeCoin App?"
   },
   "BookmarkArchivesScreen": {
     "EmptyLabel": "You can archive a content in reading list",
@@ -52,7 +52,7 @@
     "undo": "Undo",
     "unfollow": "Unfollow",
     "unfollowSuccess": "You have unfollowed %{creator}",
-    "viewOnBlockExplorer": "View on Mintscan open data browser",
+    "viewOnBlockExplorer": "View on open data browser",
     "Yes": "Yes"
   },
   "community_links_label": "Join LikeCoin community",
@@ -83,7 +83,7 @@
     "Yesterday": "Yesterday"
   },
   "error": {
-    "DEPRECATED_APP": "Sorry, this version of Liker Land is too old. Please update in order to proceed.",
+    "DEPRECATED_APP": "Sorry, this version of LikeCoin App is too old. Please update in order to proceed.",
     "IAP_PURCHASE_RECEIPT_ERROR": "Error occurred at purchase",
     "LIKER_ID_FORMAT_INVALID": "The Liker ID includes invalid character",
     "LIKER_ID_LENGTH_LIMIT_MAX": "The length of the Liker ID must not be more than %{count}",
@@ -102,7 +102,7 @@
     "TRANSFER_INPUT_TARGET_INVALID": "The Liker ID or address is invalid",
     "TRANSFER_TARGET_NO_WALLET": "Receiver does not have an address",
     "TX_INSUFFICIENT_GAS_FEE": "Your wallet available balance is not enough for gas fee, need %{diff} more LIKE",
-    "TX_NOT_INCLUDED_YET": "The transaction was still not included in a block. Please verify it on Mintscan open data browser",
+    "TX_NOT_INCLUDED_YET": "The transaction was still not included in a block. Please verify it on open data browser",
     "UNSTAKE_AMOUNT_EXCEED_MAX": "The amount has exceeded the maximum undelegation amount",
     "UNSTAKE_AMOUNT_LESS_THAN_ZERO": "The amount must not be zero",
     "UNSTAKE_NOT_ENOUGH_FEE": "Not enough LikeCoin to pay for transaction fee"
@@ -143,7 +143,7 @@
       "civic-like": "%{from} Liked your work. You received %{amount}.",
       "daily-rewards": "%{likers} Liked your work(s) today. You received %{amount} in total.",
       "receive": "You received %{amount} from %{from}.",
-      "referral": "%{from} has installed Liker Land app. You both received %{amount}.",
+      "referral": "%{from} has installed LikeCoin App. You both received %{amount}.",
       "send": "You sent %{amount} to %{to}.",
       "super-like": "%{from} Super Liked your work. You received %{amount}."
     },
@@ -194,7 +194,7 @@
     "DescriptionLabel": "Call out to your fans to join as your Civic Likers and support your work now.",
     "HeaderTitle": "Sponsor Link",
     "OgDescription": "Follow your trusted Content Jockey. Less browsing. More reading.",
-    "OgTitle": "Accept {{displayName}}'s invitation, download Liker Land",
+    "OgTitle": "Accept {{displayName}}'s invitation, download LikeCoin App",
     "Title": "Your creativity are deserved to be rewarded."
   },
   "ReferrerFollowScreen": {
@@ -216,7 +216,7 @@
       "conflict": "The link already exist",
       "invalid-url": "Cannot save this link.",
       "unauthorized": "Please sign-in again in the app.",
-      "unknown": "Unable to save to Liker Land."
+      "unknown": "Unable to save to LikeCoin App."
     }
   },
   "seed_words_export_screen_error_account_mismatch": "Account mismatch, please login again with the correct OAuth method",
@@ -264,7 +264,7 @@
       }
     },
     "privacyPolicy": "Privacy Policy",
-    "RateApp": "Rate Liker Land",
+    "RateApp": "Rate LikeCoin App",
     "Referral": "Sponsor Link",
     "subscription": "Subscription",
     "termsOfUse": "Terms of Use",
@@ -282,8 +282,8 @@
     "errorLikerLandWebview": "Error occurs when signing in to liker.land (%{code}): %{description}",
     "heading": "Less browsing. More reading.",
     "LoadingTakesLonger": "This is taking longer than usual...",
-    "signIn": "Sign In",
-    "signUp": "Sign Up"
+    "signIn": "Sign in to Wallet",
+    "signUp": "Create Wallet"
   },
   "sponsor_link_cta_button": "Share your sponsor link",
   "sponsor_link_cta_description": "Build your fans network, get their monthly support.",
