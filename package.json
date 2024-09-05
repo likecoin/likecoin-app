@@ -1,6 +1,6 @@
 {
   "name": "likecoin-app",
-  "version": "0.35.1",
+  "version": "0.35.2",
   "private": true,
   "engine": {
     "node": ">=16"
