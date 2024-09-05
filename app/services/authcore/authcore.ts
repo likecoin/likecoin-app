@@ -95,9 +95,20 @@ export class AuthCoreAPI {
    */
   callbacks: AuthCoreCallback = {}
 
-  setup(baseURL: string, cosmosChainId: string, cosmosAddressPrefix: string) {
+  setup({
+    baseURL,
+    clientId,
+    cosmosChainId,
+    cosmosAddressPrefix,
+  }: {
+    baseURL: string
+    clientId: string
+    cosmosChainId: string
+    cosmosAddressPrefix: string
+  }) {
     this.baseURL = baseURL
     this.client = new AuthCore({
+      clientId,
       baseUrl: baseURL,
       socialLoginPaneStyle: "top",
       language: findBestAvailableLanguage(),

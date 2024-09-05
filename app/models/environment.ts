@@ -38,6 +38,7 @@ export class Environment {
     await this.branchIO.setup()
     const {
       AUTHCORE_ROOT_URL,
+      AUTHCORE_CLIENT_ID,
       BLOCK_EXPLORER_ACCOUNT_BASE_URL,
       BLOCK_EXPLORER_VALIDATOR_BASE_URL,
       BLOCK_EXPLORER_TRANSACTION_BASE_URL,
@@ -54,7 +55,12 @@ export class Environment {
     if (SENTRY_DSN) {
       initSentry(SENTRY_DSN, SENTRY_ENV)
     }
-    this.authCoreAPI.setup(AUTHCORE_ROOT_URL, COSMOS_CHAIN_ID, COSMOS_ADDRESS_PREFIX)
+    this.authCoreAPI.setup({
+      baseURL: AUTHCORE_ROOT_URL,
+      clientId: AUTHCORE_CLIENT_ID,
+      cosmosChainId: COSMOS_CHAIN_ID,
+      cosmosAddressPrefix: COSMOS_ADDRESS_PREFIX,
+    })
     this.likeCoAPI.setup(LIKECO_API_URL)
     this.likeCoinAPI.setup(LIKECOIN_API_URL)
     this.likeCoinChainAPI.setup(LIKECOIN_CHAIN_API_URL)
