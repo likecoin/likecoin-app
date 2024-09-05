@@ -1,7 +1,7 @@
 import { AppConfig } from "../services/app-config"
 import { AuthCoreAPI } from "../services/authcore"
 import { CosmosAPI } from "../services/cosmos"
-import { Mintscan } from "../services/mintscan"
+import { BlockExplorer } from "../services/block-explorer"
 import { Reactotron } from "../services/reactotron"
 import {
   LikeCoAPI,
@@ -27,7 +27,7 @@ export class Environment {
     this.likeCoinChainAPI = new LikeCoinChainAPI()
     this.likerLandAPI = new LikerLandAPI()
     this.cosmosAPI = new CosmosAPI()
-    this.mintscan = new Mintscan()
+    this.blockExplorer = new BlockExplorer()
     this.branchIO = new BranchIO()
   }
 
@@ -38,6 +38,9 @@ export class Environment {
     await this.branchIO.setup()
     const {
       AUTHCORE_ROOT_URL,
+      BLOCK_EXPLORER_ACCOUNT_BASE_URL,
+      BLOCK_EXPLORER_VALIDATOR_BASE_URL,
+      BLOCK_EXPLORER_TRANSACTION_BASE_URL,
       COSMOS_LCD_URL,
       COSMOS_CHAIN_ID,
       COSMOS_ADDRESS_PREFIX,
@@ -45,7 +48,6 @@ export class Environment {
       LIKECOIN_API_URL,
       LIKECOIN_CHAIN_API_URL,
       LIKERLAND_URL,
-      MINTSCAN_URL,
       SENTRY_DSN,
       SENTRY_ENV,
     } = this.appConfig.getAllParams()
@@ -58,7 +60,11 @@ export class Environment {
     this.likeCoinChainAPI.setup(LIKECOIN_CHAIN_API_URL)
     this.likerLandAPI.setup(LIKERLAND_URL)
     this.cosmosAPI.setup(COSMOS_LCD_URL, this.appConfig.getGasLimits())
-    this.mintscan.setup(MINTSCAN_URL)
+    this.blockExplorer.setup({
+      accountBaseURL: BLOCK_EXPLORER_ACCOUNT_BASE_URL,
+      validatorBaseURL: BLOCK_EXPLORER_VALIDATOR_BASE_URL,
+      transactionBaseURL: BLOCK_EXPLORER_TRANSACTION_BASE_URL,
+    })
   }
 
   /**
@@ -107,7 +113,7 @@ export class Environment {
   cosmosAPI: CosmosAPI
 
   /**
-   * Mintscan helper
+   * Block explorer helper
    */
-  mintscan: Mintscan
+  blockExplorer: BlockExplorer
 }
