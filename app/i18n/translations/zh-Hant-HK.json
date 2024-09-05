@@ -9,7 +9,7 @@
   "amount_input_max": "最大",
   "AppRatingPrompt": {
     "DenialTitle": "可否給我們一些改善建議?",
-    "Title": "你滿意 Liker Land 嗎?"
+    "Title": "你滿意 LikeCoin App 嗎?"
   },
   "BookmarkArchivesScreen": {
     "EmptyLabel": "你可從閱讀列表封存內容",
@@ -82,7 +82,7 @@
     "Yesterday": "昨日"
   },
   "error": {
-    "DEPRECATED_APP": "Liker Land 版本過舊，無法兼容，請立即更新。",
+    "DEPRECATED_APP": "LikeCoin App 版本過舊，無法兼容，請立即更新。",
     "IAP_PURCHASE_RECEIPT_ERROR": "購買時出現錯誤",
     "LIKER_ID_FORMAT_INVALID": "請以英文字、數字、「-」或「_」組成你的 Liker ID",
     "LIKER_ID_LENGTH_LIMIT_MAX": "Liker ID 不能多於 %{count} 個字元",
@@ -142,7 +142,7 @@
       "civic-like": "%{from} 讚賞你的作品，你獲得 %{amount}。",
       "daily-rewards": "今天有 %{likers} 讚賞你的作品，你共獲得 %{amount}。",
       "receive": "你已從 %{from} 收到 %{amount}。",
-      "referral": "%{from} 已安裝 Liker Land app，你們分別獲得 %{amount}。",
+      "referral": "%{from} 已安裝 LikeCoin App，你們分別獲得 %{amount}。",
       "send": "你已轉賬 %{amount} 給 %{to}。",
       "super-like": "%{from} Super Like 你的作品，你獲得 %{amount}。"
     },
@@ -192,7 +192,7 @@
   "ReferralScreen": {
     "DescriptionLabel": "立即呼籲你的讀者加入讚賞公民計劃，支持你自由地創作吧。",
     "HeaderTitle": "贊助連結",
-    "OgDescription": "下載 Liker Land，追蹤 {{displayName}}。不是瀏覽，而是閱讀。",
+    "OgDescription": "下載 LikeCoin App，追蹤 {{displayName}}。不是瀏覽，而是閱讀。",
     "OgTitle": "接受 {{displayName}} 邀請，以文會友",
     "Title": "創意無價，創作有價。"
   },
@@ -214,8 +214,8 @@
     "Error": {
       "conflict": "閱讀列表內已存有此網頁",
       "invalid-url": "未能成功辨識鏈接。",
-      "unauthorized": "請重新登入 Liker Land。",
-      "unknown": "未能成功把網頁加到 Liker Land 閱讀列表。"
+      "unauthorized": "請重新登入 LikeCoin App。",
+      "unknown": "未能成功把網頁加到 LikeCoin App 閱讀列表。"
     }
   },
   "seed_words_export_screen_error_account_mismatch": "帳戶不符，請選擇正確的第三方登入方式",
@@ -263,7 +263,7 @@
       }
     },
     "privacyPolicy": "隱私權政策",
-    "RateApp": "為 Liker Land 評分",
+    "RateApp": "為 LikeCoin App 評分",
     "Referral": "贊助連結",
     "subscription": "訂閱",
     "termsOfUse": "使用條款",
@@ -281,8 +281,8 @@
     "errorLikerLandWebview": "登入 liker.land 錯誤 [%{code}]：%{description}",
     "heading": "不是瀏覽，而是閱讀。",
     "LoadingTakesLonger": "載入需時，請稍等⋯",
-    "signIn": "登入",
-    "signUp": "註冊"
+    "signIn": "登入錢包",
+    "signUp": "創建錢包"
   },
   "sponsor_link_cta_button": "分享你的贊助連結",
   "sponsor_link_cta_description": "建立您的訂戶群，每月獲取贊助收入。",
@@ -454,12 +454,12 @@
   "walletConnectRequestView_button_reject": "拒絕",
   "walletConnectRequestView_label_app_unknown": "未知 App",
   "walletConnectRequestView_label_description_back": "請返回瀏覽器繼續",
-  "walletConnectRequestView_label_description_getAccounts": "%{name} 向 Liker Land App 發出了存取 %{chainIds} 的錢包地址請求",
-  "walletConnectRequestView_label_description_login": "%{name} 向 Liker Land App 發出了登入請求",
+  "walletConnectRequestView_label_description_getAccounts": "%{name} 向 LikeCoin App 發出了存取 %{chainIds} 的錢包地址請求",
+  "walletConnectRequestView_label_description_login": "%{name} 向 LikeCoin App 發出了登入請求",
   "walletConnectRequestView_label_description_login_back": "請返回瀏覽器繼續",
-  "walletConnectRequestView_label_description_sessionRequest": "%{name} 向 Liker Land App 發出了連接請求",
-  "walletConnectRequestView_label_description_sign": "%{name} 向 Liker Land App 發出了簽名請求",
-  "walletConnectRequestView_label_description_unknown": "%{name} 向 Liker Land App 發出了請求",
+  "walletConnectRequestView_label_description_sessionRequest": "%{name} 向 LikeCoin App 發出了連接請求",
+  "walletConnectRequestView_label_description_sign": "%{name} 向 LikeCoin App 發出了簽名請求",
+  "walletConnectRequestView_label_description_unknown": "%{name} 向 LikeCoin App 發出了請求",
   "walletConnectRequestView_loading_hint": "若沒有彈出確認請求，請返回瀏覽器再回來",
   "walletDashboardScreen": {
     "allDelegatorRewardsLabel": "未領取收益",

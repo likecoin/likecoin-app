@@ -89,8 +89,8 @@ export const WalletConnectClientModel = types
       self.connector = new WalletConnect({
         uri,
         clientMeta: {
-          name: "LikerLand",
-          description: "Liker Land App",
+          name: "LikeCoin App",
+          description: "LikeCoin App",
           url: "https://like.co",
           icons: ["https://like.co/logo.png"],
         },

@@ -101,7 +101,7 @@ export class AuthCoreAPI {
       baseUrl: baseURL,
       socialLoginPaneStyle: "top",
       language: findBestAvailableLanguage(),
-      company: "Liker Land",
+      company: "LikeCoin",
       initialScreen: "register",
       primaryColour: color.primary,
       successColour: color.primary,
