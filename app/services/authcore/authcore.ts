@@ -110,7 +110,7 @@ export class AuthCoreAPI {
     this.client = new AuthCore({
       clientId,
       baseUrl: baseURL,
-      socialLoginPaneStyle: "top",
+      socialLoginPaneStyle: "bottom",
       language: findBestAvailableLanguage(),
       company: "LikeCoin",
       initialScreen: "register",
