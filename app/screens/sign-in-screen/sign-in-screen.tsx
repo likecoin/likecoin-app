@@ -271,12 +271,12 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
               <Button
                 tx="signInScreen.signUp"
                 preset="primary"
-                isHidden={isLoading}
+                isHidden={true}
                 onPress={this._onPressAuthCoreSignUpButton}
               />
               <Button
                 tx="signInScreen.signIn"
-                preset="link"
+                preset="primary"
                 color="likeGreen"
                 isHidden={isLoading}
                 style={Style.SignInButton}
