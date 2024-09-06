@@ -28,7 +28,8 @@ export const SignInScreenStyle = StyleSheet.create({
   FooterContent: {
     maxWidth: 414,
     width: "100%",
-    paddingVertical: spacing[4],
+    paddingTop: spacing[7],
+    paddingBottom: spacing[4],
     paddingHorizontal: spacing[6],
     alignItems: "stretch",
   } as ViewStyle,
