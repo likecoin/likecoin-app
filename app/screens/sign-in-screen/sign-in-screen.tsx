@@ -259,7 +259,6 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
               resizeMode="contain"
               style={Style.Slogan}
             />
-            <AppVersionLabel style={Style.Version} />
             <View style={Style.SignInButtonContainer}>
               {isLoading &&
                 <ActivityIndicator
@@ -283,6 +282,7 @@ export class SignInScreen extends React.Component<SignInScreenProps, SignInScree
                 onPress={this._onPressAuthCoreSignInButton}
               />
             </View>
+            <AppVersionLabel style={Style.Version} />
           </Animated.View>
         </SafeAreaView>
         <Animated.View style={[Style.BgImageWrapper, bgImageStyle]}>

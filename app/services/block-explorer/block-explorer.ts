@@ -33,15 +33,15 @@ export class BlockExplorer {
    * @param address The Cosmos address
    */
   getAccountURL(address: string) {
-    return `${this.accountBaseURL}/account/${address}`
+    return `${this.accountBaseURL}/${address}`
   }
 
   getValidatorURL(address: string) {
-    return `${this.validatorBaseURL}/staking/${address}`
+    return `${this.validatorBaseURL}/${address}`
   }
 
   getTransactionURL(hash: string) {
     if (!hash) return ""
-    return `${this.transactionBaseURL}/tx/${hash}`
+    return `${this.transactionBaseURL}/${hash}`
   }
 }
