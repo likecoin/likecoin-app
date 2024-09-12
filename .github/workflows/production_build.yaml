@@ -57,6 +57,9 @@ jobs:
       working-directory: ios
       env:
         SENTRY_LOAD_DOTENV: 0
+        SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_APPLE_PASSWORD }}
         APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
         APPLE_CONNECT_API_KEY_ID: ${{ secrets.APPLE_CONNECT_API_KEY_ID }}
@@ -121,6 +124,10 @@ jobs:
       working-directory: android
       env:
         RUBYOPT: '-rostruct' # TODO: Remove when https://github.com/fastlane/fastlane/pull/21950 gets released
+        SENTRY_LOG_LEVEL: 'info'
         SENTRY_LOAD_DOTENV: 0
+        SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         ANDROID_RELEASE_KEY_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_STORE_PASSWORD }}
         ANDROID_RELEASE_KEY_KEY_PASSWORD: ${{  secrets.ANDROID_RELEASE_KEY_KEY_PASSWORD }}
